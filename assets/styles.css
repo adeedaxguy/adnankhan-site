@@ -166,9 +166,9 @@ button { font: inherit; cursor: pointer; }
 .container { max-width: 1280px; margin: 0 auto; padding: 0 2rem; }
 .container-narrow { max-width: 880px; margin: 0 auto; padding: 0 2rem; }
 .container-tight { max-width: 680px; margin: 0 auto; padding: 0 2rem; }
-.section { padding: 7rem 0; }
-.section-sm { padding: 4.5rem 0; }
-.section-lg { padding: 10rem 0; }
+.section { padding: 6rem 0; }
+.section-sm { padding: 4rem 0; }
+.section-lg { padding: 7rem 0; }
 @media (max-width: 768px) {
   .container, .container-narrow, .container-tight { padding: 0 1.4rem; }
   .section, .section-lg { padding: 4.5rem 0; }
@@ -2368,7 +2368,7 @@ details.faq .faq-body {
    Editorial essay section — homepage "A short essay"
    ───────────────────────────────────────────────────────────── */
 
-.essay-section { padding: 8rem 0; }
+.essay-section { padding: 7rem 0; }
 @media (max-width: 768px) { .essay-section { padding: 5rem 0; } }
 
 .essay-grid {
@@ -3940,8 +3940,8 @@ body.chat-open .mob-bar { display: none; }
 }
 
 /* ── Built-on + Integrations: interactive marquees ── */
-.stack-band { padding: 3.6rem 0 3.9rem; border-bottom: 1px solid var(--line); background: var(--bg); }
-.int-band   { padding: 5.5rem 0 6rem; background: var(--bg); }
+.stack-band { padding: 5rem 0; border-bottom: 1px solid var(--line); background: var(--bg); }
+.int-band   { padding: 6rem 0; background: var(--bg); }
 .stack-head { text-align: center; max-width: 660px; margin: 0 auto 2.3rem; }
 .stack-head--lg { max-width: 720px; margin-bottom: 3rem; }
 
@@ -3996,8 +3996,8 @@ body.chat-open .mob-bar { display: none; }
   .marq { -webkit-mask-image: none; mask-image: none; }
 }
 @media (max-width: 640px) {
-  .stack-band { padding: 2.6rem 0 2.8rem; }
-  .int-band { padding: 4rem 0 4.25rem; }
+  .stack-band { padding: 3.25rem 0; }
+  .int-band { padding: 3.75rem 0; }
   .stack-head { margin-bottom: 1.8rem; }
   .stack-head--lg { margin-bottom: 2.2rem; }
   .chip { font-size: 0.82rem; padding: 0.5rem 0.9rem; gap: 0.45rem; margin-right: 0.5rem; }
