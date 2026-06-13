@@ -372,7 +372,22 @@
     { tz: -120, tx: 55,  ty: 44,  op: 0    },
   ];
 
+  const isMobile = () => window.innerWidth <= 880;
+
+  // ── Mobile: pure crossfade, no transforms ─────────────────────
+  function applyFade() {
+    cards.forEach((card, i) => {
+      const isFront = i === frontIdx;
+      card.classList.toggle('is-front', isFront);
+      card.style.transform = '';
+      card.style.opacity   = '';
+      card.style.zIndex    = '';
+    });
+  }
+
+  // ── Desktop: full 3D stack ─────────────────────────────────────
   function applySlots(rx, ry) {
+    if (isMobile()) { applyFade(); return; }
     cards.forEach((card, i) => {
       const slotIdx = (i - frontIdx + cards.length) % cards.length;
       const s = SLOTS[slotIdx] || SLOTS[SLOTS.length - 1];
@@ -383,11 +398,12 @@
     });
   }
 
-  // ── Mouse tilt ─────────────────────────────────────────────────
+  // ── Mouse tilt (desktop only) ──────────────────────────────────
   scene.addEventListener('mousemove', (e) => {
+    if (isMobile()) return;
     isHovering = true;
     const r  = scene.getBoundingClientRect();
-    const px = (e.clientX - r.left) / r.width  - 0.5;   // -0.5 → 0.5
+    const px = (e.clientX - r.left) / r.width  - 0.5;
     const py = (e.clientY - r.top)  / r.height - 0.5;
     tiltX =  py * -14 + 2;
     tiltY =  px *  18 - 4;
@@ -395,8 +411,8 @@
   });
 
   scene.addEventListener('mouseleave', () => {
+    if (isMobile()) return;
     isHovering = false;
-    // Ease back to resting angle
     const lerp = (a, b, t) => a + (b - a) * t;
     let frame;
     const ease = () => {
@@ -411,14 +427,14 @@
     frame = requestAnimationFrame(ease);
   });
 
-  // ── Click / tap → bring next card to front ─────────────────────
+  // ── Tap → next card ───────────────────────────────────────────
   scene.addEventListener('click', () => {
     frontIdx = (frontIdx + 1) % cards.length;
     applySlots(tiltX, tiltY);
     resetCycle();
   });
 
-  // ── Auto-cycle every 3.5s ──────────────────────────────────────
+  // ── Auto-cycle ────────────────────────────────────────────────
   function resetCycle() {
     clearInterval(cycleTimer);
     cycleTimer = setInterval(() => {
@@ -426,11 +442,14 @@
         frontIdx = (frontIdx + 1) % cards.length;
         applySlots(tiltX, tiltY);
       }
-    }, 2000);
+    }, 3000);
   }
 
-  // ── Init ───────────────────────────────────────────────────────
+  // ── Init ──────────────────────────────────────────────────────
   applySlots(tiltX, tiltY);
   resetCycle();
+
+  // Re-evaluate on resize (e.g. rotation)
+  window.addEventListener('resize', () => applySlots(tiltX, tiltY));
 
 })();

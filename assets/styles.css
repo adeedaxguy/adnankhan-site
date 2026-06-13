@@ -4137,30 +4137,72 @@ body.chat-open .mob-bar { display: none; }
 .stack-card--9  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.65s both; }
 .stack-card--10 { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.68s both; }
 
-/* ── Mobile: flatten to standard mockup ── */
-@media (max-width: 768px) {
+/* ── Mobile: crossfade gallery — no 3D transforms ── */
+@media (max-width: 880px) {
+  .hero-sidecar { display: block; position: static; }
+
   .stack-scene {
-    perspective: none;
-    aspect-ratio: 4 / 3;
-  }
-  .stack-card--2,
-  .stack-card--3,
-  .stack-card--4,
-  .stack-card--5,
-  .stack-card--6,
-  .stack-card--7,
-  .stack-card--8,
-  .stack-card--9,
-  .stack-card--10 { display: none; }
-  .stack-card--1 {
-    transform: none !important;
+    perspective: none !important;
     position: relative;
-    inset: auto;
-    height: 100%;
-    animation: none;
+    width: 100%;
+    aspect-ratio: 3 / 2;
+    border-radius: var(--r-xl);
+    overflow: hidden;
+    background: var(--surface);
+    box-shadow: 0 4px 32px -8px rgba(26,22,18,.18);
   }
-  .stack-badge--tl { top: -10px; left: 6px; }
-  .stack-badge--br { bottom: 44px; right: 6px; }
+
+  /* All cards stack on top of each other, hidden by default */
+  [data-stack-card] {
+    position: absolute !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    transform: none !important;
+    opacity: 0 !important;
+    transition: opacity .7s ease !important;
+    animation: none !important;
+    border-radius: 0 !important;
+    z-index: 1 !important;
+  }
+
+  /* Only the front card is visible */
+  [data-stack-card].is-front {
+    opacity: 1 !important;
+    z-index: 2 !important;
+  }
+
+  .stack-card-inner {
+    border-radius: 0;
+    box-shadow: none;
+    height: 100%;
+  }
+
+  .stack-card-chrome { display: none; }
+
+  .stack-card-img {
+    flex: 1;
+    min-height: 0;
+  }
+
+  .stack-card-foot {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    padding: 10px 14px;
+  }
+
+  /* Progress dots */
+  .stack-scene::after {
+    content: '';
+    position: absolute;
+    bottom: 52px; left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    z-index: 10;
+  }
+
+  .stack-badge--tl { top: 12px; left: 12px; }
+  .stack-badge--br { bottom: 52px; right: 12px; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
