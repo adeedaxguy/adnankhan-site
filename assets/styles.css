@@ -697,8 +697,30 @@ body { padding-top: 76px; }
   transition: color .15s;
   -webkit-tap-highlight-color: transparent;
 }
-.mnav-grid a:nth-child(odd) { padding-right: 1rem; border-right: 1px solid rgba(255,255,255,.05); }
+.mnav-grid a:nth-child(odd)  { padding-right: 1rem; border-right: 1px solid rgba(255,255,255,.08); }
+.mnav-grid a:nth-child(even) { padding-left: 1rem; }
 .mnav-grid a:hover, .mnav-grid a:focus { color: rgba(244,240,234,.9); }
+
+/* Free Audit link */
+.mnav-audit-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid rgba(139,58,31,.5);
+  border-radius: 10px;
+  background: rgba(139,58,31,.1);
+  color: #c8714a;
+  font-family: var(--font-sans);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+  -webkit-tap-highlight-color: transparent;
+  transition: background .15s, border-color .15s;
+}
+.mnav-audit-link:hover { background: rgba(139,58,31,.18); border-color: rgba(139,58,31,.7); }
 
 /* Footer CTA */
 .mnav-foot {
