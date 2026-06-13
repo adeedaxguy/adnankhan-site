@@ -4,6 +4,7 @@
 // Required env vars (Vercel project Settings → Environment Variables):
 //   RESEND_API_KEY  — Resend API key (re_...)
 //   CONTACT_EMAIL   — destination address (hi@lofts.studio)
+//   CONTACT_EMAIL_BCC — optional 2nd recipient; keep private emails OUT of code
 
 export const config = { runtime: 'edge' };
 
@@ -26,6 +27,7 @@ export default async function handler(req) {
   }
 
   const toEmail     = process.env.CONTACT_EMAIL;
+  const bccEmail    = process.env.CONTACT_EMAIL_BCC;
   const resendKey   = process.env.RESEND_API_KEY;
 
   if (!toEmail || !resendKey) {
@@ -93,7 +95,7 @@ export default async function handler(req) {
       },
       body: JSON.stringify({
         from: 'Lofts Studio <noreply@lofts.studio>',
-        to:   [toEmail, 'adnan@technodigg.com'],
+        to:   bccEmail ? [toEmail, bccEmail] : [toEmail],
         subject,
         html: htmlBody,
         text: fields,
