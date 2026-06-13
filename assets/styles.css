@@ -552,7 +552,9 @@ body { padding-top: 76px; }
 .mnav {
   display: none; /* shown only via media query */
   position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
   inset: 0;
+  width: 100%; height: 100%;
   z-index: 300;
   background: #1a1612;
   transform: translateX(100%);
