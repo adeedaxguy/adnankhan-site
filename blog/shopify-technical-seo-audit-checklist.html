@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else | Adnan K.</title>
+<meta name="description" content="The 32-check technical SEO audit I run on every new Shopify client. Crawl, indexing, structured data, Core Web Vitals — with target values and tools." />
+<link rel="canonical" href="https://lofts.studio/blog/shopify-technical-seo-audit-checklist.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="author" content="Adnan K." />
+<meta name="keywords" content="shopify technical seo audit, shopify seo checklist 2026, shopify developer, woocommerce developer, hire shopify developer" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lofts.studio/blog/shopify-technical-seo-audit-checklist.html" />
+<meta property="og:title" content="Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else" />
+<meta property="og:description" content="The 32-check technical SEO audit I run on every new Shopify client. Crawl, indexing, structured data, Core Web Vitals — with target values and tools." />
+<meta property="og:image" content="https://lofts.studio/assets/og-default.svg" />
+<meta property="article:published_time" content="2026-06-14T09:00:00Z" />
+<meta property="article:author" content="Adnan K." />
+<meta property="article:section" content="SEO" />
+<meta property="article:tag" content="shopify technical seo audit, shopify seo checklist 2026" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260612c" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else",
+  "description": "The 32-check technical SEO audit I run on every new Shopify client. Crawl, indexing, structured data, Core Web Vitals — with target values and tools.",
+  "image": "https://lofts.studio/assets/og-default.svg",
+  "datePublished": "2026-06-14T09:00:00Z",
+  "dateModified": "2026-06-14T09:00:00Z",
+  "author": { "@type": "Person", "name": "Adnan K.", "url": "https://lofts.studio/about.html" },
+  "publisher": { "@type": "Organization", "name": "Lofts Studio", "logo": { "@type": "ImageObject", "url": "https://lofts.studio/favicon.svg" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://lofts.studio/blog/shopify-technical-seo-audit-checklist.html" },
+  "keywords": "shopify technical seo audit, shopify seo checklist 2026"
+}
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type":"ListItem","position":1,"name":"Home","item":"https://lofts.studio/"}, {"@type":"ListItem","position":2,"name":"Blog","item":"https://lofts.studio/blog/"}, {"@type":"ListItem","position":3,"name":"Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else","item":"https://lofts.studio/blog/shopify-technical-seo-audit-checklist.html"} ] }
+</script>
+
+<style>
+  .post-prose { max-width: 720px; margin: 0 auto; }
+  .post-prose h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.9rem); letter-spacing: -0.035em; font-weight: 600; margin: 3.5rem 0 1rem; line-height: 1.15; }
+  .post-prose h3 { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.025em; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+  .post-prose p { color: var(--ink-soft); font-size: 1.075rem; line-height: 1.78; margin: 0 0 1.25rem; }
+  .post-prose p strong { color: var(--ink); }
+  .post-prose ul, .post-prose ol { padding-left: 1.5rem; margin: 0 0 1.5rem; color: var(--ink-soft); }
+  .post-prose li { margin-bottom: 0.55rem; font-size: 1.04rem; line-height: 1.7; }
+  .post-prose a { color: var(--accent); border-bottom: 1px solid rgba(0,64,255,0.3); }
+  .post-prose a:hover { border-bottom-color: var(--accent); }
+  .post-prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink); }
+  .post-prose pre { background: var(--ink); color: #E8E8E8; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.7; }
+  .post-prose pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+  .post-prose hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
+  .post-callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
+</style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KT1MFDY8R');
+  </script>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Lofts<span class="dot">studio</span></a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <div class="mega-wrap">
+        <button class="nav-link" data-mega-trigger aria-expanded="false" aria-haspopup="true">
+          Work
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="mega" role="menu">
+          <div class="mega-col">
+            <h4>By vertical</h4>
+            <a href="/work/ecommerce/" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
+            <a href="/work/insurance-finance/" class="mega-link"><div class="mega-link-title">Insurance &amp; Finance</div><div class="mega-link-desc">Brokers, carriers, reinsurance.</div></a>
+            <a href="/work/membership-community/" class="mega-link"><div class="mega-link-title">Membership &amp; Community</div><div class="mega-link-desc">Stripe, Discord, Whop.</div></a>
+            <a href="/work/custom-apps/" class="mega-link"><div class="mega-link-title">Custom Apps</div><div class="mega-link-desc">React, Next.js, Node.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Storefront</h4>
+            <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Custom themes. Shopify Plus.</div></a>
+            <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WooCommerce Development</div><div class="mega-link-desc">WordPress commerce, done right.</div></a>
+            <a href="/services/shopify-plus-migration.html" class="mega-link"><div class="mega-link-title">Shopify Plus Migration</div><div class="mega-link-desc">Replatform without downtime.</div></a>
+            <a href="/services/webflow-development.html" class="mega-link"><div class="mega-link-title">Webflow Development</div><div class="mega-link-desc">SaaS, B2B, brand-led sites.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Performance</h4>
+            <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">90+ Lighthouse. Sub-2s LCP.</div></a>
+            <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Lift conversion measurably.</div></a>
+            <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Shopify &amp; WooCommerce.</div></a>
+            <a href="/services/landing-page-sprint.html" class="mega-link"><div class="mega-link-title">Landing Page Sprint</div><div class="mega-link-desc">Seven days, fixed fee.</div></a>
+          </div>
+
+          <div class="mega-feature">
+            <div>
+              <span class="tag">Two founders. Two cities.</span>
+              <h3 style="font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; line-height: 1.3; margin: 0.6rem 0; color: var(--ink); letter-spacing: -0.025em;">Adnan Khan (Multan) leads ecommerce. Irfan Khan (Dubai) leads full-stack. Both Top Rated on Upwork.</h3>
+            </div>
+            <a href="/about.html" class="btn-link" style="margin-top: 1rem; font-size: 0.85rem;">
+              Meet the founders
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/process/" class="nav-link">Process</a>
+      <a href="/notes/" class="nav-link">Notes</a>
+      <a href="/tools/" class="nav-link">Tools</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+
+    <a href="/#contact" class="btn btn-primary">
+      Start a conversation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div id="mobilePanel" class="mnav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="mnav-inner">
+
+    <!-- Top bar: logo + close -->
+    <div class="mnav-top">
+      <a href="/" class="mnav-logo">Lofts<span>studio</span></a>
+      <button class="mnav-close" id="menuClose" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Primary nav links — large serif -->
+    <nav class="mnav-primary" aria-label="Main">
+      <a href="/portfolio/" class="mnav-link" data-num="01">Portfolio</a>
+      <a href="/about.html" class="mnav-link" data-num="02">About</a>
+      <a href="/process/" class="mnav-link" data-num="03">Process</a>
+      <a href="/blog/" class="mnav-link" data-num="04">Blog</a>
+      <a href="/free-audit/" class="mnav-link" data-num="05">Free Audit</a>
+    </nav>
+
+    <!-- Services — compact two-column grid -->
+    <div class="mnav-services">
+      <p class="mnav-label">Services</p>
+      <div class="mnav-grid">
+        <a href="/services/shopify-development.html">Shopify</a>
+        <a href="/services/woocommerce-development.html">WooCommerce</a>
+        <a href="/services/webflow-development.html">Webflow</a>
+        <a href="/services/shopify-plus-migration.html">Shopify Plus</a>
+        <a href="/services/speed-optimization.html">Speed Opt.</a>
+        <a href="/services/conversion-rate-optimization.html">CRO</a>
+        <a href="/services/custom-app-development.html">Custom Apps</a>
+        <a href="/services/ai-chatbot-automation.html">AI &amp; Automation</a>
+      </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="mnav-foot">
+      <a href="/#contact" class="mnav-cta">
+        Start a conversation
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
+    </div>
+
+  </div>
+</div>
+    <a href="/portfolio/">Portfolio</a>
+    <a href="/about.html">About &middot; Founders</a>
+    <a href="/process/">Process</a>
+    <a href="/notes/">Notes</a>
+    <a href="/blog/">Blog</a>
+    <div class="mobile-section">By Vertical</div>
+    <a href="/work/ecommerce/">Ecommerce</a>
+    <a href="/work/insurance-finance/">Insurance &amp; Finance</a>
+    <a href="/work/membership-community/">Membership &amp; Community</a>
+    <a href="/work/custom-apps/">Custom Apps</a>
+    <div class="mobile-section">Storefront</div>
+    <a href="/services/shopify-development.html">Shopify Development</a>
+    <a href="/services/woocommerce-development.html">WooCommerce Development</a>
+    <a href="/services/webflow-development.html">Webflow Development</a>
+    <a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a>
+    <div class="mobile-section">Performance</div>
+    <a href="/services/speed-optimization.html">Speed Optimization</a>
+    <a href="/services/conversion-rate-optimization.html">Conversion Rate Optimization</a>
+    <a href="/services/landing-page-sprint.html">Landing Page Sprint</a>
+    <div class="mobile-section">Build &amp; Design</div>
+    <a href="/services/custom-app-development.html">Custom App Development</a>
+    <a href="/services/ai-chatbot-automation.html">AI Chatbot &amp; Automation</a>
+    <a href="/services/design-and-branding.html">Design &amp; Branding</a>
+    <a href="/#contact" class="btn-accent">Start a conversation</a>
+  </div>
+</header>
+
+<article>
+<section class="paper" style="padding: 5rem 0 3rem;">
+  <div class="container post-prose" data-reveal>
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
+      <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
+      <a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
+      <span style="color: var(--ink);">Shopify Technical SEO Audit: The 32 Checks I Run Before Anyt</span>
+    </nav>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 1.25rem;">
+      <span class="tag-pill">SEO</span>
+    </div>
+
+    <h1 class="h-display" style="font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.08;">Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else</h1>
+
+    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1.25rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700;">AK</div>
+      <div>
+        <div style="font-weight: 600;">Adnan K.</div>
+        <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="2026-06-14">June 14, 2026</time> · 13 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 0 0 4rem;">
+  <div class="container post-prose">
+    <p style="font-size: 1.2rem; line-height: 1.65; color: var(--ink); font-family: var(--font-display); font-weight: 500; letter-spacing: -0.025em;">Most Shopify SEO advice you read online is content advice in a technical-SEO costume. This is the actual technical pass — the 32 checks I run before I'll write a single piece of content for a client.</p>
+
+    <p>Shopify is a particular SEO beast. It does some things very well (clean URLs, automatic XML sitemaps, native canonicals) and some things terribly (faceted nav indexing, pagination handling, duplicate content from collection sorts, search-engine-unfriendly variant URLs). A real technical audit accounts for both.</p>
+
+    <p>I run this checklist on every new Shopify engagement before I'll commit to a content or CRO plan. It usually takes 6–8 hours and surfaces 12–20 issues on the average store. Here it is, with the tools and target values.</p>
+
+    <h2 id="part-1-crawl-indexing-checks-1-9">Part 1: Crawl & indexing (checks 1–9)</h2>
+
+    <ol>
+      <li><strong>robots.txt audit.</strong> Confirm /admin, /cart, /checkouts/, /collections/all are noindexed correctly. Shopify auto-generates these but I've seen apps clobber them.</li>
+      <li><strong>XML sitemap reachability.</strong> /sitemap.xml should return 200, should be under 50MB, should be submitted to Search Console.</li>
+      <li><strong>Search Console coverage report.</strong> "Excluded" pages count vs total. If excluded > 30%, you have a structural problem.</li>
+      <li><strong>Indexed pages count via site: operator.</strong> Compare to product count. If indexed > products × 3, you have duplicate URL bloat from variants or filters.</li>
+      <li><strong>Canonical tag audit.</strong> Every PDP should canonical to itself, not to the default variant. /collections/all/products/x and /products/x should both canonical to /products/x.</li>
+      <li><strong>Pagination handling.</strong> ?page=2, ?page=3 should not self-canonical. Use rel="next"/"prev" or noindex paginated pages.</li>
+      <li><strong>Faceted nav handling.</strong> /collections/x?filter.v.option.size=L type URLs should be noindexed. This is the single biggest Shopify SEO leak.</li>
+      <li><strong>Internal search pages.</strong> /search?q=… should be noindexed. Often these end up indexed by accident.</li>
+      <li><strong>404 audit.</strong> Run a Screaming Frog crawl. Internal links pointing to 404s lose ranking signal and waste crawl budget.</li>
+    </ol>
+
+    <h2 id="part-2-on-page-seo-checks-10-17">Part 2: On-page SEO (checks 10–17)</h2>
+
+    <ol>
+      <li><strong>Title tag uniqueness.</strong> Every page should have a unique title under 60 characters. Most Shopify themes default to "Product Name — Store Name" which is fine until you have 200 PDPs all trailing "— Brand Co."</li>
+      <li><strong>Meta description coverage.</strong> Every page that gets organic traffic should have a custom meta description. Shopify defaults to the first 160 characters of body — that almost never makes sense.</li>
+      <li><strong>H1 uniqueness.</strong> One H1 per page, matches the primary keyword for that page.</li>
+      <li><strong>H2/H3 outline.</strong> No H4 without an H3, no H3 without an H2. Most themes break this.</li>
+      <li><strong>Image alt text coverage.</strong> Every content image should have descriptive alt text. Run a crawl and report missing alts.</li>
+      <li><strong>Internal linking depth.</strong> No important page should be more than 3 clicks from the homepage. Most Shopify stores have orphan collections and underlinked PDPs.</li>
+      <li><strong>Anchor text diversity.</strong> Audit anchor text patterns. "Click here" and "learn more" tell Google nothing.</li>
+      <li><strong>URL structure audit.</strong> /collections/category/products/product is the right pattern. Slug should match H1.</li>
+    </ol>
+
+    <h2 id="part-3-structured-data-checks-18-23">Part 3: Structured data (checks 18–23)</h2>
+
+    <ol>
+      <li><strong>Product schema.</strong> Every PDP needs Product schema with offers, price, availability, brand, ratings. Most themes ship a broken version.</li>
+      <li><strong>Organization schema.</strong> Homepage needs Organization with logo, name, sameAs (social profiles).</li>
+      <li><strong>BreadcrumbList schema.</strong> Every page deeper than homepage needs breadcrumb schema.</li>
+      <li><strong>WebSite schema with SearchAction.</strong> Enables the sitelinks search box in SERPs.</li>
+      <li><strong>FAQ schema (where applicable).</strong> If your product has FAQs on the PDP, mark them up.</li>
+      <li><strong>Validate everything in Google's Rich Results Test.</strong> If it doesn't pass there, Google won't render rich results.</li>
+    </ol>
+
+    <h2 id="part-4-performance-checks-24-28">Part 4: Performance (checks 24–28)</h2>
+
+    <ol>
+      <li><strong>Core Web Vitals — field data via Search Console.</strong> LCP < 2.5s, CLS < 0.1, INP < 200ms.</li>
+      <li><strong>Mobile usability errors.</strong> Search Console → Mobile Usability. Should be zero.</li>
+      <li><strong>HTTPS everywhere.</strong> No mixed content warnings.</li>
+      <li><strong>Image optimization audit.</strong> No PDP image over 200KB. Use Shopify's image_url filter with explicit widths.</li>
+      <li><strong>Render-blocking resources.</strong> No render-blocking JS or CSS above the fold.</li>
+    </ol>
+
+    <h2 id="part-5-international-advanced-checks-29-">Part 5: International & advanced (checks 29–32)</h2>
+
+    <ol>
+      <li><strong>hreflang tags (if multi-region).</strong> Every region-specific URL should have hreflang to all other regions including x-default.</li>
+      <li><strong>Markets configuration audit.</strong> Shopify Markets should have correct domain or subfolder per region.</li>
+      <li><strong>Currency switching SEO.</strong> /en-us/, /en-gb/, /en-au/ folders should be properly hreflang'd, not just JS-switched.</li>
+      <li><strong>Server-side rendering check.</strong> Disable JavaScript in DevTools. Verify content still renders. Shopify themes that depend on JS for critical content lose ranking.</li>
+    </ol>
+
+    <h2 id="the-tools-i-actually-use">The tools I actually use</h2>
+
+    <ul>
+      <li><strong>Screaming Frog SEO Spider</strong> — full site crawl, every audit starts here</li>
+      <li><strong>Google Search Console</strong> — for real index data and Core Web Vitals field data</li>
+      <li><strong>Ahrefs / Semrush</strong> — backlink and competitor analysis</li>
+      <li><strong>Google Rich Results Test</strong> — structured data validation</li>
+      <li><strong>PageSpeed Insights + WebPageTest</strong> — performance</li>
+      <li><strong>Sitebulb</strong> — secondary crawler when Screaming Frog misses something</li>
+    </ul>
+
+    <h2 id="what-the-audit-deliverable-looks-like">What the audit deliverable looks like</h2>
+
+    <p>When I run this for a client, the deliverable is a 12–20 page document organized by impact: 'do today,' 'do this month,' 'roadmap.' Every issue has the specific URL or page, the recommended fix, and an effort estimate. The fixes themselves are typically a 2–4 week engineering sprint after the audit lands.</p>
+
+    <p>An audit without an implementation plan is just a list. The point of running these 32 checks is to know where to spend the next sprint, not to feel busy.</p>
+
+    <hr/>
+
+    <h2>If you'd rather not do this yourself</h2>
+    <p>This is the work I do for clients. If you want it done properly, the relevant offer is <a href="/services/technical-seo-audit.html">Technical SEO Audit</a>.</p>
+
+    <p style="text-align: center; margin-top: 2.5rem;">
+      <a href="/services/technical-seo-audit.html" class="btn btn-primary">Read about Technical SEO Audit &nbsp;&rarr;</a>
+    </p>
+
+    <hr style="margin-top: 4rem;"/>
+
+    <div style="display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; margin-top: 2rem;">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
+      <div>
+        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan K.</h3>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 307 projects shipped, 100% Job Success.</p>
+        <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
+          <a href="/about.html" style="color: var(--accent);">About</a>
+          <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
+          <a href="/blog/" style="color: var(--accent);">More posts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+<footer class="site-footer footer-rich">
+  <div class="container">
+
+    <!-- ── Row 1: Editorial logo + newsletter ── -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
+          <span class="footer-logo-caps">STUDIO</span>
+        </div>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A thousand projects. Nine years. Built for founders who can tell the difference between work that shipped and work that shipped well.</p>
+        <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);">
+          <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>
+          Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US &amp; UK callable hours
+        </p>
+      </div>
+
+      <div class="footer-newsletter" data-lead-wrap>
+        <p class="footer-newsletter-eyebrow">Field notes, occasionally</p>
+        <h3 class="footer-newsletter-title">One short essay a month. <span class="italic-serif">No newsletter cadence theater.</span></h3>
+        <form data-lead class="footer-newsletter-form" action="/api/contact" method="POST">
+          <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="source" value="footer-newsletter" />
+          <label class="sr-only" for="footer-newsletter-email">Email address</label>
+          <input id="footer-newsletter-email" name="email" type="email" required placeholder="your@email.com" />
+          <button type="submit">Subscribe
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <div data-lead-success class="footer-newsletter-success" style="display: none;">Thanks &mdash; you&rsquo;ll hear from me when the next note ships.</div>
+        <p class="footer-newsletter-note">No sequences. No tracking pixels. Unsubscribe at the bottom of any note.</p>
+      </div>
+    </div>
+
+    <!-- ── Row 2: Currently shipping snippet ── -->
+    <div class="footer-now">
+      <div class="footer-now-head">
+        <span class="footer-now-pulse"></span>
+        <span class="footer-now-label">Currently shipping &nbsp;·&nbsp; updated by hand, monthly</span>
+        <a href="/now/" class="footer-now-link">See the full list &nbsp;→</a>
+      </div>
+      <div class="footer-now-grid">
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Build</span>
+          <p class="footer-now-text">US skincare DTC &mdash; Shopify build, week 3 of 4.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Migration</span>
+          <p class="footer-now-text">UK menswear brand &mdash; Shopify Plus migration, cutover Tuesday.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Sprint</span>
+          <p class="footer-now-text">Returning client &mdash; CRO sprint on PDPs and checkout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Row 3: Link columns ── -->
+    <div class="footer-grid">
+      <div>
+        <h5>By Vertical</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/work/ecommerce/">Ecommerce</a></li>
+          <li><a href="/work/insurance-finance/">Insurance &amp; Finance</a></li>
+          <li><a href="/work/membership-community/">Membership &amp; Community</a></li>
+          <li><a href="/work/custom-apps/">Custom Apps</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Services</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/services/shopify-development.html">Shopify Development</a></li>
+          <li><a href="/services/woocommerce-development.html">WooCommerce Development</a></li>
+          <li><a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a></li>
+          <li><a href="/services/speed-optimization.html">Speed Optimization</a></li>
+          <li><a href="/services/conversion-rate-optimization.html">CRO</a></li>
+          <li><a href="/services/custom-app-development.html">Custom App Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/portfolio/">All work (47)</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/process/">Process</a></li>
+          <li><a href="/notes/">Notes</a></li>
+          <li><a href="/brand.html">Brand</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Founders</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan Khan &middot; Multan</a></li>
+          <li><a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan Khan &middot; Dubai</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Talk</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; 4-hour reply</li>
+          <li class="meta">US &amp; UK hours covered (Multan)</li>
+          <li class="meta">GCC hours covered (Dubai)</li>
+          <li><a href="#contact">Send a note &nbsp;→</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Legal</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+          <li><a href="/cookie-policy.html">Cookie policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Bottom row ── -->
+    <div class="footer-bottom">
+      <p class="meta" style="margin: 0;">&copy; <span data-year>2026</span> Lofts Studio &middot; Multan, Pakistan &middot; Dubai, UAE &middot; Two Top Rated Upwork operators.</p>
+      <p class="meta" style="margin: 0;">CAN-SPAM &amp; UK GDPR compliant &nbsp;·&nbsp; Escrow via Upwork</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/assets/main.js?v=20260612c" defer></script>
+<script src="/assets/widgets.js?v=20260612c" defer></script>
+</body>
+</html>

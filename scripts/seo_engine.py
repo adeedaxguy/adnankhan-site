@@ -1,0 +1,1120 @@
+#!/usr/bin/env python3
+"""
+SEO Engine — Lofts Studio
+─────────────────────────────────────────────────────────────────────────────
+Single source-of-truth content engine. Consolidates:
+  • Blog post generation from structured Python specs (see POSTS dict below)
+  • Country/service location pages (see LOCATIONS + LOCATION_SERVICES)
+  • Sitemap.xml auto-regeneration from filesystem
+  • blog/index.html refresh from posts.json
+  • robots.txt validation
+
+Run modes:
+  python3 scripts/seo_engine.py blog        # regen blog posts + index + posts.json
+  python3 scripts/seo_engine.py locations   # regen all location service pages
+  python3 scripts/seo_engine.py sitemap     # crawl filesystem → sitemap.xml
+  python3 scripts/seo_engine.py all         # everything
+
+Design goals:
+  - Zero deps (stdlib only)
+  - Idempotent: rerun is safe
+  - Posts and pages are data, not magic
+"""
+
+import json
+import re
+import os
+from pathlib import Path
+from datetime import datetime
+
+ROOT = Path(__file__).resolve().parent.parent
+SITE = "https://lofts.studio"
+CACHE_VER = "20260612c"
+BRAND_NAME = "Lofts Studio"
+BRAND_TAGLINE = "Senior web engineering for founders."
+FOUNDERS = "Adnan & Irfan Khan"
+
+BLOG_DIR = ROOT / "blog"
+SERVICES_DIR = ROOT / "services"
+POSTS_JSON = BLOG_DIR / "posts.json"
+INDEX_HTML = ROOT / "index.html"
+SITEMAP = ROOT / "sitemap.xml"
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  Nav + footer extraction (shared)
+# ─────────────────────────────────────────────────────────────────────────────
+
+def load_nav_and_footer():
+    html = INDEX_HTML.read_text()
+    nav = re.search(r'<header class="nav-bar">.*?</header>', html, re.DOTALL).group(0)
+    footer = re.search(r'<footer class="site-footer.*?</footer>', html, re.DOTALL).group(0)
+    return nav, footer
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  BLOG POSTS — structured specs. Add a new dict here and rerun.
+# ─────────────────────────────────────────────────────────────────────────────
+
+POSTS = [
+    {
+        "slug": "hire-shopify-developer-guide-2026",
+        "title": "How to Hire a Shopify Developer in 2026 (Without Getting Burned)",
+        "excerpt": "Ten red flags I've watched founders ignore, the questions that filter 80% of bad hires in one email, and what senior Shopify dev rates actually look like in 2026.",
+        "meta": "How to hire a Shopify developer without losing $20K to a bad hire. Red flags, screening questions, real rate ranges from a senior dev who's seen this 300+ times.",
+        "category": "Shopify",
+        "date": "2026-06-12",
+        "readingTime": "11 min",
+        "primaryKeyword": "hire shopify developer",
+        "secondaryKeyword": "shopify developer rates 2026",
+        "funnelTo": "/services/shopify-development.html",
+        "funnelLabel": "Shopify Development",
+        "featured": True,
+        "hook": "If you're about to hire a Shopify developer for the first time, you are about to make the most expensive decision of the year — and you almost certainly don't have the vocabulary yet to make it well.",
+        "body": [
+            ("p", "I've spent nine years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The price tag has almost nothing to do with which outcome they got."),
+            ("p", "This post is the screening playbook I wish every client had used before they reached me. It will not flatter the industry. It will save you a six-figure mistake."),
+            ("h2", "The real Shopify developer rate market in 2026"),
+            ("p", "Let's anchor reality before we discuss anything else. Here are the rate brackets you'll actually encounter:"),
+            ("ul", [
+                "<strong>$10–$25/hour</strong> — Generalists from low-cost markets. Can install themes, do minor customizations, can't engineer. 70% of Upwork volume sits here. <em>Acceptable for: theme tweaks, content updates.</em>",
+                "<strong>$25–$60/hour</strong> — Mid-level developers, mixed quality. The bracket where you most often get burned, because the work <em>looks</em> like senior work for the first two weeks. <em>Acceptable for: brand new stores on stock themes.</em>",
+                "<strong>$60–$120/hour</strong> — Senior independents and Top Rated Plus operators. Will do less but will do it right. Code reviews are clean, sections don't break, page speed actually improves. <em>Right for: anything you'll be running for 2+ years.</em>",
+                "<strong>$120–$250/hour</strong> — Shopify Plus specialists, agencies. Pay for scale, retainers, and a bench. <em>Right for: $5M+ stores, headless builds, B2B.</em>",
+            ]),
+            ("p", "Anyone telling you a senior Shopify build will cost $500 is selling you a junior build in a senior wrapper. The cost of fixing that is, in my direct experience, 3–5x what doing it right the first time would have cost."),
+            ("h2", "The 10 red flags I'd run from"),
+            ("h3", "1. They say yes to everything in the first email"),
+            ("p", "A senior developer asks questions before quoting. A junior — or a sales-led shop — quotes immediately because they don't yet know what they don't know. If your first reply contains a price but zero clarifying questions, that's the entire signal you need."),
+            ("h3", "2. No live URLs in the portfolio"),
+            ("p", "Mockups and Behance shots don't count. You need three live URLs that you can open right now, click around, and verify still work. If the portfolio is screenshots only, the work either no longer exists or was never theirs to begin with."),
+            ("h3", "3. They promise a launch date before scoping the work"),
+            ("p", "Junior pattern: \"I can launch in 2 weeks.\" Senior pattern: \"Two weeks of discovery before I'll quote a date.\" Real builds have unknowns. Anyone who pretends they don't has either never built a real store or is about to skip the parts you need most."),
+            ("h3", "4. They want full payment upfront"),
+            ("p", "Industry standard is 30–50% deposit, milestones, balance on launch. Anyone asking for 100% upfront is either inexperienced or planning to disappear. Both end the same way."),
+            ("h3", "5. \"I'll use a page builder\""),
+            ("p", "If you ever plan to grow past $50K/month, page builders will slow your store down and lock you into the builder's pricing. PageFly and GemPages have their place — bare-bones stores that need to ship next week. They do not have a place in a build you'll run for years."),
+            ("h3", "6. No code samples on request"),
+            ("p", "Ask: \"Can you send me a section.liquid file from a past project?\" A senior developer will redact client identifiers and send it within 24 hours. A junior will dodge or send something that's obviously copy-pasted from Shopify's docs."),
+            ("h3", "7. They don't ask about hosting plan or app stack"),
+            ("p", "If they haven't asked which Shopify plan you're on, which apps you're committed to, or which analytics you run — they are not thinking about your store as a system. They are thinking about it as a screenshot."),
+            ("h3", "8. No process documentation"),
+            ("p", "Senior developers have a written process, sent unprompted. Discovery → design → build → QA → launch → 30-day support. If they can't articulate the phases without you asking, they don't have phases. They have improvisation."),
+            ("h3", "9. They've never said \"no\""),
+            ("p", "A senior developer will push back on requests that will hurt your store — adding a fifth pop-up, installing an app that breaks LCP, copying a competitor's checkout. If everything you suggest is met with \"sure, no problem,\" you don't have a developer. You have an order-taker."),
+            ("h3", "10. The reviews don't read like real people wrote them"),
+            ("p", "If every review is five sentences, five stars, and ends with \"highly recommend,\" they are either bought or written by the developer. Real client reviews mention specific deliverables, real timeline frustrations, and the actual revenue or speed impact. \"Adnan rebuilt our PDP and we saw a 17% conversion lift in 6 weeks\" is real. \"Great communication, highly recommend\" is filler."),
+            ("h2", "The screening questions that filter 80% of bad hires in one email"),
+            ("p", "Send these five questions in your first reply. Anyone who answers all five thoughtfully is in the top 10% of the market. Anyone who skips one or hand-waves their way through is filtered."),
+            ("ol", [
+                "<strong>Send me three live URLs of stores you've shipped in the last 12 months, with a sentence on what you actually built (theme, custom sections, app, full build).</strong>",
+                "<strong>What was the most expensive mistake you made on a Shopify build, and how did you fix it?</strong> (Anyone who says they've never made a mistake has never shipped.)",
+                "<strong>If I send you the URL of my current store, would you do a 10-minute audit before the call? What would you look at?</strong>",
+                "<strong>Walk me through your process from contract signed to launch day. Phases, timelines, deliverables per phase.</strong>",
+                "<strong>What's one piece of advice you'd give me before we start that I haven't asked about?</strong>",
+            ]),
+            ("p", "The last question is the diagnostic. A senior developer will use it to flag something specific to your store. A junior will give you a generic platitude about \"good communication.\""),
+            ("h2", "What you should expect from the first paid week"),
+            ("p", "You hired them. The deposit cleared. What does week one look like with a senior?"),
+            ("ul", [
+                "A kickoff call inside 48 hours with an agenda sent in advance.",
+                "A shared document — Notion, Google Doc, anything — with scope, milestones, and a definition of done.",
+                "Access requests with reasons attached. (\"I need staff access with these permissions because…\")",
+                "A first deliverable inside 5–7 days — even if it's a design system, a sitemap, or a working section. Not three weeks of silence.",
+                "An async update at least every 48 hours, even if it's two lines.",
+            ]),
+            ("p", "If you don't get those signals in the first week, address it directly. The pattern almost never improves on its own; it gets worse as the project gets harder."),
+            ("h2", "When to fire fast"),
+            ("p", "Three signs the relationship will not recover:"),
+            ("ol", [
+                "Deliverables ship late <em>and</em> the explanations rotate. Once is a circumstance. Three times is a pattern.",
+                "Code quality is poor and they refuse to refactor when shown specifically what's wrong.",
+                "Communication windows shrink. Two-hour replies became 24-hour replies became radio silence.",
+            ]),
+            ("p", "Eat the deposit. Hire someone else. The cost of staying in a bad engagement compounds — slower delivery, worse code, harder handoff. I have personally inherited 23 stores from developers a client should have fired in week two and didn't."),
+            ("h2", "The honest summary"),
+            ("p", "Hiring a Shopify developer well is a market-asymmetry problem. They've done 100 sales calls. You've done one. The five questions above and the ten red flags above flatten that asymmetry. Use them. If a developer is offended by the questions, that's the answer to every question you didn't ask."),
+        ],
+    },
+    {
+        "slug": "shopify-plus-vs-advanced-when-to-upgrade",
+        "title": "Shopify Plus vs Shopify Advanced: When the $2K/mo Jump Actually Pays",
+        "excerpt": "The honest math on when Shopify Plus earns its $2K/month premium — and the four signs you should stay on Advanced and save the cash for engineering instead.",
+        "meta": "Shopify Plus vs Advanced: when the $2K/month upgrade pays for itself, and when it's a tax on founders who got over-sold by sales reps. Real math from 14 migrations.",
+        "category": "Migration",
+        "date": "2026-06-13",
+        "readingTime": "9 min",
+        "primaryKeyword": "shopify plus vs advanced",
+        "secondaryKeyword": "when to upgrade to shopify plus",
+        "funnelTo": "/services/shopify-plus-migration.html",
+        "funnelLabel": "Shopify Plus Migration",
+        "featured": False,
+        "hook": "Shopify Plus sales reps will tell you the upgrade pays for itself by $1M ARR. The math is more honest than that — and more nuanced.",
+        "body": [
+            ("p", "I've done 14 Shopify Plus migrations in the last five years. Some were obvious wins. Some, candidly, should never have happened — the founder upgraded because a rep said they should, and the only thing that changed was their monthly invoice. This post is the framework I now run every client through before they sign the Plus contract."),
+            ("h2", "What you're actually buying for $2,000/month"),
+            ("p", "Plus is bundled. The headline features:"),
+            ("ul", [
+                "<strong>Higher capacity</strong> — 200 inventory locations, 99.99% uptime SLA, dedicated infrastructure during BFCM.",
+                "<strong>B2B</strong> — Native B2B catalogs, tiered pricing, company accounts, draft orders at scale.",
+                "<strong>Checkout extensibility</strong> — Custom checkout via Shopify Functions and checkout extensions (the only plan that allows real checkout customization in 2026).",
+                "<strong>Multi-store / multi-region</strong> — Up to 10 expansion stores under one contract for international or multi-brand.",
+                "<strong>Shopify Flow + Launchpad</strong> — Workflow automation and scheduled campaigns.",
+                "<strong>Lower transaction fees</strong> — Roughly 0.25% lower per transaction depending on payment method.",
+                "<strong>Dedicated support</strong> — A Merchant Success Manager and faster ticket resolution.",
+            ]),
+            ("h2", "The actual break-even math"),
+            ("p", "Most founders calculate Plus break-even on transaction fee savings alone. That's the worst lens. The right lens is the <em>capability cost</em> — what would it cost you in engineering, lost revenue, or workarounds to do without each feature."),
+            ("p", "Here's how I model it for clients:"),
+            ("pre", "Plus cost: $2,000/mo = $24,000/yr\n\nTransaction fee savings (at $2M/yr revenue, 0.25%): $5,000/yr\nB2B without Plus (custom apps, manual workflows): $15-30K/yr\nCheckout customization (Plus-only): $20-50K/yr in lift\nDedicated support during BFCM: $5-15K/yr risk reduction\nExpansion store savings (vs 5 separate plans): $10K/yr"),
+            ("p", "If you tick three of those five rows, the upgrade is a no-brainer. If you tick one and you're using it to justify the upgrade, you are being sold."),
+            ("h2", "The four signs you should upgrade"),
+            ("h3", "1. You sell B2B or are planning to"),
+            ("p", "Native Plus B2B is, candidly, the killer feature in 2026. Company accounts, tiered pricing per company, draft orders, payment terms — all native, all free with the plan. The custom build equivalent on Advanced costs $20K+ and never works as well."),
+            ("h3", "2. You're hitting checkout customization limits"),
+            ("p", "If your team has ever said \"can we add this field to checkout\" and the answer was \"no, that's Plus,\" and you've now hit that wall three times, the wall isn't moving. Plus is the move."),
+            ("h3", "3. You're running 3+ stores under different brands or regions"),
+            ("p", "Five stores at $399/month Advanced = $1,995/month — basically the cost of Plus. Plus includes up to 10 expansion stores. Math is obvious."),
+            ("h3", "4. You're scaling past $5M and BFCM uptime matters"),
+            ("p", "Plus dedicates infrastructure during BFCM. Advanced shares pooled resources. At sub-$2M revenue, the pool is fine. At $5M+ where one hour of downtime is $50K, the dedicated SLA pays for itself in a single near-miss."),
+            ("h2", "The four signs you should stay on Advanced"),
+            ("h3", "1. You don't sell B2B and don't plan to"),
+            ("p", "If B2B isn't on the 12-month roadmap, you've removed the single highest-ROI Plus feature."),
+            ("h3", "2. Your checkout is fine"),
+            ("p", "If you've never wished you could customize checkout — congratulations. You're using the strongest part of native Shopify. Don't upgrade for capability you won't use."),
+            ("h3", "3. You're under $2M ARR"),
+            ("p", "Under $2M, the transaction fee savings are too small to matter and the engineering you'd unlock could be paid for in cash with the $24K/year you'd otherwise hand to Shopify. I'd rather see that money in a senior developer than a higher plan."),
+            ("h3", "4. Your team isn't ready to use the features"),
+            ("p", "Plus gives you Flow, Launchpad, B2B. If nobody on your team will operationalize them in the next 90 days, you're paying $2K/month for features that sit dormant."),
+            ("h2", "The migration timeline (Advanced → Plus)"),
+            ("p", "Real timelines from my last five migrations:"),
+            ("ul", [
+                "<strong>Contracting & onboarding</strong>: 1–2 weeks",
+                "<strong>Plus store provisioning + theme cloning</strong>: 1 week",
+                "<strong>Checkout extension rebuild (if applicable)</strong>: 2–4 weeks",
+                "<strong>B2B setup (if applicable)</strong>: 2–3 weeks",
+                "<strong>DNS cutover, payment provider migration, app reauth</strong>: 1 week",
+                "<strong>Stabilization period</strong>: 2 weeks",
+            ]),
+            ("p", "Realistic total: 8–12 weeks. Anyone promising a 2-week Plus migration on a store with B2B or custom checkout is going to break something on launch day."),
+            ("h2", "The honest conclusion"),
+            ("p", "Plus is the right plan for fewer stores than Shopify's sales team would have you believe. It's the right plan for the stores that have already outgrown Advanced — not the stores that someone thinks <em>should</em> have outgrown Advanced. Run the framework above. If you tick three rows in the upgrade column, upgrade. If you tick one and the rep is pushing hard, that's a sales motion, not a fit."),
+        ],
+    },
+    {
+        "slug": "shopify-technical-seo-audit-checklist",
+        "title": "Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else",
+        "excerpt": "The full technical SEO audit I run on every new Shopify client. 32 checks across crawl, indexing, on-page, structured data, and Core Web Vitals — with the exact tools and target values.",
+        "meta": "The 32-check technical SEO audit I run on every new Shopify client. Crawl, indexing, structured data, Core Web Vitals — with target values and tools.",
+        "category": "SEO",
+        "date": "2026-06-14",
+        "readingTime": "13 min",
+        "primaryKeyword": "shopify technical seo audit",
+        "secondaryKeyword": "shopify seo checklist 2026",
+        "funnelTo": "/services/technical-seo-audit.html",
+        "funnelLabel": "Technical SEO Audit",
+        "featured": False,
+        "hook": "Most Shopify SEO advice you read online is content advice in a technical-SEO costume. This is the actual technical pass — the 32 checks I run before I'll write a single piece of content for a client.",
+        "body": [
+            ("p", "Shopify is a particular SEO beast. It does some things very well (clean URLs, automatic XML sitemaps, native canonicals) and some things terribly (faceted nav indexing, pagination handling, duplicate content from collection sorts, search-engine-unfriendly variant URLs). A real technical audit accounts for both."),
+            ("p", "I run this checklist on every new Shopify engagement before I'll commit to a content or CRO plan. It usually takes 6–8 hours and surfaces 12–20 issues on the average store. Here it is, with the tools and target values."),
+            ("h2", "Part 1: Crawl & indexing (checks 1–9)"),
+            ("ol", [
+                "<strong>robots.txt audit.</strong> Confirm /admin, /cart, /checkouts/, /collections/all are noindexed correctly. Shopify auto-generates these but I've seen apps clobber them.",
+                "<strong>XML sitemap reachability.</strong> /sitemap.xml should return 200, should be under 50MB, should be submitted to Search Console.",
+                "<strong>Search Console coverage report.</strong> \"Excluded\" pages count vs total. If excluded > 30%, you have a structural problem.",
+                "<strong>Indexed pages count via site: operator.</strong> Compare to product count. If indexed > products × 3, you have duplicate URL bloat from variants or filters.",
+                "<strong>Canonical tag audit.</strong> Every PDP should canonical to itself, not to the default variant. /collections/all/products/x and /products/x should both canonical to /products/x.",
+                "<strong>Pagination handling.</strong> ?page=2, ?page=3 should not self-canonical. Use rel=\"next\"/\"prev\" or noindex paginated pages.",
+                "<strong>Faceted nav handling.</strong> /collections/x?filter.v.option.size=L type URLs should be noindexed. This is the single biggest Shopify SEO leak.",
+                "<strong>Internal search pages.</strong> /search?q=… should be noindexed. Often these end up indexed by accident.",
+                "<strong>404 audit.</strong> Run a Screaming Frog crawl. Internal links pointing to 404s lose ranking signal and waste crawl budget.",
+            ]),
+            ("h2", "Part 2: On-page SEO (checks 10–17)"),
+            ("ol", [
+                "<strong>Title tag uniqueness.</strong> Every page should have a unique title under 60 characters. Most Shopify themes default to \"Product Name — Store Name\" which is fine until you have 200 PDPs all trailing \"— Brand Co.\"",
+                "<strong>Meta description coverage.</strong> Every page that gets organic traffic should have a custom meta description. Shopify defaults to the first 160 characters of body — that almost never makes sense.",
+                "<strong>H1 uniqueness.</strong> One H1 per page, matches the primary keyword for that page.",
+                "<strong>H2/H3 outline.</strong> No H4 without an H3, no H3 without an H2. Most themes break this.",
+                "<strong>Image alt text coverage.</strong> Every content image should have descriptive alt text. Run a crawl and report missing alts.",
+                "<strong>Internal linking depth.</strong> No important page should be more than 3 clicks from the homepage. Most Shopify stores have orphan collections and underlinked PDPs.",
+                "<strong>Anchor text diversity.</strong> Audit anchor text patterns. \"Click here\" and \"learn more\" tell Google nothing.",
+                "<strong>URL structure audit.</strong> /collections/category/products/product is the right pattern. Slug should match H1.",
+            ]),
+            ("h2", "Part 3: Structured data (checks 18–23)"),
+            ("ol", [
+                "<strong>Product schema.</strong> Every PDP needs Product schema with offers, price, availability, brand, ratings. Most themes ship a broken version.",
+                "<strong>Organization schema.</strong> Homepage needs Organization with logo, name, sameAs (social profiles).",
+                "<strong>BreadcrumbList schema.</strong> Every page deeper than homepage needs breadcrumb schema.",
+                "<strong>WebSite schema with SearchAction.</strong> Enables the sitelinks search box in SERPs.",
+                "<strong>FAQ schema (where applicable).</strong> If your product has FAQs on the PDP, mark them up.",
+                "<strong>Validate everything in Google's Rich Results Test.</strong> If it doesn't pass there, Google won't render rich results.",
+            ]),
+            ("h2", "Part 4: Performance (checks 24–28)"),
+            ("ol", [
+                "<strong>Core Web Vitals — field data via Search Console.</strong> LCP < 2.5s, CLS < 0.1, INP < 200ms.",
+                "<strong>Mobile usability errors.</strong> Search Console → Mobile Usability. Should be zero.",
+                "<strong>HTTPS everywhere.</strong> No mixed content warnings.",
+                "<strong>Image optimization audit.</strong> No PDP image over 200KB. Use Shopify's image_url filter with explicit widths.",
+                "<strong>Render-blocking resources.</strong> No render-blocking JS or CSS above the fold.",
+            ]),
+            ("h2", "Part 5: International & advanced (checks 29–32)"),
+            ("ol", [
+                "<strong>hreflang tags (if multi-region).</strong> Every region-specific URL should have hreflang to all other regions including x-default.",
+                "<strong>Markets configuration audit.</strong> Shopify Markets should have correct domain or subfolder per region.",
+                "<strong>Currency switching SEO.</strong> /en-us/, /en-gb/, /en-au/ folders should be properly hreflang'd, not just JS-switched.",
+                "<strong>Server-side rendering check.</strong> Disable JavaScript in DevTools. Verify content still renders. Shopify themes that depend on JS for critical content lose ranking.",
+            ]),
+            ("h2", "The tools I actually use"),
+            ("ul", [
+                "<strong>Screaming Frog SEO Spider</strong> — full site crawl, every audit starts here",
+                "<strong>Google Search Console</strong> — for real index data and Core Web Vitals field data",
+                "<strong>Ahrefs / Semrush</strong> — backlink and competitor analysis",
+                "<strong>Google Rich Results Test</strong> — structured data validation",
+                "<strong>PageSpeed Insights + WebPageTest</strong> — performance",
+                "<strong>Sitebulb</strong> — secondary crawler when Screaming Frog misses something",
+            ]),
+            ("h2", "What the audit deliverable looks like"),
+            ("p", "When I run this for a client, the deliverable is a 12–20 page document organized by impact: 'do today,' 'do this month,' 'roadmap.' Every issue has the specific URL or page, the recommended fix, and an effort estimate. The fixes themselves are typically a 2–4 week engineering sprint after the audit lands."),
+            ("p", "An audit without an implementation plan is just a list. The point of running these 32 checks is to know where to spend the next sprint, not to feel busy."),
+        ],
+    },
+    {
+        "slug": "freelance-shopify-developer-vs-agency",
+        "title": "Freelance Shopify Developer vs Agency: What You Actually Pay For",
+        "excerpt": "Agencies pitch process, project managers, and scale. Freelancers pitch hands-on senior work. Here's what each model actually costs, when each one wins, and the hybrid most clients should consider.",
+        "meta": "Freelance Shopify developer vs agency — what each model actually costs, when each wins, and the hybrid most clients should consider before signing a contract.",
+        "category": "Shopify",
+        "date": "2026-06-15",
+        "readingTime": "8 min",
+        "primaryKeyword": "freelance shopify developer vs agency",
+        "secondaryKeyword": "shopify agency cost",
+        "funnelTo": "/services/shopify-development.html",
+        "funnelLabel": "Shopify Development",
+        "featured": False,
+        "hook": "Every founder who has hired both knows the secret: you are rarely paying for the developer. You are paying for the layer of people sitting between you and the developer.",
+        "body": [
+            ("p", "I've worked inside agencies, built solo for nine years, and inherited dozens of stores from both kinds of teams. The right choice depends on which problem you actually have. Let me unpack the real difference."),
+            ("h2", "What an agency costs in 2026"),
+            ("p", "A typical Shopify build at a mid-tier US/UK agency runs $30,000–$120,000. A Shopify Plus build at a top-tier agency runs $80,000–$300,000. Roughly half of that is engineering time. The other half is:"),
+            ("ul", [
+                "Project manager hours (15–25% of total)",
+                "Account manager hours (5–10%)",
+                "Discovery / strategy phase (10–15%)",
+                "QA + testing (5–10%)",
+                "Overhead, sales, office (the rest)",
+            ]),
+            ("p", "You are paying for a system. The system has real value if your build needs it. If it doesn't, you're paying for capacity you'll never touch."),
+            ("h2", "What a senior freelancer costs in 2026"),
+            ("p", "A senior independent Shopify developer at $80–$150/hour will build the same scope for $15,000–$50,000. That's a 50–60% discount on the agency price — not because the developer is worse, but because there is no project manager, no account manager, no overhead, no margin layer."),
+            ("p", "The trade-off: you are the project manager. You are the QA. If the freelancer gets sick, the project pauses. If you need 3 things at once, you have to sequence them."),
+            ("h2", "When the agency model wins"),
+            ("ul", [
+                "<strong>You have zero technical staff on your side.</strong> You need someone to manage the project for you because you can't.",
+                "<strong>The build is large and multi-disciplinary.</strong> Brand identity + photography + copy + dev + launch — you want one team accountable.",
+                "<strong>You need scale guarantees.</strong> Plus migrations under tight BFCM deadlines, or builds with strict compliance (HIPAA, PCI).",
+                "<strong>You'll have ongoing retainer needs.</strong> Continuous CRO, growth experiments, multi-store management — a bench helps.",
+                "<strong>You're going to investor.</strong> \"We use [Agency]\" reads better in a deck than \"we use a freelancer.\" That's a real consideration whether you like it or not.",
+            ]),
+            ("h2", "When the senior freelancer model wins"),
+            ("ul", [
+                "<strong>You have a technical co-founder or in-house ops.</strong> You can manage scope and timeline without a PM layer.",
+                "<strong>Your build is engineering-heavy, low ambiguity.</strong> The brand is decided. The IA is decided. You need execution.",
+                "<strong>You want the actual developer accountable.</strong> No game of telephone through a PM. If something's wrong, you talk to the person fixing it.",
+                "<strong>You care about cost-of-ownership.</strong> Cleaner code, fewer cooks, simpler handoff to your in-house team later.",
+                "<strong>You want speed.</strong> Senior freelancers ship faster than agencies because there's no meeting tax.",
+            ]),
+            ("h2", "The hybrid most clients should consider"),
+            ("p", "Most of my retainer clients use this structure:"),
+            ("ol", [
+                "<strong>Senior freelancer (me) — fractional CTO + lead engineer.</strong> Architecture, build, code review, weekly priorities.",
+                "<strong>One or two junior contractors I source for them.</strong> Content updates, theme tweaks, low-stakes work at $30/hour. Managed by me.",
+                "<strong>An agency on standby for surge capacity.</strong> Used 2–4 times a year for big launches.",
+            ]),
+            ("p", "This structure costs 40–60% less than a full agency retainer, gives you senior accountability, and lets you scale up and down without ending relationships."),
+            ("h2", "Red flags in both models"),
+            ("p", "Both agencies and freelancers can be the wrong hire. The red flags are different:"),
+            ("p", "<strong>Agency red flags:</strong> The salesperson is brilliant and the people who actually do the work haven't been on a call. You'll meet them on day one of the engagement. By then it's too late."),
+            ("p", "<strong>Freelancer red flags:</strong> One person can only do so much. If they pitch \"I'll do everything — brand, copy, dev, ads,\" they're either juniors or they're going to subcontract it to people you won't meet."),
+            ("h2", "The honest framing"),
+            ("p", "Pay for capability, not for the wrapper around the capability. If you need a project manager, hire an agency. If you don't, you're handing them margin you could be putting into the actual build. The freelancer-vs-agency question is really a question about how much project management you need — and most founders need less than the agency model is designed to deliver."),
+        ],
+    },
+    {
+        "slug": "shopify-custom-app-vs-public-app",
+        "title": "Custom Shopify App vs Private App vs Public App: Which One You Actually Need",
+        "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients — what each one costs, what each one limits, and which one wins for your situation.",
+        "meta": "Custom Shopify app vs private app vs public app — what each one costs, what each one limits, and which one is right for your situation, with examples.",
+        "category": "Custom Apps",
+        "date": "2026-06-16",
+        "readingTime": "9 min",
+        "primaryKeyword": "shopify custom app vs public app",
+        "secondaryKeyword": "shopify private app development",
+        "funnelTo": "/services/custom-app-development.html",
+        "funnelLabel": "Custom App Development",
+        "featured": False,
+        "hook": "Shopify has three categories of apps. The terminology is, frankly, confusing — \"custom\" and \"private\" mean different things to Shopify than they do in English. The decision between them shapes the next two years of your store.",
+        "body": [
+            ("p", "I build Shopify apps for clients monthly. Roughly half the time, the first call is spent unwinding what Shopify, an agency, or a previous developer told them about which app type to use. Let me set the record straight."),
+            ("h2", "The three app types in 2026"),
+            ("h3", "Public app"),
+            ("p", "Listed on the Shopify App Store. Anyone can install it. Submitted through Shopify's review process. Subject to Shopify's commerce model (Shopify takes a revenue share). What most people mean when they say \"Shopify app.\""),
+            ("h3", "Custom app"),
+            ("p", "Built for one specific merchant, distributed to that merchant only via an install link. No App Store listing. No Shopify revenue share. Most B2B internal tools and merchant-specific automations are custom apps."),
+            ("h3", "Private app (deprecated, mostly)"),
+            ("p", "Shopify deprecated private apps in 2022. They still technically exist for legacy stores, but new builds should not use them. If a developer tells you in 2026 they're going to build you a \"private app,\" they probably mean \"custom app\" and are using the old terminology."),
+            ("p", "From here on, the real choice is custom vs public."),
+            ("h2", "When you need a custom app"),
+            ("ul", [
+                "<strong>You need to automate internal ops.</strong> Order routing, inventory sync to external WMS, custom reporting, finance integrations.",
+                "<strong>You need workflows the App Store doesn't cover.</strong> A B2B catalog logic specific to your industry, a custom pricing engine for one client tier, an internal portal.",
+                "<strong>You don't want to share data with a third party.</strong> Public apps require you to grant access to a third-party developer's database. Custom apps live entirely under your control.",
+                "<strong>You're already paying for 5+ apps that overlap.</strong> Often a single custom app replaces $300–$800/month of App Store subscriptions and pays itself back in 8–14 months.",
+            ]),
+            ("h2", "When you should build a public app"),
+            ("ul", [
+                "<strong>You want to commercialize it.</strong> If 100 other merchants would pay $20/month for it, build a public app.",
+                "<strong>You need Shopify's distribution.</strong> The App Store is a real sales channel — millions of merchants browse it.",
+                "<strong>You're OK with Shopify's revenue share.</strong> 0–15% depending on tier and revenue level.",
+                "<strong>You're committed to ongoing maintenance.</strong> Public apps must keep up with Shopify API changes, security reviews, and support tickets.",
+            ]),
+            ("h2", "What custom apps actually cost"),
+            ("p", "Here's a real range from the last two years of builds:"),
+            ("ul", [
+                "<strong>Simple custom app</strong> ($5K–$15K) — single integration, one or two endpoints. Example: sync new orders to a Slack channel, or push orders into Xero.",
+                "<strong>Mid-complexity custom app</strong> ($15K–$50K) — multi-step workflow, admin UI inside Shopify, persistent data. Example: a B2B reorder portal with saved templates and tier pricing logic.",
+                "<strong>Enterprise custom app</strong> ($50K–$150K+) — full internal system. Example: end-to-end OMS integration with custom shipping logic, supplier portal, and inventory orchestration across 12 locations.",
+            ]),
+            ("p", "Maintenance is real. Budget 15–25% of build cost annually for keeping it up to date with Shopify API changes, bug fixes, and small feature requests."),
+            ("h2", "The decision tree I use with clients"),
+            ("ol", [
+                "<strong>Does the App Store already have something that solves 80% of your need?</strong> Install it. Don't build.",
+                "<strong>Are you paying $300+/month across multiple overlapping apps?</strong> Build a custom app to consolidate.",
+                "<strong>Are you doing something Shopify's APIs allow but no public app handles?</strong> Custom app.",
+                "<strong>Do you want to sell this to other merchants?</strong> Public app — even if the first version is built for one merchant.",
+                "<strong>Is the use case so specific that no one else would pay for it?</strong> Custom app. Always.",
+            ]),
+            ("h2", "Common mistakes I see"),
+            ("p", "<strong>Building a public app for a one-merchant use case.</strong> You'll spend 30% more on the build to handle multi-tenancy you don't need, and you'll then maintain a billing/auth/support stack for one customer."),
+            ("p", "<strong>Choosing public because \"it's safer.\"</strong> Custom apps are not less safe. They're often safer — your data doesn't leave your control."),
+            ("p", "<strong>Trying to replicate an App Store app for $2K.</strong> If a public app does what you need and costs $30/month, install the public app. Building a worse version of it costs more in dev time than three years of the subscription."),
+            ("h2", "The honest summary"),
+            ("p", "Custom is right for merchant-specific internal tools. Public is right for products you want to commercialize. If you're confused about which one fits, the question to ask is: \"would I pay for this every month if someone else built it?\" Yes → public. No → custom. That's the whole framework."),
+        ],
+    },
+    {
+        "slug": "speed-up-woocommerce-checklist",
+        "title": "Why Your WooCommerce Store Is Slow — and the 5 Plugins Causing 80% of It",
+        "excerpt": "WooCommerce stores are slow for the same reasons over and over. The five plugins, the two server-side mistakes, and the fix that always works — from an engineer who's optimized 80+ WooCommerce stores.",
+        "meta": "Why your WooCommerce store is slow — the 5 plugins causing most of it, the 2 server mistakes, and the fix that always works. Field-tested optimization from 80+ stores.",
+        "category": "WooCommerce",
+        "date": "2026-06-17",
+        "readingTime": "10 min",
+        "primaryKeyword": "speed up woocommerce",
+        "secondaryKeyword": "why is woocommerce slow",
+        "funnelTo": "/services/woocommerce-development.html",
+        "funnelLabel": "WooCommerce Development",
+        "featured": False,
+        "hook": "WooCommerce is not inherently slow. It is, however, used by an ecosystem that builds plugins as if performance is something other people worry about. The result is what you're seeing in your Lighthouse score.",
+        "body": [
+            ("p", "I've optimized 80+ WooCommerce stores over nine years. The diagnosis is almost always the same. This post is the playbook — the plugins, the server mistakes, and the order of operations that actually moves your LCP from 6 seconds to under 2.5."),
+            ("h2", "The five plugins causing most WooCommerce slowdowns"),
+            ("h3", "1. WooCommerce Subscriptions (when misconfigured)"),
+            ("p", "Subscriptions is a great product, but it loads cart fragments via AJAX on every page load by default. On a homepage with no cart functionality, that's a 200–400ms request that does nothing. Fix: dequeue the cart fragments script on pages where it's not needed."),
+            ("pre", "// In functions.php\nadd_action('wp_enqueue_scripts', function() {\n    if (!is_cart() && !is_checkout() && !is_account_page()) {\n        wp_dequeue_script('wc-cart-fragments');\n    }\n}, 11);"),
+            ("h3", "2. Page builders (Elementor, Divi, WPBakery)"),
+            ("p", "Page builders load their entire framework site-wide. Even on pages you didn't build with them. The framework alone adds 200–500KB to your bundle and 300–800ms to render."),
+            ("p", "Fix: For builds where speed matters, replace page builder pages with a custom theme or block theme. For builds where you're committed to the builder, use a plugin like \"Asset CleanUp\" to dequeue builder assets on pages that don't need them."),
+            ("h3", "3. WPML / Polylang (for multi-language)"),
+            ("p", "Both load translation tables on every request. On stores with 5+ languages and 1000+ translatable strings, that's 100–300ms before WordPress can render anything. Fix: aggressive object caching (Redis), and consider whether you actually need 5 languages live or could ship just two."),
+            ("h3", "4. Real-time tracking + analytics plugins"),
+            ("p", "MonsterInsights, ExactMetrics, MetricsTracker, every \"connect WooCommerce to GA4\" plugin — they all add real-time hooks to order events that block the cart. Use Google Tag Manager + Server-Side Tag Manager instead. Almost always a 200–500ms saving."),
+            ("h3", "5. Backup plugins that run during business hours"),
+            ("p", "UpdraftPlus and BackupBuddy default to running backup processes that can spike CPU during traffic peaks. Schedule backups for 3 AM in your store's timezone, not \"continuous.\""),
+            ("h2", "The two server-side mistakes"),
+            ("h3", "1. Cheap shared hosting"),
+            ("p", "If you're paying less than $30/month for WooCommerce hosting, your store is shared with 200 other sites. There is no amount of plugin optimization that fixes this. The fix is to move to managed WooCommerce hosting — Kinsta, WP Engine, SiteGround Cloud, Rocket.net, or a properly-configured DigitalOcean droplet. Budget $50–$200/month for hosting that doesn't bottleneck you."),
+            ("h3", "2. No object cache"),
+            ("p", "WooCommerce queries the database aggressively. Redis or Memcached object caching keeps frequently-accessed data in memory and cuts database load by 60–80%. Most managed WooCommerce hosts include it. If yours doesn't, install it."),
+            ("h2", "The fix that always works — the order of operations"),
+            ("ol", [
+                "<strong>Move to managed WooCommerce hosting.</strong> Single biggest lever. Skip this step and the rest barely matters.",
+                "<strong>Install Redis object cache.</strong> Free, 10-minute install, 30–50% TTFB improvement instantly.",
+                "<strong>Install a real caching plugin.</strong> WP Rocket ($59/year) or LiteSpeed Cache (free if you're on LiteSpeed servers). Page caching, browser caching, GZip compression.",
+                "<strong>Audit plugin count.</strong> Healthy WooCommerce stores run 15–25 plugins. If yours is over 40, half are doing work for the other half. Deactivate, test, decide.",
+                "<strong>Optimize images.</strong> Install ShortPixel or Imagify. Set up automatic WebP conversion. Resize uploads to a max width of 2000px on upload.",
+                "<strong>Lazy load below-the-fold content.</strong> Native browser lazy loading works in modern browsers. Add <code>loading=\"lazy\"</code> to images below the fold.",
+                "<strong>Defer non-critical JavaScript.</strong> Use the \"Delay JavaScript Execution\" feature in WP Rocket or equivalent.",
+                "<strong>Audit your theme.</strong> If you're on a heavy multipurpose theme (Avada, Flatsome with everything enabled), consider migrating to a leaner option. This is the biggest lift but often the biggest win.",
+            ]),
+            ("h2", "The numbers you should target"),
+            ("ul", [
+                "<strong>TTFB</strong> — under 600ms (under 400ms is excellent)",
+                "<strong>LCP</strong> — under 2.5s on mobile",
+                "<strong>CLS</strong> — under 0.1",
+                "<strong>INP</strong> — under 200ms",
+                "<strong>Total page weight</strong> — under 2MB for a typical PDP",
+                "<strong>Total HTTP requests</strong> — under 80",
+            ]),
+            ("p", "If you hit all of these, your Lighthouse mobile score will be 85+ and your conversion rate will measurably improve. I've watched it happen 80+ times in a row."),
+            ("h2", "The honest summary"),
+            ("p", "WooCommerce stores are slow because the ecosystem is permissive — anyone can ship a plugin that destroys your performance. The fix isn't WordPress's fault. It's the operator's responsibility to choose hosting that scales, plugins that respect performance, and a theme that doesn't load everything for everyone. Do those three things and your store will be in the top 10% of WooCommerce performance."),
+        ],
+    },
+]
+
+
+# ─────────────────────────────────────────────────────────────────────────────
+#  LOCATION SERVICE PAGES — country × service matrix
+# ─────────────────────────────────────────────────────────────────────────────
+
+LOCATIONS = [
+    {
+        "code": "us",
+        "country": "United States",
+        "demonym": "American",
+        "currency": "USD",
+        "timezone": "EST/PST overlap",
+        "hours": "9am–5pm EST and PST callable",
+        "tagline": "for US-based DTC and B2B brands",
+        "marketNotes": "From Brooklyn coffee brands to Austin SaaS founders, the US market is where I do the majority of my work. Most of my retainer clients are US-based. I work in your timezone, in your business language, and I am fluent in your platform stack.",
+    },
+    {
+        "code": "uk",
+        "country": "United Kingdom",
+        "demonym": "British",
+        "currency": "GBP",
+        "timezone": "GMT/BST",
+        "hours": "9am–6pm GMT/BST callable",
+        "tagline": "for UK ecommerce and editorial brands",
+        "marketNotes": "London editorial brands, Manchester DTC, Edinburgh B2B — I work weekly with UK clients across verticals. VAT-compliant invoicing, GDPR-aware data handling, and a familiarity with the cultural conventions of UK commerce.",
+    },
+    {
+        "code": "au",
+        "country": "Australia",
+        "demonym": "Australian",
+        "currency": "AUD",
+        "timezone": "AEDT/AEST",
+        "hours": "Reply window matches AEST business hours via async handoff",
+        "tagline": "for Australian DTC and lifestyle brands",
+        "marketNotes": "Australian founders get a senior dev who has shipped for the Australian market across DTC, hospitality, and luxury goods. Sydney and Melbourne–based clients are a meaningful share of my work.",
+    },
+    {
+        "code": "ca",
+        "country": "Canada",
+        "demonym": "Canadian",
+        "currency": "CAD",
+        "timezone": "EST/PST",
+        "hours": "Reply window matches Canadian business hours",
+        "tagline": "for Canadian ecommerce founders",
+        "marketNotes": "Toronto, Vancouver, Montreal — I work weekly with Canadian DTC and B2B brands. PIPEDA-aware, multi-currency setups, and clean USD/CAD billing.",
+    },
+    {
+        "code": "uae",
+        "country": "United Arab Emirates",
+        "demonym": "Emirati",
+        "currency": "AED",
+        "timezone": "GST",
+        "hours": "9am–6pm GST callable",
+        "tagline": "for Dubai and Gulf-market brands",
+        "marketNotes": "I've shipped Shopify and WordPress builds for the Dubai market — luxury retail, hospitality, B2B insurance. Comfortable with bilingual (English/Arabic) builds, AED checkout, and regional payment gateways like Telr and Tap.",
+    },
+]
+
+# Service templates per location — currently we generate one master page per location
+# that lists Shopify + WooCommerce + WordPress capability for that market.
+
+
+def render_blog_post(p, nav, footer):
+    """Render a single blog post HTML from a spec dict."""
+    date_obj = datetime.strptime(p["date"], "%Y-%m-%d")
+    date_readable = date_obj.strftime("%B %d, %Y")
+
+    # Body HTML from structured tuples
+    body_parts = []
+    for tag, content in p["body"]:
+        if tag == "p":
+            body_parts.append(f"<p>{content}</p>")
+        elif tag == "h2":
+            anchor = re.sub(r'[^a-z0-9]+', '-', content.lower()).strip('-')[:40]
+            body_parts.append(f'<h2 id="{anchor}">{content}</h2>')
+        elif tag == "h3":
+            body_parts.append(f"<h3>{content}</h3>")
+        elif tag == "ul":
+            items = "\n".join(f"      <li>{li}</li>" for li in content)
+            body_parts.append(f"<ul>\n{items}\n    </ul>")
+        elif tag == "ol":
+            items = "\n".join(f"      <li>{li}</li>" for li in content)
+            body_parts.append(f"<ol>\n{items}\n    </ol>")
+        elif tag == "pre":
+            body_parts.append(f"<pre><code>{content}</code></pre>")
+        elif tag == "callout":
+            body_parts.append(f'<div class="post-callout"><p>{content}</p></div>')
+    body_html = "\n\n    ".join(body_parts)
+
+    return f'''<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{p["title"]} | Adnan K.</title>
+<meta name="description" content="{p["meta"]}" />
+<link rel="canonical" href="{SITE}/blog/{p["slug"]}.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="author" content="Adnan K." />
+<meta name="keywords" content="{p["primaryKeyword"]}, {p["secondaryKeyword"]}, shopify developer, woocommerce developer, hire shopify developer" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="{SITE}/blog/{p["slug"]}.html" />
+<meta property="og:title" content="{p["title"]}" />
+<meta property="og:description" content="{p["meta"]}" />
+<meta property="og:image" content="{SITE}/assets/og-default.svg" />
+<meta property="article:published_time" content="{p["date"]}T09:00:00Z" />
+<meta property="article:author" content="Adnan K." />
+<meta property="article:section" content="{p["category"]}" />
+<meta property="article:tag" content="{p["primaryKeyword"]}, {p["secondaryKeyword"]}" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
+
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "{p["title"]}",
+  "description": "{p["meta"]}",
+  "image": "{SITE}/assets/og-default.svg",
+  "datePublished": "{p["date"]}T09:00:00Z",
+  "dateModified": "{p["date"]}T09:00:00Z",
+  "author": {{ "@type": "Person", "name": "Adnan K.", "url": "{SITE}/about.html" }},
+  "publisher": {{ "@type": "Organization", "name": "Lofts Studio", "logo": {{ "@type": "ImageObject", "url": "{SITE}/favicon.svg" }} }},
+  "mainEntityOfPage": {{ "@type": "WebPage", "@id": "{SITE}/blog/{p["slug"]}.html" }},
+  "keywords": "{p["primaryKeyword"]}, {p["secondaryKeyword"]}"
+}}
+</script>
+<script type="application/ld+json">
+{{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {{"@type":"ListItem","position":1,"name":"Home","item":"{SITE}/"}}, {{"@type":"ListItem","position":2,"name":"Blog","item":"{SITE}/blog/"}}, {{"@type":"ListItem","position":3,"name":"{p["title"]}","item":"{SITE}/blog/{p["slug"]}.html"}} ] }}
+</script>
+
+<style>
+  .post-prose {{ max-width: 720px; margin: 0 auto; }}
+  .post-prose h2 {{ font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.9rem); letter-spacing: -0.035em; font-weight: 600; margin: 3.5rem 0 1rem; line-height: 1.15; }}
+  .post-prose h3 {{ font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.025em; font-weight: 600; margin: 2.5rem 0 0.75rem; }}
+  .post-prose p {{ color: var(--ink-soft); font-size: 1.075rem; line-height: 1.78; margin: 0 0 1.25rem; }}
+  .post-prose p strong {{ color: var(--ink); }}
+  .post-prose ul, .post-prose ol {{ padding-left: 1.5rem; margin: 0 0 1.5rem; color: var(--ink-soft); }}
+  .post-prose li {{ margin-bottom: 0.55rem; font-size: 1.04rem; line-height: 1.7; }}
+  .post-prose a {{ color: var(--accent); border-bottom: 1px solid rgba(0,64,255,0.3); }}
+  .post-prose a:hover {{ border-bottom-color: var(--accent); }}
+  .post-prose code {{ font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink); }}
+  .post-prose pre {{ background: var(--ink); color: #E8E8E8; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.7; }}
+  .post-prose pre code {{ background: transparent; padding: 0; color: inherit; font-size: inherit; }}
+  .post-prose hr {{ border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }}
+  .post-callout {{ background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }}
+  .post-callout p {{ margin: 0; color: var(--ink); font-size: 1rem; }}
+</style>
+</head>
+<body>
+
+{nav}
+
+<article>
+<section class="paper" style="padding: 5rem 0 3rem;">
+  <div class="container post-prose" data-reveal>
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
+      <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
+      <a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
+      <span style="color: var(--ink);">{p["title"][:60]}</span>
+    </nav>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 1.25rem;">
+      <span class="tag-pill">{p["category"]}</span>
+    </div>
+
+    <h1 class="h-display" style="font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.08;">{p["title"]}</h1>
+
+    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1.25rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700;">AK</div>
+      <div>
+        <div style="font-weight: 600;">Adnan K.</div>
+        <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="{p["date"]}">{date_readable}</time> · {p["readingTime"]} read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section style="padding: 0 0 4rem;">
+  <div class="container post-prose">
+    <p style="font-size: 1.2rem; line-height: 1.65; color: var(--ink); font-family: var(--font-display); font-weight: 500; letter-spacing: -0.025em;">{p["hook"]}</p>
+
+    {body_html}
+
+    <hr/>
+
+    <h2>If you'd rather not do this yourself</h2>
+    <p>This is the work I do for clients. If you want it done properly, the relevant offer is <a href="{p["funnelTo"]}">{p["funnelLabel"]}</a>.</p>
+
+    <p style="text-align: center; margin-top: 2.5rem;">
+      <a href="{p["funnelTo"]}" class="btn btn-primary">Read about {p["funnelLabel"]} &nbsp;&rarr;</a>
+    </p>
+
+    <hr style="margin-top: 4rem;"/>
+
+    <div style="display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; margin-top: 2rem;">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
+      <div>
+        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan K.</h3>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 307 projects shipped, 100% Job Success.</p>
+        <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
+          <a href="/about.html" style="color: var(--accent);">About</a>
+          <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
+          <a href="/blog/" style="color: var(--accent);">More posts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+{footer}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/assets/main.js?v={CACHE_VER}" defer></script>
+<script src="/assets/widgets.js?v={CACHE_VER}" defer></script>
+</body>
+</html>
+'''
+
+
+def render_location_page(loc, nav, footer):
+    """Render a country-specific service landing page."""
+    title = f"Shopify & WooCommerce Developer {loc['country']} | Adnan K."
+    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, 307 stores shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
+    canonical = f"{SITE}/services/shopify-developer-{loc['code']}.html"
+
+    hreflang_tags = "\n".join([
+        f'<link rel="alternate" hreflang="en-{l["code"]}" href="{SITE}/services/shopify-developer-{l["code"]}.html" />'
+        for l in LOCATIONS
+    ]) + f'\n<link rel="alternate" hreflang="x-default" href="{SITE}/" />'
+
+    return f'''<!DOCTYPE html>
+<html lang="en-{loc["code"]}">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>{title}</title>
+<meta name="description" content="{meta}" />
+<link rel="canonical" href="{canonical}" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="keywords" content="shopify developer {loc['country'].lower()}, hire shopify developer {loc['country'].lower()}, woocommerce developer {loc['country'].lower()}, wordpress developer {loc['country'].lower()}, ecommerce developer {loc['country'].lower()}" />
+
+{hreflang_tags}
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="{canonical}" />
+<meta property="og:title" content="{title}" />
+<meta property="og:description" content="{meta}" />
+<meta property="og:image" content="{SITE}/assets/og-default.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
+
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "ProfessionalService",
+  "name": "Adnan K. — Shopify & WooCommerce Developer for {loc['country']}",
+  "description": "{meta}",
+  "url": "{canonical}",
+  "image": "{SITE}/assets/og-default.svg",
+  "priceRange": "$$$",
+  "areaServed": {{ "@type": "Country", "name": "{loc['country']}" }},
+  "serviceType": ["Shopify Development", "WooCommerce Development", "WordPress Development", "Shopify Plus Migration", "Speed Optimization"],
+  "provider": {{
+    "@type": "Person",
+    "name": "Adnan K.",
+    "url": "{SITE}",
+    "jobTitle": "Senior Shopify & WooCommerce Developer",
+    "sameAs": ["https://www.upwork.com/freelancers/wordpressandshopifydeveloper"]
+  }}
+}}
+</script>
+<script type="application/ld+json">
+{{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {{"@type":"ListItem","position":1,"name":"Home","item":"{SITE}/"}}, {{"@type":"ListItem","position":2,"name":"Services","item":"{SITE}/services/"}}, {{"@type":"ListItem","position":3,"name":"Shopify Developer {loc['country']}","item":"{canonical}"}} ] }}
+</script>
+<script type="application/ld+json">
+{{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {{
+      "@type": "Question",
+      "name": "Do you work with {loc['demonym']} clients?",
+      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — a meaningful share of my retainer and project work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}." }}
+    }},
+    {{
+      "@type": "Question",
+      "name": "What does a Shopify build for a {loc['demonym']} brand cost?",
+      "acceptedAnswer": {{ "@type": "Answer", "text": "A senior independent Shopify build typically runs ${{15,000–50,000 USD ({loc['currency']} equivalent at current rates)}}, depending on scope. Page builders and tiny stock-theme setups cost less. Shopify Plus migrations run higher." }}
+    }},
+    {{
+      "@type": "Question",
+      "name": "Can you handle {loc['currency']} payment processing?",
+      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes. Shopify Payments, Stripe, and regional gateways are all covered. For {loc['country']}-specific regional payment methods, I work with the local provider that best fits the merchant." }}
+    }},
+    {{
+      "@type": "Question",
+      "name": "Do you offer ongoing support after launch?",
+      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — retainer engagements start at 10 hours/month and scale up. Most clients move to retainer after launch for continued CRO, speed, and feature work." }}
+    }}
+  ]
+}}
+</script>
+</head>
+<body>
+
+{nav}
+
+<section class="paper" style="padding: 7rem 0 4rem;">
+  <div class="container">
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
+      <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
+      <a href="/services/" style="color: var(--muted);">Services</a> <span style="margin: 0 8px;">/</span>
+      <span style="color: var(--ink);">Shopify Developer {loc['country']}</span>
+    </nav>
+
+    <div data-reveal style="max-width: 880px;">
+      <span class="eyebrow">Senior Shopify, WooCommerce &amp; WordPress engineering · {loc['country']}</span>
+      <h1 class="h-display" data-split="words" style="margin-top: 1.5rem;">
+        Hire a senior Shopify developer <span class="italic-serif">in {loc['country']}.</span>
+      </h1>
+      <p class="lead" style="margin-top: 2rem;">
+        Nine years. Three hundred and seven stores shipped. Top Rated Plus on Upwork {loc['tagline']}.
+        {loc['hours']}. Async-friendly, written-first, and senior-only — no junior team, no PM layer.
+      </p>
+      <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
+        <a href="/#contact" class="btn btn-primary">Start a conversation &nbsp;&rarr;</a>
+        <a href="/portfolio/" class="btn btn-ghost">See 47 case studies</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm" style="border-top: 1px solid var(--line); padding: 4rem 0;">
+  <div class="container">
+    <div data-reveal style="max-width: 760px;">
+      <span class="eyebrow">{loc['country']} market notes</span>
+      <p style="font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.65; color: var(--ink); margin-top: 1.5rem;">{loc['marketNotes']}</p>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-top: 1px solid var(--line);">
+  <div class="container">
+    <div data-reveal style="max-width: 780px; margin-bottom: 4rem;">
+      <span class="eyebrow">What I build for {loc['demonym']} brands</span>
+      <h2 class="h-1" style="margin-top: 1.25rem;">Five capabilities. One operator. <span class="italic-serif">Senior-only delivery.</span></h2>
+    </div>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
+      <a href="/services/shopify-development.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">Shopify Development</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Custom Shopify builds</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Themes, sections, conversion-tuned PDPs. From discovery to launch in 4–8 weeks.</p>
+      </a>
+      <a href="/services/shopify-plus-migration.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">Shopify Plus Migration</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Migrate to Plus</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">From Advanced or WooCommerce. B2B, checkout extensions, expansion stores.</p>
+      </a>
+      <a href="/services/woocommerce-development.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">WooCommerce Development</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">WooCommerce that scales</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Custom themes, subscriptions, B2B tiers, performance work that survives traffic spikes.</p>
+      </a>
+      <a href="/services/speed-optimization.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">Speed Optimization</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Pass Core Web Vitals</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">LCP under 2.5s, CLS under 0.1, INP under 200ms. Field-data improvement guaranteed.</p>
+      </a>
+      <a href="/services/custom-app-development.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">Custom App Development</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Internal tools &amp; integrations</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Custom Shopify apps, WMS integrations, B2B portals, internal ops automation.</p>
+      </a>
+      <a href="/services/conversion-rate-optimization.html" class="card" data-reveal style="text-decoration: none;">
+        <span class="eyebrow">CRO</span>
+        <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Conversion engineering</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">PDP tuning, checkout optimization, A/B testing infrastructure that compounds.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm" style="background: var(--bg-soft); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 5rem 0;">
+  <div class="container">
+    <div data-reveal style="max-width: 780px; margin-bottom: 3rem;">
+      <span class="eyebrow">FAQs · {loc['country']}</span>
+      <h2 class="h-1" style="margin-top: 1.25rem;">Common questions from {loc['demonym']} founders.</h2>
+    </div>
+
+    <div style="display: grid; gap: 2rem; max-width: 780px;">
+      <div data-reveal>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">Do you work with {loc['demonym']} clients?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — a meaningful share of my retainer and project work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">What does a Shopify build for a {loc['demonym']} brand cost?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A senior independent Shopify build typically runs $15,000–$50,000 USD ({loc['currency']} equivalent at current rates), depending on scope. Stock theme setups cost less. Shopify Plus migrations run higher.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">Can you handle {loc['currency']} payment processing?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes. Shopify Payments, Stripe, and regional gateways. For {loc['country']}-specific regional payment methods, I work with the provider that best fits the merchant.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">Do you offer ongoing support after launch?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — retainer engagements start at 10 hours/month and scale up. Most clients move to retainer after launch for continued CRO, speed, and feature work.</p>
+      </div>
+      <div data-reveal>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">How do invoicing and contracts work for {loc['country']}?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Contracts in USD with standard MSA + SOW structure. Payment via Wise, Stripe, or bank transfer in your local currency at conversion. Invoices monthly for retainers, milestone-based for projects.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div data-reveal style="background: var(--ink); color: var(--bg); padding: 4rem 3rem; border-radius: var(--r-lg); text-align: center; max-width: 900px; margin: 0 auto;">
+      <span style="font-family: var(--font-sans); font-size: 0.72rem; color: rgba(244,240,234,0.6); text-transform: uppercase; letter-spacing: 0.22em;">If you got this far</span>
+      <h2 class="h-1" style="color: var(--bg); margin: 1.5rem 0;">Send your store URL.<br/><span class="italic-serif">I'll audit it before the call.</span></h2>
+      <p style="font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.6; color: rgba(244,240,234,0.85); max-width: 56ch; margin: 0 auto 2.5rem;">Three specific suggestions you can act on whether you hire me or not. Reply window: four hours, {loc['country']} business hours friendly.</p>
+      <a href="/#contact" class="btn" style="background: var(--bg); color: var(--ink); padding: 1rem 2rem;">Start a conversation &nbsp;&rarr;</a>
+    </div>
+  </div>
+</section>
+
+{footer}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/assets/main.js?v={CACHE_VER}" defer></script>
+<script src="/assets/widgets.js?v={CACHE_VER}" defer></script>
+</body>
+</html>
+'''
+
+
+def update_posts_json():
+    """Update posts.json with all POSTS (newest first)."""
+    data = {
+        "version": 2,
+        "lastUpdated": datetime.now().strftime("%Y-%m-%d"),
+        "schema": "Source of truth for blog posts. Generated by scripts/seo_engine.py.",
+        "categories": ["Speed", "CRO", "Shopify", "WooCommerce", "AI & Automation", "Custom Apps", "Design", "Migration", "SEO", "Process"],
+        "posts": []
+    }
+
+    # Preserve any existing posts not in our spec
+    existing = {}
+    if POSTS_JSON.exists():
+        old = json.loads(POSTS_JSON.read_text())
+        for post in old.get("posts", []):
+            existing[post["slug"]] = post
+
+    new_slugs = set()
+    for p in POSTS:
+        entry = {
+            "slug": p["slug"],
+            "title": p["title"],
+            "excerpt": p["excerpt"],
+            "category": p["category"],
+            "date": p["date"],
+            "readingTime": p["readingTime"],
+            "primaryKeyword": p["primaryKeyword"],
+            "secondaryKeyword": p["secondaryKeyword"],
+            "funnelTo": p["funnelTo"],
+            "featured": p.get("featured", False),
+            "published": True
+        }
+        data["posts"].append(entry)
+        new_slugs.add(p["slug"])
+
+    # Append legacy posts not in current specs
+    for slug, post in existing.items():
+        if slug not in new_slugs:
+            data["posts"].append(post)
+
+    # Sort by date desc
+    data["posts"].sort(key=lambda x: x["date"], reverse=True)
+
+    POSTS_JSON.write_text(json.dumps(data, indent=2))
+    print(f"  ✓ posts.json updated ({len(data['posts'])} posts)")
+
+
+def gen_blog():
+    """Generate all blog posts."""
+    nav, footer = load_nav_and_footer()
+    for p in POSTS:
+        html = render_blog_post(p, nav, footer)
+        out = BLOG_DIR / f"{p['slug']}.html"
+        out.write_text(html)
+        print(f"  ✓ blog/{p['slug']}.html")
+    update_posts_json()
+
+
+def gen_locations():
+    """Generate all country service pages."""
+    nav, footer = load_nav_and_footer()
+    for loc in LOCATIONS:
+        html = render_location_page(loc, nav, footer)
+        out = SERVICES_DIR / f"shopify-developer-{loc['code']}.html"
+        out.write_text(html)
+        print(f"  ✓ services/shopify-developer-{loc['code']}.html")
+
+
+def gen_sitemap():
+    """Crawl the filesystem for .html files and generate sitemap.xml."""
+    today = datetime.now().strftime("%Y-%m-%d")
+    urls = []
+
+    # Static top-level pages with priorities
+    top = {
+        "/": ("1.0", "weekly"),
+        "/about.html": ("0.9", "monthly"),
+        "/portfolio/": ("0.95", "weekly"),
+        "/blog/": ("0.9", "weekly"),
+        "/process/": ("0.7", "monthly"),
+        "/notes/": ("0.7", "weekly"),
+        "/tools/": ("0.7", "monthly"),
+        "/now/": ("0.6", "weekly"),
+        "/privacy.html": ("0.3", "yearly"),
+        "/terms.html": ("0.3", "yearly"),
+        "/cookie-policy.html": ("0.3", "yearly"),
+    }
+    for path, (priority, freq) in top.items():
+        urls.append((f"{SITE}{path}", today, freq, priority))
+
+    # All services
+    for svc in sorted(SERVICES_DIR.glob("*.html")):
+        urls.append((f"{SITE}/services/{svc.name}", today, "monthly", "0.85"))
+
+    # Vertical pillar pages — high priority commercial pages
+    work_dir = ROOT / "work"
+    if work_dir.exists():
+        for pillar in sorted(work_dir.iterdir()):
+            if pillar.is_dir() and (pillar / "index.html").exists():
+                urls.append((f"{SITE}/work/{pillar.name}/", today, "weekly", "0.95"))
+
+    # Brand guide (noindex but included for completeness)
+    if (ROOT / "brand.html").exists():
+        pass  # Skipped — has noindex meta
+
+    # All portfolio
+    for pf in sorted(ROOT.glob("portfolio/*.html")):
+        urls.append((f"{SITE}/portfolio/{pf.name}", today, "monthly", "0.75"))
+
+    # All blog posts
+    for post in sorted(BLOG_DIR.glob("*.html")):
+        if post.name.startswith("_"):
+            continue
+        urls.append((f"{SITE}/blog/{post.name}", today, "monthly", "0.8"))
+
+    # Notes, tools, process
+    for d in ["notes", "tools", "process"]:
+        sub = ROOT / d
+        if sub.exists():
+            for f in sorted(sub.glob("*.html")):
+                if not f.name.startswith("_"):
+                    urls.append((f"{SITE}/{d}/{f.name}", today, "monthly", "0.65"))
+
+    # Build XML
+    xml = ['<?xml version="1.0" encoding="UTF-8"?>',
+           '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    for u, lastmod, freq, prio in urls:
+        # Add hreflang for location pages
+        if "shopify-developer-" in u and u.endswith(".html"):
+            xml.append(f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{lastmod}</lastmod>")
+            for loc in LOCATIONS:
+                xml.append(f'    <xhtml:link rel="alternate" hreflang="en-{loc["code"]}" href="{SITE}/services/shopify-developer-{loc["code"]}.html"/>')
+            xml.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>')
+            xml.append(f"    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>")
+        else:
+            xml.append(f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{lastmod}</lastmod>\n    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>")
+    xml.append("</urlset>")
+
+    SITEMAP.write_text("\n".join(xml))
+    print(f"  ✓ sitemap.xml regenerated ({len(urls)} URLs)")
+
+
+def refresh_blog_index():
+    """Refresh blog/index.html post grid from posts.json."""
+    index_path = BLOG_DIR / "index.html"
+    if not index_path.exists():
+        return
+    html = index_path.read_text()
+    data = json.loads(POSTS_JSON.read_text())
+    posts = [p for p in data["posts"] if p.get("published")]
+
+    cards = []
+    for p in posts:
+        cat = p["category"]
+        cards.append(f'''      <article class="post-card" data-reveal>
+        <a href="/blog/{p["slug"]}.html" class="post-card-link">
+          <div class="post-card-meta">
+            <span class="tag-pill">{cat}</span>
+            <time datetime="{p["date"]}">{datetime.strptime(p["date"], "%Y-%m-%d").strftime("%b %d, %Y")}</time>
+            <span>·</span>
+            <span>{p["readingTime"]}</span>
+          </div>
+          <h2 class="post-card-title">{p["title"]}</h2>
+          <p class="post-card-excerpt">{p["excerpt"]}</p>
+          <span class="post-card-cta">Read post &rarr;</span>
+        </a>
+      </article>''')
+
+    posts_html = "\n".join(cards)
+    new_html = re.sub(
+        r'<!-- POSTS_START -->.*?<!-- POSTS_END -->',
+        f'<!-- POSTS_START -->\n{posts_html}\n      <!-- POSTS_END -->',
+        html, flags=re.DOTALL
+    )
+    if new_html != html:
+        index_path.write_text(new_html)
+        print(f"  ✓ blog/index.html refreshed ({len(posts)} posts)")
+    else:
+        print(f"  · blog/index.html unchanged (no POSTS_START/END markers found)")
+
+
+def main():
+    import sys
+    mode = sys.argv[1] if len(sys.argv) > 1 else "all"
+    if mode in ("blog", "all"):
+        print("→ Generating blog posts...")
+        gen_blog()
+        refresh_blog_index()
+    if mode in ("locations", "all"):
+        print("→ Generating location service pages...")
+        gen_locations()
+    if mode in ("sitemap", "all"):
+        print("→ Regenerating sitemap...")
+        gen_sitemap()
+    print("\nDone.")
+
+
+if __name__ == "__main__":
+    main()

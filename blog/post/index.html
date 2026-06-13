@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title id="metaTitle">Loading… — Lofts Studio Blog</title>
+  <meta name="description" id="metaDesc" content="" />
+  <link rel="canonical" id="canonical" href="https://lofts.studio/blog/post/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg:#F4F0EA; --surface:#FDFAF6; --ink:#1A1612; --muted:#7A6E64; --line:#DDD7CE; --accent:#8B3A1F; --font-sans:'Inter',system-ui,sans-serif; --font-serif:'Fraunces',Georgia,serif; }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+    .nav { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--surface); }
+    .nav-logo { font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+    .nav-logo span { font-style: normal; font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-left: 5px; vertical-align: middle; }
+    .nav-back { font-size: 0.82rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+    .nav-back:hover { color: var(--ink); }
+    .article { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+    .art-keyword { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 0.75rem; }
+    .art-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
+    .art-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    /* Markdown rendering */
+    .art-body { font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
+    .art-body h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
+    .art-body h3 { font-family: var(--font-serif); font-size: 1.15rem; font-weight: 700; margin: 2rem 0 0.5rem; }
+    .art-body p { margin-bottom: 1.25rem; }
+    .art-body ul, .art-body ol { margin: 0 0 1.25rem 1.5rem; }
+    .art-body li { margin-bottom: 0.4rem; line-height: 1.7; }
+    .art-body strong { font-weight: 600; }
+    .art-body em { font-style: italic; }
+    .art-body blockquote { border-left: 3px solid var(--accent); padding-left: 1.25rem; color: var(--muted); margin: 1.5rem 0; font-style: italic; }
+    .art-body code { background: #EDE8E0; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; font-family: 'SF Mono', monospace; }
+    .art-cta { background: var(--ink); color: var(--bg); border-radius: 16px; padding: 2rem; margin-top: 3rem; }
+    .art-cta h3 { font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 0.5rem; }
+    .art-cta p { font-size: 0.88rem; color: rgba(244,240,234,0.75); margin-bottom: 1.25rem; }
+    .art-cta a { display: inline-flex; align-items: center; gap: 6px; padding: 0.75rem 1.5rem; background: var(--accent); color: white; border-radius: 8px; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: background .15s; }
+    .art-cta a:hover { background: #C4622D; }
+    .loading { text-align: center; padding: 4rem; color: var(--muted); }
+    .error { text-align: center; padding: 4rem; color: var(--muted); }
+    .error h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+<nav class="nav">
+  <a href="/" class="nav-logo">Lofts<span>STUDIO</span></a>
+  <a href="/blog/" class="nav-back">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    All articles
+  </a>
+</nav>
+
+<div id="articleContainer" class="article">
+  <div class="loading">Loading article…</div>
+</div>
+
+<script>
+const slug = new URLSearchParams(location.search).get('slug') || '';
+
+if (!slug) {
+  document.getElementById('articleContainer').innerHTML = '<div class="error"><h2>Article not found</h2><p><a href="/blog/">View all articles</a></p></div>';
+} else {
+  fetch(`/api/blog/post?slug=${encodeURIComponent(slug)}`)
+    .then(r => r.json())
+    .then(post => {
+      if (post.error) throw new Error(post.error);
+
+      // Update meta
+      document.getElementById('metaTitle').textContent = post.metaTitle || post.title + ' — Lofts Studio';
+      document.getElementById('metaDesc').setAttribute('content', post.metaDescription || post.excerpt || '');
+      document.getElementById('canonical').setAttribute('href', `https://lofts.studio/blog/post/?slug=${slug}`);
+      document.title = post.metaTitle || post.title + ' — Lofts Studio';
+
+      // GA event
+      if (typeof gtag !== 'undefined') gtag('event', 'blog_view', { event_category: 'content', event_label: slug });
+
+      const score = Math.round((Date.now() - new Date(post.createdAt).getTime()) / 86400000);
+
+      document.getElementById('articleContainer').innerHTML = `
+        <div class="art-keyword">${esc(post.keyword || '')}</div>
+        <h1 class="art-title">${esc(post.title)}</h1>
+        <div class="art-meta">
+          <span>${formatDate(post.createdAt)}</span>
+          <span>${post.readingMinutes || 8} min read</span>
+          <span>By Lofts Studio</span>
+        </div>
+        <div class="art-body" id="artBody"></div>
+        <div class="art-cta">
+          <h3>Want this applied to your site?</h3>
+          <p>Lofts Studio has done this for 1,000+ businesses in the US and UK. Tell us about your project and we'll reply with three specific ideas.</p>
+          <a href="/#contact">Talk to the team →</a>
+        </div>`;
+
+      // Render markdown to HTML
+      document.getElementById('artBody').innerHTML = mdToHtml(post.content || '');
+    })
+    .catch(() => {
+      document.getElementById('articleContainer').innerHTML = '<div class="error"><h2>Article not found</h2><p><a href="/blog/">View all articles</a></p></div>';
+    });
+}
+
+// Minimal markdown renderer
+function mdToHtml(md) {
+  return md
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/^## (.+)$/gm, '<h2>$1</h2>')
+    .replace(/^### (.+)$/gm, '<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>')
+    .replace(/`(.+?)`/g, '<code>$1</code>')
+    .replace(/^> (.+)$/gm, '<blockquote>$1</blockquote>')
+    .replace(/^\- (.+)$/gm, '<li>$1</li>')
+    .replace(/(<li>.*<\/li>\n?)+/g, s => '<ul>' + s + '</ul>')
+    .replace(/^\d+\. (.+)$/gm, '<li>$1</li>')
+    .replace(/\n\n/g, '</p><p>')
+    .replace(/^(?!<[h|u|o|b|l])/gm, '')
+    .replace(/(<\/h[23]>)\n/g, '$1')
+    .split('\n\n').map(block => {
+      if (/^<[h2|h3|ul|ol|blockquote]/.test(block)) return block;
+      if (block.trim()) return `<p>${block}</p>`;
+      return '';
+    }).join('\n');
+}
+
+function esc(s) { return String(s||'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>'); }
+function formatDate(iso) {
+  if (!iso) return '';
+  return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+}
+</script>
+</body>
+</html>

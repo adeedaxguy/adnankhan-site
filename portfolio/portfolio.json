@@ -1,0 +1,1068 @@
+{
+  "version": 6,
+  "lastUpdated": "2026-06-11",
+  "schema": "Source of truth for portfolio. Edit via /admin/ then export and replace this file. Public listing at /portfolio/ reads this on load.",
+  "categories": [
+    "Shopify",
+    "WooCommerce",
+    "WordPress",
+    "Elementor",
+    "B2B",
+    "DTC",
+    "SaaS",
+    "Marketplace",
+    "Travel",
+    "Finance",
+    "Food",
+    "Wellness",
+    "Auto",
+    "Jewelry",
+    "Coffee",
+    "Art",
+    "Branding",
+    "Real Estate",
+    "Fitness",
+    "Insurance",
+    "AdTech"
+  ],
+  "items": [
+    {
+      "slug": "discova",
+      "name": "Discova",
+      "tagline": "B2B destination management across 22 markets",
+      "summary": "Global travel-trade business serving group tours, FIT and MICE bookings across Asia, Africa and Latin America. Single WordPress codebase powering 22 country sites without any of them feeling generic.",
+      "url": "https://discova.com",
+      "image": "/assets/work/discova.jpg",
+      "platform": "WordPress + Elementor",
+      "category": "Travel \u00b7 B2B",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Custom theme",
+        "Multi-site"
+      ],
+      "metric": {
+        "value": "22",
+        "label": "Country sites on one codebase"
+      },
+      "year": "2022\u2013present",
+      "role": "Lead Developer \u00b7 Theme architecture \u00b7 Multi-site maintenance",
+      "featured": true,
+      "published": true,
+      "displayOrder": 1
+    },
+    {
+      "slug": "itsupportleaders",
+      "name": "IT Support Leaders",
+      "tagline": "Managed IT and AI for regulated businesses",
+      "summary": "Compliance-aware managed IT, cybersecurity and AI agents for medical practices, law firms, schools and professional organizations. Migrated from a duct-taped theme into a clean Elementor Cloud build.",
+      "url": "https://itsupportleaders.com",
+      "image": "/assets/work/itsupportleaders.jpg",
+      "platform": "WordPress + Elementor Cloud",
+      "category": "B2B \u00b7 Regulated",
+      "stack": [
+        "Elementor Cloud",
+        "Custom CSS",
+        "Conversion-led design"
+      ],
+      "metric": {
+        "value": "HIPAA",
+        "label": "Compliance-aware build for medical & legal verticals"
+      },
+      "year": "2023\u2013present",
+      "role": "Theme rebuild \u00b7 CRO-led PDPs \u00b7 Maintenance",
+      "featured": true,
+      "published": true,
+      "displayOrder": 2,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "mercanto",
+      "name": "Mercanto",
+      "tagline": "Wholesale food marketplace for Mexican restaurants",
+      "summary": "B2B marketplace connecting restaurants with verified ingredient and supply wholesalers \u2014 negotiated pricing, next-day delivery. Storefront, supplier portal and order pipeline built end-to-end as one product.",
+      "url": "https://mercanto.mx",
+      "image": "/assets/work/mercanto.jpg",
+      "platform": "WordPress + WooCommerce",
+      "category": "B2B Marketplace \u00b7 Food",
+      "stack": [
+        "WooCommerce",
+        "Custom plugins",
+        "Supplier portal"
+      ],
+      "metric": {
+        "value": "Next-day",
+        "label": "B2B fulfillment built into the platform"
+      },
+      "year": "2022\u20132023",
+      "role": "Full-stack build \u00b7 Supplier flow \u00b7 Order pipeline",
+      "featured": true,
+      "published": true,
+      "displayOrder": 3
+    },
+    {
+      "slug": "giftful",
+      "name": "Giftful",
+      "tagline": "Premium corporate gift hampers across Australia",
+      "summary": "Custom-branded gift hampers featuring Australian-made products for corporate, settlement and special occasions. Shopify build with a bespoke product configurator and a checkout tuned for higher-AOV B2B gifting.",
+      "url": "https://giftful.com.au",
+      "image": "/assets/work/giftful.jpg",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 Premium Gifting",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "Custom configurator"
+      ],
+      "metric": {
+        "value": "Custom",
+        "label": "Configurator built directly on Shopify, zero app dependency"
+      },
+      "year": "2023\u2013present",
+      "role": "Storefront build \u00b7 Configurator \u00b7 Checkout optimization",
+      "featured": true,
+      "published": true,
+      "displayOrder": 4,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "jewelry-republic",
+      "name": "The Jewelry Republic",
+      "tagline": "Personalized military signet rings, US-focused DTC",
+      "summary": "Custom signet rings and service bracelets for Army, Navy, USMC and Air Force buyers. Shopify storefront engineered around personalization variant logic, with a Verified Google Shop badge maintained year-on-year.",
+      "url": "https://www.thejewelryrepublic.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 DTC \u00b7 Niche",
+      "stack": [
+        "Shopify",
+        "Variant personalization",
+        "Google Verified Shop"
+      ],
+      "metric": {
+        "value": "Verified",
+        "label": "Google Shop badge held year-on-year"
+      },
+      "year": "2021\u2013present",
+      "role": "Theme dev \u00b7 Variant logic \u00b7 Conversion tuning",
+      "featured": true,
+      "published": true,
+      "displayOrder": 5,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "jamaicancoffeeclub",
+      "name": "Jamaican Coffee Club",
+      "tagline": "100% Blue Mountain coffee \u2014 DTC with subscriptions",
+      "summary": "Premium single-origin Jamaican Blue Mountain coffee \u2014 DTC subscriptions and one-shot ordering. Full WordPress rebuild with subscription logic, B2B wholesale flow and origin-storytelling pages that feel earned.",
+      "url": "https://jamaicancoffeeclub.com",
+      "image": "/assets/work/jamaicancoffeeclub.jpg",
+      "platform": "WordPress + WooCommerce",
+      "category": "WooCommerce \u00b7 DTC \u00b7 Subscription",
+      "stack": [
+        "WooCommerce",
+        "Subscriptions",
+        "B2B wholesale"
+      ],
+      "metric": {
+        "value": "Subs",
+        "label": "Recurring revenue wired into the storefront"
+      },
+      "year": "2022\u2013present",
+      "role": "Site rebuild \u00b7 Subscription flow \u00b7 B2B tier",
+      "featured": true,
+      "published": true,
+      "displayOrder": 6
+    },
+    {
+      "slug": "saludcap",
+      "name": "Salud Capital",
+      "tagline": "Investment research and financial inclusion",
+      "summary": "Translated a designer-led Figma system into a pixel-accurate WordPress build with editorial article templates, structured report viewers and a research resource library that is still organized two years on.",
+      "url": "https://saludcap.com",
+      "image": "/assets/work/saludcap.jpg",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Finance \u00b7 Editorial",
+      "stack": [
+        "Custom WordPress theme",
+        "Editorial templates",
+        "Resource library"
+      ],
+      "metric": {
+        "value": "Figma \u2192 Live",
+        "label": "Pixel-perfect translation, no design loss"
+      },
+      "year": "2022",
+      "role": "Theme dev \u00b7 Editorial templates \u00b7 CMS architecture",
+      "featured": true,
+      "published": true,
+      "displayOrder": 7
+    },
+    {
+      "slug": "joshifresco",
+      "name": "Joshifresco",
+      "tagline": "Curated art and timeless lifestyle objects",
+      "summary": "Editorial lifestyle storefront for high-ticket art and design objects. Custom WordPress theme with image-led product pages and a low-friction inquiry-to-purchase flow for considered purchases.",
+      "url": "https://joshifresco.com",
+      "image": "/assets/work/joshifresco.jpg",
+      "platform": "WordPress + WooCommerce",
+      "category": "Art \u00b7 Lifestyle \u00b7 DTC",
+      "stack": [
+        "WooCommerce",
+        "Custom theme",
+        "Editorial PDPs"
+      ],
+      "metric": {
+        "value": "High-ticket",
+        "label": "Editorial PDP engineered for considered purchases"
+      },
+      "year": "2023",
+      "role": "Custom theme \u00b7 Editorial design \u00b7 Inquiry flow",
+      "featured": true,
+      "published": true,
+      "displayOrder": 8
+    },
+    {
+      "slug": "mfittactive",
+      "name": "MFit Tactive",
+      "tagline": "Performance apparel and tactical fitness gear",
+      "summary": "DTC storefront for performance and tactical training apparel \u2014 high-margin SKUs sold to a customer who reads spec sheets. Shopify build with conversion-tuned PDPs, variant-aware size logic and content that earns the click-through to checkout.",
+      "url": "https://mfittactive.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 DTC \u00b7 Fitness",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "PDP tuning"
+      ],
+      "metric": {
+        "value": "DTC",
+        "label": "Performance-tuned PDPs for spec-led buyers"
+      },
+      "year": "2023\u2013present",
+      "role": "Storefront build \u00b7 PDP CRO \u00b7 Variant logic",
+      "featured": true,
+      "published": true,
+      "displayOrder": 9,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "rannaya",
+      "name": "Rannaya",
+      "tagline": "Bold colorist editorial DTC brand",
+      "summary": "DTC fashion brand built around editorial colorist photography and confident type. Shopify storefront where the look IS the product \u2014 campaign-led merchandising, cinematic PDPs and an inquiry flow as polished as the brand itself.",
+      "url": "https://rannaya.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 Fashion \u00b7 DTC",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "Campaign merchandising"
+      ],
+      "metric": {
+        "value": "Editorial",
+        "label": "Campaign-led storefront tuned for image-first browsing"
+      },
+      "year": "2024",
+      "role": "Storefront build \u00b7 Editorial templates \u00b7 Brand site",
+      "featured": true,
+      "published": true,
+      "displayOrder": 10,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "aevisetravel",
+      "name": "Aevise Travel",
+      "tagline": "Spanish-language travel agency, custom WordPress build",
+      "summary": "Travel-agency website for a Spanish-speaking market \u2014 destinations, itinerary requests, partner integrations. WordPress build with a structured destination CMS and a multi-step inquiry funnel tuned for high-AOV consultative bookings.",
+      "url": "https://aevisetravel.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Travel \u00b7 Spanish",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Inquiry funnel"
+      ],
+      "metric": {
+        "value": "Multi-step",
+        "label": "Custom inquiry funnel for high-AOV travel bookings"
+      },
+      "year": "2021\u20132022",
+      "role": "Theme build \u00b7 Destination CMS \u00b7 Inquiry flow",
+      "featured": false,
+      "published": true,
+      "displayOrder": 11,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "pcinsurances",
+      "name": "PC Insurances",
+      "tagline": "Insurance broker website for the Irish market",
+      "summary": "Insurance-broker site for an Irish brokerage \u2014 clear product comparisons, quote requests routed by line of business, GDPR-compliant lead capture. WordPress build with a careful eye to compliance language and underwriter workflow.",
+      "url": "https://pcinsurances.ie",
+      "image": "/assets/work/pcinsurances.jpg",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Insurance \u00b7 B2C",
+      "stack": [
+        "WordPress",
+        "Compliance copy",
+        "Quote routing"
+      ],
+      "metric": {
+        "value": "GDPR",
+        "label": "GDPR-compliant lead capture and quote routing"
+      },
+      "year": "2021",
+      "role": "Theme build \u00b7 Compliance design \u00b7 Quote flow",
+      "featured": false,
+      "published": true,
+      "displayOrder": 12
+    },
+    {
+      "slug": "lclover",
+      "name": "LClover Knitwear",
+      "tagline": "B2B knitwear wholesale platform",
+      "summary": "Wholesale B2B knitwear platform \u2014 line-sheet ordering, MOQ logic, and account-based pricing for retail buyers placing seasonal orders. Shopify-adjacent build with bespoke pricing rules and a polished line-sheet UX.",
+      "url": "https://lcloverknitwearb2b.com",
+      "image": "",
+      "platform": "Shopify B2B",
+      "category": "B2B \u00b7 Apparel \u00b7 Wholesale",
+      "stack": [
+        "Shopify",
+        "B2B tier",
+        "Pricing rules"
+      ],
+      "metric": {
+        "value": "MOQ",
+        "label": "Account-based pricing and MOQ logic for wholesale buyers"
+      },
+      "year": "2022",
+      "role": "Storefront build \u00b7 B2B tier \u00b7 Pricing logic",
+      "featured": false,
+      "published": true,
+      "displayOrder": 13,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "pascaldelivery",
+      "name": "Pascal Delivery Service",
+      "tagline": "Daily-menu delivery business, Belgium",
+      "summary": "Local Belgian daily-menu delivery service \u2014 weekly rotating menus, address-zone delivery checks, scheduled ordering windows. WordPress build with custom shipping zones and a kitchen-friendly order dashboard.",
+      "url": "https://dagschotelpascal.be",
+      "image": "",
+      "platform": "WordPress + WooCommerce",
+      "category": "Food \u00b7 Local \u00b7 Delivery",
+      "stack": [
+        "WooCommerce",
+        "Custom shipping zones",
+        "Scheduled ordering"
+      ],
+      "metric": {
+        "value": "Daily",
+        "label": "Daily rotating menu with kitchen-side dashboard"
+      },
+      "year": "2020\u20132021",
+      "role": "Site build \u00b7 Shipping zones \u00b7 Kitchen dashboard",
+      "featured": false,
+      "published": true,
+      "displayOrder": 14,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "personal-brand-co",
+      "name": "The Personal Brand Co.",
+      "tagline": "Branding studio for executives and founders",
+      "summary": "Branding agency website with case studies, services and inquiry flow. WordPress build with editorial portfolio templates and integrated booking \u2014 designed for a studio that sells taste as a product.",
+      "url": "https://thepersonalbrandcompany.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Branding \u00b7 Agency",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Portfolio templates"
+      ],
+      "metric": {
+        "value": "Agency-grade",
+        "label": "Editorial portfolio + booking integrations"
+      },
+      "year": "2021",
+      "role": "Theme build \u00b7 Portfolio system",
+      "featured": false,
+      "published": true,
+      "displayOrder": 15,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "butterflyloop",
+      "name": "Butterfly Loop",
+      "tagline": "Shopify DTC build for a fashion accessory brand",
+      "summary": "DTC Shopify build for a niche fashion accessory brand \u2014 campaign-led merchandising, considered PDPs, and a checkout tuned for first-impression purchases from social traffic.",
+      "url": "https://butterflyloop.com",
+      "image": "/assets/work/butterflyloop.jpg",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 DTC \u00b7 Fashion",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "Social-tuned checkout"
+      ],
+      "metric": {
+        "value": "Social",
+        "label": "Checkout tuned for first-impression social traffic"
+      },
+      "year": "2021",
+      "role": "Storefront build \u00b7 PDP design \u00b7 Checkout tuning",
+      "featured": false,
+      "published": true,
+      "displayOrder": 16
+    },
+    {
+      "slug": "carreflections",
+      "name": "Police Car Graphics",
+      "tagline": "Specialty graphics for law-enforcement fleets",
+      "summary": "Specialty vehicle graphic design and decals for police and emergency-service fleets. WordPress build with a high-quality install gallery, a structured request-for-quote flow and case studies of past installs.",
+      "url": "https://carreflections.com",
+      "image": "/assets/work/carreflections.jpg",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Public Sector \u00b7 Specialty",
+      "stack": [
+        "WordPress",
+        "Gallery",
+        "Quote system"
+      ],
+      "metric": {
+        "value": "Quote-led",
+        "label": "Inquiry funnel tuned for high-ticket B2G procurement"
+      },
+      "year": "2023",
+      "role": "Site build \u00b7 Gallery \u00b7 RFQ flow",
+      "featured": false,
+      "published": true,
+      "displayOrder": 17
+    },
+    {
+      "slug": "estdept",
+      "name": "EST Department",
+      "tagline": "Real-estate operations portal",
+      "summary": "Real-estate ops portal with listing management, document workflows and role-gated member areas. Built on WordPress with custom post types, role-aware access controls and an interface the ops team actually uses.",
+      "url": "https://www.estdept.com",
+      "image": "/assets/work/estdept.jpg",
+      "platform": "WordPress",
+      "category": "Real Estate \u00b7 Portal",
+      "stack": [
+        "WordPress",
+        "Custom post types",
+        "Role permissions"
+      ],
+      "metric": {
+        "value": "Portal",
+        "label": "Role-aware access controls for ops team"
+      },
+      "year": "2023",
+      "role": "Theme dev \u00b7 Custom post types \u00b7 Auth flow",
+      "featured": false,
+      "published": true,
+      "displayOrder": 18
+    },
+    {
+      "slug": "zoofy",
+      "name": "Zoofy",
+      "tagline": "EU home-services marketplace",
+      "summary": "Marketplace connecting homeowners with local tradespeople across Europe. Frontend performance and UX engineering on the high-traffic conversion paths \u2014 the kind of work that doesn't show up in a screenshot but moves the number that matters.",
+      "url": "https://zoofy.com",
+      "image": "/assets/work/zoofy.jpg",
+      "platform": "Custom platform",
+      "category": "Marketplace \u00b7 B2C",
+      "stack": [
+        "Custom platform",
+        "Performance",
+        "UX engineering"
+      ],
+      "metric": {
+        "value": "EU-scale",
+        "label": "Performance engineering on high-traffic conversion paths"
+      },
+      "year": "2021\u20132022",
+      "role": "Frontend performance \u00b7 UX optimization",
+      "featured": false,
+      "published": true,
+      "displayOrder": 19
+    },
+    {
+      "slug": "wovenmedia",
+      "name": "Wovenmedia",
+      "tagline": "In-store retail media network platform",
+      "summary": "B2B platform for in-store retail-media networks at scale \u2014 connecting retailers, brands and advertisers across a fleet of in-store screens. WordPress front-end with a dashboard-style product story and a high-trust enterprise inquiry funnel.",
+      "url": "https://wovenmedia.com",
+      "image": "/assets/work/wovenmedia.jpg",
+      "platform": "WordPress",
+      "category": "AdTech \u00b7 B2B \u00b7 Retail Media",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Enterprise funnel"
+      ],
+      "metric": {
+        "value": "Enterprise",
+        "label": "Inquiry funnel tuned for retail-media enterprise buyers"
+      },
+      "year": "2020\u20132021",
+      "role": "Site build \u00b7 Enterprise inquiry flow",
+      "featured": false,
+      "published": true,
+      "displayOrder": 20
+    },
+    {
+      "slug": "investorcreator",
+      "name": "Investor Creator",
+      "tagline": "Membership platform for property investors",
+      "summary": "Membership and education product for property investors \u2014 gated content, course delivery, member dashboard. WordPress + LMS build with subscription billing and an onboarding sequence tuned for high-intent investors.",
+      "url": "https://investorcreator.com",
+      "image": "/assets/work/investorcreator.jpg",
+      "platform": "WordPress + LMS",
+      "category": "WordPress \u00b7 Membership \u00b7 EdTech",
+      "stack": [
+        "WordPress",
+        "LMS",
+        "Subscription billing"
+      ],
+      "metric": {
+        "value": "Members",
+        "label": "Membership platform with gated course delivery"
+      },
+      "year": "2022",
+      "role": "Site build \u00b7 LMS \u00b7 Member dashboard",
+      "featured": false,
+      "published": true,
+      "displayOrder": 21
+    },
+    {
+      "slug": "symplete",
+      "name": "Symplete",
+      "tagline": "Smart, effortless AI email",
+      "summary": "AI-native email product positioning website. Single-page WordPress build with conversion-tuned waitlist capture, animated feature blocks, and a beta-access flow.",
+      "url": "https://symplete.ai",
+      "image": "",
+      "platform": "WordPress",
+      "category": "SaaS \u00b7 AI \u00b7 B2C",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Beta funnel"
+      ],
+      "metric": {
+        "value": "Waitlist",
+        "label": "Beta-access funnel for an AI email product"
+      },
+      "year": "2023",
+      "role": "Site build \u00b7 Waitlist flow",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 22
+    },
+    {
+      "slug": "munoushee",
+      "name": "Munoushee",
+      "tagline": "Lebanese-style flatbread restaurant",
+      "summary": "Brand and ordering site for a fast-casual Lebanese restaurant. WordPress build with menu management, location info, and a phone-led ordering funnel for high-frequency repeat buyers.",
+      "url": "https://munoushee.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Restaurant \u00b7 Local",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Menu CMS"
+      ],
+      "metric": {
+        "value": "Local",
+        "label": "Menu CMS + ordering funnel for a fast-casual brand"
+      },
+      "year": "2023",
+      "role": "Site build \u00b7 Menu system \u00b7 Brand",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 23
+    },
+    {
+      "slug": "tlessdepot",
+      "name": "Timeless Depot",
+      "tagline": "Curated daily-essentials DTC",
+      "summary": "DTC storefront curating everyday-essential SKUs across home, kitchen, and lifestyle. Shopify build with conversion-tuned PDPs, bundle merchandising, and a checkout tuned for first-impression social traffic.",
+      "url": "https://tlessdepot.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify \u00b7 DTC \u00b7 Lifestyle",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "Bundle merchandising"
+      ],
+      "metric": {
+        "value": "DTC",
+        "label": "Daily-essentials storefront tuned for social traffic"
+      },
+      "year": "2023",
+      "role": "Storefront build \u00b7 PDP design",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 24
+    },
+    {
+      "slug": "sweetery27",
+      "name": "Sweetery 27",
+      "tagline": "Small-batch cakes, Madison WI",
+      "summary": "Boutique cake shop website with custom-order intake, gallery of finished work, and direct booking. WordPress build with image-led storytelling and a phone-friendly inquiry flow.",
+      "url": "https://sweetery27.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Food \u00b7 Local \u00b7 Bakery",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Inquiry flow"
+      ],
+      "metric": {
+        "value": "Booked",
+        "label": "Custom-order intake + booking for a boutique bakery"
+      },
+      "year": "2023",
+      "role": "Site build \u00b7 Inquiry flow \u00b7 Photo gallery",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 25
+    },
+    {
+      "slug": "venturelibrary",
+      "name": "Venture Library",
+      "tagline": "Investment research and venture intelligence",
+      "summary": "Editorial-led research platform for venture intelligence. WordPress build with gated content tiers, member dashboard, and an article system tuned for long-form analysis from a small editorial team.",
+      "url": "https://venturelibrary.xyz",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Finance \u00b7 Research",
+      "stack": [
+        "WordPress",
+        "Gated tiers",
+        "Editorial templates"
+      ],
+      "metric": {
+        "value": "Gated",
+        "label": "Tiered content access for venture-intelligence subscribers"
+      },
+      "year": "2023",
+      "role": "Site build \u00b7 Editorial templates \u00b7 Auth",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 26
+    },
+    {
+      "slug": "americangulf",
+      "name": "American Gulf",
+      "tagline": "Insurance platform serving the Gulf market",
+      "summary": "Full WordPress + Elementor build for American Gulf, an insurance services company operating across the Gulf region. Designed from custom Figma specs \u2014 agent portal integration, compliant product pages, optimised performance benchmarks and a multi-page site built to enterprise standards.",
+      "url": "https://americangulf.com",
+      "image": "/assets/work/americangulf.jpg",
+      "platform": "WordPress + Elementor",
+      "category": "WordPress \u00b7 Insurance \u00b7 B2C",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Figma-to-code",
+        "Agent portal"
+      ],
+      "metric": {
+        "value": "A-grade",
+        "label": "GTmetrix A on page speed after full performance pass"
+      },
+      "year": "2025",
+      "role": "Full-site build \u00b7 Figma implementation \u00b7 Performance",
+      "featured": false,
+      "published": true,
+      "displayOrder": 27
+    },
+    {
+      "slug": "acturion",
+      "name": "Acturion",
+      "tagline": "Integrated insurance and asset management platform",
+      "summary": "Acturion is an integrated insurance and asset management platform delivering capital solutions across retirement, reinsurance, and investment markets. Custom WordPress + Elementor build from Figma \u2014 hero video, animated feature blocks, team bios, careers and a contact flow tuned for institutional buyers.",
+      "url": "https://acturiongroup.com",
+      "image": "/assets/work/acturion.jpg",
+      "platform": "WordPress + Elementor",
+      "category": "WordPress \u00b7 Insurance \u00b7 Finance \u00b7 B2B",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Figma-to-code",
+        "Video integration"
+      ],
+      "metric": {
+        "value": "Institutional",
+        "label": "Enterprise-grade site for a US-based reinsurance platform"
+      },
+      "year": "2025",
+      "role": "Full-site build \u00b7 Figma implementation \u00b7 Animation",
+      "featured": false,
+      "published": true,
+      "displayOrder": 28
+    },
+    {
+      "slug": "americanreinsurance",
+      "name": "American Reinsurance",
+      "tagline": "Corporate site for a US reinsurance company",
+      "summary": "American Reinsurance Company SPC \u2014 a B2B financial-services site built from a premium Figma system. Custom wing animation, product and solutions pages, multi-entity footer with structured contact routing. Third in a suite of three sites delivered for the same client group.",
+      "url": "https://amre.co",
+      "image": "/assets/work/americanreinsurance.jpg",
+      "platform": "WordPress + Elementor",
+      "category": "WordPress \u00b7 Finance \u00b7 Reinsurance \u00b7 B2B",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Figma-to-code",
+        "Custom animation"
+      ],
+      "metric": {
+        "value": "3-site",
+        "label": "One of three enterprise sites built for the same client group"
+      },
+      "year": "2025\u20132026",
+      "role": "Full-site build \u00b7 Animation \u00b7 Multi-site architecture",
+      "featured": false,
+      "published": true,
+      "displayOrder": 29
+    },
+    {
+      "slug": "counter-culture",
+      "name": "Counter Culture DIY",
+      "tagline": "DIY art supplies ecommerce with loyalty rewards",
+      "summary": "WooCommerce store for a DIY art supplies brand featuring a custom loyalty rewards program (Culture Cash), slider management, and affiliate discount integration. Full ecommerce experience optimised for repeat buyers and community engagement.",
+      "url": "https://counterculturediy.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Ecommerce · Arts & Crafts",
+      "stack": ["WordPress", "WooCommerce", "Loyalty Rewards", "Affiliate System"],
+      "metric": { "value": "Loyalty", "label": "Culture Cash rewards driving repeat purchase" },
+      "year": "2020",
+      "role": "Full-stack WooCommerce developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 30
+    },
+    {
+      "slug": "cartelligent",
+      "name": "Cartelligent",
+      "tagline": "Lead-gen site for a premium car buying service",
+      "summary": "Custom WordPress website for a new car buying and leasing service — blog, location-specific pages, FormAssembly forms integration for lead capture. Conversion-optimised design to drive qualified leads across multiple US markets.",
+      "url": "https://www.cartelligent.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Service · Auto",
+      "stack": ["WordPress", "FormAssembly", "Custom Theme", "Multi-location"],
+      "metric": { "value": "Multi-location", "label": "Location pages with lead-gen forms" },
+      "year": "2021",
+      "role": "WordPress developer & integrations",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 31
+    },
+    {
+      "slug": "rahjam-designer-silks",
+      "name": "Rahjam Designer Silks",
+      "tagline": "UK premium fashion ecommerce with DHL integration",
+      "summary": "UK-based WooCommerce fashion store for a designer silks brand — lookbook, gender-filtered product navigation, and DHL shipping integration. Polished shopping experience built for a premium fashion audience.",
+      "url": "https://rahjamdesignersilks.co.uk",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Ecommerce · Fashion",
+      "stack": ["WordPress", "WooCommerce", "DHL Shipping", "Lookbook"],
+      "metric": { "value": "DHL", "label": "Automated shipping for UK orders" },
+      "year": "2022",
+      "role": "WooCommerce developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 32
+    },
+    {
+      "slug": "nuactive",
+      "name": "NuActive",
+      "tagline": "Health & wellness Shopify store, two domains",
+      "summary": "Shopify store for a health and wellness brand selling knee, elbow, back, and body supports. Multi-resolution optimisation across trynuactive.com and nuactive.hk to maximise conversions across devices and markets.",
+      "url": "https://www.nuactive.hk",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify · Health & Wellness",
+      "stack": ["Shopify", "Custom Theme", "Multi-domain", "CRO"],
+      "metric": { "value": "2 Domains", "label": "US + HK storefronts from one codebase" },
+      "year": "2024",
+      "role": "Shopify developer & optimisation",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 33
+    },
+    {
+      "slug": "burlapmart",
+      "name": "BurlapMart",
+      "tagline": "Wedding accessories WooCommerce store, multi-currency",
+      "summary": "WooCommerce store for a burlap and jute wedding accessories brand — mega menu, Zota live chat, and multi-currency support. Elegant shopping experience tailored for the wedding and event decor market.",
+      "url": "https://burlapmart.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Ecommerce · Wedding & Events",
+      "stack": ["WordPress", "WooCommerce", "Mega Menu", "Multi-currency", "Live Chat"],
+      "metric": { "value": "Multi-currency", "label": "Global checkout for wedding buyers" },
+      "year": "2023",
+      "role": "WooCommerce developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 34
+    },
+    {
+      "slug": "urbanb",
+      "name": "Urban Real Estate",
+      "tagline": "Lebanon property marketplace with map & geolocation search",
+      "summary": "WordPress real estate listing and marketplace for the Lebanese market — interactive map integration and geolocation-based property search. Built to simplify property discovery in a complex regional market.",
+      "url": "https://urbanb.co",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Real Estate · Marketplace",
+      "stack": ["WordPress", "Map Integration", "Geolocation Search", "Listings"],
+      "metric": { "value": "Geo Search", "label": "Location-based property discovery" },
+      "year": "2025",
+      "role": "WordPress developer & map integration",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 35
+    },
+    {
+      "slug": "artika-ai",
+      "name": "Artika",
+      "tagline": "AI art marketplace with affiliate system",
+      "summary": "WordPress/WooCommerce AI art marketplace — product gallery, affiliate system, and custom product display logic. Modern ecommerce experience for a cutting-edge AI-generated art platform.",
+      "url": "https://artika.ai",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Ecommerce · AI & Art",
+      "stack": ["WordPress", "WooCommerce", "Affiliate System", "Custom Display"],
+      "metric": { "value": "Affiliate", "label": "Revenue-sharing for art resellers" },
+      "year": "2025",
+      "role": "WordPress/WooCommerce developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 36
+    },
+    {
+      "slug": "lossderma",
+      "name": "Loss Derma",
+      "tagline": "Health product store with Klaviyo and subscriptions",
+      "summary": "WooCommerce health product store with affiliate system, Klaviyo email marketing integration, and subscription-based product support. Automated retention marketing alongside a recurring revenue model.",
+      "url": "https://lossderma.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Ecommerce · Health & Beauty",
+      "stack": ["WordPress", "WooCommerce", "Klaviyo", "Subscriptions", "Affiliate"],
+      "metric": { "value": "Subscriptions + Klaviyo", "label": "Recurring revenue with email automation" },
+      "year": "2025",
+      "role": "WooCommerce developer & integrations",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 37
+    },
+    {
+      "slug": "miferia-mx",
+      "name": "MiFeria MX",
+      "tagline": "Multi-vendor Shopify marketplace, Mexico",
+      "summary": "Multi-vendor Shopify marketplace for the Mexican market — vendor profile pages, gated pricing for non-logged-in users, and category navigation. Designed to scale as a regional B2B/B2C trade platform.",
+      "url": "https://miferiamx.myshopify.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify · Marketplace",
+      "stack": ["Shopify", "Multi-vendor", "Gated Pricing", "Custom Theme"],
+      "metric": { "value": "Multi-vendor", "label": "Marketplace with vendor profiles" },
+      "year": "2022",
+      "role": "Shopify developer & marketplace architecture",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 38
+    },
+    {
+      "slug": "4th-culture",
+      "name": "4th Culture",
+      "tagline": "Membership community with Discord and Stripe integration",
+      "summary": "WordPress membership site that connects paid subscribers to a Discord community via Whop API, using Stripe for checkout and WooCommerce webhooks to automate Discord role assignment. Seamless community access experience tied to payment.",
+      "url": "",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Membership · Community",
+      "stack": ["WordPress", "WooCommerce", "Stripe", "Discord API", "Whop API", "Webhooks"],
+      "metric": { "value": "Auto Discord Roles", "label": "Payment-triggered community access" },
+      "year": "2025",
+      "role": "WordPress developer & API integrations",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 39
+    },
+    {
+      "slug": "abjad",
+      "name": "Abjad",
+      "tagline": "Bilingual Arabic/English children's phonics platform",
+      "summary": "Bilingual Arabic and English educational platform for children covering phonics, bridge, steps, and fluency programs, with a mobile-optimised popup experience. Built to make early literacy accessible across language and device.",
+      "url": "",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Education · EdTech",
+      "stack": ["WordPress", "Bilingual", "Mobile Optimisation", "Phonics"],
+      "metric": { "value": "Bilingual", "label": "Arabic + English phonics programs" },
+      "year": "2022",
+      "role": "WordPress developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 40
+    },
+    {
+      "slug": "vic-beauty-global",
+      "name": "Vic Beauty Global",
+      "tagline": "Beauty brand with Instagram feed and product animations",
+      "summary": "Beauty brand ecommerce website with Instagram plugin, Yoast SEO, Google Tag Manager, and product animations. Visually engaging presence optimised for organic and social discovery.",
+      "url": "https://vicbeautyglobal.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Ecommerce · Beauty",
+      "stack": ["WordPress", "Instagram Plugin", "Yoast SEO", "Google Tag Manager", "Animations"],
+      "metric": { "value": "GTM + SEO", "label": "Analytics and organic visibility from day one" },
+      "year": "2022",
+      "role": "WordPress developer & SEO setup",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 41
+    },
+    {
+      "slug": "george-freeman",
+      "name": "George Freeman",
+      "tagline": "Personal brand website for a public figure",
+      "summary": "Personal branding website for George Freeman — clean design, strong first impression, and a polished digital presence for a public figure client.",
+      "url": "https://georgefreeman.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Personal Brand · Public Figure",
+      "stack": ["WordPress", "Custom Theme", "Personal Brand"],
+      "metric": { "value": "Brand", "label": "Professional digital presence for a named figure" },
+      "year": "2024",
+      "role": "WordPress developer",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 42
+    },
+    {
+      "slug": "coach-carolin",
+      "name": "LEAD Better (Coach Carolin)",
+      "tagline": "Coaching Shopify store with Klaviyo email capture",
+      "summary": "Coaching and training Shopify store for the LEAD Better brand — Klaviyo email signup forms and customised checkout flows. Lead capture and a seamless buying journey for coaching products.",
+      "url": "",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Shopify · Coaching",
+      "stack": ["Shopify", "Klaviyo", "Custom Checkout", "Email Capture"],
+      "metric": { "value": "Klaviyo", "label": "Email capture wired into checkout" },
+      "year": "2024",
+      "role": "Shopify developer & Klaviyo integration",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 43
+    },
+    {
+      "slug": "admark-online",
+      "name": "Admark Online",
+      "tagline": "Digital marketing agency site rebuilt from PSD",
+      "summary": "Rebuilt a digital marketing agency website from custom PSD designs — multiple custom pages with pixel-perfect accuracy. Professional agency presence with full design fidelity.",
+      "url": "https://admarkonline.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Agency · Digital Marketing",
+      "stack": ["WordPress", "Custom Theme", "PSD to WordPress"],
+      "metric": { "value": "PSD-to-WP", "label": "Pixel-perfect design conversion" },
+      "year": "2023",
+      "role": "WordPress developer, PSD to WordPress",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 44
+    },
+    {
+      "slug": "freeltools",
+      "name": "FreelTools",
+      "tagline": "Free tool suite for freelancers and agency owners",
+      "summary": "A growing collection of free browser-based tools for freelancers — invoice generators, rate calculators, proposal builders and more. Custom-built SaaS platform with zero friction access, no login required, designed to attract organic traffic from long-tail tool searches.",
+      "url": "https://freeltools.com",
+      "image": "",
+      "platform": "Custom platform",
+      "category": "SaaS · Tools · Freelance",
+      "stack": ["Custom App", "Vanilla JS", "No-login UX", "SEO-first"],
+      "metric": { "value": "Free", "label": "Zero-friction tools with no signup required" },
+      "year": "2025",
+      "role": "Founder · Full-stack build · SEO architecture",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 45
+    },
+    {
+      "slug": "icloseleads",
+      "name": "iClose Leads",
+      "tagline": "AI-powered lead generation and CRM platform",
+      "summary": "SaaS CRM and lead pipeline tool built for sales teams — AI-assisted lead scoring, follow-up automation, and deal tracking. Custom-built platform replacing messy spreadsheets with a structured, actionable pipeline.",
+      "url": "https://icloseleads.com",
+      "image": "",
+      "platform": "Custom platform",
+      "category": "SaaS · CRM · B2B",
+      "stack": ["Custom App", "AI Integration", "CRM", "Automation"],
+      "metric": { "value": "AI CRM", "label": "Lead scoring and follow-up automation" },
+      "year": "2025",
+      "role": "Founder · Full-stack build · Product design",
+      "featured": false,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 46
+    },
+    {
+      "slug": "klyna",
+      "name": "Klyna",
+      "tagline": "The studio OS — tools, templates and systems for builders",
+      "summary": "Klyna.dev is the brand and product hub for a growing suite of tools and templates aimed at freelance developers and studio operators. Built as a standalone product — brand identity, landing page, and a tool ecosystem expanding across 2025–2026.",
+      "url": "https://klyna.dev",
+      "image": "",
+      "platform": "Custom platform",
+      "category": "SaaS · Brand · Agency Tools",
+      "stack": ["Custom App", "Brand System", "Tool Suite"],
+      "metric": { "value": "Studio OS", "label": "Brand + tools platform for studio operators" },
+      "year": "2025–present",
+      "role": "Founder · Brand · Product build",
+      "featured": true,
+      "published": true,
+      "hideScreenshot": true,
+      "displayOrder": 47
+    }
+  ]
+}

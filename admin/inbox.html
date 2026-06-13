@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inbox — Lofts Studio</title>
+  <meta name="robots" content="noindex, nofollow" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #F4F0EA;
+      --bg-soft: #EDE8E0;
+      --surface: #FDFAF6;
+      --ink:     #1A1612;
+      --muted:   #7A6E64;
+      --line:    #DDD7CE;
+      --accent:  #8B3A1F;
+      --accent2: #C4622D;
+      --green:   #2D6A4F;
+      --amber:   #92400E;
+      --font-sans:  'Inter', system-ui, sans-serif;
+      --font-serif: 'Georgia', 'Times New Roman', serif;
+      --radius: 8px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--ink);
+      font-family: var(--font-sans);
+      font-size: 14px;
+      min-height: 100vh;
+    }
+
+    /* ── Auth screen ── */
+    #auth-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 2rem;
+    }
+    .auth-box {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+    }
+    .auth-box .logo {
+      font-family: var(--font-serif);
+      font-style: italic;
+      font-size: 1.4rem;
+      color: var(--ink);
+      margin-bottom: 0.3rem;
+    }
+    .auth-box .logo span {
+      font-style: normal;
+      font-family: var(--font-sans);
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: block;
+      margin-top: 2px;
+    }
+    .auth-box h1 { font-size: 1rem; font-weight: 600; margin: 1.5rem 0 0.4rem; }
+    .auth-box p  { color: var(--muted); font-size: 0.85rem; margin-bottom: 1.5rem; }
+    .auth-box input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--bg);
+      font-size: 0.95rem;
+      margin-bottom: 0.75rem;
+      outline: none;
+    }
+    .auth-box input:focus { border-color: var(--accent); }
+    .auth-box button {
+      width: 100%;
+      padding: 0.75rem;
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      letter-spacing: 0.03em;
+    }
+    .auth-box button:hover { background: var(--accent); }
+    .auth-error { color: var(--accent); font-size: 0.82rem; margin-top: 0.5rem; display: none; }
+
+    /* ── App shell ── */
+    #app { display: none; flex-direction: column; min-height: 100vh; }
+
+    .topbar {
+      background: var(--ink);
+      color: var(--bg);
+      padding: 0 1.5rem;
+      height: 52px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .topbar-logo { font-family: var(--font-serif); font-style: italic; font-size: 1.1rem; }
+    .topbar-logo span { font-style: normal; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #9A8E84; margin-left: 6px; }
+    .topbar-badge { font-size: 0.72rem; background: var(--accent); color: white; border-radius: 4px; padding: 2px 8px; letter-spacing: 0.05em; }
+    .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .topbar-right button {
+      background: none; border: 1px solid #3A3330; color: #9A8E84;
+      border-radius: 5px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer;
+      transition: all 0.15s;
+    }
+    .topbar-right button:hover { border-color: #666; color: var(--bg); }
+    .topbar-time { font-size: 0.78rem; color: #9A8E84; }
+
+    /* ── Stats bar ── */
+    .stats-bar {
+      background: var(--surface);
+      border-bottom: 1px solid var(--line);
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0;
+      overflow-x: auto;
+    }
+    .stat-pill {
+      padding: 0.9rem 1.5rem;
+      border-right: 1px solid var(--line);
+      min-width: 120px;
+      flex-shrink: 0;
+    }
+    .stat-pill:last-child { border-right: none; }
+    .stat-num { font-size: 1.5rem; font-weight: 700; line-height: 1; color: var(--ink); }
+    .stat-label { font-size: 0.72rem; color: var(--muted); margin-top: 3px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+    /* ── Tabs ── */
+    .tabs-bar {
+      background: var(--bg-soft);
+      border-bottom: 1px solid var(--line);
+      padding: 0 1.5rem;
+      display: flex;
+      gap: 0;
+      align-items: flex-end;
+    }
+    .tab-btn {
+      padding: 0.75rem 1.25rem;
+      border: none;
+      background: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--muted);
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .tab-btn.active { color: var(--ink); border-bottom-color: var(--accent); font-weight: 600; }
+    .tab-btn:hover:not(.active) { color: var(--ink); }
+    .tab-count {
+      background: var(--line);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 1px 7px;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+    .tab-btn.active .tab-count { background: var(--accent); color: white; }
+
+    /* ── Toolbar ── */
+    .toolbar {
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      background: var(--bg);
+      border-bottom: 1px solid var(--line);
+      flex-wrap: wrap;
+    }
+    .search-wrap { position: relative; flex: 1; min-width: 200px; max-width: 360px; }
+    .search-wrap svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .search-input {
+      width: 100%;
+      padding: 0.55rem 0.75rem 0.55rem 2.2rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .search-input:focus { border-color: var(--accent); }
+    .filter-select {
+      padding: 0.55rem 0.75rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 0.85rem;
+      color: var(--ink);
+      outline: none;
+      cursor: pointer;
+    }
+    .toolbar-btn {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--surface);
+      font-size: 0.82rem;
+      cursor: pointer;
+      color: var(--muted);
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .toolbar-btn:hover { border-color: var(--accent); color: var(--accent); }
+    .toolbar-btn.danger:hover { border-color: #dc2626; color: #dc2626; }
+
+    /* ── Main content ── */
+    .main { flex: 1; overflow: hidden; }
+    .tab-panel { display: none; height: calc(100vh - 52px - 56px - 38px - 47px); }
+    .tab-panel.active { display: flex; }
+
+    /* ── Table layout ── */
+    .list-pane {
+      width: 380px;
+      flex-shrink: 0;
+      border-right: 1px solid var(--line);
+      overflow-y: auto;
+      background: var(--surface);
+    }
+    .detail-pane {
+      flex: 1;
+      overflow-y: auto;
+      padding: 2rem;
+      background: var(--bg);
+    }
+
+    /* ── List items ── */
+    .list-item {
+      padding: 1rem 1.25rem;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+      transition: background 0.1s;
+      position: relative;
+    }
+    .list-item:hover { background: var(--bg-soft); }
+    .list-item.selected { background: #FFF8F4; border-left: 3px solid var(--accent); }
+    .list-item-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 0.5rem; }
+    .list-item-name { font-weight: 600; font-size: 0.88rem; color: var(--ink); }
+    .list-item-time { font-size: 0.72rem; color: var(--muted); flex-shrink: 0; }
+    .list-item-email { font-size: 0.78rem; color: var(--muted); margin-top: 2px; }
+    .list-item-preview { font-size: 0.8rem; color: var(--muted); margin-top: 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .list-item-source {
+      display: inline-block;
+      font-size: 0.66rem;
+      padding: 2px 6px;
+      border-radius: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      font-weight: 600;
+      margin-top: 5px;
+    }
+    .src-contact-form { background: #DBEAFE; color: #1E40AF; }
+    .src-newsletter   { background: #D1FAE5; color: #065F46; }
+    .src-chat         { background: #EDE9FE; color: #5B21B6; }
+    .src-other        { background: var(--line); color: var(--muted); }
+
+    .empty-state {
+      padding: 3rem 2rem;
+      text-align: center;
+      color: var(--muted);
+    }
+    .empty-state svg { opacity: 0.3; margin-bottom: 1rem; }
+    .empty-state h3 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.4rem; }
+    .empty-state p  { font-size: 0.82rem; }
+
+    /* ── Detail view ── */
+    .detail-empty {
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 0.75rem;
+      color: var(--muted);
+      text-align: center;
+    }
+    .detail-empty svg { opacity: 0.2; }
+
+    .detail-card {
+      background: var(--surface);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      padding: 2rem;
+      max-width: 680px;
+    }
+    .detail-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; gap: 1rem; }
+    .detail-name { font-size: 1.25rem; font-weight: 700; color: var(--ink); }
+    .detail-timestamp { font-size: 0.75rem; color: var(--muted); flex-shrink: 0; }
+    .detail-meta { display: grid; gap: 0.6rem; margin-bottom: 1.5rem; }
+    .detail-row { display: flex; gap: 0.75rem; font-size: 0.85rem; }
+    .detail-key { color: var(--muted); min-width: 80px; font-weight: 500; flex-shrink: 0; }
+    .detail-val { color: var(--ink); word-break: break-word; }
+    .detail-val a { color: var(--accent); text-decoration: none; }
+    .detail-val a:hover { text-decoration: underline; }
+    .detail-divider { border: none; border-top: 1px solid var(--line); margin: 1.25rem 0; }
+    .detail-msg-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); font-weight: 600; margin-bottom: 0.75rem; }
+    .detail-msg {
+      background: var(--bg-soft);
+      border-radius: 6px;
+      padding: 1rem 1.25rem;
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: var(--ink);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .detail-actions { margin-top: 1.5rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+    .btn-reply {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.6rem 1.25rem;
+      background: var(--ink);
+      color: var(--bg);
+      border: none;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .btn-reply:hover { background: var(--accent); }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 0.6rem 1.25rem;
+      background: none;
+      color: var(--ink);
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s;
+    }
+    .btn-secondary:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Chat thread ── */
+    .chat-thread { display: grid; gap: 0.75rem; }
+    .chat-bubble {
+      padding: 0.75rem 1rem;
+      border-radius: 8px;
+      font-size: 0.88rem;
+      line-height: 1.55;
+      max-width: 90%;
+    }
+    .chat-bubble.visitor {
+      background: var(--bg-soft);
+      border: 1px solid var(--line);
+      align-self: flex-start;
+    }
+    .chat-bubble.bot {
+      background: #FFF8F4;
+      border: 1px solid #F5E0D8;
+      align-self: flex-end;
+      margin-left: auto;
+    }
+    .chat-role { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); margin-bottom: 4px; }
+
+    /* ── Loading ── */
+    .loading-screen {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 200px;
+      color: var(--muted);
+      font-size: 0.85rem;
+      gap: 0.5rem;
+    }
+    .spinner {
+      width: 16px;
+      height: 16px;
+      border: 2px solid var(--line);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Toast ── */
+    #toast {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--ink);
+      color: var(--bg);
+      padding: 0.75rem 1.25rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      z-index: 9999;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all 0.2s;
+      pointer-events: none;
+    }
+    #toast.show { opacity: 1; transform: translateY(0); }
+
+    /* ── KV warning ── */
+    .kv-banner {
+      background: #FEF3C7;
+      border: 1px solid #F59E0B;
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      font-size: 0.82rem;
+      color: #92400E;
+      margin-bottom: 1.5rem;
+      display: none;
+    }
+    .kv-banner.show { display: block; }
+
+    @media (max-width: 640px) {
+      .list-pane { width: 100%; border-right: none; }
+      .tab-panel.active { flex-direction: column; }
+      .detail-pane { display: none; }
+      .detail-pane.visible { display: block; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ── Auth screen ── -->
+<div id="auth-screen">
+  <div class="auth-box">
+    <div class="logo">Lofts<span>STUDIO · INBOX</span></div>
+    <h1>Sign in to continue</h1>
+    <p>Admin access only.</p>
+    <input type="password" id="pw-input" placeholder="Passphrase" autocomplete="current-password" />
+    <button onclick="attemptLogin()">Enter</button>
+    <p class="auth-error" id="auth-error">Wrong passphrase.</p>
+  </div>
+</div>
+
+<!-- ── Main app ── -->
+<div id="app">
+
+  <div class="topbar">
+    <div>
+      <span class="topbar-logo">Lofts<span>STUDIO · INBOX</span></span>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-time" id="topbar-time"></span>
+      <button onclick="loadData()">↻ Refresh</button>
+      <button onclick="logout()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="stats-bar" id="stats-bar">
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-total-sub">—</div>
+      <div class="stat-label">Total Submissions</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-today-sub">—</div>
+      <div class="stat-label">Today</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-leads">—</div>
+      <div class="stat-label">Leads</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-newsletter">—</div>
+      <div class="stat-label">Newsletter</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-total-chat">—</div>
+      <div class="stat-label">Chat Sessions</div>
+    </div>
+    <div class="stat-pill">
+      <div class="stat-num" id="stat-today-chat">—</div>
+      <div class="stat-label">Chats Today</div>
+    </div>
+  </div>
+
+  <div class="tabs-bar">
+    <button class="tab-btn active" data-tab="submissions" onclick="switchTab('submissions')">
+      Submissions <span class="tab-count" id="tc-submissions">0</span>
+    </button>
+    <button class="tab-btn" data-tab="chats" onclick="switchTab('chats')">
+      Chat Logs <span class="tab-count" id="tc-chats">0</span>
+    </button>
+  </div>
+
+  <div class="toolbar">
+    <div class="search-wrap">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      <input class="search-input" id="search-input" placeholder="Search name, email, message…" oninput="filterList()" />
+    </div>
+    <select class="filter-select" id="source-filter" onchange="filterList()">
+      <option value="">All sources</option>
+      <option value="contact-form">Contact form</option>
+      <option value="footer-newsletter">Newsletter</option>
+    </select>
+    <button class="toolbar-btn danger" onclick="clearData()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+      Clear
+    </button>
+    <button class="toolbar-btn" onclick="exportCSV()">
+      <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+      Export CSV
+    </button>
+  </div>
+
+  <div class="main">
+
+    <!-- Submissions tab -->
+    <div class="tab-panel active" id="tab-submissions">
+      <div class="list-pane" id="sub-list">
+        <div class="loading-screen"><div class="spinner"></div> Loading…</div>
+      </div>
+      <div class="detail-pane" id="sub-detail">
+        <div class="detail-empty">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+          <p>Select a submission to view details</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chats tab -->
+    <div class="tab-panel" id="tab-chats">
+      <div class="list-pane" id="chat-list">
+        <div class="loading-screen"><div class="spinner"></div> Loading…</div>
+      </div>
+      <div class="detail-pane" id="chat-detail">
+        <div class="detail-empty">
+          <svg width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <p>Select a chat session to view the thread</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+  // ── Config ──────────────────────────────────────────────────────
+  const PASSPHRASE  = 'shipfaster';
+  const SESSION_KEY = 'lofts-inbox-session';
+  const API         = '/api/admin/data';
+
+  let allSubmissions = [];
+  let allChats       = [];
+  let activeTab      = 'submissions';
+
+  // ── Auth ─────────────────────────────────────────────────────────
+  function attemptLogin() {
+    const val = document.getElementById('pw-input').value;
+    if (val === PASSPHRASE) {
+      sessionStorage.setItem(SESSION_KEY, '1');
+      showApp();
+    } else {
+      document.getElementById('auth-error').style.display = 'block';
+      document.getElementById('pw-input').value = '';
+    }
+  }
+  document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
+
+  function logout() {
+    sessionStorage.removeItem(SESSION_KEY);
+    location.reload();
+  }
+
+  function showApp() {
+    document.getElementById('auth-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    loadData();
+    startClock();
+  }
+
+  // ── Clock ─────────────────────────────────────────────────────────
+  function startClock() {
+    const el = document.getElementById('topbar-time');
+    function tick() {
+      el.textContent = new Date().toLocaleString('en-US', { weekday: 'short', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+    tick();
+    setInterval(tick, 30000);
+  }
+
+  // ── Data loading ──────────────────────────────────────────────────
+  async function loadData() {
+    try {
+      const res = await fetch(`${API}?action=load`, {
+        headers: { 'x-admin-token': PASSPHRASE }
+      });
+      if (!res.ok) throw new Error('Failed');
+      const data = await res.json();
+
+      allSubmissions = data.submissions || [];
+      allChats       = data.chats       || [];
+
+      renderStats(data.stats);
+      renderSubmissions(allSubmissions);
+      renderChats(allChats);
+      updateTabCounts();
+    } catch (e) {
+      showToast('Could not load data — check KV setup.');
+    }
+  }
+
+  // ── Stats ─────────────────────────────────────────────────────────
+  function renderStats(stats) {
+    const today = todayStart();
+    const todaySubs  = allSubmissions.filter(s => s._ts >= today).length;
+    const todayChats = allChats.filter(c => c._ts >= today).length;
+    const leads      = allSubmissions.filter(s => (s.source || '') !== 'footer-newsletter').length;
+    const newsletter = allSubmissions.filter(s => s.source === 'footer-newsletter').length;
+
+    document.getElementById('stat-total-sub').textContent  = stats?.totalSubmissions || allSubmissions.length;
+    document.getElementById('stat-today-sub').textContent  = todaySubs;
+    document.getElementById('stat-leads').textContent      = leads;
+    document.getElementById('stat-newsletter').textContent = newsletter;
+    document.getElementById('stat-total-chat').textContent = stats?.totalChats || allChats.length;
+    document.getElementById('stat-today-chat').textContent = todayChats;
+  }
+
+  function todayStart() {
+    const d = new Date();
+    d.setHours(0, 0, 0, 0);
+    return d.getTime();
+  }
+
+  function updateTabCounts() {
+    document.getElementById('tc-submissions').textContent = allSubmissions.length;
+    document.getElementById('tc-chats').textContent       = allChats.length;
+  }
+
+  // ── Render submissions list ───────────────────────────────────────
+  function renderSubmissions(items) {
+    const el = document.getElementById('sub-list');
+    if (!items.length) {
+      el.innerHTML = `<div class="empty-state">
+        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="2,4 12,13 22,4"/></svg>
+        <h3>No submissions yet</h3>
+        <p>Form fills and newsletter signups will appear here.</p>
+      </div>`;
+      return;
+    }
+    el.innerHTML = items.map((s, i) => {
+      const src    = s.source || 'contact-form';
+      const srcCls = src === 'footer-newsletter' ? 'src-newsletter' : src === 'contact-form' ? 'src-contact-form' : 'src-other';
+      const srcLabel = src === 'footer-newsletter' ? 'Newsletter' : src === 'contact-form' ? 'Contact form' : src;
+      const name   = s.name || s.email || 'Anonymous';
+      const preview = s.message ? s.message.slice(0, 80) : (s.email || '');
+      return `<div class="list-item" onclick="showSubmission(${i})" id="sub-item-${i}">
+        <div class="list-item-top">
+          <span class="list-item-name">${esc(name)}</span>
+          <span class="list-item-time">${relTime(s._ts)}</span>
+        </div>
+        ${s.email && s.name ? `<div class="list-item-email">${esc(s.email)}</div>` : ''}
+        <div class="list-item-preview">${esc(preview)}</div>
+        <span class="list-item-source ${srcCls}">${srcLabel}</span>
+      </div>`;
+    }).join('');
+  }
+
+  function showSubmission(i) {
+    document.querySelectorAll('#sub-list .list-item').forEach(el => el.classList.remove('selected'));
+    const item = document.getElementById(`sub-item-${i}`);
+    if (item) item.classList.add('selected');
+
+    const s = allSubmissions[i];
+    const src      = s.source || 'contact-form';
+    const srcCls   = src === 'footer-newsletter' ? 'src-newsletter' : src === 'contact-form' ? 'src-contact-form' : 'src-other';
+    const srcLabel = src === 'footer-newsletter' ? 'Newsletter' : src === 'contact-form' ? 'Contact form' : src;
+    const name     = s.name || 'Anonymous';
+
+    const rows = [
+      s.email   ? `<div class="detail-row"><span class="detail-key">Email</span><span class="detail-val"><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></span></div>` : '',
+      s.url     ? `<div class="detail-row"><span class="detail-key">URL</span><span class="detail-val"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></span></div>` : '',
+      s.phone   ? `<div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">${esc(s.phone)}</span></div>` : '',
+      s.budget  ? `<div class="detail-row"><span class="detail-key">Budget</span><span class="detail-val">${esc(s.budget)}</span></div>` : '',
+      `<div class="detail-row"><span class="detail-key">Source</span><span class="detail-val"><span class="list-item-source ${srcCls}">${srcLabel}</span></span></div>`,
+      `<div class="detail-row"><span class="detail-key">Time</span><span class="detail-val">${fullTime(s._ts)}</span></div>`,
+    ].filter(Boolean).join('');
+
+    const msg = s.message || s.email || '';
+
+    document.getElementById('sub-detail').innerHTML = `
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="detail-name">${esc(name)}</div>
+          <div class="detail-timestamp">${relTime(s._ts)}</div>
+        </div>
+        <div class="detail-meta">${rows}</div>
+        ${msg ? `<hr class="detail-divider"><p class="detail-msg-label">Message</p><div class="detail-msg">${esc(msg)}</div>` : ''}
+        <div class="detail-actions">
+          ${s.email ? `<a class="btn-reply" href="mailto:${esc(s.email)}?subject=Re: Your enquiry to Lofts Studio">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 7l9 6 9-6"/><rect x="2" y="4" width="20" height="16" rx="2"/></svg>
+            Reply
+          </a>` : ''}
+          ${s.url ? `<a class="btn-secondary" href="${esc(s.url)}" target="_blank" rel="noopener">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Visit site
+          </a>` : ''}
+        </div>
+      </div>`;
+  }
+
+  // ── Render chats list ─────────────────────────────────────────────
+  function renderChats(items) {
+    const el = document.getElementById('chat-list');
+    if (!items.length) {
+      el.innerHTML = `<div class="empty-state">
+        <svg width="40" height="40" fill="none" stroke="currentColor" stroke-width="1.2" viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        <h3>No chat sessions yet</h3>
+        <p>Visitor chatbot conversations will appear here.</p>
+      </div>`;
+      return;
+    }
+    el.innerHTML = items.map((c, i) => {
+      const preview = c.lastUserMessage || '';
+      return `<div class="list-item" onclick="showChat(${i})" id="chat-item-${i}">
+        <div class="list-item-top">
+          <span class="list-item-name">Visitor · ${c.messageCount || 0} msg${c.messageCount !== 1 ? 's' : ''}</span>
+          <span class="list-item-time">${relTime(c._ts)}</span>
+        </div>
+        <div class="list-item-preview">${esc(preview)}</div>
+        <span class="list-item-source src-chat">Chatbot</span>
+      </div>`;
+    }).join('');
+  }
+
+  function showChat(i) {
+    document.querySelectorAll('#chat-list .list-item').forEach(el => el.classList.remove('selected'));
+    const item = document.getElementById(`chat-item-${i}`);
+    if (item) item.classList.add('selected');
+
+    const c = allChats[i];
+    const thread = (c.thread || []).map(m => `
+      <div class="chat-bubble ${m.role === 'user' ? 'visitor' : 'bot'}">
+        <div class="chat-role">${m.role === 'user' ? 'Visitor' : 'Assistant'}</div>
+        ${esc(m.content)}
+      </div>`).join('');
+
+    document.getElementById('chat-detail').innerHTML = `
+      <div class="detail-card">
+        <div class="detail-header">
+          <div class="detail-name">Chat session</div>
+          <div class="detail-timestamp">${fullTime(c._ts)}</div>
+        </div>
+        <div class="detail-meta">
+          <div class="detail-row"><span class="detail-key">Messages</span><span class="detail-val">${c.messageCount || '—'}</span></div>
+          <div class="detail-row"><span class="detail-key">Model</span><span class="detail-val" style="font-size:0.78rem;color:var(--muted)">${esc(c.model || '—')}</span></div>
+          <div class="detail-row"><span class="detail-key">Time</span><span class="detail-val">${fullTime(c._ts)}</span></div>
+        </div>
+        <hr class="detail-divider">
+        <p class="detail-msg-label">Conversation (last 6 messages)</p>
+        <div class="chat-thread">${thread || '<p style="color:var(--muted);font-size:0.85rem">No thread recorded.</p>'}</div>
+      </div>`;
+  }
+
+  // ── Tabs ──────────────────────────────────────────────────────────
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.toggle('active', p.id === `tab-${tab}`));
+    // reset search
+    document.getElementById('search-input').value = '';
+    document.getElementById('source-filter').value = '';
+    filterList();
+  }
+
+  // ── Search / filter ───────────────────────────────────────────────
+  function filterList() {
+    const q   = document.getElementById('search-input').value.toLowerCase();
+    const src = document.getElementById('source-filter').value;
+
+    if (activeTab === 'submissions') {
+      const filtered = allSubmissions.filter(s => {
+        const matchSrc = !src || (s.source || 'contact-form') === src;
+        const matchQ   = !q || JSON.stringify(s).toLowerCase().includes(q);
+        return matchSrc && matchQ;
+      });
+      renderSubmissions(filtered);
+    } else {
+      const filtered = allChats.filter(c => {
+        const matchQ = !q || JSON.stringify(c).toLowerCase().includes(q);
+        return matchQ;
+      });
+      renderChats(filtered);
+    }
+  }
+
+  // ── Clear ─────────────────────────────────────────────────────────
+  async function clearData() {
+    const type = activeTab === 'submissions' ? 'submissions' : 'chats';
+    if (!confirm(`Clear all ${type}? This cannot be undone.`)) return;
+    try {
+      await fetch(`${API}?action=clear`, {
+        method: 'POST',
+        headers: { 'x-admin-token': PASSPHRASE, 'content-type': 'application/json' },
+        body: JSON.stringify({ type }),
+      });
+      if (type === 'submissions') allSubmissions = [];
+      else allChats = [];
+      renderStats({});
+      renderSubmissions(allSubmissions);
+      renderChats(allChats);
+      updateTabCounts();
+      showToast(`${type} cleared.`);
+    } catch { showToast('Clear failed.'); }
+  }
+
+  // ── Export CSV ────────────────────────────────────────────────────
+  function exportCSV() {
+    const items = activeTab === 'submissions' ? allSubmissions : allChats;
+    if (!items.length) { showToast('Nothing to export.'); return; }
+    const keys = [...new Set(items.flatMap(Object.keys))].filter(k => !k.startsWith('thread'));
+    const rows = [keys.join(','), ...items.map(item =>
+      keys.map(k => JSON.stringify(item[k] ?? '')).join(',')
+    )];
+    const blob = new Blob([rows.join('\n')], { type: 'text/csv' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url;
+    a.download = `lofts-${activeTab}-${new Date().toISOString().slice(0,10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
+
+  // ── Utils ─────────────────────────────────────────────────────────
+  function esc(s) {
+    return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  }
+  function relTime(ts) {
+    if (!ts) return '—';
+    const diff = Date.now() - ts;
+    const m = Math.floor(diff / 60000);
+    if (m < 1)  return 'just now';
+    if (m < 60) return `${m}m ago`;
+    const h = Math.floor(m / 60);
+    if (h < 24) return `${h}h ago`;
+    const d = Math.floor(h / 24);
+    return `${d}d ago`;
+  }
+  function fullTime(ts) {
+    if (!ts) return '—';
+    return new Date(ts).toLocaleString('en-US', { dateStyle: 'medium', timeStyle: 'short' });
+  }
+  function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 2800);
+  }
+
+  // ── Boot ──────────────────────────────────────────────────────────
+  if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    showApp();
+  }
+</script>
+</body>
+</html>

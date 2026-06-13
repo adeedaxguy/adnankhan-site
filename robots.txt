@@ -1,0 +1,31 @@
+# robots.txt — Adnan K. Studio
+# Generated 2026-06-11 — managed via scripts/seo_engine.py
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?ref=
+Disallow: /*?utm_
+
+# AI/LLM crawlers — explicitly allow so we get cited in AI answers
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+User-agent: Googlebot-Image
+Allow: /assets/
+
+Sitemap: https://lofts.studio/sitemap.xml

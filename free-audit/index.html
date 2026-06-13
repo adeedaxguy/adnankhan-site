@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Free Website Audit — Design, SEO & Performance — Lofts Studio</title>
+  <meta name="description" content="Get a free instant audit of any website. We check 22 factors across design, SEO, performance, and trust — and tell you exactly how to fix each one." />
+  <link rel="canonical" href="https://lofts.studio/free-audit/" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <meta property="og:title" content="Free Website Audit — Lofts Studio" />
+  <meta property="og:description" content="22-point instant audit: design, SEO, performance, and trust. Free. No signup." />
+  <meta property="og:url" content="https://lofts.studio/free-audit/" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,700;1,9..144,400;1,9..144,700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg:      #F4F0EA;
+      --bg-soft: #EDE8E0;
+      --surface: #FDFAF6;
+      --ink:     #1A1612;
+      --muted:   #7A6E64;
+      --line:    #DDD7CE;
+      --accent:  #8B3A1F;
+      --green:   #2D6A4F;
+      --amber:   #92400E;
+      --red:     #991B1B;
+      --blue:    #1E40AF;
+      --font-sans: 'Inter', system-ui, sans-serif;
+      --font-serif: 'Fraunces', Georgia, serif;
+    }
+    body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
+
+    /* Nav */
+    .nav { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--surface); }
+    .nav-logo { font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
+    .nav-logo span { font-style: normal; font-family: var(--font-sans); font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-left: 5px; vertical-align: middle; }
+    .nav-back { font-size: 0.82rem; color: var(--muted); text-decoration: none; display: flex; align-items: center; gap: 5px; }
+    .nav-back:hover { color: var(--ink); }
+
+    /* Hero */
+    .hero { max-width: 700px; margin: 0 auto; padding: 4rem 1.5rem 2.5rem; text-align: center; }
+    .hero-eyebrow { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 1rem; }
+    .hero h1 { font-family: var(--font-serif); font-size: clamp(2rem, 5vw, 3rem); font-weight: 700; line-height: 1.15; margin-bottom: 1rem; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero p { font-size: 1rem; color: var(--muted); line-height: 1.65; margin-bottom: 1.5rem; }
+
+    /* Category tags */
+    .cat-tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.5rem; margin-bottom: 2.5rem; }
+    .cat-tag { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; border: 1px solid var(--line); background: var(--surface); }
+    .cat-tag.technical { color: #1E40AF; border-color: #BFDBFE; background: #EFF6FF; }
+    .cat-tag.seo       { color: #065F46; border-color: #A7F3D0; background: #ECFDF5; }
+    .cat-tag.perf      { color: #92400E; border-color: #FDE68A; background: #FFFBEB; }
+    .cat-tag.trust     { color: #6B21A8; border-color: #DDD6FE; background: #F5F3FF; }
+
+    /* Form */
+    .audit-form-wrap { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.75rem; box-shadow: 0 8px 32px rgba(26,22,18,0.07); margin-bottom: 1rem; }
+    .audit-input-row { display: flex; gap: 0.75rem; align-items: stretch; }
+    .audit-url-wrap { flex: 1; position: relative; }
+    .audit-url-wrap svg { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+    .audit-url-input { width: 100%; padding: 0.85rem 1rem 0.85rem 2.6rem; border: 1.5px solid var(--line); border-radius: 10px; background: var(--bg); font-size: 0.95rem; color: var(--ink); outline: none; transition: border-color .15s; font-family: var(--font-sans); }
+    .audit-url-input:focus { border-color: var(--accent); }
+    .audit-url-input::placeholder { color: var(--muted); }
+    .audit-btn { padding: 0.85rem 1.5rem; background: var(--ink); color: var(--bg); border: none; border-radius: 10px; font-size: 0.9rem; font-weight: 600; cursor: pointer; font-family: var(--font-sans); transition: background .15s, transform .1s; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
+    .audit-btn:hover { background: var(--accent); }
+    .audit-btn:active { transform: scale(0.98); }
+    .audit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .audit-hint { font-size: 0.76rem; color: var(--muted); margin-top: 0.75rem; text-align: center; }
+    @media (max-width: 500px) { .audit-input-row { flex-direction: column; } .audit-btn { justify-content: center; } }
+
+    /* Loading */
+    .audit-loading { display: none; flex-direction: column; align-items: center; gap: 1rem; padding: 3rem 1.5rem; text-align: center; }
+    .audit-loading.show { display: flex; }
+    .audit-spinner-ring { width: 48px; height: 48px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .audit-loading-url { font-size: 0.82rem; color: var(--muted); }
+    .audit-loading-steps { display: flex; flex-direction: column; gap: 0.35rem; font-size: 0.78rem; color: var(--muted); }
+    .audit-loading-step { opacity: 0; animation: fadeIn 0.4s ease forwards; }
+    @keyframes fadeIn { to { opacity: 1; } }
+
+    /* Error */
+    .audit-error { display: none; text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem; }
+    .audit-error.show { display: block; }
+    .audit-error strong { color: var(--ink); display: block; margin-bottom: 0.5rem; font-size: 1rem; }
+
+    /* Results wrapper */
+    .audit-results { display: none; max-width: 840px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    .audit-results.show { display: block; }
+
+    /* Score card */
+    .score-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 2rem; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem; box-shadow: 0 4px 20px rgba(26,22,18,0.06); }
+    @media (max-width: 520px) { .score-card { grid-template-columns: 1fr; text-align: center; } }
+    .score-ring { width: 100px; height: 100px; position: relative; flex-shrink: 0; }
+    .score-ring svg { transform: rotate(-90deg); }
+    .score-ring-text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px; }
+    .score-ring-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
+    .score-ring-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
+    .score-info h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .score-url { font-size: 0.78rem; color: var(--muted); font-family: 'SF Mono', 'Fira Code', monospace; word-break: break-all; margin-bottom: 0.75rem; }
+    .score-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+    .score-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
+    .pill-green { background: #D1FAE5; color: #065F46; }
+    .pill-amber { background: #FEF3C7; color: #92400E; }
+    .pill-red   { background: #FEE2E2; color: #991B1B; }
+
+    /* Category mini-scores */
+    .cat-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    @media (max-width: 600px) { .cat-scores { grid-template-columns: repeat(2, 1fr); } }
+    .cat-score-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; text-align: center; }
+    .cat-score-num { font-size: 1.4rem; font-weight: 700; line-height: 1; margin-bottom: 3px; }
+    .cat-score-name { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
+    .cat-score-bar { height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; overflow: hidden; }
+    .cat-score-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
+    .cat-technical .cat-score-num, .cat-technical .cat-score-fill { color: #1E40AF; background: #3B82F6; }
+    .cat-seo       .cat-score-num, .cat-seo       .cat-score-fill { color: #065F46; background: #10B981; }
+    .cat-perf      .cat-score-num, .cat-perf      .cat-score-fill { color: #92400E; background: #F59E0B; }
+    .cat-trust     .cat-score-num, .cat-trust     .cat-score-fill { color: #6B21A8; background: #8B5CF6; }
+
+    /* CTA card */
+    .audit-cta-card { background: linear-gradient(135deg, var(--ink) 0%, #2A2420 100%); color: var(--bg); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .audit-cta-card h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
+    .audit-cta-card p { font-size: 0.85rem; color: rgba(244,240,234,0.7); }
+    .audit-cta-card a { display: inline-flex; align-items: center; gap: 6px; padding: 0.7rem 1.25rem; background: var(--accent); color: white; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background .15s; }
+    .audit-cta-card a:hover { background: #C4622D; }
+
+    /* Section title */
+    .section-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin: 1.75rem 0 0.75rem; display: flex; align-items: center; gap: 8px; }
+    .section-title-badge { display: inline-flex; align-items: center; gap: 4px; padding: 2px 8px; border-radius: 4px; font-size: 0.62rem; }
+
+    /* Check items */
+    .checks-list { display: grid; gap: 0.5rem; }
+    .check-item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 0; overflow: hidden; }
+    .check-item-header { display: grid; grid-template-columns: 28px 1fr auto; align-items: start; gap: 0.75rem; padding: 0.9rem 1rem; cursor: pointer; }
+    .check-item.fail { border-left: 3px solid; }
+    .check-item.fail.impact-critical { border-left-color: var(--red); }
+    .check-item.fail.impact-high     { border-left-color: #D97706; }
+    .check-item.fail.impact-medium   { border-left-color: #60A5FA; }
+    .check-item.fail.impact-low      { border-left-color: var(--muted); }
+    .check-icon { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+    .check-icon.pass  { background: #D1FAE5; color: #065F46; }
+    .check-icon.fail  { background: #FEE2E2; color: #991B1B; }
+    .check-icon.amber { background: #FEF3C7; color: #92400E; }
+    .check-body { min-width: 0; }
+    .check-label { font-size: 0.85rem; font-weight: 600; color: var(--ink); margin-bottom: 2px; }
+    .check-value { font-size: 0.78rem; color: var(--muted); word-break: break-word; }
+    .check-note  { font-size: 0.72rem; color: var(--muted); margin-top: 3px; font-style: italic; }
+    .check-impact { font-size: 0.62rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; padding: 2px 7px; border-radius: 4px; flex-shrink: 0; align-self: start; margin-top: 2px; }
+    .impact-critical { background: #FEE2E2; color: #991B1B; }
+    .impact-high     { background: #FEF3C7; color: #92400E; }
+    .impact-medium   { background: #E0F2FE; color: #0C4A6E; }
+    .impact-low      { background: var(--bg-soft); color: var(--muted); }
+
+    /* Fix tip (expandable) */
+    .check-fix { display: none; padding: 0.75rem 1rem 0.85rem calc(28px + 0.75rem + 1rem); background: #FFFBEB; border-top: 1px solid #FDE68A; }
+    .check-fix.open { display: block; }
+    .check-fix-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; color: #92400E; margin-bottom: 4px; }
+    .check-fix p { font-size: 0.78rem; color: #78350F; line-height: 1.55; }
+    .check-item.pass .check-item-header { cursor: default; }
+
+    /* What we fix */
+    .what-we-fix { max-width: 840px; margin: 0 auto 4rem; padding: 0 1.5rem; }
+    .wf-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; margin-top: 1.5rem; }
+    .wf-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1.25rem; }
+    .wf-card-icon { width: 36px; height: 36px; background: var(--bg-soft); border-radius: 8px; display: flex; align-items: center; justify-content: center; color: var(--accent); margin-bottom: 0.75rem; }
+    .wf-card h4 { font-size: 0.88rem; font-weight: 600; margin-bottom: 0.3rem; }
+    .wf-card p { font-size: 0.78rem; color: var(--muted); line-height: 1.55; }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="/" class="nav-logo">Lofts<span>STUDIO</span></a>
+  <a href="/" class="nav-back">
+    <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    Back to studio
+  </a>
+</nav>
+
+<section class="hero">
+  <p class="hero-eyebrow">Free · Instant · No signup</p>
+  <h1>See exactly what's<br><em>hurting your website</em></h1>
+  <p>Paste any URL and get a real 22-point audit — design, SEO, performance, and trust signals — with specific actionable fixes for every issue found.</p>
+
+  <div class="cat-tags">
+    <span class="cat-tag technical">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Technical (6 checks)
+    </span>
+    <span class="cat-tag seo">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      SEO (5 checks)
+    </span>
+    <span class="cat-tag perf">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+      Performance (4 checks)
+    </span>
+    <span class="cat-tag trust">
+      <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      Design &amp; Trust (7 checks)
+    </span>
+  </div>
+
+  <div class="audit-form-wrap">
+    <form id="auditForm">
+      <div class="audit-input-row">
+        <div class="audit-url-wrap">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+          <input class="audit-url-input" id="urlInput" type="text" placeholder="yourbusiness.com" autocomplete="off" autocapitalize="none" spellcheck="false" />
+        </div>
+        <button type="submit" class="audit-btn" id="auditBtn">
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Run Audit
+        </button>
+      </div>
+      <p class="audit-hint">Try your own site, a competitor's, or a prospect's. Results are honest and unbiased.</p>
+    </form>
+  </div>
+</section>
+
+<!-- Loading -->
+<div class="audit-loading" id="auditLoading">
+  <div class="audit-spinner-ring"></div>
+  <div class="audit-loading-url" id="auditLoadingUrl"></div>
+  <div class="audit-loading-steps">
+    <div class="audit-loading-step" style="animation-delay:0.3s">Checking HTTPS, redirects &amp; server response…</div>
+    <div class="audit-loading-step" style="animation-delay:1.0s">Scanning HTML structure &amp; SEO signals…</div>
+    <div class="audit-loading-step" style="animation-delay:2.2s">Checking design &amp; trust signals…</div>
+    <div class="audit-loading-step" style="animation-delay:3.5s">Analysing schema, Open Graph &amp; performance…</div>
+    <div class="audit-loading-step" style="animation-delay:5.0s">Calculating scores &amp; generating fix plan…</div>
+  </div>
+</div>
+
+<!-- Error -->
+<div class="audit-error" id="auditError">
+  <strong>Could not reach that URL</strong>
+  The site may be blocking external requests or the URL may be incorrect. Try adding https:// or check the address.
+</div>
+
+<!-- Results -->
+<div class="audit-results" id="auditResults"></div>
+
+<!-- What we fix -->
+<section class="what-we-fix" id="whatWeFix" style="display:none">
+  <p class="section-title">What Lofts Studio fixes</p>
+  <div class="wf-grid">
+    <div class="wf-card">
+      <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
+      <h4>Speed & Core Web Vitals</h4>
+      <p>We take stores from 40→90+ PageSpeed. Faster sites rank higher and convert more.</p>
+    </div>
+    <div class="wf-card">
+      <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
+      <h4>Mobile Experience</h4>
+      <p>60%+ of visitors are on phones. We rebuild experiences that work on every screen.</p>
+    </div>
+    <div class="wf-card">
+      <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
+      <h4>Google SEO</h4>
+      <p>Titles, schema, canonicals — the technical layer Google needs to rank your pages.</p>
+    </div>
+    <div class="wf-card">
+      <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+      <h4>Trust & Design</h4>
+      <p>CTAs, testimonials, privacy, chat — the signals that turn visitors into enquiries.</p>
+    </div>
+  </div>
+  <div style="text-align:center;margin-top:2rem">
+    <a href="/#contact" style="display:inline-flex;align-items:center;gap:7px;padding:0.85rem 1.75rem;background:var(--ink);color:var(--bg);border-radius:10px;font-size:0.9rem;font-weight:600;text-decoration:none;transition:background .15s" onmouseover="this.style.background='#8B3A1F'" onmouseout="this.style.background='#1A1612'">
+      <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      Get a free fix plan from Lofts Studio
+    </a>
+    <p style="margin-top:0.75rem;font-size:0.78rem;color:var(--muted)">No pitch. We come prepared with three specific improvements for your site.</p>
+  </div>
+</section>
+
+<script>
+const form       = document.getElementById('auditForm');
+const input      = document.getElementById('urlInput');
+const btn        = document.getElementById('auditBtn');
+const loading    = document.getElementById('auditLoading');
+const resultsEl  = document.getElementById('auditResults');
+const errorEl    = document.getElementById('auditError');
+const whatWeFix  = document.getElementById('whatWeFix');
+const loadingUrl = document.getElementById('auditLoadingUrl');
+
+const qp = new URLSearchParams(location.search);
+if (qp.get('url')) { input.value = qp.get('url'); setTimeout(() => form.dispatchEvent(new Event('submit')), 300); }
+
+form.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const url = input.value.trim();
+  if (!url) return;
+
+  resultsEl.classList.remove('show');
+  resultsEl.innerHTML = '';
+  errorEl.classList.remove('show');
+  whatWeFix.style.display = 'none';
+  loading.classList.add('show');
+  loadingUrl.textContent = url.replace(/^https?:\/\//, '');
+  btn.disabled = true;
+
+  if (typeof gtag !== 'undefined') gtag('event', 'audit_run', { event_category: 'engagement', event_label: url });
+
+  try {
+    const res  = await fetch('/api/audit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
+    const data = await res.json();
+    loading.classList.remove('show');
+    btn.disabled = false;
+    if (data.error) { errorEl.classList.add('show'); return; }
+    renderResults(data);
+  } catch {
+    loading.classList.remove('show');
+    btn.disabled = false;
+    errorEl.classList.add('show');
+  }
+});
+
+function renderResults(data) {
+  const { score, grade, passed, total, critical, high, results: checks, catScores, url: auditUrl } = data;
+
+  const ringColor   = score >= 75 ? '#2D6A4F' : score >= 50 ? '#92400E' : '#991B1B';
+  const circum      = 2 * Math.PI * 44;
+  const dash        = (score / 100) * circum;
+  const gradeLabel  = score >= 90 ? 'Excellent' : score >= 75 ? 'Good' : score >= 60 ? 'Needs work' : score >= 45 ? 'Poor' : 'Critical issues';
+
+  let pillsHtml = `<span class="score-pill pill-green">✓ ${passed} passing</span>`;
+  if (critical) pillsHtml += `<span class="score-pill pill-red">⚠ ${critical} critical</span>`;
+  if (high)     pillsHtml += `<span class="score-pill pill-amber">${high} high-priority</span>`;
+
+  // Category sub-score cards
+  const catDefs = [
+    { key: 'technical', label: 'Technical', cls: 'cat-technical' },
+    { key: 'seo',       label: 'SEO',        cls: 'cat-seo' },
+    { key: 'performance', label: 'Performance', cls: 'cat-perf' },
+    { key: 'trust',     label: 'Design & Trust', cls: 'cat-trust' },
+  ];
+  const catHtml = catDefs.map(c => {
+    const s = catScores ? (catScores[c.key] ?? 100) : 100;
+    const col = s >= 75 ? '' : s >= 50 ? '' : '';
+    return `<div class="cat-score-card ${c.cls}">
+      <div class="cat-score-num">${s}</div>
+      <div class="cat-score-name">${c.label}</div>
+      <div class="cat-score-bar"><div class="cat-score-fill" style="width:${s}%"></div></div>
+    </div>`;
+  }).join('');
+
+  // Group checks by category
+  const catOrder = ['technical', 'seo', 'performance', 'trust'];
+  const catLabels = { technical: 'Technical', seo: 'SEO', performance: 'Performance', trust: 'Design & Trust' };
+  const catBadgeClass = { technical: 'cat-technical', seo: 'cat-seo', performance: 'cat-perf', trust: 'cat-trust' };
+  const impactW = { critical: 4, high: 3, medium: 2, low: 1 };
+
+  let sectionsHtml = '';
+  for (const cat of catOrder) {
+    const catChecks = Object.values(checks).filter(c => c.category === cat);
+    if (!catChecks.length) continue;
+    const sorted = [...catChecks].sort((a, b) => {
+      if (a.pass !== b.pass) return a.pass ? 1 : -1;
+      return (impactW[b.impact] || 0) - (impactW[a.impact] || 0);
+    });
+    const catPass = sorted.filter(c => c.pass).length;
+    const catScore = Math.round(catPass / sorted.length * 100);
+    sectionsHtml += `<p class="section-title">${esc(catLabels[cat])} <span class="section-title-badge ${catBadgeClass[cat]}">${catPass}/${sorted.length} passing</span></p>`;
+    sectionsHtml += `<div class="checks-list">`;
+    sectionsHtml += sorted.map((c, i) => {
+      const iconCls = c.pass ? 'pass' : (c.impact === 'critical' || c.impact === 'high' ? 'fail' : 'fail amber');
+      const icon = c.pass
+        ? `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>`
+        : `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+      const fixId = `fix-${cat}-${i}`;
+      const hasFix = !c.pass && c.fix;
+      return `<div class="check-item ${c.pass ? 'pass' : 'fail impact-' + c.impact}" id="item-${fixId}">
+        <div class="check-item-header" ${hasFix ? `onclick="toggleFix('${fixId}')"` : ''}>
+          <div class="check-icon ${iconCls}">${icon}</div>
+          <div class="check-body">
+            <div class="check-label">${esc(c.label)}</div>
+            <div class="check-value">${esc(c.value || '')}</div>
+            ${c.note ? `<div class="check-note">${esc(c.note)}</div>` : ''}
+          </div>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
+            ${!c.pass ? `<span class="check-impact impact-${c.impact}">${c.impact}</span>` : ''}
+            ${hasFix ? `<span style="font-size:0.65rem;color:var(--muted);margin-top:2px">▸ how to fix</span>` : ''}
+          </div>
+        </div>
+        ${hasFix ? `<div class="check-fix" id="${fixId}"><div class="check-fix-label">How to fix</div><p>${esc(c.fix)}</p></div>` : ''}
+      </div>`;
+    }).join('');
+    sectionsHtml += `</div>`;
+  }
+
+  const ctaHtml = score < 80 ? `
+    <div class="audit-cta-card">
+      <div>
+        <h3>We can fix ${critical + high} of these issues.</h3>
+        <p>Lofts Studio has solved exactly these problems for 300+ businesses in the US &amp; UK. Send us the URL and we'll come back with a specific fix plan — no pitch, no commitment.</p>
+      </div>
+      <a href="/#contact">Get a free fix plan →</a>
+    </div>` : '';
+
+  resultsEl.innerHTML = `
+    <div class="score-card">
+      <div class="score-ring">
+        <svg width="100" height="100" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="44" fill="none" stroke="var(--line)" stroke-width="7"/>
+          <circle cx="50" cy="50" r="44" fill="none" stroke="${ringColor}" stroke-width="7"
+            stroke-dasharray="${dash.toFixed(1)} ${circum.toFixed(1)}" stroke-linecap="round"/>
+        </svg>
+        <div class="score-ring-text">
+          <span class="score-ring-num" style="color:${ringColor}">${score}</span>
+          <span class="score-ring-label">/ 100</span>
+        </div>
+      </div>
+      <div class="score-info">
+        <h2>${gradeLabel} — Grade ${grade}</h2>
+        <div class="score-url">${esc((auditUrl||'').replace(/^https?:\/\//, '').replace(/\/$/, ''))}</div>
+        <div class="score-pills">${pillsHtml}</div>
+      </div>
+    </div>
+    <div class="cat-scores">${catHtml}</div>
+    ${ctaHtml}
+    ${sectionsHtml}
+  `;
+
+  resultsEl.classList.add('show');
+  whatWeFix.style.display = 'block';
+  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  if (typeof gtag !== 'undefined') gtag('event', 'audit_complete', { event_category: 'engagement', value: score });
+}
+
+function toggleFix(id) {
+  const el = document.getElementById(id);
+  if (el) el.classList.toggle('open');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+</script>
+</body>
+</html>

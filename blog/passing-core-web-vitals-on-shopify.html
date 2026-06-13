@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>How to Pass Core Web Vitals on Shopify in 2026 — A Field Guide | Lofts Studio</title>
+<meta name="description" content="A practical guide to passing Core Web Vitals on Shopify in 2026. The four metrics that matter, the apps that quietly tank LCP, and the four-hour audit any operator can run today." />
+<link rel="canonical" href="https://lofts.studio/blog/passing-core-web-vitals-on-shopify.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="author" content="Adnan Khan" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lofts.studio/blog/passing-core-web-vitals-on-shopify.html" />
+<meta property="og:title" content="How to Pass Core Web Vitals on Shopify in 2026 — A Field Guide" />
+<meta property="og:description" content="The four metrics that matter, the apps quietly killing your Lighthouse, and a four-hour audit any operator can run today." />
+<meta property="og:image" content="https://lofts.studio/assets/og-default.svg" />
+<meta property="article:published_time" content="2026-06-01T09:00:00Z" />
+<meta property="article:author" content="Adnan Khan" />
+<meta property="article:section" content="Speed" />
+<meta property="article:tag" content="Shopify, Core Web Vitals, Performance, LCP" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.svg" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260612c" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Pass Core Web Vitals on Shopify in 2026 — A Field Guide",
+  "description": "The four metrics that matter, the apps quietly killing your Lighthouse, and a four-hour audit any operator can run today.",
+  "image": "https://lofts.studio/assets/og-cwv-shopify.jpg",
+  "datePublished": "2026-06-01T09:00:00Z",
+  "dateModified": "2026-06-01T09:00:00Z",
+  "author": { "@type": "Person", "name": "Adnan Khan", "url": "https://lofts.studio/about.html" },
+  "publisher": { "@type": "Organization", "name": "Lofts Studio", "logo": { "@type": "ImageObject", "url": "https://lofts.studio/assets/logo.png" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://lofts.studio/blog/passing-core-web-vitals-on-shopify.html" }
+}
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://lofts.studio/"}, {"@type": "ListItem", "position": 2, "name": "Blog", "item": "https://lofts.studio/blog/"}, {"@type": "ListItem", "position": 3, "name": "Pass Core Web Vitals on Shopify", "item": "https://lofts.studio/blog/passing-core-web-vitals-on-shopify.html"} ] }
+</script>
+
+<style>
+  .post-prose { max-width: 720px; margin: 0 auto; }
+  .post-prose h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.85rem); letter-spacing: -0.025em; margin: 3.5rem 0 1rem; line-height: 1.2; }
+  .post-prose h3 { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.02em; margin: 2.5rem 0 0.75rem; }
+  .post-prose p { color: var(--ink-soft); font-size: 1.075rem; line-height: 1.78; margin: 0 0 1.25rem; }
+  .post-prose p strong { color: var(--ink); }
+  .post-prose ul, .post-prose ol { padding-left: 1.5rem; margin: 0 0 1.5rem; color: var(--ink-soft); }
+  .post-prose li { margin-bottom: 0.55rem; font-size: 1.04rem; line-height: 1.7; }
+  .post-prose a { color: var(--accent); border-bottom: 1px solid rgba(194,65,12,0.3); }
+  .post-prose a:hover { border-bottom-color: var(--accent); }
+  .post-prose blockquote { border-left: 3px solid var(--accent); padding: 0.25rem 0 0.25rem 1.5rem; margin: 2rem 0; font-family: var(--font-display); font-size: 1.3rem; line-height: 1.4; letter-spacing: -0.015em; color: var(--ink); font-style: italic; }
+  .post-prose code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 5px; color: var(--ink); }
+  .post-prose pre { background: var(--ink); color: #E8E6D9; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: 'JetBrains Mono', monospace; font-size: 0.86rem; line-height: 1.7; }
+  .post-prose pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+  .post-prose hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
+  .post-callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
+  .post-callout strong { color: var(--accent); }
+  .toc { background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.5rem; margin: 2rem 0 3rem; }
+  .toc h5 { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin: 0 0 1rem; }
+  .toc ol { list-style: none; padding: 0; margin: 0; counter-reset: toc; }
+  .toc li { counter-increment: toc; padding: 0.4rem 0; border-bottom: 1px solid var(--line-soft); font-size: 0.95rem; }
+  .toc li:last-child { border-bottom: 0; }
+  .toc li::before { content: counter(toc, decimal-leading-zero) "  ·  "; color: var(--accent); font-family: var(--font-display); font-weight: 500; }
+  .toc a { color: var(--ink); border: 0; }
+  .toc a:hover { color: var(--accent); }
+</style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KT1MFDY8R');
+  </script>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Lofts<span class="dot">studio</span></a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <div class="mega-wrap">
+        <button class="nav-link" data-mega-trigger aria-expanded="false" aria-haspopup="true">
+          Work
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="mega" role="menu">
+          <div class="mega-col">
+            <h4>By vertical</h4>
+            <a href="/work/ecommerce/" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
+            <a href="/work/insurance-finance/" class="mega-link"><div class="mega-link-title">Insurance &amp; Finance</div><div class="mega-link-desc">Brokers, carriers, reinsurance.</div></a>
+            <a href="/work/membership-community/" class="mega-link"><div class="mega-link-title">Membership &amp; Community</div><div class="mega-link-desc">Stripe, Discord, Whop.</div></a>
+            <a href="/work/custom-apps/" class="mega-link"><div class="mega-link-title">Custom Apps</div><div class="mega-link-desc">React, Next.js, Node.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Storefront</h4>
+            <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Custom themes. Shopify Plus.</div></a>
+            <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WooCommerce Development</div><div class="mega-link-desc">WordPress commerce, done right.</div></a>
+            <a href="/services/shopify-plus-migration.html" class="mega-link"><div class="mega-link-title">Shopify Plus Migration</div><div class="mega-link-desc">Replatform without downtime.</div></a>
+            <a href="/services/webflow-development.html" class="mega-link"><div class="mega-link-title">Webflow Development</div><div class="mega-link-desc">SaaS, B2B, brand-led sites.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Performance</h4>
+            <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">90+ Lighthouse. Sub-2s LCP.</div></a>
+            <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Lift conversion measurably.</div></a>
+            <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Shopify &amp; WooCommerce.</div></a>
+            <a href="/services/landing-page-sprint.html" class="mega-link"><div class="mega-link-title">Landing Page Sprint</div><div class="mega-link-desc">Seven days, fixed fee.</div></a>
+          </div>
+
+          <div class="mega-feature">
+            <div>
+              <span class="tag">Two founders. Two cities.</span>
+              <h3 style="font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; line-height: 1.3; margin: 0.6rem 0; color: var(--ink); letter-spacing: -0.025em;">Adnan Khan (Multan) leads ecommerce. Irfan Khan (Dubai) leads full-stack. Both Top Rated on Upwork.</h3>
+            </div>
+            <a href="/about.html" class="btn-link" style="margin-top: 1rem; font-size: 0.85rem;">
+              Meet the founders
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/process/" class="nav-link">Process</a>
+      <a href="/notes/" class="nav-link">Notes</a>
+      <a href="/tools/" class="nav-link">Tools</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+
+    <a href="/#contact" class="btn btn-primary">
+      Start a conversation
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+    </a>
+
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div id="mobilePanel" class="mnav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="mnav-inner">
+
+    <!-- Top bar: logo + close -->
+    <div class="mnav-top">
+      <a href="/" class="mnav-logo">Lofts<span>studio</span></a>
+      <button class="mnav-close" id="menuClose" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <!-- Primary nav links — large serif -->
+    <nav class="mnav-primary" aria-label="Main">
+      <a href="/portfolio/" class="mnav-link" data-num="01">Portfolio</a>
+      <a href="/about.html" class="mnav-link" data-num="02">About</a>
+      <a href="/process/" class="mnav-link" data-num="03">Process</a>
+      <a href="/blog/" class="mnav-link" data-num="04">Blog</a>
+      <a href="/free-audit/" class="mnav-link" data-num="05">Free Audit</a>
+    </nav>
+
+    <!-- Services — compact two-column grid -->
+    <div class="mnav-services">
+      <p class="mnav-label">Services</p>
+      <div class="mnav-grid">
+        <a href="/services/shopify-development.html">Shopify</a>
+        <a href="/services/woocommerce-development.html">WooCommerce</a>
+        <a href="/services/webflow-development.html">Webflow</a>
+        <a href="/services/shopify-plus-migration.html">Shopify Plus</a>
+        <a href="/services/speed-optimization.html">Speed Opt.</a>
+        <a href="/services/conversion-rate-optimization.html">CRO</a>
+        <a href="/services/custom-app-development.html">Custom Apps</a>
+        <a href="/services/ai-chatbot-automation.html">AI &amp; Automation</a>
+      </div>
+    </div>
+
+    <!-- Footer CTA -->
+    <div class="mnav-foot">
+      <a href="/#contact" class="mnav-cta">
+        Start a conversation
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
+    </div>
+
+  </div>
+</div>
+    <a href="/portfolio/">Portfolio</a>
+    <a href="/about.html">About &middot; Founders</a>
+    <a href="/process/">Process</a>
+    <a href="/notes/">Notes</a>
+    <a href="/blog/">Blog</a>
+    <div class="mobile-section">By Vertical</div>
+    <a href="/work/ecommerce/">Ecommerce</a>
+    <a href="/work/insurance-finance/">Insurance &amp; Finance</a>
+    <a href="/work/membership-community/">Membership &amp; Community</a>
+    <a href="/work/custom-apps/">Custom Apps</a>
+    <div class="mobile-section">Storefront</div>
+    <a href="/services/shopify-development.html">Shopify Development</a>
+    <a href="/services/woocommerce-development.html">WooCommerce Development</a>
+    <a href="/services/webflow-development.html">Webflow Development</a>
+    <a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a>
+    <div class="mobile-section">Performance</div>
+    <a href="/services/speed-optimization.html">Speed Optimization</a>
+    <a href="/services/conversion-rate-optimization.html">Conversion Rate Optimization</a>
+    <a href="/services/landing-page-sprint.html">Landing Page Sprint</a>
+    <div class="mobile-section">Build &amp; Design</div>
+    <a href="/services/custom-app-development.html">Custom App Development</a>
+    <a href="/services/ai-chatbot-automation.html">AI Chatbot &amp; Automation</a>
+    <a href="/services/design-and-branding.html">Design &amp; Branding</a>
+    <a href="/#contact" class="btn-accent">Start a conversation</a>
+  </div>
+</header>
+
+<!-- POST HEADER -->
+<article>
+<section class="paper" style="padding: 5rem 0 3rem;">
+  <div class="container post-prose" data-reveal>
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
+      <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
+      <a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
+      <span style="color: var(--ink);">Pass Core Web Vitals on Shopify</span>
+    </nav>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 1.25rem;">
+      <span class="tag-pill">Speed</span>
+      <span class="tag-pill" style="background: var(--bg-soft); color: var(--muted);">Shopify</span>
+      <span class="tag-pill" style="background: var(--bg-soft); color: var(--muted);">Field Guide</span>
+    </div>
+
+    <h1 class="h-display" style="font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.08;">
+      How to pass Core Web Vitals on Shopify <span class="italic-serif" style="color: var(--accent);">in 2026</span>.
+    </h1>
+
+    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1.25rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700;">AK</div>
+      <div>
+        <div style="font-weight: 600;">Adnan Khan</div>
+        <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="2026-06-01">June 1, 2026</time> · 12 min read</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POST BODY -->
+<section style="padding: 0 0 4rem;">
+  <div class="container post-prose">
+
+    <p style="font-size: 1.2rem; line-height: 1.65; color: var(--ink); font-family: var(--font-display); letter-spacing: -0.015em;">If you're reading this in the middle of a quarterly business review where someone just asked why your Meta ROAS is sliding, the answer is probably sitting in your Search Console, in a chart called <em>Core Web Vitals</em>, blinking red.</p>
+
+    <p>Google has spent the last four years making it abundantly clear: how fast your store loads is now a ranking signal, an ad-quality signal, and — most importantly — a conversion signal. Stores that pass Core Web Vitals get more organic traffic, lower Meta CPMs, and 15–35% better conversion rates than stores that don't. The math is brutal and it compounds.</p>
+
+    <p>This post is a field guide. Not a theoretical post about what CWV "is." A practical playbook for what to actually do, in what order, on a real Shopify store, in 2026. I've shipped this audit ~150 times across the last four years. The patterns are extremely consistent.</p>
+
+    <div class="toc">
+      <h5>What's in this guide</h5>
+      <ol>
+        <li><a href="#metrics">The four metrics that actually matter</a></li>
+        <li><a href="#diagnose">How to diagnose your store in four hours</a></li>
+        <li><a href="#lcp">The LCP playbook (the one most people botch)</a></li>
+        <li><a href="#apps">The Shopify apps quietly killing your score</a></li>
+        <li><a href="#cls">CLS: the silent conversion killer</a></li>
+        <li><a href="#inp">INP: the new metric you're probably ignoring</a></li>
+        <li><a href="#monitoring">How to monitor so you don't slide back</a></li>
+        <li><a href="#timeline">A realistic 7-day timeline</a></li>
+      </ol>
+    </div>
+
+    <h2 id="metrics">1. The four metrics that actually matter</h2>
+
+    <p>Core Web Vitals has had a few revisions since 2020. As of 2026, the four metrics Google scores you on are:</p>
+
+    <ul>
+      <li><strong>LCP (Largest Contentful Paint)</strong> — how long until the biggest visible element loads. Target: <strong>under 2.5 seconds</strong> on 4G mobile. This is the metric that will eat your life.</li>
+      <li><strong>CLS (Cumulative Layout Shift)</strong> — how much content visually jumps around as the page loads. Target: <strong>under 0.1</strong>. Cheap to fix, expensive when broken.</li>
+      <li><strong>INP (Interaction to Next Paint)</strong> — how fast the page reacts to user input. Replaced FID in March 2024. Target: <strong>under 200ms</strong>. Most stores still don't measure this.</li>
+      <li><strong>TTFB (Time to First Byte)</strong> — server response time. Not officially CWV, but Lighthouse weights it heavily. Target: <strong>under 800ms</strong>. Usually a hosting/CDN issue.</li>
+    </ul>
+
+    <p>Lighthouse will also yell at you about FCP (First Contentful Paint), TBT (Total Blocking Time), and Speed Index. Those are diagnostic — they tell you <em>why</em> your CWV metrics are bad, not whether you pass. Focus on the four above for the actual scorecard.</p>
+
+    <div class="post-callout">
+      <p><strong>One number to remember:</strong> Every additional second of LCP costs you approximately 7% of conversions on mobile. If your LCP is 4 seconds (the eCom median in 2025 was 3.9s), and you cut it to 2 seconds, the math says you should see roughly a 14% conversion lift just from speed. I've seen that math play out in nearly every audit I've shipped.</p>
+    </div>
+
+    <h2 id="diagnose">2. How to diagnose your store in four hours</h2>
+
+    <p>Before you touch a line of code, you need three data sources:</p>
+
+    <ol>
+      <li><strong>PageSpeed Insights</strong> on your homepage, your top-selling PDP, and your highest-traffic collection page. Run both mobile and desktop. Screenshot everything.</li>
+      <li><strong>Google Search Console</strong> → Core Web Vitals report. This is your <em>real-user</em> data (CrUX) — what actual visitors experienced over the last 28 days. Lab data (Lighthouse) lies. Field data (CrUX) doesn't.</li>
+      <li><strong>WebPageTest</strong> on the same three pages from a 4G mobile profile. Get the waterfall.</li>
+    </ol>
+
+    <p>If your CrUX data shows "Failing" for any of LCP, CLS, or INP — that's where you start. Lab scores are a distraction until your field data passes.</p>
+
+    <h2 id="lcp">3. The LCP playbook (the one most people botch)</h2>
+
+    <p>LCP is almost always one of three things on Shopify:</p>
+
+    <h3>3a. A hero image that's too big, served too slowly</h3>
+
+    <p>The single most common Shopify LCP problem: a 4MB JPEG of a hero image served at full resolution to a mobile device that needed a 600KB WebP. Fix:</p>
+
+    <pre><code>{%- comment -%} Bad. Just serves the original.{%- endcomment -%}
+&lt;img src="{{ section.settings.hero | image_url }}" alt=""&gt;
+
+{%- comment -%} Good. Responsive, modern format, prioritized.{%- endcomment -%}
+&lt;img
+  src="{{ section.settings.hero | image_url: width: 1200 }}"
+  srcset="{{ section.settings.hero | image_url: width: 600 }} 600w,
+          {{ section.settings.hero | image_url: width: 1200 }} 1200w,
+          {{ section.settings.hero | image_url: width: 1800 }} 1800w"
+  sizes="100vw"
+  width="1200" height="800"
+  fetchpriority="high"
+  loading="eager"
+  alt="..."&gt;</code></pre>
+
+    <p>Three things doing work here: <code>srcset</code> serves the right size per device, <code>fetchpriority="high"</code> tells the browser this is your LCP element so it loads first, and the <code>width</code>/<code>height</code> attributes prevent layout shift while it loads.</p>
+
+    <p>Shopify's image CDN already serves AVIF/WebP when the browser supports it — you don't need an app for that. Just use <code>image_url</code> with explicit widths.</p>
+
+    <h3>3b. Render-blocking JavaScript above the fold</h3>
+
+    <p>The second most common LCP killer. Run this in your browser DevTools while loading your homepage:</p>
+
+    <pre><code>// In DevTools Console
+performance.getEntriesByType('resource')
+  .filter(r =&gt; r.initiatorType === 'script')
+  .filter(r =&gt; r.renderBlockingStatus === 'blocking')
+  .map(r =&gt; ({ name: r.name, duration: r.duration }))
+  .sort((a, b) =&gt; b.duration - a.duration);</code></pre>
+
+    <p>You'll get a sorted list of the scripts that are blocking your render path. Anything over 100ms here is a target. The usual suspects: Klaviyo's onsite tracking, a chat widget that loads on every page, a review app that fetches before the page is interactive.</p>
+
+    <p>The fix for most of them: <code>defer</code> the load until after first paint, or move them to load on user interaction. Shopify's <code>{{ 'app.js' | asset_url | script_tag }}</code> doesn't add <code>defer</code> by default. Use this instead:</p>
+
+    <pre><code>&lt;script src="{{ 'app.js' | asset_url }}" defer&gt;&lt;/script&gt;</code></pre>
+
+    <h3>3c. Liquid loops that are O(n²)</h3>
+
+    <p>The sneaky one. On collection pages with 50+ products, an inefficient Liquid loop can add 800ms+ to server response time. The classic mistake:</p>
+
+    <pre><code>{%- comment -%} Bad. For every product, loops all variants.{%- endcomment -%}
+{%- for product in collection.products -%}
+  {%- for variant in product.variants -%}
+    {%- if variant.available -%}
+      {%- assign has_stock = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+{%- endfor -%}
+
+{%- comment -%} Good. Use the built-in property.{%- endcomment -%}
+{%- for product in collection.products -%}
+  {%- if product.available -%}...{%- endif -%}
+{%- endfor -%}</code></pre>
+
+    <p>Shopify's <code>product.available</code>, <code>collection.products_count</code>, and similar pre-computed properties save you orders of magnitude on large catalogs.</p>
+
+    <h2 id="apps">4. The Shopify apps quietly killing your score</h2>
+
+    <p>The honest list, ranked by how often I find them tanking LCP in audits:</p>
+
+    <ol>
+      <li><strong>Chat widgets that load on every page.</strong> Intercom, Tidio, Tawk.to, Gorgias chat. Each adds 300–800ms to LCP. Lazy-load them on user intent (scroll past 50% or hover near the bottom-right corner) instead of on initial page load.</li>
+      <li><strong>Review apps that fetch synchronously.</strong> Judge.me and Yotpo are the usual offenders. Both have proper async-load options buried in their settings — turn them on.</li>
+      <li><strong>Pop-up apps with heavy assets.</strong> Privy, OptinMonster. Configure them to load after first paint and ideally on user intent.</li>
+      <li><strong>Page builders that inject their entire framework site-wide.</strong> PageFly and GemPages do this. The framework loads even on pages you didn't build with them.</li>
+      <li><strong>Analytics stacks running redundantly.</strong> I see stores running Shopify's native analytics + GA4 + Meta Pixel + TikTok Pixel + Triple Whale + Northbeam all at once. Each adds 50–200ms. Most of them double-count.</li>
+    </ol>
+
+    <div class="post-callout">
+      <p><strong>The four-hour audit, summarized:</strong> Run PageSpeed Insights on three key pages. Open Search Console for field data. Run the DevTools snippet above to find blocking scripts. List your apps, rank them by render-path impact, and decide which to keep, defer, or remove. That's it. Most stores have 1.5–2 seconds of recoverable LCP just from doing that exercise honestly.</p>
+    </div>
+
+    <h2 id="cls">5. CLS: the silent conversion killer</h2>
+
+    <p>CLS is cheap to fix and devastating when broken. It's the metric where users click "Add to Cart" but the layout shifts at the last moment and they click a different button instead. The Holy Grail of accidental UX sabotage.</p>
+
+    <p>The fix is almost always the same: <strong>reserve space for every element before it loads</strong>. That means:</p>
+
+    <ul>
+      <li><code>width</code> and <code>height</code> attributes on every image. Shopify lets you query these from the image object: <code>{{ image.width }}</code> and <code>{{ image.height }}</code>.</li>
+      <li><code>aspect-ratio</code> in CSS on any container with dynamic content. Use <code>aspect-ratio: 4 / 3</code> instead of <code>height: auto</code>.</li>
+      <li>Reserve space for late-loading ads, banners, cookie consent. Use <code>min-height</code> on their containers.</li>
+      <li>Preload your custom fonts: <code>&lt;link rel="preload" href="..." as="font" type="font/woff2" crossorigin&gt;</code>. Use <code>font-display: swap</code>, and add <code>size-adjust</code> to your <code>@font-face</code> if there's a noticeable layout shift on font swap.</li>
+    </ul>
+
+    <p>Target: CLS under 0.1. Most stores I audit start around 0.25–0.35. The fix usually takes 2–3 hours of focused work.</p>
+
+    <h2 id="inp">6. INP: the new metric you're probably ignoring</h2>
+
+    <p>Interaction to Next Paint replaced FID in March 2024. It measures how fast the page reacts to user input — clicks, taps, keystrokes. Most Shopify stores haven't measured it. Most are failing it.</p>
+
+    <p>The usual INP killers on Shopify:</p>
+
+    <ul>
+      <li><strong>Heavy main-thread work during cart updates.</strong> Cart drawer apps that recalculate the entire cart on every quantity change.</li>
+      <li><strong>Synchronous third-party scripts running on click.</strong> Analytics that block the main thread for 300ms+ when you click "Add to Cart."</li>
+      <li><strong>Unoptimized event handlers.</strong> A scroll listener that fires 60 times per second running an expensive function.</li>
+    </ul>
+
+    <p>The fix is to break long tasks into smaller chunks (use <code>requestIdleCallback</code> or <code>scheduler.postTask()</code>), debounce frequent handlers, and move analytics work to a Web Worker where possible.</p>
+
+    <h2 id="monitoring">7. How to monitor so you don't slide back</h2>
+
+    <p>The unspoken truth about CWV optimization: stores that "passed" six months ago are failing now. New apps get added. New images get uploaded at full resolution. The marketing team installs another pixel. Performance erodes invisibly.</p>
+
+    <p>Three monitoring practices that prevent regression:</p>
+
+    <ol>
+      <li><strong>Set up automated Lighthouse CI runs.</strong> Free GitHub Action that runs Lighthouse on every theme deploy. Alerts you in Slack if any score drops more than 5 points.</li>
+      <li><strong>Use the <code>web-vitals</code> JS library</strong> to log real-user CWV to your own analytics (or Vercel Analytics, or PostHog). You'll see degradation a week before Search Console does.</li>
+      <li><strong>Block the marketing team from installing apps directly.</strong> Every new app gets a quick render-path check first. Yes, this is annoying. It also keeps your store fast.</li>
+    </ol>
+
+    <h2 id="timeline">8. A realistic 7-day timeline</h2>
+
+    <p>Here's the actual sprint I run for clients. Day-by-day:</p>
+
+    <ul>
+      <li><strong>Day 1</strong> — Audit. PageSpeed + Search Console + WebPageTest on five key pages. Document baseline scores. Identify the top three bottlenecks per metric.</li>
+      <li><strong>Day 2</strong> — Image pipeline. Re-encode hero media. Add <code>srcset</code>, <code>width</code>/<code>height</code>, <code>fetchpriority</code>. Audit Shopify image_url usage across all sections.</li>
+      <li><strong>Day 3</strong> — Third-party script audit. Defer or lazy-load chat widget, review widgets, pop-ups. Move analytics behind first paint. Remove unused apps from theme.liquid.</li>
+      <li><strong>Day 4</strong> — Liquid review. Find and refactor O(n²) loops on collection pages. Move expensive logic to <code>shopify/sections/*</code> with caching where possible.</li>
+      <li><strong>Day 5</strong> — CLS pass. Reserve space everywhere. Fix font loading. Reserve space for banners, popups, lazy-loaded sections.</li>
+      <li><strong>Day 6</strong> — INP pass. Break long tasks. Debounce handlers. Audit click handlers in cart, quick-view, variant pickers.</li>
+      <li><strong>Day 7</strong> — Re-measure. Run PageSpeed on the same five pages. Deploy to production. Set up Lighthouse CI for ongoing monitoring.</li>
+    </ul>
+
+    <p>That's a normal sprint. A particularly stubborn store with deep theme-level rot might need a second week. But 7 days is the realistic baseline for taking a 38 Lighthouse score to 90+.</p>
+
+    <hr/>
+
+    <h2 style="margin-top: 2rem;">If you'd rather not do this yourself</h2>
+
+    <p>This is the sprint I run for clients — fixed price, fixed timeline, performance-guaranteed in writing. If your Lighthouse hasn't moved above 50 despite everyone on your team trying, that's the situation I built the offer for.</p>
+
+    <p style="text-align: center; margin-top: 2.5rem;">
+      <a href="/services/speed-optimization.html" class="btn btn-primary">Read about the 7-Day Speed Sprint
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </p>
+
+    <hr style="margin-top: 4rem;"/>
+
+    <!-- AUTHOR BOX -->
+    <div style="display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; margin-top: 2rem;">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
+      <div>
+        <h3 class="serif" style="font-size: 1.25rem; margin: 0; letter-spacing: -0.02em;">Adnan Khan</h3>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 307 projects, $300K+, 100% Job Success.</p>
+        <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
+          <a href="/about.html" style="color: var(--accent);">About</a>
+          <a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener" style="color: var(--accent);">Upwork</a>
+          <a href="/blog/" style="color: var(--accent);">More posts</a>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+</article>
+
+<!-- RELATED -->
+<section class="section" style="background: var(--bg-soft); border-top: 1px solid var(--line);">
+  <div class="container" data-reveal>
+    <span class="eyebrow">Keep Reading</span>
+    <h2 class="h-2" style="margin-top: 1rem;">More from the studio</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1rem; margin-top: 2rem;">
+      <a href="/services/speed-optimization.html" class="card-static" style="text-decoration: none; display: block;">
+        <span class="tag-pill">Service</span>
+        <h3 class="serif" style="font-size: 1.2rem; margin: 1rem 0 0.5rem; letter-spacing: -0.02em;">The 7-Day Speed Sprint</h3>
+        <p style="color: var(--muted); margin: 0; font-size: 0.92rem;">90+ Lighthouse in 7 days — or you don't pay. The service this post describes.</p>
+      </a>
+      <a href="/blog/" class="card-static" style="text-decoration: none; display: block;">
+        <span class="tag-pill" style="background: var(--bg-soft); color: var(--muted);">Blog</span>
+        <h3 class="serif" style="font-size: 1.2rem; margin: 1rem 0 0.5rem; letter-spacing: -0.02em;">All field notes</h3>
+        <p style="color: var(--muted); margin: 0; font-size: 0.92rem;">Pattern-recognition from 307 client projects. Practical writing, no fluff.</p>
+      </a>
+      <a href="/about.html" class="card-static" style="text-decoration: none; display: block;">
+        <span class="tag-pill" style="background: var(--bg-soft); color: var(--muted);">Studio</span>
+        <h3 class="serif" style="font-size: 1.2rem; margin: 1rem 0 0.5rem; letter-spacing: -0.02em;">About the studio</h3>
+        <p style="color: var(--muted); margin: 0; font-size: 0.92rem;">The story behind eight years of Shopify and WooCommerce work.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<footer class="site-footer footer-rich">
+  <div class="container">
+
+    <!-- ── Row 1: Editorial logo + newsletter ── -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
+          <span class="footer-logo-caps">STUDIO</span>
+        </div>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A thousand projects. Nine years. Built for founders who can tell the difference between work that shipped and work that shipped well.</p>
+        <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);">
+          <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>
+          Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US &amp; UK callable hours
+        </p>
+      </div>
+
+      <div class="footer-newsletter" data-lead-wrap>
+        <p class="footer-newsletter-eyebrow">Field notes, occasionally</p>
+        <h3 class="footer-newsletter-title">One short essay a month. <span class="italic-serif">No newsletter cadence theater.</span></h3>
+        <form data-lead class="footer-newsletter-form" action="/api/contact" method="POST">
+          <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="source" value="footer-newsletter" />
+          <label class="sr-only" for="footer-newsletter-email">Email address</label>
+          <input id="footer-newsletter-email" name="email" type="email" required placeholder="your@email.com" />
+          <button type="submit">Subscribe
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <div data-lead-success class="footer-newsletter-success" style="display: none;">Thanks &mdash; you&rsquo;ll hear from me when the next note ships.</div>
+        <p class="footer-newsletter-note">No sequences. No tracking pixels. Unsubscribe at the bottom of any note.</p>
+      </div>
+    </div>
+
+    <!-- ── Row 2: Currently shipping snippet ── -->
+    <div class="footer-now">
+      <div class="footer-now-head">
+        <span class="footer-now-pulse"></span>
+        <span class="footer-now-label">Currently shipping &nbsp;·&nbsp; updated by hand, monthly</span>
+        <a href="/now/" class="footer-now-link">See the full list &nbsp;→</a>
+      </div>
+      <div class="footer-now-grid">
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Build</span>
+          <p class="footer-now-text">US skincare DTC &mdash; Shopify build, week 3 of 4.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Migration</span>
+          <p class="footer-now-text">UK menswear brand &mdash; Shopify Plus migration, cutover Tuesday.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Sprint</span>
+          <p class="footer-now-text">Returning client &mdash; CRO sprint on PDPs and checkout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Row 3: Link columns ── -->
+    <div class="footer-grid">
+      <div>
+        <h5>By Vertical</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/work/ecommerce/">Ecommerce</a></li>
+          <li><a href="/work/insurance-finance/">Insurance &amp; Finance</a></li>
+          <li><a href="/work/membership-community/">Membership &amp; Community</a></li>
+          <li><a href="/work/custom-apps/">Custom Apps</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Services</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/services/shopify-development.html">Shopify Development</a></li>
+          <li><a href="/services/woocommerce-development.html">WooCommerce Development</a></li>
+          <li><a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a></li>
+          <li><a href="/services/speed-optimization.html">Speed Optimization</a></li>
+          <li><a href="/services/conversion-rate-optimization.html">CRO</a></li>
+          <li><a href="/services/custom-app-development.html">Custom App Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/portfolio/">All work (47)</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/process/">Process</a></li>
+          <li><a href="/notes/">Notes</a></li>
+          <li><a href="/brand.html">Brand</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Founders</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan Khan &middot; Multan</a></li>
+          <li><a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan Khan &middot; Dubai</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Talk</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; 4-hour reply</li>
+          <li class="meta">US &amp; UK hours covered (Multan)</li>
+          <li class="meta">GCC hours covered (Dubai)</li>
+          <li><a href="#contact">Send a note &nbsp;→</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Legal</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+          <li><a href="/cookie-policy.html">Cookie policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Bottom row ── -->
+    <div class="footer-bottom">
+      <p class="meta" style="margin: 0;">&copy; <span data-year>2026</span> Lofts Studio &middot; Multan, Pakistan &middot; Dubai, UAE &middot; Two Top Rated Upwork operators.</p>
+      <p class="meta" style="margin: 0;">CAN-SPAM &amp; UK GDPR compliant &nbsp;·&nbsp; Escrow via Upwork</p>
+    </div>
+  </div>
+</footer>
+<style>
+@media (max-width: 880px) { .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; } }
+@media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr !important; } }
+</style>
+<!-- GSAP — async, non-render-blocking. main.js detects and gracefully degrades. -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="../assets/main.js?v=20260612c" defer></script>
+<!-- ─── Sticky "Book a free audit" pill ─── -->
+<a href="/#contact" class="audit-cta" aria-label="Book a free 15-minute audit">
+  <span class="audit-cta-mark" aria-hidden="true"></span>
+  Book a free 15-min audit
+  <svg class="audit-cta-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+</a>
+
+
+<script src="/assets/widgets.js?v=20260612c" defer></script>
+</body>
+</html>

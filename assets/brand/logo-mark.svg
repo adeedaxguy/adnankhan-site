@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Lofts Studio — Mark
+     A refined architectural "L" — drawn as a thin geometric stroke,
+     enclosed within a square frame. Reads as a floor plan / section. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-label="Lofts Studio mark">
+  <rect x="1" y="1" width="62" height="62" rx="6" fill="#1A1612"/>
+  <!-- The L stroke — clean architectural angle -->
+  <path d="M 22 16 L 22 44 L 46 44" stroke="#F4F0EA" stroke-width="2.2" stroke-linecap="square" fill="none"/>
+  <!-- Accent serif terminal -->
+  <circle cx="46" cy="44" r="2" fill="#8B3A1F"/>
+  <!-- Subtle baseline rule (the floor) -->
+  <line x1="18" y1="50" x2="50" y2="50" stroke="#F4F0EA" stroke-width="0.6" opacity="0.25"/>
+</svg>
