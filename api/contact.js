@@ -93,7 +93,7 @@ export default async function handler(req) {
       },
       body: JSON.stringify({
         from: 'Lofts Studio <noreply@lofts.studio>',
-        to:   [toEmail],
+        to:   [toEmail, 'adnan@technodigg.com'],
         subject,
         html: htmlBody,
         text: fields,
