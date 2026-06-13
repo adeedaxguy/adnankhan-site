@@ -1918,11 +1918,12 @@ details.faq .faq-body {
   transition: background .2s, gap .25s cubic-bezier(.2,.7,.2,1);
 }
 .chat-cta-primary {
-  background: var(--ink);
-  color: var(--bg);
+  background: var(--accent);
+  color: #fff !important;
+  text-decoration: none;
 }
 .chat-cta-primary:hover {
-  background: var(--ink-soft);
+  background: #732f19;
   gap: 11px;
 }
 
@@ -3891,10 +3892,14 @@ body.chat-open .mob-bar { display: none; }
   .metric-headline { font-size: clamp(1rem, 5.5vw, 1.3rem); }
 }
 
-/* ── Insights band ── */
-@media (max-width: 520px) {
-  .insights-band { gap: 0.85rem; }
-  .insight-count { font-size: clamp(2.4rem, 13vw, 3.5rem); }
+/* ── Insights band — 2 per row on mobile ── */
+@media (max-width: 640px) {
+  .insights-band { grid-template-columns: repeat(2, 1fr) !important; gap: 0; }
+  .insight-cell { padding: 1.5rem 1.1rem; border-right: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+  .insight-cell:nth-child(2n) { border-right: 0; }
+  .insight-count { font-size: clamp(1.9rem, 9vw, 2.6rem); }
+  .insight-trait { font-size: 0.92rem; margin-top: 0.4rem; }
+  .insight-sub { font-size: 0.58rem; letter-spacing: 0.14em; }
 }
 
 /* ── Essay section — hide sidebar meta ── */
@@ -3918,6 +3923,50 @@ body.chat-open .mob-bar { display: none; }
 /* ── FAQ accordion ── */
 @media (max-width: 640px) {
   .faq summary { padding: 1.1rem 0; font-size: 0.96rem; min-height: 52px; display: flex; align-items: center; justify-content: space-between; }
+}
+
+/* ── Built on / platforms + credibility band ── */
+.builton-band {
+  padding: 2.6rem 0 2.9rem;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+.builton-inner {
+  display: flex; align-items: center; justify-content: center;
+  flex-wrap: wrap; gap: 1.1rem 2.2rem;
+}
+.builton-label {
+  font-family: var(--font-sans); font-size: 0.66rem;
+  text-transform: uppercase; letter-spacing: 0.22em;
+  color: var(--muted); white-space: nowrap;
+}
+.builton-logos {
+  list-style: none; margin: 0; padding: 0;
+  display: flex; align-items: center; flex-wrap: wrap;
+  gap: 0.9rem 2rem;
+}
+.builton-logos li {
+  font-family: var(--font-sans); font-size: 1.02rem; font-weight: 500;
+  letter-spacing: -0.01em; color: var(--ink-soft);
+  opacity: 0.6; transition: opacity .25s, color .25s;
+}
+.builton-logos li:hover { opacity: 1; color: var(--ink); }
+.builton-cred {
+  margin: 1.6rem 0 0; text-align: center;
+  font-family: var(--font-sans); font-size: 0.74rem;
+  letter-spacing: 0.04em; color: var(--muted);
+  display: flex; align-items: center; justify-content: center; gap: 0.6rem; flex-wrap: wrap;
+}
+.builton-cred-mark {
+  width: 7px; height: 7px; border-radius: 50%;
+  background: var(--accent); display: inline-block; flex: none;
+}
+@media (max-width: 640px) {
+  .builton-band { padding: 2rem 0 2.2rem; }
+  .builton-inner { gap: 0.8rem 1.4rem; }
+  .builton-logos { gap: 0.7rem 1.3rem; justify-content: center; }
+  .builton-logos li { font-size: 0.92rem; }
+  .builton-cred { font-size: 0.68rem; margin-top: 1.2rem; }
 }
 
 /* ── Footer ── */
@@ -4422,4 +4471,9 @@ body.chat-open .mob-bar { display: none; }
   align-items: center;
   justify-content: center;
   margin: 0 auto;
+}
+
+/* Hide header CTA on mobile — redundant with the floating bottom bar */
+@media (max-width: 640px) {
+  .nav-bar .btn-primary { display: none; }
 }

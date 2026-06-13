@@ -18,7 +18,7 @@ git push origin main
 ```
 
 ## Cache-busting
-All `<link>` and `<script>` tags use `?v=YYYYMMDDX` (e.g. `?v=20260613k`).
+All `<link>` and `<script>` tags use `?v=YYYYMMDDX` (e.g. `?v=20260613l`).
 **Increment the letter suffix on every deploy that changes CSS or JS.**
 Update all HTML files at once:
 ```bash
@@ -103,4 +103,4 @@ python3 scripts/build_pillars_and_brand.py
 - Never push services aggressively in copy
 
 ## Current cache-bust version
-`v=20260613k` — increment letter on next CSS/JS change
+`v=20260613l` — increment letter on next CSS/JS change

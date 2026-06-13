@@ -699,20 +699,26 @@ def render_listing(items: list, nav: str, footer: str) -> str:
   .filter-btn:hover {{ background: var(--surface); color: var(--ink); }}
   .filter-btn.active {{ background: var(--ink); color: var(--bg); border-color: var(--ink); }}
   .essay-grid {{ @media (max-width:880px) {{ grid-template-columns: 1fr; gap: 2rem; }} }}
-  /* Mobile: keep the filter bar from covering the page, show 2 cards per row */
+  /* Mobile: compact, even-height 2-up portfolio cards */
   @media (max-width: 640px) {{
-    /* Was sticky — on phones it followed the scroll and hid the work. Let it scroll away. */
+    /* Filter bar was sticky and covered the page on scroll — let it scroll away */
     .pf-filter-bar {{ position: static !important; }}
     .pf-filter-bar .container {{ padding-top: 0.6rem !important; padding-bottom: 0.6rem !important; }}
     .filter-btn {{ padding: 0.32rem 0.7rem; font-size: 0.64rem; letter-spacing: 0.08em; }}
 
-    /* Two-up portfolio grid */
-    #workGrid.work-grid {{ grid-template-columns: repeat(2, 1fr); gap: 0.85rem; }}
-    .work-card-body {{ padding: 0.85rem 0.85rem 1rem; }}
-    .work-card-meta {{ font-size: 0.6rem; letter-spacing: 0.06em; }}
-    .work-card-name {{ font-size: 1rem !important; }}
-    .work-card-tag {{ font-size: 0.82rem !important; line-height: 1.45 !important; }}
-    .work-card-actions {{ flex-direction: column; align-items: flex-start; gap: 0.45rem; }}
+    /* Two-up grid — cards size to their content so short cards don't stretch into voids */
+    #workGrid.work-grid {{ grid-template-columns: repeat(2, 1fr); gap: 1rem 0.7rem; align-items: start; }}
+    .work-card-body {{ padding: 0.8rem 0.8rem 0.95rem; }}
+    .work-card-meta {{ font-size: 0.58rem; letter-spacing: 0.05em; line-height: 1.35; }}
+    .work-card-name {{ font-size: 0.98rem !important; margin-top: 0.15rem; }}
+    .work-card-tag {{
+      font-size: 0.8rem !important; line-height: 1.4 !important; margin-top: 0.3rem;
+      display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+    }}
+    /* Show only the Case study link on mobile — the raw URL truncated awkwardly */
+    .work-card-live {{ display: none; }}
+    .work-card-actions {{ margin-top: 0.7rem; padding-top: 0.65rem; flex-direction: row; align-items: center; gap: 0.5rem; }}
+    .work-card-cs {{ font-size: 0.78rem; }}
     .work-card-badge {{ font-size: 0.55rem; padding: 0.25rem 0.55rem; }}
   }}
 </style>
