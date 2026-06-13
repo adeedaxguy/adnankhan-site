@@ -554,7 +554,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
         <button class="filter-btn" data-filter="cat" data-value="agency-brand">Agency / Brand</button>
       </div>
 
-      <span style="margin-left:auto;font-family:var(--font-sans);font-size:0.72rem;color:var(--muted);" id="filterCount">{total} projects</span>
+      <span style="margin-left:auto;font-family:var(--font-sans);font-size:0.72rem;color:var(--muted);" id="filterCount"></span>
     </div>
   </div>
 </div>
@@ -648,7 +648,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
     emptyState.style.display = visible.length === 0 ? 'block' : 'none';
 
     // Count label
-    countEl.textContent = visible.length + ' project' + (visible.length === 1 ? '' : 's');
+    countEl.textContent = '';
 
     // Pagination
     pagination.innerHTML = '';

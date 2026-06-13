@@ -1133,7 +1133,7 @@ details.faq .faq-body {
   padding: 0 0.3rem;
   opacity: 0.65;
 }
-.brand-marquee-track span[aria-hidden="true"]:not(:empty) {
+.brand-marquee-track .bm-sep {
   /* separator dots */
   opacity: 0.3;
   font-style: normal;
@@ -3960,6 +3960,10 @@ body.chat-open .mob-bar { display: none; }
   opacity: 0.5; flex: none; transition: opacity .25s, transform .25s;
 }
 .chip:hover .chip-dot { opacity: 1; transform: scale(1.25); }
+.chip-logo { width: 17px; height: 17px; flex: none; opacity: 0.55; object-fit: contain; transition: opacity .25s; }
+.chip:hover .chip-logo { opacity: 1; }
+.builton-cred a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; transition: color .2s; }
+.builton-cred a:hover { color: var(--accent); }
 
 /* Credibility line (reused under Built on) */
 .builton-cred {
