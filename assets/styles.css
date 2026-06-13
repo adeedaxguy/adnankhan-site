@@ -4029,8 +4029,9 @@ body.chat-open .mob-bar { display: none; }
   flex: 1;
   background-size: cover;
   background-position: top center;
+  background-color: var(--surface);
   min-height: 0;
-  transition: background-position 3s ease;
+  transition: background-position 3s ease, opacity .35s ease;
 }
 .stack-card.is-front .stack-card-img {
   background-position: bottom center;
