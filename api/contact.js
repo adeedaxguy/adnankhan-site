@@ -1,8 +1,9 @@
-// Vercel Edge Function — proxies contact form submissions to Formsubmit
+// Vercel Edge Function — sends contact/subscriber emails via Resend
 // and stores a copy in Vercel KV for the admin inbox.
 //
-// Set CONTACT_EMAIL in Vercel project Settings → Environment Variables.
-// (already set in production; this Edge Function reads it server-side only.)
+// Required env vars (Vercel project Settings → Environment Variables):
+//   RESEND_API_KEY  — Resend API key (re_...)
+//   CONTACT_EMAIL   — destination address (hi@lofts.studio)
 
 export const config = { runtime: 'edge' };
 
@@ -11,13 +12,12 @@ async function kvStore(payload) {
   const KV_TOKEN = process.env.KV_REST_API_TOKEN;
   if (!KV_URL || !KV_TOKEN) return;
   try {
-    // Upstash REST API: POST to base URL with ["COMMAND", "key", "value"] body
     await fetch(KV_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${KV_TOKEN}`, 'Content-Type': 'application/json' },
       body: JSON.stringify(['LPUSH', 'lofts:submissions', JSON.stringify({ ...payload, _ts: Date.now() })]),
     });
-  } catch { /* non-blocking — don't fail the form submit */ }
+  } catch { /* non-blocking */ }
 }
 
 export default async function handler(req) {
@@ -25,66 +25,93 @@ export default async function handler(req) {
     return new Response(JSON.stringify({ error: 'POST only' }), { status: 405 });
   }
 
-  const email = process.env.CONTACT_EMAIL;
-  if (!email) {
+  const toEmail     = process.env.CONTACT_EMAIL;
+  const resendKey   = process.env.RESEND_API_KEY;
+
+  if (!toEmail || !resendKey) {
     return new Response(JSON.stringify({
       success: false,
-      message: "Contact endpoint is not configured. Try the chat widget bottom-right."
+      message: 'Contact endpoint is not configured.',
     }), { status: 500, headers: { 'content-type': 'application/json' } });
   }
 
-  // Forward the original form payload to Formsubmit
+  // Parse payload
   let payload = {};
   try {
     const ct = req.headers.get('content-type') || '';
     if (ct.includes('application/json')) {
       payload = await req.json();
     } else {
-      // multipart/form-data or x-www-form-urlencoded
       const form = await req.formData();
       for (const [k, v] of form.entries()) payload[k] = typeof v === 'string' ? v : String(v);
     }
-  } catch {
-    payload = {};
-  }
+  } catch { payload = {}; }
 
-  // Sanitize the payload — strip any user-supplied _ control keys
+  // Sanitize
   const clean = {};
   for (const [k, v] of Object.entries(payload)) {
-    if (k.startsWith('_')) continue; // we set our own control fields
+    if (k.startsWith('_')) continue;
     clean[k] = String(v).slice(0, 4000);
   }
 
-  const ccEmail = process.env.CONTACT_EMAIL_CC;
-  const body = new URLSearchParams({
-    ...clean,
-    _subject: payload._subject || 'New lead — Adnan K. Studio site',
-    _captcha: 'false',
-    _template: 'table',
-    ...(ccEmail ? { _cc: ccEmail } : {}),
-  });
+  const source  = clean.source || 'contact-form';
+  const subject = payload._subject || (source === 'footer-newsletter'
+    ? `New subscriber — ${clean.email || 'unknown'}`
+    : `New lead — Lofts Studio`);
+
+  // Build plain-text email body from all submitted fields
+  const fields = Object.entries(clean)
+    .filter(([k]) => k !== 'source')
+    .map(([k, v]) => `${k.charAt(0).toUpperCase() + k.slice(1)}: ${v}`)
+    .join('\n');
+
+  const htmlBody = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1a1612;">
+      <h2 style="margin:0 0 16px;font-size:18px;">${subject}</h2>
+      <table style="width:100%;border-collapse:collapse;">
+        ${Object.entries(clean).filter(([k]) => k !== 'source').map(([k, v]) => `
+        <tr>
+          <td style="padding:8px 12px;background:#f4f0ea;font-weight:600;width:30%;vertical-align:top;border:1px solid #e0d8ce;">
+            ${k.charAt(0).toUpperCase() + k.slice(1)}
+          </td>
+          <td style="padding:8px 12px;border:1px solid #e0d8ce;vertical-align:top;">${v}</td>
+        </tr>`).join('')}
+        <tr>
+          <td style="padding:8px 12px;background:#f4f0ea;font-weight:600;border:1px solid #e0d8ce;">Source</td>
+          <td style="padding:8px 12px;border:1px solid #e0d8ce;">${source}</td>
+        </tr>
+      </table>
+      <p style="margin:20px 0 0;font-size:12px;color:#999;">Sent via lofts.studio</p>
+    </div>`;
 
   try {
-    const r = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(email)}`, {
+    const r = await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Accept': 'application/json',
+        'Authorization': `Bearer ${resendKey}`,
+        'Content-Type': 'application/json',
       },
-      body: body.toString(),
+      body: JSON.stringify({
+        from: 'Lofts Studio <onboarding@resend.dev>',
+        to:   [toEmail],
+        subject,
+        html: htmlBody,
+        text: fields,
+        reply_to: clean.email || undefined,
+      }),
     });
-    const data = await r.json().catch(() => ({ success: 'false' }));
-    const success = data.success === 'true' || data.success === true || r.ok;
-    // Store in KV regardless of formsubmit result (non-blocking)
-    await kvStore({ ...clean, _subject: payload._subject || 'New lead', source: clean.source || 'contact-form' });
-    return new Response(JSON.stringify({
-      success,
-      message: data.message || (r.ok ? 'Sent' : 'Failed'),
-    }), { status: 200, headers: { 'content-type': 'application/json' } });
+
+    const data = await r.json().catch(() => ({}));
+    const success = r.ok;
+
+    // Store in KV regardless
+    await kvStore({ ...clean, _subject: subject, source });
+
+    return new Response(JSON.stringify({ success, message: success ? 'Sent' : (data.message || 'Failed') }),
+      { status: 200, headers: { 'content-type': 'application/json' } });
+
   } catch (e) {
-    return new Response(JSON.stringify({
-      success: false,
-      message: 'Network blip — please try again in a moment.',
-    }), { status: 200, headers: { 'content-type': 'application/json' } });
+    return new Response(JSON.stringify({ success: false, message: 'Network blip — please try again.' }),
+      { status: 200, headers: { 'content-type': 'application/json' } });
   }
 }
