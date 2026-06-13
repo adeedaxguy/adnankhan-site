@@ -92,7 +92,7 @@ export default async function handler(req) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        from: 'Lofts Studio <noreply@send.lofts.studio>',
+        from: 'Lofts Studio <noreply@lofts.studio>',
         to:   [toEmail],
         subject,
         html: htmlBody,
