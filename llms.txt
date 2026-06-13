@@ -1,0 +1,38 @@
+# Lofts Studio
+
+> Lofts Studio is a senior freelance web-engineering studio run by two brothers — Adnan Khan (Multan, Pakistan) and Irfan Khan (Dubai, UAE). Both are Top Rated on Upwork with a 100% Job Success Score. The studio designs, builds, and optimizes Shopify, WooCommerce, WordPress, Webflow, and custom React/Next.js applications, working primarily with founders and teams in the United States and the United Kingdom. Established 2017.
+
+## What Lofts Studio does
+- Shopify and Shopify Plus development, theme builds, and replatform migrations
+- WooCommerce and WordPress development (including Elementor)
+- Webflow development for SaaS, B2B, and brand-led sites
+- Custom application development in React, Next.js, Node.js, and Laravel; headless commerce
+- Conversion-rate optimization, Core Web Vitals / speed optimization, and technical SEO audits
+- AI chatbot and automation work
+
+## Who runs it
+- Adnan Khan — co-founder, leads e-commerce (Shopify, WooCommerce, WordPress). Based in Multan, Pakistan. Upwork: https://www.upwork.com/freelancers/wordpressandshopifydeveloper
+- Irfan Khan — co-founder, leads full-stack and custom application work. Based in Dubai, UAE. Upwork: https://www.upwork.com/freelancers/irfankhan
+- Both are Top Rated on Upwork with a 100% Job Success Score.
+
+## How engagements work
+- Work directly with the person writing the code — no agency layers, no junior handoffs.
+- Fixed price, fixed scope, fixed launch date. Async-first with daily Loom updates.
+- Hire directly, or run the engagement escrow-protected through Upwork — your choice. Every project includes 30 days of post-launch support.
+- Typical Shopify/WooCommerce builds run roughly $4K–$12K fixed-price; speed and CRO sprints $1.5K–$4.5K; custom apps $3K–$10K. Exact pricing follows a short strategy call.
+
+## Where it works
+- Serves clients in the United States, United Kingdom, Canada, Australia, and the United Arab Emirates; US/UK timezone-friendly.
+
+## Key pages
+- Home: https://lofts.studio/
+- Portfolio (live client work): https://lofts.studio/portfolio/
+- Services: https://lofts.studio/services/
+- About the founders: https://lofts.studio/about.html
+- Process: https://lofts.studio/process/
+- Blog: https://lofts.studio/blog/
+- Contact: https://lofts.studio/#contact
+
+## Contact
+- Email: hi@lofts.studio
+- Site: https://lofts.studio/
