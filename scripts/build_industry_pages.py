@@ -60,7 +60,11 @@ NAV = '''<header class="nav-bar">
           </div>
         </div>
       </div>
+<<<<<<< ours
       <a href="/websites/" class="nav-link">Websites</a>
+=======
+      <a href="/websites/" class="nav-link">Web Design</a>
+>>>>>>> theirs
       <a href="/portfolio/" class="nav-link">Portfolio</a>
       <a href="/process/" class="nav-link">Process</a>
       <a href="/notes/" class="nav-link">Notes</a>
@@ -86,7 +90,11 @@ NAV = '''<header class="nav-bar">
       </button>
     </div>
     <nav class="mnav-primary" aria-label="Main">
+<<<<<<< ours
       <a href="/websites/" class="mnav-link" data-num="01">Websites</a>
+=======
+      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
+>>>>>>> theirs
       <a href="/portfolio/" class="mnav-link" data-num="02">Portfolio</a>
       <a href="/about.html" class="mnav-link" data-num="03">About</a>
       <a href="/process/" class="mnav-link" data-num="04">Process</a>
