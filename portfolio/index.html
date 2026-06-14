@@ -173,6 +173,55 @@
 
 </header>
 
+<!-- Full-screen mobile nav overlay — must be outside <header> (backdrop-filter creates containing block) -->
+<div id="mobilePanel" class="mnav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="mnav-inner">
+
+    <div class="mnav-top">
+      <a href="/" class="mnav-logo">Lofts<span>studio</span></a>
+      <button class="mnav-close" id="menuClose" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <nav class="mnav-primary" aria-label="Main">
+      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
+      <a href="/portfolio/" class="mnav-link" data-num="02">Portfolio</a>
+      <a href="/about.html" class="mnav-link" data-num="03">About</a>
+      <a href="/process/" class="mnav-link" data-num="04">Process</a>
+      <a href="/services/" class="mnav-link" data-num="05">Services</a>
+      <a href="/blog/" class="mnav-link" data-num="06">Blog</a>
+    </nav>
+
+    <div class="mnav-services">
+      <p class="mnav-label">Services</p>
+      <div class="mnav-grid">
+        <a href="/services/shopify-development.html">Shopify</a>
+        <a href="/services/woocommerce-development.html">WooCommerce</a>
+        <a href="/services/webflow-development.html">Webflow</a>
+        <a href="/services/shopify-plus-migration.html">Shopify Plus</a>
+        <a href="/services/speed-optimization.html">Speed Opt.</a>
+        <a href="/services/conversion-rate-optimization.html">CRO</a>
+        <a href="/services/custom-app-development.html">Custom Apps</a>
+        <a href="/services/ai-chatbot-automation.html">AI &amp; Automation</a>
+      </div>
+    </div>
+
+    <a href="/free-audit/" class="mnav-audit-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Free 15-min Audit
+    </a>
+    <div class="mnav-foot">
+      <a href="/#contact" class="mnav-cta">
+        Start a conversation
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+      <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
+    </div>
+
+  </div>
+</div>
+
 <section class="paper" style="padding:7rem 0 4rem;">
   <div class="container">
     <div data-reveal style="max-width:940px;">
