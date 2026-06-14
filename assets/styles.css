@@ -468,11 +468,12 @@ body { padding-top: 76px; }
 .mega-wrap:focus-within::after { pointer-events: auto; }
 
 .mega {
-  position: absolute;
-  top: calc(100% + 18px);
+  position: fixed;
+  top: 86px;
   left: 50%;
   transform: translateX(-50%) translateY(-6px);
   width: min(1080px, 94vw);
+  max-width: calc(100vw - 1.5rem);
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-xl);
@@ -484,7 +485,7 @@ body { padding-top: 76px; }
   opacity: 0;
   pointer-events: none;
   transition: opacity .22s cubic-bezier(.2,.7,.2,1), transform .25s cubic-bezier(.2,.7,.2,1);
-  z-index: 60;
+  z-index: 65;
 }
 @media (max-width: 1000px) { .mega { grid-template-columns: 1fr 1fr; } }
 @media (max-width: 600px)  { .mega { grid-template-columns: 1fr; } }
@@ -4556,6 +4557,36 @@ html[data-theme="dark"] .conv-popup-sheet { background: rgba(43,37,29,0.94); }
 html[data-theme="dark"] .cookie-banner { background: var(--surface); }
 /* Black simple-icon SVGs would vanish on dark → invert to light */
 html[data-theme="dark"] .chip-logo { filter: invert(0.9) brightness(1.15); }
+
+/* ── Inverted "ink" bands ──────────────────────────────────────────
+   Sections/cards built as dark bands in light mode use inline
+   background:var(--ink);color:var(--bg). In dark mode those tokens
+   flip — the band turns cream and the (hardcoded-light) text vanishes.
+   Pin them back to a true dark band with light text. */
+html[data-theme="dark"] [style*="background:var(--ink)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] {
+  background: #15110B !important;
+  color: var(--ink) !important;
+}
+/* Text that used color:var(--bg) (now dark) inside those bands → light */
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="color:var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="color:var(--bg)"],
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="color: var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="color: var(--bg)"] {
+  color: var(--ink) !important;
+}
+/* Light "cream" buttons (bg:var(--bg)) inside those bands → keep them readable */
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="background:var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="background:var(--bg)"],
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="background: var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="background: var(--bg)"] {
+  background: var(--ink) !important;
+  color: #15110B !important;
+}
+
+/* ── Portfolio filter bar: hardcoded light background didn't adapt ── */
+html[data-theme="dark"] .pf-filter-bar { background: rgba(28,23,18,.95) !important; }
+
 /* Smooth the flip */
 html { transition: background-color .3s ease, color .3s ease; }
 

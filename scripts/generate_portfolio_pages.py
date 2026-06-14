@@ -519,7 +519,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
         Nine years. Three hundred and seven builds. Below are the {total} I can show publicly — DTC, B2B, marketplaces, subscription, insurance, editorial. All have full case studies with live URLs you can open right now.
       </p>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="bignum"><span data-count="307">307</span></div><div class="hero-stat-lbl">Stores shipped</div></div>
+        <div class="hero-stat"><div class="bignum"><span data-count="307">307</span></div><div class="hero-stat-lbl">Builds delivered</div></div>
         <div class="hero-stat"><div class="bignum">{total}</div><div class="hero-stat-lbl">Public case studies</div></div>
         <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Single-operator</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
