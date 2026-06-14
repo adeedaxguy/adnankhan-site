@@ -1,6 +1,6 @@
 {
-  "version": 6,
-  "lastUpdated": "2026-06-11",
+  "version": 7,
+  "lastUpdated": "2026-06-14",
   "schema": "Source of truth for portfolio. Edit via /admin/ then export and replace this file. Public listing at /portfolio/ reads this on load.",
   "categories": [
     "Shopify",
@@ -748,9 +748,17 @@
       "url": "https://counterculturediy.com",
       "image": "",
       "platform": "WooCommerce",
-      "category": "Ecommerce · Arts & Crafts",
-      "stack": ["WordPress", "WooCommerce", "Loyalty Rewards", "Affiliate System"],
-      "metric": { "value": "Loyalty", "label": "Culture Cash rewards driving repeat purchase" },
+      "category": "Ecommerce \u00b7 Arts & Crafts",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Loyalty Rewards",
+        "Affiliate System"
+      ],
+      "metric": {
+        "value": "Loyalty",
+        "label": "Culture Cash rewards driving repeat purchase"
+      },
       "year": "2020",
       "role": "Full-stack WooCommerce developer",
       "featured": false,
@@ -762,13 +770,21 @@
       "slug": "cartelligent",
       "name": "Cartelligent",
       "tagline": "Lead-gen site for a premium car buying service",
-      "summary": "Custom WordPress website for a new car buying and leasing service — blog, location-specific pages, FormAssembly forms integration for lead capture. Conversion-optimised design to drive qualified leads across multiple US markets.",
+      "summary": "Custom WordPress website for a new car buying and leasing service \u2014 blog, location-specific pages, FormAssembly forms integration for lead capture. Conversion-optimised design to drive qualified leads across multiple US markets.",
       "url": "https://www.cartelligent.com",
       "image": "",
       "platform": "WordPress",
-      "category": "Service · Auto",
-      "stack": ["WordPress", "FormAssembly", "Custom Theme", "Multi-location"],
-      "metric": { "value": "Multi-location", "label": "Location pages with lead-gen forms" },
+      "category": "Service \u00b7 Auto",
+      "stack": [
+        "WordPress",
+        "FormAssembly",
+        "Custom Theme",
+        "Multi-location"
+      ],
+      "metric": {
+        "value": "Multi-location",
+        "label": "Location pages with lead-gen forms"
+      },
       "year": "2021",
       "role": "WordPress developer & integrations",
       "featured": false,
@@ -780,13 +796,21 @@
       "slug": "rahjam-designer-silks",
       "name": "Rahjam Designer Silks",
       "tagline": "UK premium fashion ecommerce with DHL integration",
-      "summary": "UK-based WooCommerce fashion store for a designer silks brand — lookbook, gender-filtered product navigation, and DHL shipping integration. Polished shopping experience built for a premium fashion audience.",
+      "summary": "UK-based WooCommerce fashion store for a designer silks brand \u2014 lookbook, gender-filtered product navigation, and DHL shipping integration. Polished shopping experience built for a premium fashion audience.",
       "url": "https://rahjamdesignersilks.co.uk",
       "image": "",
       "platform": "WooCommerce",
-      "category": "Ecommerce · Fashion",
-      "stack": ["WordPress", "WooCommerce", "DHL Shipping", "Lookbook"],
-      "metric": { "value": "DHL", "label": "Automated shipping for UK orders" },
+      "category": "Ecommerce \u00b7 Fashion",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "DHL Shipping",
+        "Lookbook"
+      ],
+      "metric": {
+        "value": "DHL",
+        "label": "Automated shipping for UK orders"
+      },
       "year": "2022",
       "role": "WooCommerce developer",
       "featured": false,
@@ -802,9 +826,17 @@
       "url": "https://www.nuactive.hk",
       "image": "",
       "platform": "Shopify",
-      "category": "Shopify · Health & Wellness",
-      "stack": ["Shopify", "Custom Theme", "Multi-domain", "CRO"],
-      "metric": { "value": "2 Domains", "label": "US + HK storefronts from one codebase" },
+      "category": "Shopify \u00b7 Health & Wellness",
+      "stack": [
+        "Shopify",
+        "Custom Theme",
+        "Multi-domain",
+        "CRO"
+      ],
+      "metric": {
+        "value": "2 Domains",
+        "label": "US + HK storefronts from one codebase"
+      },
       "year": "2024",
       "role": "Shopify developer & optimisation",
       "featured": false,
@@ -816,13 +848,22 @@
       "slug": "burlapmart",
       "name": "BurlapMart",
       "tagline": "Wedding accessories WooCommerce store, multi-currency",
-      "summary": "WooCommerce store for a burlap and jute wedding accessories brand — mega menu, Zota live chat, and multi-currency support. Elegant shopping experience tailored for the wedding and event decor market.",
+      "summary": "WooCommerce store for a burlap and jute wedding accessories brand \u2014 mega menu, Zota live chat, and multi-currency support. Elegant shopping experience tailored for the wedding and event decor market.",
       "url": "https://burlapmart.com",
       "image": "",
       "platform": "WooCommerce",
-      "category": "Ecommerce · Wedding & Events",
-      "stack": ["WordPress", "WooCommerce", "Mega Menu", "Multi-currency", "Live Chat"],
-      "metric": { "value": "Multi-currency", "label": "Global checkout for wedding buyers" },
+      "category": "Ecommerce \u00b7 Wedding & Events",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Mega Menu",
+        "Multi-currency",
+        "Live Chat"
+      ],
+      "metric": {
+        "value": "Multi-currency",
+        "label": "Global checkout for wedding buyers"
+      },
       "year": "2023",
       "role": "WooCommerce developer",
       "featured": false,
@@ -834,13 +875,21 @@
       "slug": "urbanb",
       "name": "Urban Real Estate",
       "tagline": "Lebanon property marketplace with map & geolocation search",
-      "summary": "WordPress real estate listing and marketplace for the Lebanese market — interactive map integration and geolocation-based property search. Built to simplify property discovery in a complex regional market.",
+      "summary": "WordPress real estate listing and marketplace for the Lebanese market \u2014 interactive map integration and geolocation-based property search. Built to simplify property discovery in a complex regional market.",
       "url": "https://urbanb.co",
       "image": "",
       "platform": "WordPress",
-      "category": "Real Estate · Marketplace",
-      "stack": ["WordPress", "Map Integration", "Geolocation Search", "Listings"],
-      "metric": { "value": "Geo Search", "label": "Location-based property discovery" },
+      "category": "Real Estate \u00b7 Marketplace",
+      "stack": [
+        "WordPress",
+        "Map Integration",
+        "Geolocation Search",
+        "Listings"
+      ],
+      "metric": {
+        "value": "Geo Search",
+        "label": "Location-based property discovery"
+      },
       "year": "2025",
       "role": "WordPress developer & map integration",
       "featured": false,
@@ -852,13 +901,21 @@
       "slug": "artika-ai",
       "name": "Artika",
       "tagline": "AI art marketplace with affiliate system",
-      "summary": "WordPress/WooCommerce AI art marketplace — product gallery, affiliate system, and custom product display logic. Modern ecommerce experience for a cutting-edge AI-generated art platform.",
+      "summary": "WordPress/WooCommerce AI art marketplace \u2014 product gallery, affiliate system, and custom product display logic. Modern ecommerce experience for a cutting-edge AI-generated art platform.",
       "url": "https://artika.ai",
       "image": "",
       "platform": "WooCommerce",
-      "category": "Ecommerce · AI & Art",
-      "stack": ["WordPress", "WooCommerce", "Affiliate System", "Custom Display"],
-      "metric": { "value": "Affiliate", "label": "Revenue-sharing for art resellers" },
+      "category": "Ecommerce \u00b7 AI & Art",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Affiliate System",
+        "Custom Display"
+      ],
+      "metric": {
+        "value": "Affiliate",
+        "label": "Revenue-sharing for art resellers"
+      },
       "year": "2025",
       "role": "WordPress/WooCommerce developer",
       "featured": false,
@@ -874,9 +931,18 @@
       "url": "https://lossderma.com",
       "image": "",
       "platform": "WooCommerce",
-      "category": "Ecommerce · Health & Beauty",
-      "stack": ["WordPress", "WooCommerce", "Klaviyo", "Subscriptions", "Affiliate"],
-      "metric": { "value": "Subscriptions + Klaviyo", "label": "Recurring revenue with email automation" },
+      "category": "Ecommerce \u00b7 Health & Beauty",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Klaviyo",
+        "Subscriptions",
+        "Affiliate"
+      ],
+      "metric": {
+        "value": "Subscriptions + Klaviyo",
+        "label": "Recurring revenue with email automation"
+      },
       "year": "2025",
       "role": "WooCommerce developer & integrations",
       "featured": false,
@@ -888,13 +954,21 @@
       "slug": "miferia-mx",
       "name": "MiFeria MX",
       "tagline": "Multi-vendor Shopify marketplace, Mexico",
-      "summary": "Multi-vendor Shopify marketplace for the Mexican market — vendor profile pages, gated pricing for non-logged-in users, and category navigation. Designed to scale as a regional B2B/B2C trade platform.",
+      "summary": "Multi-vendor Shopify marketplace for the Mexican market \u2014 vendor profile pages, gated pricing for non-logged-in users, and category navigation. Designed to scale as a regional B2B/B2C trade platform.",
       "url": "https://miferiamx.myshopify.com",
       "image": "",
       "platform": "Shopify",
-      "category": "Shopify · Marketplace",
-      "stack": ["Shopify", "Multi-vendor", "Gated Pricing", "Custom Theme"],
-      "metric": { "value": "Multi-vendor", "label": "Marketplace with vendor profiles" },
+      "category": "Shopify \u00b7 Marketplace",
+      "stack": [
+        "Shopify",
+        "Multi-vendor",
+        "Gated Pricing",
+        "Custom Theme"
+      ],
+      "metric": {
+        "value": "Multi-vendor",
+        "label": "Marketplace with vendor profiles"
+      },
       "year": "2022",
       "role": "Shopify developer & marketplace architecture",
       "featured": false,
@@ -910,9 +984,19 @@
       "url": "",
       "image": "",
       "platform": "WordPress",
-      "category": "Membership · Community",
-      "stack": ["WordPress", "WooCommerce", "Stripe", "Discord API", "Whop API", "Webhooks"],
-      "metric": { "value": "Auto Discord Roles", "label": "Payment-triggered community access" },
+      "category": "Membership \u00b7 Community",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Stripe",
+        "Discord API",
+        "Whop API",
+        "Webhooks"
+      ],
+      "metric": {
+        "value": "Auto Discord Roles",
+        "label": "Payment-triggered community access"
+      },
       "year": "2025",
       "role": "WordPress developer & API integrations",
       "featured": false,
@@ -928,9 +1012,17 @@
       "url": "",
       "image": "",
       "platform": "WordPress",
-      "category": "Education · EdTech",
-      "stack": ["WordPress", "Bilingual", "Mobile Optimisation", "Phonics"],
-      "metric": { "value": "Bilingual", "label": "Arabic + English phonics programs" },
+      "category": "Education \u00b7 EdTech",
+      "stack": [
+        "WordPress",
+        "Bilingual",
+        "Mobile Optimisation",
+        "Phonics"
+      ],
+      "metric": {
+        "value": "Bilingual",
+        "label": "Arabic + English phonics programs"
+      },
       "year": "2022",
       "role": "WordPress developer",
       "featured": false,
@@ -946,9 +1038,18 @@
       "url": "https://vicbeautyglobal.com",
       "image": "",
       "platform": "WordPress",
-      "category": "Ecommerce · Beauty",
-      "stack": ["WordPress", "Instagram Plugin", "Yoast SEO", "Google Tag Manager", "Animations"],
-      "metric": { "value": "GTM + SEO", "label": "Analytics and organic visibility from day one" },
+      "category": "Ecommerce \u00b7 Beauty",
+      "stack": [
+        "WordPress",
+        "Instagram Plugin",
+        "Yoast SEO",
+        "Google Tag Manager",
+        "Animations"
+      ],
+      "metric": {
+        "value": "GTM + SEO",
+        "label": "Analytics and organic visibility from day one"
+      },
       "year": "2022",
       "role": "WordPress developer & SEO setup",
       "featured": false,
@@ -960,13 +1061,20 @@
       "slug": "george-freeman",
       "name": "George Freeman",
       "tagline": "Personal brand website for a public figure",
-      "summary": "Personal branding website for George Freeman — clean design, strong first impression, and a polished digital presence for a public figure client.",
+      "summary": "Personal branding website for George Freeman \u2014 clean design, strong first impression, and a polished digital presence for a public figure client.",
       "url": "https://georgefreeman.com",
       "image": "",
       "platform": "WordPress",
-      "category": "Personal Brand · Public Figure",
-      "stack": ["WordPress", "Custom Theme", "Personal Brand"],
-      "metric": { "value": "Brand", "label": "Professional digital presence for a named figure" },
+      "category": "Personal Brand \u00b7 Public Figure",
+      "stack": [
+        "WordPress",
+        "Custom Theme",
+        "Personal Brand"
+      ],
+      "metric": {
+        "value": "Brand",
+        "label": "Professional digital presence for a named figure"
+      },
       "year": "2024",
       "role": "WordPress developer",
       "featured": false,
@@ -978,13 +1086,21 @@
       "slug": "coach-carolin",
       "name": "LEAD Better (Coach Carolin)",
       "tagline": "Coaching Shopify store with Klaviyo email capture",
-      "summary": "Coaching and training Shopify store for the LEAD Better brand — Klaviyo email signup forms and customised checkout flows. Lead capture and a seamless buying journey for coaching products.",
+      "summary": "Coaching and training Shopify store for the LEAD Better brand \u2014 Klaviyo email signup forms and customised checkout flows. Lead capture and a seamless buying journey for coaching products.",
       "url": "",
       "image": "",
       "platform": "Shopify",
-      "category": "Shopify · Coaching",
-      "stack": ["Shopify", "Klaviyo", "Custom Checkout", "Email Capture"],
-      "metric": { "value": "Klaviyo", "label": "Email capture wired into checkout" },
+      "category": "Shopify \u00b7 Coaching",
+      "stack": [
+        "Shopify",
+        "Klaviyo",
+        "Custom Checkout",
+        "Email Capture"
+      ],
+      "metric": {
+        "value": "Klaviyo",
+        "label": "Email capture wired into checkout"
+      },
       "year": "2024",
       "role": "Shopify developer & Klaviyo integration",
       "featured": false,
@@ -996,13 +1112,20 @@
       "slug": "admark-online",
       "name": "Admark Online",
       "tagline": "Digital marketing agency site rebuilt from PSD",
-      "summary": "Rebuilt a digital marketing agency website from custom PSD designs — multiple custom pages with pixel-perfect accuracy. Professional agency presence with full design fidelity.",
+      "summary": "Rebuilt a digital marketing agency website from custom PSD designs \u2014 multiple custom pages with pixel-perfect accuracy. Professional agency presence with full design fidelity.",
       "url": "https://admarkonline.com",
       "image": "",
       "platform": "WordPress",
-      "category": "Agency · Digital Marketing",
-      "stack": ["WordPress", "Custom Theme", "PSD to WordPress"],
-      "metric": { "value": "PSD-to-WP", "label": "Pixel-perfect design conversion" },
+      "category": "Agency \u00b7 Digital Marketing",
+      "stack": [
+        "WordPress",
+        "Custom Theme",
+        "PSD to WordPress"
+      ],
+      "metric": {
+        "value": "PSD-to-WP",
+        "label": "Pixel-perfect design conversion"
+      },
       "year": "2023",
       "role": "WordPress developer, PSD to WordPress",
       "featured": false,
@@ -1014,15 +1137,23 @@
       "slug": "freeltools",
       "name": "FreelTools",
       "tagline": "Free tool suite for freelancers and agency owners",
-      "summary": "A growing collection of free browser-based tools for freelancers — invoice generators, rate calculators, proposal builders and more. Custom-built SaaS platform with zero friction access, no login required, designed to attract organic traffic from long-tail tool searches.",
+      "summary": "A growing collection of free browser-based tools for freelancers \u2014 invoice generators, rate calculators, proposal builders and more. Custom-built SaaS platform with zero friction access, no login required, designed to attract organic traffic from long-tail tool searches.",
       "url": "https://freeltools.com",
       "image": "",
       "platform": "Custom platform",
-      "category": "SaaS · Tools · Freelance",
-      "stack": ["Custom App", "Vanilla JS", "No-login UX", "SEO-first"],
-      "metric": { "value": "Free", "label": "Zero-friction tools with no signup required" },
+      "category": "SaaS \u00b7 Tools \u00b7 Freelance",
+      "stack": [
+        "Custom App",
+        "Vanilla JS",
+        "No-login UX",
+        "SEO-first"
+      ],
+      "metric": {
+        "value": "Free",
+        "label": "Zero-friction tools with no signup required"
+      },
       "year": "2025",
-      "role": "Founder · Full-stack build · SEO architecture",
+      "role": "Founder \u00b7 Full-stack build \u00b7 SEO architecture",
       "featured": false,
       "published": true,
       "hideScreenshot": true,
@@ -1032,15 +1163,23 @@
       "slug": "icloseleads",
       "name": "iClose Leads",
       "tagline": "AI-powered lead generation and CRM platform",
-      "summary": "SaaS CRM and lead pipeline tool built for sales teams — AI-assisted lead scoring, follow-up automation, and deal tracking. Custom-built platform replacing messy spreadsheets with a structured, actionable pipeline.",
+      "summary": "SaaS CRM and lead pipeline tool built for sales teams \u2014 AI-assisted lead scoring, follow-up automation, and deal tracking. Custom-built platform replacing messy spreadsheets with a structured, actionable pipeline.",
       "url": "https://icloseleads.com",
       "image": "",
       "platform": "Custom platform",
-      "category": "SaaS · CRM · B2B",
-      "stack": ["Custom App", "AI Integration", "CRM", "Automation"],
-      "metric": { "value": "AI CRM", "label": "Lead scoring and follow-up automation" },
+      "category": "SaaS \u00b7 CRM \u00b7 B2B",
+      "stack": [
+        "Custom App",
+        "AI Integration",
+        "CRM",
+        "Automation"
+      ],
+      "metric": {
+        "value": "AI CRM",
+        "label": "Lead scoring and follow-up automation"
+      },
       "year": "2025",
-      "role": "Founder · Full-stack build · Product design",
+      "role": "Founder \u00b7 Full-stack build \u00b7 Product design",
       "featured": false,
       "published": true,
       "hideScreenshot": true,
@@ -1049,20 +1188,148 @@
     {
       "slug": "klyna",
       "name": "Klyna",
-      "tagline": "The studio OS — tools, templates and systems for builders",
-      "summary": "Klyna.dev is the brand and product hub for a growing suite of tools and templates aimed at freelance developers and studio operators. Built as a standalone product — brand identity, landing page, and a tool ecosystem expanding across 2025–2026.",
+      "tagline": "The studio OS \u2014 tools, templates and systems for builders",
+      "summary": "Klyna.dev is the brand and product hub for a growing suite of tools and templates aimed at freelance developers and studio operators. Built as a standalone product \u2014 brand identity, landing page, and a tool ecosystem expanding across 2025\u20132026.",
       "url": "https://klyna.dev",
       "image": "",
       "platform": "Custom platform",
-      "category": "SaaS · Brand · Agency Tools",
-      "stack": ["Custom App", "Brand System", "Tool Suite"],
-      "metric": { "value": "Studio OS", "label": "Brand + tools platform for studio operators" },
-      "year": "2025–present",
-      "role": "Founder · Brand · Product build",
+      "category": "SaaS \u00b7 Brand \u00b7 Agency Tools",
+      "stack": [
+        "Custom App",
+        "Brand System",
+        "Tool Suite"
+      ],
+      "metric": {
+        "value": "Studio OS",
+        "label": "Brand + tools platform for studio operators"
+      },
+      "year": "2025\u2013present",
+      "role": "Founder \u00b7 Brand \u00b7 Product build",
       "featured": true,
       "published": true,
       "hideScreenshot": true,
       "displayOrder": 47
+    },
+    {
+      "slug": "ireliants",
+      "name": "Reliant Global Technology",
+      "tagline": "Federal-ready IT & cybersecurity contractor site",
+      "summary": "Marketing and capability site for a Texas-based IT, cybersecurity and managed-services firm serving federal and commercial clients. Built in WordPress with downloadable capability statements, contract-vehicle and industry pages (oil & gas, healthcare, retail, government), and named, routed enquiry forms \u2014 structured for 8(a)/SBA and FedRAMP procurement.",
+      "url": "https://ireliants.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "B2B \u00b7 IT & Government",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Lead forms",
+        "Technical SEO"
+      ],
+      "metric": {
+        "value": "4",
+        "label": "Industry verticals built"
+      },
+      "year": "2022",
+      "role": "Lead Developer \u00b7 WordPress build \u00b7 Capability & contract pages",
+      "featured": false,
+      "published": true,
+      "displayOrder": 48
+    },
+    {
+      "slug": "theselfspace",
+      "name": "The Self Space",
+      "tagline": "Shopify store for the high-street therapy brand",
+      "summary": "Self Space is the UK\u2019s \u201ctherapy on the high street\u201d company, founded by Jodie Cariss and Chance Marshall. We built their Shopify store for books, candles and accessories, styling the theme to match the main brand down to typography, colour, logos, hover and form states, and configured UK-only sale settings including VAT and shipping.",
+      "url": "https://store.theselfspace.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "DTC \u00b7 Wellness",
+      "stack": [
+        "Shopify",
+        "Custom theme",
+        "UK VAT & shipping"
+      ],
+      "metric": {
+        "value": "UK",
+        "label": "Brand-matched storefront"
+      },
+      "year": "2023",
+      "role": "Shopify Developer \u00b7 Theme styling \u00b7 Store setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 49
+    },
+    {
+      "slug": "topshelfconcepts",
+      "name": "Top Shelf Concepts",
+      "tagline": "WooCommerce \u2192 Shopify migration for an Australian retailer",
+      "summary": "Replatformed a high-inventory Australian retail store from WooCommerce to Shopify. Built custom homepage and product-page layouts from XD designs, a theme-editable hero slider, and migrated the full catalogue \u2014 responsive across desktop, tablet and mobile.",
+      "url": "https://topshelfconcepts.com.au",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Ecommerce \u00b7 Retail",
+      "stack": [
+        "Shopify",
+        "Custom theme",
+        "WooCommerce migration"
+      ],
+      "metric": {
+        "value": "Woo\u2192Shopify",
+        "label": "Replatform"
+      },
+      "year": "2023",
+      "role": "Shopify Developer \u00b7 Migration \u00b7 Theme build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 50
+    },
+    {
+      "slug": "eaglecontractors",
+      "name": "Eagle Contractors",
+      "tagline": "Industrial contractor site, rebuilt pixel-exact",
+      "summary": "US industrial contractor specialising in tank services and silo construction. Rebuilt their marketing site to match the original Bootstrap design pixel-for-pixel, then redesigned key service pages (industrial tank services) from new Figma layouts \u2014 fast, responsive and consistent across the site.",
+      "url": "https://www.eaglecontractorsusa.com",
+      "image": "",
+      "platform": "Custom",
+      "category": "B2B \u00b7 Industrial",
+      "stack": [
+        "HTML/CSS",
+        "Bootstrap",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "100%",
+        "label": "Pixel-matched rebuild"
+      },
+      "year": "2024",
+      "role": "Front-end Developer \u00b7 Site rebuild \u00b7 Service-page design",
+      "featured": false,
+      "published": true,
+      "displayOrder": 51
+    },
+    {
+      "slug": "expedited",
+      "name": "Expedited",
+      "tagline": "Instant freight-quote tool for a logistics brokerage",
+      "summary": "Built a custom instant-quote tool for a US freight brokerage: customers enter two US addresses, the tool calculates distance and returns a price at an adjustable per-mile rate plus an estimated delivery date, then generates an on-screen contract to sign and book \u2014 modelled on the instant-quote flows of Coyote and J.B. Hunt.",
+      "url": "https://expedited.co",
+      "image": "",
+      "platform": "Custom",
+      "category": "Logistics \u00b7 Custom App",
+      "stack": [
+        "Custom quote engine",
+        "WordPress",
+        "Database"
+      ],
+      "metric": {
+        "value": "Instant",
+        "label": "Quote-to-contract flow"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 Custom quote & contract tool",
+      "featured": false,
+      "published": true,
+      "displayOrder": 52
     }
   ]
 }

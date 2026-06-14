@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260611z"
+CACHE_VER = "20260613v"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -90,8 +90,8 @@ def meta_desc_for(item: dict) -> str:
     name = item["name"]
     tagline = item.get("tagline", "")
     year = item.get("year", "")
-    # Template: "How Adnan K. delivered [tagline] for [name] ({year}). [svc] expert, 307 stores shipped."
-    base = f"How Adnan K. built {name} — {tagline} ({year}). Shopify & WordPress expert, 307+ stores shipped, 100% JSS."
+    # Template: "How Adnan K. delivered [tagline] for [name] ({year}). [svc] expert, 307+ builds delivered."
+    base = f"How Adnan K. built {name} — {tagline} ({year}). Shopify & WordPress expert, 307+ builds delivered, 100% JSS."
     return base[:155]
 
 
@@ -246,6 +246,9 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 <meta name="twitter:image" content="{SITE_URL}{og_image}" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -254,6 +257,10 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 
 <script type="application/ld+json">{breadcrumb_schema}</script>
 <script type="application/ld+json">{cw_schema}</script>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
+  <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
 </head>
 <body>
 
@@ -470,17 +477,20 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Shopify & WordPress Portfolio — {total} Case Studies | Adnan K.</title>
-<meta name="description" content="Browse {total} live client projects by Adnan K. — Shopify, WooCommerce & WordPress developer with 9 years experience, 307 stores shipped. Filter by platform, category, or stack." />
+<meta name="description" content="Browse {total} live client projects by Adnan K. — Shopify, WooCommerce & WordPress developer with 9 years experience, 307+ builds delivered. Filter by platform, category, or stack." />
 <meta name="keywords" content="Shopify developer portfolio, WooCommerce case studies, WordPress developer work, hire Shopify developer, ecommerce developer portfolio, Adnan K." />
 <link rel="canonical" href="{SITE_URL}/portfolio/" />
 <meta name="robots" content="index,follow" />
 <meta property="og:type" content="website" />
 <meta property="og:title" content="Portfolio — {total} Case Studies | Adnan K." />
-<meta property="og:description" content="{total} live projects — Shopify, WooCommerce & WordPress. 307 stores shipped in 9 years." />
+<meta property="og:description" content="{total} live projects — Shopify, WooCommerce & WordPress. 307+ builds delivered in 9 years." />
 <meta property="og:url" content="{SITE_URL}/portfolio/" />
 <meta property="og:image" content="{SITE_URL}/assets/og.jpg" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -513,7 +523,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
     <div data-reveal style="max-width:940px;">
       <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2017&ndash;present</span>
       <h1 class="h-display" data-split="words" style="margin-top:1.5rem;">
-        {total} live projects. <span class="italic-serif">Every one shipped.</span>
+        {total} live projects. <span class="italic-serif">Every one launched.</span>
       </h1>
       <p class="lead" style="margin-top:2rem;">
         Nine years. Three hundred and seven builds. Below are the {total} I can show publicly — DTC, B2B, marketplaces, subscription, insurance, editorial. All have full case studies with live URLs you can open right now.
