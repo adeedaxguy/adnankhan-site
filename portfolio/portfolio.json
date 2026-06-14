@@ -1428,6 +1428,798 @@
       "featured": false,
       "published": true,
       "displayOrder": 56
+    },
+    {
+      "slug": "thebiz",
+      "name": "TheBiz",
+      "tagline": "Resource hub for a small-business community",
+      "summary": "Small-business resource and blog platform built on WordPress with custom seasonal landing pages, newsletter capture and a load-more blog feed.",
+      "url": "https://thebiz.me",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Membership",
+      "stack": [
+        "WordPress",
+        "Custom landing pages",
+        "Newsletter"
+      ],
+      "metric": {
+        "value": "Content",
+        "label": "Resource hub"
+      },
+      "year": "2021",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 57
+    },
+    {
+      "slug": "stealthmedia",
+      "name": "Stealth Media Marketing",
+      "tagline": "Site for a marketing agency",
+      "summary": "Marketing-agency website rebuilt on WordPress with service and analytics pages, an about page with a client logo grid, and inner service pages.",
+      "url": "https://stealthmediamarketing.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Agency \u00b7 Branding",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Custom theme"
+      ],
+      "metric": {
+        "value": "Agency",
+        "label": "Service shopfront"
+      },
+      "year": "2022",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 58
+    },
+    {
+      "slug": "cougarridge",
+      "name": "Cougar Ridge Residents Association",
+      "tagline": "Community site for a residents association",
+      "summary": "Rebuilt a Calgary residents-association website on WordPress with a clean, easy-to-navigate layout and a latest-news section, migrated live from the association's older platform.",
+      "url": "https://cougarridgeresidentsassociation.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Membership",
+      "stack": [
+        "WordPress",
+        "Migration",
+        "News"
+      ],
+      "metric": {
+        "value": "Live",
+        "label": "Community rebuild"
+      },
+      "year": "2022",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 59
+    },
+    {
+      "slug": "roboconn",
+      "name": "RoboConn",
+      "tagline": "Corporate site for a robotics company",
+      "summary": "Corporate website for a robotics and mobility-solutions company, with services sections and an NDA-aware enquiry form supporting document attachments and data-processing consent.",
+      "url": "https://roboconn.ltd",
+      "image": "",
+      "platform": "WordPress",
+      "category": "B2B \u00b7 Robotics",
+      "stack": [
+        "WordPress",
+        "Custom forms",
+        "Corporate"
+      ],
+      "metric": {
+        "value": "B2B",
+        "label": "Robotics & mobility"
+      },
+      "year": "2024",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 60
+    },
+    {
+      "slug": "rayguntorch",
+      "name": "Raygun Torch",
+      "tagline": "Shopify theme build for a novelty store",
+      "summary": "Shopify storefront for a novelty products brand; built a custom theme with bespoke HTML/CSS sections, developed safely on an unpublished theme before going live.",
+      "url": "https://www.rayguntorch.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Ecommerce \u00b7 Novelty",
+      "stack": [
+        "Shopify",
+        "Liquid",
+        "Custom sections"
+      ],
+      "metric": {
+        "value": "Shopify",
+        "label": "Custom theme"
+      },
+      "year": "2022",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 61
+    },
+    {
+      "slug": "luxspei",
+      "name": "Lux Spei",
+      "tagline": "WooCommerce store for cancer-patient wellness",
+      "summary": "WordPress/WooCommerce store selling wellness products for cancer patients, with speed optimisation, reviews, live chat, coupons and checkout fixes.",
+      "url": "https://luxspei.org",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Wellness \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "WordPress",
+        "Speed & CRO"
+      ],
+      "metric": {
+        "value": "Faster",
+        "label": "Speed-tuned store"
+      },
+      "year": "2023",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 62
+    },
+    {
+      "slug": "autopartsway",
+      "name": "AutoPartsWay",
+      "tagline": "Unified responsive header for an auto-parts catalogue",
+      "summary": "Canadian auto-parts catalogue; rebuilt a single unified responsive header \u2014 desktop and mobile hamburger with search, garage selector and cart \u2014 to match the original site behaviour.",
+      "url": "https://autopartsway.ca",
+      "image": "",
+      "platform": "Custom",
+      "category": "Auto \u00b7 Ecommerce",
+      "stack": [
+        "Custom",
+        "Responsive UI",
+        "Auto catalogue"
+      ],
+      "metric": {
+        "value": "Responsive",
+        "label": "Header rebuild"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 Front-end build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 63
+    },
+    {
+      "slug": "saltramrural",
+      "name": "Saltram Rural",
+      "tagline": "WooCommerce store with distance-based shipping",
+      "summary": "Australian rural-supplies store on WordPress/WooCommerce with a distance-based shipping calculator and a custom quote / purchase-order request flow built to integrate with Xero.",
+      "url": "https://saltramrural.com.au",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Rural \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "Shipping logic",
+        "Xero"
+      ],
+      "metric": {
+        "value": "Custom",
+        "label": "Shipping & quotes"
+      },
+      "year": "2023",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 64
+    },
+    {
+      "slug": "theseamossjungle",
+      "name": "The Sea Moss Jungle",
+      "tagline": "Sea-moss supplement store, migrated to Shopify",
+      "summary": "Dutch sea-moss supplement brand; migrated from WooCommerce to Shopify with product pages for the gel range, reviews, a blog and a streamlined cart.",
+      "url": "https://theseamossjungle.nl",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Wellness \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Migration",
+        "DTC"
+      ],
+      "metric": {
+        "value": "Woo\u2192Shopify",
+        "label": "Replatform"
+      },
+      "year": "2023",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 65
+    },
+    {
+      "slug": "planetautotransport",
+      "name": "Planet Auto Transport",
+      "tagline": "Lead-gen site for a US car-shipping company",
+      "summary": "US vehicle-shipping company; WordPress site with a multi-step quote lead form (origin/destination, vehicle make-model-year, trailer type) and Google Places address autocomplete.",
+      "url": "https://planetautotransport.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Auto \u00b7 Logistics",
+      "stack": [
+        "WordPress",
+        "Gravity Forms",
+        "Lead capture"
+      ],
+      "metric": {
+        "value": "Multi-step",
+        "label": "Quote lead form"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 66
+    },
+    {
+      "slug": "lapaving",
+      "name": "LA Paving",
+      "tagline": "Site for a Southern California paving contractor",
+      "summary": "Paving, turf, concrete and asphalt contractor in Southern California; WordPress site with project galleries, an enquiry form and review/social integration.",
+      "url": "https://lapaving.co",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Trades \u00b7 Construction",
+      "stack": [
+        "WordPress",
+        "Galleries",
+        "Lead form"
+      ],
+      "metric": {
+        "value": "Local",
+        "label": "Contractor site"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 67
+    },
+    {
+      "slug": "borisgarreau",
+      "name": "Boris Garreau",
+      "tagline": "Art magazine with shop and members area",
+      "summary": "Minimalist art magazine on WordPress with a WooCommerce shop, blog carousel, multilingual translation, newsletter and member / pay-per-view content.",
+      "url": "https://borisgarreau.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Art \u00b7 Editorial",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Multilingual"
+      ],
+      "metric": {
+        "value": "Editorial",
+        "label": "Magazine + shop"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 68
+    },
+    {
+      "slug": "downtowncondoguys",
+      "name": "Downtown Condo Guys",
+      "tagline": "Real-estate site for downtown condos",
+      "summary": "Real-estate brand specialising in downtown condos; built with Elementor on WordPress with a branded blog, authors, sticky header and icon-led sections.",
+      "url": "https://downtowncondoguys.com",
+      "image": "",
+      "platform": "Elementor",
+      "category": "Real Estate \u00b7 Property",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Blog"
+      ],
+      "metric": {
+        "value": "Local",
+        "label": "Condo marketing"
+      },
+      "year": "2024",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 69
+    },
+    {
+      "slug": "scaredge",
+      "name": "Scar Edge",
+      "tagline": "Site for an Australian surveying consultancy",
+      "summary": "Australian surveying and spatial-services consultancy serving government, architects and town planners; WordPress site with project case studies, industry pages and an insights blog.",
+      "url": "https://scaredge.com.au",
+      "image": "",
+      "platform": "WordPress",
+      "category": "B2B \u00b7 Surveying",
+      "stack": [
+        "WordPress",
+        "Case studies",
+        "Insights"
+      ],
+      "metric": {
+        "value": "B2B",
+        "label": "Case-study site"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 70
+    },
+    {
+      "slug": "gelbasla",
+      "name": "Gelbasla",
+      "tagline": "Bilingual careers portal for Turkey",
+      "summary": "Bilingual (Turkish/English) careers portal publishing roles from NGOs, international organisations and consultancies operating in Turkey; WordPress job-board build with TranslatePress.",
+      "url": "https://gelbasla.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Jobs \u00b7 Careers",
+      "stack": [
+        "WordPress",
+        "Job listings",
+        "Multilingual"
+      ],
+      "metric": {
+        "value": "Bilingual",
+        "label": "Job board"
+      },
+      "year": "2024",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 71
+    },
+    {
+      "slug": "cellzi",
+      "name": "Cellzi",
+      "tagline": "Shopify store for a wholesale phone supplier",
+      "summary": "Brooklyn wholesale cell-phone supplier; Shopify storefront with bulk ordering, low minimums, About / Our Team pages and a request-a-quote flow.",
+      "url": "https://cellzi.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "B2B \u00b7 Wholesale",
+      "stack": [
+        "Shopify",
+        "Quote requests",
+        "B2B"
+      ],
+      "metric": {
+        "value": "Wholesale",
+        "label": "B2B storefront"
+      },
+      "year": "2024",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 72
+    },
+    {
+      "slug": "theboomfood",
+      "name": "Boom Food",
+      "tagline": "Shopify store for a food & drink brand",
+      "summary": "Food and beverage brand; Shopify store built with PageFly and custom Liquid sections, video product pages and analytics tracking.",
+      "url": "https://theboomfood.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Food \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "PageFly",
+        "Liquid"
+      ],
+      "metric": {
+        "value": "Shopify",
+        "label": "DTC food brand"
+      },
+      "year": "2024",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 73
+    },
+    {
+      "slug": "ibcs-anchored",
+      "name": "IBCS-Anchored",
+      "tagline": "Membership & certification site for charterboat operators",
+      "summary": "Membership and certification platform for the charterboat industry, with registration forms and multi-step verification surveys, migrated from staging to the live domain.",
+      "url": "https://www.ibcs-anchored.org",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Membership \u00b7 Certification",
+      "stack": [
+        "WordPress",
+        "Memberships",
+        "Surveys"
+      ],
+      "metric": {
+        "value": "Live",
+        "label": "Membership platform"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 74
+    },
+    {
+      "slug": "thelocatory",
+      "name": "The Locatory",
+      "tagline": "Member portal & courses for a salon community",
+      "summary": "WordPress membership site for a salon with LearnDash courses, a member newsfeed and client login areas where members view appointments and records.",
+      "url": "https://thelocatory.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Membership \u00b7 Salon",
+      "stack": [
+        "WordPress",
+        "LearnDash",
+        "Member area"
+      ],
+      "metric": {
+        "value": "Members",
+        "label": "Courses & portal"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 75
+    },
+    {
+      "slug": "durostorage",
+      "name": "Duro Storage",
+      "tagline": "Marketing site for a metal-storage builder",
+      "summary": "Metal storage-building company; WordPress/Elementor marketing site built from a tailored template kit with product and enquiry sections.",
+      "url": "https://durostorage.com",
+      "image": "",
+      "platform": "Elementor",
+      "category": "Construction \u00b7 Industrial",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Lead form"
+      ],
+      "metric": {
+        "value": "Build",
+        "label": "Industrial marketing"
+      },
+      "year": "2024",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 76
+    },
+    {
+      "slug": "healthdefence",
+      "name": "Health Defence",
+      "tagline": "Bilingual site for a medical distributor",
+      "summary": "Italian medical-product distributor; bilingual (Italian/English) WordPress site covering quality standards and ISO certifications.",
+      "url": "https://www.healthdefence.it",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Medical \u00b7 Distribution",
+      "stack": [
+        "WordPress",
+        "Multilingual",
+        "Corporate"
+      ],
+      "metric": {
+        "value": "Bilingual",
+        "label": "Medical distributor"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 77
+    },
+    {
+      "slug": "studioferrariguasti",
+      "name": "Studio Ferrari Guasti",
+      "tagline": "Site for an Italian accounting & legal firm",
+      "summary": "Italian accounting and legal firm (commercialisti); WordPress site with service sections covering corporate law, succession and real-estate operations.",
+      "url": "https://studioferrariguasti.it",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Professional \u00b7 Accounting",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Corporate"
+      ],
+      "metric": {
+        "value": "Pro",
+        "label": "Firm website"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 78
+    },
+    {
+      "slug": "avmdphoto",
+      "name": "AVMD Photo",
+      "tagline": "Print-on-demand store for a photographer",
+      "summary": "Photography print-on-demand store on WooCommerce (Printify + Stripe) selling acrylic, photo and canvas prints organised into journey-based categories.",
+      "url": "https://avmdphoto.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Art \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "Printify",
+        "Stripe"
+      ],
+      "metric": {
+        "value": "POD",
+        "label": "Print store"
+      },
+      "year": "2025",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 79
+    },
+    {
+      "slug": "therealmortgageexperts",
+      "name": "The Real Mortgage Experts",
+      "tagline": "Site for a mortgage brokerage",
+      "summary": "Mortgage broker; WordPress site with loan-option pages, prequalification and quote forms, a learning centre and team profiles.",
+      "url": "https://www.therealmortgageexperts.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Finance \u00b7 Mortgage",
+      "stack": [
+        "WordPress",
+        "Quote forms",
+        "Learning centre"
+      ],
+      "metric": {
+        "value": "Finance",
+        "label": "Broker site"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 80
+    },
+    {
+      "slug": "hawaiimortgageexperts",
+      "name": "Hawaii Mortgage Experts",
+      "tagline": "Mortgage brokerage site for Hawaii",
+      "summary": "Hawaii mortgage brokerage and sister site to The Real Mortgage Experts; WordPress build with a persistent Apply Online / Get a Quote bar and staff listings.",
+      "url": "https://www.hawaiimortgageexperts.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Finance \u00b7 Mortgage",
+      "stack": [
+        "WordPress",
+        "Lead capture",
+        "Team"
+      ],
+      "metric": {
+        "value": "Finance",
+        "label": "Broker site"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 81
+    },
+    {
+      "slug": "precibeo",
+      "name": "Precibeo",
+      "tagline": "Catalogue for force-measurement products",
+      "summary": "WordPress/WooCommerce catalogue for force-measurement and industrial products, with variable products, specification tables and a bilingual setup.",
+      "url": "https://precibeo.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Industrial \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "Variable products",
+        "Spec tables"
+      ],
+      "metric": {
+        "value": "Catalogue",
+        "label": "Industrial store"
+      },
+      "year": "2025",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 82
+    },
+    {
+      "slug": "varemg",
+      "name": "Vare MG",
+      "tagline": "Bilingual corporate website rebuild",
+      "summary": "Bilingual corporate WordPress site with About / Background / Mission / Vision and per-service dropdown pages, rebuilding an outdated company site.",
+      "url": "https://varemg.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Corporate \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Multilingual",
+        "Service pages"
+      ],
+      "metric": {
+        "value": "Bilingual",
+        "label": "Corporate rebuild"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 83
+    },
+    {
+      "slug": "marcusfishtanks",
+      "name": "Marcus Fish Tanks",
+      "tagline": "Conversion redesign for an aquarium store",
+      "summary": "Aquarium and fishkeeping store; redesigned the Shopify storefront with an Amazon-style search, sticky header, back-in-stock alerts, a free-shipping bar, a rewards programme and photo reviews.",
+      "url": "https://marcusfishtanks.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Pet \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Search & UX",
+        "Rewards"
+      ],
+      "metric": {
+        "value": "CRO",
+        "label": "Store redesign"
+      },
+      "year": "2022",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 84
+    },
+    {
+      "slug": "mydl",
+      "name": "MyDL",
+      "tagline": "WooCommerce product pages for a ramps maker",
+      "summary": "French industrial-ramps retailer; built and refined Elementor product and shop pages on a live WooCommerce site, including custom configurators and form handling.",
+      "url": "https://mydl.fr",
+      "image": "",
+      "platform": "WooCommerce + Elementor",
+      "category": "Industrial \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "Elementor",
+        "Forms"
+      ],
+      "metric": {
+        "value": "Custom",
+        "label": "Configurator pages"
+      },
+      "year": "2022",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 85
+    },
+    {
+      "slug": "kidzonefdc",
+      "name": "KidZone FDC",
+      "tagline": "Family-day-care site with an educators portal",
+      "summary": "Family day care provider; WordPress site with a secure members/educators login area for private documents, an enquiry form routed to admin, and social links.",
+      "url": "https://kidzonefdc.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Childcare \u00b7 Education",
+      "stack": [
+        "WordPress",
+        "Member area",
+        "Forms"
+      ],
+      "metric": {
+        "value": "Members",
+        "label": "Educator portal"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 86
+    },
+    {
+      "slug": "outdoorlivingkitchens",
+      "name": "Outdoor Living Kitchens",
+      "tagline": "Dealer-enabled store for outdoor kitchens",
+      "summary": "Outdoor-kitchen cabinetry brand; WooCommerce site with dealer sign-up and approval, find-a-dealer, warranty and brochure pages, plus save-cart and request-a-quote.",
+      "url": "https://outdoorlivingkitchens.com",
+      "image": "",
+      "platform": "WooCommerce",
+      "category": "Home \u00b7 Ecommerce",
+      "stack": [
+        "WooCommerce",
+        "Dealer flow",
+        "Quotes"
+      ],
+      "metric": {
+        "value": "Dealers",
+        "label": "B2B + B2C store"
+      },
+      "year": "2022",
+      "role": "WooCommerce Developer \u00b7 Build & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 87
+    },
+    {
+      "slug": "childbean",
+      "name": "ChildBean",
+      "tagline": "Shopify store for a baby-products brand",
+      "summary": "Baby-products store on Shopify with order tracking, custom checkout shipping options, a cleaned-up product page and menu, and tracking setup.",
+      "url": "https://childbean.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Baby \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Checkout",
+        "Tracking"
+      ],
+      "metric": {
+        "value": "Shopify",
+        "label": "DTC store"
+      },
+      "year": "2022",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 88
+    },
+    {
+      "slug": "newwaveshaving",
+      "name": "New Wave Shaving",
+      "tagline": "Shopify store for a safety-razor brand",
+      "summary": "Safety-razor and shaving brand; Shopify store with multi-colour bundle products, a restructured shop page, blog content, returns policy and page-speed optimisation.",
+      "url": "https://newwaveshaving.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Grooming \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Bundles",
+        "Speed"
+      ],
+      "metric": {
+        "value": "Shopify",
+        "label": "Bundles & speed"
+      },
+      "year": "2022",
+      "role": "Shopify Developer \u00b7 Theme & setup",
+      "featured": false,
+      "published": true,
+      "displayOrder": 89
     }
   ]
 }

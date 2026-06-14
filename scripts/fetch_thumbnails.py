@@ -94,6 +94,10 @@ def main():
     WORK.mkdir(parents=True, exist_ok=True)
     changed = 0
 <<<<<<< ours
+<<<<<<< ours
+=======
+    demoted = 0
+>>>>>>> theirs
 =======
     demoted = 0
 >>>>>>> theirs
@@ -111,12 +115,18 @@ def main():
         ok, reason = is_live(url)
         if not ok:
 <<<<<<< ours
+<<<<<<< ours
             print(f"  ✗ {it['slug']}: NOT live — {reason} (left without thumbnail)")
 =======
+=======
+>>>>>>> theirs
             # Safety net: never leave a dead/parked project published & visible.
             it["published"] = False
             demoted += 1
             print(f"  ✗ {it['slug']}: NOT live — {reason} → set published=false")
+<<<<<<< ours
+>>>>>>> theirs
+=======
 >>>>>>> theirs
             continue
         dest = WORK / f"{it['slug']}.jpg"
@@ -128,6 +138,7 @@ def main():
         else:
             print(f"  ! {it['slug']}: screenshot service didn't return a real image — retry later")
 <<<<<<< ours
+<<<<<<< ours
     if changed:
         d["lastUpdated"] = time.strftime("%Y-%m-%d")
         DATA.write_text(json.dumps(d, indent=2, ensure_ascii=True) + "\n")
@@ -136,6 +147,8 @@ def main():
     else:
         print("\nNo thumbnails changed.")
 =======
+=======
+>>>>>>> theirs
     if changed or demoted:
         d["lastUpdated"] = time.strftime("%Y-%m-%d")
         DATA.write_text(json.dumps(d, indent=2, ensure_ascii=True) + "\n")
@@ -143,6 +156,9 @@ def main():
         print("Next: python3 scripts/generate_portfolio_pages.py")
     else:
         print("\nNo changes.")
+<<<<<<< ours
+>>>>>>> theirs
+=======
 >>>>>>> theirs
 
 
