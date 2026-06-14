@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>Shopify Speed Optimization 2026: A Developer's Complete Guide | Lofts Studio</title>
+<meta name="description" content="How to speed up your Shopify store in 2026 — image compression, app audits, Liquid render blocking, Core Web Vitals, and real code fixes that move the needle." />
+<link rel="canonical" href="https://lofts.studio/blog/shopify-speed-optimization-2026.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="author" content="Adnan Khan" />
+<meta name="keywords" content="shopify speed optimization, how to speed up shopify store, shopify performance 2026, shopify core web vitals, shopify page speed, shopify LCP, shopify liquid optimization" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lofts.studio/blog/shopify-speed-optimization-2026.html" />
+<meta property="og:title" content="Shopify Speed Optimization 2026: A Developer's Complete Guide" />
+<meta property="og:description" content="How to speed up your Shopify store in 2026 — image compression, app audits, Liquid render blocking, Core Web Vitals, and real code fixes that move the needle." />
+<meta property="og:image" content="https://lofts.studio/assets/og-default.svg" />
+<meta property="article:published_time" content="2026-06-14T09:00:00Z" />
+<meta property="article:author" content="Adnan Khan" />
+<meta property="article:section" content="Shopify" />
+<meta property="article:tag" content="shopify speed optimization, shopify performance, core web vitals" />
+<meta name="twitter:card" content="summary_large_image" />
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link rel="apple-touch-icon" href="/favicon.svg" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260613r" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Shopify Speed Optimization 2026: A Developer's Complete Guide",
+  "description": "A practitioner's complete guide to Shopify speed optimization in 2026 — covering image optimization, app audits, Liquid render blocking, Core Web Vitals, CDN, fonts, and third-party scripts.",
+  "image": "https://lofts.studio/assets/og-default.svg",
+  "datePublished": "2026-06-14T09:00:00Z",
+  "dateModified": "2026-06-14T09:00:00Z",
+  "author": { "@type": "Person", "name": "Adnan Khan", "url": "https://lofts.studio/about.html" },
+  "publisher": { "@type": "Organization", "name": "Lofts Studio", "logo": { "@type": "ImageObject", "url": "https://lofts.studio/favicon.svg" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://lofts.studio/blog/shopify-speed-optimization-2026.html" },
+  "keywords": "shopify speed optimization, how to speed up shopify store, shopify performance 2026, shopify core web vitals, shopify LCP optimization"
+}
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type":"ListItem","position":1,"name":"Home","item":"https://lofts.studio/"}, {"@type":"ListItem","position":2,"name":"Blog","item":"https://lofts.studio/blog/"}, {"@type":"ListItem","position":3,"name":"Shopify Speed Optimization 2026","item":"https://lofts.studio/blog/shopify-speed-optimization-2026.html"} ] }
+</script>
+
+<style>
+  .post-prose { max-width: 720px; margin: 0 auto; }
+  .post-prose h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.9rem); letter-spacing: -0.035em; font-weight: 600; margin: 3.5rem 0 1rem; line-height: 1.15; }
+  .post-prose h3 { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.025em; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+  .post-prose p { color: var(--ink-soft); font-size: 1.075rem; line-height: 1.78; margin: 0 0 1.25rem; }
+  .post-prose p strong { color: var(--ink); }
+  .post-prose ul, .post-prose ol { padding-left: 1.5rem; margin: 0 0 1.5rem; color: var(--ink-soft); }
+  .post-prose li { margin-bottom: 0.55rem; font-size: 1.04rem; line-height: 1.7; }
+  .post-prose a { color: var(--accent); border-bottom: 1px solid rgba(139,58,31,0.3); }
+  .post-prose a:hover { border-bottom-color: var(--accent); }
+  .post-prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink); }
+  .post-prose pre { background: var(--ink); color: #E8E8E8; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.7; }
+  .post-prose pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+  .post-prose hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
+  .post-callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
+</style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-1KT1MFDY8R');
+  </script>
+  <script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Lofts<span class="dot">studio</span></a>
+    <nav class="nav-links" aria-label="Primary">
+      <div class="mega-wrap">
+        <button class="nav-link" data-mega-trigger aria-expanded="false" aria-haspopup="true">
+          Work
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="mega" role="menu">
+          <div class="mega-col">
+            <h4>By vertical</h4>
+            <a href="/work/ecommerce/" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
+            <a href="/work/insurance-finance/" class="mega-link"><div class="mega-link-title">Insurance &amp; Finance</div><div class="mega-link-desc">Brokers, carriers, reinsurance.</div></a>
+            <a href="/work/membership-community/" class="mega-link"><div class="mega-link-title">Membership &amp; Community</div><div class="mega-link-desc">Stripe, Discord, Whop.</div></a>
+            <a href="/work/custom-apps/" class="mega-link"><div class="mega-link-title">Custom Apps</div><div class="mega-link-desc">React, Next.js, Node.</div></a>
+          </div>
+          <div class="mega-col">
+            <h4>Storefront</h4>
+            <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Custom themes. Shopify Plus.</div></a>
+            <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WooCommerce Development</div><div class="mega-link-desc">WordPress commerce, done right.</div></a>
+            <a href="/services/shopify-plus-migration.html" class="mega-link"><div class="mega-link-title">Shopify Plus Migration</div><div class="mega-link-desc">Replatform without downtime.</div></a>
+            <a href="/services/webflow-development.html" class="mega-link"><div class="mega-link-title">Webflow Development</div><div class="mega-link-desc">SaaS, B2B, brand-led sites.</div></a>
+          </div>
+          <div class="mega-col">
+            <h4>Performance</h4>
+            <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">90+ Lighthouse. Sub-2s LCP.</div></a>
+            <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Lift conversion measurably.</div></a>
+            <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Shopify &amp; WooCommerce.</div></a>
+            <a href="/services/landing-page-sprint.html" class="mega-link"><div class="mega-link-title">Landing Page Sprint</div><div class="mega-link-desc">Seven days, fixed fee.</div></a>
+          </div>
+          <div class="mega-feature">
+            <div>
+              <span class="tag">Two founders. Two cities.</span>
+              <h3 style="font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; line-height: 1.3; margin: 0.6rem 0; color: var(--ink); letter-spacing: -0.025em;">Adnan Khan (Multan) leads ecommerce. Irfan Khan (Dubai) leads full-stack. Both Top Rated on Upwork.</h3>
+            </div>
+            <a href="/about.html" class="btn-link" style="margin-top: 1rem; font-size: 0.85rem;">Meet the founders <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+          </div>
+        </div>
+      </div>
+      <a href="/websites/" class="nav-link">Web Design</a>
+      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/process/" class="nav-link">Process</a>
+      <a href="/notes/" class="nav-link">Notes</a>
+      <a href="/tools/" class="nav-link">Tools</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+    <a href="/#contact" class="btn btn-primary">Start a conversation <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+    </button>
+  </div>
+</header>
+
+<div id="mobilePanel" class="mnav" aria-hidden="true" role="dialog" aria-modal="true" aria-label="Navigation">
+  <div class="mnav-inner">
+    <div class="mnav-top">
+      <a href="/" class="mnav-logo">Lofts<span>studio</span></a>
+      <button class="mnav-close" id="menuClose" aria-label="Close menu">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+    <nav class="mnav-primary" aria-label="Main">
+      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
+      <a href="/portfolio/" class="mnav-link" data-num="02">Portfolio</a>
+      <a href="/about.html" class="mnav-link" data-num="03">About</a>
+      <a href="/process/" class="mnav-link" data-num="04">Process</a>
+      <a href="/services/" class="mnav-link" data-num="05">Services</a>
+      <a href="/blog/" class="mnav-link" data-num="06">Blog</a>
+    </nav>
+    <div class="mnav-services">
+      <p class="mnav-label">Services</p>
+      <div class="mnav-grid">
+        <a href="/services/shopify-development.html">Shopify</a>
+        <a href="/services/woocommerce-development.html">WooCommerce</a>
+        <a href="/services/webflow-development.html">Webflow</a>
+        <a href="/services/shopify-plus-migration.html">Shopify Plus</a>
+        <a href="/services/speed-optimization.html">Speed Opt.</a>
+        <a href="/services/conversion-rate-optimization.html">CRO</a>
+        <a href="/services/custom-app-development.html">Custom Apps</a>
+        <a href="/services/ai-chatbot-automation.html">AI &amp; Automation</a>
+      </div>
+    </div>
+    <a href="/free-audit/" class="mnav-audit-link">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      Free 15-min Audit
+    </a>
+    <div class="mnav-foot">
+      <a href="/#contact" class="mnav-cta">Start a conversation <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
+    </div>
+  </div>
+</div>
+
+<article>
+<section class="paper" style="padding: 5rem 0 3rem;">
+  <div class="container">
+    <div class="post-prose">
+      <nav aria-label="Breadcrumb" style="margin-bottom: 2rem; font-size: 0.82rem; color: var(--muted);">
+        <a href="/" style="color: var(--muted); text-decoration: none;">Home</a> &rsaquo;
+        <a href="/blog/" style="color: var(--muted); text-decoration: none;">Blog</a> &rsaquo;
+        <span>Shopify Speed Optimization 2026</span>
+      </nav>
+      <span class="eyebrow">Shopify &nbsp;·&nbsp; June 14, 2026</span>
+      <h1 class="h-display" style="margin-top: 1rem; font-size: clamp(1.8rem, 3.5vw, 2.8rem); line-height: 1.1;">Shopify Speed Optimization 2026: A Developer's Complete Guide</h1>
+      <p style="color: var(--muted); font-size: 0.9rem; margin: 1rem 0 0;">By <a href="/about.html" style="color: var(--muted);">Adnan Khan</a> &nbsp;·&nbsp; June 14, 2026 &nbsp;·&nbsp; 16 min read</p>
+      <hr style="margin: 2rem 0; border: 0; border-top: 1px solid var(--line);" />
+
+      <p>A one-second delay in mobile page load time reduces conversions by approximately 20%. That figure has been cited so often it's become background noise — but in practice, when I open PageSpeed Insights on a new Shopify client's store, I almost never see a performance score above 55 on mobile. The reasons are nearly always the same: unoptimized images, an accumulated app stack nobody audited, render-blocking resources in the Liquid templates, and third-party scripts loading without discipline. None of these problems are mysterious. They are fixable, systematically, and the impact on both Core Web Vitals and revenue is measurable. This is the process I follow.</p>
+
+      <h2>Start With a Baseline: Measuring Before You Touch Anything</h2>
+
+      <p>Before changing a single line, establish your baseline metrics. You need real numbers to measure improvement against, and you need to know which metrics are actually failing — because the fixes for LCP (Largest Contentful Paint) are different from the fixes for TBT (Total Blocking Time).</p>
+
+      <p>Run your store through all three of these tools and record the outputs:</p>
+      <ul>
+        <li><strong>PageSpeed Insights</strong> (pagespeed.web.dev) — use the mobile tab, not desktop. Mobile is what Google uses for ranking.</li>
+        <li><strong>GTmetrix</strong> — run from a location close to your primary customer geography, not the default (Vancouver)</li>
+        <li><strong>Shopify's built-in speed report</strong> — Admin → Online Store → Themes → Speed. This gives you a benchmark against similar stores and tracks changes over time.</li>
+      </ul>
+
+      <p>Record: LCP score and element, CLS score, TBT/INP, First Contentful Paint, and the specific "opportunities" and "diagnostics" PageSpeed flags. This list is your work queue. Everything below is organised around clearing it.</p>
+
+      <h2>Image Optimization: The Highest-Impact Fix in Almost Every Store</h2>
+
+      <p>In my experience, unoptimized images account for 40–60% of the performance gap on a typical Shopify store. Shopify's CDN does serve images over HTTP/2 and applies some compression, but it will faithfully deliver a 4MB JPEG at the size you uploaded it if you let it.</p>
+
+      <p><strong>The non-negotiable rules:</strong></p>
+      <ul>
+        <li>Product images: export at 2048×2048px maximum, compressed to under 500KB before upload. For most product photography, 200–350KB is achievable without visible quality loss at that resolution.</li>
+        <li>Banner/hero images: 1800–2400px wide, under 300KB, WebP format where possible.</li>
+        <li>Use Shopify's native image URL parameters to serve correctly sized images rather than loading a 2048px image into a 400px thumbnail slot.</li>
+      </ul>
+
+      <p>In Liquid, always use the <code>image_url</code> filter with explicit width parameters rather than outputting raw image URLs:</p>
+
+      <pre><code>{{ product.featured_image | image_url: width: 800 | image_tag:
+  loading: 'lazy',
+  width: 800,
+  height: 800,
+  alt: product.title
+}}</code></pre>
+
+      <p>For your hero image — the one that determines your LCP score — do the opposite: use <code>loading: 'eager'</code> and add a <code>fetchpriority: 'high'</code> attribute. The browser needs to know to prioritise that image above everything else:</p>
+
+      <pre><code>{{ section.settings.hero_image | image_url: width: 1800 | image_tag:
+  loading: 'eager',
+  fetchpriority: 'high',
+  width: 1800,
+  height: 900,
+  alt: section.settings.hero_alt
+}}</code></pre>
+
+      <p>This single change — correctly prioritising the LCP image — can move your LCP score from "Poor" to "Needs Improvement" or better without touching anything else.</p>
+
+      <h2>The App Audit: Removing the Silent Performance Tax</h2>
+
+      <p>Every Shopify app that injects code into your storefront costs you something. Some cost very little. Some cost 800ms. Most store owners have no idea which apps are injecting what, because the charges are invisible until you look at the network waterfall.</p>
+
+      <p>Open Chrome DevTools → Network tab → reload your homepage with cache disabled. Filter by JS. You will see every script file loading, where it comes from, and how long it takes. Apps that haven't been properly configured often load their full script bundle on every page — including pages where they do nothing.</p>
+
+      <p>The audit process:</p>
+      <ol>
+        <li>List every installed app in your Shopify admin</li>
+        <li>For each app, open a private browsing window and inspect the network waterfall to see what it loads and on which pages</li>
+        <li>Ask: do I actively use this app? Is it generating revenue above its performance cost?</li>
+        <li>Uninstall every app you are not actively using. Pausing is not enough — paused apps sometimes still inject code</li>
+        <li>For apps you keep, check if they have a "load on interaction" option or if their scripts can be deferred</li>
+      </ol>
+
+      <p>One client I worked with last year had 23 installed apps, of which 9 were actively used. Removing the unused 14 apps reduced their TBT by 620ms and improved their mobile performance score from 34 to 61 before touching a line of theme code.</p>
+
+      <h2>Theme Code Bloat: Auditing What Your Theme Ships With</h2>
+
+      <p>Premium Shopify themes — especially from the official theme store — are built to be flexible and to work for a wide range of stores. That means they ship with feature code you are probably not using: video sections, countdown timers, mega-menu configurations, lookbook layouts. All of that code loads whether you use it or not.</p>
+
+      <p>The pragmatic approach for most stores is not to strip the theme (risky, hard to maintain) but to identify and address the specific sections causing load problems:</p>
+
+      <ul>
+        <li>Audit your homepage's active sections. Remove any sections from your customiser that you're not using — hidden sections still load their associated JS in many themes.</li>
+        <li>Check for unused CSS. Shopify's Dawn and its derivatives include large CSS files. If you are not using certain feature classes, a PostCSS purge pass can meaningfully reduce payload — but run this against your actual pages, not just templates.</li>
+        <li>Defer non-critical JavaScript. Scripts that power below-the-fold features (tabs, accordions, product carousels) do not need to block initial render.</li>
+      </ul>
+
+      <p>To defer a non-critical script in Liquid, load it on user interaction rather than on page load:</p>
+
+      <pre><code>&lt;script&gt;
+  // Load heavy feature script only when user scrolls near it
+  const observer = new IntersectionObserver((entries) =&gt; {
+    entries.forEach(entry =&gt; {
+      if (entry.isIntersecting) {
+        const script = document.createElement('script');
+        script.src = '{{ "feature-heavy.js" | asset_url }}';
+        document.head.appendChild(script);
+        observer.disconnect();
+      }
+    });
+  }, { rootMargin: '200px' });
+
+  observer.observe(document.querySelector('#feature-section'));
+&lt;/script&gt;</code></pre>
+
+      <h2>Core Web Vitals: What Google Is Actually Measuring in 2026</h2>
+
+      <p>Google's Core Web Vitals currently comprise three metrics that feed directly into search ranking signals:</p>
+
+      <ul>
+        <li><strong>LCP (Largest Contentful Paint):</strong> How quickly the largest visible element renders. Target: under 2.5 seconds. The LCP element on most Shopify stores is the hero image or a large product image — see the image optimization section above for the most direct fix.</li>
+        <li><strong>CLS (Cumulative Layout Shift):</strong> How much the page layout shifts unexpectedly as elements load. Target: under 0.1. Common Shopify causes: images without explicit width/height attributes, font swaps, late-loading app banners (cookie notices, announcement bars). Fix: always declare image dimensions in your Liquid, and use <code>font-display: optional</code> or <code>font-display: swap</code> with pre-loaded font files.</li>
+        <li><strong>INP (Interaction to Next Paint):</strong> Replaced FID in 2024. Measures responsiveness to user interaction. Target: under 200ms. Heavy JavaScript on the main thread is the primary culprit — app bloat and undeferred scripts both contribute here.</li>
+      </ul>
+
+      <p>One specific CLS fix that catches many Shopify stores: if you are loading an announcement bar or cookie consent banner via an app, it pushes page content down after initial render, creating a CLS spike. Where possible, reserve space for these elements in your theme's layout file so the layout doesn't shift when they appear.</p>
+
+      <h2>Liquid Render Blocking: What Happens Server-Side Before the Browser Sees Anything</h2>
+
+      <p>Most Shopify speed advice focuses on the browser side. Liquid performance matters too — if your server-side render is slow, your Time to First Byte (TTFB) suffers, and everything else waits behind it.</p>
+
+      <p>Common Liquid performance problems and their fixes:</p>
+
+      <ul>
+        <li><strong>Nested for loops over large collections.</strong> Iterating through an entire collection inside another loop is O(n²). If you need to look up items, restructure with Liquid's <code>map</code> filter or use a precomputed array where possible.</li>
+        <li><strong>Unnecessary <code>all_products</code> calls.</strong> Accessing <code>all_products['handle']</code> on a storefront with a large catalogue causes Shopify to load the entire product object. Use predictive search API or collection-scoped loops instead.</li>
+        <li><strong>Heavy metafield lookups in loops.</strong> Metafield access inside a product loop creates per-iteration overhead. Where possible, output metafield data once in a JSON script tag and access it client-side.</li>
+      </ul>
+
+      <pre><code>{%- comment -%}
+  Pass product data to JS as JSON rather than
+  accessing metafields repeatedly in Liquid loops
+{%- endcomment -%}
+&lt;script&gt;
+  window.__productMeta = {{ product.metafields.custom | json }};
+&lt;/script&gt;</code></pre>
+
+      <h2>CDN, Font Loading, and Critical Resource Hints</h2>
+
+      <p>Shopify's CDN (powered by Fastly) handles asset delivery well, but you still control how resources are requested. Resource hints in your theme's <code>&lt;head&gt;</code> can meaningfully reduce perceived load time by telling the browser what to fetch early.</p>
+
+      <p>In your theme's <code>layout/theme.liquid</code>, add preconnect hints for external origins your store relies on:</p>
+
+      <pre><code>&lt;!-- Preconnect to critical third-party origins --&gt;
+&lt;link rel="preconnect" href="https://fonts.shopifycdn.com" crossorigin&gt;
+&lt;link rel="preconnect" href="https://cdn.shopify.com"&gt;
+
+&lt;!-- Preload your LCP image if it's known at render time --&gt;
+&lt;link rel="preload"
+  as="image"
+  href="{{ section.settings.hero_image | image_url: width: 1800 }}"
+  fetchpriority="high"&gt;</code></pre>
+
+      <p><strong>Font loading strategy:</strong> Shopify hosts fonts via its own CDN when you use theme fonts, which helps. For Google Fonts or custom typefaces, use <code>font-display: swap</code> in your <code>@font-face</code> declarations so text renders in a fallback font immediately rather than waiting for the web font. If CLS from font swap is an issue, <code>font-display: optional</code> prevents any layout shift by only using the web font if it's already cached.</p>
+
+      <p>For custom fonts hosted in your Shopify theme assets, preload the font file directly:</p>
+
+      <pre><code>&lt;link rel="preload"
+  href="{{ 'YourFont-Regular.woff2' | asset_url }}"
+  as="font"
+  type="font/woff2"
+  crossorigin&gt;</code></pre>
+
+      <h2>Third-Party Scripts: The Hardest Problem to Solve Completely</h2>
+
+      <p>Analytics, pixels, chat widgets, review widgets, loyalty programmes — each one is a third-party script you have (at minimum) limited control over. They load from external servers, they execute JavaScript on your main thread, and they can fire network requests that delay your page's perceived readiness.</p>
+
+      <p>The practical framework for managing third-party script impact:</p>
+
+      <ul>
+        <li><strong>Load after user interaction where possible.</strong> Chat widgets are the clearest example — load the chat widget script on first mouse move or first scroll, not on initial page load. Most chat providers support this pattern. The widget appears slightly later but saves 200–500ms on load time for every visitor who never opens it (which is most of them).</li>
+        <li><strong>Use Partytown for analytics and marketing pixels.</strong> Partytown is a library that runs third-party scripts in a web worker, off the main thread, so they don't contribute to TBT. Shopify integration requires a custom implementation, but for high-traffic stores it is worth the setup complexity.</li>
+        <li><strong>Audit pixel firing.</strong> Meta Pixel, Google Ads conversion tracking, TikTok Pixel — confirm each one fires only the events you actually use. Firing ViewContent on every page for a pixel you only use for purchase conversion tracking is unnecessary overhead.</li>
+        <li><strong>Remove duplicate tracking.</strong> It's common to find both a GTM-managed GA4 tag and a hard-coded GA4 snippet in the theme — running the same analytics twice and doubling the script load.</li>
+      </ul>
+
+      <p>The honest reality is that a store with five active marketing pixels will never score 90+ on PageSpeed mobile. The goal is not a perfect score — it is the fastest possible experience given your actual business requirements.</p>
+
+      <div class="post-callout">
+        <p><strong>What a realistic performance target looks like:</strong> For a Shopify store with standard marketing tooling (GA4, Meta Pixel, a review app, an email capture popup), a mobile PageSpeed score of 65–80 is excellent. Scores above 80 typically require either very minimal app usage or significant custom optimisation work. Anything below 50 has addressable problems. Don't let a tool's score become the goal — let your actual LCP, INP, and CLS numbers guide the work.</p>
+      </div>
+
+      <h2>Testing and Verifying Improvements</h2>
+
+      <p>Performance work without verification is guesswork. After each optimisation pass, measure — but measure correctly:</p>
+
+      <ul>
+        <li><strong>Do not test from your office on a wired connection.</strong> PageSpeed Insights simulates a mid-range Android device on a 4G connection. That is your benchmark environment.</li>
+        <li><strong>Test the same URL repeatedly.</strong> PageSpeed scores have variance of ±5 points on a single URL. Run three tests and take the middle value.</li>
+        <li><strong>Test your product pages, not just your homepage.</strong> Product pages often carry more JavaScript (variant selectors, image galleries, size guides) and perform worse than the homepage despite being the most important conversion surface.</li>
+        <li><strong>Use Chrome User Experience Report (CrUX) data.</strong> This is field data from real users, not lab simulation. If your store has enough traffic, PageSpeed Insights shows CrUX data at the top of its results. This is what Google actually uses for ranking — lab scores are a proxy.</li>
+        <li><strong>Monitor over time.</strong> Shopify's theme speed report tracks your score weekly. App installs frequently cause regression. Establish a monthly review habit.</li>
+      </ul>
+
+      <p>A useful testing sequence after making changes: clear Shopify's CDN cache by making a minor theme edit and saving (this forces a cache purge), then wait 5 minutes before running your post-change PageSpeed test to ensure you are measuring the new state.</p>
+
+      <p style="text-align: center; margin-top: 2.5rem;">
+        <a href="/services/speed-optimization.html" class="btn btn-primary">See our Speed Optimization service &nbsp;&rarr;</a>
+      </p>
+
+      <hr style="margin-top: 4rem;" />
+
+      <div style="display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; margin-top: 2rem;">
+        <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
+        <div>
+          <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan Khan</h3>
+          <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated on Upwork. 307+ projects shipped, 100% Job Success.</p>
+          <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
+            <a href="/about.html" style="color: var(--accent);">About</a>
+            <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
+            <a href="/blog/" style="color: var(--accent);">More posts</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+<footer class="site-footer footer-rich">
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
+          <span class="footer-logo-caps">STUDIO</span>
+        </div>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A thousand projects. Nine years.</p>
+        <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);"><span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US &amp; UK callable hours</p>
+      </div>
+      <div class="footer-newsletter" data-lead-wrap>
+        <p class="footer-newsletter-eyebrow">Field notes, occasionally</p>
+        <h3 class="footer-newsletter-title">One short essay a month. <span class="italic-serif">No newsletter cadence theater.</span></h3>
+        <form data-lead class="footer-newsletter-form" action="/api/contact" method="POST">
+          <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
+          <input type="hidden" name="source" value="footer-newsletter" />
+          <label class="sr-only" for="footer-nl-email2">Email address</label>
+          <input id="footer-nl-email2" name="email" type="email" required placeholder="your@email.com" />
+          <button type="submit">Subscribe <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></button>
+        </form>
+        <div data-lead-success class="footer-newsletter-success" style="display: none;">Thanks &mdash; you'll hear from me when the next note ships.</div>
+        <p class="footer-newsletter-note">No sequences. No tracking pixels. Unsubscribe at the bottom of any note.</p>
+      </div>
+    </div>
+    <div class="footer-grid">
+      <div>
+        <h5>Services</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/services/shopify-development.html">Shopify Development</a></li>
+          <li><a href="/services/woocommerce-development.html">WooCommerce Development</a></li>
+          <li><a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a></li>
+          <li><a href="/services/speed-optimization.html">Speed Optimization</a></li>
+          <li><a href="/services/conversion-rate-optimization.html">CRO</a></li>
+          <li><a href="/services/custom-app-development.html">Custom App Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Studio</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/portfolio/">All work</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/process/">Process</a></li>
+          <li><a href="/notes/">Notes</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Founders</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan Khan &middot; Multan</a></li>
+          <li><a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan Khan &middot; Dubai</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Talk</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; 4-hour reply</li>
+          <li class="meta">US &amp; UK hours covered (Multan)</li>
+          <li class="meta">GCC hours covered (Dubai)</li>
+          <li><a href="/#contact">Send a note &nbsp;&rarr;</a></li>
+        </ul>
+        <h5 style="margin-top: 1.5rem;">Legal</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+          <li><a href="/cookie-policy.html">Cookie policy</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="meta" style="margin: 0;">&copy; <span data-year>2026</span> Lofts Studio &middot; Multan, Pakistan &middot; Dubai, UAE</p>
+      <p class="meta" style="margin: 0;">CAN-SPAM &amp; UK GDPR compliant &nbsp;·&nbsp; Escrow via Upwork</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/assets/main.js?v=20260613r" defer></script>
+<script src="/assets/widgets.js?v=20260613r" defer></script>
+</body>
+</html>

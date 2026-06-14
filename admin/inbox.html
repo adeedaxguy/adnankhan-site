@@ -438,6 +438,11 @@
       .detail-pane { display: none; }
       .detail-pane.visible { display: block; }
     }
+
+    .admin-nav-bar { background: #111; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 1.5rem; display: flex; gap: 0; }
+    .admin-nav-bar a { color: rgba(255,255,255,0.5); text-decoration: none; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; padding: 0.65rem 1rem; border-bottom: 2px solid transparent; transition: all .15s; display: block; }
+    .admin-nav-bar a:hover { color: #fff; }
+    .admin-nav-bar a.active { color: #fff; border-bottom-color: var(--accent); }
   </style>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
 </head>
@@ -468,6 +473,14 @@
       <button onclick="logout()">Sign out</button>
     </div>
   </div>
+
+  <nav class="admin-nav-bar">
+    <a href="/admin/">Dashboard</a>
+    <a href="/admin/portfolio.html">Portfolio</a>
+    <a href="/admin/inbox.html" class="active">Inbox</a>
+    <a href="/admin/blog.html">Blog</a>
+    <a href="/admin/testimonials.html">Testimonials</a>
+  </nav>
 
   <div class="stats-bar" id="stats-bar">
     <div class="stat-pill">
@@ -561,7 +574,7 @@
 <script>
   // ── Config ──────────────────────────────────────────────────────
   const PASSPHRASE  = 'shipfaster';
-  const SESSION_KEY = 'lofts-inbox-session';
+  const SESSION_KEY = 'lofts-admin-v1';
   const API         = '/api/admin/data';
 
   let allSubmissions = [];

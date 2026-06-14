@@ -13,7 +13,7 @@
 // To deploy with real auth, see the workflow notes in index.html.
 const ADMIN_PASSPHRASE = 'shipfaster';   // ⚠ change me
 const STORAGE_KEY = 'adnank-portfolio-admin-v1';
-const SESSION_KEY = 'adnank-portfolio-admin-unlocked';
+const SESSION_KEY = 'lofts-admin-v1';
 
 let state = {
   items: [],

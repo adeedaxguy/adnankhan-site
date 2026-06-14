@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Blog Manager · Lofts Studio Admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260613r" />
+<style>
+  body { padding-top: 0 !important; background: var(--bg-soft); }
+
+  .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 3rem; width: 100%; max-width: 440px; }
+  .login-card h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.04em; margin: 0 0 0.4rem; }
+  .login-card .sub { color: var(--muted); margin: 0 0 2rem; font-size: 0.93rem; }
+  .login-card input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1rem; box-sizing: border-box; background: var(--bg); color: var(--ink); }
+  .login-card input:focus { outline: none; border-color: var(--ink); }
+  .login-card button { width: 100%; padding: 1rem; background: var(--ink); color: #fff; border: 0; border-radius: var(--r-md); font-family: var(--font-sans); font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: background .2s; }
+  .login-card button:hover { background: var(--accent); }
+  .login-error { color: #c00; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+
+  .admin-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #000; }
+  .admin-bar-logo { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; letter-spacing: -0.02em; color: #fff; }
+  .admin-bar-logo small { font-weight: 400; color: rgba(255,255,255,0.4); font-size: 0.85em; }
+  .admin-nav-bar { background: #111; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 1.5rem; display: flex; gap: 0; }
+  .admin-nav-bar a { color: rgba(255,255,255,0.5); text-decoration: none; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; padding: 0.65rem 1rem; border-bottom: 2px solid transparent; transition: all .15s; display: block; }
+  .admin-nav-bar a:hover { color: #fff; }
+  .admin-nav-bar a.active { color: #fff; border-bottom-color: var(--accent); }
+  .admin-btn { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 0.4rem 0.9rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all .15s; }
+  .admin-btn:hover { background: rgba(255,255,255,0.1); }
+
+  .blog-main { max-width: 1000px; margin: 2.5rem auto; padding: 0 1.5rem; }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .section-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.025em; color: var(--ink); margin: 0; }
+
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all .15s; border: 0; }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: transparent; border: 1px solid #fca5a5; color: #b91c1c; }
+  .btn-danger:hover { background: #fee2e2; }
+
+  .posts-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 3rem; }
+  .post-row { background: var(--surface); padding: 1.25rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  .post-row:hover { background: var(--bg); }
+  .post-info { flex: 1; min-width: 0; }
+  .post-title { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--ink); margin: 0 0 0.3rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .post-meta { font-size: 0.75rem; color: var(--muted); display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .post-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .tag-chip { display: inline-block; padding: 0.15rem 0.5rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: 99px; font-size: 0.7rem; font-family: var(--font-mono); color: var(--muted); }
+
+  /* New post form */
+  .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 2rem; margin-bottom: 2.5rem; display: none; }
+  .form-card.open { display: block; }
+  .form-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; margin: 0 0 1.5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.78rem; font-weight: 500; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+  .form-group input, .form-group select, .form-group textarea { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.9rem; background: var(--bg); color: var(--ink); outline: none; width: 100%; box-sizing: border-box; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--ink); }
+  .form-group textarea { min-height: 120px; resize: vertical; }
+  .form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+  .info-box { background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-md); padding: 1rem 1.25rem; font-size: 0.83rem; color: var(--muted); line-height: 1.6; margin-bottom: 2rem; }
+  .info-box strong { color: var(--ink); }
+
+  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--ink); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--r-md); font-size: 0.85rem; font-family: var(--font-sans); opacity: 0; transform: translateY(8px); transition: all .25s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+</style>
+<script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h2>Lofts Studio Admin</h2>
+    <p class="sub">Enter your passphrase to access the control panel.</p>
+    <input type="password" id="pwInput" placeholder="Passphrase" autofocus />
+    <button onclick="doLogin()">Unlock</button>
+    <p class="login-error" id="loginErr">Wrong passphrase. Try again.</p>
+  </div>
+</div>
+
+<div id="adminApp" style="display:none;">
+
+  <div class="admin-bar">
+    <span class="admin-bar-logo">Lofts Studio <small>Admin</small></span>
+    <button class="admin-btn" onclick="doLogout()">Sign out</button>
+  </div>
+
+  <nav class="admin-nav-bar">
+    <a href="/admin/">Dashboard</a>
+    <a href="/admin/portfolio.html">Portfolio</a>
+    <a href="/admin/inbox.html">Inbox</a>
+    <a href="/admin/blog.html" class="active">Blog</a>
+    <a href="/admin/testimonials.html">Testimonials</a>
+  </nav>
+
+  <main class="blog-main">
+
+    <div class="info-box">
+      <strong>How blog publishing works:</strong> Fill in the form below to generate a complete, SEO-optimised HTML file for download. Place it in the <code>/blog/</code> folder, add a card to <code>/blog/index.html</code>, commit, and push — Vercel deploys in ~15 seconds.
+    </div>
+
+    <div class="section-header">
+      <p class="section-title">New Post</p>
+      <button class="btn btn-primary" onclick="toggleForm()">+ Draft Post</button>
+    </div>
+
+    <div class="form-card" id="draftForm">
+      <h3>Draft a new blog post</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Post Title</label>
+          <input type="text" id="f-title" placeholder="e.g. How to Speed Up Your Shopify Store in 2026" />
+        </div>
+        <div class="form-group">
+          <label>Slug (URL)</label>
+          <input type="text" id="f-slug" placeholder="e.g. shopify-speed-tips-2026" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category Tag</label>
+          <select id="f-category">
+            <option>Shopify</option>
+            <option>Speed</option>
+            <option>WooCommerce</option>
+            <option>SEO</option>
+            <option>CRO</option>
+            <option>AI &amp; Automation</option>
+            <option>Custom Apps</option>
+            <option>Platform</option>
+            <option>Business</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Read Time (minutes)</label>
+          <input type="number" id="f-readtime" value="8" min="1" max="60" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Meta Description (150–160 chars)</label>
+        <input type="text" id="f-desc" placeholder="One-sentence summary for Google search results." maxlength="160" />
+      </div>
+      <div class="form-group">
+        <label>Intro Paragraph</label>
+        <textarea id="f-intro" placeholder="Opening paragraph — set the scene, hook the reader."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Post Body (HTML — use &lt;h2&gt;, &lt;p&gt;, &lt;ul&gt;, &lt;pre&gt;)</label>
+        <textarea id="f-body" style="min-height: 260px;" placeholder="<h2>Section One</h2>&#10;<p>Your content here...</p>"></textarea>
+      </div>
+      <div class="form-group">
+        <label>Author</label>
+        <input type="text" id="f-author" value="Adnan Khan" />
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="generatePost()">Generate HTML &amp; Download</button>
+        <button class="btn btn-outline" onclick="toggleForm()">Cancel</button>
+      </div>
+    </div>
+
+    <div class="section-header">
+      <p class="section-title">Published Posts</p>
+    </div>
+
+    <div class="posts-list" id="postsList"></div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASS = 'shipfaster';
+const ADMIN_SESSION = 'lofts-admin-v1';
+
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASS) {
+    sessionStorage.setItem(ADMIN_SESSION, '1');
+    showApp();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogout() {
+  sessionStorage.removeItem(ADMIN_SESSION);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminApp').style.display = 'block';
+  renderPosts();
+}
+
+function toggleForm() {
+  const f = document.getElementById('draftForm');
+  f.classList.toggle('open');
+  if (f.classList.contains('open')) {
+    document.getElementById('f-title').focus();
+  }
+}
+
+// Title → slug auto-fill
+document.getElementById('f-title').addEventListener('input', function() {
+  const slug = this.value.toLowerCase().replace(/[^a-z0-9\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+  document.getElementById('f-slug').value = slug;
+});
+
+const POSTS = [
+  { title: 'Shopify Speed Optimization 2026: A Developer\'s Complete Guide', slug: 'shopify-speed-optimization-2026', category: 'Speed', date: '2026-06-14', readtime: 11 },
+  { title: 'WooCommerce vs Shopify 2026: An Honest Comparison from 300+ Projects', slug: 'woocommerce-vs-shopify-2026', category: 'Platform', date: '2026-06-14', readtime: 12 },
+  { title: 'Why Your WooCommerce Store Is Slow — and the 5 Plugins Causing 80% of It', slug: 'speed-up-woocommerce-checklist', category: 'WooCommerce', date: '2026-06-17', readtime: 10 },
+  { title: 'Custom Shopify App vs Private App vs Public App: Which One You Actually Need', slug: 'shopify-custom-app-vs-public-app', category: 'Custom Apps', date: '2026-06-16', readtime: 9 },
+  { title: 'Freelance Shopify Developer vs Agency: What You Actually Pay For', slug: 'freelance-shopify-developer-vs-agency', category: 'Business', date: '2026-06-15', readtime: 8 },
+  { title: 'Shopify Technical SEO Audit: The 32 Checks I Run Before Anything Else', slug: 'shopify-technical-seo-audit-checklist', category: 'SEO', date: '2026-06-14', readtime: 13 },
+  { title: 'How to Build a Shopify Theme Section From Scratch', slug: 'shopify-theme-section-from-scratch', category: 'Shopify', date: '2026-06-13', readtime: 11 },
+  { title: 'How to Pass Core Web Vitals on Shopify in 2026', slug: 'passing-core-web-vitals-on-shopify', category: 'Speed', date: '2026-06-01', readtime: 12 },
+  { title: 'Shopify Conversion Rate Optimisation: 23 Fixes That Consistently Work', slug: 'shopify-conversion-rate-optimisation', category: 'CRO', date: '2026-05-20', readtime: 14 },
+];
+
+function renderPosts() {
+  const el = document.getElementById('postsList');
+  el.innerHTML = POSTS.map(p => `
+    <div class="post-row">
+      <div class="post-info">
+        <div class="post-title">${p.title}</div>
+        <div class="post-meta">
+          <span class="tag-chip">${p.category}</span>
+          <span>${p.date}</span>
+          <span>${p.readtime} min</span>
+          <span>/blog/${p.slug}.html</span>
+        </div>
+      </div>
+      <div class="post-actions">
+        <a href="/blog/${p.slug}.html" target="_blank" class="btn btn-outline" style="text-decoration:none;">↗ View</a>
+      </div>
+    </div>
+  `).join('');
+}
+
+function generatePost() {
+  const title    = document.getElementById('f-title').value.trim();
+  const slug     = document.getElementById('f-slug').value.trim();
+  const category = document.getElementById('f-category').value;
+  const readtime = document.getElementById('f-readtime').value;
+  const desc     = document.getElementById('f-desc').value.trim();
+  const intro    = document.getElementById('f-intro').value.trim();
+  const body     = document.getElementById('f-body').value.trim();
+  const author   = document.getElementById('f-author').value.trim() || 'Adnan Khan';
+
+  if (!title || !slug || !desc || !intro || !body) {
+    showToast('Please fill in all required fields.');
+    return;
+  }
+
+  const today     = new Date().toISOString().split('T')[0];
+  const dateLabel = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+  const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>${esc(title)} | Lofts Studio</title>
+<meta name="description" content="${esc(desc)}" />
+<link rel="canonical" href="https://lofts.studio/blog/${slug}.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lofts.studio/blog/${slug}.html" />
+<meta property="og:title" content="${esc(title)}" />
+<meta property="og:description" content="${esc(desc)}" />
+<meta property="og:image" content="https://lofts.studio/assets/og-default.svg" />
+<meta name="twitter:card" content="summary_large_image" />
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260613r" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "${esc(title)}",
+  "description": "${esc(desc)}",
+  "author": { "@type": "Person", "name": "${esc(author)}", "url": "https://lofts.studio/about.html" },
+  "publisher": { "@type": "Organization", "name": "Lofts Studio", "url": "https://lofts.studio" },
+  "datePublished": "${today}",
+  "dateModified": "${today}",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://lofts.studio/blog/${slug}.html" }
+}
+<\\/script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lofts.studio/" },
+    { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://lofts.studio/blog/" },
+    { "@type": "ListItem", "position": 3, "name": "${esc(title)}", "item": "https://lofts.studio/blog/${slug}.html" }
+  ]
+}
+<\\/script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"><\\/script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');<\\/script>
+<script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();<\\/script>
+</head>
+<body>
+
+<!-- NAV: copy from any other blog post -->
+
+<article class="blog-post" style="max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem;">
+  <header style="margin-bottom: 3rem;">
+    <div style="display: flex; gap: 0.5rem; margin-bottom: 1.5rem; flex-wrap: wrap; align-items: center;">
+      <a href="/blog/" style="font-size: 0.8rem; color: var(--muted); text-decoration: none;">← Blog</a>
+      <span style="color: var(--line);">·</span>
+      <span class="tag-pill">${esc(category)}</span>
+    </div>
+    <h1 class="h-display" style="font-size: clamp(2rem, 4vw, 3rem); letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1.5rem;">${esc(title)}</h1>
+    <p class="lead" style="margin-bottom: 1.5rem;">${esc(intro)}</p>
+    <div style="font-size: 0.82rem; color: var(--muted);">${esc(author)} · <time datetime="${today}">${dateLabel}</time> · ${readtime} min read</div>
+  </header>
+
+  <div class="prose">
+${body}
+  </div>
+
+  <footer style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--line);">
+    <p style="font-size: 0.9rem; color: var(--muted);">Written by <strong style="color: var(--ink);">${esc(author)}</strong>, Lofts Studio. We build and optimise Shopify and WooCommerce stores.</p>
+    <a href="/free-audit/" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--ink); color: #fff; border-radius: var(--r-md); text-decoration: none; font-size: 0.9rem; font-weight: 500;">Get a free store audit &rarr;</a>
+  </footer>
+</article>
+
+<!-- FOOTER: copy from any other blog post -->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"><\\/script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"><\\/script>
+<script src="/assets/main.js?v=20260613r"><\\/script>
+<script src="/assets/widgets.js?v=20260613r"><\\/script>
+</body>
+</html>`;
+
+  const blob = new Blob([html], { type: 'text/html' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `${slug}.html`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast(`Downloaded ${slug}.html — place it in /blog/ and push to deploy.`);
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+if (sessionStorage.getItem(ADMIN_SESSION) === '1') showApp();
+</script>
+</body>
+</html>

@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Portfolio — Lofts Admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260613r" />
+
+<style>
+  body { padding-top: 0 !important; background: var(--bg-soft); }
+  .admin-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #000; }
+  .admin-bar h1 { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; margin: 0; letter-spacing: -0.02em; }
+  .admin-bar h1 small { color: rgba(255,255,255,0.4); font-weight: 400; }
+  .admin-actions { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; }
+  .admin-nav-bar { background: #111; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 1.5rem; display: flex; gap: 0; }
+  .admin-nav-bar a { color: rgba(255,255,255,0.5); text-decoration: none; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; padding: 0.65rem 1rem; border-bottom: 2px solid transparent; transition: all .15s; display: block; }
+  .admin-nav-bar a:hover { color: #fff; }
+  .admin-nav-bar a.active { color: #fff; border-bottom-color: var(--accent); }
+  .admin-btn { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 0.45rem 0.95rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: background .15s, border-color .15s; }
+  .admin-btn:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.4); }
+  .admin-btn.primary { background: var(--accent); border-color: var(--accent); }
+  .admin-btn.primary:hover { background: var(--accent-hover); }
+  .admin-btn.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.4); }
+  .admin-btn.danger:hover { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.8); }
+  .login-screen { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 3rem; width: 100%; max-width: 440px; text-align: left; }
+  .login-card h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.04em; margin: 0 0 0.5rem; }
+  .login-card p { color: var(--muted); margin: 0 0 2rem; font-size: 0.95rem; }
+  .login-card input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1rem; box-sizing: border-box; }
+  .login-card input:focus { outline: none; border-color: var(--ink); }
+  .login-card button { width: 100%; padding: 1rem; background: var(--ink); color: #fff; border: 0; border-radius: var(--r-md); font-family: var(--font-sans); font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: background .2s; }
+  .login-card button:hover { background: #1a1a1a; }
+  .login-error { color: #c00; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+  .admin-main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+  .stat-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; margin-bottom: 2.5rem; }
+  .stat { background: var(--surface); padding: 1.5rem; }
+  .stat .v { font-family: var(--font-display); font-weight: 700; font-size: 2rem; line-height: 1; letter-spacing: -0.045em; color: var(--ink); }
+  .stat .l { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin-top: 0.35rem; font-family: var(--font-mono); }
+  .toolbar { display: flex; gap: 0.75rem; justify-content: space-between; align-items: center; margin: 0 0 1.5rem; flex-wrap: wrap; }
+  .toolbar h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.4rem; letter-spacing: -0.03em; margin: 0; }
+  .item-list { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+  .item-row { display: grid; grid-template-columns: 60px 1.5fr 1fr 100px 130px 200px; align-items: center; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); gap: 1rem; }
+  .item-row:last-child { border-bottom: 0; }
+  .item-row.header { background: var(--bg-soft); font-family: var(--font-mono); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); font-weight: 500; }
+  .item-row.dragging { opacity: 0.4; }
+  .item-row.drop-target { background: var(--accent-soft); }
+  .item-thumb { width: 50px; height: 50px; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-md); object-fit: cover; }
+  .item-name { font-family: var(--font-display); font-weight: 600; font-size: 1.02rem; letter-spacing: -0.02em; color: var(--ink); margin: 0; }
+  .item-tagline { font-size: 0.85rem; color: var(--muted); margin-top: 2px; }
+  .item-meta { font-size: 0.85rem; color: var(--ink-soft); }
+  .item-actions { display: flex; gap: 0.4rem; justify-content: flex-end; flex-wrap: wrap; }
+  .item-actions button { background: transparent; border: 1px solid var(--line); color: var(--ink-soft); padding: 0.35rem 0.7rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.78rem; cursor: pointer; transition: all .15s; }
+  .item-actions button:hover { background: var(--bg-soft); border-color: var(--ink); color: var(--ink); }
+  .item-actions button.del:hover { background: #ffeded; border-color: #d00; color: #d00; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 100px; font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.12em; }
+  .badge.featured { background: var(--accent-soft); color: var(--accent); }
+  .badge.published { background: #e6f9ee; color: var(--green); }
+  .badge.draft { background: #fff2d8; color: #a66800; }
+  .modal-overlay { position: fixed; inset: 0; background: rgba(10,10,10,0.55); backdrop-filter: blur(4px); z-index: 100; display: none; align-items: flex-start; justify-content: center; padding: 2rem 1rem; overflow-y: auto; }
+  .modal-overlay.open { display: flex; }
+  .modal { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); max-width: 720px; width: 100%; padding: 2.5rem; margin: 2rem auto; box-shadow: var(--shadow-card); }
+  .modal h3 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.04em; margin: 0 0 1.5rem; }
+  .modal label { display: block; font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500; text-transform: uppercase; letter-spacing: 0.14em; color: var(--muted); margin: 1.25rem 0 0.5rem; }
+  .modal input, .modal textarea, .modal select { width: 100%; padding: 0.75rem 0.9rem; background: var(--bg-soft); border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.95rem; color: var(--ink); box-sizing: border-box; }
+  .modal input:focus, .modal textarea:focus, .modal select:focus { outline: none; border-color: var(--ink); background: var(--surface); }
+  .modal textarea { min-height: 80px; resize: vertical; }
+  .modal-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .modal-actions { display: flex; gap: 0.5rem; justify-content: flex-end; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid var(--line); }
+  .modal-actions button { padding: 0.7rem 1.25rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.92rem; font-weight: 500; cursor: pointer; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+  .modal-actions button.primary { background: var(--ink); color: #fff; border-color: var(--ink); }
+  .modal-actions button.primary:hover { background: var(--accent); border-color: var(--accent); }
+  .modal-actions button:hover { background: var(--bg-soft); }
+  .toggle { display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; user-select: none; font-size: 0.9rem; }
+  .toggle input { width: auto; }
+  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--ink); color: #fff; padding: 0.85rem 1.3rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.92rem; box-shadow: var(--shadow-card); z-index: 200; opacity: 0; transform: translateY(8px); transition: opacity .25s, transform .25s; pointer-events: none; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+  .toast.success { background: var(--green); }
+  .toast.error { background: #c00; }
+  @media (max-width: 880px) {
+    .item-row { grid-template-columns: 50px 1fr; }
+    .item-row .col-tagline, .item-row .col-platform, .item-row .col-badges { display: none; }
+    .item-row.header { display: none; }
+    .item-actions { grid-column: 2; justify-content: flex-start; }
+    .modal-grid-2 { grid-template-columns: 1fr; }
+  }
+</style>
+  <script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h2>Portfolio Admin</h2>
+    <p>Enter access passphrase to continue.</p>
+    <input type="password" id="passwordInput" placeholder="Passphrase" autofocus />
+    <button onclick="adminLogin()">Unlock</button>
+    <p class="login-error" id="loginError">Wrong passphrase. Try again.</p>
+  </div>
+</div>
+
+<div id="adminApp" style="display: none;">
+
+  <header class="admin-bar">
+    <h1>Portfolio Admin <small>· localStorage backed</small></h1>
+    <div class="admin-actions">
+      <button class="admin-btn" onclick="reloadFromFile()">↺ Reload from file</button>
+      <button class="admin-btn" onclick="resetLocal()">Clear local edits</button>
+      <button class="admin-btn primary" onclick="exportJSON()">⬇ Export portfolio.json</button>
+      <button class="admin-btn danger" onclick="logout()">Sign out</button>
+    </div>
+  </header>
+
+  <nav class="admin-nav-bar">
+    <a href="/admin/">Dashboard</a>
+    <a href="/admin/portfolio.html" class="active">Portfolio</a>
+    <a href="/admin/inbox.html">Inbox</a>
+    <a href="/admin/blog.html">Blog</a>
+    <a href="/admin/testimonials.html">Testimonials</a>
+  </nav>
+
+  <main class="admin-main">
+
+    <div class="stat-row">
+      <div class="stat"><div class="v" id="statTotal">0</div><div class="l">Total items</div></div>
+      <div class="stat"><div class="v" id="statFeatured">0</div><div class="l">Featured (with inner pages)</div></div>
+      <div class="stat"><div class="v" id="statPublished">0</div><div class="l">Published (public)</div></div>
+      <div class="stat"><div class="v" id="statDrafts">0</div><div class="l">Drafts</div></div>
+    </div>
+
+    <div class="toolbar">
+      <h2>All portfolio items</h2>
+      <div style="display: flex; gap: 0.5rem;">
+        <button class="admin-btn primary" style="background: var(--ink); border-color: var(--ink);" onclick="openModal('new')">+ Add new project</button>
+      </div>
+    </div>
+
+    <div class="item-list" id="itemList">
+      <div class="item-row header">
+        <div>Img</div>
+        <div>Name / Tagline</div>
+        <div class="col-tagline">Category</div>
+        <div class="col-platform">Order</div>
+        <div class="col-badges">Status</div>
+        <div></div>
+      </div>
+    </div>
+
+    <details style="margin-top: 3rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.5rem 2rem;">
+      <summary style="cursor: pointer; font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; letter-spacing: -0.02em;">Publishing workflow</summary>
+      <div style="margin-top: 1.5rem; color: var(--ink-soft); line-height: 1.7; font-size: 0.92rem;">
+        <ol style="padding-left: 1.5rem; margin: 0.5rem 0 1.5rem;">
+          <li>Edit items here. They save to localStorage automatically.</li>
+          <li>Click <strong>Export portfolio.json</strong>. Browser downloads the updated file.</li>
+          <li>Replace <code>portfolio/portfolio.json</code> in the repo with the downloaded file.</li>
+          <li>Run <code>python3 scripts/generate_portfolio_pages.py</code> to regenerate inner pages.</li>
+          <li>Commit and push — Vercel auto-deploys in ~15 seconds.</li>
+        </ol>
+      </div>
+    </details>
+
+  </main>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal">
+    <h3 id="modalTitle">Edit project</h3>
+    <input type="hidden" id="fld-originalSlug" />
+    <div class="modal-grid-2">
+      <div>
+        <label>Slug (URL)</label>
+        <input id="fld-slug" placeholder="kebab-case-unique" />
+      </div>
+      <div>
+        <label>Display order</label>
+        <input id="fld-displayOrder" type="number" placeholder="1" />
+      </div>
+    </div>
+    <label>Name</label>
+    <input id="fld-name" placeholder="Brand name as displayed" />
+    <label>Tagline (one-liner)</label>
+    <input id="fld-tagline" placeholder="Short positioning line" />
+    <label>Summary (1–2 sentences)</label>
+    <textarea id="fld-summary" placeholder="What the project is + what you did"></textarea>
+    <div class="modal-grid-2">
+      <div>
+        <label>Live URL</label>
+        <input id="fld-url" type="url" placeholder="https://..." />
+      </div>
+      <div>
+        <label>Image path</label>
+        <input id="fld-image" placeholder="/assets/work/<slug>.jpg" />
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div>
+        <label>Platform</label>
+        <input id="fld-platform" placeholder="Shopify / WordPress / ..." />
+      </div>
+      <div>
+        <label>Category</label>
+        <input id="fld-category" placeholder="Shopify · DTC · Premium" />
+      </div>
+    </div>
+    <label>Stack (comma-separated)</label>
+    <input id="fld-stack" placeholder="Shopify, Liquid, Custom configurator" />
+    <div class="modal-grid-2">
+      <div>
+        <label>Metric value</label>
+        <input id="fld-metricValue" placeholder="+42% or HIPAA or 14d" />
+      </div>
+      <div>
+        <label>Metric label</label>
+        <input id="fld-metricLabel" placeholder="What the metric means" />
+      </div>
+    </div>
+    <div class="modal-grid-2">
+      <div>
+        <label>Year</label>
+        <input id="fld-year" placeholder="2024" />
+      </div>
+      <div>
+        <label>Role</label>
+        <input id="fld-role" placeholder="Lead developer · CRO" />
+      </div>
+    </div>
+    <div style="margin-top: 1.5rem; display: flex; gap: 1.5rem;">
+      <label class="toggle"><input type="checkbox" id="fld-featured" /> Featured (gets inner page)</label>
+      <label class="toggle"><input type="checkbox" id="fld-published" /> Published (visible publicly)</label>
+    </div>
+    <div class="modal-actions">
+      <button onclick="closeModal()">Cancel</button>
+      <button class="primary" onclick="saveItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_SESSION = 'lofts-admin-v1';
+const ADMIN_PASS = 'shipfaster';
+
+function adminLogin() {
+  const input = document.getElementById('passwordInput');
+  if (input && input.value === ADMIN_PASS) {
+    sessionStorage.setItem(ADMIN_SESSION, '1');
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('adminApp').style.display = 'block';
+    if (typeof loadData === 'function') { loadData().then(render); }
+  } else {
+    const err = document.getElementById('loginError');
+    if (err) err.style.display = 'block';
+    if (input) { input.value = ''; input.focus(); }
+  }
+}
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Enter' && document.getElementById('loginScreen').style.display !== 'none') adminLogin();
+});
+</script>
+<script src="admin.js?v=20260613c" defer></script>
+</body>
+</html>

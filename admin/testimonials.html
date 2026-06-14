@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Testimonials · Lofts Studio Admin</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260613r" />
+<style>
+  body { padding-top: 0 !important; background: var(--bg-soft); }
+
+  .login-screen { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 2rem; }
+  .login-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 3rem; width: 100%; max-width: 440px; }
+  .login-card h2 { font-family: var(--font-display); font-weight: 700; font-size: 1.6rem; letter-spacing: -0.04em; margin: 0 0 0.4rem; }
+  .login-card .sub { color: var(--muted); margin: 0 0 2rem; font-size: 0.93rem; }
+  .login-card input { width: 100%; padding: 0.85rem 1rem; border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 1rem; margin-bottom: 1rem; box-sizing: border-box; background: var(--bg); color: var(--ink); }
+  .login-card input:focus { outline: none; border-color: var(--ink); }
+  .login-card button { width: 100%; padding: 1rem; background: var(--ink); color: #fff; border: 0; border-radius: var(--r-md); font-family: var(--font-sans); font-weight: 500; font-size: 0.95rem; cursor: pointer; transition: background .2s; }
+  .login-card button:hover { background: var(--accent); }
+  .login-error { color: #c00; font-size: 0.85rem; margin-top: 0.5rem; display: none; }
+
+  .admin-bar { position: sticky; top: 0; z-index: 50; background: var(--ink); color: #fff; padding: 0.9rem 1.5rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #000; }
+  .admin-bar-logo { font-family: var(--font-display); font-weight: 600; font-size: 1.05rem; letter-spacing: -0.02em; color: #fff; }
+  .admin-bar-logo small { font-weight: 400; color: rgba(255,255,255,0.4); font-size: 0.85em; }
+  .admin-nav-bar { background: #111; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 0 1.5rem; display: flex; gap: 0; }
+  .admin-nav-bar a { color: rgba(255,255,255,0.5); text-decoration: none; font-family: var(--font-sans); font-size: 0.78rem; font-weight: 500; padding: 0.65rem 1rem; border-bottom: 2px solid transparent; transition: all .15s; display: block; }
+  .admin-nav-bar a:hover { color: #fff; }
+  .admin-nav-bar a.active { color: #fff; border-bottom-color: var(--accent); }
+  .admin-btn { background: transparent; border: 1px solid rgba(255,255,255,0.25); color: #fff; padding: 0.4rem 0.9rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.8rem; font-weight: 500; cursor: pointer; transition: all .15s; }
+  .admin-btn:hover { background: rgba(255,255,255,0.1); }
+
+  .t-main { max-width: 900px; margin: 2.5rem auto; padding: 0 1.5rem; }
+
+  .section-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+  .section-title { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; letter-spacing: -0.025em; color: var(--ink); margin: 0; }
+
+  .btn { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.6rem 1.2rem; border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.85rem; font-weight: 500; cursor: pointer; transition: all .15s; border: 0; }
+  .btn-primary { background: var(--ink); color: #fff; }
+  .btn-primary:hover { background: var(--accent); }
+  .btn-outline { background: transparent; border: 1px solid var(--line); color: var(--ink); }
+  .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+  .btn-danger { background: transparent; border: 1px solid #fca5a5; color: #b91c1c; }
+  .btn-danger:hover { background: #fee2e2; }
+  .btn-sm { padding: 0.35rem 0.8rem; font-size: 0.78rem; }
+
+  /* Form */
+  .form-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 2rem; margin-bottom: 2rem; display: none; }
+  .form-card.open { display: block; }
+  .form-card h3 { font-family: var(--font-display); font-weight: 700; font-size: 1rem; letter-spacing: -0.02em; margin: 0 0 1.5rem; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.35rem; margin-bottom: 1rem; }
+  .form-group label { font-size: 0.78rem; font-weight: 500; color: var(--muted); font-family: var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
+  .form-group input, .form-group select, .form-group textarea { padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: var(--r-md); font-family: var(--font-sans); font-size: 0.9rem; background: var(--bg); color: var(--ink); outline: none; width: 100%; box-sizing: border-box; }
+  .form-group input:focus, .form-group select:focus, .form-group textarea:focus { border-color: var(--ink); }
+  .form-group textarea { min-height: 100px; resize: vertical; }
+  .star-select { display: flex; gap: 0.4rem; margin-top: 0.25rem; }
+  .star-btn { background: none; border: 1px solid var(--line); border-radius: var(--r-sm); padding: 0.4rem 0.6rem; cursor: pointer; font-size: 0.85rem; transition: all .1s; color: var(--muted); }
+  .star-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .form-actions { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+
+  /* Testimonial list */
+  .t-list { display: flex; flex-direction: column; gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: var(--r-lg); overflow: hidden; }
+  .t-row { background: var(--surface); padding: 1.25rem 1.5rem; display: flex; gap: 1.5rem; align-items: flex-start; }
+  .t-row:hover { background: var(--bg); }
+  .t-stars { color: var(--accent); font-size: 0.85rem; margin-bottom: 0.35rem; flex-shrink: 0; }
+  .t-body { flex: 1; min-width: 0; }
+  .t-quote { font-size: 0.9rem; color: var(--ink); line-height: 1.6; margin-bottom: 0.5rem; font-style: italic; }
+  .t-author-line { font-size: 0.78rem; color: var(--muted); }
+  .t-author-line strong { color: var(--ink); font-style: normal; }
+  .t-actions { display: flex; gap: 0.5rem; flex-shrink: 0; }
+  .t-empty { text-align: center; padding: 3rem; background: var(--surface); }
+  .t-empty p { color: var(--muted); font-size: 0.9rem; margin-top: 0.5rem; }
+
+  /* Export box */
+  .export-card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-lg); padding: 1.5rem 2rem; margin-top: 2rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+  .export-card p { font-size: 0.85rem; color: var(--muted); margin: 0.25rem 0 0; max-width: 500px; }
+  .export-card h4 { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; margin: 0; }
+
+  .toast { position: fixed; bottom: 1.5rem; right: 1.5rem; background: var(--ink); color: #fff; padding: 0.75rem 1.25rem; border-radius: var(--r-md); font-size: 0.85rem; font-family: var(--font-sans); opacity: 0; transform: translateY(8px); transition: all .25s; pointer-events: none; z-index: 999; }
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  @media (max-width: 600px) {
+    .form-row { grid-template-columns: 1fr; }
+    .t-row { flex-direction: column; gap: 0.75rem; }
+  }
+</style>
+<script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
+</head>
+<body>
+
+<div id="loginScreen" class="login-screen">
+  <div class="login-card">
+    <h2>Lofts Studio Admin</h2>
+    <p class="sub">Enter your passphrase to access the control panel.</p>
+    <input type="password" id="pwInput" placeholder="Passphrase" autofocus />
+    <button onclick="doLogin()">Unlock</button>
+    <p class="login-error" id="loginErr">Wrong passphrase. Try again.</p>
+  </div>
+</div>
+
+<div id="adminApp" style="display:none;">
+
+  <div class="admin-bar">
+    <span class="admin-bar-logo">Lofts Studio <small>Admin</small></span>
+    <button class="admin-btn" onclick="doLogout()">Sign out</button>
+  </div>
+
+  <nav class="admin-nav-bar">
+    <a href="/admin/">Dashboard</a>
+    <a href="/admin/portfolio.html">Portfolio</a>
+    <a href="/admin/inbox.html">Inbox</a>
+    <a href="/admin/blog.html">Blog</a>
+    <a href="/admin/testimonials.html" class="active">Testimonials</a>
+  </nav>
+
+  <main class="t-main">
+
+    <div class="section-header">
+      <p class="section-title">Testimonials</p>
+      <div style="display:flex;gap:0.5rem;">
+        <button class="btn btn-outline" onclick="exportJSON()">Export JSON</button>
+        <button class="btn btn-primary" onclick="openForm()">+ Add Testimonial</button>
+      </div>
+    </div>
+
+    <!-- Add / Edit form -->
+    <div class="form-card" id="tForm">
+      <h3 id="formTitle">New Testimonial</h3>
+      <input type="hidden" id="f-id" value="" />
+      <div class="form-group">
+        <label>Quote</label>
+        <textarea id="f-quote" placeholder="What the client said — in their own words."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Client Name</label>
+          <input type="text" id="f-name" placeholder="e.g. Sarah Thompson" />
+        </div>
+        <div class="form-group">
+          <label>Title &amp; Company</label>
+          <input type="text" id="f-role" placeholder="e.g. Founder, ThreadNorth" />
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Service / Project</label>
+          <input type="text" id="f-service" placeholder="e.g. Shopify Theme Build" />
+        </div>
+        <div class="form-group">
+          <label>Rating</label>
+          <div class="star-select" id="starSelect">
+            <button class="star-btn" data-v="1" onclick="setStar(1)">1★</button>
+            <button class="star-btn" data-v="2" onclick="setStar(2)">2★</button>
+            <button class="star-btn" data-v="3" onclick="setStar(3)">3★</button>
+            <button class="star-btn" data-v="4" onclick="setStar(4)">4★</button>
+            <button class="star-btn active" data-v="5" onclick="setStar(5)">5★</button>
+          </div>
+        </div>
+      </div>
+      <div class="form-actions">
+        <button class="btn btn-primary" onclick="saveTestimonial()">Save</button>
+        <button class="btn btn-outline" onclick="closeForm()">Cancel</button>
+      </div>
+    </div>
+
+    <div id="tList"></div>
+
+    <div class="export-card">
+      <div>
+        <h4>Export for site embedding</h4>
+        <p>Downloads testimonials.json — paste into any page's inline script or embed via your HTML template. Sorted by newest first.</p>
+      </div>
+      <button class="btn btn-outline" onclick="exportJSON()">Download JSON</button>
+    </div>
+
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const ADMIN_PASS    = 'shipfaster';
+const ADMIN_SESSION = 'lofts-admin-v1';
+const STORAGE_KEY   = 'lofts-testimonials-v1';
+
+let testimonials = [];
+let editingId    = null;
+let currentStars = 5;
+
+function doLogin() {
+  const pw = document.getElementById('pwInput').value;
+  if (pw === ADMIN_PASS) {
+    sessionStorage.setItem(ADMIN_SESSION, '1');
+    showApp();
+  } else {
+    document.getElementById('loginErr').style.display = 'block';
+    document.getElementById('pwInput').value = '';
+    document.getElementById('pwInput').focus();
+  }
+}
+document.getElementById('pwInput').addEventListener('keydown', e => { if (e.key === 'Enter') doLogin(); });
+
+function doLogout() {
+  sessionStorage.removeItem(ADMIN_SESSION);
+  location.reload();
+}
+
+function showApp() {
+  document.getElementById('loginScreen').style.display = 'none';
+  document.getElementById('adminApp').style.display = 'block';
+  loadData();
+  render();
+}
+
+function loadData() {
+  try { testimonials = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); } catch { testimonials = []; }
+}
+
+function saveData() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(testimonials));
+}
+
+function setStar(v) {
+  currentStars = v;
+  document.querySelectorAll('.star-btn').forEach(b => {
+    b.classList.toggle('active', parseInt(b.dataset.v) === v);
+  });
+}
+
+function openForm(id) {
+  editingId = id || null;
+  const form = document.getElementById('tForm');
+  form.classList.add('open');
+
+  if (id) {
+    const t = testimonials.find(x => x.id === id);
+    if (!t) return;
+    document.getElementById('formTitle').textContent = 'Edit Testimonial';
+    document.getElementById('f-id').value      = t.id;
+    document.getElementById('f-quote').value   = t.quote;
+    document.getElementById('f-name').value    = t.name;
+    document.getElementById('f-role').value    = t.role || '';
+    document.getElementById('f-service').value = t.service || '';
+    setStar(t.stars || 5);
+  } else {
+    document.getElementById('formTitle').textContent = 'New Testimonial';
+    document.getElementById('f-id').value      = '';
+    document.getElementById('f-quote').value   = '';
+    document.getElementById('f-name').value    = '';
+    document.getElementById('f-role').value    = '';
+    document.getElementById('f-service').value = '';
+    setStar(5);
+    setTimeout(() => document.getElementById('f-quote').focus(), 50);
+  }
+  form.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function closeForm() {
+  document.getElementById('tForm').classList.remove('open');
+  editingId = null;
+}
+
+function saveTestimonial() {
+  const quote   = document.getElementById('f-quote').value.trim();
+  const name    = document.getElementById('f-name').value.trim();
+  const role    = document.getElementById('f-role').value.trim();
+  const service = document.getElementById('f-service').value.trim();
+
+  if (!quote || !name) { showToast('Quote and client name are required.'); return; }
+
+  if (editingId) {
+    const idx = testimonials.findIndex(x => x.id === editingId);
+    if (idx > -1) {
+      testimonials[idx] = { ...testimonials[idx], quote, name, role, service, stars: currentStars };
+    }
+    showToast('Testimonial updated.');
+  } else {
+    testimonials.unshift({ id: Date.now().toString(), quote, name, role, service, stars: currentStars, created: Date.now() });
+    showToast('Testimonial added.');
+  }
+  saveData();
+  closeForm();
+  render();
+}
+
+function deleteTestimonial(id) {
+  if (!confirm('Delete this testimonial?')) return;
+  testimonials = testimonials.filter(x => x.id !== id);
+  saveData();
+  render();
+  showToast('Deleted.');
+}
+
+function render() {
+  const el = document.getElementById('tList');
+  if (!testimonials.length) {
+    el.innerHTML = `<div class="t-list"><div class="t-empty"><div style="font-size:2rem;">⭐</div><p>No testimonials yet. Add your first one above.</p></div></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="t-list">${testimonials.map(t => `
+    <div class="t-row">
+      <div class="t-body">
+        <div class="t-stars">${'★'.repeat(t.stars || 5)}${'☆'.repeat(5 - (t.stars || 5))}</div>
+        <p class="t-quote">"${esc(t.quote)}"</p>
+        <p class="t-author-line"><strong>${esc(t.name)}</strong>${t.role ? ' · ' + esc(t.role) : ''}${t.service ? ' · ' + esc(t.service) : ''}</p>
+      </div>
+      <div class="t-actions">
+        <button class="btn btn-outline btn-sm" onclick="openForm('${t.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteTestimonial('${t.id}')">Delete</button>
+      </div>
+    </div>
+  `).join('')}</div>`;
+}
+
+function exportJSON() {
+  if (!testimonials.length) { showToast('No testimonials to export.'); return; }
+  const data = JSON.stringify(testimonials, null, 2);
+  const blob = new Blob([data], { type: 'application/json' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `testimonials-${new Date().toISOString().slice(0,10)}.json`;
+  a.click();
+  URL.revokeObjectURL(url);
+  showToast('Downloaded testimonials.json');
+}
+
+function esc(s) {
+  return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3500);
+}
+
+if (sessionStorage.getItem(ADMIN_SESSION) === '1') showApp();
+</script>
+</body>
+</html>
