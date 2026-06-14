@@ -62,7 +62,11 @@ NAV = '''<header class="nav-bar">
       </div>
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
       <a href="/websites/" class="nav-link">Websites</a>
+=======
+      <a href="/websites/" class="nav-link">Web Design</a>
+>>>>>>> theirs
 =======
       <a href="/websites/" class="nav-link">Web Design</a>
 >>>>>>> theirs
@@ -96,7 +100,11 @@ NAV = '''<header class="nav-bar">
     <nav class="mnav-primary" aria-label="Main">
 <<<<<<< ours
 <<<<<<< ours
+<<<<<<< ours
       <a href="/websites/" class="mnav-link" data-num="01">Websites</a>
+=======
+      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
+>>>>>>> theirs
 =======
       <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
 >>>>>>> theirs

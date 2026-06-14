@@ -93,6 +93,10 @@ def main():
     d = json.loads(DATA.read_text())
     WORK.mkdir(parents=True, exist_ok=True)
     changed = 0
+<<<<<<< ours
+=======
+    demoted = 0
+>>>>>>> theirs
     for it in d["items"]:
         if not it.get("published"):
             continue
@@ -106,7 +110,14 @@ def main():
             continue
         ok, reason = is_live(url)
         if not ok:
+<<<<<<< ours
             print(f"  ✗ {it['slug']}: NOT live — {reason} (left without thumbnail)")
+=======
+            # Safety net: never leave a dead/parked project published & visible.
+            it["published"] = False
+            demoted += 1
+            print(f"  ✗ {it['slug']}: NOT live — {reason} → set published=false")
+>>>>>>> theirs
             continue
         dest = WORK / f"{it['slug']}.jpg"
         print(f"  … {it['slug']}: {reason} — capturing screenshot")
@@ -116,6 +127,7 @@ def main():
             print(f"  ✓ {it['slug']}: saved {dest.relative_to(ROOT)}")
         else:
             print(f"  ! {it['slug']}: screenshot service didn't return a real image — retry later")
+<<<<<<< ours
     if changed:
         d["lastUpdated"] = time.strftime("%Y-%m-%d")
         DATA.write_text(json.dumps(d, indent=2, ensure_ascii=True) + "\n")
@@ -123,6 +135,15 @@ def main():
         print("Next: python3 scripts/generate_portfolio_pages.py")
     else:
         print("\nNo thumbnails changed.")
+=======
+    if changed or demoted:
+        d["lastUpdated"] = time.strftime("%Y-%m-%d")
+        DATA.write_text(json.dumps(d, indent=2, ensure_ascii=True) + "\n")
+        print(f"\nUpdated {changed} thumbnail(s); demoted {demoted} dead/parked project(s).")
+        print("Next: python3 scripts/generate_portfolio_pages.py")
+    else:
+        print("\nNo changes.")
+>>>>>>> theirs
 
 
 if __name__ == "__main__":

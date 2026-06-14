@@ -1330,6 +1330,104 @@
       "featured": false,
       "published": true,
       "displayOrder": 52
+    },
+    {
+      "slug": "tukantravel",
+      "name": "Tukan Travel Belize",
+      "tagline": "Tour-operator site for a Belize travel company",
+      "summary": "Belize-based tour operator running Mayan-ruin tours, zip-lining and adventure travel. Built and maintained their WordPress + Elementor site \u2014 tour pages, photo-led layouts, enquiry flow and a Stripe payment form \u2014 tuned for mobile, where most of their visitors browse and book.",
+      "url": "https://tukantravelbelize.com",
+      "image": "",
+      "platform": "WordPress + Elementor",
+      "category": "Travel \u00b7 Tours",
+      "stack": [
+        "WordPress",
+        "Elementor",
+        "Stripe",
+        "Responsive"
+      ],
+      "metric": {
+        "value": "Mobile-first",
+        "label": "Where guests book"
+      },
+      "year": "2020\u2013present",
+      "role": "Developer \u00b7 WordPress/Elementor build & maintenance",
+      "featured": false,
+      "published": true,
+      "displayOrder": 53
+    },
+    {
+      "slug": "fantails",
+      "name": "Fantails",
+      "tagline": "WordPress site for a handcrafted outdoor-furniture maker",
+      "summary": "Maker of handcrafted outdoor swings, chairs and benches. Built and refined their WordPress site \u2014 product galleries, a news section, enquiry forms and a clean, image-led layout \u2014 with careful attention to responsive image handling across the catalogue.",
+      "url": "https://www.fantails.net",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Retail",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Galleries"
+      ],
+      "metric": {
+        "value": "Handcrafted",
+        "label": "Furniture catalogue"
+      },
+      "year": "2020",
+      "role": "Developer \u00b7 WordPress build & gallery work",
+      "featured": false,
+      "published": true,
+      "displayOrder": 54
+    },
+    {
+      "slug": "webgonedigital",
+      "name": "Web Gone Digital",
+      "tagline": "Site for a digital marketing & web agency",
+      "summary": "Digital marketing and web-services agency. Built their WordPress site with service and maintenance sections, colourful pricing packages, subscription options and client testimonials \u2014 a clean shopfront for an agency selling design, marketing and ongoing care.",
+      "url": "https://webgonedigital.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Agency \u00b7 Branding",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Pricing & subscriptions"
+      ],
+      "metric": {
+        "value": "Packaged",
+        "label": "Services & subscriptions"
+      },
+      "year": "2022",
+      "role": "Developer \u00b7 WordPress build",
+      "featured": false,
+      "published": true,
+      "displayOrder": 55
+    },
+    {
+      "slug": "wscba",
+      "name": "WSCBA",
+      "tagline": "Members & lodging site for an outdoor club",
+      "summary": "Built and launched a WordPress site for a member-based outdoor club \u2014 lodging and directions pages with embedded maps, a responsive navigation overhaul, and lightbox galleries \u2014 taken live and tuned across tablet and mobile breakpoints.",
+      "url": "https://wscba.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "WordPress \u00b7 Membership",
+      "stack": [
+        "WordPress",
+        "Custom theme",
+        "Maps",
+        "Responsive"
+      ],
+      "metric": {
+        "value": "Live",
+        "label": "Members & lodging site"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 WordPress build & launch",
+      "featured": false,
+      "published": true,
+      "displayOrder": 56
     }
   ]
 }
