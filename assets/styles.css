@@ -4528,31 +4528,31 @@ body.chat-open .mob-bar { display: none; }
    Light mode is untouched; these only apply on [data-theme="dark"].
    ═══════════════════════════════════════════════════════════════ */
 html[data-theme="dark"] {
-  --bg:        #16120D;
-  --bg-soft:   #1E1813;
-  --surface:   #241D16;
-  --ink:       #F1EBE0;
-  --ink-soft:  #D8D0C2;
-  --muted:     #A89E8E;
-  --muted-2:   #7E7666;
-  --line:      #362E25;
-  --line-soft: #2B241C;
-  --accent:        #D06B45;
-  --accent-deep:   #B5532F;
-  --accent-soft:   #2E1F15;
-  --accent-hover:  #DD7A52;
-  --green:     #84A468;
-  --gold:      #CDA763;
-  --shadow-soft: 0 1px 0 rgba(0,0,0,0.35), 0 8px 24px -14px rgba(0,0,0,0.65);
-  --shadow-card: 0 1px 2px rgba(0,0,0,0.35), 0 20px 48px -28px rgba(0,0,0,0.70);
-  --shadow-pop:  0 1px 2px rgba(0,0,0,0.40), 0 30px 60px -22px rgba(0,0,0,0.75);
+  --bg:        #221D17;
+  --bg-soft:   #2B251D;
+  --surface:   #332C23;
+  --ink:       #F3EEE4;
+  --ink-soft:  #DED6C8;
+  --muted:     #B4AA98;
+  --muted-2:   #8B8372;
+  --line:      #463D31;
+  --line-soft: #3A3228;
+  --accent:        #D77A55;
+  --accent-deep:   #C0623B;
+  --accent-soft:   #3A271B;
+  --accent-hover:  #E58A65;
+  --green:     #8DAC70;
+  --gold:      #D2AC68;
+  --shadow-soft: 0 1px 0 rgba(0,0,0,0.30), 0 8px 24px -14px rgba(0,0,0,0.55);
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.30), 0 20px 48px -28px rgba(0,0,0,0.60);
+  --shadow-pop:  0 1px 2px rgba(0,0,0,0.35), 0 30px 60px -22px rgba(0,0,0,0.65);
   color-scheme: dark;
 }
 /* Hardcoded light page-chrome → dark equivalents */
-html[data-theme="dark"] .nav-bar { background: rgba(18,15,11,0.80); }
-html[data-theme="dark"] .nav-bar.scrolled { background: rgba(18,15,11,0.94); }
-html[data-theme="dark"] .mob-bar { background: rgba(18,15,11,0.92); }
-html[data-theme="dark"] .conv-popup-sheet { background: rgba(30,25,20,0.92); }
+html[data-theme="dark"] .nav-bar { background: rgba(34,29,23,0.80); }
+html[data-theme="dark"] .nav-bar.scrolled { background: rgba(34,29,23,0.94); }
+html[data-theme="dark"] .mob-bar { background: rgba(34,29,23,0.92); }
+html[data-theme="dark"] .conv-popup-sheet { background: rgba(43,37,29,0.94); }
 html[data-theme="dark"] .cookie-banner { background: var(--surface); }
 /* Black simple-icon SVGs would vanish on dark → invert to light */
 html[data-theme="dark"] .chip-logo { filter: invert(0.9) brightness(1.15); }
