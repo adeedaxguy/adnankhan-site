@@ -4559,6 +4559,29 @@ html[data-theme="dark"] .chip-logo { filter: invert(0.9) brightness(1.15); }
 /* Smooth the flip */
 html { transition: background-color .3s ease, color .3s ease; }
 
+/* ── Scroll progress bar (injected into .nav-bar by main.js) ──
+   Sits flush along the bottom edge of the menu bar, fills + glows
+   as the page is scrolled from top to bottom. */
+.scroll-progress {
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 2px;
+  pointer-events: none;
+  overflow: hidden;
+}
+.scroll-progress__fill {
+  height: 100%;
+  width: 0;
+  transform-origin: left center;
+  background: linear-gradient(90deg, var(--accent-deep), var(--accent));
+  box-shadow: 0 0 6px 0 var(--accent), 0 0 12px 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  border-radius: 0 2px 2px 0;
+  will-change: width;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .scroll-progress__fill { transition: width .12s ease-out; }
+}
+
 /* ── Theme toggle control (injected into the nav by main.js) ── */
 .theme-toggle { display:inline-flex; align-items:center; gap:1px; padding:3px;
   border:1px solid var(--line); border-radius:100px; background:var(--surface); margin-left:0.4rem; }

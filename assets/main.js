@@ -493,3 +493,36 @@
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', build); else build();
 })();
+
+/* ── Scroll progress bar ──
+   Injects a thin glowing bar along the bottom of the menu bar that
+   fills as the page scrolls from top to bottom. Works on every page. */
+(function () {
+  function init() {
+    var bar = document.querySelector('.nav-bar');
+    if (!bar || bar.querySelector('.scroll-progress')) return;
+    var track = document.createElement('div');
+    track.className = 'scroll-progress';
+    var fill = document.createElement('div');
+    fill.className = 'scroll-progress__fill';
+    track.appendChild(fill);
+    bar.appendChild(track);
+
+    var ticking = false;
+    function update() {
+      var doc = document.documentElement;
+      var max = (doc.scrollHeight - window.innerHeight);
+      var pct = max > 0 ? (window.scrollY || doc.scrollTop || 0) / max : 0;
+      if (pct < 0) pct = 0; else if (pct > 1) pct = 1;
+      fill.style.width = (pct * 100) + '%';
+      ticking = false;
+    }
+    function onScroll() {
+      if (!ticking) { ticking = true; window.requestAnimationFrame(update); }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll, { passive: true });
+    update();
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
