@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="robots" content="noindex,nofollow" />
+<title>Comment Moderation · Lofts Studio</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..600&family=Source+Serif+4:opsz,wght@8..60,400..600&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260613w" />
+<style>
+  body { padding-top: 0 !important; background: var(--bg-soft); }
+  .abar { position: sticky; top: 0; z-index: 50; background: var(--ink); color:#fff;
+    padding: 1rem 1.5rem; display:flex; justify-content:space-between; align-items:center; gap:1rem; flex-wrap:wrap; }
+  .abar h1 { font-family: var(--font-display); font-weight:600; font-size:1.05rem; margin:0; letter-spacing:-0.02em; }
+  .abar h1 small { color: var(--muted); font-weight:400; }
+  .abar a { color:#fff; font-size:0.82rem; opacity:.8; text-decoration:none; }
+  .abar a:hover { opacity:1; }
+  .wrap { max-width: 860px; margin: 2rem auto; padding: 0 1.5rem; }
+  .gate { min-height:70vh; display:flex; align-items:center; justify-content:center; }
+  .gate-card { background: var(--surface); border:1px solid var(--line); border-radius: var(--r-lg);
+    padding: 2rem; max-width: 400px; width:100%; box-shadow: var(--shadow-card); }
+  .gate-card h2 { font-family: var(--font-display); margin:0 0 0.5rem; }
+  .gate-card p { color: var(--muted); font-size:0.9rem; margin:0 0 1.25rem; }
+  .inp { width:100%; padding:0.8rem 0.95rem; border:1px solid var(--line); border-radius: var(--r-md);
+    background: var(--bg); color: var(--ink); font-family: var(--font-sans); font-size:1rem; }
+  .inp:focus { outline:none; border-color: var(--accent); box-shadow:0 0 0 3px var(--accent-soft); }
+  .btn-go { margin-top: 0.9rem; width:100%; justify-content:center; }
+  .err { color: var(--accent-deep); font-size:0.85rem; margin-top:0.6rem; display:none; }
+  .tabs { display:flex; gap:0.5rem; margin-bottom:1.5rem; }
+  .tab { border:1px solid var(--line); background: var(--surface); color: var(--muted);
+    padding:0.4rem 0.9rem; border-radius:100px; cursor:pointer; font-size:0.85rem; }
+  .tab.on { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+  .tab .n { opacity:.7; }
+  .cmt { background: var(--surface); border:1px solid var(--line); border-radius: var(--r-lg);
+    padding:1.25rem 1.4rem; margin-bottom:1rem; }
+  .cmt.pending { border-left:3px solid var(--gold); }
+  .cmt-top { display:flex; justify-content:space-between; gap:1rem; align-items:baseline; flex-wrap:wrap; }
+  .cmt-name { font-weight:600; color: var(--ink); }
+  .cmt-where { font-size:0.78rem; color: var(--muted-2); }
+  .cmt-where a { color: var(--muted); }
+  .cmt-body { color: var(--ink-soft); line-height:1.65; margin:0.6rem 0 1rem; white-space:pre-wrap; overflow-wrap:anywhere; }
+  .cmt-actions { display:flex; gap:0.5rem; }
+  .b { border:1px solid var(--line); background: var(--bg); color: var(--ink); padding:0.4rem 0.9rem;
+    border-radius: var(--r-md); cursor:pointer; font-size:0.82rem; font-weight:500; }
+  .b.ok { background: var(--green); border-color: var(--green); color:#fff; }
+  .b.del { color: var(--accent-deep); border-color: rgba(139,58,31,0.4); }
+  .b:disabled { opacity:.5; pointer-events:none; }
+  .empty { color: var(--muted); font-style:italic; padding:2rem 0; }
+  .badge { background: var(--gold); color: var(--ink); font-size:0.7rem; font-weight:700; padding:2px 8px;
+    border-radius:100px; text-transform:uppercase; letter-spacing:0.06em; }
+</style>
+</head>
+<body>
+<div class="abar">
+  <h1>Comment moderation <small>· Lofts Studio</small></h1>
+  <div><a href="/admin/">← Portfolio admin</a></div>
+</div>
+
+<!-- Token gate -->
+<div class="gate" id="gate">
+  <div class="gate-card">
+    <h2>Moderation</h2>
+    <p>Enter the comments admin token (set as <code>COMMENTS_ADMIN_TOKEN</code> in Vercel).</p>
+    <input class="inp" id="tok" type="password" placeholder="Admin token" autocomplete="off" />
+    <button class="btn btn-primary btn-go" id="go">Unlock</button>
+    <div class="err" id="err">That token didn’t work.</div>
+  </div>
+</div>
+
+<!-- App -->
+<div class="wrap" id="app" style="display:none;">
+  <div class="tabs">
+    <button class="tab on" data-tab="pending">Pending <span class="n" id="nPending">0</span></button>
+    <button class="tab" data-tab="approved">Approved <span class="n" id="nApproved">0</span></button>
+  </div>
+  <div id="listPending"></div>
+  <div id="listApproved" style="display:none;"></div>
+</div>
+
+<script>
+(function () {
+  var SS = 'lofts-comments-admin-token';
+  var token = sessionStorage.getItem(SS) || '';
+  var gate = document.getElementById('gate'), app = document.getElementById('app');
+  var all = [];
+
+  function esc(s){ var d=document.createElement('div'); d.textContent=s==null?'':String(s); return d.innerHTML; }
+  function ago(ts){ var s=Math.floor((Date.now()-ts)/1000); if(s<60)return 'just now';
+    var m=Math.floor(s/60); if(m<60)return m+'m ago'; var h=Math.floor(m/60); if(h<24)return h+'h ago';
+    var d=Math.floor(h/24); if(d<30)return d+'d ago'; return new Date(ts).toLocaleDateString(); }
+
+  function api(method, body){
+    return fetch('/api/comments' + (method==='GET'?'?admin=1':''), {
+      method: method,
+      headers: { 'content-type':'application/json', 'x-admin-token': token },
+      body: method==='GET' ? undefined : JSON.stringify(body)
+    }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j}; }); });
+  }
+
+  function unlock(){
+    token = document.getElementById('tok').value.trim();
+    if(!token) return;
+    api('GET').then(function(res){
+      if(res.status===200 && res.j.ok){
+        sessionStorage.setItem(SS, token);
+        all = res.j.comments || [];
+        gate.style.display='none'; app.style.display='';
+        render();
+      } else {
+        document.getElementById('err').style.display='block';
+      }
+    }).catch(function(){ document.getElementById('err').style.display='block'; });
+  }
+  document.getElementById('go').addEventListener('click', unlock);
+  document.getElementById('tok').addEventListener('keydown', function(e){ if(e.key==='Enter') unlock(); });
+
+  function card(c){
+    var post = '/blog/'+c.slug+'.html#comments';
+    var actions = '<div class="cmt-actions">' +
+      (c.approved ? '' : '<button class="b ok" data-act="approve" data-id="'+esc(c.id)+'" data-slug="'+esc(c.slug)+'">Approve</button>') +
+      '<button class="b del" data-act="delete" data-id="'+esc(c.id)+'" data-slug="'+esc(c.slug)+'">Delete</button></div>';
+    return '<div class="cmt '+(c.approved?'':'pending')+'">' +
+      '<div class="cmt-top"><span class="cmt-name">'+esc(c.name)+(c.approved?'':' <span class="badge">pending</span>')+'</span>' +
+      '<span class="cmt-where">'+ago(c.ts)+' · <a href="'+post+'" target="_blank">'+esc(c.slug)+'</a>'+(c.email?(' · '+esc(c.email)):'')+'</span></div>' +
+      '<div class="cmt-body">'+esc(c.body)+'</div>' + actions + '</div>';
+  }
+
+  function render(){
+    var pending = all.filter(function(c){return !c.approved;});
+    var approved = all.filter(function(c){return c.approved;});
+    document.getElementById('nPending').textContent = pending.length;
+    document.getElementById('nApproved').textContent = approved.length;
+    document.getElementById('listPending').innerHTML = pending.length ? pending.map(card).join('') : '<p class="empty">No comments awaiting moderation.</p>';
+    document.getElementById('listApproved').innerHTML = approved.length ? approved.map(card).join('') : '<p class="empty">No approved comments yet.</p>';
+  }
+
+  document.querySelectorAll('.tab').forEach(function(t){
+    t.addEventListener('click', function(){
+      document.querySelectorAll('.tab').forEach(function(x){x.classList.remove('on');});
+      t.classList.add('on');
+      var p = t.dataset.tab==='pending';
+      document.getElementById('listPending').style.display = p?'':'none';
+      document.getElementById('listApproved').style.display = p?'none':'';
+    });
+  });
+
+  app.addEventListener('click', function(e){
+    var b = e.target.closest('[data-act]'); if(!b) return;
+    var act=b.dataset.act, id=b.dataset.id, slug=b.dataset.slug;
+    if(act==='delete' && !confirm('Delete this comment permanently?')) return;
+    b.disabled=true;
+    api('POST', {action:act, slug:slug, id:id}).then(function(res){
+      if(res.status===200 && res.j.ok){
+        if(act==='approve'){ var c=all.find(function(x){return x.id===id;}); if(c)c.approved=true; }
+        else { all = all.filter(function(x){return x.id!==id;}); }
+        render();
+      } else { b.disabled=false; alert(res.j.message||'Action failed.'); }
+    }).catch(function(){ b.disabled=false; alert('Network error.'); });
+  });
+
+  // auto-unlock if token already in session
+  if(token){ api('GET').then(function(res){
+    if(res.status===200 && res.j.ok){ all=res.j.comments||[]; gate.style.display='none'; app.style.display=''; render(); }
+  }); }
+})();
+</script>
+</body>
+</html>

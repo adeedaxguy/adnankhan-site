@@ -26,7 +26,11 @@ const RETURN_MAX    = 200;
 
 const KV_URL   = process.env.KV_REST_API_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN;
-const MODERATED = process.env.COMMENTS_MODERATION === '1';
+// Moderated by default — new comments are held until approved in /admin/comments.html.
+// Set COMMENTS_MODERATION="0" to auto-publish instead.
+const MODERATED = process.env.COMMENTS_MODERATION !== '0';
+// Server-side secret for admin approve/delete (set in Vercel env).
+const ADMIN_TOKEN = process.env.COMMENTS_ADMIN_TOKEN || '';
 
 const BANNED = /(viagra|cialis|casino|porn|sex cam|payday loan|crypto pump|\bseo services\b|telegram\.me|bit\.ly\/|escort|loan offer|\bnsfw\b|онлайн|кредит)/i;
 
@@ -59,8 +63,58 @@ function json(obj, status = 200) {
   });
 }
 
+function isAdmin(req) {
+  if (!ADMIN_TOKEN) return false;
+  const tok = req.headers.get('x-admin-token') || '';
+  // constant-time-ish compare
+  if (tok.length !== ADMIN_TOKEN.length) return false;
+  let diff = 0;
+  for (let i = 0; i < tok.length; i++) diff |= tok.charCodeAt(i) ^ ADMIN_TOKEN.charCodeAt(i);
+  return diff === 0;
+}
+
+// Find a comment by id in its per-slug list and update it (return new object),
+// or delete it (return null from mutate).
+async function findAndMutate(slug, id, mutate) {
+  const key = `comments:${slug}`;
+  const arr = (await kv(['LRANGE', key, '0', '-1'])) || [];
+  for (let i = 0; i < arr.length; i++) {
+    let c;
+    try { c = typeof arr[i] === 'string' ? JSON.parse(arr[i]) : arr[i]; } catch { continue; }
+    if (c && c.id === id) {
+      const nv = mutate(c);
+      if (nv === null) {
+        await kv(['LSET', key, String(i), '__DELETED__']);
+        await kv(['LREM', key, '1', '__DELETED__']);
+      } else {
+        await kv(['LSET', key, String(i), JSON.stringify(nv)]);
+      }
+      return true;
+    }
+  }
+  return false;
+}
+
 export default async function handler(req) {
   const url = new URL(req.url);
+
+  // ── Admin: list every comment (incl. pending) for moderation ────
+  if (req.method === 'GET' && url.searchParams.get('admin')) {
+    if (!isAdmin(req)) return json({ ok: false, message: 'Unauthorized' }, 401);
+    const slugs = (await kv(['SMEMBERS', 'comments:index'])) || [];
+    const out = [];
+    for (const s of slugs) {
+      const raw = (await kv(['LRANGE', `comments:${s}`, '0', '-1'])) || [];
+      for (const item of raw) {
+        try {
+          const c = typeof item === 'string' ? JSON.parse(item) : item;
+          out.push({ id: c.id, slug: s, name: c.name, body: c.body, ts: c.ts, approved: c.approved !== false, email: c._email || '' });
+        } catch { /* skip */ }
+      }
+    }
+    out.sort((a, b) => b.ts - a.ts);
+    return json({ ok: true, comments: out });
+  }
 
   // ── List comments ───────────────────────────────────────────────
   if (req.method === 'GET') {
@@ -84,6 +138,15 @@ export default async function handler(req) {
   // ── Create comment ──────────────────────────────────────────────
   let p = {};
   try { p = await req.json(); } catch { return json({ ok: false, message: 'Bad request' }, 400); }
+
+  // ── Admin moderation actions ────────────────────────────────────
+  if (p.action === 'approve' || p.action === 'delete') {
+    if (!isAdmin(req)) return json({ ok: false, message: 'Unauthorized' }, 401);
+    const aslug = cleanSlug(p.slug);
+    if (!aslug || !p.id) return json({ ok: false, message: 'Missing slug or id.' }, 400);
+    const done = await findAndMutate(aslug, p.id, p.action === 'delete' ? () => null : (c) => ({ ...c, approved: true }));
+    return json({ ok: done });
+  }
 
   const slug = cleanSlug(p.slug);
   if (!slug) return json({ ok: false, message: 'Missing post.' }, 400);
@@ -134,6 +197,7 @@ export default async function handler(req) {
   };
   if (p.email) comment._email = esc(String(p.email).slice(0, 120)); // stored privately, never returned
 
+  await kv(['SADD', 'comments:index', slug]);            // track slugs for the moderation view
   await kv(['LPUSH', `comments:${slug}`, JSON.stringify(comment)]);
   await kv(['LTRIM', `comments:${slug}`, '0', String(KEEP - 1)]);
 
