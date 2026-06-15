@@ -4622,3 +4622,57 @@ html { transition: background-color .3s ease, color .3s ease; }
 .theme-opt:hover { color:var(--ink); }
 .theme-opt.is-active { background:var(--bg); color:var(--accent); box-shadow:0 1px 2px rgba(0,0,0,0.10); }
 @media (max-width:880px){ .theme-toggle{ margin-left:0; margin-right:0.4rem; padding:2px; } .theme-opt{ width:28px; height:28px; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   Blog comments — high-end, theme-aware (used on blog posts)
+   ═══════════════════════════════════════════════════════════════ */
+.comments { padding: 1rem 0 6rem; }
+.comments .container-narrow { max-width: 760px; }
+.comments-head { padding-top: 2.5rem; border-top: 1px solid var(--line); margin-bottom: 2rem; }
+.comments-head h2 { font-family: var(--font-display); letter-spacing: -0.03em; margin: 0; font-size: clamp(1.6rem, 3vw, 2.1rem); }
+.comments-count { color: var(--muted); font-weight: 400; font-size: 0.7em; margin-left: 0.4rem; }
+.comments-sub { color: var(--muted); margin: 0.5rem 0 0; font-size: 0.95rem; }
+
+.comments-list { list-style: none; margin: 0 0 2.5rem; padding: 0; display: grid; gap: 1.4rem; }
+.comments-empty { color: var(--muted); font-style: italic; margin: 0 0 2rem; }
+.comment { display: grid; grid-template-columns: 44px 1fr; gap: 1rem; align-items: start;
+  animation: comment-in .4s cubic-bezier(.2,.7,.2,1) both; }
+.comment--new { animation: comment-pop .5s cubic-bezier(.2,.7,.2,1) both; }
+@keyframes comment-in { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+@keyframes comment-pop { 0% { opacity: 0; transform: translateY(-6px) scale(.98); } 100% { opacity: 1; transform: none; } }
+.comment-avatar {
+  width: 44px; height: 44px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-sans); font-weight: 700; font-size: 0.92rem; letter-spacing: 0.02em;
+  color: var(--accent);
+  background: hsl(var(--h, 20) 38% 92%);
+  box-shadow: inset 0 0 0 1px hsl(var(--h, 20) 40% 84%);
+  user-select: none;
+}
+html[data-theme="dark"] .comment-avatar { background: hsl(var(--h, 20) 30% 20%); color: var(--accent-hover); box-shadow: inset 0 0 0 1px hsl(var(--h, 20) 30% 30%); }
+.comment-main { min-width: 0; }
+.comment-meta { display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap; }
+.comment-name { font-family: var(--font-sans); font-weight: 600; color: var(--ink); font-size: 0.96rem; }
+.comment-time { font-size: 0.78rem; color: var(--muted-2); }
+.comment-text { margin: 0.35rem 0 0; color: var(--ink-soft); line-height: 1.66; font-size: 1rem;
+  overflow-wrap: anywhere; }
+
+/* Form */
+.comment-form { border: 1px solid var(--line); border-radius: var(--r-lg); background: var(--surface);
+  padding: 1.5rem; box-shadow: var(--shadow-soft); }
+.cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 0.75rem; }
+.cf-input { width: 100%; font-family: var(--font-sans); font-size: 1rem; color: var(--ink);
+  background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-md);
+  padding: 0.8rem 0.95rem; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; }
+.cf-input::placeholder { color: var(--muted-2); }
+.cf-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cf-text { resize: vertical; min-height: 110px; line-height: 1.6; }
+.cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
+.cf-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
+.cf-note { font-size: 0.82rem; color: var(--muted); margin: 0; }
+.cf-note--err { color: var(--accent-deep); }
+html[data-theme="dark"] .cf-note--err { color: var(--accent-hover); }
+.cf-submit { white-space: nowrap; }
+.cf-submit.is-loading { opacity: 0.6; pointer-events: none; }
+.cf-submit:disabled { opacity: 0.6; cursor: default; }
+@media (max-width: 560px) { .cf-row { grid-template-columns: 1fr; } .comment { grid-template-columns: 38px 1fr; gap: 0.8rem; } .comment-avatar { width: 38px; height: 38px; } }

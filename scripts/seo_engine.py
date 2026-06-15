@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260612c"
+CACHE_VER = "20260613w"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -57,6 +57,80 @@ def load_nav_and_footer():
 # ─────────────────────────────────────────────────────────────────────────────
 
 POSTS = [
+    {
+        "slug": "why-your-website-isnt-showing-up-on-google",
+        "title": "Why Your Website Isn\u2019t Showing Up on Google \u2014 and How to Fix It",
+        "excerpt": "Your site is live but invisible on Google. Here\u2019s the plain-English reason it happens, how to tell which problem you actually have, and the exact steps to fix it.",
+        "meta": "Website not showing up on Google? Here\u2019s how to tell if it\u2019s an indexing problem or a ranking problem \u2014 and the exact steps to get found, for any business.",
+        "category": "SEO",
+        "date": "2026-06-15",
+        "readingTime": "9 min",
+        "primaryKeyword": "why isn\u2019t my website showing up on google",
+        "secondaryKeyword": "website not showing up on google search",
+        "funnelTo": "/services/technical-seo-audit.html",
+        "funnelLabel": "Technical SEO Audit",
+        "featured": True,
+        "hook": "You built the website. You typed your business name into Google. Nothing \u2014 or worse, everyone but you. Before you blame the algorithm, know this: \u201Cnot showing up\u201D is almost always one of a handful of specific, fixable problems, and you can diagnose which one in about fifteen minutes.",
+        "body": [
+            ("p", "The first thing to get straight is that there are two completely different problems hiding behind \u201Cmy site isn\u2019t on Google,\u201D and the fix for one does nothing for the other. Sort out which you have first, or you\u2019ll waste weeks on the wrong thing."),
+            ("h2", "Indexing vs. ranking: which problem do you actually have?"),
+            ("p", "<strong>Indexing</strong> is whether Google knows your page exists at all. <strong>Ranking</strong> is where you sit once it does. A brand-new site that has never been crawled has an indexing problem. A two-year-old site sitting on page four has a ranking problem. They feel identical from the outside and they are not."),
+            ("callout", "Quick test: search <code>site:yourdomain.com</code> on Google (swap in your real domain). If pages show up, you\u2019re indexed \u2014 your problem is ranking. If nothing shows up, you have an indexing problem. Start there."),
+            ("h2", "Reason 1: Google hasn\u2019t indexed your site yet"),
+            ("p", "New sites aren\u2019t indexed the moment they go live \u2014 Google has to discover and crawl them first, which can take days or a few weeks. If your <code>site:</code> search came up empty and the site is recent, this is usually it."),
+            ("ul", [
+                "Set up <strong>Google Search Console</strong> (free) and verify your domain \u2014 this is the single most useful thing you can do for visibility.",
+                "Submit your XML sitemap (usually <code>/sitemap.xml</code>) in Search Console so Google has a map of every page.",
+                "Use the URL Inspection tool to \u201CRequest indexing\u201D on your most important pages.",
+                "Earn a couple of real links \u2014 a Google Business Profile, a social profile, a local directory \u2014 so Google has a path to find you.",
+            ]),
+            ("h2", "Reason 2: You\u2019re accidentally telling Google to stay away"),
+            ("p", "This one catches almost everyone at least once. During a build it\u2019s normal to hide a site from search \u2014 and very easy to forget to switch it back on at launch. If you\u2019re not indexed and the site isn\u2019t brand new, check these in order:"),
+            ("ul", [
+                "A <code>noindex</code> tag left on the pages (on WordPress: Settings \u2192 Reading \u2192 uncheck \u201CDiscourage search engines\u201D).",
+                "A <code>robots.txt</code> file blocking crawlers (<code>Disallow: /</code> blocks the whole site).",
+                "A staging site still password-protected or pointed at the wrong domain.",
+                "Pages canonicalised to a different URL, so Google indexes that one instead of yours.",
+            ]),
+            ("p", "Search Console\u2019s Pages report will tell you flatly why a page isn\u2019t indexed \u2014 \u201CExcluded by \u2018noindex\u2019,\u201D \u201CBlocked by robots.txt,\u201D and so on. Read it before guessing."),
+            ("h2", "Reason 3: The site is too thin to rank"),
+            ("p", "If you\u2019re indexed but invisible, the most common cause is simply that there isn\u2019t enough there. A three-page site with a hundred words total gives Google almost nothing to rank. Pages that actually answer what people search \u2014 clearly, in depth, in plain language \u2014 are what move you up. This is also exactly what AI search engines pull from now, so it does double duty."),
+            ("h2", "Reason 4: You\u2019re ranking \u2014 just not on page one"),
+            ("p", "Being on Google and being <em>found</em> on Google are different things \u2014 almost nobody clicks past the first page. If you rank but no one sees you, the usual culprits are:"),
+            ("ul", [
+                "<strong>Keyword mismatch</strong> \u2014 your pages target words you\u2019d use, not the words customers actually type.",
+                "<strong>Search intent</strong> \u2014 the page doesn\u2019t match what someone wants when they search that term (buy vs. learn vs. compare).",
+                "<strong>Competition</strong> \u2014 head terms are brutal; specific, longer phrases (\u201C[service] in [town]\u201D) are winnable.",
+                "<strong>No authority</strong> \u2014 few or no other sites link to you, so Google has little reason to trust you yet.",
+            ]),
+            ("h2", "Reason 5: For a local business, it\u2019s usually the map, not the website"),
+            ("p", "If you run a local business and you\u2019re not appearing for \u201C[what you do] near me,\u201D the issue often isn\u2019t your website at all \u2014 it\u2019s your <strong>Google Business Profile</strong>. The map pack (those top three map results) is ranked separately from the regular blue links, and for local searches it\u2019s where most of the clicks go."),
+            ("ul", [
+                "Claim and fully complete your Google Business Profile \u2014 category, hours, photos, service area.",
+                "Keep your name, address and phone number identical everywhere they appear online.",
+                "Ask happy customers for reviews, and reply to them \u2014 it genuinely moves local ranking.",
+                "Make sure your website backs the profile up, with your location and services in the page content and structured data.",
+            ]),
+            ("p", "We build this in by default \u2014 see <a href=\"/websites/\">websites by industry</a> for how each type of local business should be set up to get found."),
+            ("h2", "Reason 6: It\u2019s slow, broken, or not mobile-friendly"),
+            ("p", "Google ranks the mobile version of your site and treats speed as a real factor. A site that takes five seconds to load on a phone, shifts around as it loads, or breaks on mobile will struggle to rank no matter how good the words are \u2014 and visitors leave before it even finishes. If the basics are shaky, that\u2019s the place to start; see <a href=\"/services/speed-optimization.html\">speed optimization</a>."),
+            ("h2", "A 15-minute self-check"),
+            ("ol", [
+                "Search <code>site:yourdomain.com</code> \u2014 indexed, or not?",
+                "If not indexed: check for <code>noindex</code> and <code>robots.txt</code> blocks, then set up Search Console and request indexing.",
+                "If indexed: search the exact phrases a customer would use and see where you actually land.",
+                "Run your homepage through Google\u2019s PageSpeed Insights \u2014 anything red on mobile is hurting you.",
+                "If you\u2019re local, open Google Maps and search your service \u2014 are you in the map pack?",
+            ]),
+            ("h2", "Frequently asked"),
+            ("h3", "How long until a new website shows up on Google?"),
+            ("p", "Anywhere from a few days to a few weeks once Google can find it. Setting up Search Console, submitting a sitemap and earning a couple of links speeds it up considerably."),
+            ("h3", "Why does my site show up for my business name but nothing else?"),
+            ("p", "That\u2019s a ranking and content problem, not an indexing one. Ranking for your own name is easy; ranking for what you <em>do</em> takes pages that target those searches and enough trust signals to compete."),
+            ("h3", "Do I need to pay Google to show up?"),
+            ("p", "No. Ads buy the paid slots at the top; the organic results below them are earned, not bought \u2014 which is exactly what this article is about."),
+        ],
+    },
     {
         "slug": "hire-shopify-developer-guide-2026",
         "title": "How to Hire a Shopify Developer in 2026 (Without Getting Burned)",
@@ -577,6 +651,8 @@ def render_blog_post(p, nav, footer):
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.svg" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -620,6 +696,10 @@ def render_blog_post(p, nav, footer):
   .post-callout {{ background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }}
   .post-callout p {{ margin: 0; color: var(--ink); font-size: 1rem; }}
 </style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
+  <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
 </head>
 <body>
 
@@ -682,6 +762,32 @@ def render_blog_post(p, nav, footer):
   </div>
 </section>
 </article>
+
+<section class="comments" aria-labelledby="comments-title">
+  <div class="container container-narrow">
+    <div id="comments" data-slug="{p['slug']}">
+      <div class="comments-head">
+        <h2 id="comments-title">Comments <span class="comments-count" data-count></span></h2>
+        <p class="comments-sub">Have a question, or a better way to do this? Add it below — real replies, no sign-up.</p>
+      </div>
+      <ol class="comments-list" data-list></ol>
+      <p class="comments-empty" data-empty hidden>Be the first to comment.</p>
+      <form class="comment-form" data-form novalidate>
+        <div class="cf-row">
+          <input class="cf-input" type="text" name="name" maxlength="60" placeholder="Your name" required aria-label="Your name" autocomplete="name" />
+          <input class="cf-input" type="email" name="email" maxlength="120" placeholder="Email (optional, never shown)" aria-label="Email (optional)" autocomplete="email" />
+        </div>
+        <textarea class="cf-input cf-text" name="body" maxlength="3000" rows="4" placeholder="Add to the conversation…" required aria-label="Your comment"></textarea>
+        <div class="cf-hp"><label>Leave this field empty<input type="text" name="hp_url" tabindex="-1" autocomplete="off" /></label></div>
+        <div class="cf-foot">
+          <span class="cf-note" data-status>Be kind and constructive. Links are limited to keep spam out.</span>
+          <button class="btn btn-primary cf-submit" type="submit">Post comment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<script src="/assets/comments.js?v={CACHE_VER}" defer></script>
 
 {footer}
 

@@ -1,6 +1,6 @@
 {
   "version": 7,
-  "lastUpdated": "2026-06-15",
+  "lastUpdated": "2026-06-14",
   "schema": "Source of truth for portfolio. Edit via /admin/ then export and replace this file. Public listing at /portfolio/ reads this on load.",
   "categories": [
     "Shopify",
@@ -1216,7 +1216,7 @@
       "tagline": "Federal-ready IT & cybersecurity contractor site",
       "summary": "Marketing and capability site for a Texas-based IT, cybersecurity and managed-services firm serving federal and commercial clients. Built in WordPress with downloadable capability statements, contract-vehicle and industry pages (oil & gas, healthcare, retail, government), and named, routed enquiry forms \u2014 structured for 8(a)/SBA and FedRAMP procurement.",
       "url": "https://ireliants.com",
-      "image": "/assets/work/ireliants.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "B2B \u00b7 IT & Government",
       "stack": [
@@ -1241,7 +1241,7 @@
       "tagline": "Shopify store for the high-street therapy brand",
       "summary": "Self Space is the UK\u2019s \u201ctherapy on the high street\u201d company, founded by Jodie Cariss and Chance Marshall. We built their Shopify store for books, candles and accessories, styling the theme to match the main brand down to typography, colour, logos, hover and form states, and configured UK-only sale settings including VAT and shipping.",
       "url": "https://store.theselfspace.com",
-      "image": "/assets/work/theselfspace.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "DTC \u00b7 Wellness",
       "stack": [
@@ -1265,7 +1265,7 @@
       "tagline": "WooCommerce \u2192 Shopify migration for an Australian retailer",
       "summary": "Replatformed a high-inventory Australian retail store from WooCommerce to Shopify. Built custom homepage and product-page layouts from XD designs, a theme-editable hero slider, and migrated the full catalogue \u2014 responsive across desktop, tablet and mobile.",
       "url": "https://topshelfconcepts.com.au",
-      "image": "/assets/work/topshelfconcepts.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Ecommerce \u00b7 Retail",
       "stack": [
@@ -1289,7 +1289,7 @@
       "tagline": "Industrial contractor site, rebuilt pixel-exact",
       "summary": "US industrial contractor specialising in tank services and silo construction. Rebuilt their marketing site to match the original Bootstrap design pixel-for-pixel, then redesigned key service pages (industrial tank services) from new Figma layouts \u2014 fast, responsive and consistent across the site.",
       "url": "https://www.eaglecontractorsusa.com",
-      "image": "/assets/work/eaglecontractors.jpg",
+      "image": "",
       "platform": "Custom",
       "category": "B2B \u00b7 Industrial",
       "stack": [
@@ -1313,7 +1313,7 @@
       "tagline": "Instant freight-quote tool for a logistics brokerage",
       "summary": "Built a custom instant-quote tool for a US freight brokerage: customers enter two US addresses, the tool calculates distance and returns a price at an adjustable per-mile rate plus an estimated delivery date, then generates an on-screen contract to sign and book \u2014 modelled on the instant-quote flows of Coyote and J.B. Hunt.",
       "url": "https://expedited.co",
-      "image": "/assets/work/expedited.jpg",
+      "image": "",
       "platform": "Custom",
       "category": "Logistics \u00b7 Custom App",
       "stack": [
@@ -1337,7 +1337,7 @@
       "tagline": "Tour-operator site for a Belize travel company",
       "summary": "Belize-based tour operator running Mayan-ruin tours, zip-lining and adventure travel. Built and maintained their WordPress + Elementor site \u2014 tour pages, photo-led layouts, enquiry flow and a Stripe payment form \u2014 tuned for mobile, where most of their visitors browse and book.",
       "url": "https://tukantravelbelize.com",
-      "image": "/assets/work/tukantravel.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Travel \u00b7 Tours",
       "stack": [
@@ -1362,7 +1362,7 @@
       "tagline": "WordPress site for a handcrafted outdoor-furniture maker",
       "summary": "Maker of handcrafted outdoor swings, chairs and benches. Built and refined their WordPress site \u2014 product galleries, a news section, enquiry forms and a clean, image-led layout \u2014 with careful attention to responsive image handling across the catalogue.",
       "url": "https://www.fantails.net",
-      "image": "/assets/work/fantails.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "WordPress \u00b7 Retail",
       "stack": [
@@ -1401,7 +1401,7 @@
       "year": "2022",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 55
     },
     {
@@ -1410,7 +1410,7 @@
       "tagline": "Members & lodging site for an outdoor club",
       "summary": "Built and launched a WordPress site for a member-based outdoor club \u2014 lodging and directions pages with embedded maps, a responsive navigation overhaul, and lightbox galleries \u2014 taken live and tuned across tablet and mobile breakpoints.",
       "url": "https://wscba.com",
-      "image": "/assets/work/wscba.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "WordPress \u00b7 Membership",
       "stack": [
@@ -1435,7 +1435,7 @@
       "tagline": "Resource hub for a small-business community",
       "summary": "Small-business resource and blog platform built on WordPress with custom seasonal landing pages, newsletter capture and a load-more blog feed.",
       "url": "https://thebiz.me",
-      "image": "/assets/work/thebiz.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "WordPress \u00b7 Membership",
       "stack": [
@@ -1459,7 +1459,7 @@
       "tagline": "Site for a marketing agency",
       "summary": "Marketing-agency website rebuilt on WordPress with service and analytics pages, an about page with a client logo grid, and inner service pages.",
       "url": "https://stealthmediamarketing.com",
-      "image": "/assets/work/stealthmedia.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Agency \u00b7 Branding",
       "stack": [
@@ -1483,7 +1483,7 @@
       "tagline": "Community site for a residents association",
       "summary": "Rebuilt a Calgary residents-association website on WordPress with a clean, easy-to-navigate layout and a latest-news section, migrated live from the association's older platform.",
       "url": "https://cougarridgeresidentsassociation.com",
-      "image": "/assets/work/cougarridge.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "WordPress \u00b7 Membership",
       "stack": [
@@ -1507,7 +1507,7 @@
       "tagline": "Corporate site for a robotics company",
       "summary": "Corporate website for a robotics and mobility-solutions company, with services sections and an NDA-aware enquiry form supporting document attachments and data-processing consent.",
       "url": "https://roboconn.ltd",
-      "image": "/assets/work/roboconn.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "B2B \u00b7 Robotics",
       "stack": [
@@ -1531,7 +1531,7 @@
       "tagline": "Shopify theme build for a novelty store",
       "summary": "Shopify storefront for a novelty products brand; built a custom theme with bespoke HTML/CSS sections, developed safely on an unpublished theme before going live.",
       "url": "https://www.rayguntorch.com",
-      "image": "/assets/work/rayguntorch.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Ecommerce \u00b7 Novelty",
       "stack": [
@@ -1555,7 +1555,7 @@
       "tagline": "WooCommerce store for cancer-patient wellness",
       "summary": "WordPress/WooCommerce store selling wellness products for cancer patients, with speed optimisation, reviews, live chat, coupons and checkout fixes.",
       "url": "https://luxspei.org",
-      "image": "/assets/work/luxspei.jpg",
+      "image": "",
       "platform": "WooCommerce",
       "category": "Wellness \u00b7 Ecommerce",
       "stack": [
@@ -1579,7 +1579,7 @@
       "tagline": "Unified responsive header for an auto-parts catalogue",
       "summary": "Canadian auto-parts catalogue; rebuilt a single unified responsive header \u2014 desktop and mobile hamburger with search, garage selector and cart \u2014 to match the original site behaviour.",
       "url": "https://autopartsway.ca",
-      "image": "/assets/work/autopartsway.jpg",
+      "image": "",
       "platform": "Custom",
       "category": "Auto \u00b7 Ecommerce",
       "stack": [
@@ -1603,7 +1603,7 @@
       "tagline": "WooCommerce store with distance-based shipping",
       "summary": "Australian rural-supplies store on WordPress/WooCommerce with a distance-based shipping calculator and a custom quote / purchase-order request flow built to integrate with Xero.",
       "url": "https://saltramrural.com.au",
-      "image": "/assets/work/saltramrural.jpg",
+      "image": "",
       "platform": "WooCommerce",
       "category": "Rural \u00b7 Ecommerce",
       "stack": [
@@ -1627,7 +1627,7 @@
       "tagline": "Sea-moss supplement store, migrated to Shopify",
       "summary": "Dutch sea-moss supplement brand; migrated from WooCommerce to Shopify with product pages for the gel range, reviews, a blog and a streamlined cart.",
       "url": "https://theseamossjungle.nl",
-      "image": "/assets/work/theseamossjungle.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Wellness \u00b7 Ecommerce",
       "stack": [
@@ -1666,7 +1666,7 @@
       "year": "2023",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 66
     },
     {
@@ -1675,7 +1675,7 @@
       "tagline": "Site for a Southern California paving contractor",
       "summary": "Paving, turf, concrete and asphalt contractor in Southern California; WordPress site with project galleries, an enquiry form and review/social integration.",
       "url": "https://lapaving.co",
-      "image": "/assets/work/lapaving.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Trades \u00b7 Construction",
       "stack": [
@@ -1714,7 +1714,7 @@
       "year": "2023",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 68
     },
     {
@@ -1723,7 +1723,7 @@
       "tagline": "Real-estate site for downtown condos",
       "summary": "Real-estate brand specialising in downtown condos; built with Elementor on WordPress with a branded blog, authors, sticky header and icon-led sections.",
       "url": "https://downtowncondoguys.com",
-      "image": "/assets/work/downtowncondoguys.jpg",
+      "image": "",
       "platform": "Elementor",
       "category": "Real Estate \u00b7 Property",
       "stack": [
@@ -1747,7 +1747,7 @@
       "tagline": "Site for an Australian surveying consultancy",
       "summary": "Australian surveying and spatial-services consultancy serving government, architects and town planners; WordPress site with project case studies, industry pages and an insights blog.",
       "url": "https://scaredge.com.au",
-      "image": "/assets/work/scaredge.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "B2B \u00b7 Surveying",
       "stack": [
@@ -1771,7 +1771,7 @@
       "tagline": "Bilingual careers portal for Turkey",
       "summary": "Bilingual (Turkish/English) careers portal publishing roles from NGOs, international organisations and consultancies operating in Turkey; WordPress job-board build with TranslatePress.",
       "url": "https://gelbasla.com",
-      "image": "/assets/work/gelbasla.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Jobs \u00b7 Careers",
       "stack": [
@@ -1795,7 +1795,7 @@
       "tagline": "Shopify store for a wholesale phone supplier",
       "summary": "Brooklyn wholesale cell-phone supplier; Shopify storefront with bulk ordering, low minimums, About / Our Team pages and a request-a-quote flow.",
       "url": "https://cellzi.com",
-      "image": "/assets/work/cellzi.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "B2B \u00b7 Wholesale",
       "stack": [
@@ -1858,7 +1858,7 @@
       "year": "2025",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 74
     },
     {
@@ -1867,7 +1867,7 @@
       "tagline": "Member portal & courses for a salon community",
       "summary": "WordPress membership site for a salon with LearnDash courses, a member newsfeed and client login areas where members view appointments and records.",
       "url": "https://thelocatory.com",
-      "image": "/assets/work/thelocatory.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Membership \u00b7 Salon",
       "stack": [
@@ -1891,7 +1891,7 @@
       "tagline": "Marketing site for a metal-storage builder",
       "summary": "Metal storage-building company; WordPress/Elementor marketing site built from a tailored template kit with product and enquiry sections.",
       "url": "https://durostorage.com",
-      "image": "/assets/work/durostorage.jpg",
+      "image": "",
       "platform": "Elementor",
       "category": "Construction \u00b7 Industrial",
       "stack": [
@@ -1915,7 +1915,7 @@
       "tagline": "Bilingual site for a medical distributor",
       "summary": "Italian medical-product distributor; bilingual (Italian/English) WordPress site covering quality standards and ISO certifications.",
       "url": "https://www.healthdefence.it",
-      "image": "/assets/work/healthdefence.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Medical \u00b7 Distribution",
       "stack": [
@@ -1963,7 +1963,7 @@
       "tagline": "Print-on-demand store for a photographer",
       "summary": "Photography print-on-demand store on WooCommerce (Printify + Stripe) selling acrylic, photo and canvas prints organised into journey-based categories.",
       "url": "https://avmdphoto.com",
-      "image": "/assets/work/avmdphoto.jpg",
+      "image": "",
       "platform": "WooCommerce",
       "category": "Art \u00b7 Ecommerce",
       "stack": [
@@ -1987,7 +1987,7 @@
       "tagline": "Site for a mortgage brokerage",
       "summary": "Mortgage broker; WordPress site with loan-option pages, prequalification and quote forms, a learning centre and team profiles.",
       "url": "https://www.therealmortgageexperts.com",
-      "image": "/assets/work/therealmortgageexperts.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Finance \u00b7 Mortgage",
       "stack": [
@@ -2011,7 +2011,7 @@
       "tagline": "Mortgage brokerage site for Hawaii",
       "summary": "Hawaii mortgage brokerage and sister site to The Real Mortgage Experts; WordPress build with a persistent Apply Online / Get a Quote bar and staff listings.",
       "url": "https://www.hawaiimortgageexperts.com",
-      "image": "/assets/work/hawaiimortgageexperts.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Finance \u00b7 Mortgage",
       "stack": [
@@ -2035,7 +2035,7 @@
       "tagline": "Catalogue for force-measurement products",
       "summary": "WordPress/WooCommerce catalogue for force-measurement and industrial products, with variable products, specification tables and a bilingual setup.",
       "url": "https://precibeo.com",
-      "image": "/assets/work/precibeo.jpg",
+      "image": "",
       "platform": "WooCommerce",
       "category": "Industrial \u00b7 Ecommerce",
       "stack": [
@@ -2059,7 +2059,7 @@
       "tagline": "Bilingual corporate website rebuild",
       "summary": "Bilingual corporate WordPress site with About / Background / Mission / Vision and per-service dropdown pages, rebuilding an outdated company site.",
       "url": "https://varemg.com",
-      "image": "/assets/work/varemg.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Corporate \u00b7 Services",
       "stack": [
@@ -2083,7 +2083,7 @@
       "tagline": "Conversion redesign for an aquarium store",
       "summary": "Aquarium and fishkeeping store; redesigned the Shopify storefront with an Amazon-style search, sticky header, back-in-stock alerts, a free-shipping bar, a rewards programme and photo reviews.",
       "url": "https://marcusfishtanks.com",
-      "image": "/assets/work/marcusfishtanks.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Pet \u00b7 Ecommerce",
       "stack": [
@@ -2107,7 +2107,7 @@
       "tagline": "WooCommerce product pages for a ramps maker",
       "summary": "French industrial-ramps retailer; built and refined Elementor product and shop pages on a live WooCommerce site, including custom configurators and form handling.",
       "url": "https://mydl.fr",
-      "image": "/assets/work/mydl.jpg",
+      "image": "",
       "platform": "WooCommerce + Elementor",
       "category": "Industrial \u00b7 Ecommerce",
       "stack": [
@@ -2146,7 +2146,7 @@
       "year": "2023",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 86
     },
     {
@@ -2170,7 +2170,7 @@
       "year": "2022",
       "role": "WooCommerce Developer \u00b7 Build & setup",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 87
     },
     {
@@ -2194,7 +2194,7 @@
       "year": "2022",
       "role": "Shopify Developer \u00b7 Theme & setup",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 88
     },
     {
@@ -2203,7 +2203,7 @@
       "tagline": "Shopify store for a safety-razor brand",
       "summary": "Safety-razor and shaving brand; Shopify store with multi-colour bundle products, a restructured shop page, blog content, returns policy and page-speed optimisation.",
       "url": "https://newwaveshaving.com",
-      "image": "/assets/work/newwaveshaving.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Grooming \u00b7 Ecommerce",
       "stack": [
@@ -2227,7 +2227,7 @@
       "tagline": "Shopify store for a Christmas-cracker brand",
       "summary": "Shopify store selling Christmas crackers and bon-bons \u2014 product imagery, multi-box shipping tiers, FAQ/About sections and Shopify Pay checkout.",
       "url": "https://crackersforbonbons.com",
-      "image": "/assets/work/crackersforbonbons.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Ecommerce \u00b7 Seasonal",
       "stack": [
@@ -2251,7 +2251,7 @@
       "tagline": "Clinic & treatment directory site",
       "summary": "WordPress healthcare directory for clinics, treatments and remote care, with a custom ElementsKit mega-menu and simplified mobile nav.",
       "url": "https://healnavigator.com",
-      "image": "/assets/work/healnavigator.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Healthcare \u00b7 Directory",
       "stack": [
@@ -2290,7 +2290,7 @@
       "year": "2022",
       "role": "Shopify Developer \u00b7 Theme & setup",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 92
     },
     {
@@ -2314,7 +2314,7 @@
       "year": "2023",
       "role": "WooCommerce Developer \u00b7 Build & setup",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 93
     },
     {
@@ -2323,7 +2323,7 @@
       "tagline": "Elementor blog for a print company",
       "summary": "Online print-services company; built an Elementor-designed WordPress blog as a content hub for the brand.",
       "url": "https://printsafari.com",
-      "image": "/assets/work/printsafari.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Print \u00b7 Services",
       "stack": [
@@ -2347,7 +2347,7 @@
       "tagline": "Carrier-billing payments site (Austria)",
       "summary": "Austrian mobile carrier-billing payments site on WordPress/Elementor, with merchant and end-user demo payment flows.",
       "url": "https://zahlenperhandyrechnung.at",
-      "image": "/assets/work/zahlenperhandyrechnung.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Fintech \u00b7 Payments",
       "stack": [
@@ -2386,7 +2386,7 @@
       "year": "2024",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 96
     },
     {
@@ -2395,7 +2395,7 @@
       "tagline": "Shopify store for solar equipment",
       "summary": "Shopify store selling solar panels, batteries and inverters, with product filtration, footer and homepage FAQ work.",
       "url": "https://www.ussolarsupplier.com",
-      "image": "/assets/work/ussolarsupplier.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Solar \u00b7 Ecommerce",
       "stack": [
@@ -2419,7 +2419,7 @@
       "tagline": "BigCommerce florist for Chicago's North Shore",
       "summary": "BigCommerce florist storefront serving Chicago's North Shore, with gifts, holidays, sympathy and luxury floral categories.",
       "url": "https://janchannonflowers.com",
-      "image": "/assets/work/janchannon.jpg",
+      "image": "",
       "platform": "BigCommerce",
       "category": "Florist \u00b7 Ecommerce",
       "stack": [
@@ -2443,7 +2443,7 @@
       "tagline": "Custom lab/pharmacy commerce with Gulf payments",
       "summary": "Custom ecommerce platform with multi-role users (admin/clinic/reception), order processing and Gulf payment integrations including Tabby, Apple Pay and Sadad.",
       "url": "https://nayellab.com",
-      "image": "/assets/work/nayellab.jpg",
+      "image": "",
       "platform": "Custom",
       "category": "Health \u00b7 Ecommerce",
       "stack": [
@@ -2467,7 +2467,7 @@
       "tagline": "Site for a Florida charter school",
       "summary": "Website for a New Port Richey charter school, with enrolment and contact forms and a new-school launch banner.",
       "url": "https://imagineschoolattrinity.com",
-      "image": "/assets/work/imagineschool.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Education \u00b7 School",
       "stack": [
@@ -2491,7 +2491,7 @@
       "tagline": "Site for the Universal Life Church",
       "summary": "WordPress site for the Universal Life Church, maintained alongside a separate redesign held back until validated.",
       "url": "https://universalchurch.org",
-      "image": "/assets/work/universalchurch.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Non-profit \u00b7 Religious",
       "stack": [
@@ -2515,7 +2515,7 @@
       "tagline": "Lead-gen site for an insurance broker (AU)",
       "summary": "Australian lead-gen site for vacant-property and professional-indemnity insurance, referring enquiries to broker partners, with blog and FAQ sections.",
       "url": "https://professionalindemnityinsurance.com.au",
-      "image": "/assets/work/professionalindemnity.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Insurance \u00b7 Lead-gen",
       "stack": [
@@ -2554,7 +2554,7 @@
       "year": "2024",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 103
     },
     {
@@ -2578,7 +2578,7 @@
       "year": "2024",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 104
     },
     {
@@ -2587,7 +2587,7 @@
       "tagline": "Site for a concierge orthopedic practice",
       "summary": "Orthopedic concierge medical practice; rebuilt and migrated in WordPress with Elementor and Gravity Forms.",
       "url": "https://bostonconciergeorthopedics.com",
-      "image": "/assets/work/bostonorthopedics.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Healthcare \u00b7 Practice",
       "stack": [
@@ -2611,7 +2611,7 @@
       "tagline": "Landing page for a workers'-comp service",
       "summary": "Workers'-compensation (OWCP) medical-service landing page, migrated to a new host alongside a sister orthopedic practice.",
       "url": "https://owcpboston.com",
-      "image": "/assets/work/owcpboston.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Healthcare \u00b7 Landing",
       "stack": [
@@ -2635,7 +2635,7 @@
       "tagline": "Shopify store for a fencing supplier (AU)",
       "summary": "Australian fencing supplier; product and category build for a Shopify rebuild of the store.",
       "url": "https://fortunefencing.com.au",
-      "image": "/assets/work/fortunefencing.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Construction \u00b7 Ecommerce",
       "stack": [
@@ -2674,7 +2674,7 @@
       "year": "2024",
       "role": "Developer \u00b7 Squarespace build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 108
     },
     {
@@ -2683,7 +2683,7 @@
       "tagline": "Freelance marketplace with milestones & Stripe",
       "summary": "Freelance/client marketplace platform with job posting, milestone tracking and approval, and Stripe payments.",
       "url": "https://wdconnect.us",
-      "image": "/assets/work/wdconnect.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Marketplace \u00b7 SaaS",
       "stack": [
@@ -2707,7 +2707,7 @@
       "tagline": "Shopify store for a UK knife brand",
       "summary": "UK kitchen-knife store on Shopify selling sets and single knives, with collection-page customisation and Google Merchant feeds.",
       "url": "https://sakutoknives.co.uk",
-      "image": "/assets/work/sakutoknives.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Kitchenware \u00b7 Ecommerce",
       "stack": [
@@ -2731,7 +2731,7 @@
       "tagline": "Multivendor events store (Saudi Arabia)",
       "summary": "Saudi multivendor store where vendors sell event bookings, merchandise and studio equipment, with calendar-based slot booking.",
       "url": "https://syrup.sa",
-      "image": "/assets/work/syrup-sa.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Events \u00b7 Marketplace",
       "stack": [
@@ -2755,7 +2755,7 @@
       "tagline": "Farm-to-door meat store (Canada)",
       "summary": "Canadian meat/farm ecommerce site with a multi-step onboarding popup, profiles that prefill checkout, and delivery scheduling.",
       "url": "https://silverswanfarms.com",
-      "image": "/assets/work/silverswanfarms.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Food \u00b7 Ecommerce",
       "stack": [
@@ -2779,7 +2779,7 @@
       "tagline": "Site for an insurance agency",
       "summary": "Insurance agency website on WordPress \u2014 homepage redesign, contact form, FAQ and a planned customer chatbot.",
       "url": "https://www.jordanjordaninsurance.com",
-      "image": "/assets/work/jordaninsurance.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Insurance \u00b7 Agency",
       "stack": [
@@ -2803,7 +2803,7 @@
       "tagline": "Shopify store built from Figma designs",
       "summary": "Shopify storefront built from Figma designs with a full-width mega menu and search/account icons, modelled on premium navigation patterns.",
       "url": "https://www.trendspods.com",
-      "image": "/assets/work/trendspods.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Ecommerce \u00b7 Retail",
       "stack": [
@@ -2827,7 +2827,7 @@
       "tagline": "Booking site for a kids' yoga studio",
       "summary": "WordPress/WooCommerce site for a children's yoga and movement studio, with class management, accounts and release-form handling.",
       "url": "https://movementjunkieskids.com",
-      "image": "/assets/work/movementjunkieskids.jpg",
+      "image": "",
       "platform": "WooCommerce",
       "category": "Fitness \u00b7 Kids",
       "stack": [
@@ -2851,7 +2851,7 @@
       "tagline": "Site for a marketing agency",
       "summary": "Marketing-agency website rebuilt in WordPress with Elementor, adapting an agency theme to the brand's content.",
       "url": "https://shapeshiftmarketing.com",
-      "image": "/assets/work/shapeshiftmarketing.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Agency \u00b7 Branding",
       "stack": [
@@ -2875,7 +2875,7 @@
       "tagline": "Shopify store for a wellness caf\u00e9",
       "summary": "San Diego coffee, tea and wellness caf\u00e9; redesigned the Shopify theme with online ordering and a blog.",
       "url": "https://thementalbar.com",
-      "image": "/assets/work/thementalbar.jpg",
+      "image": "",
       "platform": "Shopify",
       "category": "Food \u00b7 Wellness",
       "stack": [
@@ -2914,7 +2914,7 @@
       "year": "2025",
       "role": "Developer \u00b7 WordPress build",
       "featured": false,
-      "published": false,
+      "published": true,
       "displayOrder": 118
     },
     {
@@ -2923,7 +2923,7 @@
       "tagline": "Consulting site with event ticketing",
       "summary": "WordPress consulting site with WooCommerce event/ticket sales for the brand's 'Salty Circle' events.",
       "url": "https://salty.is",
-      "image": "/assets/work/salty.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Consulting \u00b7 Events",
       "stack": [
@@ -2947,7 +2947,7 @@
       "tagline": "Collectibles brand with an online magazine",
       "summary": "Italian WordPress site for a collectibles brand with an online magazine, events section and contact form.",
       "url": "https://collectibus.it",
-      "image": "/assets/work/collectibus.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Collectibles \u00b7 Editorial",
       "stack": [
@@ -2971,7 +2971,7 @@
       "tagline": "Auto-repair site with a React price configurator",
       "summary": "WordPress site with a React-built configurator where users pick vehicle make and model to see pricing, embedded into the landing experience.",
       "url": "https://myfixxy.com",
-      "image": "/assets/work/myfixxy.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Auto \u00b7 Services",
       "stack": [
@@ -2995,7 +2995,7 @@
       "tagline": "Membership site for NJ organic farmers",
       "summary": "Membership organisation site for New Jersey farmers with a members-only area, farmer process, land-link and classifieds.",
       "url": "https://nofanj.org",
-      "image": "/assets/work/nofanj.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Membership \u00b7 Community",
       "stack": [
@@ -3019,7 +3019,7 @@
       "tagline": "Site for a construction & landscaping firm",
       "summary": "Construction and landscaping company; PSD-to-web WordPress build with Google reviews integration.",
       "url": "https://alphascapesconstruction.com",
-      "image": "/assets/work/alphascapes.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Construction \u00b7 Landscaping",
       "stack": [
@@ -3043,7 +3043,7 @@
       "tagline": "Multilingual architecture portfolio",
       "summary": "WordPress/Elementor rebuild of a three-language architecture portfolio using TranslatePress while preserving URL structure.",
       "url": "https://elsaurquijo.com",
-      "image": "/assets/work/elsaurquijo.jpg",
+      "image": "",
       "platform": "WordPress + Elementor",
       "category": "Architecture \u00b7 Portfolio",
       "stack": [
@@ -3091,7 +3091,7 @@
       "tagline": "Grooming brand with a franchising section",
       "summary": "Pet-grooming brand; PSD-to-WordPress rebuild with Home, Wellness, Locations, About and Franchising pages.",
       "url": "https://wellgroomedpets.com",
-      "image": "/assets/work/wellgroomedpets.jpg",
+      "image": "",
       "platform": "WordPress",
       "category": "Pet \u00b7 Franchise",
       "stack": [
