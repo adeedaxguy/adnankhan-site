@@ -569,7 +569,7 @@ def render_blog_post(p, nav, footer):
 <meta property="og:url" content="{SITE}/blog/{p["slug"]}.html" />
 <meta property="og:title" content="{p["title"]}" />
 <meta property="og:description" content="{p["meta"]}" />
-<meta property="og:image" content="{SITE}/assets/og-default.svg" />
+<meta property="og:image" content="{SITE}/assets/og.jpg?v=2" />
 <meta property="article:published_time" content="{p["date"]}T09:00:00Z" />
 <meta property="article:author" content="Adnan K." />
 <meta property="article:section" content="{p["category"]}" />
@@ -590,7 +590,7 @@ def render_blog_post(p, nav, footer):
   "@type": "Article",
   "headline": "{p["title"]}",
   "description": "{p["meta"]}",
-  "image": "{SITE}/assets/og-default.svg",
+  "image": "{SITE}/assets/og.jpg?v=2",
   "datePublished": "{p["date"]}T09:00:00Z",
   "dateModified": "{p["date"]}T09:00:00Z",
   "author": {{ "@type": "Person", "name": "Adnan K.", "url": "{SITE}/about.html" }},
@@ -723,7 +723,7 @@ def render_location_page(loc, nav, footer):
 <meta property="og:url" content="{canonical}" />
 <meta property="og:title" content="{title}" />
 <meta property="og:description" content="{meta}" />
-<meta property="og:image" content="{SITE}/assets/og-default.svg" />
+<meta property="og:image" content="{SITE}/assets/og.jpg?v=2" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
@@ -740,7 +740,7 @@ def render_location_page(loc, nav, footer):
   "name": "Adnan K. — Shopify & WooCommerce Developer for {loc['country']}",
   "description": "{meta}",
   "url": "{canonical}",
-  "image": "{SITE}/assets/og-default.svg",
+  "image": "{SITE}/assets/og.jpg?v=2",
   "priceRange": "$$$",
   "areaServed": {{ "@type": "Country", "name": "{loc['country']}" }},
   "serviceType": ["Shopify Development", "WooCommerce Development", "WordPress Development", "Shopify Plus Migration", "Speed Optimization"],

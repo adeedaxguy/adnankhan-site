@@ -183,7 +183,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   </div>
 </section>'''
 
-    og_image = image if image else "/assets/og.jpg"
+    og_image = image if image else "/assets/og.jpg?v=2"
 
     # ── BreadcrumbList schema ─────────────────────────────────────────────────
     breadcrumb_schema = f'''{{
@@ -485,7 +485,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <meta property="og:title" content="Portfolio — {total} Case Studies | Adnan K." />
 <meta property="og:description" content="{total} live projects — Shopify, WooCommerce & WordPress. 307+ builds delivered in 9 years." />
 <meta property="og:url" content="{SITE_URL}/portfolio/" />
-<meta property="og:image" content="{SITE_URL}/assets/og.jpg" />
+<meta property="og:image" content="{SITE_URL}/assets/og.jpg?v=2" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="alternate icon" href="/favicon.svg" />

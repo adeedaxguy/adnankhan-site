@@ -189,7 +189,7 @@ def render_pillar(p, nav, footer, all_pillars):
 <meta property="og:url" content="{SITE}/work/{p["slug"]}/" />
 <meta property="og:title" content="{title} | Lofts Studio" />
 <meta property="og:description" content="{p["meta"]}" />
-<meta property="og:image" content="{SITE}/assets/og-default.svg" />
+<meta property="og:image" content="{SITE}/assets/og.jpg?v=2" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />

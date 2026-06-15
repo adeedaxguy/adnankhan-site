@@ -60,11 +60,7 @@ NAV = '''<header class="nav-bar">
           </div>
         </div>
       </div>
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-      <a href="/websites/" class="nav-link">Websites</a>
+      <a href="/websites/" class="nav-link">Web Design</a>
 =======
       <a href="/websites/" class="nav-link">Web Design</a>
 >>>>>>> theirs
@@ -102,11 +98,7 @@ NAV = '''<header class="nav-bar">
       </button>
     </div>
     <nav class="mnav-primary" aria-label="Main">
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-<<<<<<< ours
-      <a href="/websites/" class="mnav-link" data-num="01">Websites</a>
+      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
 =======
       <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
 >>>>>>> theirs
@@ -206,7 +198,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
         <h5>Studio</h5>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/about.html">About</a></li>
-          <li><a href="/portfolio/">All work</a></li>
+          <li><a href="/portfolio/">All work (47)</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/process/">Process</a></li>
           <li><a href="/notes/">Notes</a></li>
@@ -300,7 +292,7 @@ def head(title, desc, canonical, jsonld_blocks, og_title=None):
 <meta property="og:url" content="{canonical}" />
 <meta property="og:title" content="{esc(og_title)}" />
 <meta property="og:description" content="{esc(desc)}" />
-<meta property="og:image" content="https://lofts.studio/assets/og-default.svg" />
+<meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
 <meta name="twitter:card" content="summary_large_image" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
