@@ -4676,3 +4676,87 @@ html[data-theme="dark"] .cf-note--err { color: var(--accent-hover); }
 .cf-submit.is-loading { opacity: 0.6; pointer-events: none; }
 .cf-submit:disabled { opacity: 0.6; cursor: default; }
 @media (max-width: 560px) { .cf-row { grid-template-columns: 1fr; } .comment { grid-template-columns: 38px 1fr; gap: 0.8rem; } .comment-avatar { width: 38px; height: 38px; } }
+
+/* ── Blog index: post cards ───────────────────────────────────────── */
+.post-card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.post-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--accent-deep);
+  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent-deep) 12%, transparent);
+}
+.post-card-link {
+  display: block;
+  padding: 1.5rem 1.75rem;
+  text-decoration: none;
+  color: inherit;
+}
+.post-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: var(--muted);
+  margin-bottom: 0.75rem;
+}
+.post-card-meta .tag-pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  padding: 0.15em 0.55em;
+}
+.post-card-meta .sep { opacity: 0.4; }
+.post-card-title {
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 1.15rem;
+  font-weight: 600;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0 0 0.55rem;
+  transition: color .15s ease;
+}
+.post-card:hover .post-card-title { color: var(--accent-deep); }
+.post-card-excerpt {
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 1rem;
+}
+.post-card-cta {
+  display: inline-block;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: var(--accent-deep);
+  letter-spacing: 0.01em;
+  transition: transform .15s ease;
+}
+.post-card:hover .post-card-cta { transform: translateX(3px); }
+
+/* Filter pills (blog index) */
+.kbd-pill {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.75rem;
+  padding: 0.3em 0.9em;
+  border: 1px solid var(--line);
+  border-radius: 100px;
+  background: var(--surface);
+  color: var(--muted);
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.kbd-pill:hover {
+  border-color: var(--accent-deep);
+  color: var(--accent-deep);
+}
+.kbd-pill.is-active,
+.kbd-pill:first-child {
+  border-color: var(--accent-deep);
+  background: var(--accent-deep);
+  color: #fff;
+}
