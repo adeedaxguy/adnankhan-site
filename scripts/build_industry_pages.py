@@ -66,7 +66,6 @@ NAV = '''<header class="nav-bar">
       <a href="/websites/" class="nav-link">Web Design</a>
 >>>>>>> theirs
 =======
-      <a href="/websites/" class="nav-link">Web Design</a>
 >>>>>>> theirs
 =======
 >>>>>>> theirs
@@ -103,7 +102,6 @@ NAV = '''<header class="nav-bar">
       <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
 >>>>>>> theirs
 =======
-      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
 >>>>>>> theirs
 =======
 >>>>>>> theirs

@@ -31,6 +31,10 @@ const KV_TOKEN = process.env.KV_REST_API_TOKEN;
 const MODERATED = process.env.COMMENTS_MODERATION !== '0';
 // Server-side secret for admin approve/delete (set in Vercel env).
 const ADMIN_TOKEN = process.env.COMMENTS_ADMIN_TOKEN || '';
+// Email notifications (reuses the contact form's Resend setup).
+const RESEND_KEY = process.env.RESEND_API_KEY;
+const NOTIFY_TO  = process.env.CONTACT_EMAIL;
+const SITE       = process.env.SITE_URL || 'https://lofts.studio';
 
 const BANNED = /(viagra|cialis|casino|porn|sex cam|payday loan|crypto pump|\bseo services\b|telegram\.me|bit\.ly\/|escort|loan offer|\bnsfw\b|онлайн|кредит)/i;
 
@@ -61,6 +65,41 @@ function json(obj, status = 200) {
     status,
     headers: { 'content-type': 'application/json', 'cache-control': 'no-store' },
   });
+}
+
+// Notify the studio inbox when a comment comes in (non-blocking, best-effort).
+async function notify(slug, name, email, body) {
+  if (!RESEND_KEY || !NOTIFY_TO) return;
+  const postUrl = `${SITE}/blog/${slug}.html#comments`;
+  const modUrl  = `${SITE}/admin/comments.html`;
+  const subject = MODERATED ? `New comment awaiting review — ${slug}` : `New comment — ${slug}`;
+  const html = `
+    <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#1a1612;">
+      <h2 style="margin:0 0 4px;font-size:18px;">${MODERATED ? 'Comment awaiting review' : 'New comment'}</h2>
+      <p style="margin:0 0 16px;color:#6c6258;font-size:13px;">on <a href="${postUrl}">${esc(slug)}</a></p>
+      <table style="width:100%;border-collapse:collapse;font-size:14px;">
+        <tr><td style="padding:8px 12px;background:#f4f0ea;font-weight:600;width:90px;border:1px solid #e0d8ce;">Name</td><td style="padding:8px 12px;border:1px solid #e0d8ce;">${esc(name)}</td></tr>
+        ${email ? `<tr><td style="padding:8px 12px;background:#f4f0ea;font-weight:600;border:1px solid #e0d8ce;">Email</td><td style="padding:8px 12px;border:1px solid #e0d8ce;">${esc(email)}</td></tr>` : ''}
+        <tr><td style="padding:8px 12px;background:#f4f0ea;font-weight:600;vertical-align:top;border:1px solid #e0d8ce;">Comment</td><td style="padding:8px 12px;border:1px solid #e0d8ce;white-space:pre-wrap;">${esc(body)}</td></tr>
+      </table>
+      <p style="margin:20px 0 0;">
+        <a href="${modUrl}" style="display:inline-block;background:#1a1612;color:#fff;text-decoration:none;padding:10px 18px;border-radius:8px;font-size:14px;">${MODERATED ? 'Review &amp; approve' : 'Open moderation'}</a>
+      </p>
+    </div>`;
+  try {
+    await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${RESEND_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'Lofts Studio <noreply@lofts.studio>',
+        to: [NOTIFY_TO],
+        subject,
+        html,
+        text: `${name} commented on ${slug}:\n\n${body}\n\n${MODERATED ? 'Review & approve' : 'Moderate'}: ${modUrl}`,
+        reply_to: email || undefined,
+      }),
+    });
+  } catch { /* non-blocking */ }
 }
 
 function isAdmin(req) {
@@ -200,6 +239,7 @@ export default async function handler(req) {
   await kv(['SADD', 'comments:index', slug]);            // track slugs for the moderation view
   await kv(['LPUSH', `comments:${slug}`, JSON.stringify(comment)]);
   await kv(['LTRIM', `comments:${slug}`, '0', String(KEEP - 1)]);
+  await notify(slug, name, p.email || '', body);          // email the studio inbox
 
   return json({
     ok: true,
