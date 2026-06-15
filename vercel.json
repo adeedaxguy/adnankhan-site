@@ -3,74 +3,161 @@
   "cleanUrls": false,
   "trailingSlash": false,
   "crons": [
-    { "path": "/api/cron/blog",      "schedule": "0 3 * * *"  },
-    { "path": "/api/cron/portfolio", "schedule": "30 3 * * *" }
+    {
+      "path": "/api/cron/blog",
+      "schedule": "0 3 * * *"
+    },
+    {
+      "path": "/api/cron/portfolio",
+      "schedule": "30 3 * * *"
+    }
   ],
   "redirects": [
-    { "source": "/services/shopify-developer-ae.html", "destination": "/services/shopify-developer-uae.html", "permanent": true },
-    { "source": "/(.*)", "has": [{"type": "host", "value": "adnank.vercel.app"}], "destination": "https://lofts.studio/$1", "permanent": true },
-    { "source": "/(.*)", "has": [{"type": "host", "value": "www.lofts.studio"}], "destination": "https://lofts.studio/$1", "permanent": true }
+    {
+      "source": "/notes",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/notes/",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/notes/:path*",
+      "destination": "/blog/",
+      "permanent": true
+    },
+    {
+      "source": "/services/shopify-developer-ae.html",
+      "destination": "/services/shopify-developer-uae.html",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "adnank.vercel.app"
+        }
+      ],
+      "destination": "https://lofts.studio/$1",
+      "permanent": true
+    },
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.lofts.studio"
+        }
+      ],
+      "destination": "https://lofts.studio/$1",
+      "permanent": true
+    }
   ],
   "rewrites": [
-    { "source": "/sitemap.xml", "destination": "/sitemap.xml" }
+    {
+      "source": "/sitemap.xml",
+      "destination": "/sitemap.xml"
+    }
   ],
   "headers": [
     {
       "source": "/assets/styles.css",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/assets/main.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/assets/widgets.js",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/assets/work/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/assets/brand/(.*)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
       ]
     },
     {
       "source": "/favicon.svg",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
       ]
     },
     {
       "source": "/apple-touch-icon.png",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=604800" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800"
+        }
       ]
     },
     {
       "source": "/(.*\\.html)",
       "headers": [
-        { "key": "Cache-Control", "value": "public, max-age=0, must-revalidate" }
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
       ]
     },
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" },
-        { "key": "X-Frame-Options", "value": "SAMEORIGIN" },
-        { "key": "Strict-Transport-Security", "value": "max-age=63072000; includeSubDomains; preload" }
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "SAMEORIGIN"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains; preload"
+        }
       ]
     }
   ]
