@@ -33,7 +33,7 @@ Both appear in the `/blog/` grid. Static cards are hard-coded between `<!-- POST
 | `scripts/generate_blog_covers.py` | Pillow-based cover PNG generator |
 
 ## CSS / JS rules
-- Cache-bust all local asset refs: `?v=20260613z` — bump the letter when changing `styles.css` or `main.js`
+- Cache-bust all local asset refs: `?v=20260617a` — bump the letter when changing `styles.css` or `main.js`
 - Dark mode via `data-theme="dark"` on `<html>` — always use CSS vars: `--ink`, `--bg`, `--surface`, `--line`, `--accent`
 - All CSS goes in `assets/styles.css` — no inline `<style>` blocks in HTML files
 - Blog card HTML structure must match exactly:

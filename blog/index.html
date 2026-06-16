@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/styles.css?v=20260613z" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260617a" />
 
 <script type="application/ld+json">
 {
@@ -241,12 +241,12 @@
   <div class="container">
     <div data-reveal style="display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
       <h2 class="h-1" style="margin: 0;">All Posts</h2>
-      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
-        <button class="kbd-pill is-active" style="cursor: pointer;">All</button>
-        <button class="kbd-pill" style="cursor: pointer;">Shopify</button>
-        <button class="kbd-pill" style="cursor: pointer;">Speed</button>
-        <button class="kbd-pill" style="cursor: pointer;">CRO</button>
-        <button class="kbd-pill" style="cursor: pointer;">AI &amp; Automation</button>
+      <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;" aria-label="Filter posts by category">
+        <button type="button" class="kbd-pill is-active" data-blog-filter="all" aria-pressed="true" style="cursor: pointer;">All</button>
+        <button type="button" class="kbd-pill" data-blog-filter="shopify" aria-pressed="false" style="cursor: pointer;">Shopify</button>
+        <button type="button" class="kbd-pill" data-blog-filter="speed" aria-pressed="false" style="cursor: pointer;">Speed</button>
+        <button type="button" class="kbd-pill" data-blog-filter="conversion" aria-pressed="false" style="cursor: pointer;">CRO</button>
+        <button type="button" class="kbd-pill" data-blog-filter="ai" aria-pressed="false" style="cursor: pointer;">AI &amp; Automation</button>
       </div>
     </div>
 
@@ -254,7 +254,7 @@
       <!-- POSTS_START -->
       <article class="post-card" data-reveal>
         <a href="/blog/speed-up-woocommerce-checklist.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/speed-up-woocommerce-checklist.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/speed-up-woocommerce-checklist.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">WooCommerce</span>
@@ -270,7 +270,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/shopify-custom-app-vs-public-app.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/shopify-custom-app-vs-public-app.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/shopify-custom-app-vs-public-app.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Custom Apps</span>
@@ -286,7 +286,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/agentic-commerce-what-it-means-for-shopify.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/agentic-commerce-what-it-means-for-shopify.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/agentic-commerce-what-it-means-for-shopify.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">AI & Automation</span>
@@ -302,7 +302,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/why-your-website-isnt-showing-up-on-google.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/why-your-website-isnt-showing-up-on-google.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/why-your-website-isnt-showing-up-on-google.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">SEO</span>
@@ -318,7 +318,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/freelance-shopify-developer-vs-agency.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/freelance-shopify-developer-vs-agency.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/freelance-shopify-developer-vs-agency.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Shopify</span>
@@ -334,7 +334,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/shopify-technical-seo-audit-checklist.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/shopify-technical-seo-audit-checklist.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/shopify-technical-seo-audit-checklist.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">SEO</span>
@@ -350,7 +350,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/shopify-plus-vs-advanced-when-to-upgrade.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/shopify-plus-vs-advanced-when-to-upgrade.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/shopify-plus-vs-advanced-when-to-upgrade.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Migration</span>
@@ -366,7 +366,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/hire-shopify-developer-guide-2026.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/hire-shopify-developer-guide-2026.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/hire-shopify-developer-guide-2026.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Shopify</span>
@@ -382,7 +382,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/why-i-stopped-using-themes.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/why-i-stopped-using-themes.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/why-i-stopped-using-themes.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Shopify</span>
@@ -398,7 +398,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/the-pdp-question.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/the-pdp-question.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/the-pdp-question.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Conversion</span>
@@ -414,7 +414,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/passing-core-web-vitals-on-shopify.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/passing-core-web-vitals-on-shopify.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/passing-core-web-vitals-on-shopify.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Speed</span>
@@ -430,7 +430,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/woocommerce-still-makes-sense.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/woocommerce-still-makes-sense.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/woocommerce-still-makes-sense.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">WordPress</span>
@@ -446,7 +446,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/the-handoff-problem.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/the-handoff-problem.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/the-handoff-problem.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Process</span>
@@ -462,7 +462,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/migration-without-downtime.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/migration-without-downtime.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/migration-without-downtime.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Shopify</span>
@@ -478,7 +478,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/checkout-friction-audit.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/checkout-friction-audit.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/checkout-friction-audit.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Conversion</span>
@@ -494,7 +494,7 @@
       </article>
       <article class="post-card" data-reveal>
         <a href="/blog/the-quiet-conversion-killers.html" class="post-card-link">
-          <img class="post-card-img" src="/assets/blog/the-quiet-conversion-killers.png?v=20260613z" alt="" width="1200" height="675" loading="lazy" />
+          <img class="post-card-img" src="/assets/blog/the-quiet-conversion-killers.png?v=20260617a" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
             <div class="post-card-meta">
               <span class="tag-pill">Conversion</span>
@@ -663,7 +663,7 @@
 <!-- GSAP — async, non-render-blocking. main.js detects and gracefully degrades. -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="../assets/main.js?v=20260613z" defer></script>
+<script src="../assets/main.js?v=20260617a" defer></script>
 <!-- ─── Sticky "Book a free audit" pill ─── -->
 <a href="/#contact" class="audit-cta" aria-label="Book a free 15-minute audit">
   <span class="audit-cta-mark" aria-hidden="true"></span>
@@ -672,15 +672,48 @@
 </a>
 
 
-<script src="/assets/widgets.js?v=20260613z" defer></script>
+<script src="/assets/widgets.js?v=20260617a" defer></script>
 <script>
 (function(){
+  var activeFilter = 'all';
+  var filterButtons = Array.prototype.slice.call(document.querySelectorAll('[data-blog-filter]'));
+  var grid = document.getElementById('posts-grid');
+
+  function categoryKey(card) {
+    var tag = card.querySelector('.tag-pill');
+    var text = (tag ? tag.textContent : '').toLowerCase();
+    if (text.indexOf('ai') !== -1 || text.indexOf('automation') !== -1) return 'ai';
+    if (text.indexOf('conversion') !== -1 || text.indexOf('cro') !== -1) return 'conversion';
+    if (text.indexOf('speed') !== -1 || text.indexOf('performance') !== -1) return 'speed';
+    if (text.indexOf('shopify') !== -1) return 'shopify';
+    return text.replace(/[^a-z0-9]+/g, '-');
+  }
+
+  function applyBlogFilter() {
+    if (!grid) return;
+    Array.prototype.slice.call(grid.querySelectorAll('.post-card')).forEach(function(card){
+      var match = activeFilter === 'all' || categoryKey(card) === activeFilter;
+      card.style.display = match ? '' : 'none';
+    });
+  }
+
+  filterButtons.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      activeFilter = btn.getAttribute('data-blog-filter') || 'all';
+      filterButtons.forEach(function(b){
+        var isActive = b === btn;
+        b.classList.toggle('is-active', isActive);
+        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+      });
+      applyBlogFilter();
+    });
+  });
+
   fetch('/api/blog/list?limit=30')
     .then(function(r){ return r.json(); })
     .then(function(data){
       var posts = data.posts || [];
       if (!posts.length) return;
-      var grid = document.getElementById('posts-grid');
       if (!grid) return;
       posts.forEach(function(p){
         var slug = p.slug || '';
@@ -703,6 +736,7 @@
           +'</div></a>';
         grid.appendChild(el);
       });
+      applyBlogFilter();
     })
     .catch(function(){});
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }

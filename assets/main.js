@@ -67,6 +67,16 @@
     onScroll();
   }
 
+  const contactSection = document.getElementById('contact');
+  if (contactSection && 'IntersectionObserver' in window) {
+    const contactObserver = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        document.body.classList.toggle('is-contact-visible', entry.isIntersecting);
+      });
+    }, { threshold: 0.18, rootMargin: '-80px 0px -20% 0px' });
+    contactObserver.observe(contactSection);
+  }
+
   // ── Mobile nav overlay ──
   const menuBtn   = document.getElementById('menuBtn');
   const menuClose = document.getElementById('menuClose');
@@ -300,17 +310,16 @@
       });
     });
 
-    // 3) Generic section reveal — set hidden then animate to visible on scroll.
-    //    Using gsap.set + gsap.to (instead of fromTo) avoids the flash where
-    //    the element is visible briefly before fromTo's "from" state kicks in.
+    // 3) Generic section reveal — keep content readable even if animation timing stalls.
     gsap.utils.toArray('[data-reveal]').forEach(el => {
-      gsap.set(el, { opacity: 0, y: 28 });
       ScrollTrigger.create({
         trigger: el,
         start: 'top 88%',
         once: true,
-        onEnter: () => gsap.to(el, {
-          opacity: 1, y: 0, duration: 0.95, ease: 'power3.out',
+        onEnter: () => gsap.fromTo(el, {
+          y: 18,
+        }, {
+          y: 0, duration: 0.72, ease: 'power3.out',
         }),
       });
     });
