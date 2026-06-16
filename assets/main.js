@@ -68,13 +68,25 @@
   }
 
   const contactSection = document.getElementById('contact');
-  if (contactSection && 'IntersectionObserver' in window) {
-    const contactObserver = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        document.body.classList.toggle('is-contact-visible', entry.isIntersecting);
+  if (contactSection) {
+    const setContactVisibility = () => {
+      const rect = contactSection.getBoundingClientRect();
+      const viewport = window.innerHeight || document.documentElement.clientHeight;
+      const visible = rect.top < viewport * 0.82 && rect.bottom > viewport * 0.18;
+      document.body.classList.toggle('is-contact-visible', visible);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const contactObserver = new IntersectionObserver(() => setContactVisibility(), {
+        threshold: [0, 0.18, 0.5],
+        rootMargin: '-80px 0px -18% 0px',
       });
-    }, { threshold: 0.18, rootMargin: '-80px 0px -20% 0px' });
-    contactObserver.observe(contactSection);
+      contactObserver.observe(contactSection);
+    }
+
+    window.addEventListener('scroll', setContactVisibility, { passive: true });
+    window.addEventListener('resize', setContactVisibility);
+    setContactVisibility();
   }
 
   // ── Mobile nav overlay ──
