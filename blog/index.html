@@ -673,5 +673,40 @@
 
 
 <script src="/assets/widgets.js?v=20260613z" defer></script>
+<script>
+(function(){
+  fetch('/api/blog/list?limit=30')
+    .then(function(r){ return r.json(); })
+    .then(function(data){
+      var posts = data.posts || [];
+      if (!posts.length) return;
+      var grid = document.getElementById('posts-grid');
+      if (!grid) return;
+      posts.forEach(function(p){
+        var slug = p.slug || '';
+        var cat = p.category || p.keyword || '';
+        var dateIso = p.createdAt ? p.createdAt.slice(0,10) : '';
+        var date = p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
+        var coverUrl = '/api/og?title='+encodeURIComponent(p.title||'')+'&cat='+encodeURIComponent(cat);
+        var el = document.createElement('article');
+        el.className = 'post-card';
+        el.setAttribute('data-reveal','');
+        el.innerHTML = '<a href="/blog/post/?slug='+encodeURIComponent(slug)+'" class="post-card-link">'
+          +'<img class="post-card-img" src="'+coverUrl+'" alt="" width="1200" height="675" loading="lazy" />'
+          +'<div class="post-card-body">'
+          +'<div class="post-card-meta"><span class="tag-pill">'+esc(cat)+'</span>'
+          +(dateIso ? '<time datetime="'+dateIso+'">'+date+'</time><span>&middot;</span>' : '')
+          +'<span>'+(p.readingMinutes||8)+' min</span></div>'
+          +'<h2 class="post-card-title">'+esc(p.title||'')+'</h2>'
+          +'<p class="post-card-excerpt">'+esc(p.excerpt||'')+'</p>'
+          +'<span class="post-card-cta">Read post &rarr;</span>'
+          +'</div></a>';
+        grid.appendChild(el);
+      });
+    })
+    .catch(function(){});
+  function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+})();
+</script>
 </body>
 </html>
