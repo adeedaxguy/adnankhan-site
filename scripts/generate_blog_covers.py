@@ -45,7 +45,9 @@ def cat_key(cat):
     if "ai" in c or "automation" in c: return "ai"
     if "seo" in c: return "seo"
     if "speed" in c or "performance" in c: return "speed"
-    if "woo" in c: return "woo"
+    if "conversion" in c or "cro" in c: return "cro"
+    if "process" in c: return "process"
+    if "woo" in c or "wordpress" in c: return "woo"
     if "custom" in c or "app" in c: return "apps"
     if "migration" in c: return "migration"
     if "shopify" in c: return "shopify"
@@ -115,6 +117,21 @@ def draw_motif(d, key, cx, cy):
         d.rounded_rectangle([cx+10,cy-40,cx+130,cy+110], radius=16, fill=(58,39,27), outline=A, width=7)
         d.line([(cx-30,cy+10),(cx+40,cy+10)], fill=C, width=9)
         d.polygon([(cx+30,cy-4),(cx+58,cy+10),(cx+30,cy+24)], fill=C)
+    elif key == "cro":
+        # conversion funnel
+        pts = [(-130,-95),(130,-95),(64,25),(34,120),(-34,120),(-64,25)]
+        d.polygon([(cx+x,cy+y) for x,y in pts], outline=A, width=7)
+        d.line([(cx-92,cy-25),(cx+92,cy-25)], fill=DIM, width=4)
+        d.line([(cx-50,cy+55),(cx+50,cy+55)], fill=DIM, width=4)
+        d.ellipse([cx-9,cy+150-9,cx+9,cy+150+9], fill=A)
+    elif key == "process":
+        # 3-node pipeline, middle active
+        xs = [cx-110, cx, cx+110]
+        for i in range(2):
+            d.line([(xs[i]+28,cy),(xs[i+1]-28,cy)], fill=DIM, width=4)
+        for i,x in enumerate(xs):
+            if i == 1: d.ellipse([x-28,cy-28,x+28,cy+28], fill=A)
+            else: d.ellipse([x-28,cy-28,x+28,cy+28], outline=A, width=6)
     else:
         for i,r in enumerate((50,95,140)):
             d.ellipse([cx-r,cy-r,cx+r,cy+r], outline=A if i==1 else DIM, width=5)
