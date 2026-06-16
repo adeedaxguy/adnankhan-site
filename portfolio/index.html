@@ -267,13 +267,14 @@
 </section>
 
 <!-- ── Filter bar ─────────────────────────────────────────────────────────── -->
-<div class="pf-filter-bar" id="filterBar" style="position:sticky;top:64px;z-index:50;background:rgba(244,240,234,.95);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line);">
-  <div class="container" style="padding-top:0.85rem;padding-bottom:0.85rem;">
-    <div class="pf-filter-inner" style="display:flex;gap:0.5rem;flex-wrap:wrap;align-items:center;">
-      <span style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin-right:0.5rem;">Filter:</span>
+<div class="pf-filter-bar" id="filterBar">
+  <div class="container pf-filter-container">
+    <div class="pf-filter-inner">
+      <div class="pf-filter-row pf-filter-row-main">
+        <span class="pf-filter-label">Filter:</span>
 
-      <!-- Platform -->
-      <div class="filter-group" style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+        <!-- Platform -->
+        <div class="filter-group">
         <button class="filter-btn active" data-filter="platform" data-value="all" aria-pressed="true">All</button>
         <button class="filter-btn" data-filter="platform" data-value="shopify" aria-pressed="false">Shopify</button>
         <button class="filter-btn" data-filter="platform" data-value="woocommerce" aria-pressed="false">WooCommerce</button>
@@ -281,20 +282,23 @@
         <button class="filter-btn" data-filter="platform" data-value="custom" aria-pressed="false">Custom</button>
       </div>
 
-      <span style="width:1px;height:20px;background:var(--line);margin:0 0.25rem;"></span>
+        <span class="pf-filter-divider" aria-hidden="true"></span>
 
-      <!-- Category -->
-      <div class="filter-group" style="display:flex;gap:0.35rem;flex-wrap:wrap;">
+        <!-- Category -->
+        <div class="filter-group">
         <button class="filter-btn" data-filter="cat" data-value="ecommerce" aria-pressed="false">Ecommerce</button>
         <button class="filter-btn" data-filter="cat" data-value="b2b" aria-pressed="false">B2B</button>
         <button class="filter-btn" data-filter="cat" data-value="finance" aria-pressed="false">Finance</button>
         <button class="filter-btn" data-filter="cat" data-value="saas-app" aria-pressed="false">SaaS / App</button>
         <button class="filter-btn" data-filter="cat" data-value="agency-brand" aria-pressed="false">Agency / Brand</button>
+        </div>
       </div>
 
-      <label class="sr-only" for="portfolioSearch">Search portfolio</label>
-      <input id="portfolioSearch" class="portfolio-search" type="search" placeholder="Search work..." autocomplete="off" />
-      <span style="margin-left:auto;font-family:var(--font-sans);font-size:0.72rem;color:var(--muted);" id="filterCount"></span>
+      <div class="pf-filter-row pf-filter-row-tools">
+        <label class="sr-only" for="portfolioSearch">Search portfolio</label>
+        <input id="portfolioSearch" class="portfolio-search" type="search" placeholder="Search work..." autocomplete="off" />
+        <span class="pf-filter-count" id="filterCount"></span>
+      </div>
     </div>
   </div>
 </div>
@@ -2716,6 +2720,12 @@
   const emptyState = document.getElementById('emptyState');
   const searchInput = document.getElementById('portfolioSearch');
   const allCards = Array.from(grid.querySelectorAll('.work-card'));
+  const params = new URLSearchParams(window.location.search);
+  const initialSearch = (params.get('q') || params.get('search') || '').trim();
+  if (initialSearch && searchInput) {
+    activeSearch = initialSearch.toLowerCase();
+    searchInput.value = initialSearch;
+  }
 
   function getVisible() {
     return allCards.filter(card => {
@@ -2786,6 +2796,11 @@
     searchInput.addEventListener('input', () => {
       activeSearch = searchInput.value.trim().toLowerCase();
       currentPage = 1;
+      const next = new URLSearchParams(window.location.search);
+      if (activeSearch) next.set('q', searchInput.value.trim());
+      else next.delete('q');
+      const nextUrl = window.location.pathname + (next.toString() ? '?' + next.toString() : '');
+      window.history.replaceState({}, '', nextUrl);
       render();
     });
   }
@@ -2793,6 +2808,10 @@
   window.resetFilters = function() {
     activePlatform = 'all'; activeCat = 'all'; activeSearch = ''; currentPage = 1;
     if (searchInput) searchInput.value = '';
+    const next = new URLSearchParams(window.location.search);
+    next.delete('q');
+    next.delete('search');
+    window.history.replaceState({}, '', window.location.pathname + (next.toString() ? '?' + next.toString() : ''));
     document.querySelectorAll('.filter-btn[data-filter]').forEach(b => {
       const isActive = b.dataset.value === 'all';
       b.classList.toggle('active', isActive);
@@ -2806,6 +2825,64 @@
 </script>
 
 <style>
+  .pf-filter-bar {
+    position: sticky;
+    top: calc(var(--nav-h, 72px) + 0.6rem);
+    z-index: 50;
+    background: rgba(244,240,234,.96);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(26,22,18,0.05);
+    border-bottom: 1px solid var(--line);
+    box-shadow: 0 16px 38px -32px rgba(26,22,18,0.34);
+  }
+  .pf-filter-container {
+    padding-top: 0.95rem;
+    padding-bottom: 0.95rem;
+  }
+  .pf-filter-inner {
+    display: grid;
+    gap: 0.72rem;
+  }
+  .pf-filter-row {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-width: 0;
+  }
+  .pf-filter-row-main {
+    flex-wrap: wrap;
+  }
+  .pf-filter-row-tools {
+    justify-content: space-between;
+  }
+  .pf-filter-label,
+  .pf-filter-count {
+    font-family: var(--font-sans);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+  .pf-filter-count {
+    letter-spacing: 0.08em;
+    text-transform: none;
+    font-size: 0.72rem;
+    margin-left: 1rem;
+  }
+  .pf-filter-divider {
+    width: 1px;
+    height: 22px;
+    background: var(--line);
+    margin: 0 0.25rem;
+    flex: 0 0 auto;
+  }
+  .filter-group {
+    display: flex;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
   .filter-btn {
     font-family: var(--font-sans); font-size: 0.72rem; font-weight: 500;
     text-transform: uppercase; letter-spacing: 0.12em;
@@ -2816,9 +2893,7 @@
   .filter-btn:hover { background: var(--surface); color: var(--ink); }
   .filter-btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
   .portfolio-search {
-    min-width: 210px;
-    max-width: 260px;
-    flex: 1 1 210px;
+    width: min(390px, 100%);
     border: 1px solid var(--line);
     border-radius: 100px;
     background: var(--surface);
@@ -2832,15 +2907,38 @@
     border-color: var(--ink);
     box-shadow: 0 0 0 3px rgba(139,58,31,0.12);
   }
+  @media (max-width: 980px) {
+    .pf-filter-bar {
+      position: static;
+      box-shadow: none;
+    }
+    .pf-filter-container {
+      padding-top: 0.8rem;
+      padding-bottom: 0.8rem;
+    }
+    .pf-filter-row {
+      align-items: flex-start;
+    }
+    .pf-filter-row-tools {
+      align-items: center;
+    }
+    .pf-filter-divider {
+      display: none;
+    }
+    .pf-filter-label {
+      width: 100%;
+    }
+  }
   .essay-grid { @media (max-width:880px) { grid-template-columns: 1fr; gap: 2rem; } }
   /* Mobile: compact, even-height 2-up portfolio cards */
   @media (max-width: 640px) {
-    /* Filter bar was sticky and covered the page on scroll — let it scroll away */
-    .pf-filter-bar { position: static !important; }
-    .pf-filter-bar .container { padding-top: 0.6rem !important; padding-bottom: 0.6rem !important; }
-    .pf-filter-inner { align-items: stretch !important; }
+    .pf-filter-container { padding-top: 0.7rem; padding-bottom: 0.7rem; }
+    .pf-filter-inner { gap: 0.6rem; }
+    .pf-filter-row,
+    .pf-filter-row-tools { align-items: stretch; flex-wrap: wrap; }
+    .pf-filter-count { width: 100%; margin-left: 0; text-align: right; }
     .filter-btn { padding: 0.32rem 0.7rem; font-size: 0.64rem; letter-spacing: 0.08em; }
-    .portfolio-search { min-width: 100%; max-width: 100%; order: 10; }
+    .portfolio-search { width: 100%; }
 
     /* Two-up grid — cards size to their content so short cards don't stretch into voids */
     #workGrid.work-grid { grid-template-columns: repeat(2, 1fr); gap: 1rem 0.7rem; align-items: start; }
