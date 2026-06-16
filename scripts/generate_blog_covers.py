@@ -56,69 +56,68 @@ def rgba(c, a):
     return (c[0], c[1], c[2], a)
 
 
-def draw_motif(ov, key):
-    """Draw a large, low-opacity geometric motif on the right side (RGBA overlay)."""
-    d = ImageDraw.Draw(ov)
-    cx, cy = 970, 300          # motif centre, upper-right
-    A   = rgba(ACCENT, 38)
-    AS  = rgba(ACCENT, 22)
-    LN  = rgba(ACCENT, 60)
-    INKL = rgba(INK, 16)
+CREAM_LT = (250, 247, 241)      # lighter cream for motif strokes on dark panel
+ACCENT_LT = (216, 123, 85)      # warm accent that reads on the dark panel
+
+
+def draw_motif(d, key, cx, cy):
+    """Draw a bold, centred geometric motif on the dark right panel.
+    Colours are bright (accent + cream) so they read on ink."""
+    import math
+    A  = ACCENT_LT
+    C  = CREAM_LT
+    DIM = (74, 62, 52)          # faint warm-grey for depth rings
+
+    # depth rings behind everything
+    for r in (190, 150):
+        d.ellipse([cx-r, cy-r, cx+r, cy+r], outline=DIM, width=2)
 
     if key == "ai":
-        # Neural / agent network: nodes connected by thin lines
-        nodes = [(880,150),(1010,120),(1090,250),(960,300),(1040,400),(870,330),(1110,160)]
+        nodes = [(cx-70,cy-90),(cx+60,cy-110),(cx+105,cy+10),(cx-10,cy+30),
+                 (cx+70,cy+115),(cx-95,cy+70),(cx+120,cy-70)]
         for i,(x,y) in enumerate(nodes):
             for x2,y2 in nodes[i+1:]:
                 if abs(x-x2)+abs(y-y2) < 230:
-                    d.line([(x,y),(x2,y2)], fill=LN, width=2)
+                    d.line([(x,y),(x2,y2)], fill=DIM, width=2)
         for x,y in nodes:
-            r = 16
-            d.ellipse([x-r,y-r,x+r,y+r], fill=rgba(ACCENT,55))
-            d.ellipse([x-r-7,y-r-7,x+r+7,y+r+7], outline=AS, width=2)
+            d.ellipse([x-15,y-15,x+15,y+15], fill=A)
+            d.ellipse([x-22,y-22,x+22,y+22], outline=C, width=2)
     elif key == "seo":
-        # Magnifier over rising bars
-        for i,bh in enumerate([60,110,160,220]):
-            x = 880 + i*52
-            d.rounded_rectangle([x, 360-bh, x+34, 360], radius=6, fill=rgba(ACCENT,28))
-        r = 92
-        d.ellipse([cx-r,cy-r,cx+r,cy+r], outline=rgba(ACCENT,70), width=10)
-        d.line([(cx+r*0.7,cy+r*0.7),(cx+r*1.5,cy+r*1.5)], fill=rgba(ACCENT,70), width=12)
+        for i,bh in enumerate([70,120,175,235]):
+            x = cx-110 + i*56
+            d.rounded_rectangle([x, cy+80-bh, x+38, cy+80], radius=7, fill=DIM)
+        r = 96
+        mx, my = cx+10, cy-10
+        d.ellipse([mx-r,my-r,mx+r,my+r], outline=A, width=11)
+        d.line([(mx+r*0.7,my+r*0.7),(mx+r*1.5,my+r*1.5)], fill=A, width=13)
     elif key == "speed":
-        # Speed gauge arc + needle
-        bbox = [cx-120,cy-120,cx+120,cy+120]
-        d.arc(bbox, start=140, end=400, fill=rgba(ACCENT,30), width=18)
-        d.arc(bbox, start=140, end=250, fill=rgba(ACCENT,75), width=18)
-        import math
-        ang = math.radians(250)
-        d.line([(cx,cy),(cx+95*math.cos(ang),cy+95*math.sin(ang))], fill=rgba(ACCENT,80), width=8)
-        d.ellipse([cx-12,cy-12,cx+12,cy+12], fill=rgba(ACCENT,80))
+        bbox = [cx-130,cy-130,cx+130,cy+130]
+        d.arc(bbox, start=140, end=400, fill=DIM, width=20)
+        d.arc(bbox, start=140, end=255, fill=A, width=20)
+        ang = math.radians(255)
+        d.line([(cx,cy),(cx+105*math.cos(ang),cy+105*math.sin(ang))], fill=C, width=9)
+        d.ellipse([cx-14,cy-14,cx+14,cy+14], fill=A)
     elif key in ("shopify","woo"):
-        # Shopping bag outline
-        x0,y0,x1,y1 = 875, 215, 1075, 415
-        d.rounded_rectangle([x0,y0,x1,y1], radius=18, outline=rgba(ACCENT,65), width=8)
-        d.arc([x0+55,y0-55,x1-55,y0+55], start=180, end=360, fill=rgba(ACCENT,65), width=8)
-        d.line([(x0+45,y0+5),(x0+45,y0-5)], fill=rgba(ACCENT,65), width=8)
-        d.ellipse([cx-6,cy+5,cx+6,cy+17], fill=rgba(ACCENT,55))
+        x0,y0,x1,y1 = cx-105, cy-80, cx+105, cy+120
+        d.rounded_rectangle([x0,y0,x1,y1], radius=20, outline=A, width=9)
+        d.arc([x0+58,y0-58,x1-58,y0+58], start=180, end=360, fill=A, width=9)
+        d.ellipse([cx-7,cy+8,cx+7,cy+22], fill=C)
     elif key == "apps":
-        # Code brackets + window
-        d.rounded_rectangle([885,190,1085,410], radius=16, outline=rgba(ACCENT,45), width=6)
-        d.line([(885,235),(1085,235)], fill=rgba(ACCENT,45), width=4)
-        for cxp in (915,927,939):
-            d.ellipse([cxp-4,208,cxp+4,216], fill=rgba(ACCENT,55))
-        d.text((930,270), "</>", font=font(MONO_BOLD,72), fill=rgba(ACCENT,70))
+        d.rounded_rectangle([cx-115,cy-115,cx+115,cy+115], radius=18, outline=A, width=7)
+        d.line([(cx-115,cy-68),(cx+115,cy-68)], fill=A, width=5)
+        for i,xp in enumerate((-90,-74,-58)):
+            d.ellipse([cx+xp-4,cy-96,cx+xp+4,cy-88], fill=C)
+        bf = font(MONO_BOLD, 90)
+        tw = d.textlength("</>", font=bf)
+        d.text((cx-tw/2, cy-30), "</>", font=bf, fill=C)
     elif key == "migration":
-        # Two offset panels + arrow
-        d.rounded_rectangle([860,210,1000,360], radius=14, outline=rgba(ACCENT,40), width=6)
-        d.rounded_rectangle([965,250,1105,400], radius=14, fill=rgba(ACCENT,18), outline=rgba(ACCENT,55), width=6)
-        d.line([(940,300),(1010,300)], fill=rgba(ACCENT,75), width=8)
-        d.polygon([(1005,288),(1030,300),(1005,312)], fill=rgba(ACCENT,75))
+        d.rounded_rectangle([cx-130,cy-90,cx-10,cy+60], radius=16, outline=A, width=7)
+        d.rounded_rectangle([cx+10,cy-40,cx+130,cy+110], radius=16, fill=(58,39,27), outline=A, width=7)
+        d.line([(cx-30,cy+10),(cx+40,cy+10)], fill=C, width=9)
+        d.polygon([(cx+30,cy-4),(cx+58,cy+10),(cx+30,cy+24)], fill=C)
     else:
-        for i,r in enumerate((40,80,120,160)):
-            d.ellipse([cx-r,cy-r,cx+r,cy+r], outline=rgba(ACCENT, 60-i*10), width=4)
-
-    # faint large ink ring behind, for depth
-    d.ellipse([cx-205,cy-205,cx+205,cy+205], outline=INKL, width=2)
+        for i,r in enumerate((50,95,140)):
+            d.ellipse([cx-r,cy-r,cx+r,cy+r], outline=A if i==1 else DIM, width=5)
 
 
 def wrap_title(draw, text, fnt, max_w):
@@ -136,53 +135,54 @@ def wrap_title(draw, text, fnt, max_w):
 
 def fit_title(draw, text, max_w, max_lines):
     """Pick the largest serif size whose wrapped title fits within max_lines."""
-    for size in range(74, 40, -2):
+    for size in range(52, 30, -2):
         fnt = font(SERIF, size)
         lines = wrap_title(draw, text, fnt, max_w)
         if len(lines) <= max_lines:
             return fnt, lines, size
-    fnt = font(SERIF, 42)
-    return fnt, wrap_title(draw, text, fnt, max_w)[:max_lines], 42
+    fnt = font(SERIF, 30)
+    return fnt, wrap_title(draw, text, fnt, max_w)[:max_lines], 30
 
 
 def render(post):
     slug, title, cat = post["slug"], post["title"], post["category"]
     key = cat_key(cat)
 
+    PANEL_X = 750                # x where the dark panel begins
+
     img = Image.new("RGB", (W, H), CREAM)
     d = ImageDraw.Draw(img)
 
-    # subtle paper panel + frame
-    d.rectangle([0, 0, W, H], fill=CREAM)
-    d.rectangle([24, 24, W-24, H-24], outline=LINE, width=2)
+    # dark accent panel on the right
+    d.rectangle([PANEL_X, 0, W, H], fill=INK)
+    # thin accent seam between cream + panel
+    d.rectangle([PANEL_X-4, 0, PANEL_X, H], fill=ACCENT)
 
-    # motif (separate RGBA overlay so it sits softly under text)
-    ov = Image.new("RGBA", (W, H), (0, 0, 0, 0))
-    draw_motif(ov, key)
-    img = Image.alpha_composite(img.convert("RGBA"), ov).convert("RGB")
-    d = ImageDraw.Draw(img)
+    # bold centred motif on the panel
+    draw_motif(d, key, cx=(PANEL_X + W)//2 + 6, cy=H//2)
 
-    MX = 80                      # left margin for text
+    MX = 72                      # left text margin (cream side)
 
-    # category kicker: accent rule + label (mono, upper) — centred vertically
-    kick_y = H // 2 - 20
-    d.line([(MX, kick_y), (MX+40, kick_y)], fill=ACCENT, width=3)
-    d.text((MX+56, kick_y - 11), cat.upper(), font=font(MONO, 22), fill=ACCENT)
+    # kicker: accent rule + category (mono, upper)
+    ky = 96
+    d.line([(MX, ky+11), (MX+40, ky+11)], fill=ACCENT, width=4)
+    d.text((MX+54, ky), cat.upper(), font=font(MONO, 22), fill=ACCENT)
 
-    # footer rule
-    fy = H - 80
-    d.line([(MX, fy), (W-MX, fy)], fill=LINE, width=1)
+    # title (serif, ink), wrapped & auto-sized to the cream column
+    col_w = PANEL_X - MX - 44
+    fnt, lines, size = fit_title(d, title, max_w=col_w, max_lines=4)
+    lh = int(size * 1.2)
+    ty = 168
+    for ln in lines:
+        d.text((MX, ty), ln, font=fnt, fill=INK)
+        ty += lh
 
     # wordmark bottom-left
-    wm_y = H - 58
+    wm_y = H - 66
+    d.line([(MX, wm_y-18), (MX+col_w, wm_y-18)], fill=LINE, width=1)
     d.text((MX, wm_y), "Lofts", font=font(SERIF, 26), fill=INK)
     lw = d.textlength("Lofts", font=font(SERIF, 26))
     d.text((MX+lw+7, wm_y+6), "studio", font=font(MONO, 19), fill=ACCENT)
-
-    # bottom-right: domain (mono, muted)
-    url = "lofts.studio"
-    uw = d.textlength(url, font=font(MONO, 18))
-    d.text((W-MX-uw, wm_y+5), url, font=font(MONO, 18), fill=MUTED)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{slug}.png"
