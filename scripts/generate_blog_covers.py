@@ -26,17 +26,53 @@ MUTED       = (108, 98, 88)
 LINE        = (217, 210, 196)
 ACCENT      = (139, 58, 31)
 
-# ── Fonts (system fonts on macOS) ─────────────────────────────────────
-_SYSFONT = Path("/System/Library/Fonts/Supplemental")
-_LIBFONT = Path("/Library/Fonts")
+# ── Fonts ─────────────────────────────────────────────────────────────
+# Resolve cross-platform: macOS (local), the cloud build env's skill fonts,
+# and common Linux font paths — so covers render wherever the scheduled
+# job runs. First existing candidate per family wins.
+_FONT_CANDIDATES = {
+    "serif": [
+        "/System/Library/Fonts/Supplemental/Georgia Bold.ttf",
+        "/mnt/skills/examples/canvas-design/canvas-fonts/IBMPlexSerif-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSerif-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf",
+        "/System/Library/Fonts/Supplemental/Times New Roman Bold.ttf",
+    ],
+    "serif_reg": [
+        "/System/Library/Fonts/Supplemental/Georgia.ttf",
+        "/mnt/skills/examples/canvas-design/canvas-fonts/IBMPlexSerif-Regular.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSerif.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationSerif-Regular.ttf",
+    ],
+    "mono": [
+        "/System/Library/Fonts/Supplemental/Courier New.ttf",
+        "/mnt/skills/examples/canvas-design/canvas-fonts/JetBrainsMono-Regular.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansMono.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationMono-Regular.ttf",
+    ],
+    "mono_bold": [
+        "/System/Library/Fonts/Supplemental/Courier New Bold.ttf",
+        "/mnt/skills/examples/canvas-design/canvas-fonts/JetBrainsMono-Bold.ttf",
+        "/usr/share/fonts/truetype/dejavu/DejaVuSansMono-Bold.ttf",
+        "/usr/share/fonts/truetype/liberation/LiberationMono-Bold.ttf",
+    ],
+}
 
-SERIF      = str(_SYSFONT / "Georgia Bold.ttf")
-SERIF_REG  = str(_SYSFONT / "Georgia.ttf")
-MONO       = str(_SYSFONT / "Courier New.ttf")
-MONO_BOLD  = str(_SYSFONT / "Courier New Bold.ttf")
+def _resolve(family):
+    for path in _FONT_CANDIDATES[family]:
+        if Path(path).exists():
+            return path
+    return None  # fall back to PIL default at load time
+
+SERIF      = _resolve("serif")
+SERIF_REG  = _resolve("serif_reg")
+MONO       = _resolve("mono")
+MONO_BOLD  = _resolve("mono_bold")
 
 def font(name, size):
-    return ImageFont.truetype(name, size)
+    if name:
+        return ImageFont.truetype(name, size)
+    return ImageFont.load_default()
 
 
 # ── Category → accent tint + motif ────────────────────────────────────

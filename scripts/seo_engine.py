@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260613w"
+CACHE_VER = "20260613z"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -643,17 +643,19 @@ def render_blog_post(p, nav, footer):
 <meta property="og:url" content="{SITE}/blog/{p["slug"]}.html" />
 <meta property="og:title" content="{p["title"]}" />
 <meta property="og:description" content="{p["meta"]}" />
-<meta property="og:image" content="{SITE}/assets/og.jpg?v=2" />
+<meta property="og:image" content="{SITE}/assets/blog/{p["slug"]}.png?v={CACHE_VER}" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="675" />
+<meta property="og:image:alt" content="{p["title"]}" />
 <meta property="article:published_time" content="{p["date"]}T09:00:00Z" />
 <meta property="article:author" content="Adnan K." />
 <meta property="article:section" content="{p["category"]}" />
 <meta property="article:tag" content="{p["primaryKeyword"]}, {p["secondaryKeyword"]}" />
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="{SITE}/assets/blog/{p["slug"]}.png?v={CACHE_VER}" />
 
-<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-<link rel="alternate icon" href="/favicon.svg" />
-<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
-<link rel="apple-touch-icon" href="/favicon.svg" />
+<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -666,7 +668,7 @@ def render_blog_post(p, nav, footer):
   "@type": "Article",
   "headline": "{p["title"]}",
   "description": "{p["meta"]}",
-  "image": "{SITE}/assets/og.jpg?v=2",
+  "image": "{SITE}/assets/blog/{p["slug"]}.png?v={CACHE_VER}",
   "datePublished": "{p["date"]}T09:00:00Z",
   "dateModified": "{p["date"]}T09:00:00Z",
   "author": {{ "@type": "Person", "name": "Adnan K.", "url": "{SITE}/about.html" }},
@@ -699,7 +701,7 @@ def render_blog_post(p, nav, footer):
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
-  <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
+  <script>(function(){{try{{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}}catch(e){{}}}})();</script>
 </head>
 <body>
 
@@ -727,6 +729,8 @@ def render_blog_post(p, nav, footer):
         <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="{p["date"]}">{date_readable}</time> · {p["readingTime"]} read</div>
       </div>
     </div>
+
+    <img class="post-hero-img" src="/assets/blog/{p["slug"]}.png?v={CACHE_VER}" alt="{p["title"]}" width="1200" height="675" style="margin-top: 2rem;" />
   </div>
 </section>
 
@@ -751,7 +755,7 @@ def render_blog_post(p, nav, footer):
       <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
       <div>
         <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan K.</h3>
-        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 307 projects shipped, 100% Job Success.</p>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 1,000+ projects shipped, 100% Job Success.</p>
         <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
           <a href="/about.html" style="color: var(--accent);">About</a>
           <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
@@ -803,7 +807,7 @@ def render_blog_post(p, nav, footer):
 def render_location_page(loc, nav, footer):
     """Render a country-specific service landing page."""
     title = f"Shopify & WooCommerce Developer {loc['country']} | Adnan K."
-    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, 307 stores shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
+    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, 1,000+ stores shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
     canonical = f"{SITE}/services/shopify-developer-{loc['code']}.html"
 
     hreflang_tags = "\n".join([
@@ -1072,8 +1076,23 @@ def update_posts_json():
     print(f"  ✓ posts.json updated ({len(data['posts'])} posts)")
 
 
+def gen_covers():
+    """Generate featured cover images for every published post.
+    Reads posts.json (so run after update_posts_json). Soft-fails if Pillow
+    or fonts are unavailable in the runtime — covers can be regenerated later."""
+    try:
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "generate_blog_covers", Path(__file__).resolve().parent / "generate_blog_covers.py")
+        mod = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(mod)
+        mod.main()
+    except Exception as e:
+        print(f"  ! cover generation skipped ({type(e).__name__}: {e}) — regenerate with scripts/generate_blog_covers.py")
+
+
 def gen_blog():
-    """Generate all blog posts."""
+    """Generate all blog posts, their covers, and refresh posts.json."""
     nav, footer = load_nav_and_footer()
     for p in POSTS:
         html = render_blog_post(p, nav, footer)
@@ -1081,6 +1100,7 @@ def gen_blog():
         out.write_text(html)
         print(f"  ✓ blog/{p['slug']}.html")
     update_posts_json()
+    gen_covers()
 
 
 def gen_locations():
@@ -1179,17 +1199,21 @@ def refresh_blog_index():
     cards = []
     for p in posts:
         cat = p["category"]
+        date_fmt = datetime.strptime(p["date"], "%Y-%m-%d").strftime("%b %d, %Y")
         cards.append(f'''      <article class="post-card" data-reveal>
         <a href="/blog/{p["slug"]}.html" class="post-card-link">
-          <div class="post-card-meta">
-            <span class="tag-pill">{cat}</span>
-            <time datetime="{p["date"]}">{datetime.strptime(p["date"], "%Y-%m-%d").strftime("%b %d, %Y")}</time>
-            <span>·</span>
-            <span>{p["readingTime"]}</span>
+          <img class="post-card-img" src="/assets/blog/{p["slug"]}.png?v={CACHE_VER}" alt="" width="1200" height="675" loading="lazy" />
+          <div class="post-card-body">
+            <div class="post-card-meta">
+              <span class="tag-pill">{cat}</span>
+              <time datetime="{p["date"]}">{date_fmt}</time>
+              <span>·</span>
+              <span>{p["readingTime"]}</span>
+            </div>
+            <h2 class="post-card-title">{p["title"]}</h2>
+            <p class="post-card-excerpt">{p["excerpt"]}</p>
+            <span class="post-card-cta">Read post &rarr;</span>
           </div>
-          <h2 class="post-card-title">{p["title"]}</h2>
-          <p class="post-card-excerpt">{p["excerpt"]}</p>
-          <span class="post-card-cta">Read post &rarr;</span>
         </a>
       </article>''')
 
