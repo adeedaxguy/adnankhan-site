@@ -4558,6 +4558,28 @@ html[data-theme="dark"] .cookie-banner { background: var(--surface); }
 /* Black simple-icon SVGs would vanish on dark → invert to light */
 html[data-theme="dark"] .chip-logo { filter: invert(0.9) brightness(1.15); }
 
+/* ── Inverted "ink" bands: pin back to true dark in dark mode ─────── */
+html[data-theme="dark"] [style*="background:var(--ink)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] {
+  background: #15110B !important;
+  color: var(--ink) !important;
+}
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="color:var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="color:var(--bg)"],
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="color: var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="color: var(--bg)"] {
+  color: var(--ink) !important;
+}
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="background:var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="background:var(--bg)"],
+html[data-theme="dark"] [style*="background:var(--ink)"] [style*="background: var(--bg)"],
+html[data-theme="dark"] [style*="background: var(--ink)"] [style*="background: var(--bg)"] {
+  background: var(--ink) !important;
+  color: #15110B !important;
+}
+/* Portfolio filter bar hardcoded light bg */
+html[data-theme="dark"] .pf-filter-bar { background: rgba(28,23,18,.95) !important; }
+
 /* ── Inverted "ink" bands ──────────────────────────────────────────
    Sections/cards built as dark bands in light mode use inline
    background:var(--ink);color:var(--bg). In dark mode those tokens
@@ -4677,86 +4699,72 @@ html[data-theme="dark"] .cf-note--err { color: var(--accent-hover); }
 .cf-submit:disabled { opacity: 0.6; cursor: default; }
 @media (max-width: 560px) { .cf-row { grid-template-columns: 1fr; } .comment { grid-template-columns: 38px 1fr; gap: 0.8rem; } .comment-avatar { width: 38px; height: 38px; } }
 
-/* ── Blog index: post cards ───────────────────────────────────────── */
-.post-card {
+/* ── Blog: filter pills + "All Posts" card grid ──────────────────── */
+button.kbd-pill { transition: color .18s, background .18s, border-color .18s; }
+button.kbd-pill:hover { color: var(--ink); border-color: var(--muted); }
+button.kbd-pill.is-active {
+  background: var(--ink); color: var(--bg);
+  border-color: var(--ink);
+}
+
+.post-card { position: relative; display: flex; }
+.post-card-link {
+  display: flex; flex-direction: column; width: 100%;
   background: var(--surface);
   border: 1px solid var(--line);
-  border-radius: 10px;
+  border-radius: var(--r-lg);
   overflow: hidden;
-  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+  text-decoration: none; color: inherit;
+  transition: transform .28s cubic-bezier(.2,.7,.2,1), box-shadow .28s ease, border-color .28s ease;
 }
-.post-card:hover {
+.post-card-link:hover {
   transform: translateY(-3px);
-  border-color: var(--accent-deep);
-  box-shadow: 0 8px 24px color-mix(in srgb, var(--accent-deep) 12%, transparent);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-card);
 }
-.post-card-link {
-  display: block;
-  padding: 1.5rem 1.75rem;
-  text-decoration: none;
-  color: inherit;
+.post-card-img {
+  display: block; width: 100%; aspect-ratio: 16 / 9;
+  object-fit: cover; background: var(--bg-soft);
+  border-bottom: 1px solid var(--line);
+  transition: transform .4s cubic-bezier(.2,.7,.2,1);
+}
+.post-card-link:hover .post-card-img { transform: scale(1.025); }
+.post-card-body {
+  display: flex; flex-direction: column; flex: 1;
+  padding: 1.35rem 1.4rem 1.45rem;
+}
+.post-hero-img {
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
+  object-fit: cover; border-radius: var(--r-lg);
+  border: 1px solid var(--line); margin: 0.5rem 0 0;
 }
 .post-card-meta {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  font-family: var(--font-mono, monospace);
-  font-size: 0.72rem;
-  color: var(--muted);
-  margin-bottom: 0.75rem;
+  display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap;
+  font-family: var(--font-mono);
+  font-size: 0.72rem; color: var(--muted);
+  margin-bottom: 0.95rem;
 }
-.post-card-meta .tag-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  padding: 0.15em 0.55em;
-}
-.post-card-meta .sep { opacity: 0.4; }
+.post-card-meta time { letter-spacing: 0.01em; }
+.post-card-meta .tag-pill { font-size: 0.68rem; padding: 3px 9px; }
 .post-card-title {
-  font-family: var(--font-serif, Georgia, serif);
-  font-size: 1.15rem;
-  font-weight: 600;
-  line-height: 1.35;
-  color: var(--ink);
-  margin: 0 0 0.55rem;
-  transition: color .15s ease;
+  font-family: var(--font-serif);
+  font-size: clamp(1.18rem, 1.5vw, 1.38rem);
+  line-height: 1.26; font-weight: 500;
+  letter-spacing: -0.012em; color: var(--ink);
+  margin: 0 0 0.65rem;
+  transition: color .2s ease;
 }
-.post-card:hover .post-card-title { color: var(--accent-deep); }
+.post-card-link:hover .post-card-title { color: var(--accent); }
 .post-card-excerpt {
-  font-size: 0.88rem;
-  color: var(--muted);
-  line-height: 1.6;
-  margin: 0 0 1rem;
+  font-family: var(--font-sans);
+  font-size: 0.92rem; line-height: 1.62;
+  color: var(--muted); margin: 0 0 1.4rem;
 }
 .post-card-cta {
-  display: inline-block;
-  font-size: 0.82rem;
-  font-weight: 500;
-  color: var(--accent-deep);
-  letter-spacing: 0.01em;
-  transition: transform .15s ease;
+  margin-top: auto;
+  font-family: var(--font-sans);
+  font-size: 0.82rem; font-weight: 500;
+  color: var(--accent);
+  transition: transform .22s ease;
 }
-.post-card:hover .post-card-cta { transform: translateX(3px); }
-
-/* Filter pills (blog index) */
-.kbd-pill {
-  font-family: var(--font-mono, monospace);
-  font-size: 0.75rem;
-  padding: 0.3em 0.9em;
-  border: 1px solid var(--line);
-  border-radius: 100px;
-  background: var(--surface);
-  color: var(--muted);
-  cursor: pointer;
-  transition: border-color .15s, color .15s, background .15s;
-}
-.kbd-pill:hover {
-  border-color: var(--accent-deep);
-  color: var(--accent-deep);
-}
-.kbd-pill.is-active,
-.kbd-pill:first-child {
-  border-color: var(--accent-deep);
-  background: var(--accent-deep);
-  color: #fff;
-}
+.post-card-link:hover .post-card-cta { transform: translateX(4px); }
