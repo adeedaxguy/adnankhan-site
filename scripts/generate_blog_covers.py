@@ -17,28 +17,26 @@ from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT_DIR = ROOT / "assets" / "blog"
-FONTS = Path("/mnt/skills/examples/canvas-design/canvas-fonts")
-
 W, H = 1200, 675
 
 # ── Brand palette (light) ─────────────────────────────────────────────
-CREAM       = (244, 240, 234)   # --bg
-PAPER       = (251, 248, 242)   # --surface
-INK         = (26, 22, 18)      # --ink
-INK_SOFT    = (42, 36, 30)      # --ink-soft
-MUTED       = (108, 98, 88)     # --muted
-LINE        = (217, 210, 196)   # --line
-ACCENT      = (139, 58, 31)     # --accent
-ACCENT_DEEP = (111, 44, 22)     # --accent-deep
+CREAM       = (244, 240, 234)
+INK         = (26, 22, 18)
+MUTED       = (108, 98, 88)
+LINE        = (217, 210, 196)
+ACCENT      = (139, 58, 31)
 
-# ── Fonts ─────────────────────────────────────────────────────────────
+# ── Fonts (system fonts on macOS) ─────────────────────────────────────
+_SYSFONT = Path("/System/Library/Fonts/Supplemental")
+_LIBFONT = Path("/Library/Fonts")
+
+SERIF      = str(_SYSFONT / "Georgia Bold.ttf")
+SERIF_REG  = str(_SYSFONT / "Georgia.ttf")
+MONO       = str(_SYSFONT / "Courier New.ttf")
+MONO_BOLD  = str(_SYSFONT / "Courier New Bold.ttf")
+
 def font(name, size):
-    return ImageFont.truetype(str(FONTS / name), size)
-
-SERIF      = "IBMPlexSerif-Bold.ttf"      # ~ Source Serif 4 (display)
-SERIF_REG  = "IBMPlexSerif-Regular.ttf"
-MONO       = "JetBrainsMono-Regular.ttf"  # exact brand mono
-MONO_BOLD  = "JetBrainsMono-Bold.ttf"
+    return ImageFont.truetype(name, size)
 
 
 # ── Category → accent tint + motif ────────────────────────────────────
@@ -165,39 +163,31 @@ def render(post):
     d = ImageDraw.Draw(img)
 
     MX = 80                      # left margin for text
-    # kicker: accent rule + category (mono, upper)
-    d.line([(MX, 150), (MX+54, 150)], fill=ACCENT, width=4)
-    kick = cat.upper()
-    d.text((MX+72, 138), kick, font=font(MONO, 24), fill=ACCENT)
 
-    # title (serif, ink), wrapped & auto-sized
-    fnt, lines, size = fit_title(d, title, max_w=W-MX-300, max_lines=4)
-    lh = int(size * 1.16)
-    block_h = lh * len(lines)
-    ty = 250 if block_h <= 280 else 218
-    for ln in lines:
-        d.text((MX, ty), ln, font=fnt, fill=INK)
-        ty += lh
+    # category kicker: accent rule + label (mono, upper) — centred vertically
+    kick_y = H // 2 - 20
+    d.line([(MX, kick_y), (MX+40, kick_y)], fill=ACCENT, width=3)
+    d.text((MX+56, kick_y - 11), cat.upper(), font=font(MONO, 22), fill=ACCENT)
 
     # footer rule
-    fy = H - 96
-    d.line([(MX, fy), (W-MX, fy)], fill=LINE, width=2)
+    fy = H - 80
+    d.line([(MX, fy), (W-MX, fy)], fill=LINE, width=1)
 
-    # wordmark bottom-left: "Lofts" serif + "studio" mono accent
-    wm_y = H - 70
-    d.text((MX, wm_y), "Lofts", font=font(SERIF, 30), fill=INK)
-    lw = d.textlength("Lofts", font=font(SERIF, 30))
-    d.text((MX+lw+8, wm_y+8), "studio", font=font(MONO, 22), fill=ACCENT)
+    # wordmark bottom-left
+    wm_y = H - 58
+    d.text((MX, wm_y), "Lofts", font=font(SERIF, 26), fill=INK)
+    lw = d.textlength("Lofts", font=font(SERIF, 26))
+    d.text((MX+lw+7, wm_y+6), "studio", font=font(MONO, 19), fill=ACCENT)
 
     # bottom-right: domain (mono, muted)
-    url = "lofts.studio/blog"
-    uw = d.textlength(url, font=font(MONO, 20))
-    d.text((W-MX-uw, wm_y+4), url, font=font(MONO, 20), fill=MUTED)
+    url = "lofts.studio"
+    uw = d.textlength(url, font=font(MONO, 18))
+    d.text((W-MX-uw, wm_y+5), url, font=font(MONO, 18), fill=MUTED)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     out = OUT_DIR / f"{slug}.png"
     img.save(out, "PNG", optimize=True)
-    return out, size
+    return out
 
 
 def load_posts():
@@ -212,8 +202,8 @@ def main():
     posts = load_posts()
     print(f"Rendering {len(posts)} blog covers → assets/blog/")
     for p in posts:
-        out, size = render(p)
-        print(f"  ✓ {out.relative_to(ROOT)}  ({p['category']}, title@{size}px)")
+        out = render(p)
+        print(f"  ✓ {out.relative_to(ROOT)}  ({p['category']})")
     print("Done.")
 
 
