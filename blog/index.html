@@ -485,11 +485,12 @@
     <h2 class="h-1" style="margin-top: 1rem;">New post when there's something worth writing. <span class="italic-serif" style="color: var(--accent);">No drip campaigns.</span></h2>
     <p class="lead" style="margin-top: 1rem;">One email per published post. Roughly monthly. Unsubscribe in one click.</p>
 
-    <form data-lead class="form-editorial" action="/api/contact" method="POST" style="margin-top: 2rem; display: flex; gap: 8px; max-width: 460px; margin-left: auto; margin-right: auto;">
+    <form data-lead action="/api/contact" method="POST" style="margin-top: 2rem; display: flex; gap: 8px; max-width: 460px; margin-left: auto; margin-right: auto;">
       <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_template" value="table" />
-      <input type="email" name="email" required placeholder="you@yourbrand.com" style="flex: 1; padding: 0.9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); font: inherit; color: var(--ink); outline: none;" />
+      <input type="hidden" name="source" value="blog-newsletter" />
+      <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" style="flex: 1; min-width: 0; padding: 0.9rem 1rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); font: inherit; color: var(--ink); outline: none;" />
       <button type="submit" class="btn btn-primary">Subscribe</button>
     </form>
     <div data-lead-success style="display: none; margin-top: 1.5rem;">
