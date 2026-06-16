@@ -4707,9 +4707,9 @@ button.kbd-pill.is-active {
   border-color: var(--ink);
 }
 
-.post-card { position: relative; display: flex; }
+.post-card { position: relative; display: flex; min-width: 0; }
 .post-card-link {
-  display: flex; flex-direction: column; width: 100%;
+  display: flex; flex-direction: column; width: 100%; min-width: 0;
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: var(--r-lg);
@@ -4723,7 +4723,7 @@ button.kbd-pill.is-active {
   box-shadow: var(--shadow-card);
 }
 .post-card-img {
-  display: block; width: 100%; aspect-ratio: 16 / 9;
+  display: block; width: 100%; height: auto; aspect-ratio: 16 / 9;
   object-fit: cover; background: var(--bg-soft);
   border-bottom: 1px solid var(--line);
   transition: transform .4s cubic-bezier(.2,.7,.2,1);
