@@ -114,8 +114,8 @@ export default async function handler(req) {
   const cat = url.searchParams.get('cat') || '';
   const key = catKey(cat);
 
-  const lines = wrapTitle(title, 22, 4);
-  const fontSize = lines.length > 3 ? 44 : 52;
+  const lines = wrapTitle(title, 17, 4);
+  const fontSize = lines.length > 3 ? 42 : 50;
   const lh = Math.round(fontSize * 1.2);
   const startY = Math.round(H / 2 - ((lines.length - 1) * lh) / 2) - 10;
   const titleSvg = lines.map((ln, i) =>
