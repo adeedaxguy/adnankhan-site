@@ -52,6 +52,19 @@ function slugify(str) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 80);
 }
 
+// Map a keyword to a display category (drives the cover motif via /api/og).
+function categorize(kw) {
+  const c = (kw || '').toLowerCase();
+  if (/seo/.test(c)) return 'SEO';
+  if (/speed|page speed|performance|lighthouse/.test(c)) return 'Speed';
+  if (/conversion|cro|checkout/.test(c)) return 'Conversion';
+  if (/migration|migrat/.test(c)) return 'Migration';
+  if (/woocommerce|wordpress/.test(c)) return 'WordPress';
+  if (/plugin|app|headless|next\.js/.test(c)) return 'Custom Apps';
+  if (/shopify/.test(c)) return 'Shopify';
+  return 'Web Design';
+}
+
 export default async function handler(req) {
   // Security: Vercel passes Authorization header for cron jobs
   const auth = req.headers.get('authorization') || '';
@@ -142,10 +155,11 @@ Return ONLY valid JSON in this exact format (no markdown wrapper, no extra text)
 
   post.createdAt = now;
   post.slug = slug; // ensure consistent slug
+  post.category = categorize(entry.kw); // drives the /api/og cover motif
 
   // Save to KV
   const postKey = `lofts:blog:post:${slug}`;
-  const meta = { slug, title: post.title, excerpt: post.excerpt, keyword: post.keyword, createdAt: now, readingMinutes: post.readingMinutes || 8 };
+  const meta = { slug, title: post.title, excerpt: post.excerpt, keyword: post.keyword, category: post.category, createdAt: now, readingMinutes: post.readingMinutes || 8 };
 
   await Promise.all([
     kvCmd(KV_URL, KV_TOKEN, 'SET', postKey, JSON.stringify(post)),

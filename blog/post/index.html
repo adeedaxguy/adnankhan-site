@@ -6,6 +6,14 @@
   <title id="metaTitle">Loading… — Lofts Studio Blog</title>
   <meta name="description" id="metaDesc" content="" />
   <link rel="canonical" id="canonical" href="https://lofts.studio/blog/post/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:title" id="ogTitle" content="" />
+  <meta property="og:description" id="ogDesc" content="" />
+  <meta property="og:image" id="ogImage" content="" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="675" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" id="twImage" content="" />
   <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
@@ -25,7 +33,8 @@
     .article { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
     .art-keyword { font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.18em; color: var(--accent); margin-bottom: 0.75rem; }
     .art-title { font-family: var(--font-serif); font-size: clamp(1.8rem, 4vw, 2.6rem); font-weight: 700; line-height: 1.2; margin-bottom: 1rem; }
-    .art-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 2.5rem; border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .art-meta { font-size: 0.78rem; color: var(--muted); margin-bottom: 2rem; border-bottom: 1px solid var(--line); padding-bottom: 1.25rem; display: flex; gap: 1rem; flex-wrap: wrap; }
+    .art-hero { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 14px; border: 1px solid var(--line); margin: 0 0 2.5rem; }
     /* Markdown rendering */
     .art-body { font-size: 1.02rem; line-height: 1.75; color: var(--ink); }
     .art-body h2 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 700; margin: 2.5rem 0 0.75rem; }
@@ -78,6 +87,13 @@ if (!slug) {
       document.getElementById('canonical').setAttribute('href', `https://lofts.studio/blog/post/?slug=${slug}`);
       document.title = post.metaTitle || post.title + ' — Lofts Studio';
 
+      // Featured cover (dynamic, matches the rest of the blog)
+      const coverUrl = `https://lofts.studio/api/og?title=${encodeURIComponent(post.title)}&cat=${encodeURIComponent(post.category || post.keyword || '')}`;
+      document.getElementById('ogTitle').setAttribute('content', post.title || '');
+      document.getElementById('ogDesc').setAttribute('content', post.metaDescription || post.excerpt || '');
+      document.getElementById('ogImage').setAttribute('content', coverUrl);
+      document.getElementById('twImage').setAttribute('content', coverUrl);
+
       // GA event
       if (typeof gtag !== 'undefined') gtag('event', 'blog_view', { event_category: 'content', event_label: slug });
 
@@ -91,6 +107,7 @@ if (!slug) {
           <span>${post.readingMinutes || 8} min read</span>
           <span>By Lofts Studio</span>
         </div>
+        <img class="art-hero" src="${coverUrl}" alt="${esc(post.title)}" width="1200" height="675" />
         <div class="art-body" id="artBody"></div>
         <div class="art-cta">
           <h3>Want this applied to your site?</h3>
