@@ -485,13 +485,13 @@
     <h2 class="h-1" style="margin-top: 1rem;">New post when there's something worth writing. <span class="italic-serif" style="color: var(--accent);">No drip campaigns.</span></h2>
     <p class="lead" style="margin-top: 1rem;">One email per published post. Roughly monthly. Unsubscribe in one click.</p>
 
-    <form data-lead action="/api/contact" method="POST" style="margin-top: 2rem; display: flex; align-items: stretch; gap: 10px; max-width: 520px; margin-left: auto; margin-right: auto;">
+    <form data-lead action="/api/contact" method="POST" style="margin-top: 2rem; display: flex; align-items: center; gap: 0; max-width: 480px; margin-left: auto; margin-right: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 8px; box-shadow: var(--shadow-soft);">
       <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
       <input type="hidden" name="_captcha" value="false" />
       <input type="hidden" name="_template" value="table" />
       <input type="hidden" name="source" value="blog-newsletter" />
-      <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" style="flex: 1; min-width: 0; padding: 1rem 1.15rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md); font-size: 1rem; color: var(--ink); outline: none;" />
-      <button type="submit" class="btn btn-primary" style="white-space: nowrap; padding-left: 1.6rem; padding-right: 1.6rem;">Subscribe</button>
+      <input type="email" name="email" required placeholder="your@email.com" aria-label="Email address" style="flex: 1; min-width: 0; padding: 0.75rem 1rem; background: transparent; border: 0; border-radius: 0; font-size: 1rem; color: var(--ink); outline: none;" />
+      <button type="submit" class="btn btn-primary" style="white-space: nowrap; border-radius: 999px; padding: 0.8rem 1.6rem;">Subscribe</button>
     </form>
     <div data-lead-success style="display: none; margin-top: 1.5rem;">
       <p class="serif" style="font-size: 1.3rem; color: var(--accent); margin: 0;">Subscribed. Talk soon.</p>
