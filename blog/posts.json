@@ -31,7 +31,7 @@
     {
       "slug": "shopify-custom-app-vs-public-app",
       "title": "Custom Shopify App vs Private App vs Public App: Which One You Actually Need",
-      "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients \u2014 what each one costs, what each one limits, and which one wins for your situation.",
+      "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients \u2014 what each one adds overhead, what each one limits, and which one wins for your situation.",
       "category": "Custom Apps",
       "date": "2026-06-16",
       "readingTime": "9 min",
@@ -70,12 +70,12 @@
     {
       "slug": "freelance-shopify-developer-vs-agency",
       "title": "Freelance Shopify Developer vs Agency: What You Actually Pay For",
-      "excerpt": "Agencies pitch process, project managers, and scale. Freelancers pitch hands-on senior work. Here's what each model actually costs, when each one wins, and the hybrid most clients should consider.",
+      "excerpt": "Agencies pitch process, project managers, and scale. Freelancers pitch hands-on senior work. Here's what each model actually adds overhead, when each one wins, and the hybrid most clients should consider.",
       "category": "Shopify",
       "date": "2026-06-15",
       "readingTime": "8 min",
       "primaryKeyword": "freelance shopify developer vs agency",
-      "secondaryKeyword": "shopify agency cost",
+      "secondaryKeyword": "shopify agency comparison",
       "funnelTo": "/services/shopify-development.html",
       "featured": false,
       "published": true
@@ -95,8 +95,8 @@
     },
     {
       "slug": "shopify-plus-vs-advanced-when-to-upgrade",
-      "title": "Shopify Plus vs Shopify Advanced: When the $2K/mo Jump Actually Pays",
-      "excerpt": "The honest math on when Shopify Plus earns its $2K/month premium \u2014 and the four signs you should stay on Advanced and save the cash for engineering instead.",
+      "title": "Shopify Plus vs Shopify Advanced: When the Plus Jump Actually Makes Sense",
+      "excerpt": "The honest math on when Shopify Plus earns its heavier platform commitment \u2014 and the four signs you should stay on Advanced and save the cash for engineering instead.",
       "category": "Migration",
       "date": "2026-06-13",
       "readingTime": "9 min",
@@ -155,7 +155,7 @@
     {
       "slug": "woocommerce-still-makes-sense",
       "title": "When WooCommerce still makes more sense than Shopify in 2026",
-      "excerpt": "Shopify is the right call most of the time. Here are the cases where it genuinely isn't \u2014 and why forcing Shopify costs more in the long run.",
+      "excerpt": "Shopify is the right call most of the time. Here are the cases where it genuinely isn't \u2014 and why forcing Shopify adds overhead more in the long run.",
       "category": "WordPress",
       "date": "2026-05-17",
       "readingTime": "4 min",
@@ -185,7 +185,7 @@
     {
       "slug": "checkout-friction-audit",
       "title": "A two-hour checkout friction audit you can run yourself",
-      "excerpt": "Eleven steps, a $20 burner phone, a stopwatch. The cheapest CRO exercise on Earth and the one nobody actually does.",
+      "excerpt": "Eleven steps, a cheap burner phone, a stopwatch. The cheapest CRO exercise on Earth and the one nobody actually does.",
       "category": "Conversion",
       "date": "2026-04-24",
       "readingTime": "4 min",

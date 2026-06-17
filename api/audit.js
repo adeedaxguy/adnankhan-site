@@ -223,14 +223,14 @@ export default async function handler(req) {
       fix: 'Create a 32×32 and 180×180 icon and add <link rel="icon" href="/favicon.ico"> to your <head>.',
     };
 
-    const ctaRegex = /\b(contact us|get started|get a quote|book a call|request a demo|buy now|order now|sign up|schedule|free trial|talk to us|start free|get in touch|hire us|request quote|get quote|book now|free consultation|call us|speak to|try free)\b/i;
+    const ctaRegex = /\b(contact us|get started|send an enquiry|book a call|request a demo|buy now|order now|sign up|schedule|free trial|talk to us|start free|get in touch|hire us|send an enquiry|send enquiry|book now|free consultation|call us|speak to|try free)\b/i;
     const hasCTA = ctaRegex.test(html.replace(/<[^>]+>/g, ' '));
     results.cta = {
       pass: hasCTA,
       label: 'Clear call-to-action (CTA)',
       value: hasCTA ? 'CTA button or link found' : 'No clear CTA detected — visitors don\'t know what to do next',
       impact: 'critical', category: 'trust',
-      fix: 'Add a prominent action button above the fold: "Get a Free Quote", "Book a Call", or "Contact Us".',
+      fix: 'Add a prominent action button above the fold: "Get Started", "Book a Call", or "Contact Us".',
     };
 
     const hasPhoneLink = /href=["']tel:/i.test(html);

@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260617b"
+CACHE_VER = "20260617c"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -397,7 +397,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
       <a href="{service_url}" class="card" style="text-decoration:none;display:flex;flex-direction:column;gap:0.85rem;">
         <span style="font-family:var(--font-sans);font-size:0.68rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.2em;font-weight:600;">Related service</span>
         <h3 class="h-2" style="margin:0;">Read about {service_label}</h3>
-        <p style="font-family:var(--font-serif);color:var(--ink-soft);margin:0;line-height:1.6;">How a {service_label} engagement actually moves through this studio — scope, timeline, deliverables, fixed price.</p>
+        <p style="font-family:var(--font-serif);color:var(--ink-soft);margin:0;line-height:1.6;">How a {service_label} engagement actually moves through this studio — scope, timeline, deliverables, handoff.</p>
         <span class="btn-editorial" style="align-self:flex-start;margin-top:0.5rem;">See the service &nbsp;&rarr;</span>
       </a>
     </div>
@@ -656,7 +656,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
       <div class="prose">
         <h2 class="h-1" style="margin:0 0 1.5rem;">There is a pattern in the projects above — <span class="italic-serif">and it&rsquo;s not Shopify.</span></h2>
         <p>DTC and B2B, fashion and food, military and medical, marketplaces and editorial. Five different platforms. Twenty-nine different audiences. What they share isn&rsquo;t a stack — it&rsquo;s founders who chose to wait a little longer for work that lasts.</p>
-        <p>Every one of these projects had a faster path: pick a $300 theme, hire whoever&rsquo;s cheapest, ship in a fortnight. These founders didn&rsquo;t take it. They wanted the build to survive a year of changes, an investor due-diligence read, a Black Friday spike, and the day someone else has to come in and edit the codebase.</p>
+        <p>Every one of these projects had a faster path: pick a off-the-shelf theme, hire whoever&rsquo;s cheapest, ship in a fortnight. These founders didn&rsquo;t take it. They wanted the build to survive a year of changes, an investor due-diligence read, a Black Friday spike, and the day someone else has to come in and edit the codebase.</p>
         <p>That&rsquo;s the only audience I&rsquo;m built for. If that&rsquo;s you, the form on <a href="/#contact" style="color:var(--ink);text-decoration:underline;text-underline-offset:4px;">the homepage</a> takes ninety seconds.</p>
       </div>
     </div>

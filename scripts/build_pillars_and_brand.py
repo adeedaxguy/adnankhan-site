@@ -28,13 +28,13 @@ PILLARS = [
         "slug": "ecommerce",
         "title": "Ecommerce Engineering",
         "h1": "Senior ecommerce engineering — Shopify, WooCommerce, headless.",
-        "tagline": "for founders running $500K to $50M brands",
+        "tagline": "for founders running serious ecommerce brands",
         "meta": "Senior ecommerce engineering by Lofts Studio. Shopify Plus, WooCommerce, headless commerce. 200+ DTC and B2B builds. Top Rated on Upwork.",
         "kw": "ecommerce developer, shopify plus developer, woocommerce developer, headless commerce, hire ecommerce engineer",
         "summary": "Two hundred-plus DTC, B2B, and marketplace ecommerce builds. Shopify Plus migrations. WooCommerce at scale. Headless commerce on Next.js. The work that runs your store doesn't break when traffic spikes.",
         "what_we_build": [
             ("Shopify (Plus & Standard)", "Custom themes, sections, checkout extensions, B2B catalogs, Plus migrations. Native code — no PageFly, no GemPages."),
-            ("WooCommerce at scale", "Subscriptions, multi-vendor, B2B tier pricing, custom shipping logic, performance engineering that survives Black Friday."),
+            ("WooCommerce at scale", "Subscriptions, multi-vendor, B2B tier scoping, custom shipping logic, performance engineering that survives Black Friday."),
             ("Headless commerce", "Next.js frontends with Shopify Storefront API or WooCommerce REST. Edge-rendered. Sub-1s LCP."),
             ("Custom Shopify apps", "Merchant-specific internal tools, OMS integrations, supplier portals. No App Store revenue share, no third-party data leakage."),
             ("Multi-vendor marketplaces", "Built one for the Mexican restaurant industry (Mercanto). Built one for AI art (Artika). We know the patterns."),
@@ -42,8 +42,8 @@ PILLARS = [
         ],
         "case_studies": ["mercanto", "discova", "jamaicancoffeeclub", "giftful", "lossderma", "miferia-mx"],
         "faqs": [
-            ("What does an ecommerce build with Lofts Studio cost?",
-             "Stock-theme setups start at $5K. Custom Shopify builds typically $15K–$45K. Shopify Plus migrations $25K–$75K. Headless rebuilds $50K+. Every project is fixed-price with milestones."),
+            ("What does an ecommerce build with Lofts Studio effort?",
+             "Stock-theme setups, custom Shopify builds, Shopify Plus migrations, and headless rebuilds are scoped privately after discovery. Every project is milestone-led."),
             ("Do you do Shopify Plus migrations?",
              "Yes — 14 completed in the last five years. Average timeline: 8–12 weeks for a real B2B-enabled migration."),
             ("Can you handle WooCommerce stores doing high traffic?",
@@ -58,15 +58,15 @@ PILLARS = [
         "title": "Insurance & Finance Web Engineering",
         "h1": "Insurance and finance website engineering — for brokers, carriers, and platforms.",
         "tagline": "for brokers, carriers, fintech founders, and reinsurance platforms",
-        "meta": "Senior web engineering for insurance brokers, fintech founders, and reinsurance platforms. Compliance-aware design, quote flows, agent portals. Lofts Studio.",
+        "meta": "Senior web engineering for insurance brokers, fintech founders, and reinsurance platforms. Compliance-aware design, enquiry flows, agent portals. Lofts Studio.",
         "kw": "insurance website developer, fintech web developer, insurance broker website, reinsurance website, hire wordpress developer for insurance",
         "summary": "Insurance and finance is one of the most regulated, highest-LTV verticals on the web. We've shipped six platforms in this space — from broker websites to multi-entity reinsurance corporate sites — and learned the compliance, the regulator-friendly language, and the underwriter workflow.",
         "what_we_build": [
-            ("Broker websites", "Quote routing by line of business, GDPR-compliant lead capture, integration with carrier feeds. PC Insurances is live in Ireland."),
+            ("Broker websites", "Lead routing by line of business, GDPR-compliant lead capture, integration with carrier feeds. PC Insurances is live in Ireland."),
             ("Carrier corporate sites", "American Gulf, Acturion, American Re — all built from premium Figma systems. Agent portals, product/solutions pages, multi-entity contact routing."),
             ("Reinsurance platforms", "B2B financial services sites where the buyer is institutional. Custom animation, structured product taxonomies, careers and team pages."),
             ("Compliance-aware design", "HIPAA, GDPR, KYC patterns. Underwriter-friendly content models. Regulator-passing copy patterns."),
-            ("Fintech landing pages", "Conversion-tuned for paid traffic at $40–$220 CPC. Trust-signal-dense. Compliance-reviewed."),
+            ("Fintech landing pages", "Conversion-tuned for acquisition traffic at high-intent acquisition clicks. Trust-signal-dense. Compliance-reviewed."),
             ("Agent and underwriter portals", "Custom WordPress + React applications. Role-aware access. Document workflow. Real internal-tools work."),
         ],
         "case_studies": ["americangulf", "acturion", "americanreinsurance", "pcinsurances", "saludcap"],
@@ -118,11 +118,11 @@ PILLARS = [
         "tagline": "for founders who need software, not just websites",
         "meta": "Custom web app engineering — React, Next.js, Node.js, custom Shopify apps, API integrations. Led by Irfan Khan (Top Rated, 700+ projects). Lofts Studio.",
         "kw": "react developer, nextjs developer, node.js developer, custom web app development, hire full-stack developer, shopify custom app development",
-        "summary": "When a website isn't enough. Irfan leads custom application engineering at Lofts Studio — React, Next.js, Node.js, integrations, internal tools, SaaS frontends. 700+ projects under his belt, $600K+ in tracked client value.",
+        "summary": "When a website isn't enough. Irfan leads custom application engineering at Lofts Studio — React, Next.js, Node.js, integrations, internal tools, SaaS frontends. 700+ projects under his belt, high-volume tracked client value.",
         "what_we_build": [
             ("SaaS frontends", "Next.js with auth, dashboards, billing, settings, team management. The boring engineering that decides whether users renew."),
-            ("Internal tools", "React + Node.js applications for ops teams. Order management, inventory routing, custom reporting. Often replaces $500/month worth of duct-taped SaaS."),
-            ("Custom Shopify apps", "Merchant-specific apps not on the App Store. Polaris UI, App Bridge, webhooks. $15K–$50K typical."),
+            ("Internal tools", "React + Node.js applications for ops teams. Order management, inventory routing, custom reporting. Often replaces duct-taped SaaS."),
+            ("Custom Shopify apps", "Merchant-specific apps not on the App Store. Polaris UI, App Bridge, webhooks. Scoped privately after discovery."),
             ("API integrations", "Klaviyo, Mailchimp, Stripe, Plaid, Twilio, HubSpot, Salesforce, Xero, QuickBooks. Connect the systems that already exist."),
             ("WhatsApp Business integration", "We've built three. WhatsApp Cloud API, message templates, business profile, customer-facing chatbots."),
             ("Click funnels", "Custom funnel builds when GoHighLevel or ClickFunnels won't bend the way you need. From sales to upsell to downsell to success page."),
@@ -131,12 +131,12 @@ PILLARS = [
         "faqs": [
             ("Do you build custom Shopify apps or use public ones?",
              "Both. We recommend public apps when they cover 80% of the need. Custom when they don't — internal tools, merchant-specific automation, or anything you don't want to share data with a third party for."),
-            ("What's your custom web app cost range?",
-             "Simple integrations: $5K–$15K. Mid-complexity apps with admin UI and persistent data: $15K–$50K. Full internal systems with multi-role auth: $50K–$150K+."),
+            ("How do you scope custom web app work?",
+             "Simple integrations, mid-complexity apps, and full internal systems are scoped privately after the workflow is mapped."),
             ("Do you do React Native or mobile apps?",
              "No. We focus on web. We will recommend a mobile partner if mobile is critical to your build."),
             ("Can you maintain the app after launch?",
-             "Yes — most clients move to a retainer (10–40 hours/month) for ongoing feature work, bug fixes, and integration updates."),
+             "Yes — most clients move to a ongoing support (10–40 hours/month) for ongoing feature work, bug fixes, and integration updates."),
         ],
         "cta_label": "Brief us on your custom app",
     },
@@ -418,7 +418,7 @@ def render_brand_guide(nav, footer):
 
     <div class="type-sample">
       <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Monospace — JetBrains Mono</p>
-      <p style="font-family: var(--font-mono); font-size: 0.92rem; color: var(--ink); margin: 0;">// 1,000+ projects · 9 years · 100% JSS · $900K+ value</p>
+      <p style="font-family: var(--font-mono); font-size: 0.92rem; color: var(--ink); margin: 0;">// 1,000+ projects · 9 years · 100% JSS · high-volume client value</p>
     </div>
   </div>
 </section>

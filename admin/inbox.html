@@ -695,7 +695,7 @@
       s.email   ? `<div class="detail-row"><span class="detail-key">Email</span><span class="detail-val"><a href="mailto:${esc(s.email)}">${esc(s.email)}</a></span></div>` : '',
       s.url     ? `<div class="detail-row"><span class="detail-key">URL</span><span class="detail-val"><a href="${esc(s.url)}" target="_blank" rel="noopener">${esc(s.url)}</a></span></div>` : '',
       s.phone   ? `<div class="detail-row"><span class="detail-key">Phone</span><span class="detail-val">${esc(s.phone)}</span></div>` : '',
-      s.budget  ? `<div class="detail-row"><span class="detail-key">Budget</span><span class="detail-val">${esc(s.budget)}</span></div>` : '',
+      s.scope  ? `<div class="detail-row"><span class="detail-key">Scope</span><span class="detail-val">${esc(s.scope)}</span></div>` : '',
       `<div class="detail-row"><span class="detail-key">Source</span><span class="detail-val"><span class="list-item-source ${srcCls}">${srcLabel}</span></span></div>`,
       `<div class="detail-row"><span class="detail-key">Time</span><span class="detail-val">${fullTime(s._ts)}</span></div>`,
     ].filter(Boolean).join('');

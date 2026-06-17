@@ -19,7 +19,7 @@ const KEYWORDS = [
   { kw: 'ecommerce website redesign', title: 'The E-commerce Website Redesign Playbook: Avoid the Mistakes That Kill Conversions' },
   { kw: 'shopify plus agency UK', title: 'Finding the Best Shopify Plus Agency in the UK: A Buyer\'s Guide' },
   { kw: 'wordpress maintenance service', title: 'WordPress Maintenance: What\'s Actually Included and Why It Matters' },
-  { kw: 'shopify development cost', title: 'How Much Does Shopify Development Actually Cost? (Real Pricing Breakdown)' },
+  { kw: 'shopify development process', title: 'What a Serious Shopify Development Process Looks Like' },
   { kw: 'b2b website design', title: 'B2B Website Design in 2026: What Buyers Expect Before They Contact You' },
   { kw: 'ecommerce technical seo', title: 'Technical SEO for Ecommerce: The Complete Shopify & WooCommerce Checklist' },
   { kw: 'shopify checkout optimization', title: 'Shopify Checkout Optimization: 12 Tweaks That Reduce Cart Abandonment' },
@@ -34,7 +34,7 @@ const KEYWORDS = [
   { kw: 'website redesign checklist', title: 'The 40-Point Website Redesign Checklist You Need Before Going Live' },
   { kw: 'shopify theme customization', title: 'Shopify Theme Customization: What\'s Possible Without a Developer?' },
   { kw: 'web design for small business UK', title: 'Web Design for Small Business in the UK: What Actually Works in 2026' },
-  { kw: 'ecommerce website development cost', title: 'E-commerce Website Development Cost: Real Numbers for 2026' },
+  { kw: 'ecommerce website redesign process', title: 'E-commerce Website Redesign Process: What Serious Teams Plan First' },
   { kw: 'wordpress vs shopify for ecommerce', title: 'WordPress vs Shopify for E-commerce: The Definitive 2026 Comparison' },
 ];
 

@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260617b"
+CACHE_VER = "20260617c"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -146,28 +146,28 @@ POSTS = [
         "featured": True,
         "hook": "If you're about to hire a Shopify developer for the first time, you are about to make the most expensive decision of the year — and you almost certainly don't have the vocabulary yet to make it well.",
         "body": [
-            ("p", "I've spent nine years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The price tag has almost nothing to do with which outcome they got."),
+            ("p", "I've spent nine years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The scope tag has almost nothing to do with which outcome they got."),
             ("p", "This post is the screening playbook I wish every client had used before they reached me. It will not flatter the industry. It will save you a six-figure mistake."),
             ("h2", "The real Shopify developer rate market in 2026"),
             ("p", "Let's anchor reality before we discuss anything else. Here are the rate brackets you'll actually encounter:"),
             ("ul", [
-                "<strong>$10–$25/hour</strong> — Generalists from low-cost markets. Can install themes, do minor customizations, can't engineer. 70% of Upwork volume sits here. <em>Acceptable for: theme tweaks, content updates.</em>",
+                "<strong>$10–$25/hour</strong> — Generalists from low-effort markets. Can install themes, do minor customizations, can't engineer. 70% of Upwork volume sits here. <em>Acceptable for: theme tweaks, content updates.</em>",
                 "<strong>$25–$60/hour</strong> — Mid-level developers, mixed quality. The bracket where you most often get burned, because the work <em>looks</em> like senior work for the first two weeks. <em>Acceptable for: brand new stores on stock themes.</em>",
                 "<strong>$60–$120/hour</strong> — Senior independents and Top Rated Plus operators. Will do less but will do it right. Code reviews are clean, sections don't break, page speed actually improves. <em>Right for: anything you'll be running for 2+ years.</em>",
-                "<strong>$120–$250/hour</strong> — Shopify Plus specialists, agencies. Pay for scale, retainers, and a bench. <em>Right for: $5M+ stores, headless builds, B2B.</em>",
+                "<strong>$120–$250/hour</strong> — Shopify Plus specialists, agencies. Pay for scale, ongoing support, and a bench. <em>Right for: $5M+ stores, headless builds, B2B.</em>",
             ]),
-            ("p", "Anyone telling you a senior Shopify build will cost $500 is selling you a junior build in a senior wrapper. The cost of fixing that is, in my direct experience, 3–5x what doing it right the first time would have cost."),
+            ("p", "Anyone telling you a senior Shopify build will effort $500 is selling you a junior build in a senior wrapper. The effort of fixing that is, in my direct experience, 3–5x what doing it right the first time would have effort."),
             ("h2", "The 10 red flags I'd run from"),
             ("h3", "1. They say yes to everything in the first email"),
-            ("p", "A senior developer asks questions before quoting. A junior — or a sales-led shop — quotes immediately because they don't yet know what they don't know. If your first reply contains a price but zero clarifying questions, that's the entire signal you need."),
+            ("p", "A senior developer asks questions before quoting. A junior — or a sales-led shop — enquiries immediately because they don't yet know what they don't know. If your first reply contains a scope but zero clarifying questions, that's the entire signal you need."),
             ("h3", "2. No live URLs in the portfolio"),
             ("p", "Mockups and Behance shots don't count. You need three live URLs that you can open right now, click around, and verify still work. If the portfolio is screenshots only, the work either no longer exists or was never theirs to begin with."),
             ("h3", "3. They promise a launch date before scoping the work"),
-            ("p", "Junior pattern: \"I can launch in 2 weeks.\" Senior pattern: \"Two weeks of discovery before I'll quote a date.\" Real builds have unknowns. Anyone who pretends they don't has either never built a real store or is about to skip the parts you need most."),
+            ("p", "Junior pattern: \"I can launch in 2 weeks.\" Senior pattern: \"Two weeks of discovery before I'll enquiry a date.\" Real builds have unknowns. Anyone who pretends they don't has either never built a real store or is about to skip the parts you need most."),
             ("h3", "4. They want full payment upfront"),
             ("p", "Industry standard is 30–50% deposit, milestones, balance on launch. Anyone asking for 100% upfront is either inexperienced or planning to disappear. Both end the same way."),
             ("h3", "5. \"I'll use a page builder\""),
-            ("p", "If you ever plan to grow past $50K/month, page builders will slow your store down and lock you into the builder's pricing. PageFly and GemPages have their place — bare-bones stores that need to ship next week. They do not have a place in a build you'll run for years."),
+            ("p", "If you ever plan to grow past early traction/month, page builders will slow your store down and lock you into the builder's scoping. PageFly and GemPages have their place — bare-bones stores that need to ship next week. They do not have a place in a build you'll run for years."),
             ("h3", "6. No code samples on request"),
             ("p", "Ask: \"Can you send me a section.liquid file from a past project?\" A senior developer will redact client identifiers and send it within 24 hours. A junior will dodge or send something that's obviously copy-pasted from Shopify's docs."),
             ("h3", "7. They don't ask about hosting plan or app stack"),
@@ -205,16 +205,16 @@ POSTS = [
                 "Code quality is poor and they refuse to refactor when shown specifically what's wrong.",
                 "Communication windows shrink. Two-hour replies became 24-hour replies became radio silence.",
             ]),
-            ("p", "Eat the deposit. Hire someone else. The cost of staying in a bad engagement compounds — slower delivery, worse code, harder handoff. I have personally inherited 23 stores from developers a client should have fired in week two and didn't."),
+            ("p", "Eat the deposit. Hire someone else. The effort of staying in a bad engagement compounds — slower delivery, worse code, harder handoff. I have personally inherited 23 stores from developers a client should have fired in week two and didn't."),
             ("h2", "The honest summary"),
             ("p", "Hiring a Shopify developer well is a market-asymmetry problem. They've done 100 sales calls. You've done one. The five questions above and the ten red flags above flatten that asymmetry. Use them. If a developer is offended by the questions, that's the answer to every question you didn't ask."),
         ],
     },
     {
         "slug": "shopify-plus-vs-advanced-when-to-upgrade",
-        "title": "Shopify Plus vs Shopify Advanced: When the $2K/mo Jump Actually Pays",
-        "excerpt": "The honest math on when Shopify Plus earns its $2K/month premium — and the four signs you should stay on Advanced and save the cash for engineering instead.",
-        "meta": "Shopify Plus vs Advanced: when the $2K/month upgrade pays for itself, and when it's a tax on founders who got over-sold by sales reps. Real math from 14 migrations.",
+        "title": "Shopify Plus vs Shopify Advanced: When the Plus Jump Actually Makes Sense",
+        "excerpt": "The honest math on when Shopify Plus earns its heavier platform commitment — and the four signs you should stay on Advanced and save the cash for engineering instead.",
+        "meta": "Shopify Plus vs Advanced: when the Plus upgrade proves its value, and when it's a tax on founders who got over-sold by sales reps. Real math from 14 migrations.",
         "category": "Migration",
         "date": "2026-06-13",
         "readingTime": "9 min",
@@ -223,43 +223,43 @@ POSTS = [
         "funnelTo": "/services/shopify-plus-migration.html",
         "funnelLabel": "Shopify Plus Migration",
         "featured": False,
-        "hook": "Shopify Plus sales reps will tell you the upgrade pays for itself by $1M ARR. The math is more honest than that — and more nuanced.",
+        "hook": "Shopify Plus sales reps will tell you the upgrade proves its value by $1M ARR. The math is more honest than that — and more nuanced.",
         "body": [
-            ("p", "I've done 14 Shopify Plus migrations in the last five years. Some were obvious wins. Some, candidly, should never have happened — the founder upgraded because a rep said they should, and the only thing that changed was their monthly invoice. This post is the framework I now run every client through before they sign the Plus contract."),
+            ("p", "I've done 14 Shopify Plus migrations in the last five years. Some were obvious wins. Some, candidly, should never have happened — the founder upgraded because a rep said they should, and the only thing that changed was their monthly project record. This post is the framework I now run every client through before they sign the Plus contract."),
             ("h2", "What you're actually buying for $2,000/month"),
             ("p", "Plus is bundled. The headline features:"),
             ("ul", [
                 "<strong>Higher capacity</strong> — 200 inventory locations, 99.99% uptime SLA, dedicated infrastructure during BFCM.",
-                "<strong>B2B</strong> — Native B2B catalogs, tiered pricing, company accounts, draft orders at scale.",
+                "<strong>B2B</strong> — Native B2B catalogs, tiered scoping, company accounts, draft orders at scale.",
                 "<strong>Checkout extensibility</strong> — Custom checkout via Shopify Functions and checkout extensions (the only plan that allows real checkout customization in 2026).",
                 "<strong>Multi-store / multi-region</strong> — Up to 10 expansion stores under one contract for international or multi-brand.",
                 "<strong>Shopify Flow + Launchpad</strong> — Workflow automation and scheduled campaigns.",
-                "<strong>Lower transaction fees</strong> — Roughly 0.25% lower per transaction depending on payment method.",
+                "<strong>Lower checkout overhead</strong> — Roughly 0.25% lower per transaction depending on payment method.",
                 "<strong>Dedicated support</strong> — A Merchant Success Manager and faster ticket resolution.",
             ]),
             ("h2", "The actual break-even math"),
-            ("p", "Most founders calculate Plus break-even on transaction fee savings alone. That's the worst lens. The right lens is the <em>capability cost</em> — what would it cost you in engineering, lost revenue, or workarounds to do without each feature."),
+            ("p", "Most founders calculate Plus break-even on platform platform savings alone. That's the worst lens. The right lens is the <em>capability effort</em> — what would it effort you in engineering, lost revenue, or workarounds to do without each feature."),
             ("p", "Here's how I model it for clients:"),
-            ("pre", "Plus cost: $2,000/mo = $24,000/yr\n\nTransaction fee savings (at $2M/yr revenue, 0.25%): $5,000/yr\nB2B without Plus (custom apps, manual workflows): $15-30K/yr\nCheckout customization (Plus-only): $20-50K/yr in lift\nDedicated support during BFCM: $5-15K/yr risk reduction\nExpansion store savings (vs 5 separate plans): $10K/yr"),
+            ("pre", "Plus commitment: meaningful recurring platform overhead\n\nTransaction platform savings (at scale revenue, 0.25%): meaningful annual overhead\nB2B without Plus: custom apps and manual workflows\nCheckout customization: value depends on conversion volume\nDedicated support during BFCM: risk reduction during peak traffic\nExpansion stores: simpler multi-market operations"),
             ("p", "If you tick three of those five rows, the upgrade is a no-brainer. If you tick one and you're using it to justify the upgrade, you are being sold."),
             ("h2", "The four signs you should upgrade"),
             ("h3", "1. You sell B2B or are planning to"),
-            ("p", "Native Plus B2B is, candidly, the killer feature in 2026. Company accounts, tiered pricing per company, draft orders, payment terms — all native, all free with the plan. The custom build equivalent on Advanced costs $20K+ and never works as well."),
+            ("p", "Native Plus B2B is, candidly, the killer feature in 2026. Company accounts, tiered scoping per company, draft orders, account terms — all native, all free with the plan. The custom build equivalent on Advanced adds overhead a heavy engineering lift and never works as well."),
             ("h3", "2. You're hitting checkout customization limits"),
             ("p", "If your team has ever said \"can we add this field to checkout\" and the answer was \"no, that's Plus,\" and you've now hit that wall three times, the wall isn't moving. Plus is the move."),
             ("h3", "3. You're running 3+ stores under different brands or regions"),
-            ("p", "Five stores at $399/month Advanced = $1,995/month — basically the cost of Plus. Plus includes up to 10 expansion stores. Math is obvious."),
-            ("h3", "4. You're scaling past $5M and BFCM uptime matters"),
-            ("p", "Plus dedicates infrastructure during BFCM. Advanced shares pooled resources. At sub-$2M revenue, the pool is fine. At $5M+ where one hour of downtime is $50K, the dedicated SLA pays for itself in a single near-miss."),
+            ("p", "Multiple regional stores can make Plus operationally cleaner because expansion stores are included. The logic is obvious once you map the architecture."),
+            ("h3", "4. You are scaling hard and BFCM uptime matters"),
+            ("p", "Plus dedicates infrastructure during BFCM. Advanced shares pooled resources. At smaller scale, pooled resources can be fine. At high scale, the dedicated SLA proves its value in a single near-miss."),
             ("h2", "The four signs you should stay on Advanced"),
             ("h3", "1. You don't sell B2B and don't plan to"),
             ("p", "If B2B isn't on the 12-month roadmap, you've removed the single highest-ROI Plus feature."),
             ("h3", "2. Your checkout is fine"),
             ("p", "If you've never wished you could customize checkout — congratulations. You're using the strongest part of native Shopify. Don't upgrade for capability you won't use."),
-            ("h3", "3. You're under $2M ARR"),
-            ("p", "Under $2M, the transaction fee savings are too small to matter and the engineering you'd unlock could be paid for in cash with the $24K/year you'd otherwise hand to Shopify. I'd rather see that money in a senior developer than a higher plan."),
+            ("h3", "3. You are not at serious scale yet"),
+            ("p", "Before serious scale, the platform platform savings are too small to matter and the engineering you'd unlock could be paid for in cash with the a serious annual allocation you'd otherwise hand to Shopify. I'd rather see that money in a senior developer than a higher plan."),
             ("h3", "4. Your team isn't ready to use the features"),
-            ("p", "Plus gives you Flow, Launchpad, B2B. If nobody on your team will operationalize them in the next 90 days, you're paying $2K/month for features that sit dormant."),
+            ("p", "Plus gives you Flow, Launchpad, B2B. If nobody on your team will operationalize them in the next 90 days, you are carrying a heavier platform setup for features that sit dormant."),
             ("h2", "The migration timeline (Advanced → Plus)"),
             ("p", "Real timelines from my last five migrations:"),
             ("ul", [
@@ -288,7 +288,7 @@ POSTS = [
         "funnelTo": "/services/technical-seo-audit.html",
         "funnelLabel": "Technical SEO Audit",
         "featured": False,
-        "hook": "Most Shopify SEO advice you read online is content advice in a technical-SEO costume. This is the actual technical pass — the 32 checks I run before I'll write a single piece of content for a client.",
+        "hook": "Most Shopify SEO advice you read online is content advice in a technical-SEO effortume. This is the actual technical pass — the 32 checks I run before I'll write a single piece of content for a client.",
         "body": [
             ("p", "Shopify is a particular SEO beast. It does some things very well (clean URLs, automatic XML sitemaps, native canonicals) and some things terribly (faceted nav indexing, pagination handling, duplicate content from collection sorts, search-engine-unfriendly variant URLs). A real technical audit accounts for both."),
             ("p", "I run this checklist on every new Shopify engagement before I'll commit to a content or CRO plan. It usually takes 6–8 hours and surfaces 12–20 issues on the average store. Here it is, with the tools and target values."),
@@ -302,7 +302,7 @@ POSTS = [
                 "<strong>Pagination handling.</strong> ?page=2, ?page=3 should not self-canonical. Use rel=\"next\"/\"prev\" or noindex paginated pages.",
                 "<strong>Faceted nav handling.</strong> /collections/x?filter.v.option.size=L type URLs should be noindexed. This is the single biggest Shopify SEO leak.",
                 "<strong>Internal search pages.</strong> /search?q=… should be noindexed. Often these end up indexed by accident.",
-                "<strong>404 audit.</strong> Run a Screaming Frog crawl. Internal links pointing to 404s lose ranking signal and waste crawl budget.",
+                "<strong>404 audit.</strong> Run a Screaming Frog crawl. Internal links pointing to 404s lose ranking signal and waste crawl scope.",
             ]),
             ("h2", "Part 2: On-page SEO (checks 10–17)"),
             ("ol", [
@@ -317,7 +317,7 @@ POSTS = [
             ]),
             ("h2", "Part 3: Structured data (checks 18–23)"),
             ("ol", [
-                "<strong>Product schema.</strong> Every PDP needs Product schema with offers, price, availability, brand, ratings. Most themes ship a broken version.",
+                "<strong>Product schema.</strong> Every PDP needs Product schema with offers, scope, availability, brand, ratings. Most themes ship a broken version.",
                 "<strong>Organization schema.</strong> Homepage needs Organization with logo, name, sameAs (social profiles).",
                 "<strong>BreadcrumbList schema.</strong> Every page deeper than homepage needs breadcrumb schema.",
                 "<strong>WebSite schema with SearchAction.</strong> Enables the sitelinks search box in SERPs.",
@@ -356,20 +356,20 @@ POSTS = [
     {
         "slug": "freelance-shopify-developer-vs-agency",
         "title": "Freelance Shopify Developer vs Agency: What You Actually Pay For",
-        "excerpt": "Agencies pitch process, project managers, and scale. Freelancers pitch hands-on senior work. Here's what each model actually costs, when each one wins, and the hybrid most clients should consider.",
-        "meta": "Freelance Shopify developer vs agency — what each model actually costs, when each wins, and the hybrid most clients should consider before signing a contract.",
+        "excerpt": "Agencies pitch process, project managers, and scale. Freelancers pitch hands-on senior work. Here's what each model actually adds overhead, when each one wins, and the hybrid most clients should consider.",
+        "meta": "Freelance Shopify developer vs agency — what each model actually adds overhead, when each wins, and the hybrid most clients should consider before signing a contract.",
         "category": "Shopify",
         "date": "2026-06-15",
         "readingTime": "8 min",
         "primaryKeyword": "freelance shopify developer vs agency",
-        "secondaryKeyword": "shopify agency cost",
+        "secondaryKeyword": "shopify agency comparison",
         "funnelTo": "/services/shopify-development.html",
         "funnelLabel": "Shopify Development",
         "featured": False,
         "hook": "Every founder who has hired both knows the secret: you are rarely paying for the developer. You are paying for the layer of people sitting between you and the developer.",
         "body": [
             ("p", "I've worked inside agencies, built solo for nine years, and inherited dozens of stores from both kinds of teams. The right choice depends on which problem you actually have. Let me unpack the real difference."),
-            ("h2", "What an agency costs in 2026"),
+            ("h2", "What an agency adds overhead in 2026"),
             ("p", "A typical Shopify build at a mid-tier US/UK agency runs $30,000–$120,000. A Shopify Plus build at a top-tier agency runs $80,000–$300,000. Roughly half of that is engineering time. The other half is:"),
             ("ul", [
                 "Project manager hours (15–25% of total)",
@@ -379,15 +379,15 @@ POSTS = [
                 "Overhead, sales, office (the rest)",
             ]),
             ("p", "You are paying for a system. The system has real value if your build needs it. If it doesn't, you're paying for capacity you'll never touch."),
-            ("h2", "What a senior freelancer costs in 2026"),
-            ("p", "A senior independent Shopify developer at $80–$150/hour will build the same scope for $15,000–$50,000. That's a 50–60% discount on the agency price — not because the developer is worse, but because there is no project manager, no account manager, no overhead, no margin layer."),
+            ("h2", "What a senior freelancer adds overhead in 2026"),
+            ("p", "A senior independent Shopify developer at $80–$150/hour will build the same scope for $15,000–$50,000. That's a 50–60% discount on the agency scope — not because the developer is worse, but because there is no project manager, no account manager, no overhead, no margin layer."),
             ("p", "The trade-off: you are the project manager. You are the QA. If the freelancer gets sick, the project pauses. If you need 3 things at once, you have to sequence them."),
             ("h2", "When the agency model wins"),
             ("ul", [
                 "<strong>You have zero technical staff on your side.</strong> You need someone to manage the project for you because you can't.",
                 "<strong>The build is large and multi-disciplinary.</strong> Brand identity + photography + copy + dev + launch — you want one team accountable.",
                 "<strong>You need scale guarantees.</strong> Plus migrations under tight BFCM deadlines, or builds with strict compliance (HIPAA, PCI).",
-                "<strong>You'll have ongoing retainer needs.</strong> Continuous CRO, growth experiments, multi-store management — a bench helps.",
+                "<strong>You'll have ongoing ongoing support needs.</strong> Continuous CRO, growth experiments, multi-store management — a bench helps.",
                 "<strong>You're going to investor.</strong> \"We use [Agency]\" reads better in a deck than \"we use a freelancer.\" That's a real consideration whether you like it or not.",
             ]),
             ("h2", "When the senior freelancer model wins"),
@@ -395,17 +395,17 @@ POSTS = [
                 "<strong>You have a technical co-founder or in-house ops.</strong> You can manage scope and timeline without a PM layer.",
                 "<strong>Your build is engineering-heavy, low ambiguity.</strong> The brand is decided. The IA is decided. You need execution.",
                 "<strong>You want the actual developer accountable.</strong> No game of telephone through a PM. If something's wrong, you talk to the person fixing it.",
-                "<strong>You care about cost-of-ownership.</strong> Cleaner code, fewer cooks, simpler handoff to your in-house team later.",
+                "<strong>You care about effort-of-ownership.</strong> Cleaner code, fewer cooks, simpler handoff to your in-house team later.",
                 "<strong>You want speed.</strong> Senior freelancers ship faster than agencies because there's no meeting tax.",
             ]),
             ("h2", "The hybrid most clients should consider"),
-            ("p", "Most of my retainer clients use this structure:"),
+            ("p", "Most of my ongoing clients use this structure:"),
             ("ol", [
                 "<strong>Senior freelancer (me) — fractional CTO + lead engineer.</strong> Architecture, build, code review, weekly priorities.",
                 "<strong>One or two junior contractors I source for them.</strong> Content updates, theme tweaks, low-stakes work at $30/hour. Managed by me.",
                 "<strong>An agency on standby for surge capacity.</strong> Used 2–4 times a year for big launches.",
             ]),
-            ("p", "This structure costs 40–60% less than a full agency retainer, gives you senior accountability, and lets you scale up and down without ending relationships."),
+            ("p", "This structure adds overhead 40–60% less than a full agency ongoing support, gives you senior accountability, and lets you scale up and down without ending relationships."),
             ("h2", "Red flags in both models"),
             ("p", "Both agencies and freelancers can be the wrong hire. The red flags are different:"),
             ("p", "<strong>Agency red flags:</strong> The salesperson is brilliant and the people who actually do the work haven't been on a call. You'll meet them on day one of the engagement. By then it's too late."),
@@ -417,8 +417,8 @@ POSTS = [
     {
         "slug": "shopify-custom-app-vs-public-app",
         "title": "Custom Shopify App vs Private App vs Public App: Which One You Actually Need",
-        "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients — what each one costs, what each one limits, and which one wins for your situation.",
-        "meta": "Custom Shopify app vs private app vs public app — what each one costs, what each one limits, and which one is right for your situation, with examples.",
+        "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients — what each one adds overhead, what each one limits, and which one wins for your situation.",
+        "meta": "Custom Shopify app vs private app vs public app — what each one adds overhead, what each one limits, and which one is right for your situation, with examples.",
         "category": "Custom Apps",
         "date": "2026-06-16",
         "readingTime": "9 min",
@@ -441,7 +441,7 @@ POSTS = [
             ("h2", "When you need a custom app"),
             ("ul", [
                 "<strong>You need to automate internal ops.</strong> Order routing, inventory sync to external WMS, custom reporting, finance integrations.",
-                "<strong>You need workflows the App Store doesn't cover.</strong> A B2B catalog logic specific to your industry, a custom pricing engine for one client tier, an internal portal.",
+                "<strong>You need workflows the App Store doesn't cover.</strong> A B2B catalog logic specific to your industry, a custom scoping engine for one client tier, an internal portal.",
                 "<strong>You don't want to share data with a third party.</strong> Public apps require you to grant access to a third-party developer's database. Custom apps live entirely under your control.",
                 "<strong>You're already paying for 5+ apps that overlap.</strong> Often a single custom app replaces $300–$800/month of App Store subscriptions and pays itself back in 8–14 months.",
             ]),
@@ -452,14 +452,14 @@ POSTS = [
                 "<strong>You're OK with Shopify's revenue share.</strong> 0–15% depending on tier and revenue level.",
                 "<strong>You're committed to ongoing maintenance.</strong> Public apps must keep up with Shopify API changes, security reviews, and support tickets.",
             ]),
-            ("h2", "What custom apps actually cost"),
+            ("h2", "What custom apps actually effort"),
             ("p", "Here's a real range from the last two years of builds:"),
             ("ul", [
-                "<strong>Simple custom app</strong> ($5K–$15K) — single integration, one or two endpoints. Example: sync new orders to a Slack channel, or push orders into Xero.",
-                "<strong>Mid-complexity custom app</strong> ($15K–$50K) — multi-step workflow, admin UI inside Shopify, persistent data. Example: a B2B reorder portal with saved templates and tier pricing logic.",
-                "<strong>Enterprise custom app</strong> ($50K–$150K+) — full internal system. Example: end-to-end OMS integration with custom shipping logic, supplier portal, and inventory orchestration across 12 locations.",
+                "<strong>Simple custom app</strong> (privately scoped) — single integration, one or two endpoints. Example: sync new orders to a Slack channel, or push orders into Xero.",
+                "<strong>Mid-complexity custom app</strong> (privately scoped) — multi-step workflow, admin UI inside Shopify, persistent data. Example: a B2B reorder portal with saved templates and tier scoping logic.",
+                "<strong>Enterprise custom app</strong> (larger systems) — full internal system. Example: end-to-end OMS integration with custom shipping logic, supplier portal, and inventory orchestration across 12 locations.",
             ]),
-            ("p", "Maintenance is real. Budget 15–25% of build cost annually for keeping it up to date with Shopify API changes, bug fixes, and small feature requests."),
+            ("p", "Maintenance is real. Scope 15–25% of build effort annually for keeping it up to date with Shopify API changes, bug fixes, and small feature requests."),
             ("h2", "The decision tree I use with clients"),
             ("ol", [
                 "<strong>Does the App Store already have something that solves 80% of your need?</strong> Install it. Don't build.",
@@ -471,7 +471,7 @@ POSTS = [
             ("h2", "Common mistakes I see"),
             ("p", "<strong>Building a public app for a one-merchant use case.</strong> You'll spend 30% more on the build to handle multi-tenancy you don't need, and you'll then maintain a billing/auth/support stack for one customer."),
             ("p", "<strong>Choosing public because \"it's safer.\"</strong> Custom apps are not less safe. They're often safer — your data doesn't leave your control."),
-            ("p", "<strong>Trying to replicate an App Store app for $2K.</strong> If a public app does what you need and costs $30/month, install the public app. Building a worse version of it costs more in dev time than three years of the subscription."),
+            ("p", "<strong>Trying to replicate an App Store app for $2K.</strong> If a public app does what you need and adds overhead lower-tier, install the public app. Building a worse version of it adds overhead more in dev time than three years of the subscription."),
             ("h2", "The honest summary"),
             ("p", "Custom is right for merchant-specific internal tools. Public is right for products you want to commercialize. If you're confused about which one fits, the question to ask is: \"would I pay for this every month if someone else built it?\" Yes → public. No → custom. That's the whole framework."),
         ],
@@ -507,14 +507,14 @@ POSTS = [
             ("p", "UpdraftPlus and BackupBuddy default to running backup processes that can spike CPU during traffic peaks. Schedule backups for 3 AM in your store's timezone, not \"continuous.\""),
             ("h2", "The two server-side mistakes"),
             ("h3", "1. Cheap shared hosting"),
-            ("p", "If you're paying less than $30/month for WooCommerce hosting, your store is shared with 200 other sites. There is no amount of plugin optimization that fixes this. The fix is to move to managed WooCommerce hosting — Kinsta, WP Engine, SiteGround Cloud, Rocket.net, or a properly-configured DigitalOcean droplet. Budget $50–$200/month for hosting that doesn't bottleneck you."),
+            ("p", "If you're paying less than lower-tier for WooCommerce hosting, your store is shared with 200 other sites. There is no amount of plugin optimization that fixes this. The fix is to move to managed WooCommerce hosting — Kinsta, WP Engine, SiteGround Cloud, Rocket.net, or a properly-configured DigitalOcean droplet. Choose hosting that does not bottleneck you."),
             ("h3", "2. No object cache"),
             ("p", "WooCommerce queries the database aggressively. Redis or Memcached object caching keeps frequently-accessed data in memory and cuts database load by 60–80%. Most managed WooCommerce hosts include it. If yours doesn't, install it."),
             ("h2", "The fix that always works — the order of operations"),
             ("ol", [
                 "<strong>Move to managed WooCommerce hosting.</strong> Single biggest lever. Skip this step and the rest barely matters.",
                 "<strong>Install Redis object cache.</strong> Free, 10-minute install, 30–50% TTFB improvement instantly.",
-                "<strong>Install a real caching plugin.</strong> WP Rocket ($59/year) or LiteSpeed Cache (free if you're on LiteSpeed servers). Page caching, browser caching, GZip compression.",
+                "<strong>Install a real caching plugin.</strong> WP Rocket or LiteSpeed Cache if you are on LiteSpeed servers. Page caching, browser caching, GZip compression.",
                 "<strong>Audit plugin count.</strong> Healthy WooCommerce stores run 15–25 plugins. If yours is over 40, half are doing work for the other half. Deactivate, test, decide.",
                 "<strong>Optimize images.</strong> Install ShortPixel or Imagify. Set up automatic WebP conversion. Resize uploads to a max width of 2000px on upload.",
                 "<strong>Lazy load below-the-fold content.</strong> Native browser lazy loading works in modern browsers. Add <code>loading=\"lazy\"</code> to images below the fold.",
@@ -551,7 +551,7 @@ LOCATIONS = [
         "timezone": "EST/PST overlap",
         "hours": "9am–5pm EST and PST callable",
         "tagline": "for US-based DTC and B2B brands",
-        "marketNotes": "From Brooklyn coffee brands to Austin SaaS founders, the US market is where I do the majority of my work. Most of my retainer clients are US-based. I work in your timezone, in your business language, and I am fluent in your platform stack.",
+        "marketNotes": "From Brooklyn coffee brands to Austin SaaS founders, the US market is where I do the majority of my work. Most of my ongoing clients are US-based. I work in your timezone, in your business language, and I am fluent in your platform stack.",
     },
     {
         "code": "uk",
@@ -561,7 +561,7 @@ LOCATIONS = [
         "timezone": "GMT/BST",
         "hours": "9am–6pm GMT/BST callable",
         "tagline": "for UK ecommerce and editorial brands",
-        "marketNotes": "London editorial brands, Manchester DTC, Edinburgh B2B — I work weekly with UK clients across verticals. VAT-compliant invoicing, GDPR-aware data handling, and a familiarity with the cultural conventions of UK commerce.",
+        "marketNotes": "London editorial brands, Manchester DTC, Edinburgh B2B — I work weekly with UK clients across verticals. VAT-compliant account workflows, GDPR-aware data handling, and a familiarity with the cultural conventions of UK commerce.",
     },
     {
         "code": "au",
@@ -851,7 +851,7 @@ def render_location_page(loc, nav, footer):
   "description": "{meta}",
   "url": "{canonical}",
   "image": "{SITE}/assets/og.jpg?v=2",
-  "priceRange": "$$$",
+  "scopeRange": "$$$",
   "areaServed": {{ "@type": "Country", "name": "{loc['country']}" }},
   "serviceType": ["Shopify Development", "WooCommerce Development", "WordPress Development", "Shopify Plus Migration", "Speed Optimization"],
   "provider": {{
@@ -874,12 +874,12 @@ def render_location_page(loc, nav, footer):
     {{
       "@type": "Question",
       "name": "Do you work with {loc['demonym']} clients?",
-      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — a meaningful share of my retainer and project work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}." }}
+      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — a meaningful share of my launch and ongoing work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}." }}
     }},
     {{
       "@type": "Question",
-      "name": "What does a Shopify build for a {loc['demonym']} brand cost?",
-      "acceptedAnswer": {{ "@type": "Answer", "text": "A senior independent Shopify build typically runs ${{15,000–50,000 USD ({loc['currency']} equivalent at current rates)}}, depending on scope. Page builders and tiny stock-theme setups cost less. Shopify Plus migrations run higher." }}
+      "name": "What does a Shopify build for a {loc['demonym']} brand effort?",
+      "acceptedAnswer": {{ "@type": "Answer", "text": "A senior independent Shopify build typically runs ${{15,000–50,000 USD ({loc['currency']} equivalent at current rates)}}, depending on scope. Page builders and tiny stock-theme setups effort less. Shopify Plus migrations run higher." }}
     }},
     {{
       "@type": "Question",
@@ -889,7 +889,7 @@ def render_location_page(loc, nav, footer):
     {{
       "@type": "Question",
       "name": "Do you offer ongoing support after launch?",
-      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — retainer engagements start at 10 hours/month and scale up. Most clients move to retainer after launch for continued CRO, speed, and feature work." }}
+      "acceptedAnswer": {{ "@type": "Answer", "text": "Yes — many clients move into ongoing support after launch for continued CRO, speed, and feature work." }}
     }}
   ]
 }}
@@ -985,11 +985,11 @@ def render_location_page(loc, nav, footer):
     <div style="display: grid; gap: 2rem; max-width: 780px;">
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">Do you work with {loc['demonym']} clients?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — a meaningful share of my retainer and project work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}.</p>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — a meaningful share of my launch and ongoing work is with {loc['country']}-based clients across DTC, B2B, and editorial verticals. {loc['hours']}.</p>
       </div>
       <div data-reveal>
-        <h3 class="h-2" style="margin: 0 0 0.5rem;">What does a Shopify build for a {loc['demonym']} brand cost?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A senior independent Shopify build typically runs $15,000–$50,000 USD ({loc['currency']} equivalent at current rates), depending on scope. Stock theme setups cost less. Shopify Plus migrations run higher.</p>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">What does a Shopify build for a {loc['demonym']} brand effort?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A senior independent Shopify build typically runs $15,000–$50,000 USD ({loc['currency']} equivalent at current rates), depending on scope. Stock theme setups effort less. Shopify Plus migrations run higher.</p>
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">Can you handle {loc['currency']} payment processing?</h3>
@@ -997,11 +997,11 @@ def render_location_page(loc, nav, footer):
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">Do you offer ongoing support after launch?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — retainer engagements start at 10 hours/month and scale up. Most clients move to retainer after launch for continued CRO, speed, and feature work.</p>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Yes — many clients move into ongoing support after launch for continued CRO, speed, and feature work.</p>
       </div>
       <div data-reveal>
-        <h3 class="h-2" style="margin: 0 0 0.5rem;">How do invoicing and contracts work for {loc['country']}?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Contracts in USD with standard MSA + SOW structure. Payment via Wise, Stripe, or bank transfer in your local currency at conversion. Invoices monthly for retainers, milestone-based for projects.</p>
+        <h3 class="h-2" style="margin: 0 0 0.5rem;">How do account workflows and contracts work for {loc['country']}?</h3>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Standard MSA + SOW structure. Engagement administration is agreed before work begins, with the working rhythm documented in plain English.</p>
       </div>
     </div>
   </div>

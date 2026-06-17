@@ -80,7 +80,7 @@
       "slug": "mercanto",
       "name": "Mercanto",
       "tagline": "Wholesale food marketplace for Mexican restaurants",
-      "summary": "B2B marketplace connecting restaurants with verified ingredient and supply wholesalers \u2014 negotiated pricing, next-day delivery. Storefront, supplier portal and order pipeline built end-to-end as one product.",
+      "summary": "B2B marketplace connecting restaurants with verified ingredient and supply wholesalers \u2014 negotiated catalog terms, next-day delivery. Storefront, supplier portal and order pipeline built end-to-end as one product.",
       "url": "https://mercanto.mx",
       "image": "/assets/work/mercanto.jpg",
       "platform": "WordPress + WooCommerce",
@@ -301,7 +301,7 @@
       "slug": "pcinsurances",
       "name": "PC Insurances",
       "tagline": "Insurance broker website for the Irish market",
-      "summary": "Insurance-broker site for an Irish brokerage \u2014 clear product comparisons, quote requests routed by line of business, GDPR-compliant lead capture. WordPress build with a careful eye to compliance language and underwriter workflow.",
+      "summary": "Insurance-broker site for an Irish brokerage \u2014 clear product comparisons, project requests routed by line of business, GDPR-compliant lead capture. WordPress build with a careful eye to compliance language and underwriter workflow.",
       "url": "https://pcinsurances.ie",
       "image": "/assets/work/pcinsurances.jpg",
       "platform": "WordPress",
@@ -309,14 +309,14 @@
       "stack": [
         "WordPress",
         "Compliance copy",
-        "Quote routing"
+        "Lead routing"
       ],
       "metric": {
         "value": "GDPR",
-        "label": "GDPR-compliant lead capture and quote routing"
+        "label": "GDPR-compliant lead capture and lead routing"
       },
       "year": "2021",
-      "role": "Theme build \u00b7 Compliance design \u00b7 Quote flow",
+      "role": "Theme build \u00b7 Compliance design \u00b7 Enquiry flow",
       "featured": false,
       "published": true,
       "displayOrder": 12
@@ -325,7 +325,7 @@
       "slug": "lclover",
       "name": "LClover Knitwear",
       "tagline": "B2B knitwear wholesale platform",
-      "summary": "Wholesale B2B knitwear platform \u2014 line-sheet ordering, MOQ logic, and account-based pricing for retail buyers placing seasonal orders. Shopify-adjacent build with bespoke pricing rules and a polished line-sheet UX.",
+      "summary": "Wholesale B2B knitwear platform \u2014 line-sheet ordering, MOQ logic, and account-based scoping for retail buyers placing seasonal orders. Shopify-adjacent build with bespoke scoping rules and a polished line-sheet UX.",
       "url": "https://lcloverknitwearb2b.com",
       "image": "",
       "platform": "Shopify B2B",
@@ -333,14 +333,14 @@
       "stack": [
         "Shopify",
         "B2B tier",
-        "Pricing rules"
+        "Scoping rules"
       ],
       "metric": {
         "value": "MOQ",
-        "label": "Account-based pricing and MOQ logic for wholesale buyers"
+        "label": "Account-based scoping and MOQ logic for wholesale buyers"
       },
       "year": "2022",
-      "role": "Storefront build \u00b7 B2B tier \u00b7 Pricing logic",
+      "role": "Storefront build \u00b7 B2B tier \u00b7 Scoping logic",
       "featured": false,
       "published": false,
       "displayOrder": 13,
@@ -424,7 +424,7 @@
       "slug": "carreflections",
       "name": "Police Car Graphics",
       "tagline": "Specialty graphics for law-enforcement fleets",
-      "summary": "Specialty vehicle graphic design and decals for police and emergency-service fleets. WordPress build with a high-quality install gallery, a structured request-for-quote flow and case studies of past installs.",
+      "summary": "Specialty vehicle graphic design and decals for police and emergency-service fleets. WordPress build with a high-quality install gallery, a structured request flow and case studies of past installs.",
       "url": "https://carreflections.com",
       "image": "/assets/work/carreflections.jpg",
       "platform": "WordPress",
@@ -432,10 +432,10 @@
       "stack": [
         "WordPress",
         "Gallery",
-        "Quote system"
+        "Enquiry system"
       ],
       "metric": {
-        "value": "Quote-led",
+        "value": "Enquiry-led",
         "label": "Inquiry funnel tuned for high-ticket B2G procurement"
       },
       "year": "2023",
@@ -954,7 +954,7 @@
       "slug": "miferia-mx",
       "name": "MiFeria MX",
       "tagline": "Multi-vendor Shopify marketplace, Mexico",
-      "summary": "Multi-vendor Shopify marketplace for the Mexican market \u2014 vendor profile pages, gated pricing for non-logged-in users, and category navigation. Designed to scale as a regional B2B/B2C trade platform.",
+      "summary": "Multi-vendor Shopify marketplace for the Mexican market \u2014 vendor profile pages, gated catalog access for non-logged-in users, and category navigation. Designed to scale as a regional B2B/B2C trade platform.",
       "url": "https://miferiamx.myshopify.com",
       "image": "/assets/work/miferia-mx.jpg",
       "platform": "Shopify",
@@ -962,7 +962,7 @@
       "stack": [
         "Shopify",
         "Multi-vendor",
-        "Gated Pricing",
+        "Gated Scoping",
         "Custom Theme"
       ],
       "metric": {
@@ -980,7 +980,7 @@
       "slug": "4th-culture",
       "name": "4th Culture",
       "tagline": "Membership community with Discord and Stripe integration",
-      "summary": "WordPress membership site that connects paid subscribers to a Discord community via Whop API, using Stripe for checkout and WooCommerce webhooks to automate Discord role assignment. Seamless community access experience tied to payment.",
+      "summary": "WordPress membership site that connects subscribers to a Discord community via Whop API, using Stripe for checkout and WooCommerce webhooks to automate Discord role assignment. Seamless community access experience tied to payment.",
       "url": "",
       "image": "",
       "platform": "WordPress",
@@ -1137,7 +1137,7 @@
       "slug": "freeltools",
       "name": "FreelTools",
       "tagline": "Free tool suite for freelancers and agency owners",
-      "summary": "A growing collection of free browser-based tools for freelancers \u2014 invoice generators, rate calculators, proposal builders and more. Custom-built SaaS platform with zero friction access, no login required, designed to attract organic traffic from long-tail tool searches.",
+      "summary": "A growing collection of free browser-based tools for freelancers \u2014 document generators, rate calculators, proposal builders and more. Custom-built SaaS platform with zero friction access, no login required, designed to attract organic traffic from long-tail tool searches.",
       "url": "https://freeltools.com",
       "image": "/assets/work/freeltools.jpg",
       "platform": "Custom platform",
@@ -1310,23 +1310,23 @@
     {
       "slug": "expedited",
       "name": "Expedited",
-      "tagline": "Instant freight-quote tool for a logistics brokerage",
-      "summary": "Built a custom instant-quote tool for a US freight brokerage: customers enter two US addresses, the tool calculates distance and returns a price at an adjustable per-mile rate plus an estimated delivery date, then generates an on-screen contract to sign and book \u2014 modelled on the instant-quote flows of Coyote and J.B. Hunt.",
+      "tagline": "Instant freight request tool for a logistics brokerage",
+      "summary": "Built a custom instant request tool for a US freight brokerage: customers enter two US addresses, the tool calculates distance and returns a scope at an adjustable per-mile rate plus an estimated delivery date, then generates an on-screen contract to sign and book \u2014 modelled on the instant-enquiry flows of Coyote and J.B. Hunt.",
       "url": "https://expedited.co",
       "image": "",
       "platform": "Custom",
       "category": "Logistics \u00b7 Custom App",
       "stack": [
-        "Custom quote engine",
+        "Custom request engine",
         "WordPress",
         "Database"
       ],
       "metric": {
         "value": "Instant",
-        "label": "Quote-to-contract flow"
+        "label": "Request-to-contract flow"
       },
       "year": "2023",
-      "role": "Developer \u00b7 Custom quote & contract tool",
+      "role": "Developer \u00b7 Custom enquiry & contract tool",
       "featured": false,
       "published": true,
       "displayOrder": 52
@@ -1384,7 +1384,7 @@
       "slug": "webgonedigital",
       "name": "Web Gone Digital",
       "tagline": "Site for a digital marketing & web agency",
-      "summary": "Digital marketing and web-services agency. Built their WordPress site with service and maintenance sections, colourful pricing packages, subscription options and client testimonials \u2014 a clean shopfront for an agency selling design, marketing and ongoing care.",
+      "summary": "Digital marketing and web-services agency. Built their WordPress site with service and maintenance sections, colourful service sections, subscription options and client testimonials \u2014 a clean shopfront for an agency selling design, marketing and ongoing care.",
       "url": "https://webgonedigital.com",
       "image": "",
       "platform": "WordPress",
@@ -1392,7 +1392,7 @@
       "stack": [
         "WordPress",
         "Custom theme",
-        "Pricing & subscriptions"
+        "Services & subscriptions"
       ],
       "metric": {
         "value": "Packaged",
@@ -1601,7 +1601,7 @@
       "slug": "saltramrural",
       "name": "Saltram Rural",
       "tagline": "WooCommerce store with distance-based shipping",
-      "summary": "Australian rural-supplies store on WordPress/WooCommerce with a distance-based shipping calculator and a custom quote / purchase-order request flow built to integrate with Xero.",
+      "summary": "Australian rural-supplies store on WordPress/WooCommerce with a distance-based shipping calculator and a custom project request and purchase-order flow built to integrate with Xero.",
       "url": "https://saltramrural.com.au",
       "image": "",
       "platform": "WooCommerce",
@@ -1613,7 +1613,7 @@
       ],
       "metric": {
         "value": "Custom",
-        "label": "Shipping & quotes"
+        "label": "Shipping requests"
       },
       "year": "2023",
       "role": "WooCommerce Developer \u00b7 Build & setup",
@@ -1649,7 +1649,7 @@
       "slug": "planetautotransport",
       "name": "Planet Auto Transport",
       "tagline": "Lead-gen site for a US car-shipping company",
-      "summary": "US vehicle-shipping company; WordPress site with a multi-step quote lead form (origin/destination, vehicle make-model-year, trailer type) and Google Places address autocomplete.",
+      "summary": "US vehicle-shipping company; WordPress site with a multi-step lead request form (origin/destination, vehicle make-model-year, trailer type) and Google Places address autocomplete.",
       "url": "https://planetautotransport.com",
       "image": "",
       "platform": "WordPress",
@@ -1661,7 +1661,7 @@
       ],
       "metric": {
         "value": "Multi-step",
-        "label": "Quote lead form"
+        "label": "Lead request form"
       },
       "year": "2023",
       "role": "Developer \u00b7 WordPress build",
@@ -1793,14 +1793,14 @@
       "slug": "cellzi",
       "name": "Cellzi",
       "tagline": "Shopify store for a wholesale phone supplier",
-      "summary": "Brooklyn wholesale cell-phone supplier; Shopify storefront with bulk ordering, low minimums, About / Our Team pages and a request-a-quote flow.",
+      "summary": "Brooklyn wholesale cell-phone supplier; Shopify storefront with bulk ordering, low minimums, About / Our Team pages and a request flow.",
       "url": "https://cellzi.com",
       "image": "",
       "platform": "Shopify",
       "category": "B2B \u00b7 Wholesale",
       "stack": [
         "Shopify",
-        "Quote requests",
+        "Project requests",
         "B2B"
       ],
       "metric": {
@@ -1985,14 +1985,14 @@
       "slug": "therealmortgageexperts",
       "name": "The Real Mortgage Experts",
       "tagline": "Site for a mortgage brokerage",
-      "summary": "Mortgage broker; WordPress site with loan-option pages, prequalification and quote forms, a learning centre and team profiles.",
+      "summary": "Mortgage broker; WordPress site with loan-option pages, prequalification and project request forms, a learning centre and team profiles.",
       "url": "https://www.therealmortgageexperts.com",
       "image": "",
       "platform": "WordPress",
       "category": "Finance \u00b7 Mortgage",
       "stack": [
         "WordPress",
-        "Quote forms",
+        "Enquiry forms",
         "Learning centre"
       ],
       "metric": {
@@ -2009,7 +2009,7 @@
       "slug": "hawaiimortgageexperts",
       "name": "Hawaii Mortgage Experts",
       "tagline": "Mortgage brokerage site for Hawaii",
-      "summary": "Hawaii mortgage brokerage and sister site to The Real Mortgage Experts; WordPress build with a persistent Apply Online / Get a Quote bar and staff listings.",
+      "summary": "Hawaii mortgage brokerage and sister site to The Real Mortgage Experts; WordPress build with a persistent Apply Online / Get Started bar and staff listings.",
       "url": "https://www.hawaiimortgageexperts.com",
       "image": "",
       "platform": "WordPress",
@@ -2153,7 +2153,7 @@
       "slug": "outdoorlivingkitchens",
       "name": "Outdoor Living Kitchens",
       "tagline": "Dealer-enabled store for outdoor kitchens",
-      "summary": "Outdoor-kitchen cabinetry brand; WooCommerce site with dealer sign-up and approval, find-a-dealer, warranty and brochure pages, plus save-cart and request-a-quote.",
+      "summary": "Outdoor-kitchen cabinetry brand; WooCommerce site with dealer sign-up and approval, find-a-dealer, warranty and brochure pages, plus save-cart and request-a-enquiry.",
       "url": "https://outdoorlivingkitchens.com",
       "image": "",
       "platform": "WooCommerce",
@@ -2161,7 +2161,7 @@
       "stack": [
         "WooCommerce",
         "Dealer flow",
-        "Quotes"
+        "Enquiries"
       ],
       "metric": {
         "value": "Dealers",
@@ -2297,7 +2297,7 @@
       "slug": "packdistribution",
       "name": "Pack Distribution",
       "tagline": "Gated wholesale cosmetics store",
-      "summary": "B2B wholesale cosmetics distributor with gated pricing visible only to approved logged-in buyers and a sales-invoice checkout flow.",
+      "summary": "B2B wholesale cosmetics distributor with gated catalog access visible only to approved logged-in buyers and a sales-order checkout flow.",
       "url": "https://packdistribution.com",
       "image": "",
       "platform": "WooCommerce",
@@ -2305,11 +2305,11 @@
       "stack": [
         "WooCommerce",
         "B2B access",
-        "Invoicing"
+        "Account workflows"
       ],
       "metric": {
         "value": "B2B",
-        "label": "Gated pricing"
+        "label": "Gated catalog access"
       },
       "year": "2023",
       "role": "WooCommerce Developer \u00b7 Build & setup",
@@ -2560,8 +2560,8 @@
     {
       "slug": "bluecimarron",
       "name": "Blue Cimarron",
-      "tagline": "Partner programme for invoicing software",
-      "summary": "Invoicing-software company site with a partner referral programme, application form and partner dashboard built in Elementor.",
+      "tagline": "Partner programme for account workflows software",
+      "summary": "Account workflows-software company site with a partner referral programme, application form and partner dashboard built in Elementor.",
       "url": "https://www.bluecimarron.com",
       "image": "",
       "platform": "WordPress + Elementor",
@@ -2968,8 +2968,8 @@
     {
       "slug": "myfixxy",
       "name": "MyFixxy",
-      "tagline": "Auto-repair site with a React price configurator",
-      "summary": "WordPress site with a React-built configurator where users pick vehicle make and model to see pricing, embedded into the landing experience.",
+      "tagline": "Auto-repair site with a React scope configurator",
+      "summary": "WordPress site with a React-built configurator where users pick vehicle make and model to see scoping, embedded into the landing experience.",
       "url": "https://myfixxy.com",
       "image": "",
       "platform": "WordPress",
@@ -2981,7 +2981,7 @@
       ],
       "metric": {
         "value": "Custom",
-        "label": "Price configurator"
+        "label": "Scope configurator"
       },
       "year": "2025",
       "role": "Developer \u00b7 WordPress build",

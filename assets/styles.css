@@ -1441,7 +1441,7 @@ details.faq .faq-body {
   overflow: hidden;
 }
 
-/* ── Pull-quote ── */
+/* ── Pull statement ── */
 .pullquote {
   font-family: var(--font-serif);
   font-style: italic;
@@ -2433,7 +2433,7 @@ details.faq .faq-body {
   color: var(--ink);
 }
 
-.essay-side-quote {
+.essay-side-note {
   font-family: var(--font-serif);
   font-style: italic;
   font-weight: 400;
@@ -2578,7 +2578,7 @@ details.faq .faq-body {
 .essay-para em { font-style: italic; color: var(--ink); }
 .essay-para strong { font-weight: 600; color: var(--ink); }
 
-/* ── Pull quote ── */
+/* ── Pull statement ── */
 .essay-pull {
   position: relative;
   margin: 3rem 0 2.5rem;

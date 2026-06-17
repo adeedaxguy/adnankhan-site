@@ -84,7 +84,7 @@
         <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
 
         <div id="chatQuick" class="chat-quick">
-          <button type="button" class="chat-chip" data-q="What does a typical Shopify build cost?">What does a build cost?</button>
+          <button type="button" class="chat-chip" data-q="What does a typical Shopify build effort?">What does a build effort?</button>
           <button type="button" class="chat-chip" data-q="What's your process for a new project?">What&rsquo;s the process?</button>
           <button type="button" class="chat-chip" data-q="Can you migrate my store to Shopify Plus?">Plus migration?</button>
           <button type="button" class="chat-chip" data-q="I'd like to book a call with Adnan.">Book a call</button>
@@ -92,7 +92,7 @@
 
         <form id="chatForm" class="chat-form" autocomplete="off">
           <label class="sr-only" for="chatInput">Type a message</label>
-          <input id="chatInput" type="text" placeholder="Ask anything &mdash; pricing, process, scope&hellip;" required maxlength="600" />
+          <input id="chatInput" type="text" placeholder="Ask anything &mdash; scoping, process, scope&hellip;" required maxlength="600" />
           <button type="submit" class="chat-send" aria-label="Send message">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
           </button>
@@ -177,7 +177,7 @@
     function popTyping() { document.getElementById('chatTyping')?.remove(); }
 
     function bootGreeting() {
-      pushAssistant("Hi &mdash; I'm Adnan's assistant. Ask me about pricing, process, or specific platform questions. If it's a fit I'll point you at the booking form. What's on your mind?", { html: true });
+      pushAssistant("Hi &mdash; I'm Adnan's assistant. Ask me about scoping, process, or specific platform questions. If it's a fit I'll point you at the booking form. What's on your mind?", { html: true });
     }
 
     async function sendToAI(userText) {
