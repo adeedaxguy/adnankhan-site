@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260613v"
+CACHE_VER = "20260617b"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -72,27 +72,124 @@ def service_for(platform: str):
 
 
 def title_for(item: dict) -> str:
-    """SEO title: [Service] Case Study: [Client] — [Outcome] | Adnan K."""
+    """SEO title: [Client] Case Study — [Service] | Lofts Studio."""
     _, svc = service_for(item.get("platform", ""))
     name = item["name"]
-    tagline = item.get("tagline", "")
-    # Keep under ~60 chars: truncate tagline portion if needed
-    base = f"{svc} Case Study: {name}"
-    suffix = " | Adnan K."
+    base = f"{name} Case Study — {svc}"
+    suffix = " | Lofts Studio"
     if len(base) + len(suffix) <= 60:
         return base + suffix
-    return f"{name} — {svc} Case Study | Adnan K."
+    return f"{name} Case Study | Lofts Studio"
 
 
 def meta_desc_for(item: dict) -> str:
     """SEO meta description — unique per project, under 155 chars."""
-    _, svc = service_for(item.get("platform", ""))
     name = item["name"]
     tagline = item.get("tagline", "")
-    year = item.get("year", "")
-    # Template: "How Adnan K. delivered [tagline] for [name] ({year}). [svc] expert, 307+ builds delivered."
-    base = f"How Adnan K. built {name} — {tagline} ({year}). Shopify & WordPress expert, 307+ builds delivered, 100% JSS."
-    return base[:155]
+    platform = item.get("platform", "")
+    category = item.get("category", "")
+    base = f"{name} case study by Lofts Studio: {tagline}. {platform} project for {category}."
+    return base[:155].rstrip(" ,.;:-") + ("." if len(base) > 155 else "")
+
+
+def abs_url(path: str) -> str:
+    if not path:
+        return f"{SITE_URL}/assets/og.jpg?v=2"
+    if path.startswith("http://") or path.startswith("https://"):
+        return path
+    return f"{SITE_URL}{path if path.startswith('/') else '/' + path}"
+
+
+def app_schema_type(item: dict) -> str:
+    text = " ".join([
+        item.get("platform", ""),
+        item.get("category", ""),
+        " ".join(item.get("stack") or []),
+    ]).lower()
+    if any(k in text for k in ["app", "saas", "crm", "ai", "lms", "platform", "automation"]):
+        return "WebApplication"
+    return "WebSite"
+
+
+def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -> str:
+    slug = item["slug"]
+    name = item["name"]
+    url = item.get("url") or f"{SITE_URL}/portfolio/{slug}.html"
+    app_type = app_schema_type(item)
+    app_node_id = f"{SITE_URL}/portfolio/{slug}.html#project"
+    graph = {
+        "@context": "https://schema.org",
+        "@graph": [
+            {
+                "@type": "Organization",
+                "@id": f"{SITE_URL}/#organization",
+                "name": "Lofts Studio",
+                "url": f"{SITE_URL}/",
+                "logo": f"{SITE_URL}/assets/brand/logo-mark.svg",
+                "sameAs": [
+                    "https://www.upwork.com/freelancers/wordpressandshopifydeveloper",
+                    "https://www.upwork.com/freelancers/irfankhan",
+                ],
+            },
+            {
+                "@type": "WebSite",
+                "@id": f"{SITE_URL}/#website",
+                "name": "Lofts Studio",
+                "url": f"{SITE_URL}/",
+                "publisher": {"@id": f"{SITE_URL}/#organization"},
+                "inLanguage": "en",
+            },
+            {
+                "@type": "BreadcrumbList",
+                "@id": f"{SITE_URL}/portfolio/{slug}.html#breadcrumb",
+                "itemListElement": [
+                    {"@type": "ListItem", "position": 1, "name": "Home", "item": f"{SITE_URL}/"},
+                    {"@type": "ListItem", "position": 2, "name": "Portfolio", "item": f"{SITE_URL}/portfolio/"},
+                    {"@type": "ListItem", "position": 3, "name": name, "item": f"{SITE_URL}/portfolio/{slug}.html"},
+                ],
+            },
+            {
+                "@type": app_type,
+                "@id": app_node_id,
+                "name": name,
+                "url": url,
+                "description": f"{item.get('tagline', '')}. {item.get('summary', '')}".strip(),
+            },
+            {
+                "@type": "CreativeWork",
+                "@id": f"{SITE_URL}/portfolio/{slug}.html#case-study",
+                "name": f"{name} case study",
+                "headline": f"{name} Case Study",
+                "description": page_desc,
+                "url": f"{SITE_URL}/portfolio/{slug}.html",
+                "image": abs_url(og_image),
+                "dateCreated": str(item.get("year", "")),
+                "creator": {"@id": f"{SITE_URL}/#organization"},
+                "about": {"@id": app_node_id},
+                "keywords": kw_list + [name, item.get("platform", ""), item.get("category", "")],
+            },
+            {
+                "@type": "WebPage",
+                "@id": f"{SITE_URL}/portfolio/{slug}.html#webpage",
+                "url": f"{SITE_URL}/portfolio/{slug}.html",
+                "name": title_for(item),
+                "description": page_desc,
+                "isPartOf": {"@id": f"{SITE_URL}/#website"},
+                "publisher": {"@id": f"{SITE_URL}/#organization"},
+                "breadcrumb": {"@id": f"{SITE_URL}/portfolio/{slug}.html#breadcrumb"},
+                "mainEntity": {"@id": f"{SITE_URL}/portfolio/{slug}.html#case-study"},
+                "primaryImageOfPage": abs_url(og_image),
+                "significantLink": [
+                    f"{SITE_URL}/portfolio/",
+                    f"{SITE_URL}{service_for(item.get('platform', ''))[0]}",
+                    f"{SITE_URL}/free-audit/",
+                    f"{SITE_URL}/#contact",
+                ],
+                "inLanguage": "en",
+            },
+        ],
+    }
+    return json.dumps(graph, ensure_ascii=False, indent=2)
 
 
 def get_next_item(items, current_slug):
@@ -142,7 +239,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <div class="container" data-reveal>
     <div style="border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--bg-soft);">
       <a href="{url}" target="_blank" rel="noopener" aria-label="Visit {name} live site">
-        <img src="{image}" alt="{name} homepage screenshot — {platform} project by Adnan K." loading="lazy" decoding="async" style="display:block;width:100%;height:auto;" />
+        <img src="{image}" alt="{name} homepage screenshot — {platform} project by Lofts Studio" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;" />
       </a>
     </div>
     <p style="text-align:center;font-family:var(--font-sans);font-size:0.78rem;color:var(--muted);margin:1.25rem 0 0;letter-spacing:0.01em;">
@@ -185,40 +282,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 
     og_image = image if image else "/assets/og.jpg?v=2"
 
-    # ── BreadcrumbList schema ─────────────────────────────────────────────────
-    breadcrumb_schema = f'''{{
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    {{"@type":"ListItem","position":1,"name":"Home","item":"{SITE_URL}/"}},
-    {{"@type":"ListItem","position":2,"name":"Portfolio","item":"{SITE_URL}/portfolio/"}},
-    {{"@type":"ListItem","position":3,"name":"{name}","item":"{SITE_URL}/portfolio/{slug}.html"}}
-  ]
-}}'''
-
-    # ── CreativeWork schema ───────────────────────────────────────────────────
-    cw_schema = f'''{{
-  "@context": "https://schema.org",
-  "@type": "CreativeWork",
-  "name": "{name}",
-  "description": "{tagline}. {summary[:200]}",
-  "url": "{SITE_URL}/portfolio/{slug}.html",
-  "image": "{SITE_URL}{og_image}",
-  "dateCreated": "{year}",
-  "keywords": "{kw_str}",
-  "creator": {{
-    "@type": "Person",
-    "name": "Adnan K.",
-    "url": "{SITE_URL}",
-    "jobTitle": "Shopify & WordPress Developer",
-    "knowsAbout": ["Shopify Development","WooCommerce Development","WordPress Development","Elementor","CRO","Speed Optimization"]
-  }},
-  "about": {{
-    "@type": "WebSite",
-    "name": "{name}",
-    "url": "{url if url else SITE_URL}"
-  }}
-}}'''
+    schema_graph = schema_graph_for(item, page_desc, og_image, kws)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -227,9 +291,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{page_title}</title>
 <meta name="description" content="{page_desc}" />
-<meta name="keywords" content="{kw_str}, {name}, {platform}, {category}" />
 <link rel="canonical" href="{SITE_URL}/portfolio/{slug}.html" />
-<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
 
 <!-- Open Graph -->
 <meta property="og:type" content="article" />
@@ -255,8 +318,9 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
 
-<script type="application/ld+json">{breadcrumb_schema}</script>
-<script type="application/ld+json">{cw_schema}</script>
+<script type="application/ld+json">
+{schema_graph}
+</script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
@@ -476,14 +540,13 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Shopify & WordPress Portfolio — {total} Case Studies | Adnan K.</title>
-<meta name="description" content="Browse {total} live client projects by Adnan K. — Shopify, WooCommerce & WordPress developer with 9 years experience, 307+ builds delivered. Filter by platform, category, or stack." />
-<meta name="keywords" content="Shopify developer portfolio, WooCommerce case studies, WordPress developer work, hire Shopify developer, ecommerce developer portfolio, Adnan K." />
+<title>Portfolio — {total} Web, Shopify & App Case Studies | Lofts Studio</title>
+<meta name="description" content="Browse {total} Lofts Studio case studies across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
 <link rel="canonical" href="{SITE_URL}/portfolio/" />
 <meta name="robots" content="index,follow" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Portfolio — {total} Case Studies | Adnan K." />
-<meta property="og:description" content="{total} live projects — Shopify, WooCommerce & WordPress. 307+ builds delivered in 9 years." />
+<meta property="og:title" content="Portfolio — {total} Web, Shopify & App Case Studies | Lofts Studio" />
+<meta property="og:description" content="{total} live Lofts Studio projects across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
 <meta property="og:url" content="{SITE_URL}/portfolio/" />
 <meta property="og:image" content="{SITE_URL}/assets/og.jpg?v=2" />
 
@@ -501,8 +564,8 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 {{
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "Portfolio — Adnan K.",
-  "description": "Every live client project from nine years of Shopify and WooCommerce work.",
+  "name": "Lofts Studio Portfolio",
+  "description": "A collection of Lofts Studio case studies across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds.",
   "url": "{SITE_URL}/portfolio/",
   "mainEntity": {{
     "@type": "ItemList",
