@@ -540,13 +540,13 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Portfolio — {total} Web, Shopify & App Case Studies | Lofts Studio</title>
-<meta name="description" content="Browse {total} Lofts Studio case studies across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
+<title>Portfolio — Web, Shopify & App Case Studies | Lofts Studio</title>
+<meta name="description" content="A curated public archive from Lofts Studio: selected shipped work across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
 <link rel="canonical" href="{SITE_URL}/portfolio/" />
 <meta name="robots" content="index,follow" />
 <meta property="og:type" content="website" />
-<meta property="og:title" content="Portfolio — {total} Web, Shopify & App Case Studies | Lofts Studio" />
-<meta property="og:description" content="{total} live Lofts Studio projects across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
+<meta property="og:title" content="Portfolio — Web, Shopify & App Case Studies | Lofts Studio" />
+<meta property="og:description" content="A curated public archive from Lofts Studio: selected shipped work across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds." />
 <meta property="og:url" content="{SITE_URL}/portfolio/" />
 <meta property="og:image" content="{SITE_URL}/assets/og.jpg?v=2" />
 
@@ -569,7 +569,6 @@ def render_listing(items: list, nav: str, footer: str) -> str:
   "url": "{SITE_URL}/portfolio/",
   "mainEntity": {{
     "@type": "ItemList",
-    "numberOfItems": {total},
     "itemListElement": [
 {schema_str}
     ]
@@ -586,15 +585,14 @@ def render_listing(items: list, nav: str, footer: str) -> str:
     <div data-reveal style="max-width:940px;">
       <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2017&ndash;present</span>
       <h1 class="h-display" data-split="words" style="margin-top:1.5rem;">
-        {total} live projects. <span class="italic-serif">Every one launched.</span>
+        A curated public archive. <span class="italic-serif">Every project here launched.</span>
       </h1>
       <p class="lead" style="margin-top:2rem;">
-        Nine years. Three hundred and seven builds. Below are the {total} I can show publicly — DTC, B2B, marketplaces, subscription, insurance, editorial. All have full case studies with live URLs you can open right now.
+        This is the work I can show publicly, not the full body of work. Across 1,500+ projects handled for a much larger client base, the pattern is simple: clear scope, senior execution, shipped sites that survive real traffic.
       </p>
       <div class="hero-stats">
-        <div class="hero-stat"><div class="bignum"><span data-count="307">307</span></div><div class="hero-stat-lbl">Builds delivered</div></div>
-        <div class="hero-stat"><div class="bignum">{total}</div><div class="hero-stat-lbl">Public case studies</div></div>
-        <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Single-operator</div></div>
+        <div class="hero-stat"><div class="bignum">1,500<span class="bignum-suffix">+</span></div><div class="hero-stat-lbl">Projects handled</div></div>
+        <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Client work</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
       </div>
     </div>
