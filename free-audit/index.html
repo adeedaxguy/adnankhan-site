@@ -88,11 +88,11 @@
     .audit-error strong { color: var(--ink); display: block; margin-bottom: 0.5rem; font-size: 1rem; }
 
     /* Results wrapper */
-    .audit-results { display: none; max-width: 840px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    .audit-results { display: none; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
     .audit-results.show { display: block; }
 
     /* Score card */
-    .score-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 2rem; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; margin-bottom: 1.25rem; box-shadow: 0 4px 20px rgba(26,22,18,0.06); }
+    .score-card { background: #FFFFFF; border: 1px solid #D8D0C6; border-radius: 12px; padding: 1.6rem; display: grid; grid-template-columns: auto 1fr; gap: 1.5rem; align-items: center; margin-bottom: 1rem; box-shadow: 0 18px 42px rgba(26,22,18,0.08); }
     @media (max-width: 520px) { .score-card { grid-template-columns: 1fr; text-align: center; } }
     .score-ring { width: 100px; height: 100px; position: relative; flex-shrink: 0; }
     .score-ring svg { transform: rotate(-90deg); }
@@ -108,37 +108,42 @@
     .pill-red   { background: #FEE2E2; color: #991B1B; }
 
     /* Category mini-scores */
-    .cat-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .cat-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 0.75rem; margin-bottom: 1.25rem; }
     @media (max-width: 600px) { .cat-scores { grid-template-columns: repeat(2, 1fr); } }
-    .cat-score-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; text-align: center; }
+    .cat-score-card { background: #FFFFFF; border: 1px solid #D8D0C6; border-radius: 9px; padding: 0.85rem 1rem; text-align: center; box-shadow: 0 8px 22px rgba(26,22,18,0.045); }
     .cat-score-num { font-size: 1.4rem; font-weight: 700; line-height: 1; margin-bottom: 3px; }
     .cat-score-name { font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); }
     .cat-score-bar { height: 3px; border-radius: 2px; background: var(--line); margin-top: 6px; overflow: hidden; }
     .cat-score-fill { height: 100%; border-radius: 2px; transition: width 0.6s ease; }
-    .cat-technical .cat-score-num, .cat-technical .cat-score-fill { color: #1E40AF; background: #3B82F6; }
-    .cat-seo       .cat-score-num, .cat-seo       .cat-score-fill { color: #065F46; background: #10B981; }
-    .cat-perf      .cat-score-num, .cat-perf      .cat-score-fill { color: #92400E; background: #F59E0B; }
-    .cat-design    .cat-score-num, .cat-design    .cat-score-fill { color: #7C2D12; background: #EA580C; }
-    .cat-trust     .cat-score-num, .cat-trust     .cat-score-fill { color: #6B21A8; background: #8B5CF6; }
+    .cat-technical .cat-score-num { color: #1E40AF; }
+    .cat-seo       .cat-score-num { color: #065F46; }
+    .cat-perf      .cat-score-num { color: #92400E; }
+    .cat-design    .cat-score-num { color: #7C2D12; }
+    .cat-trust     .cat-score-num { color: #6B21A8; }
+    .cat-technical .cat-score-fill { background: #3B82F6; }
+    .cat-seo       .cat-score-fill { background: #10B981; }
+    .cat-perf      .cat-score-fill { background: #F59E0B; }
+    .cat-design    .cat-score-fill { background: #EA580C; }
+    .cat-trust     .cat-score-fill { background: #8B5CF6; }
 
     /* Client report */
-    .report-card { background: linear-gradient(180deg, #FFFCF8 0%, var(--surface) 100%); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 12px 34px rgba(26,22,18,0.08); }
-    .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
-    .report-kicker { font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 0.4rem; }
+    .report-card { background: #FFFFFF; border: 1px solid #D8D0C6; border-top: 4px solid var(--ink); border-radius: 12px; padding: 1.45rem; margin-bottom: 1.5rem; box-shadow: 0 18px 44px rgba(26,22,18,0.08); }
+    .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; padding-bottom: 1rem; border-bottom: 1px solid #E5DED5; }
+    .report-kicker { font-size: 0.64rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 0.4rem; }
     .report-head h3 { font-family: var(--font-serif); font-size: 1.3rem; line-height: 1.15; margin-bottom: 0.45rem; }
     .report-head p { color: var(--muted); font-size: 0.86rem; line-height: 1.6; max-width: 590px; }
     .report-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
-    .report-btn { display: inline-flex; align-items: center; gap: 7px; padding: 0.7rem 1rem; border-radius: 9px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: var(--font-sans); white-space: nowrap; }
+    .report-btn { display: inline-flex; align-items: center; gap: 7px; padding: 0.72rem 1rem; border-radius: 8px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: 0.82rem; font-weight: 700; cursor: pointer; font-family: var(--font-sans); white-space: nowrap; box-shadow: 0 8px 18px rgba(26,22,18,0.12); }
     .report-btn:hover { background: var(--accent); border-color: var(--accent); }
     .exec-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; margin-bottom: 1rem; }
-    .exec-pill { border: 1px solid var(--line); border-radius: 12px; background: #FFFFFF; padding: 0.85rem; min-height: 92px; }
+    .exec-pill { border: 1px solid #D8D0C6; border-radius: 9px; background: #FFFFFF; padding: 0.9rem; min-height: 92px; }
     .exec-pill strong { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.11em; color: var(--muted); margin-bottom: 0.35rem; }
     .exec-pill span { display: block; font-size: 0.82rem; line-height: 1.45; color: var(--ink); }
     .exec-pill.risk { border-color: #FECACA; background: #FFF1F2; }
     .exec-pill.trust { border-color: #BFDBFE; background: #EFF6FF; }
     .exec-pill.growth { border-color: #A7F3D0; background: #ECFDF5; }
     .opportunity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin: 1rem 0; }
-    .opp-card { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; background: #FFFFFF; position: relative; overflow: hidden; }
+    .opp-card { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: #FFFFFF; position: relative; overflow: hidden; }
     .opp-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--opp); }
     .opp-card.risk { --opp: #DC2626; background: #FFF1F2; border-color: #FECACA; }
     .opp-card.trust { --opp: #2563EB; background: #EFF6FF; border-color: #BFDBFE; }
@@ -151,7 +156,7 @@
     .opp-card .opp-why { color: var(--muted); }
     .report-subtitle { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.13em; font-weight: 800; color: var(--muted); margin: 1rem 0 0.6rem; }
     .before-after-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-bottom: 1rem; }
-    .ba-panel { border: 1px solid var(--line); border-radius: 12px; padding: 1rem; background: var(--bg); }
+    .ba-panel { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: var(--bg); }
     .ba-panel.before { background: #FFF7ED; border-color: #FED7AA; }
     .ba-panel.after { background: #ECFDF5; border-color: #A7F3D0; }
     .ba-panel h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.65rem; }
@@ -160,10 +165,10 @@
     .ba-panel li::before, .report-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
     .ba-panel.after li::before { background: #059669; }
     .report-columns { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 0.9rem; margin-top: 1rem; }
-    .report-mini { border: 1px solid var(--line); border-radius: 12px; padding: 1rem; background: #FFFFFF; }
+    .report-mini { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: #FFFFFF; }
     .report-mini h4 { font-size: 0.78rem; margin-bottom: 0.65rem; }
     .action-list { display: grid; gap: 0.7rem; }
-    .action-item { border: 1px solid var(--line); border-radius: 12px; padding: 0.85rem; background: #FFFFFF; }
+    .action-item { border: 1px solid #D8D0C6; border-radius: 10px; padding: 0.85rem; background: #FFFFFF; }
     .action-item.critical { border-color: #FECACA; background: #FFF1F2; }
     .action-item.high { border-color: #FED7AA; background: #FFF7ED; }
     .action-item.medium { border-color: #BFDBFE; background: #EFF6FF; }
@@ -550,7 +555,7 @@ function buildReportPreview(report, linkAudit, technicalData) {
         <div class="report-actions">
           <button type="button" class="report-btn" onclick="downloadAuditReport()">
             <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-            Download report
+            Download PDF report
           </button>
         </div>
       </div>
@@ -566,7 +571,7 @@ function buildReportPreview(report, linkAudit, technicalData) {
           </div>
           <p><strong>Finding:</strong> ${esc(card.finding)}</p>
           <p class="opp-why"><strong>Why it matters:</strong> ${esc(card.why)}</p>
-          <p><strong>Best next move:</strong> ${esc(card.action)}</p>
+          <p><strong>Best next move:</strong> ${esc(cleanClientText(card.action))}</p>
         </div>`).join('')}
       </div>
       <div class="report-subtitle">Before vs after working on this site</div>
@@ -583,14 +588,14 @@ function buildReportPreview(report, linkAudit, technicalData) {
       <div class="report-columns">
         <div class="report-mini">
           <h4>Design and sales opportunities</h4>
-          <ul class="report-list">${design.slice(0, 5).map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+          <ul class="report-list">${design.slice(0, 5).map(item => `<li>${esc(cleanClientText(item))}</li>`).join('')}</ul>
         </div>
         <div class="report-mini">
           <h4>First fixes to discuss</h4>
           <div class="action-list">${actions.slice(0, 4).map(item => `<div class="action-item ${safeClass(item.impact)}">
             <div class="action-top"><div class="action-title">${esc(item.title || item.label)}</div><span class="action-impact">${esc(item.impact || 'review')}</span></div>
             <p><strong>Why:</strong> ${esc(item.why || item.value || '')}</p>
-            <p><strong>Move:</strong> ${esc(item.action || item.recommendation || '')}</p>
+            <p><strong>Move:</strong> ${esc(cleanClientText(item.action || item.recommendation || ''))}</p>
           </div>`).join('')}</div>
         </div>
       </div>
@@ -612,12 +617,12 @@ function buildReportPreview(report, linkAudit, technicalData) {
 
 function downloadAuditReport() {
   if (!currentAuditData) return;
-  const reportHtml = buildDownloadableReport(currentAuditData);
-  const blob = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
+  const pdfBytes = buildPdfReport(currentAuditData);
+  const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = `lofts-website-audit-${safeFilePart((currentAuditData.url || 'site').replace(/^https?:\/\//, '').split('/')[0])}.html`;
+  a.download = `lofts-website-audit-${safeFilePart((currentAuditData.url || 'site').replace(/^https?:\/\//, '').split('/')[0])}.pdf`;
   document.body.appendChild(a);
   a.click();
   a.remove();
@@ -625,7 +630,7 @@ function downloadAuditReport() {
   if (typeof gtag !== 'undefined') gtag('event', 'audit_report_download', { event_category: 'engagement' });
 }
 
-function buildDownloadableReport(data) {
+function buildPdfReport(data) {
   const report = data.report || {};
   const checks = Object.values(data.results || {});
   const failed = checks.filter(c => !c.pass);
@@ -642,6 +647,9 @@ function buildDownloadableReport(data) {
   const strengths = report.strengths || [];
   const generatedAt = report.generatedAt ? new Date(report.generatedAt) : new Date();
 
+  const pdf = createPdfDocument();
+  const host = (data.url || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+  const gradeLine = `Score ${data.score}/100 | Grade ${data.grade} | ${generatedAt.toLocaleDateString()}`;
   const technicalRows = [
     ['Final URL', data.url || ''],
     ['HTTP status', tech.statusCode || 'Not measured'],
@@ -650,75 +658,371 @@ function buildDownloadableReport(data) {
     ['Word count', tech.wordCount || 'Not measured'],
     ['Images', tech.images ?? 'Not measured'],
     ['Scripts', tech.scripts ?? 'Not measured'],
-    ['Links found', tech.linksFound ?? 'Not measured'],
     ['Links checked', tech.linksChecked ?? 'Not measured'],
     ['Broken links', tech.brokenLinks ?? 'Not measured'],
   ];
 
-  return `<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>${esc(report.headline || 'Website Audit Report')}</title>
-  <style>
-    *{box-sizing:border-box}body{margin:0;background:#f4f0ea;color:#1a1612;font-family:Inter,Arial,sans-serif;line-height:1.55}main{max-width:1040px;margin:0 auto;padding:42px 24px 56px}.brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8b3a1f;font-weight:800;margin-bottom:18px}h1{font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 12px}h2{font-size:18px;margin:30px 0 12px}p{color:#5f544b}.score{display:inline-flex;align-items:center;gap:12px;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:14px 18px;margin:18px 0}.score strong{font-size:30px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:18px;margin:12px 0}.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a6e64}.risk{background:#fff1f2;border-color:#fecaca}.trust{background:#eff6ff;border-color:#bfdbfe}.growth{background:#ecfdf5;border-color:#a7f3d0}.navigation{background:#f5f3ff;border-color:#ddd6fe}.before{background:#fff7ed;border-color:#fed7aa}.after{background:#ecfdf5;border-color:#a7f3d0}ul{margin:0;padding-left:20px}li{margin:8px 0}.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase}.fail{background:#fee2e2;color:#991b1b}.pass{background:#d1fae5;color:#065f46}table{width:100%;border-collapse:collapse;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;overflow:hidden}td,th{padding:10px 12px;border-bottom:1px solid #ddd7ce;text-align:left;vertical-align:top;font-size:14px}th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#7a6e64}code{word-break:break-all;color:#1a1612}@media(max-width:760px){h1{font-size:32px}.grid,.grid-3{grid-template-columns:1fr}main{padding:30px 18px}}</style>
-</head>
-<body>
-<main>
-  <div class="brand">Lofts Studio Website Audit</div>
-  <h1>${esc(report.headline || 'Website Audit Report')}</h1>
-  <p>${esc(report.summary || '')}</p>
-  <div class="score"><strong>${esc(data.score)}</strong><span>Grade ${esc(data.grade)}<br>${esc(generatedAt.toLocaleString())}</span></div>
+  pdf.header('Lofts Studio Website Audit', host, gradeLine);
+  pdf.hero(report.headline || 'Website Audit Report', report.summary || '', data.score, data.grade);
+  pdf.section('Executive summary');
+  pdf.threeCards([
+    ['Main concern', exec[0] || 'Review the conversion path before sending more traffic.', 'risk'],
+    ['Current strength', exec[1] || 'Some core signals are already working.', 'trust'],
+    ['Review scope', exec[2] || 'This report prioritizes client-facing improvements first.', 'growth'],
+  ]);
 
-  <h2>Executive summary</h2>
-  <div class="grid-3">
-    ${exec.slice(0, 3).map((item, index) => `<section class="card ${index === 0 ? 'risk' : index === 1 ? 'trust' : 'growth'}"><h3>${index === 0 ? 'Main concern' : index === 1 ? 'Current strength' : 'Review scope'}</h3><p>${esc(item)}</p></section>`).join('')}
-  </div>
+  pdf.section('Where the site can win more clients');
+  pdf.opportunityCards(opportunities);
 
-  <h2>Where the site can win more clients</h2>
-  <div class="grid">
-    ${opportunities.map(card => `<section class="card ${safeClass(card.theme)}"><h3>${esc(card.title)} · ${esc(card.score)}/100</h3><p><strong>Finding:</strong> ${esc(card.finding)}</p><p><strong>Why it matters:</strong> ${esc(card.why)}</p><p><strong>Best next move:</strong> ${esc(card.action)}</p></section>`).join('')}
-  </div>
+  pdf.section('Before and after comparison');
+  pdf.twoLists([
+    ['Before we improve it', before, 'before'],
+    ['After the improvement work', after, 'after'],
+  ]);
 
-  <h2>Before and after comparison</h2>
-  <div class="grid">
-    <section class="card before"><h3>Before we improve it</h3><ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
-    <section class="card after"><h3>After the improvement work</h3><ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
-  </div>
+  pdf.section('Priority fix plan');
+  pdf.actionPlan(quickWins.slice(0, 6));
 
-  <section class="card">
-    <h3>Design and sales opportunities</h3>
-    <ul>${design.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
-  </section>
+  pdf.section('Design and sales opportunities');
+  pdf.bullets(design.slice(0, 8), 'neutral');
 
-  <section class="card">
-    <h3>Priority fix plan</h3>
-    <ul>${quickWins.map(item => `<li><strong>${esc(item.title || item.label)}</strong> <span class="tag fail">${esc(item.impact)}</span><br><em>${esc(item.why || item.value || '')}</em><br>${esc(item.action || item.recommendation || '')}</li>`).join('')}</ul>
-  </section>
+  if (strengths.length) {
+    pdf.section('What already looks healthy');
+    pdf.bullets(strengths.slice(0, 5), 'growth');
+  }
 
-  ${strengths.length ? `<section class="card growth"><h3>What already looks healthy</h3><ul>${strengths.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>` : ''}
+  pdf.section('Broken-link scan');
+  pdf.bullets(
+    broken.length
+      ? broken.slice(0, 8).map(link => `${link.url} - ${link.status || link.error || 'unreachable'}`)
+      : ['No broken links were found in the checked links from this page.'],
+    broken.length ? 'risk' : 'growth'
+  );
 
-  <section class="card">
-    <h3>Broken-link scan</h3>
-    ${broken.length
-      ? `<ul>${broken.map(link => `<li><code>${esc(link.url)}</code><br>${esc(link.status || link.error || 'unreachable')} — ${esc(link.text || 'Link')}</li>`).join('')}</ul>`
-      : `<p>No broken links were found in the checked links from this page.</p>`}
-  </section>
+  pdf.section('Technical snapshot');
+  pdf.table(technicalRows);
 
-  <h2>Technical snapshot</h2>
-  <table><tbody>${technicalRows.map(row => `<tr><th>${esc(row[0])}</th><td>${esc(row[1])}</td></tr>`).join('')}</tbody></table>
+  pdf.section('Detailed checks');
+  pdf.checkTable([...failed, ...passed].slice(0, 28));
 
-  <h2>Detailed checks</h2>
-  <table>
-    <thead><tr><th>Status</th><th>Check</th><th>Finding</th><th>Recommendation</th></tr></thead>
-    <tbody>
-      ${[...failed, ...passed].map(check => `<tr><td><span class="tag ${check.pass ? 'pass' : 'fail'}">${check.pass ? 'pass' : check.impact}</span></td><td>${esc(check.label)}</td><td>${esc(check.value || '')}</td><td>${esc(check.pass ? 'Looks healthy.' : check.fix || 'Review this item.')}</td></tr>`).join('')}
-    </tbody>
-  </table>
-</main>
-</body>
-</html>`;
+  pdf.footer();
+  return pdf.output();
+}
+
+function createPdfDocument() {
+  const width = 612;
+  const height = 792;
+  const margin = 42;
+  const pages = [];
+  let page = null;
+  let y = margin;
+  const theme = {
+    ink: '#17120F',
+    muted: '#6F6258',
+    line: '#DDD7CE',
+    paper: '#FFFFFF',
+    warm: '#F8F3EC',
+    accent: '#8B3A1F',
+    risk: '#E11D48',
+    riskBg: '#FFF1F2',
+    trust: '#2563EB',
+    trustBg: '#EFF6FF',
+    growth: '#059669',
+    growthBg: '#ECFDF5',
+    navigation: '#7C3AED',
+    navigationBg: '#F5F3FF',
+    beforeBg: '#FFF7ED',
+    afterBg: '#ECFDF5',
+  };
+
+  function addPage() {
+    page = [];
+    pages.push(page);
+    y = margin;
+  }
+  function cmd(value) { page.push(value); }
+  function ensure(space) {
+    if (!page) addPage();
+    if (y + space > height - 52) {
+      addPage();
+      drawFooterMark();
+    }
+  }
+  function drawFooterMark() {
+    rect(42, height - 36, width - 84, 1, '#E7E0D8');
+    text('Lofts Studio · Website improvement report', 42, height - 20, 7.5, 'regular', '#8A7D72');
+  }
+  function rgb(hex) {
+    const clean = String(hex || '#000000').replace('#', '');
+    const value = clean.length === 3 ? clean.split('').map(c => c + c).join('') : clean.padEnd(6, '0').slice(0, 6);
+    return [0, 2, 4].map(i => (parseInt(value.slice(i, i + 2), 16) / 255).toFixed(3)).join(' ');
+  }
+  function rect(x, top, w, h, fill, stroke, lineWidth = 1) {
+    const py = height - top - h;
+    if (fill) cmd(`q ${rgb(fill)} rg ${x} ${py} ${w} ${h} re f Q`);
+    if (stroke) cmd(`q ${rgb(stroke)} RG ${lineWidth} w ${x} ${py} ${w} ${h} re S Q`);
+  }
+  function line(x1, top1, x2, top2, color = '#DDD7CE', lineWidth = 1) {
+    cmd(`q ${rgb(color)} RG ${lineWidth} w ${x1} ${height - top1} m ${x2} ${height - top2} l S Q`);
+  }
+  function text(value, x, top, size = 10, font = 'regular', color = '#17120F') {
+    const safe = pdfText(value);
+    if (!safe) return;
+    const fontName = font === 'bold' ? 'F2' : 'F1';
+    cmd(`BT /${fontName} ${size} Tf ${rgb(color)} rg ${x} ${height - top} Td (${pdfEscape(safe)}) Tj ET`);
+  }
+  function wrap(value, maxWidth, size) {
+    const words = pdfText(value).split(/\s+/).filter(Boolean);
+    const maxChars = Math.max(12, Math.floor(maxWidth / (size * 0.48)));
+    const lines = [];
+    let current = '';
+    for (const word of words) {
+      const candidate = current ? `${current} ${word}` : word;
+      if (candidate.length > maxChars && current) {
+        lines.push(current);
+        current = word;
+      } else {
+        current = candidate;
+      }
+    }
+    if (current) lines.push(current);
+    return lines;
+  }
+  function paragraph(value, x, top, maxWidth, size = 9, color = '#17120F', font = 'regular', lineHeight = size * 1.38) {
+    const lines = wrap(value, maxWidth, size);
+    lines.forEach((part, index) => text(part, x, top + index * lineHeight, size, font, color));
+    return top + Math.max(1, lines.length) * lineHeight;
+  }
+  function measureParagraph(value, maxWidth, size = 9, lineHeight = size * 1.38) {
+    return Math.max(1, wrap(value, maxWidth, size).length) * lineHeight;
+  }
+  function badge(value, x, top, fill, color = '#17120F') {
+    const label = pdfText(value).toUpperCase();
+    const w = Math.max(38, label.length * 4.7 + 14);
+    rect(x, top - 8, w, 14, fill, null);
+    text(label, x + 7, top + 2, 6.5, 'bold', color);
+    return w;
+  }
+  function section(title) {
+    ensure(44);
+    y += 12;
+    text(title, margin, y, 13, 'bold', theme.ink);
+    line(margin, y + 10, width - margin, y + 10, theme.line, 0.8);
+    y += 25;
+  }
+  function header(brand, host, meta) {
+    addPage();
+    rect(0, 0, width, 118, theme.ink);
+    rect(0, 118, width, 4, theme.accent);
+    text(brand.toUpperCase(), margin, 42, 10, 'bold', '#FFFFFF');
+    text(host, margin, 66, 20, 'bold', '#FFFFFF');
+    text(meta, margin, 88, 9, 'regular', '#EDE8E0');
+    text('Prepared for decision-makers', width - 205, 42, 9, 'bold', '#EDE8E0');
+    paragraph('A clear, client-facing view of what is weakening trust, leads, and search readiness.', width - 205, 60, 160, 8, '#D8CFC5');
+    y = 148;
+  }
+  function hero(title, summary, score, grade) {
+    rect(margin, y, width - margin * 2, 132, '#FFFFFF', theme.line);
+    text('CLIENT-READY IMPROVEMENT REPORT', margin + 18, y + 24, 7.5, 'bold', theme.accent);
+    paragraph(title, margin + 18, y + 45, 320, 19, theme.ink, 'bold', 21);
+    paragraph(summary, margin + 18, y + 78, 330, 8.5, theme.muted, 'regular', 12);
+    rect(width - margin - 118, y + 22, 90, 70, score < 60 ? theme.riskBg : score < 80 ? '#FFF7ED' : theme.growthBg, score < 60 ? '#FECACA' : score < 80 ? '#FED7AA' : '#A7F3D0');
+    text(String(score), width - margin - 90, y + 55, 28, 'bold', score < 60 ? theme.risk : score < 80 ? theme.accent : theme.growth);
+    text('/ 100', width - margin - 48, y + 56, 8, 'bold', theme.muted);
+    text(`Grade ${grade}`, width - margin - 89, y + 78, 9, 'bold', theme.ink);
+    y += 152;
+  }
+  function threeCards(cards) {
+    const gap = 10;
+    const cardW = (width - margin * 2 - gap * 2) / 3;
+    const cardH = 100;
+    ensure(cardH + 10);
+    cards.forEach((card, index) => {
+      const [title, body, type] = card;
+      const x = margin + index * (cardW + gap);
+      const colors = cardColors(type);
+      rect(x, y, cardW, cardH, colors.bg, colors.border);
+      rect(x, y, 4, cardH, colors.strong);
+      text(title.toUpperCase(), x + 13, y + 23, 7, 'bold', colors.strong);
+      paragraph(body, x + 13, y + 43, cardW - 24, 8, theme.ink, 'regular', 11);
+    });
+    y += cardH + 8;
+  }
+  function opportunityCards(cards) {
+    const gap = 12;
+    const cardW = (width - margin * 2 - gap) / 2;
+    for (let i = 0; i < cards.length; i += 2) {
+      const row = cards.slice(i, i + 2);
+      const heights = row.map(card => measureOpportunity(card, cardW));
+      const rowH = Math.max(...heights);
+      ensure(rowH + 12);
+      row.forEach((card, index) => drawOpportunityCard(card, margin + index * (cardW + gap), y, cardW, rowH));
+      y += rowH + 12;
+    }
+  }
+  function measureOpportunity(card, cardW) {
+    const inner = cardW - 28;
+    return 62
+      + measureParagraph(`Finding: ${card.finding || ''}`, inner, 8)
+      + measureParagraph(`Why it matters: ${card.why || ''}`, inner, 8)
+      + measureParagraph(`Best next move: ${card.action || ''}`, inner, 8);
+  }
+  function drawOpportunityCard(card, x, top, w, h) {
+    const colors = cardColors(card.theme);
+    rect(x, top, w, h, colors.bg, colors.border);
+    rect(x, top, 4, h, colors.strong);
+    text(card.title || 'Opportunity', x + 14, top + 22, 10, 'bold', theme.ink);
+    badge(`${card.score || 0}/100`, x + w - 58, top + 22, '#FFFFFF', colors.strong);
+    let cy = top + 44;
+    cy = paragraph(`Finding: ${card.finding || ''}`, x + 14, cy, w - 28, 8, theme.ink, 'regular', 11) + 3;
+    cy = paragraph(`Why it matters: ${card.why || ''}`, x + 14, cy, w - 28, 8, theme.muted, 'regular', 11) + 3;
+    paragraph(`Best next move: ${card.action || ''}`, x + 14, cy, w - 28, 8, theme.ink, 'regular', 11);
+  }
+  function twoLists(groups) {
+    const gap = 12;
+    const cardW = (width - margin * 2 - gap) / 2;
+    const heights = groups.map(group => measureListCard(group[1], cardW));
+    const rowH = Math.max(...heights);
+    ensure(rowH + 8);
+    groups.forEach((group, index) => drawListCard(group[0], group[1], group[2], margin + index * (cardW + gap), y, cardW, rowH));
+    y += rowH + 12;
+  }
+  function measureListCard(items, cardW) {
+    const inner = cardW - 30;
+    return 58 + items.reduce((sum, item) => sum + measureParagraph(item, inner, 8.2, 11) + 5, 0);
+  }
+  function drawListCard(title, items, type, x, top, w, h) {
+    const colors = cardColors(type);
+    rect(x, top, w, h, colors.bg, colors.border);
+    text(title.toUpperCase(), x + 14, top + 22, 7, 'bold', colors.strong);
+    let cy = top + 42;
+    items.forEach(item => {
+      text('•', x + 14, cy, 10, 'bold', colors.strong);
+      cy = paragraph(item, x + 27, cy, w - 43, 8.2, theme.ink, 'regular', 11) + 5;
+    });
+  }
+  function actionPlan(items) {
+    items.forEach(item => {
+      const body = item.why || item.value || '';
+      const move = item.action || item.recommendation || '';
+      const h = 55 + measureParagraph(body, width - margin * 2 - 36, 8, 11) + measureParagraph(move, width - margin * 2 - 36, 8, 11);
+      ensure(h + 8);
+      const colors = cardColors(item.impact || 'medium');
+      rect(margin, y, width - margin * 2, h, colors.bg, colors.border);
+      text(item.title || item.label || 'Recommended fix', margin + 16, y + 22, 10, 'bold', theme.ink);
+      badge(item.impact || 'review', width - margin - 70, y + 22, '#FFFFFF', colors.strong);
+      let cy = y + 42;
+      cy = paragraph(`Why: ${body}`, margin + 16, cy, width - margin * 2 - 32, 8, theme.muted, 'regular', 11) + 3;
+      paragraph(`Move: ${move}`, margin + 16, cy, width - margin * 2 - 32, 8, theme.ink, 'regular', 11);
+      y += h + 8;
+    });
+  }
+  function bullets(items, type = 'neutral') {
+    const h = 32 + items.reduce((sum, item) => sum + measureParagraph(item, width - margin * 2 - 38, 8.5, 12) + 6, 0);
+    ensure(h + 8);
+    const colors = cardColors(type);
+    rect(margin, y, width - margin * 2, h, colors.bg, colors.border);
+    let cy = y + 24;
+    items.forEach(item => {
+      text('•', margin + 16, cy, 10, 'bold', colors.strong);
+      cy = paragraph(item, margin + 30, cy, width - margin * 2 - 46, 8.5, theme.ink, 'regular', 12) + 6;
+    });
+    y += h + 10;
+  }
+  function table(rows) {
+    const rowH = 22;
+    ensure(rows.length * rowH + 12);
+    rows.forEach((row, index) => {
+      const top = y + index * rowH;
+      rect(margin, top, width - margin * 2, rowH, index % 2 ? '#FFFFFF' : '#F8F3EC', theme.line, 0.5);
+      text(row[0], margin + 10, top + 14, 7.5, 'bold', theme.muted);
+      paragraph(String(row[1] || ''), margin + 165, top + 14, width - margin * 2 - 176, 7.5, theme.ink, 'regular', 10);
+    });
+    y += rows.length * rowH + 10;
+  }
+  function checkTable(rows) {
+    rows.forEach(check => {
+      const h = 42 + measureParagraph(check.value || '', 185, 7.5, 10) + measureParagraph(check.pass ? 'Looks healthy.' : check.fix || 'Review this item.', 220, 7.5, 10);
+      ensure(Math.max(48, h) + 5);
+      rect(margin, y, width - margin * 2, Math.max(48, h), '#FFFFFF', theme.line, 0.5);
+      badge(check.pass ? 'pass' : check.impact || 'review', margin + 10, y + 21, check.pass ? theme.growthBg : theme.riskBg, check.pass ? theme.growth : theme.risk);
+      text(check.label || 'Check', margin + 74, y + 18, 8, 'bold', theme.ink);
+      paragraph(check.value || '', margin + 74, y + 34, 190, 7.5, theme.muted, 'regular', 10);
+      paragraph(check.pass ? 'Looks healthy.' : check.fix || 'Review this item.', margin + 285, y + 18, 240, 7.5, theme.ink, 'regular', 10);
+      y += Math.max(48, h) + 5;
+    });
+  }
+  function footer() {
+    pages.forEach((commands, index) => {
+      page = commands;
+      rect(0, height - 34, width, 34, '#F8F3EC');
+      text(`Lofts Studio · Page ${index + 1} of ${pages.length}`, margin, height - 14, 7.5, 'regular', theme.muted);
+      text('Use this report to prioritize visible trust, conversion, and search improvements.', width - 300, height - 14, 7.5, 'regular', theme.muted);
+    });
+  }
+  function cardColors(type) {
+    if (type === 'risk' || type === 'critical') return { bg: theme.riskBg, border: '#FECACA', strong: theme.risk };
+    if (type === 'trust' || type === 'medium') return { bg: theme.trustBg, border: '#BFDBFE', strong: theme.trust };
+    if (type === 'growth') return { bg: theme.growthBg, border: '#A7F3D0', strong: theme.growth };
+    if (type === 'navigation') return { bg: theme.navigationBg, border: '#DDD6FE', strong: theme.navigation };
+    if (type === 'before' || type === 'high') return { bg: theme.beforeBg, border: '#FED7AA', strong: theme.accent };
+    if (type === 'after') return { bg: theme.afterBg, border: '#A7F3D0', strong: theme.growth };
+    return { bg: '#FFFFFF', border: theme.line, strong: theme.accent };
+  }
+  function output() {
+    return buildPdfBytes(pages, width, height);
+  }
+  return { header, hero, section, threeCards, opportunityCards, twoLists, actionPlan, bullets, table, checkTable, footer, output };
+}
+
+function buildPdfBytes(pageCommands, width, height) {
+  const objects = [
+    '<< /Type /Catalog /Pages 2 0 R >>',
+    '',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>',
+    '<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>',
+  ];
+  const kids = [];
+  pageCommands.forEach((commands, index) => {
+    const pageObj = 5 + index * 2;
+    const contentObj = pageObj + 1;
+    kids.push(`${pageObj} 0 R`);
+    const content = commands.join('\n');
+    objects[pageObj - 1] = `<< /Type /Page /Parent 2 0 R /MediaBox [0 0 ${width} ${height}] /Resources << /Font << /F1 3 0 R /F2 4 0 R >> >> /Contents ${contentObj} 0 R >>`;
+    objects[contentObj - 1] = `<< /Length ${new TextEncoder().encode(content).length} >>\nstream\n${content}\nendstream`;
+  });
+  objects[1] = `<< /Type /Pages /Kids [${kids.join(' ')}] /Count ${pageCommands.length} >>`;
+  let pdf = '%PDF-1.4\n';
+  const offsets = [0];
+  objects.forEach((object, index) => {
+    offsets.push(new TextEncoder().encode(pdf).length);
+    pdf += `${index + 1} 0 obj\n${object}\nendobj\n`;
+  });
+  const xrefOffset = new TextEncoder().encode(pdf).length;
+  pdf += `xref\n0 ${objects.length + 1}\n0000000000 65535 f \n`;
+  offsets.slice(1).forEach(offset => {
+    pdf += `${String(offset).padStart(10, '0')} 00000 n \n`;
+  });
+  pdf += `trailer\n<< /Size ${objects.length + 1} /Root 1 0 R >>\nstartxref\n${xrefOffset}\n%%EOF`;
+  return new TextEncoder().encode(pdf);
+}
+
+function pdfText(value) {
+  return cleanClientText(value)
+    .replace(/[“”]/g, '"')
+    .replace(/[‘’]/g, "'")
+    .replace(/[–—]/g, '-')
+    .replace(/→/g, '->')
+    .replace(/✓/g, 'OK')
+    .replace(/⚠/g, '!')
+    .replace(/·/g, '·')
+    .replace(/[^\x09\x0A\x0D\x20-\x7E]/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function pdfEscape(value) {
+  return String(value || '').replace(/\\/g, '\\\\').replace(/\(/g, '\\(').replace(/\)/g, '\\)');
 }
 
 function safeFilePart(value) {
@@ -727,6 +1031,18 @@ function safeFilePart(value) {
 
 function safeClass(value) {
   return String(value || '').toLowerCase().replace(/[^a-z0-9_-]/g, '');
+}
+
+function cleanClientText(value) {
+  return String(value || '')
+    .replace(/<a\b[^>]*href=["']tel:[^>]*>/gi, 'tap-to-call link')
+    .replace(/<\/a>/gi, '')
+    .replace(/<\/?footer[^>]*>/gi, 'footer')
+    .replace(/<meta\b[^>]*>/gi, 'meta tag')
+    .replace(/<link\b[^>]*>/gi, 'canonical link tag')
+    .replace(/<\/?[^>]+>/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 function toggleFix(id) {
