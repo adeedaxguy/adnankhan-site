@@ -155,6 +155,20 @@
     .opp-card p { font-size: 0.8rem; line-height: 1.55; color: var(--ink); margin: 0 0 0.5rem; }
     .opp-card .opp-why { color: var(--muted); }
     .report-subtitle { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.13em; font-weight: 800; color: var(--muted); margin: 1rem 0 0.6rem; }
+    .brief-panel { display: grid; gap: 0.8rem; margin-bottom: 1rem; }
+    .brief-why { border: 1px solid #D8D0C6; border-left: 4px solid var(--accent); border-radius: 10px; padding: 1rem; background: #FFFCF8; }
+    .brief-why h4, .brief-card h4, .brief-checks h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.45rem; }
+    .brief-why p, .brief-card p { font-size: 0.86rem; line-height: 1.55; color: var(--ink); margin: 0; }
+    .brief-before-after { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; }
+    .brief-card { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: #FFFFFF; }
+    .brief-card.before { background: #FFF7ED; border-color: #FED7AA; }
+    .brief-card.after { background: #ECFDF5; border-color: #A7F3D0; }
+    .brief-checks { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: #FFFFFF; }
+    .brief-check-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; }
+    .brief-check { border: 1px solid #E5DED5; border-radius: 9px; padding: 0.75rem; background: #FAF7F2; }
+    .brief-check strong { display: block; font-size: 0.78rem; line-height: 1.3; margin-bottom: 0.35rem; }
+    .brief-check span { display: inline-flex; margin-bottom: 0.4rem; padding: 2px 7px; border-radius: 999px; background: #FEE2E2; color: #991B1B; font-size: 0.58rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; }
+    .brief-check p { font-size: 0.76rem; line-height: 1.45; color: var(--muted); margin: 0; }
     .before-after-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-bottom: 1rem; }
     .ba-panel { border: 1px solid #D8D0C6; border-radius: 10px; padding: 1rem; background: var(--bg); }
     .ba-panel.before { background: #FFF7ED; border-color: #FED7AA; }
@@ -181,7 +195,7 @@
     @media (max-width: 680px) {
       .report-head, .report-actions { flex-direction: column; align-items: stretch; }
       .report-btn { justify-content: center; }
-      .exec-grid, .opportunity-grid, .before-after-grid, .report-columns { grid-template-columns: 1fr; }
+      .exec-grid, .opportunity-grid, .brief-before-after, .brief-check-grid, .before-after-grid, .report-columns { grid-template-columns: 1fr; }
     }
 
     /* CTA card */
@@ -531,6 +545,7 @@ function buildReportPreview(report, linkAudit, technicalData) {
   if (!report) return '';
   const before = (report.beforeAfter && report.beforeAfter.before) || [];
   const after = (report.beforeAfter && report.beforeAfter.after) || [];
+  const brief = report.quickBrief || {};
   const exec = report.executiveSummary || [];
   const opportunities = report.opportunityCards || [];
   const design = report.designAnalysis || [];
@@ -562,7 +577,34 @@ function buildReportPreview(report, linkAudit, technicalData) {
       <div class="exec-grid">
         ${exec.slice(0, 3).map((item, index) => `<div class="exec-pill ${execClasses[index] || ''}"><strong>${index === 0 ? 'Main concern' : index === 1 ? 'Current strength' : 'Review scope'}</strong><span>${esc(item)}</span></div>`).join('')}
       </div>
-      <div class="report-subtitle">Where the site can win more clients</div>
+      <div class="report-subtitle">${esc(brief.title || '30-second client brief')}</div>
+      <div class="brief-panel">
+        <div class="brief-why">
+          <h4>Why this matters</h4>
+          <p>${esc(brief.why || report.summary || '')}</p>
+        </div>
+        <div class="brief-before-after">
+          <div class="brief-card before">
+            <h4>Before we work on it</h4>
+            <p>${esc(brief.before || before[0] || '')}</p>
+          </div>
+          <div class="brief-card after">
+            <h4>After we improve it</h4>
+            <p>${esc(brief.after || after[0] || '')}</p>
+          </div>
+        </div>
+        <div class="brief-checks">
+          <h4>Checks to review first</h4>
+          <div class="brief-check-grid">
+            ${(brief.topChecks || []).slice(0, 3).map(check => `<div class="brief-check">
+              <strong>${esc(check.label)}</strong>
+              <span>${esc(check.impact || 'review')}</span>
+              <p>${esc(cleanClientText(check.why || check.finding || check.move || ''))}</p>
+            </div>`).join('')}
+          </div>
+        </div>
+      </div>
+      <div class="report-subtitle">Detailed opportunity areas</div>
       <div class="opportunity-grid">
         ${opportunities.map(card => `<div class="opp-card ${safeClass(card.theme)}">
           <div class="opp-top">
@@ -574,7 +616,7 @@ function buildReportPreview(report, linkAudit, technicalData) {
           <p><strong>Best next move:</strong> ${esc(cleanClientText(card.action))}</p>
         </div>`).join('')}
       </div>
-      <div class="report-subtitle">Before vs after working on this site</div>
+      <div class="report-subtitle">Expanded before vs after</div>
       <div class="before-after-grid">
         <div class="ba-panel before">
           <h4>Before we improve it</h4>
@@ -639,6 +681,7 @@ function buildPdfReport(data) {
   const tech = data.technicalData || {};
   const before = (report.beforeAfter && report.beforeAfter.before) || [];
   const after = (report.beforeAfter && report.beforeAfter.after) || [];
+  const brief = report.quickBrief || {};
   const actions = report.priorityActions || [];
   const design = report.designAnalysis || [];
   const exec = report.executiveSummary || [];
@@ -664,6 +707,9 @@ function buildPdfReport(data) {
 
   pdf.header('Lofts Studio Website Audit', host, gradeLine);
   pdf.hero(report.headline || 'Website Audit Report', report.summary || '', data.score, data.grade);
+  pdf.section(brief.title || '30-second client brief');
+  pdf.clientBrief(brief, before, after);
+
   pdf.section('Executive summary');
   pdf.threeCards([
     ['Main concern', exec[0] || 'Review the conversion path before sending more traffic.', 'risk'],
@@ -804,11 +850,46 @@ function createPdfDocument() {
     return w;
   }
   function section(title) {
-    ensure(44);
+    ensure(130);
     y += 12;
     text(title, margin, y, 13, 'bold', theme.ink);
     line(margin, y + 10, width - margin, y + 10, theme.line, 0.8);
     y += 25;
+  }
+  function clientBrief(brief, beforeFallback, afterFallback) {
+    const why = brief.why || 'This audit highlights the items most likely to weaken trust, clarity, and enquiries.';
+    const beforeText = brief.before || beforeFallback[0] || 'The page has a usable foundation, but the proof, offer, and next step can be clearer.';
+    const afterText = brief.after || afterFallback[0] || 'The page should become easier to understand, trust, and enquire from.';
+    const topChecks = (brief.topChecks || []).slice(0, 3);
+    const whyH = 55 + measureParagraph(why, width - margin * 2 - 34, 8.7, 12);
+    ensure(whyH + 8);
+    rect(margin, y, width - margin * 2, whyH, '#FFFCF8', '#D8D0C6');
+    rect(margin, y, 4, whyH, theme.accent);
+    text('WHY THIS MATTERS', margin + 16, y + 23, 7, 'bold', theme.accent);
+    paragraph(why, margin + 16, y + 44, width - margin * 2 - 34, 8.7, theme.ink, 'regular', 12);
+    y += whyH + 10;
+
+    twoLists([
+      ['Before we work on it', [beforeText], 'before'],
+      ['After we improve it', [afterText], 'after'],
+    ]);
+
+    if (topChecks.length) {
+      const gap = 10;
+      const cardW = (width - margin * 2 - gap * 2) / 3;
+      const cardH = 112;
+      ensure(cardH + 12);
+      topChecks.forEach((check, index) => {
+        const x = margin + index * (cardW + gap);
+        const colors = cardColors(check.impact || 'medium');
+        rect(x, y, cardW, cardH, '#FFFFFF', colors.border);
+        rect(x, y, 4, cardH, colors.strong);
+        text(check.label || 'Priority check', x + 13, y + 21, 8, 'bold', theme.ink);
+        badge(check.impact || 'review', x + 13, y + 40, colors.bg, colors.strong);
+        paragraph(check.why || check.finding || check.move || '', x + 13, y + 59, cardW - 24, 7.7, theme.muted, 'regular', 10.5);
+      });
+      y += cardH + 8;
+    }
   }
   function header(brand, host, meta) {
     addPage();
@@ -972,7 +1053,7 @@ function createPdfDocument() {
   function output() {
     return buildPdfBytes(pages, width, height);
   }
-  return { header, hero, section, threeCards, opportunityCards, twoLists, actionPlan, bullets, table, checkTable, footer, output };
+  return { header, hero, section, clientBrief, threeCards, opportunityCards, twoLists, actionPlan, bullets, table, checkTable, footer, output };
 }
 
 function buildPdfBytes(pageCommands, width, height) {

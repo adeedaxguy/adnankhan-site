@@ -557,6 +557,13 @@ function buildClientReport({ finalUrl, score, grade, checks, catScores, critical
     recommendation: check.fix || 'Review and improve this area before sending more traffic to the page.',
     expectedOutcome: expectedOutcome(check),
   }));
+  const quickChecks = topActions.slice(0, 3).map(action => ({
+    label: action.label,
+    impact: action.impact,
+    finding: action.value,
+    why: action.why,
+    move: action.recommendation,
+  }));
 
   const status = score >= 80 ? 'strong foundation' : score >= 60 ? 'good site with clear improvement opportunities' : 'site with visible conversion and trust friction';
   const strongestCategories = Object.entries(catScores || {})
@@ -587,6 +594,17 @@ function buildClientReport({ finalUrl, score, grade, checks, catScores, critical
     generatedAt: new Date().toISOString(),
     headline: `Audit report for ${new URL(finalUrl).hostname}`,
     summary: `This page has a ${status}. The score is ${score}/100, with ${critical} critical and ${high} high-priority issue${high === 1 ? '' : 's'} to review first. The biggest opportunity is to turn the page from an online brochure into a clearer enquiry path.`,
+    quickBrief: {
+      title: '30-second client brief',
+      why: failed.length
+        ? 'The audit is not just a technical score. It shows where a prospect can lose trust, miss the next step, or leave before enquiring.'
+        : 'The core checks look healthy. The opportunity is to sharpen the page so visitors understand the offer faster and feel more confident taking action.',
+      before: designFails.length
+        ? 'Before improvement, the page may look acceptable but still make visitors work too hard to understand the offer, trust the business, and choose the next step.'
+        : 'Before improvement, the page has a usable foundation but can still make the proof, offer, and next step sharper.',
+      after: 'After improvement, the page should feel clearer, faster to scan, more trustworthy, and more focused on turning qualified visitors into enquiries.',
+      topChecks: quickChecks,
+    },
     executiveSummary: [
       weakestCategories.length ? `Weakest areas: ${weakestCategories.join(' and ')}.` : 'No weak category stood out, so the opportunity is refinement and stronger messaging.',
       strongestCategories.length ? `Strongest signals: ${strongestCategories.join(' and ')}.` : 'The page needs a stronger foundation before strengths are obvious.',
