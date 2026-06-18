@@ -94,7 +94,7 @@ draw_tracked(cx, sy, "S T U D I O", f_studio, CREAM_MUTED, 6 * S)
 
 # 3) Tagline
 ty = sy + 96 * S
-tag = "Senior Web Engineering  ·  1,000+ Builds"
+tag = "Senior Web Engineering  ·  High-Volume Builds"
 d.text((cx - d.textlength(tag, font=f_tag) / 2, ty), tag, font=f_tag, fill=CREAM)
 
 # 4) Short accent rule

@@ -408,7 +408,7 @@ def render_brand_guide(nav, footer):
 
     <div class="type-sample">
       <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Display &amp; UI — Inter Tight</p>
-      <p style="font-family: var(--font-display); font-size: 3.2rem; line-height: 1.05; letter-spacing: -0.035em; font-weight: 500; margin: 0; color: var(--ink);">Two brothers. A thousand projects.</p>
+      <p style="font-family: var(--font-display); font-size: 3.2rem; line-height: 1.05; letter-spacing: -0.035em; font-weight: 500; margin: 0; color: var(--ink);">Two brothers. A long delivery record.</p>
     </div>
 
     <div class="type-sample">
@@ -418,7 +418,7 @@ def render_brand_guide(nav, footer):
 
     <div class="type-sample">
       <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Monospace — JetBrains Mono</p>
-      <p style="font-family: var(--font-mono); font-size: 0.92rem; color: var(--ink); margin: 0;">// 1,000+ projects · 9 years · 100% JSS · high-volume client value</p>
+      <p style="font-family: var(--font-mono); font-size: 0.92rem; color: var(--ink); margin: 0;">// long delivery record · 9 years · 100% JSS · founder-led work</p>
     </div>
   </div>
 </section>
@@ -466,12 +466,12 @@ def render_brand_guide(nav, footer):
 
       <div style="padding: 2rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);">
         <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 0.75rem;">Long form</p>
-        <p style="font-family: var(--font-serif); font-size: 1.3rem; line-height: 1.5; color: var(--ink); margin: 0;">Two brothers. A thousand projects. <em>One studio that still answers its own email.</em></p>
+        <p style="font-family: var(--font-serif); font-size: 1.3rem; line-height: 1.5; color: var(--ink); margin: 0;">Two brothers. A long delivery record. <em>One studio that still answers its own email.</em></p>
       </div>
 
       <div style="padding: 2rem; background: var(--surface); border: 1px solid var(--line); border-radius: var(--r-md);">
         <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 0.75rem;">Verification line (always under hero stats)</p>
-        <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--ink); margin: 0;">2 Top Rated Upwork operators · 1,000+ delivered · 100% JSS · 9 years</p>
+        <p style="font-family: var(--font-mono); font-size: 0.95rem; color: var(--ink); margin: 0;">2 Top Rated Upwork operators · high-volume delivery · 100% JSS · 9 years</p>
       </div>
     </div>
   </div>

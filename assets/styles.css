@@ -568,6 +568,9 @@ body { padding-top: 76px; }
 .mnav.open {
   transform: translateX(0);
 }
+#mobilePanel.open {
+  transform: translateX(0);
+}
 
 .mnav-inner {
   display: flex;
@@ -1640,8 +1643,10 @@ details.faq .faq-body {
 .cookie-accept:hover { background: rgba(244,240,234,0.88); }
 @media (max-width: 640px) {
   .cookie-banner { bottom: 0.6rem; left: 0.6rem; right: 0.6rem; }
-  .cookie-inner { grid-template-columns: 1fr; gap: 0.85rem; padding: 1rem; }
-  .cookie-actions { justify-content: flex-end; }
+  .cookie-inner { grid-template-columns: 1fr; gap: 0.65rem; padding: 0.82rem 0.9rem; }
+  .cookie-text { font-size: 0.82rem; line-height: 1.42; }
+  .cookie-actions { justify-content: space-between; }
+  .cookie-btn { padding: 0.48rem 0.9rem; font-size: 0.78rem; }
 }
 
 /* ── Chat launcher button ── */
@@ -3873,7 +3878,7 @@ body.chat-open .mob-bar { display: none; }
     left: 0.75rem !important;
     right: 0.75rem !important;
     bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;
-    border-radius: 16px !important;
+    border-radius: var(--r-lg) !important;
     width: auto !important;
   }
 }
@@ -4670,6 +4675,188 @@ html { transition: background-color .3s ease, color .3s ease; }
 .theme-opt:hover { color:var(--ink); }
 .theme-opt.is-active { background:var(--bg); color:var(--accent); box-shadow:0 1px 2px rgba(0,0,0,0.10); }
 @media (max-width:880px){ .theme-toggle{ margin-left:0; margin-right:0.4rem; padding:2px; } .theme-opt{ width:28px; height:28px; } }
+
+/* ═══════════════════════════════════════════════════════════════
+   Location SEO and AI calling pages
+   ═══════════════════════════════════════════════════════════════ */
+.loc-hero {
+  padding: clamp(5.8rem, 8vw, 8rem) 0 clamp(4.2rem, 7vw, 6.5rem);
+  background: var(--surface);
+  border-bottom: 1px solid var(--line);
+}
+.loc-hero.ai-hero { background: var(--bg); }
+.loc-hero-copy { max-width: 980px; }
+.loc-hero-copy .h-display {
+  margin: 1.1rem 0 0;
+  max-width: 12.5ch;
+}
+.loc-hero-copy .lead { margin: 1.6rem 0 0; }
+.loc-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+.loc-breadcrumb a {
+  color: var(--muted);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+.loc-breadcrumb a:hover { color: var(--ink); }
+.loc-breadcrumb span:last-child { color: var(--ink); }
+.loc-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 2.2rem;
+}
+.loc-section-head {
+  max-width: 760px;
+  margin-bottom: 2.2rem;
+}
+.loc-section-head .h-1,
+.loc-section-head h2 { margin: 1rem 0 0; }
+.loc-section-head p {
+  max-width: 64ch;
+  margin: 1rem 0 0;
+  color: var(--ink-soft);
+}
+.loc-grid {
+  display: grid;
+  gap: 1rem;
+}
+.loc-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.loc-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.loc-card {
+  min-width: 0;
+  padding: clamp(1.35rem, 2vw, 1.8rem);
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--r-lg);
+}
+.loc-card h3 {
+  margin: 0.55rem 0 0.55rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.1rem, 1.6vw, 1.34rem);
+  font-weight: 500;
+  line-height: 1.16;
+  letter-spacing: -0.02em;
+}
+.loc-card p {
+  margin: 0;
+  color: var(--ink-soft);
+  font-family: var(--font-sans);
+  font-size: 0.94rem;
+  line-height: 1.62;
+}
+.loc-card-link {
+  display: block;
+  transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease, background .22s ease;
+}
+.loc-card-link:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent);
+  box-shadow: var(--shadow-card);
+}
+.loc-card-kicker {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.loc-band {
+  padding: 6rem 0;
+  background: var(--bg-soft);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.loc-split {
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.loc-split .h-1 { margin: 1rem 0 0; }
+.loc-flow {
+  display: grid;
+  border-top: 1px solid var(--line);
+}
+.loc-flow div {
+  display: grid;
+  grid-template-columns: minmax(8rem, 0.34fr) minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.15rem 0;
+  border-bottom: 1px solid var(--line);
+}
+.loc-flow strong {
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+.loc-flow span { color: var(--ink-soft); }
+.loc-inline-links {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+  padding-top: 1.2rem;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.9rem;
+}
+.loc-inline-links a {
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+.loc-inline-links a:hover { color: var(--accent); }
+.loc-faq {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  align-items: start;
+}
+.loc-faq .h-1 { margin: 1rem 0 0; }
+.footer-rich ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.7rem;
+}
+@media (max-width: 980px) {
+  .loc-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .loc-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .loc-split,
+  .loc-faq { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .loc-hero { padding: 5.4rem 0 3.8rem; }
+  .loc-hero-copy .h-display { max-width: 100%; }
+  .loc-grid-3,
+  .loc-grid-4 { grid-template-columns: 1fr; }
+  .loc-band { padding: 4.2rem 0; }
+  .loc-flow div {
+    grid-template-columns: 1fr;
+    gap: 0.35rem;
+  }
+  .loc-actions .btn {
+    width: 100%;
+    white-space: normal;
+  }
+}
 
 /* ═══════════════════════════════════════════════════════════════
    Blog comments — high-end, theme-aware (used on blog posts)

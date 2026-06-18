@@ -123,7 +123,7 @@ NAV = '''<header class="nav-bar">
         <a href="/services/speed-optimization.html">Speed Opt.</a>
         <a href="/services/conversion-rate-optimization.html">CRO</a>
         <a href="/services/custom-app-development.html">Custom Apps</a>
-        <a href="/services/ai-chatbot-automation.html">AI &amp; Automation</a>
+        <a href="/services/ai-calling-agents.html">AI Calling</a>
       </div>
     </div>
     <a href="/free-audit/" class="mnav-audit-link">
@@ -148,7 +148,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
           <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
           <span class="footer-logo-caps">STUDIO</span>
         </div>
-        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A thousand projects. Nine years. Built for owners who can tell the difference between a site that merely launches and one that earns its keep.</p>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A long delivery record. Nine years. Built for owners who can tell the difference between a site that merely launches and one that earns its keep.</p>
         <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);">
           <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>
           Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US, UK &amp; Canada callable hours
@@ -1037,7 +1037,7 @@ def proof_band():
     <div data-reveal style="max-width: 720px; margin: 0 auto; text-align: center;">
       <span class="eyebrow">Who builds it</span>
       <h2 class="h-1" style="margin-top: 1rem;">Senior engineers. <span class="italic-serif" style="color: var(--accent);">No agency markup.</span></h2>
-      <p class="lead" style="margin-top: 1.5rem;">You work directly with the brothers who write the code &mdash; Adnan in Multan, Irfan in Dubai. Two Top Rated Upwork operators, a thousand projects since 2017, and a 100% Job Success Score. Hire us directly, or run it documented and milestone-led through Upwork &mdash; your call.</p>
+      <p class="lead" style="margin-top: 1.5rem;">You work directly with the brothers who write the code &mdash; Adnan in Multan, Irfan in Dubai. Two Top Rated Upwork operators, a long delivery record since 2017, and a 100% Job Success Score. Hire us directly, or run it documented and milestone-led through Upwork &mdash; your call.</p>
       <div class="hero-stats" style="margin-top: 2.5rem; justify-content: center;">
         <div class="hero-stat"><div class="bignum"><span data-count="1000">1000</span><span class="bignum-suffix">+</span></div><div class="hero-stat-lbl">Projects delivered</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
@@ -1245,7 +1245,7 @@ def render_hub():
         </a>
         <a href="/free-audit/" class="btn btn-ghost">Free 15-min audit</a>
       </div>
-      <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted);"><strong style="color: var(--ink);">Top Rated on Upwork</strong> · 100% Job Success · 1,000+ projects · Direct hire or a documented workspace</p>
+      <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted);"><strong style="color: var(--ink);">Top Rated on Upwork</strong> · 100% Job Success · high-volume delivery · Direct hire or a documented workspace</p>
     </div>
     <div class="answer-box" data-reveal style="max-width: 820px;">
       <p><strong style="color: var(--ink);">The short version:</strong> A local-business website has one job &mdash; get found on Google and turn that visit into a call, booking, or visit. That means fast mobile pages, a clear next step, real local SEO, and content built around how your specific customers decide. Pick your industry below.</p>

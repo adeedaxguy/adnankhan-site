@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260617c"
+CACHE_VER = "20260618c"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -500,7 +500,7 @@ POSTS = [
             ("p", "Page builders load their entire framework site-wide. Even on pages you didn't build with them. The framework alone adds 200–500KB to your bundle and 300–800ms to render."),
             ("p", "Fix: For builds where speed matters, replace page builder pages with a custom theme or block theme. For builds where you're committed to the builder, use a plugin like \"Asset CleanUp\" to dequeue builder assets on pages that don't need them."),
             ("h3", "3. WPML / Polylang (for multi-language)"),
-            ("p", "Both load translation tables on every request. On stores with 5+ languages and 1000+ translatable strings, that's 100–300ms before WordPress can render anything. Fix: aggressive object caching (Redis), and consider whether you actually need 5 languages live or could ship just two."),
+            ("p", "Both load translation tables on every request. On stores with 5+ languages and many translatable strings, that's 100–300ms before WordPress can render anything. Fix: aggressive object caching (Redis), and consider whether you actually need 5 languages live or could ship just two."),
             ("h3", "4. Real-time tracking + analytics plugins"),
             ("p", "MonsterInsights, ExactMetrics, MetricsTracker, every \"connect WooCommerce to GA4\" plugin — they all add real-time hooks to order events that block the cart. Use Google Tag Manager + Server-Side Tag Manager instead. Almost always a 200–500ms saving."),
             ("h3", "5. Backup plugins that run during business hours"),
@@ -755,7 +755,7 @@ def render_blog_post(p, nav, footer):
       <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
       <div>
         <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan K.</h3>
-        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. 1,000+ projects shipped, 100% Job Success.</p>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. high-volume delivery, 100% Job Success.</p>
         <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
           <a href="/about.html" style="color: var(--accent);">About</a>
           <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
@@ -807,7 +807,7 @@ def render_blog_post(p, nav, footer):
 def render_location_page(loc, nav, footer):
     """Render a country-specific service landing page."""
     title = f"Shopify & WooCommerce Developer {loc['country']} | Adnan K."
-    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, 1,000+ stores shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
+    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, years of custom store work shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
     canonical = f"{SITE}/services/shopify-developer-{loc['code']}.html"
 
     hreflang_tags = "\n".join([
@@ -913,7 +913,7 @@ def render_location_page(loc, nav, footer):
         Hire a senior Shopify developer <span class="italic-serif">in {loc['country']}.</span>
       </h1>
       <p class="lead" style="margin-top: 2rem;">
-        Nine years. Three hundred and seven stores shipped. Top Rated Plus on Upwork {loc['tagline']}.
+        Nine years. Deep store delivery experience. Top Rated Plus on Upwork {loc['tagline']}.
         {loc['hours']}. Async-friendly, written-first, and senior-only — no junior team, no PM layer.
       </p>
       <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
