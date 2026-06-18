@@ -1,9 +1,11 @@
-// Vercel Edge Function — Website Audit Tool (v2)
-// 22 checks across 4 categories: Technical, SEO, Performance, Design & Trust
+// Vercel Edge Function — Website Audit Tool (v3)
+// Client-ready report with technical, SEO, performance, design, trust, and broken-link checks.
 
 export const config = { runtime: 'edge' };
 
 const TIMEOUT_MS = 9000;
+const LINK_AUDIT_LIMIT = 24;
+const LINK_TIMEOUT_MS = 3200;
 
 export default async function handler(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors() });
@@ -41,7 +43,9 @@ export default async function handler(req) {
     html       = await res.text();
   } catch (e) { errors.fetch = String(e).slice(0, 120); }
 
-  const h = html.toLowerCase();
+  const textContent = html ? htmlToText(html) : '';
+  let linkAudit = emptyLinkAudit();
+  let technicalData = {};
 
   // ════════════════════════════════════════════
   //  CATEGORY: TECHNICAL
@@ -96,6 +100,28 @@ export default async function handler(req) {
       value: hasCanonical ? 'Canonical tag present' : 'No canonical tag — duplicate content risk',
       impact: 'medium', category: 'technical',
       fix: 'Add <link rel="canonical" href="https://yourdomain.com/page/"> to the <head> of every page.',
+    };
+
+    const linkInventory = extractLinks(html, finalUrl);
+    linkAudit = await auditLinks(linkInventory, finalUrl, html);
+    const brokenCount = linkAudit.broken.length;
+    results.brokenLinks = {
+      pass: brokenCount === 0,
+      label: 'Broken links on the page',
+      value: linkAudit.checked
+        ? brokenCount
+          ? `${brokenCount} broken link${brokenCount === 1 ? '' : 's'} found in ${linkAudit.checked} checked`
+          : `${linkAudit.checked} links checked, no broken links found`
+        : 'No checkable links found',
+      impact: brokenCount > 2 ? 'high' : brokenCount ? 'medium' : 'low',
+      category: 'technical',
+      note: brokenCount ? `First issue: ${linkAudit.broken[0].url}` : linkAudit.unchecked.length ? `${linkAudit.unchecked.length} links could not be verified quickly` : 'Navigation paths look healthy from this page',
+      fix: brokenCount ? 'Repair or redirect broken links so visitors and Google do not hit dead ends.' : '',
+      details: linkAudit.broken.slice(0, 8).map(link => ({
+        url: link.url,
+        status: link.status || link.error || 'unreachable',
+        text: link.text || 'Link',
+      })),
     };
 
     // ════════════════════════════════════════════
@@ -202,7 +228,55 @@ export default async function handler(req) {
     };
 
     // ════════════════════════════════════════════
-    //  CATEGORY: DESIGN & TRUST
+    //  CATEGORY: DESIGN
+    // ════════════════════════════════════════════
+
+    const h2Matches = (html.match(/<h2[^>]*>/gi) || []).length;
+    const firstScreenText = htmlToText(stripScripts(html).slice(0, 7000));
+    const ctaRegex = /\b(contact us|get started|send an enquiry|book a call|request a demo|buy now|order now|sign up|schedule|free trial|talk to us|start free|get in touch|hire us|send enquiry|book now|free consultation|call us|speak to|try free|start a conversation|free audit)\b/i;
+    const hasCTA = ctaRegex.test(textContent);
+    const hasEarlyCTA = ctaRegex.test(firstScreenText);
+    const paragraphStats = getParagraphStats(html);
+    const hasContactPath = /href=["'](?:tel:|mailto:)|<form\b|\/contact|#contact|contact us|get in touch|book a call|start a conversation/i.test(html);
+
+    results.heroClarity = {
+      pass: h1Matches === 1 && titleText && hasEarlyCTA,
+      label: 'First-screen message and action',
+      value: h1Matches === 1 && hasEarlyCTA ? 'Clear headline with an early action' : !hasEarlyCTA ? 'No obvious action found near the top' : 'Headline structure needs attention',
+      impact: 'high', category: 'design',
+      note: 'A visitor should know what you do, why it matters, and what to click within a few seconds.',
+      fix: 'Tighten the first screen around one clear promise, one primary action, and a short proof point.',
+    };
+
+    results.contentScannability = {
+      pass: h2Matches >= 2 && paragraphStats.longParagraphs <= 2,
+      label: 'Scannable page structure',
+      value: `${h2Matches} section heading${h2Matches === 1 ? '' : 's'}, ${paragraphStats.longParagraphs} dense paragraph${paragraphStats.longParagraphs === 1 ? '' : 's'}`,
+      impact: 'medium', category: 'design',
+      note: paragraphStats.longParagraphs ? 'Dense copy makes good offers feel harder to understand.' : 'Copy is broken into manageable sections.',
+      fix: 'Add clear section headings, shorten long paragraphs, and move key selling points into short blocks.',
+    };
+
+    results.conversionPath = {
+      pass: hasCTA && hasContactPath,
+      label: 'Low-friction enquiry path',
+      value: hasContactPath ? 'Contact path detected' : 'No obvious way to enquire from this page',
+      impact: 'critical', category: 'design',
+      note: 'Good design does not just look better; it makes the next step feel obvious.',
+      fix: 'Add a visible enquiry button, phone/email path, or short form near the top and again near the bottom.',
+    };
+
+    results.mobileConfidence = {
+      pass: hasViewport && (allImgs === 0 || hasResponsiveImgs),
+      label: 'Mobile confidence signals',
+      value: hasViewport ? (hasResponsiveImgs ? 'Viewport and responsive media detected' : 'Viewport present, image handling needs work') : 'Mobile viewport missing',
+      impact: 'high', category: 'design',
+      note: 'Most prospects will judge the business from a phone first.',
+      fix: 'Use a mobile-first layout, responsive images, clear tap targets, and repeat the main CTA after important sections.',
+    };
+
+    // ════════════════════════════════════════════
+    //  CATEGORY: TRUST
     // ════════════════════════════════════════════
 
     const hasAnalytics = /googletagmanager\.com|gtag\(|google-analytics\.com|_gaq\b/i.test(html);
@@ -223,8 +297,6 @@ export default async function handler(req) {
       fix: 'Create a 32×32 and 180×180 icon and add <link rel="icon" href="/favicon.ico"> to your <head>.',
     };
 
-    const ctaRegex = /\b(contact us|get started|send an enquiry|book a call|request a demo|buy now|order now|sign up|schedule|free trial|talk to us|start free|get in touch|hire us|send an enquiry|send enquiry|book now|free consultation|call us|speak to|try free)\b/i;
-    const hasCTA = ctaRegex.test(html.replace(/<[^>]+>/g, ' '));
     results.cta = {
       pass: hasCTA,
       label: 'Clear call-to-action (CTA)',
@@ -271,6 +343,8 @@ export default async function handler(req) {
       impact: 'medium', category: 'trust',
       fix: 'Add a Privacy Policy page (required by GDPR, CCPA, and Google Ads). Link it from the footer.',
     };
+
+    technicalData = buildTechnicalData({ html, finalUrl, statusCode, headers, ttfbMs, linkAudit, textContent });
   }
 
   // ── Score ───────────────────────────────────────────────────────
@@ -284,7 +358,7 @@ export default async function handler(req) {
   const grade = score >= 90 ? 'A' : score >= 75 ? 'B' : score >= 60 ? 'C' : score >= 45 ? 'D' : 'F';
 
   // Category scores
-  const categories = ['technical', 'seo', 'performance', 'trust'];
+  const categories = ['technical', 'seo', 'performance', 'design', 'trust'];
   const catScores = {};
   for (const cat of categories) {
     const catChecks = checks.filter(c => c.category === cat);
@@ -292,7 +366,9 @@ export default async function handler(req) {
     catScores[cat] = catChecks.length > 0 ? Math.round((catPassed / catChecks.length) * 100) : 100;
   }
 
-  return json({ url: finalUrl, score, grade, passed, total, critical, high, ttfbMs, results, catScores, errors });
+  const report = buildClientReport({ finalUrl, score, grade, checks, catScores, critical, high, linkAudit, technicalData });
+
+  return json({ url: finalUrl, score, grade, passed, total, critical, high, ttfbMs, results, catScores, linkAudit, technicalData, report, errors });
 }
 
 function json(data, status = 200) {
@@ -306,4 +382,208 @@ function cors() {
     'Access-Control-Allow-Headers': 'Content-Type',
     'Cache-Control': 'no-store',
   };
+}
+
+function emptyLinkAudit() {
+  return { totalFound: 0, checked: 0, ok: [], broken: [], unchecked: [], skipped: 0, internalChecked: 0, externalChecked: 0 };
+}
+
+function stripScripts(html) {
+  return String(html || '')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ');
+}
+
+function htmlToText(html) {
+  return stripScripts(html)
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&amp;/gi, '&')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#39;|&apos;/gi, "'")
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getParagraphStats(html) {
+  const paragraphs = [...String(html || '').matchAll(/<p\b[^>]*>([\s\S]*?)<\/p>/gi)].map(match => htmlToText(match[1]));
+  const lengths = paragraphs.map(p => p.length).filter(Boolean);
+  const longParagraphs = lengths.filter(len => len > 260).length;
+  const averageLength = lengths.length ? Math.round(lengths.reduce((sum, len) => sum + len, 0) / lengths.length) : 0;
+  return { count: paragraphs.length, averageLength, longParagraphs };
+}
+
+function extractLinks(html, baseUrl) {
+  const base = new URL(baseUrl);
+  const seen = new Set();
+  const links = [];
+  const matches = String(html || '').matchAll(/<a\b[^>]*href\s*=\s*(["']?)([^"'\s>]+)\1[^>]*>/gi);
+
+  for (const match of matches) {
+    const rawHref = (match[2] || '').trim();
+    const text = htmlToText(match[0]).slice(0, 80);
+    if (!rawHref || /^(mailto:|tel:|sms:|javascript:|data:)/i.test(rawHref)) continue;
+
+    if (rawHref.startsWith('#')) {
+      const key = `${base.origin}${base.pathname}${rawHref}`;
+      if (!seen.has(key)) {
+        seen.add(key);
+        links.push({ url: key, href: rawHref, text, samePageAnchor: true, internal: true });
+      }
+      continue;
+    }
+
+    let target;
+    try { target = new URL(rawHref, base.href); } catch { continue; }
+    if (!/^https?:$/i.test(target.protocol)) continue;
+    target.hash = target.hash || '';
+    const key = target.href;
+    if (seen.has(key)) continue;
+    seen.add(key);
+    links.push({ url: target.href, href: rawHref, text, internal: target.origin === base.origin });
+  }
+
+  const internal = links.filter(link => link.internal && !link.samePageAnchor);
+  const external = links.filter(link => !link.internal);
+  const anchors = links.filter(link => link.samePageAnchor);
+  return [...anchors, ...internal, ...external];
+}
+
+async function auditLinks(links, finalUrl, html) {
+  const audit = emptyLinkAudit();
+  audit.totalFound = links.length;
+
+  const anchorIds = new Set([...String(html || '').matchAll(/\s(?:id|name)\s*=\s*["']([^"']+)["']/gi)].map(match => match[1]));
+  const samePageAnchors = links.filter(link => link.samePageAnchor);
+  for (const link of samePageAnchors) {
+    const id = safeDecode((link.href || '').replace(/^#/, ''));
+    audit.checked += 1;
+    audit.internalChecked += 1;
+    if (id && anchorIds.has(id)) audit.ok.push({ ...link, status: 200 });
+    else audit.broken.push({ ...link, status: 'missing anchor' });
+  }
+
+  const toCheck = links
+    .filter(link => !link.samePageAnchor)
+    .slice(0, Math.max(0, LINK_AUDIT_LIMIT - samePageAnchors.length));
+  audit.skipped = Math.max(0, links.length - samePageAnchors.length - toCheck.length);
+
+  const checked = await Promise.all(toCheck.map(checkLink));
+  for (const item of checked) {
+    audit.checked += 1;
+    if (item.internal) audit.internalChecked += 1;
+    else audit.externalChecked += 1;
+    if (item.error) audit.unchecked.push(item);
+    else if (isBrokenStatus(item.status)) audit.broken.push(item);
+    else audit.ok.push(item);
+  }
+
+  return audit;
+}
+
+async function checkLink(link) {
+  const head = await fetchStatus(link.url, 'HEAD');
+  if (head.status && head.status !== 405 && head.status !== 501) return { ...link, ...head };
+  const get = await fetchStatus(link.url, 'GET');
+  return { ...link, ...get };
+}
+
+async function fetchStatus(url, method) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), LINK_TIMEOUT_MS);
+  try {
+    const res = await fetch(url, {
+      method,
+      redirect: 'follow',
+      signal: ctrl.signal,
+      headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LoftsStudio-Audit/1.0)', 'Accept': 'text/html,*/*;q=0.8' },
+    });
+    return { status: res.status, finalUrl: res.url || url };
+  } catch (e) {
+    return { error: String(e && e.name === 'AbortError' ? 'timeout' : e).slice(0, 80) };
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+function isBrokenStatus(status) {
+  if (!status || typeof status !== 'number') return false;
+  if ([401, 403, 429].includes(status)) return false;
+  return status >= 400;
+}
+
+function safeDecode(value) {
+  try { return decodeURIComponent(value); } catch { return value; }
+}
+
+function buildTechnicalData({ html, finalUrl, statusCode, headers, ttfbMs, linkAudit, textContent }) {
+  const count = pattern => (String(html || '').match(pattern) || []).length;
+  const headingCounts = {};
+  for (let i = 1; i <= 6; i++) headingCounts[`h${i}`] = count(new RegExp(`<h${i}\\b`, 'gi'));
+
+  return {
+    finalUrl,
+    statusCode,
+    ttfbMs,
+    pageBytes: html.length,
+    wordCount: textContent ? textContent.split(/\s+/).filter(Boolean).length : 0,
+    headings: headingCounts,
+    images: count(/<img\b/gi),
+    scripts: count(/<script\b/gi),
+    stylesheets: count(/<link\b[^>]*rel=["'][^"']*stylesheet/gi),
+    forms: count(/<form\b/gi),
+    buttons: count(/<button\b/gi),
+    linksFound: linkAudit.totalFound,
+    linksChecked: linkAudit.checked,
+    brokenLinks: linkAudit.broken.length,
+    contentType: headers['content-type'] || '',
+    cacheControl: headers['cache-control'] || '',
+    server: headers.server || headers['x-powered-by'] || '',
+  };
+}
+
+function buildClientReport({ finalUrl, score, grade, checks, catScores, critical, high, linkAudit, technicalData }) {
+  const failed = checks
+    .filter(check => !check.pass)
+    .sort((a, b) => impactWeight(b.impact) - impactWeight(a.impact));
+  const designFails = failed.filter(check => check.category === 'design' || check.category === 'trust');
+  const technicalFails = failed.filter(check => check.category === 'technical' || check.category === 'performance' || check.category === 'seo');
+  const topActions = failed.slice(0, 6).map(check => ({
+    label: check.label,
+    impact: check.impact,
+    value: check.value,
+    recommendation: check.fix || 'Review and improve this area before sending more traffic to the page.',
+  }));
+
+  const status = score >= 80 ? 'strong foundation' : score >= 60 ? 'good site with clear improvement opportunities' : 'site with visible conversion and trust friction';
+
+  return {
+    generatedAt: new Date().toISOString(),
+    headline: `Audit report for ${new URL(finalUrl).hostname}`,
+    summary: `This page has a ${status}. The score is ${score}/100, with ${critical} critical and ${high} high-priority issue${high === 1 ? '' : 's'} to review first.`,
+    beforeAfter: {
+      before: [
+        designFails.length ? 'Visitors may need extra effort to understand the offer, trust the business, or choose the next step.' : 'The page has a usable presentation, but the strongest proof and action can still be sharper.',
+        linkAudit.broken.length ? `${linkAudit.broken.length} broken link${linkAudit.broken.length === 1 ? '' : 's'} can interrupt the buyer journey and waste crawl attention.` : 'Navigation paths checked from this page do not show dead ends.',
+        technicalFails.length ? 'Search and performance signals are leaving avoidable ranking or conversion gains on the table.' : 'The technical foundation is mostly in place.',
+      ],
+      after: [
+        'A clearer first screen explains the value, supports it with proof, and gives visitors one obvious next action.',
+        'Dead links, metadata gaps, mobile signals, and trust elements are cleaned so the site feels more reliable.',
+        'The page becomes easier to scan, easier to enquire from, and better prepared for SEO and paid traffic.',
+      ],
+    },
+    designAnalysis: designFails.length
+      ? designFails.slice(0, 5).map(check => `${check.label}: ${check.value}`)
+      : ['The main design and trust checks passed. The next improvement would be refinement: stronger proof, cleaner page rhythm, and sharper calls to action.'],
+    priorityActions: topActions,
+    brokenLinks: linkAudit.broken.slice(0, 10),
+    technicalSnapshot: technicalData,
+    catScores,
+    grade,
+  };
+}
+
+function impactWeight(impact) {
+  return ({ critical: 4, high: 3, medium: 2, low: 1 })[impact] || 0;
 }

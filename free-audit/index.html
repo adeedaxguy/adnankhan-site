@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Free Website Audit — Design, SEO & Performance — Lofts Studio</title>
-  <meta name="description" content="Get a free instant audit of any website. We check 22 factors across design, SEO, performance, and trust — and tell you exactly how to fix each one." />
+  <title>Free Website Audit Report — Design, SEO & Performance — Lofts Studio</title>
+  <meta name="description" content="Get a free instant website audit report with design, SEO, performance, trust, and broken-link analysis written in client-friendly language." />
   <link rel="canonical" href="https://lofts.studio/free-audit/" />
   <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
   <meta property="og:title" content="Free Website Audit — Lofts Studio" />
-  <meta property="og:description" content="22-point instant audit: design, SEO, performance, and trust. Free. No signup." />
+  <meta property="og:description" content="Instant client-ready audit: design, SEO, performance, trust, and broken links. Free. No signup." />
   <meta property="og:url" content="https://lofts.studio/free-audit/" />
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
@@ -108,7 +108,7 @@
     .pill-red   { background: #FEE2E2; color: #991B1B; }
 
     /* Category mini-scores */
-    .cat-scores { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
+    .cat-scores { display: grid; grid-template-columns: repeat(auto-fit, minmax(125px, 1fr)); gap: 0.75rem; margin-bottom: 1.5rem; }
     @media (max-width: 600px) { .cat-scores { grid-template-columns: repeat(2, 1fr); } }
     .cat-score-card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 0.9rem 1rem; text-align: center; }
     .cat-score-num { font-size: 1.4rem; font-weight: 700; line-height: 1; margin-bottom: 3px; }
@@ -118,7 +118,33 @@
     .cat-technical .cat-score-num, .cat-technical .cat-score-fill { color: #1E40AF; background: #3B82F6; }
     .cat-seo       .cat-score-num, .cat-seo       .cat-score-fill { color: #065F46; background: #10B981; }
     .cat-perf      .cat-score-num, .cat-perf      .cat-score-fill { color: #92400E; background: #F59E0B; }
+    .cat-design    .cat-score-num, .cat-design    .cat-score-fill { color: #7C2D12; background: #EA580C; }
     .cat-trust     .cat-score-num, .cat-trust     .cat-score-fill { color: #6B21A8; background: #8B5CF6; }
+
+    /* Client report */
+    .report-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(26,22,18,0.05); }
+    .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .report-head h3 { font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.2; margin-bottom: 0.35rem; }
+    .report-head p { color: var(--muted); font-size: 0.84rem; line-height: 1.55; max-width: 560px; }
+    .report-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
+    .report-btn { display: inline-flex; align-items: center; gap: 7px; padding: 0.7rem 1rem; border-radius: 9px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: var(--font-sans); white-space: nowrap; }
+    .report-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .before-after-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-bottom: 1rem; }
+    .ba-panel { border: 1px solid var(--line); border-radius: 12px; padding: 1rem; background: var(--bg); }
+    .ba-panel h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.65rem; }
+    .ba-panel ul, .report-list { list-style: none; display: grid; gap: 0.5rem; }
+    .ba-panel li, .report-list li { position: relative; padding-left: 1rem; color: var(--ink); font-size: 0.82rem; line-height: 1.55; }
+    .ba-panel li::before, .report-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+    .report-columns { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 1rem; margin-top: 1rem; }
+    .report-mini { border-top: 1px solid var(--line); padding-top: 1rem; }
+    .report-mini h4 { font-size: 0.78rem; margin-bottom: 0.65rem; }
+    .broken-link-list { display: grid; gap: 0.45rem; font-size: 0.78rem; color: var(--muted); }
+    .broken-link-list code { color: var(--ink); word-break: break-all; font-family: 'SF Mono', 'Fira Code', monospace; }
+    @media (max-width: 680px) {
+      .report-head, .report-actions { flex-direction: column; align-items: stretch; }
+      .report-btn { justify-content: center; }
+      .before-after-grid, .report-columns { grid-template-columns: 1fr; }
+    }
 
     /* CTA card */
     .audit-cta-card { background: linear-gradient(135deg, var(--ink) 0%, #2A2420 100%); color: var(--bg); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
@@ -204,24 +230,24 @@
 <section class="hero">
   <p class="hero-eyebrow">Free · Instant · No signup</p>
   <h1>See exactly what's<br><em>hurting your website</em></h1>
-  <p>Paste any URL and get a real 22-point audit — design, SEO, performance, and trust signals — with specific actionable fixes for every issue found.</p>
+  <p>Paste any URL and get a client-ready audit report — design, SEO, performance, trust, and broken links — with a plain-English before/after improvement plan.</p>
 
   <div class="cat-tags">
     <span class="cat-tag technical">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      Technical (6 checks)
+      Technical
     </span>
     <span class="cat-tag seo">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      SEO (5 checks)
+      SEO
     </span>
     <span class="cat-tag perf">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-      Performance (4 checks)
+      Performance
     </span>
     <span class="cat-tag trust">
       <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-      Design &amp; Trust (7 checks)
+      Design &amp; Trust
     </span>
   </div>
 
@@ -249,9 +275,9 @@
   <div class="audit-loading-steps">
     <div class="audit-loading-step" style="animation-delay:0.3s">Checking HTTPS, redirects &amp; server response…</div>
     <div class="audit-loading-step" style="animation-delay:1.0s">Scanning HTML structure &amp; SEO signals…</div>
-    <div class="audit-loading-step" style="animation-delay:2.2s">Checking design &amp; trust signals…</div>
+    <div class="audit-loading-step" style="animation-delay:2.2s">Checking broken links, design &amp; trust signals…</div>
     <div class="audit-loading-step" style="animation-delay:3.5s">Analysing schema, Open Graph &amp; performance…</div>
-    <div class="audit-loading-step" style="animation-delay:5.0s">Calculating scores &amp; generating fix plan…</div>
+    <div class="audit-loading-step" style="animation-delay:5.0s">Writing the before/after improvement report…</div>
   </div>
 </div>
 
@@ -271,12 +297,12 @@
     <div class="wf-card">
       <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg></div>
       <h4>Speed & Core Web Vitals</h4>
-      <p>We take stores from 40→90+ PageSpeed. Faster sites rank higher and convert more.</p>
+      <p>We clean up slow pages, heavy media, and Core Web Vitals issues so visitors do not leave before the site has a chance.</p>
     </div>
     <div class="wf-card">
       <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="2"/><line x1="12" y1="18" x2="12.01" y2="18"/></svg></div>
       <h4>Mobile Experience</h4>
-      <p>60%+ of visitors are on phones. We rebuild experiences that work on every screen.</p>
+      <p>We rebuild the first screen, menus, forms, and tap targets around how real people browse on phones.</p>
     </div>
     <div class="wf-card">
       <div class="wf-card-icon"><svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></div>
@@ -307,6 +333,7 @@ const resultsEl  = document.getElementById('auditResults');
 const errorEl    = document.getElementById('auditError');
 const whatWeFix  = document.getElementById('whatWeFix');
 const loadingUrl = document.getElementById('auditLoadingUrl');
+let currentAuditData = null;
 
 const qp = new URLSearchParams(location.search);
 if (qp.get('url')) { input.value = qp.get('url'); setTimeout(() => form.dispatchEvent(new Event('submit')), 300); }
@@ -341,7 +368,8 @@ form.addEventListener('submit', async (e) => {
 });
 
 function renderResults(data) {
-  const { score, grade, passed, total, critical, high, results: checks, catScores, url: auditUrl } = data;
+  currentAuditData = data;
+  const { score, grade, passed, total, critical, high, results: checks, catScores, url: auditUrl, report, linkAudit, technicalData } = data;
 
   const ringColor   = score >= 75 ? '#2D6A4F' : score >= 50 ? '#92400E' : '#991B1B';
   const circum      = 2 * Math.PI * 44;
@@ -357,7 +385,8 @@ function renderResults(data) {
     { key: 'technical', label: 'Technical', cls: 'cat-technical' },
     { key: 'seo',       label: 'SEO',        cls: 'cat-seo' },
     { key: 'performance', label: 'Performance', cls: 'cat-perf' },
-    { key: 'trust',     label: 'Design & Trust', cls: 'cat-trust' },
+    { key: 'design',    label: 'Design',     cls: 'cat-design' },
+    { key: 'trust',     label: 'Trust',      cls: 'cat-trust' },
   ];
   const catHtml = catDefs.map(c => {
     const s = catScores ? (catScores[c.key] ?? 100) : 100;
@@ -370,9 +399,9 @@ function renderResults(data) {
   }).join('');
 
   // Group checks by category
-  const catOrder = ['technical', 'seo', 'performance', 'trust'];
-  const catLabels = { technical: 'Technical', seo: 'SEO', performance: 'Performance', trust: 'Design & Trust' };
-  const catBadgeClass = { technical: 'cat-technical', seo: 'cat-seo', performance: 'cat-perf', trust: 'cat-trust' };
+  const catOrder = ['design', 'trust', 'technical', 'seo', 'performance'];
+  const catLabels = { technical: 'Technical', seo: 'SEO', performance: 'Performance', design: 'Design', trust: 'Trust' };
+  const catBadgeClass = { technical: 'cat-technical', seo: 'cat-seo', performance: 'cat-perf', design: 'cat-design', trust: 'cat-trust' };
   const impactW = { critical: 4, high: 3, medium: 2, low: 1 };
 
   let sectionsHtml = '';
@@ -394,6 +423,9 @@ function renderResults(data) {
         : `<svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
       const fixId = `fix-${cat}-${i}`;
       const hasFix = !c.pass && c.fix;
+      const detailHtml = Array.isArray(c.details) && c.details.length
+        ? `<div class="check-note">${c.details.map(d => `${esc(d.text || 'Link')}: ${esc(d.url || '')}${d.status ? ` (${esc(d.status)})` : ''}`).join('<br>')}</div>`
+        : '';
       return `<div class="check-item ${c.pass ? 'pass' : 'fail impact-' + c.impact}" id="item-${fixId}">
         <div class="check-item-header" ${hasFix ? `onclick="toggleFix('${fixId}')"` : ''}>
           <div class="check-icon ${iconCls}">${icon}</div>
@@ -401,6 +433,7 @@ function renderResults(data) {
             <div class="check-label">${esc(c.label)}</div>
             <div class="check-value">${esc(c.value || '')}</div>
             ${c.note ? `<div class="check-note">${esc(c.note)}</div>` : ''}
+            ${detailHtml}
           </div>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px;flex-shrink:0">
             ${!c.pass ? `<span class="check-impact impact-${c.impact}">${c.impact}</span>` : ''}
@@ -417,10 +450,12 @@ function renderResults(data) {
     <div class="audit-cta-card">
       <div>
         <h3>We can fix ${critical + high} of these issues.</h3>
-        <p>Lofts Studio has solved exactly these problems for 300+ businesses in the US &amp; UK. Send us the URL and we'll come back with a specific fix plan — no pitch, no commitment.</p>
+        <p>Send us the URL and we'll come back with a specific improvement plan — no pitch, no commitment.</p>
       </div>
       <a href="/#contact">Get a free fix plan →</a>
     </div>` : '';
+
+  const reportHtml = buildReportPreview(report, linkAudit, technicalData);
 
   resultsEl.innerHTML = `
     <div class="score-card">
@@ -442,6 +477,7 @@ function renderResults(data) {
       </div>
     </div>
     <div class="cat-scores">${catHtml}</div>
+    ${reportHtml}
     ${ctaHtml}
     ${sectionsHtml}
   `;
@@ -451,6 +487,169 @@ function renderResults(data) {
   resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
   if (typeof gtag !== 'undefined') gtag('event', 'audit_complete', { event_category: 'engagement', value: score });
+}
+
+function buildReportPreview(report, linkAudit, technicalData) {
+  if (!report) return '';
+  const before = (report.beforeAfter && report.beforeAfter.before) || [];
+  const after = (report.beforeAfter && report.beforeAfter.after) || [];
+  const design = report.designAnalysis || [];
+  const actions = report.priorityActions || [];
+  const broken = (linkAudit && linkAudit.broken) || [];
+  const facts = [
+    technicalData && technicalData.statusCode ? `HTTP status: ${technicalData.statusCode}` : '',
+    technicalData && technicalData.ttfbMs ? `Server response: ${technicalData.ttfbMs}ms` : '',
+    technicalData && technicalData.wordCount ? `Page copy: ${technicalData.wordCount} words` : '',
+    linkAudit ? `Links checked: ${linkAudit.checked || 0}` : '',
+  ].filter(Boolean);
+
+  return `
+    <div class="report-card">
+      <div class="report-head">
+        <div>
+          <h3>Client-ready improvement report</h3>
+          <p>${esc(report.summary || 'A plain-English report has been prepared for this site.')}</p>
+        </div>
+        <div class="report-actions">
+          <button type="button" class="report-btn" onclick="downloadAuditReport()">
+            <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download report
+          </button>
+        </div>
+      </div>
+      <div class="before-after-grid">
+        <div class="ba-panel">
+          <h4>Before we improve it</h4>
+          <ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+        <div class="ba-panel">
+          <h4>After the improvement work</h4>
+          <ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="report-columns">
+        <div class="report-mini">
+          <h4>Design and sales opportunities</h4>
+          <ul class="report-list">${design.slice(0, 5).map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+        <div class="report-mini">
+          <h4>First fixes to discuss</h4>
+          <ul class="report-list">${actions.slice(0, 4).map(item => `<li><strong>${esc(item.label)}</strong>: ${esc(item.recommendation)}</li>`).join('')}</ul>
+        </div>
+      </div>
+      <div class="report-columns">
+        <div class="report-mini">
+          <h4>Broken-link scan</h4>
+          ${broken.length
+            ? `<div class="broken-link-list">${broken.slice(0, 5).map(link => `<div><code>${esc(link.url)}</code><br>${esc(link.status || link.error || 'unreachable')}</div>`).join('')}</div>`
+            : `<p style="font-size:0.82rem;color:var(--muted);line-height:1.55">No broken links were found in the checked links from this page.</p>`}
+        </div>
+        <div class="report-mini">
+          <h4>Technical snapshot</h4>
+          <ul class="report-list">${facts.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function downloadAuditReport() {
+  if (!currentAuditData) return;
+  const reportHtml = buildDownloadableReport(currentAuditData);
+  const blob = new Blob([reportHtml], { type: 'text/html;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = `lofts-website-audit-${safeFilePart((currentAuditData.url || 'site').replace(/^https?:\/\//, '').split('/')[0])}.html`;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
+  if (typeof gtag !== 'undefined') gtag('event', 'audit_report_download', { event_category: 'engagement' });
+}
+
+function buildDownloadableReport(data) {
+  const report = data.report || {};
+  const checks = Object.values(data.results || {});
+  const failed = checks.filter(c => !c.pass);
+  const passed = checks.filter(c => c.pass);
+  const broken = (data.linkAudit && data.linkAudit.broken) || [];
+  const tech = data.technicalData || {};
+  const before = (report.beforeAfter && report.beforeAfter.before) || [];
+  const after = (report.beforeAfter && report.beforeAfter.after) || [];
+  const actions = report.priorityActions || [];
+  const design = report.designAnalysis || [];
+  const generatedAt = report.generatedAt ? new Date(report.generatedAt) : new Date();
+
+  const technicalRows = [
+    ['Final URL', data.url || ''],
+    ['HTTP status', tech.statusCode || 'Not measured'],
+    ['Server response', tech.ttfbMs ? `${tech.ttfbMs}ms` : 'Not measured'],
+    ['Page size', tech.pageBytes ? `${Math.round(tech.pageBytes / 1024)} KB` : 'Not measured'],
+    ['Word count', tech.wordCount || 'Not measured'],
+    ['Images', tech.images ?? 'Not measured'],
+    ['Scripts', tech.scripts ?? 'Not measured'],
+    ['Links found', tech.linksFound ?? 'Not measured'],
+    ['Links checked', tech.linksChecked ?? 'Not measured'],
+    ['Broken links', tech.brokenLinks ?? 'Not measured'],
+  ];
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>${esc(report.headline || 'Website Audit Report')}</title>
+  <style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f0ea;color:#1a1612;font-family:Inter,Arial,sans-serif;line-height:1.55}main{max-width:980px;margin:0 auto;padding:42px 24px 56px}.brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8b3a1f;font-weight:700;margin-bottom:18px}h1{font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 12px}h2{font-size:18px;margin:30px 0 12px}p{color:#5f544b}.score{display:inline-flex;align-items:center;gap:12px;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:14px 18px;margin:18px 0}.score strong{font-size:30px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:18px;margin:12px 0}.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a6e64}ul{margin:0;padding-left:20px}li{margin:8px 0}.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase}.fail{background:#fee2e2;color:#991b1b}.pass{background:#d1fae5;color:#065f46}table{width:100%;border-collapse:collapse;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;overflow:hidden}td,th{padding:10px 12px;border-bottom:1px solid #ddd7ce;text-align:left;vertical-align:top;font-size:14px}th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#7a6e64}code{word-break:break-all;color:#1a1612}@media(max-width:720px){h1{font-size:32px}.grid{grid-template-columns:1fr}main{padding:30px 18px}}</style>
+</head>
+<body>
+<main>
+  <div class="brand">Lofts Studio Website Audit</div>
+  <h1>${esc(report.headline || 'Website Audit Report')}</h1>
+  <p>${esc(report.summary || '')}</p>
+  <div class="score"><strong>${esc(data.score)}</strong><span>Grade ${esc(data.grade)}<br>${esc(generatedAt.toLocaleString())}</span></div>
+
+  <h2>Before and after comparison</h2>
+  <div class="grid">
+    <section class="card"><h3>Before we improve it</h3><ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
+    <section class="card"><h3>After the improvement work</h3><ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
+  </div>
+
+  <section class="card">
+    <h3>Design and sales opportunities</h3>
+    <ul>${design.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
+  </section>
+
+  <section class="card">
+    <h3>Priority fix plan</h3>
+    <ul>${actions.map(item => `<li><strong>${esc(item.label)}</strong> <span class="tag fail">${esc(item.impact)}</span><br>${esc(item.recommendation)}</li>`).join('')}</ul>
+  </section>
+
+  <section class="card">
+    <h3>Broken-link scan</h3>
+    ${broken.length
+      ? `<ul>${broken.map(link => `<li><code>${esc(link.url)}</code><br>${esc(link.status || link.error || 'unreachable')} — ${esc(link.text || 'Link')}</li>`).join('')}</ul>`
+      : `<p>No broken links were found in the checked links from this page.</p>`}
+  </section>
+
+  <h2>Technical snapshot</h2>
+  <table><tbody>${technicalRows.map(row => `<tr><th>${esc(row[0])}</th><td>${esc(row[1])}</td></tr>`).join('')}</tbody></table>
+
+  <h2>Detailed checks</h2>
+  <table>
+    <thead><tr><th>Status</th><th>Check</th><th>Finding</th><th>Recommendation</th></tr></thead>
+    <tbody>
+      ${[...failed, ...passed].map(check => `<tr><td><span class="tag ${check.pass ? 'pass' : 'fail'}">${check.pass ? 'pass' : check.impact}</span></td><td>${esc(check.label)}</td><td>${esc(check.value || '')}</td><td>${esc(check.pass ? 'Looks healthy.' : check.fix || 'Review this item.')}</td></tr>`).join('')}
+    </tbody>
+  </table>
+</main>
+</body>
+</html>`;
+}
+
+function safeFilePart(value) {
+  return String(value || 'site').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'site';
 }
 
 function toggleFix(id) {
