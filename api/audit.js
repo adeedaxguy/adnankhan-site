@@ -546,21 +546,52 @@ function buildClientReport({ finalUrl, score, grade, checks, catScores, critical
   const failed = checks
     .filter(check => !check.pass)
     .sort((a, b) => impactWeight(b.impact) - impactWeight(a.impact));
+  const passed = checks.filter(check => check.pass);
   const designFails = failed.filter(check => check.category === 'design' || check.category === 'trust');
   const technicalFails = failed.filter(check => check.category === 'technical' || check.category === 'performance' || check.category === 'seo');
   const topActions = failed.slice(0, 6).map(check => ({
     label: check.label,
     impact: check.impact,
     value: check.value,
+    why: explainClientImpact(check),
     recommendation: check.fix || 'Review and improve this area before sending more traffic to the page.',
+    expectedOutcome: expectedOutcome(check),
   }));
 
   const status = score >= 80 ? 'strong foundation' : score >= 60 ? 'good site with clear improvement opportunities' : 'site with visible conversion and trust friction';
+  const strongestCategories = Object.entries(catScores || {})
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 2)
+    .map(([key, value]) => `${labelForCategory(key)} (${value}/100)`);
+  const weakestCategories = Object.entries(catScores || {})
+    .sort((a, b) => a[1] - b[1])
+    .slice(0, 2)
+    .map(([key, value]) => `${labelForCategory(key)} (${value}/100)`);
+  const opportunityCards = buildOpportunityCards({ failed, checks, catScores, linkAudit });
+  const quickWins = failed
+    .filter(check => ['critical', 'high', 'medium'].includes(check.impact))
+    .slice(0, 5)
+    .map(check => ({
+      title: check.label,
+      impact: check.impact,
+      finding: check.value,
+      why: explainClientImpact(check),
+      action: check.fix || 'Review this item and improve it before sending more traffic to the page.',
+    }));
+  const strengths = passed
+    .filter(check => ['critical', 'high', 'medium'].includes(check.impact))
+    .slice(0, 4)
+    .map(check => `${check.label}: ${check.value}`);
 
   return {
     generatedAt: new Date().toISOString(),
     headline: `Audit report for ${new URL(finalUrl).hostname}`,
-    summary: `This page has a ${status}. The score is ${score}/100, with ${critical} critical and ${high} high-priority issue${high === 1 ? '' : 's'} to review first.`,
+    summary: `This page has a ${status}. The score is ${score}/100, with ${critical} critical and ${high} high-priority issue${high === 1 ? '' : 's'} to review first. The biggest opportunity is to turn the page from an online brochure into a clearer enquiry path.`,
+    executiveSummary: [
+      weakestCategories.length ? `Weakest areas: ${weakestCategories.join(' and ')}.` : 'No weak category stood out, so the opportunity is refinement and stronger messaging.',
+      strongestCategories.length ? `Strongest signals: ${strongestCategories.join(' and ')}.` : 'The page needs a stronger foundation before strengths are obvious.',
+      failed.length ? `${failed.length} items should be reviewed before more traffic is sent to this page.` : 'The core checks look healthy, so the next step is a conversion-focused polish.',
+    ],
     beforeAfter: {
       before: [
         designFails.length ? 'Visitors may need extra effort to understand the offer, trust the business, or choose the next step.' : 'The page has a usable presentation, but the strongest proof and action can still be sharper.',
@@ -568,15 +599,21 @@ function buildClientReport({ finalUrl, score, grade, checks, catScores, critical
         technicalFails.length ? 'Search and performance signals are leaving avoidable ranking or conversion gains on the table.' : 'The technical foundation is mostly in place.',
       ],
       after: [
-        'A clearer first screen explains the value, supports it with proof, and gives visitors one obvious next action.',
-        'Dead links, metadata gaps, mobile signals, and trust elements are cleaned so the site feels more reliable.',
-        'The page becomes easier to scan, easier to enquire from, and better prepared for SEO and paid traffic.',
+        'A sharper first screen explains the offer, backs it with proof, and gives visitors one obvious next action.',
+        'Trust signals, contact paths, mobile behaviour, and navigation are cleaned so the business feels easier to choose.',
+        'The page becomes easier to scan, easier to enquire from, and better prepared for SEO, referrals, and paid traffic.',
       ],
     },
+    opportunityCards,
     designAnalysis: designFails.length
-      ? designFails.slice(0, 5).map(check => `${check.label}: ${check.value}`)
-      : ['The main design and trust checks passed. The next improvement would be refinement: stronger proof, cleaner page rhythm, and sharper calls to action.'],
+      ? designFails.slice(0, 6).map(check => `${check.label}: ${check.value}. ${explainClientImpact(check)}`)
+      : [
+          'The main design and trust checks passed, so the next improvement is refinement: sharper proof, cleaner page rhythm, stronger calls to action, and more persuasive above-the-fold positioning.',
+          'Even when the basics pass, a redesign can still improve how quickly a visitor understands the offer and feels confident enough to enquire.',
+        ],
+    quickWins,
     priorityActions: topActions,
+    strengths,
     brokenLinks: linkAudit.broken.slice(0, 10),
     technicalSnapshot: technicalData,
     catScores,
@@ -586,4 +623,78 @@ function buildClientReport({ finalUrl, score, grade, checks, catScores, critical
 
 function impactWeight(impact) {
   return ({ critical: 4, high: 3, medium: 2, low: 1 })[impact] || 0;
+}
+
+function labelForCategory(category) {
+  return ({ technical: 'Technical', seo: 'SEO', performance: 'Performance', design: 'Design', trust: 'Trust' })[category] || category;
+}
+
+function buildOpportunityCards({ failed, checks, catScores, linkAudit }) {
+  const find = labels => labels
+    .map(label => checks.find(check => check.label === label))
+    .filter(Boolean);
+  const designIssues = find(['First-screen message and action', 'Scannable page structure', 'Low-friction enquiry path', 'Clear call-to-action (CTA)']).filter(check => !check.pass);
+  const trustIssues = find(['Social proof / trust signals', 'Phone number visible', 'Privacy policy / Terms of service', 'Analytics tracking installed']).filter(check => !check.pass);
+  const seoIssues = failed.filter(check => ['technical', 'seo', 'performance'].includes(check.category));
+  const linkIssues = linkAudit.broken || [];
+
+  return [
+    {
+      theme: 'risk',
+      title: 'Lost enquiry risk',
+      score: Math.min(catScores.design ?? 100, catScores.trust ?? 100),
+      finding: designIssues.length ? summarizeIssue(designIssues[0]) : 'The design basics pass, but the page can still work harder to make the next step feel obvious.',
+      why: 'A visitor who has to think too hard usually leaves quietly. The page should answer “why this business?” and “what do I do next?” without effort.',
+      action: designIssues.length ? designIssues[0].fix : 'Strengthen the first screen, repeat the main CTA, and place proof close to the decision points.',
+    },
+    {
+      theme: 'trust',
+      title: 'Trust and proof gap',
+      score: catScores.trust ?? 100,
+      finding: trustIssues.length ? summarizeIssue(trustIssues[0]) : 'Core trust checks passed, so this is a chance to make proof more visible and persuasive.',
+      why: 'Prospects compare confidence, not just design. Reviews, proof, contact clarity, and policies reduce hesitation before enquiry.',
+      action: trustIssues.length ? trustIssues[0].fix : 'Add stronger testimonials, client outcomes, project proof, and a clear contact path near the top and bottom.',
+    },
+    {
+      theme: 'growth',
+      title: 'Search and traffic readiness',
+      score: Math.min(catScores.technical ?? 100, catScores.seo ?? 100, catScores.performance ?? 100),
+      finding: seoIssues.length ? summarizeIssue(seoIssues[0]) : 'Search and performance checks are mostly healthy from this page.',
+      why: 'Better technical signals help more qualified visitors reach the page, and faster clearer pages keep more of those visitors engaged.',
+      action: seoIssues.length ? seoIssues[0].fix : 'Use the healthy foundation to add stronger service, location, and proof content around the offer.',
+    },
+    {
+      theme: 'navigation',
+      title: 'Journey continuity',
+      score: linkIssues.length ? 45 : 92,
+      finding: linkIssues.length ? `${linkIssues.length} broken link${linkIssues.length === 1 ? '' : 's'} found in the scan.` : 'No broken links were found in the checked links from this page.',
+      why: 'Every dead end creates doubt. Clean navigation helps prospects keep moving from interest to enquiry.',
+      action: linkIssues.length ? 'Repair the broken links or redirect them to the most relevant live pages.' : 'Keep the journey tight by linking service, proof, FAQ, and contact sections in a clear order.',
+    },
+  ];
+}
+
+function summarizeIssue(check) {
+  return `${check.label}: ${check.value}`;
+}
+
+function explainClientImpact(check) {
+  const label = check.label || '';
+  if (/CTA|action|enquiry|contact/i.test(label)) return 'This can reduce enquiries because visitors do not get a confident next step at the moment they are interested.';
+  if (/Social proof|review|trust/i.test(label)) return 'This can make the business feel harder to trust than competitors with visible proof and reassurance.';
+  if (/title|description|H1|Schema|index|canonical/i.test(label)) return 'This can weaken search visibility and make the page less compelling when it appears in Google.';
+  if (/speed|response|viewport|mobile|image/i.test(label)) return 'This can make mobile visitors leave early, especially when the page feels slow or awkward on phones.';
+  if (/Broken links|loads|HTTP|redirect|HTTPS|security/i.test(label)) return 'This can create doubt and interrupt the visitor journey before they enquire.';
+  if (/Analytics/i.test(label)) return 'This makes it harder to know which channels and pages are producing serious leads.';
+  return 'This creates friction that can make a qualified visitor hesitate, leave, or choose another provider.';
+}
+
+function expectedOutcome(check) {
+  const category = check.category || '';
+  if (category === 'design') return 'Clearer first impression and a smoother path to enquiry.';
+  if (category === 'trust') return 'More confidence before a prospect contacts the business.';
+  if (category === 'seo') return 'Cleaner search presentation and stronger page relevance.';
+  if (category === 'performance') return 'Faster, more comfortable browsing on mobile and desktop.';
+  if (category === 'technical') return 'Fewer dead ends and a more reliable foundation for traffic.';
+  return 'Less friction and a more persuasive page experience.';
 }

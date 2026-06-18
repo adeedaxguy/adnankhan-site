@@ -122,28 +122,61 @@
     .cat-trust     .cat-score-num, .cat-trust     .cat-score-fill { color: #6B21A8; background: #8B5CF6; }
 
     /* Client report */
-    .report-card { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 20px rgba(26,22,18,0.05); }
-    .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
-    .report-head h3 { font-family: var(--font-serif); font-size: 1.2rem; line-height: 1.2; margin-bottom: 0.35rem; }
-    .report-head p { color: var(--muted); font-size: 0.84rem; line-height: 1.55; max-width: 560px; }
+    .report-card { background: linear-gradient(180deg, #FFFCF8 0%, var(--surface) 100%); border: 1px solid var(--line); border-radius: 16px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 12px 34px rgba(26,22,18,0.08); }
+    .report-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; margin-bottom: 1.15rem; padding-bottom: 1rem; border-bottom: 1px solid var(--line); }
+    .report-kicker { font-size: 0.64rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.16em; color: var(--accent); margin-bottom: 0.4rem; }
+    .report-head h3 { font-family: var(--font-serif); font-size: 1.3rem; line-height: 1.15; margin-bottom: 0.45rem; }
+    .report-head p { color: var(--muted); font-size: 0.86rem; line-height: 1.6; max-width: 590px; }
     .report-actions { display: flex; gap: 0.5rem; flex-wrap: wrap; justify-content: flex-end; }
     .report-btn { display: inline-flex; align-items: center; gap: 7px; padding: 0.7rem 1rem; border-radius: 9px; border: 1px solid var(--ink); background: var(--ink); color: var(--bg); font-size: 0.82rem; font-weight: 600; cursor: pointer; font-family: var(--font-sans); white-space: nowrap; }
     .report-btn:hover { background: var(--accent); border-color: var(--accent); }
+    .exec-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; margin-bottom: 1rem; }
+    .exec-pill { border: 1px solid var(--line); border-radius: 12px; background: #FFFFFF; padding: 0.85rem; min-height: 92px; }
+    .exec-pill strong { display: block; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.11em; color: var(--muted); margin-bottom: 0.35rem; }
+    .exec-pill span { display: block; font-size: 0.82rem; line-height: 1.45; color: var(--ink); }
+    .exec-pill.risk { border-color: #FECACA; background: #FFF1F2; }
+    .exec-pill.trust { border-color: #BFDBFE; background: #EFF6FF; }
+    .exec-pill.growth { border-color: #A7F3D0; background: #ECFDF5; }
+    .opportunity-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.8rem; margin: 1rem 0; }
+    .opp-card { border: 1px solid var(--line); border-radius: 14px; padding: 1rem; background: #FFFFFF; position: relative; overflow: hidden; }
+    .opp-card::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 4px; background: var(--opp); }
+    .opp-card.risk { --opp: #DC2626; background: #FFF1F2; border-color: #FECACA; }
+    .opp-card.trust { --opp: #2563EB; background: #EFF6FF; border-color: #BFDBFE; }
+    .opp-card.growth { --opp: #059669; background: #ECFDF5; border-color: #A7F3D0; }
+    .opp-card.navigation { --opp: #7C3AED; background: #F5F3FF; border-color: #DDD6FE; }
+    .opp-top { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; margin-bottom: 0.65rem; }
+    .opp-title { font-size: 0.84rem; font-weight: 700; color: var(--ink); }
+    .opp-score { font-size: 0.68rem; font-weight: 800; border-radius: 999px; padding: 3px 8px; background: rgba(255,255,255,0.75); color: var(--ink); border: 1px solid rgba(26,22,18,0.08); white-space: nowrap; }
+    .opp-card p { font-size: 0.8rem; line-height: 1.55; color: var(--ink); margin: 0 0 0.5rem; }
+    .opp-card .opp-why { color: var(--muted); }
+    .report-subtitle { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.13em; font-weight: 800; color: var(--muted); margin: 1rem 0 0.6rem; }
     .before-after-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.85rem; margin-bottom: 1rem; }
     .ba-panel { border: 1px solid var(--line); border-radius: 12px; padding: 1rem; background: var(--bg); }
+    .ba-panel.before { background: #FFF7ED; border-color: #FED7AA; }
+    .ba-panel.after { background: #ECFDF5; border-color: #A7F3D0; }
     .ba-panel h4 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.65rem; }
     .ba-panel ul, .report-list { list-style: none; display: grid; gap: 0.5rem; }
     .ba-panel li, .report-list li { position: relative; padding-left: 1rem; color: var(--ink); font-size: 0.82rem; line-height: 1.55; }
     .ba-panel li::before, .report-list li::before { content: ""; position: absolute; left: 0; top: 0.7em; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
-    .report-columns { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 1rem; margin-top: 1rem; }
-    .report-mini { border-top: 1px solid var(--line); padding-top: 1rem; }
+    .ba-panel.after li::before { background: #059669; }
+    .report-columns { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 0.9rem; margin-top: 1rem; }
+    .report-mini { border: 1px solid var(--line); border-radius: 12px; padding: 1rem; background: #FFFFFF; }
     .report-mini h4 { font-size: 0.78rem; margin-bottom: 0.65rem; }
+    .action-list { display: grid; gap: 0.7rem; }
+    .action-item { border: 1px solid var(--line); border-radius: 12px; padding: 0.85rem; background: #FFFFFF; }
+    .action-item.critical { border-color: #FECACA; background: #FFF1F2; }
+    .action-item.high { border-color: #FED7AA; background: #FFF7ED; }
+    .action-item.medium { border-color: #BFDBFE; background: #EFF6FF; }
+    .action-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 0.6rem; margin-bottom: 0.35rem; }
+    .action-title { font-size: 0.82rem; font-weight: 800; line-height: 1.35; }
+    .action-impact { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 3px 7px; background: rgba(26,22,18,0.08); white-space: nowrap; }
+    .action-item p { font-size: 0.78rem; line-height: 1.5; color: var(--muted); margin: 0.3rem 0 0; }
     .broken-link-list { display: grid; gap: 0.45rem; font-size: 0.78rem; color: var(--muted); }
     .broken-link-list code { color: var(--ink); word-break: break-all; font-family: 'SF Mono', 'Fira Code', monospace; }
     @media (max-width: 680px) {
       .report-head, .report-actions { flex-direction: column; align-items: stretch; }
       .report-btn { justify-content: center; }
-      .before-after-grid, .report-columns { grid-template-columns: 1fr; }
+      .exec-grid, .opportunity-grid, .before-after-grid, .report-columns { grid-template-columns: 1fr; }
     }
 
     /* CTA card */
@@ -493,8 +526,10 @@ function buildReportPreview(report, linkAudit, technicalData) {
   if (!report) return '';
   const before = (report.beforeAfter && report.beforeAfter.before) || [];
   const after = (report.beforeAfter && report.beforeAfter.after) || [];
+  const exec = report.executiveSummary || [];
+  const opportunities = report.opportunityCards || [];
   const design = report.designAnalysis || [];
-  const actions = report.priorityActions || [];
+  const actions = report.quickWins || report.priorityActions || [];
   const broken = (linkAudit && linkAudit.broken) || [];
   const facts = [
     technicalData && technicalData.statusCode ? `HTTP status: ${technicalData.statusCode}` : '',
@@ -502,11 +537,13 @@ function buildReportPreview(report, linkAudit, technicalData) {
     technicalData && technicalData.wordCount ? `Page copy: ${technicalData.wordCount} words` : '',
     linkAudit ? `Links checked: ${linkAudit.checked || 0}` : '',
   ].filter(Boolean);
+  const execClasses = ['risk', 'trust', 'growth'];
 
   return `
     <div class="report-card">
       <div class="report-head">
         <div>
+          <div class="report-kicker">Opportunity report</div>
           <h3>Client-ready improvement report</h3>
           <p>${esc(report.summary || 'A plain-English report has been prepared for this site.')}</p>
         </div>
@@ -517,12 +554,28 @@ function buildReportPreview(report, linkAudit, technicalData) {
           </button>
         </div>
       </div>
+      <div class="exec-grid">
+        ${exec.slice(0, 3).map((item, index) => `<div class="exec-pill ${execClasses[index] || ''}"><strong>${index === 0 ? 'Main concern' : index === 1 ? 'Current strength' : 'Review scope'}</strong><span>${esc(item)}</span></div>`).join('')}
+      </div>
+      <div class="report-subtitle">Where the site can win more clients</div>
+      <div class="opportunity-grid">
+        ${opportunities.map(card => `<div class="opp-card ${safeClass(card.theme)}">
+          <div class="opp-top">
+            <div class="opp-title">${esc(card.title)}</div>
+            <div class="opp-score">${esc(card.score)}/100</div>
+          </div>
+          <p><strong>Finding:</strong> ${esc(card.finding)}</p>
+          <p class="opp-why"><strong>Why it matters:</strong> ${esc(card.why)}</p>
+          <p><strong>Best next move:</strong> ${esc(card.action)}</p>
+        </div>`).join('')}
+      </div>
+      <div class="report-subtitle">Before vs after working on this site</div>
       <div class="before-after-grid">
-        <div class="ba-panel">
+        <div class="ba-panel before">
           <h4>Before we improve it</h4>
           <ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
         </div>
-        <div class="ba-panel">
+        <div class="ba-panel after">
           <h4>After the improvement work</h4>
           <ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul>
         </div>
@@ -534,7 +587,11 @@ function buildReportPreview(report, linkAudit, technicalData) {
         </div>
         <div class="report-mini">
           <h4>First fixes to discuss</h4>
-          <ul class="report-list">${actions.slice(0, 4).map(item => `<li><strong>${esc(item.label)}</strong>: ${esc(item.recommendation)}</li>`).join('')}</ul>
+          <div class="action-list">${actions.slice(0, 4).map(item => `<div class="action-item ${safeClass(item.impact)}">
+            <div class="action-top"><div class="action-title">${esc(item.title || item.label)}</div><span class="action-impact">${esc(item.impact || 'review')}</span></div>
+            <p><strong>Why:</strong> ${esc(item.why || item.value || '')}</p>
+            <p><strong>Move:</strong> ${esc(item.action || item.recommendation || '')}</p>
+          </div>`).join('')}</div>
         </div>
       </div>
       <div class="report-columns">
@@ -579,6 +636,10 @@ function buildDownloadableReport(data) {
   const after = (report.beforeAfter && report.beforeAfter.after) || [];
   const actions = report.priorityActions || [];
   const design = report.designAnalysis || [];
+  const exec = report.executiveSummary || [];
+  const opportunities = report.opportunityCards || [];
+  const quickWins = report.quickWins || actions;
+  const strengths = report.strengths || [];
   const generatedAt = report.generatedAt ? new Date(report.generatedAt) : new Date();
 
   const technicalRows = [
@@ -601,7 +662,7 @@ function buildDownloadableReport(data) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>${esc(report.headline || 'Website Audit Report')}</title>
   <style>
-    *{box-sizing:border-box}body{margin:0;background:#f4f0ea;color:#1a1612;font-family:Inter,Arial,sans-serif;line-height:1.55}main{max-width:980px;margin:0 auto;padding:42px 24px 56px}.brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8b3a1f;font-weight:700;margin-bottom:18px}h1{font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 12px}h2{font-size:18px;margin:30px 0 12px}p{color:#5f544b}.score{display:inline-flex;align-items:center;gap:12px;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:14px 18px;margin:18px 0}.score strong{font-size:30px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.card{background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:18px;margin:12px 0}.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a6e64}ul{margin:0;padding-left:20px}li{margin:8px 0}.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:700;text-transform:uppercase}.fail{background:#fee2e2;color:#991b1b}.pass{background:#d1fae5;color:#065f46}table{width:100%;border-collapse:collapse;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;overflow:hidden}td,th{padding:10px 12px;border-bottom:1px solid #ddd7ce;text-align:left;vertical-align:top;font-size:14px}th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#7a6e64}code{word-break:break-all;color:#1a1612}@media(max-width:720px){h1{font-size:32px}.grid{grid-template-columns:1fr}main{padding:30px 18px}}</style>
+    *{box-sizing:border-box}body{margin:0;background:#f4f0ea;color:#1a1612;font-family:Inter,Arial,sans-serif;line-height:1.55}main{max-width:1040px;margin:0 auto;padding:42px 24px 56px}.brand{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8b3a1f;font-weight:800;margin-bottom:18px}h1{font-family:Georgia,serif;font-size:42px;line-height:1.05;margin:0 0 12px}h2{font-size:18px;margin:30px 0 12px}p{color:#5f544b}.score{display:inline-flex;align-items:center;gap:12px;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:14px 18px;margin:18px 0}.score strong{font-size:30px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.grid-3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;padding:18px;margin:12px 0}.card h3{margin:0 0 10px;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:#7a6e64}.risk{background:#fff1f2;border-color:#fecaca}.trust{background:#eff6ff;border-color:#bfdbfe}.growth{background:#ecfdf5;border-color:#a7f3d0}.navigation{background:#f5f3ff;border-color:#ddd6fe}.before{background:#fff7ed;border-color:#fed7aa}.after{background:#ecfdf5;border-color:#a7f3d0}ul{margin:0;padding-left:20px}li{margin:8px 0}.tag{display:inline-block;padding:3px 8px;border-radius:999px;font-size:11px;font-weight:800;text-transform:uppercase}.fail{background:#fee2e2;color:#991b1b}.pass{background:#d1fae5;color:#065f46}table{width:100%;border-collapse:collapse;background:#fdfaf6;border:1px solid #ddd7ce;border-radius:14px;overflow:hidden}td,th{padding:10px 12px;border-bottom:1px solid #ddd7ce;text-align:left;vertical-align:top;font-size:14px}th{font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#7a6e64}code{word-break:break-all;color:#1a1612}@media(max-width:760px){h1{font-size:32px}.grid,.grid-3{grid-template-columns:1fr}main{padding:30px 18px}}</style>
 </head>
 <body>
 <main>
@@ -610,10 +671,20 @@ function buildDownloadableReport(data) {
   <p>${esc(report.summary || '')}</p>
   <div class="score"><strong>${esc(data.score)}</strong><span>Grade ${esc(data.grade)}<br>${esc(generatedAt.toLocaleString())}</span></div>
 
+  <h2>Executive summary</h2>
+  <div class="grid-3">
+    ${exec.slice(0, 3).map((item, index) => `<section class="card ${index === 0 ? 'risk' : index === 1 ? 'trust' : 'growth'}"><h3>${index === 0 ? 'Main concern' : index === 1 ? 'Current strength' : 'Review scope'}</h3><p>${esc(item)}</p></section>`).join('')}
+  </div>
+
+  <h2>Where the site can win more clients</h2>
+  <div class="grid">
+    ${opportunities.map(card => `<section class="card ${safeClass(card.theme)}"><h3>${esc(card.title)} · ${esc(card.score)}/100</h3><p><strong>Finding:</strong> ${esc(card.finding)}</p><p><strong>Why it matters:</strong> ${esc(card.why)}</p><p><strong>Best next move:</strong> ${esc(card.action)}</p></section>`).join('')}
+  </div>
+
   <h2>Before and after comparison</h2>
   <div class="grid">
-    <section class="card"><h3>Before we improve it</h3><ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
-    <section class="card"><h3>After the improvement work</h3><ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
+    <section class="card before"><h3>Before we improve it</h3><ul>${before.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
+    <section class="card after"><h3>After the improvement work</h3><ul>${after.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>
   </div>
 
   <section class="card">
@@ -623,8 +694,10 @@ function buildDownloadableReport(data) {
 
   <section class="card">
     <h3>Priority fix plan</h3>
-    <ul>${actions.map(item => `<li><strong>${esc(item.label)}</strong> <span class="tag fail">${esc(item.impact)}</span><br>${esc(item.recommendation)}</li>`).join('')}</ul>
+    <ul>${quickWins.map(item => `<li><strong>${esc(item.title || item.label)}</strong> <span class="tag fail">${esc(item.impact)}</span><br><em>${esc(item.why || item.value || '')}</em><br>${esc(item.action || item.recommendation || '')}</li>`).join('')}</ul>
   </section>
+
+  ${strengths.length ? `<section class="card growth"><h3>What already looks healthy</h3><ul>${strengths.map(item => `<li>${esc(item)}</li>`).join('')}</ul></section>` : ''}
 
   <section class="card">
     <h3>Broken-link scan</h3>
@@ -650,6 +723,10 @@ function buildDownloadableReport(data) {
 
 function safeFilePart(value) {
   return String(value || 'site').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'site';
+}
+
+function safeClass(value) {
+  return String(value || '').toLowerCase().replace(/[^a-z0-9_-]/g, '');
 }
 
 function toggleFix(id) {
