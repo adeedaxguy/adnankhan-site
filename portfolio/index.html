@@ -25,7 +25,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260618c" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260619a" />
 
 <script type="application/ld+json">
 {
@@ -168,7 +168,7 @@
 }
 </script>
 </head>
-<body>
+<body class="portfolio-page">
 
 <header class="nav-bar">
   <div class="nav-inner">
@@ -245,21 +245,39 @@
 
 </header>
 
-<section class="paper" style="padding:7rem 0 4rem;">
+<section class="portfolio-hero-stage">
   <div class="container">
-    <div data-reveal style="max-width:940px;">
-      <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2017&ndash;present</span>
-      <h1 class="h-display" data-split="words" style="margin-top:1.5rem;">
-        A curated public archive. <span class="italic-serif">Every project here launched.</span>
-      </h1>
-      <p class="lead" style="margin-top:2rem;">
-        This is the work I can show publicly, not the full body of work. Across 1,500+ projects handled for a much larger client base, the pattern is simple: clear scope, senior execution, shipped sites that survive real traffic.
-      </p>
-      <div class="hero-stats">
+    <div class="portfolio-hero-grid" data-reveal>
+      <div class="portfolio-hero-copy">
+        <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2017&ndash;present</span>
+        <h1 class="h-display">
+          Websites that make the next step obvious.
+        </h1>
+        <p class="lead">
+          A public archive of shipped work across Shopify, WooCommerce, WordPress, custom apps, B2B platforms, marketplaces, and performance rebuilds.
+        </p>
+        <div class="portfolio-hero-actions">
+          <a href="/#contact" class="btn btn-primary">Start a conversation</a>
+          <a href="#all-work" class="btn-link">View the archive &nbsp;&rarr;</a>
+        </div>
+      </div>
+      <aside class="portfolio-hero-proof" aria-label="Portfolio proof">
+        <p class="portfolio-proof-kicker">Public archive</p>
+        <p class="portfolio-proof-copy">This is the work I can show publicly, not the full body of work. Across 1,500+ projects handled for a much larger client base, the pattern is simple: clear scope, senior execution, and shipped sites that survive real traffic.</p>
+      </aside>
+    </div>
+    <div class="portfolio-proof-strip" aria-label="Selected client examples">
+      <span>Discova</span>
+      <span>Mercanto</span>
+      <span>Jamaican Coffee Club</span>
+      <span>Salud Capital</span>
+      <span>Zoofy</span>
+      <span>Cartelligent</span>
+    </div>
+    <div class="hero-stats portfolio-hero-stats">
         <div class="hero-stat"><div class="bignum">1,500<span class="bignum-suffix">+</span></div><div class="hero-stat-lbl">Projects handled</div></div>
         <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Client work</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
-      </div>
     </div>
   </div>
 </section>
@@ -302,7 +320,7 @@
 </div>
 
 <!-- ── Work grid ──────────────────────────────────────────────────────────── -->
-<section class="section" id="all-work" style="border-top:0;padding:4rem 0 6rem;">
+<section class="portfolio-work-stage" id="all-work">
   <div class="container">
     <div class="work-grid" id="workGrid">
 
