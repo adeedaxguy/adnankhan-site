@@ -1203,6 +1203,29 @@ details.faq .faq-body {
   filter: saturate(0.95);
 }
 .case-study:hover .case-image img { transform: scale(1.025); filter: saturate(1); }
+.case-screenshot-frame {
+  width: 100%;
+  max-width: min(100%, 1100px);
+  margin-inline: auto;
+  box-shadow: 0 28px 82px -60px rgba(26, 22, 18, 0.48);
+}
+.case-screenshot-frame a { display: block; }
+.case-screenshot-img {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+  object-position: top center;
+  filter: none;
+  transform: none;
+}
+@media (max-width: 720px) {
+  .case-screenshot-frame {
+    max-width: 100%;
+    border-radius: 14px !important;
+  }
+}
 .case-tag {
   display: inline-block;
   font-family: var(--font-sans);
