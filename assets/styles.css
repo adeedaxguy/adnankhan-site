@@ -5447,8 +5447,45 @@ body.portfolio-page .cursor-ring {
 .portfolio-page #pagination {
   margin-top: 4rem !important;
 }
-.portfolio-page .essay-grid {
-  color: var(--ink);
+.portfolio-thread-section {
+  background: #111111;
+  color: #F7F0E8;
+  border-top: 1px solid rgba(247,240,232,0.1);
+  padding-top: 8rem;
+}
+.portfolio-thread-section .essay-grid {
+  color: #F7F0E8;
+}
+.portfolio-thread-section .eyebrow {
+  color: rgba(247,240,232,0.58);
+}
+.portfolio-thread-section .eyebrow::before {
+  background: rgba(247,240,232,0.38);
+}
+.portfolio-thread-section .prose,
+.portfolio-thread-section .prose p {
+  color: rgba(247,240,232,0.74);
+}
+.portfolio-thread-section .h-1,
+.portfolio-thread-section .italic-serif {
+  color: #F7F0E8;
+}
+.portfolio-thread-section .word-mask {
+  overflow: visible;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+.portfolio-thread-section .word {
+  transform: translateY(0) !important;
+}
+.portfolio-thread-link {
+  color: #F7F0E8;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  text-decoration-color: rgba(247,240,232,0.55);
+}
+.portfolio-thread-link:hover {
+  text-decoration-color: #F7F0E8;
 }
 
 @media (max-width: 980px) {
