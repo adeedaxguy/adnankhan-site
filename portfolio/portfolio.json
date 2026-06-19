@@ -418,7 +418,8 @@
       "role": "Storefront build \u00b7 PDP design \u00b7 Checkout tuning",
       "featured": false,
       "published": true,
-      "displayOrder": 16
+      "displayOrder": 16,
+      "hideScreenshot": true
     },
     {
       "slug": "carreflections",

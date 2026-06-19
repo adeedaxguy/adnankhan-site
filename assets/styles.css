@@ -5595,6 +5595,122 @@ body.portfolio-page .cursor-ring {
   position: relative;
   z-index: 2;
 }
+.portfolio-page .work-card-designed {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  min-height: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.72rem;
+  overflow: hidden;
+  padding: clamp(3.6rem, 7vw, 6.2rem) clamp(1.35rem, 4vw, 3rem) clamp(2.5rem, 5vw, 4.8rem);
+  text-align: center;
+  color: #F7F0E8;
+  background:
+    radial-gradient(circle at 12% 15%, rgba(247,240,232,0.16), transparent 28%),
+    radial-gradient(circle at 78% 20%, rgba(139,58,31,0.42), transparent 34%),
+    radial-gradient(circle at 58% 92%, rgba(72,109,115,0.32), transparent 34%),
+    linear-gradient(145deg, #27201c 0%, #151413 58%, #0c0c0c 100%);
+}
+.portfolio-page .work-card-designed::before {
+  content: "";
+  position: absolute;
+  inset: 34px 0 0;
+  z-index: -1;
+  background:
+    linear-gradient(rgba(247,240,232,0.055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(247,240,232,0.045) 1px, transparent 1px);
+  background-size: 42px 42px;
+  mask-image: radial-gradient(circle at 50% 46%, #000 0 36%, transparent 74%);
+  opacity: 0.72;
+}
+.portfolio-page .work-card-designed::after {
+  content: "";
+  position: absolute;
+  inset: 17% 12%;
+  z-index: -1;
+  border: 1px solid rgba(247,240,232,0.12);
+  border-radius: 18px;
+  background: linear-gradient(160deg, rgba(247,240,232,0.08), rgba(247,240,232,0.025));
+  box-shadow:
+    inset 0 1px 0 rgba(247,240,232,0.08),
+    0 26px 70px -48px rgba(0,0,0,0.9);
+}
+.portfolio-page .work-card-designed[data-tone="brand"] {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(190,144,255,0.22), transparent 30%),
+    radial-gradient(circle at 80% 30%, rgba(139,58,31,0.36), transparent 36%),
+    linear-gradient(145deg, #211b24 0%, #151313 60%, #0b0b0b 100%);
+}
+.portfolio-page .work-card-designed[data-tone="commerce"] {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(248,188,92,0.24), transparent 31%),
+    radial-gradient(circle at 82% 76%, rgba(139,58,31,0.4), transparent 34%),
+    linear-gradient(145deg, #281f17 0%, #151413 58%, #0c0c0c 100%);
+}
+.portfolio-page .work-card-designed[data-tone="finance"] {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(72,109,115,0.3), transparent 32%),
+    radial-gradient(circle at 82% 30%, rgba(139,58,31,0.34), transparent 36%),
+    linear-gradient(145deg, #172426 0%, #121616 58%, #0b0b0b 100%);
+}
+.portfolio-page .work-card-designed[data-tone="field"] {
+  background:
+    radial-gradient(circle at 16% 16%, rgba(103,142,96,0.28), transparent 31%),
+    radial-gradient(circle at 82% 26%, rgba(139,58,31,0.4), transparent 36%),
+    linear-gradient(145deg, #1d2419 0%, #151413 58%, #0b0b0b 100%);
+}
+.portfolio-page .work-card-designed[data-tone="care"] {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(98,168,185,0.24), transparent 31%),
+    radial-gradient(circle at 82% 30%, rgba(139,58,31,0.32), transparent 36%),
+    linear-gradient(145deg, #172126 0%, #121414 58%, #0b0b0b 100%);
+}
+.portfolio-page .work-card-designed[data-tone="studio"] {
+  background:
+    radial-gradient(circle at 16% 14%, rgba(247,240,232,0.2), transparent 28%),
+    radial-gradient(circle at 82% 28%, rgba(139,58,31,0.38), transparent 35%),
+    linear-gradient(145deg, #26221e 0%, #151313 58%, #0b0b0b 100%);
+}
+.work-card-designed-kicker,
+.work-card-designed-meta {
+  font-family: var(--font-mono);
+  font-size: clamp(0.56rem, 1vw, 0.68rem);
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: rgba(247,240,232,0.56);
+}
+.work-card-designed-name {
+  display: block;
+  max-width: 13ch;
+  font-family: var(--font-serif);
+  font-size: clamp(2rem, 5vw, 4.15rem);
+  font-style: italic;
+  font-weight: 500;
+  line-height: 0.95;
+  letter-spacing: 0;
+  text-wrap: balance;
+  color: #F7F0E8;
+  text-shadow: 0 20px 54px rgba(0,0,0,0.46);
+}
+.work-card-designed-place {
+  display: inline-flex;
+  max-width: min(28ch, 100%);
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(247,240,232,0.14);
+  border-radius: 999px;
+  padding: 0.48rem 0.76rem;
+  background: rgba(247,240,232,0.07);
+  color: rgba(247,240,232,0.78);
+  font-family: var(--font-sans);
+  font-size: clamp(0.72rem, 1.4vw, 0.9rem);
+  line-height: 1.1;
+}
 
 /* Theme-correct selected work: light stays light, dark stays dark */
 .home-portfolio-stage {

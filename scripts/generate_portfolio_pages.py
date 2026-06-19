@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260618c"
+CACHE_VER = "20260620b"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -501,10 +501,25 @@ def render_listing(items: list, nav: str, footer: str) -> str:
         if img and not item.get("hideScreenshot"):
             img_html = f'<img src="{img}" alt="{item["name"]} — {item.get("platform","")} project" loading="lazy" />'
         else:
-            cat = item.get("category", "").split("·")[0].strip()
-            img_html = f'''<div class="work-card-placeholder">
-              <span class="work-card-placeholder-name">{item["name"]}</span>
-              <span class="work-card-placeholder-label">{cat or "Live engagement"}</span>
+            category_parts = [part.strip() for part in item.get("category", "").split("·") if part.strip()]
+            place = " / ".join(category_parts[:2]) or item.get("platform", "") or "Live engagement"
+            tone = "studio"
+            combined = f'{item.get("category", "")} {item.get("tagline", "")} {item.get("platform", "")}'.lower()
+            if any(k in combined for k in ["insurance", "finance", "investment", "research"]):
+                tone = "finance"
+            elif any(k in combined for k in ["shopify", "woocommerce", "dtc", "store", "ecommerce"]):
+                tone = "commerce"
+            elif any(k in combined for k in ["health", "clinic", "directory", "auto"]):
+                tone = "care"
+            elif any(k in combined for k in ["contractor", "industrial", "architecture", "construction"]):
+                tone = "field"
+            elif any(k in combined for k in ["agency", "brand", "marketing"]):
+                tone = "brand"
+            img_html = f'''<div class="work-card-designed" data-tone="{tone}">
+              <span class="work-card-designed-kicker">Portfolio preview</span>
+              <span class="work-card-designed-name">{item["name"]}</span>
+              <span class="work-card-designed-place">{place}</span>
+              <span class="work-card-designed-meta">{item.get("platform", "")} / {item.get("year", "")}</span>
             </div>'''
 
         live_link = f'<a href="{item.get("url","#")}" target="_blank" rel="noopener" class="work-card-live" aria-label="Visit {item["name"]} live">&#8599;&nbsp;{url_display}</a>' if item.get("url") else ""
