@@ -3793,6 +3793,11 @@ body.is-contact-visible .chat-launcher {
 /* ── Global mobile fundamentals ── */
 @media (max-width: 640px) {
   * { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
+  html,
+  body {
+    max-width: 100%;
+    overflow-x: hidden;
+  }
   body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
   .section { padding: 4rem 0; }
   .section-lg { padding: 4rem 0; }
@@ -3906,6 +3911,33 @@ body.chat-open .mob-bar { display: none; }
     white-space: nowrap;
   }
   .hero-stat-lbl { font-size: 0.6rem; }
+}
+
+@media (max-width: 760px) {
+  .founders-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1.25rem !important;
+    min-width: 0;
+  }
+  .founder-card {
+    min-width: 0;
+    padding: 1.45rem !important;
+  }
+  .founder-card > div:first-child {
+    flex-wrap: wrap;
+  }
+  .founder-card .trust-badges {
+    margin-right: 0;
+    padding-right: 0;
+  }
+  .capability-table-wrap {
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .capability-table {
+    min-width: 560px;
+  }
 }
 
 /* ── Reviews — horizontal scroll carousel ── */
