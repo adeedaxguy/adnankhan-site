@@ -476,6 +476,53 @@
 })();
 
 
+/* ── Homepage portfolio HDR tilt ────────────────────────────────── */
+(function () {
+  'use strict';
+
+  const stage = document.querySelector('.home-portfolio-stage');
+  if (!stage) return;
+
+  const canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!canTilt || reduceMotion) return;
+
+  stage.querySelectorAll('.pf-card-img').forEach(frame => {
+    let raf = 0;
+    let lastEvent = null;
+
+    const applyTilt = () => {
+      raf = 0;
+      if (!lastEvent) return;
+      const rect = frame.getBoundingClientRect();
+      const px = (lastEvent.clientX - rect.left) / rect.width - 0.5;
+      const py = (lastEvent.clientY - rect.top) / rect.height - 0.5;
+      frame.style.setProperty('--tilt-y', `${(px * 8).toFixed(2)}deg`);
+      frame.style.setProperty('--tilt-x', `${(py * -6).toFixed(2)}deg`);
+      frame.style.setProperty('--glow-x', `${((px + 0.5) * 100).toFixed(1)}%`);
+      frame.style.setProperty('--glow-y', `${((py + 0.5) * 100).toFixed(1)}%`);
+      frame.classList.add('is-tilting');
+    };
+
+    frame.addEventListener('pointermove', event => {
+      lastEvent = event;
+      if (!raf) raf = requestAnimationFrame(applyTilt);
+    });
+
+    frame.addEventListener('pointerleave', () => {
+      lastEvent = null;
+      if (raf) cancelAnimationFrame(raf);
+      raf = 0;
+      frame.style.setProperty('--tilt-y', '0deg');
+      frame.style.setProperty('--tilt-x', '0deg');
+      frame.style.setProperty('--glow-x', '50%');
+      frame.style.setProperty('--glow-y', '42%');
+      frame.classList.remove('is-tilting');
+    });
+  });
+})();
+
+
 /* ── Theme toggle (light / dark) ────────────────────────────────── */
 (function () {
   var KEY = 'lofts-theme';
