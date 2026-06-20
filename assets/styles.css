@@ -5084,11 +5084,11 @@ button.kbd-pill.is-active {
 }
 .home-portfolio-stage .eyebrow,
 .portfolio-hero-stage .eyebrow {
-  color: rgba(247,240,232,0.68);
+  color: var(--muted);
 }
 .home-portfolio-stage .eyebrow::before,
 .portfolio-hero-stage .eyebrow::before {
-  background: rgba(247,240,232,0.42);
+  background: var(--muted);
 }
 .home-portfolio-stage .h-1 {
   max-width: 12.4em;
@@ -5261,8 +5261,9 @@ body.portfolio-page .cursor-ring {
   position: relative;
   overflow: hidden;
   padding: 7.5rem 0 3rem;
-  background: #111111;
-  color: #F7F0E8;
+  background: var(--bg);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
 }
 .portfolio-hero-stage::before {
   content: "PORTFOLIO";
@@ -5274,7 +5275,7 @@ body.portfolio-page .cursor-ring {
   line-height: 0.78;
   font-weight: 600;
   letter-spacing: 0;
-  color: rgba(247,240,232,0.06);
+  color: rgba(26,22,18,0.05);
   pointer-events: none;
 }
 .portfolio-hero-grid {
@@ -5288,7 +5289,7 @@ body.portfolio-page .cursor-ring {
 .portfolio-hero-copy .h-display {
   max-width: 10.8em;
   margin: 1.4rem 0 0;
-  color: #F7F0E8;
+  color: var(--ink);
   font-size: 5rem;
   line-height: 0.98;
   letter-spacing: 0;
@@ -5296,7 +5297,7 @@ body.portfolio-page .cursor-ring {
 .portfolio-hero-copy .lead {
   max-width: 56ch;
   margin-top: 1.6rem;
-  color: rgba(247,240,232,0.74);
+  color: var(--muted);
 }
 .portfolio-hero-actions {
   display: flex;
@@ -5306,18 +5307,18 @@ body.portfolio-page .cursor-ring {
   flex-wrap: wrap;
 }
 .portfolio-hero-actions .btn-primary {
-  background: #F7F0E8;
-  color: #111111;
-  border-color: #F7F0E8;
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
 }
 .portfolio-hero-actions .btn-link {
-  color: #F7F0E8;
+  color: var(--ink);
 }
 .portfolio-hero-proof {
-  border: 1px solid rgba(247,240,232,0.16);
+  border: 1px solid var(--line);
   border-radius: 8px;
   padding: 1.35rem;
-  background: rgba(247,240,232,0.07);
+  background: var(--surface);
 }
 .portfolio-proof-kicker {
   margin: 0 0 0.8rem;
@@ -5325,14 +5326,14 @@ body.portfolio-page .cursor-ring {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.16em;
-  color: rgba(247,240,232,0.62);
+  color: var(--muted);
 }
 .portfolio-proof-copy {
   margin: 0;
   font-family: var(--font-serif);
   font-size: 1rem;
   line-height: 1.58;
-  color: rgba(247,240,232,0.78);
+  color: var(--ink);
 }
 .portfolio-proof-strip {
   position: relative;
@@ -5341,14 +5342,14 @@ body.portfolio-page .cursor-ring {
   grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1px;
   margin-top: 4rem;
-  border: 1px solid rgba(247,240,232,0.12);
-  background: rgba(247,240,232,0.12);
+  border: 1px solid var(--line);
+  background: var(--line);
 }
 .portfolio-proof-strip span {
   min-width: 0;
   padding: 1rem 0.8rem;
-  background: #111111;
-  color: rgba(247,240,232,0.7);
+  background: var(--bg);
+  color: var(--muted);
   font-family: var(--font-sans);
   font-size: 0.78rem;
   text-align: center;
