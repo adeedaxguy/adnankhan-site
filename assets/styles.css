@@ -43,6 +43,13 @@
   --shadow-pop:  0 1px 2px rgba(26,22,18,0.06), 0 30px 60px -22px rgba(139,58,31,0.18);
 }
 
+.home-page {
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-serif: Georgia, 'Times New Roman', serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+
 /* ── Base ── */
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
@@ -784,7 +791,8 @@ body.menu-lock { overflow: hidden !important; }
 
 /* ── Footer ── */
 .site-footer { border-top: 1px solid var(--line); padding: 5rem 0 2.5rem; background: var(--bg); }
-.site-footer h5 {
+.site-footer h5,
+.site-footer .footer-label {
   font-family: var(--font-sans);
   font-size: 0.68rem; font-weight: 600;
   text-transform: uppercase; letter-spacing: 0.2em;

@@ -43,6 +43,28 @@
     el.classList.add('split-done');
   });
 
+  const hydrateLazyImage = (img) => {
+    if (!img || !img.dataset.src) return;
+    img.src = img.dataset.src;
+    img.removeAttribute('data-src');
+  };
+
+  const lazyImages = document.querySelectorAll('img[data-src]');
+  if (lazyImages.length) {
+    if ('IntersectionObserver' in window) {
+      const lazyImageObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          hydrateLazyImage(entry.target);
+          lazyImageObserver.unobserve(entry.target);
+        });
+      }, { rootMargin: '180px 0px' });
+      lazyImages.forEach(img => lazyImageObserver.observe(img));
+    } else {
+      lazyImages.forEach(hydrateLazyImage);
+    }
+  }
+
   // Failsafe: if for any reason the words aren't visible after 3s, force them visible.
   setTimeout(() => {
     document.querySelectorAll('[data-split="words"]').forEach(el => {
@@ -101,6 +123,7 @@
       open = true;
       mnav.classList.add('open');
       mnav.removeAttribute('aria-hidden');
+      mnav.removeAttribute('inert');
       menuBtn.setAttribute('aria-expanded', 'true');
       document.documentElement.classList.add('menu-lock');
       document.body.classList.add('menu-lock');
@@ -111,6 +134,7 @@
       open = false;
       mnav.classList.remove('open');
       mnav.setAttribute('aria-hidden', 'true');
+      mnav.setAttribute('inert', '');
       menuBtn.setAttribute('aria-expanded', 'false');
       document.documentElement.classList.remove('menu-lock');
       document.body.classList.remove('menu-lock');
@@ -378,6 +402,7 @@
   let tiltY      = -8;
   let isHovering = false;
   let cycleTimer = null;
+  let cycleStarted = false;
 
   // ── Positions for each depth slot ─────────────────────────────
   const SLOTS = [
@@ -394,6 +419,13 @@
   ];
 
   const isMobile = () => window.innerWidth <= 880;
+
+  function loadCardImage(card) {
+    const img = card.querySelector('.stack-card-img[data-bg]');
+    if (!img) return;
+    img.style.backgroundImage = img.dataset.bg;
+    img.removeAttribute('data-bg');
+  }
 
   // ── Mobile: pure crossfade, no transforms ─────────────────────
   function applyFade() {
@@ -412,6 +444,7 @@
     cards.forEach((card, i) => {
       const slotIdx = (i - frontIdx + cards.length) % cards.length;
       const s = SLOTS[slotIdx] || SLOTS[SLOTS.length - 1];
+      if (slotIdx === 0) loadCardImage(card);
       card.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) translateZ(${s.tz}px) translateX(${s.tx}px) translateY(${s.ty}px)`;
       card.style.opacity   = s.op;
       card.style.zIndex    = cards.length - slotIdx;
@@ -422,6 +455,7 @@
   // ── Mouse tilt (desktop only) ──────────────────────────────────
   scene.addEventListener('mousemove', (e) => {
     if (isMobile()) return;
+    startCycle();
     isHovering = true;
     const r  = scene.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width  - 0.5;
@@ -450,13 +484,25 @@
 
   // ── Tap → next card ───────────────────────────────────────────
   scene.addEventListener('click', () => {
+    startCycle();
     frontIdx = (frontIdx + 1) % cards.length;
     applySlots(tiltX, tiltY);
     resetCycle();
   });
 
   // ── Auto-cycle ────────────────────────────────────────────────
+  function startCycle() {
+    if (cycleStarted) return;
+    cycleStarted = true;
+    cards.forEach((card, i) => {
+      const slotIdx = (i - frontIdx + cards.length) % cards.length;
+      if (slotIdx <= 2) loadCardImage(card);
+    });
+    resetCycle();
+  }
+
   function resetCycle() {
+    if (!cycleStarted) return;
     clearInterval(cycleTimer);
     cycleTimer = setInterval(() => {
       if (!isHovering) {
@@ -468,10 +514,11 @@
 
   // ── Init ──────────────────────────────────────────────────────
   applySlots(tiltX, tiltY);
-  resetCycle();
 
   // Re-evaluate on resize (e.g. rotation)
   window.addEventListener('resize', () => applySlots(tiltX, tiltY));
+  scene.addEventListener('pointerenter', startCycle, { once: true, passive: true });
+  scene.addEventListener('focusin', startCycle, { once: true });
 
 })();
 
@@ -583,4 +630,59 @@
     update();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
+
+/* ── Optional third-party loaders for PageSpeed-sensitive pages ── */
+(function () {
+  var script = document.currentScript;
+  var fullCss = script && script.dataset ? script.dataset.fullCss : '';
+  var analyticsId = script && script.dataset ? script.dataset.analyticsId : '';
+  var widgetsSrc = script && script.dataset ? script.dataset.widgetsSrc : '';
+  var loadedFullCss = false;
+  var loadedAnalytics = false;
+  var loadedWidgets = false;
+
+  function loadScript(src, id) {
+    if (!src || (id && document.getElementById(id))) return;
+    var s = document.createElement('script');
+    if (id) s.id = id;
+    s.async = true;
+    s.src = src;
+    document.head.appendChild(s);
+  }
+
+  function loadFullCss() {
+    if (!fullCss || loadedFullCss || document.querySelector('link[href="' + fullCss + '"]')) return;
+    loadedFullCss = true;
+    var link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = fullCss;
+    document.head.appendChild(link);
+  }
+
+  function loadAnalytics() {
+    if (!analyticsId || loadedAnalytics || typeof window.gtag === 'function') return;
+    loadedAnalytics = true;
+    window.dataLayer = window.dataLayer || [];
+    window.gtag = function(){ window.dataLayer.push(arguments); };
+    loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(analyticsId), 'lofts-gtag');
+    window.gtag('js', new Date());
+    window.gtag('config', analyticsId);
+  }
+
+  function loadWidgets() {
+    if (!widgetsSrc || loadedWidgets) return;
+    loadedWidgets = true;
+    loadScript(widgetsSrc, 'lofts-widgets');
+  }
+
+  if (!fullCss && !analyticsId && !widgetsSrc) return;
+  if (fullCss && window.location.hash) loadFullCss();
+  ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (eventName) {
+    window.addEventListener(eventName, function () {
+      loadFullCss();
+      loadAnalytics();
+      loadWidgets();
+    }, { once: true, passive: true });
+  });
 })();
