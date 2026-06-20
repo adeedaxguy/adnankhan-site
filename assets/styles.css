@@ -5044,6 +5044,52 @@ button.kbd-pill.is-active {
   transition: transform .22s ease;
 }
 .post-card-link:hover .post-card-cta { transform: translateX(4px); }
+.blog-pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-top: 2.4rem;
+}
+.blog-page-btn {
+  min-width: 2.35rem;
+  height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--ink-soft);
+  font-family: var(--font-mono);
+  font-size: 0.76rem;
+  cursor: pointer;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.blog-page-btn:hover {
+  transform: translateY(-1px);
+  border-color: var(--muted);
+  color: var(--ink);
+}
+.blog-page-btn.is-active {
+  background: var(--ink);
+  color: var(--bg);
+  border-color: var(--ink);
+}
+.blog-page-btn[disabled] {
+  cursor: not-allowed;
+  opacity: 0.42;
+  transform: none;
+}
+.blog-page-status {
+  width: 100%;
+  margin-top: 0.35rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  text-align: center;
+}
 
 /* Portfolio upgrade: dark, image-led selected work */
 .home-portfolio-stage {

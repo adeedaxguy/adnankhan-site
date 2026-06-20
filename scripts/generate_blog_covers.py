@@ -11,6 +11,7 @@ and the Lofts Studio wordmark. No hype, lots of air.
 
 Run:  python3 scripts/generate_blog_covers.py
 """
+import hashlib
 import importlib.util
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
@@ -98,6 +99,10 @@ CREAM_LT = (250, 247, 241)      # lighter cream for motif strokes on dark panel
 ACCENT_LT = (216, 123, 85)      # warm accent that reads on the dark panel
 
 
+def stable_seed(text):
+    return int(hashlib.sha256(text.encode("utf-8")).hexdigest()[:8], 16)
+
+
 def draw_motif(d, key, cx, cy):
     """Draw a bold, centred geometric motif on the dark right panel.
     Colours are bright (accent + cream) so they read on ink."""
@@ -173,6 +178,89 @@ def draw_motif(d, key, cx, cy):
             d.ellipse([cx-r,cy-r,cx+r,cy+r], outline=A if i==1 else DIM, width=5)
 
 
+def draw_signature(d, seed, cx, cy):
+    """Add a deterministic per-post signature so covers do not repeat by category."""
+    import math
+    variant = seed % 10
+    A = ACCENT_LT
+    C = CREAM_LT
+    DIM = (74, 62, 52)
+    WARM = (124, 85, 58)
+    dx = ((seed >> 4) % 61) - 30
+    dy = ((seed >> 11) % 51) - 25
+    cx += dx
+    cy += dy
+
+    if variant == 0:
+        for i in range(-3, 4):
+            x = cx - 190 + i * 54
+            d.line([(x, cy + 165), (x + 185, cy - 170)], fill=DIM, width=5)
+        d.arc([cx-95, cy-95, cx+95, cy+95], 25, 310, fill=A, width=10)
+    elif variant == 1:
+        for row in range(6):
+            for col in range(5):
+                r = 5 + ((seed >> (row + col)) & 3)
+                x = cx - 105 + col * 52
+                y = cy - 118 + row * 44
+                fill = A if (row + col + seed) % 4 == 0 else DIM
+                d.ellipse([x-r, y-r, x+r, y+r], fill=fill)
+        d.rounded_rectangle([cx-128, cy-146, cx+128, cy+146], radius=28, outline=C, width=2)
+    elif variant == 2:
+        for r in (132, 96, 60):
+            d.rounded_rectangle([cx-r, cy-r*0.72, cx+r, cy+r*0.72], radius=22, outline=DIM, width=4)
+        d.line([(cx-112, cy+112), (cx+116, cy-116)], fill=A, width=14)
+        d.ellipse([cx-34, cy-34, cx+34, cy+34], outline=C, width=5)
+    elif variant == 3:
+        heights = [92, 138, 74, 168, 116]
+        for i, h in enumerate(heights):
+            x = cx - 130 + i * 62
+            y = cy + 112 - h
+            d.rounded_rectangle([x, y, x+42, cy+112], radius=8, fill=WARM if i % 2 else DIM)
+        d.line([(cx-150, cy+116), (cx+160, cy+116)], fill=A, width=6)
+    elif variant == 4:
+        pts = [(cx, cy-158), (cx+132, cy), (cx, cy+158), (cx-132, cy)]
+        d.line(pts + [pts[0]], fill=A, width=8)
+        d.line([(cx-164, cy), (cx+164, cy)], fill=DIM, width=3)
+        d.line([(cx, cy-184), (cx, cy+184)], fill=DIM, width=3)
+        d.ellipse([cx-42, cy-42, cx+42, cy+42], outline=C, width=5)
+    elif variant == 5:
+        for i in range(6):
+            x0 = cx - 142 + i * 44
+            y0 = cy - 102 + i * 17
+            d.rounded_rectangle([x0, y0, x0+94, y0+44], radius=10, outline=A if i % 2 else DIM, width=5)
+        d.polygon([(cx+96, cy-112), (cx+158, cy-78), (cx+100, cy-42)], fill=A)
+    elif variant == 6:
+        pts = []
+        for i in range(0, 330, 18):
+            x = cx - 160 + i
+            y = cy + math.sin((i + (seed % 90)) / 28) * 82
+            pts.append((x, y))
+        d.line(pts, fill=A, width=9, joint="curve")
+        for x, y in pts[::4]:
+            d.ellipse([x-10, y-10, x+10, y+10], outline=C, width=3)
+    elif variant == 7:
+        d.arc([cx-168, cy-138, cx-28, cy+138], 110, 250, fill=A, width=11)
+        d.arc([cx+28, cy-138, cx+168, cy+138], -70, 70, fill=A, width=11)
+        d.line([(cx-42, cy-92), (cx+42, cy+92)], fill=C, width=8)
+        d.line([(cx+42, cy-92), (cx-42, cy+92)], fill=DIM, width=5)
+    elif variant == 8:
+        for i in range(8):
+            r = 28 + i * 15
+            start = (seed + i * 31) % 360
+            d.arc([cx-r, cy-r, cx+r, cy+r], start, start+130, fill=A if i % 3 == 0 else DIM, width=4)
+        d.ellipse([cx-17, cy-17, cx+17, cy+17], fill=C)
+    else:
+        for i in range(12):
+            ang = math.radians(i * 30 + seed % 30)
+            inner = 58 + (i % 3) * 18
+            outer = 150 + (i % 2) * 26
+            d.line([
+                (cx + inner * math.cos(ang), cy + inner * math.sin(ang)),
+                (cx + outer * math.cos(ang), cy + outer * math.sin(ang)),
+            ], fill=A if i % 2 else DIM, width=6)
+        d.ellipse([cx-48, cy-48, cx+48, cy+48], outline=C, width=5)
+
+
 def wrap_title(draw, text, fnt, max_w):
     words, lines, cur = text.split(), [], ""
     for w in words:
@@ -200,6 +288,7 @@ def fit_title(draw, text, max_w, max_lines):
 def render(post):
     slug, title, cat = post["slug"], post["title"], post["category"]
     key = cat_key(cat)
+    seed = stable_seed(f"{slug}|{title}|{cat}")
 
     PANEL_X = 750                # x where the dark panel begins
 
@@ -213,6 +302,7 @@ def render(post):
 
     # bold centred motif on the panel
     draw_motif(d, key, cx=(PANEL_X + W)//2 + 6, cy=H//2)
+    draw_signature(d, seed, cx=(PANEL_X + W)//2 + 6, cy=H//2)
 
     MX = 72                      # left text margin (cream side)
 

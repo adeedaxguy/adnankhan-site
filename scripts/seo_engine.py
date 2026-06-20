@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260618c"
+CACHE_VER = "20260620m"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -1197,10 +1197,12 @@ def refresh_blog_index():
     posts = [p for p in data["posts"] if p.get("published")]
 
     cards = []
-    for p in posts:
+    for i, p in enumerate(posts):
         cat = p["category"]
         date_fmt = datetime.strptime(p["date"], "%Y-%m-%d").strftime("%b %d, %Y")
-        cards.append(f'''      <article class="post-card" data-reveal>
+        hidden = " hidden" if i >= 15 else ""
+        cat_key = re.sub(r'[^a-z0-9]+', '-', cat.lower()).strip('-')
+        cards.append(f'''      <article class="post-card" data-reveal data-blog-card data-blog-category="{cat_key}"{hidden}>
         <a href="/blog/{p["slug"]}.html" class="post-card-link">
           <img class="post-card-img" src="/assets/blog/{p["slug"]}.png?v={CACHE_VER}" alt="" width="1200" height="675" loading="lazy" />
           <div class="post-card-body">
