@@ -557,6 +557,8 @@
 
   // ── 1. Custom cursor — terracotta dot + outline ring ──
   function bootCursor() {
+    // Native cursors are clearer for clients, screenshots, and assistive tooling.
+    return;
     const hoverable = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (!hoverable || reduced) return;
