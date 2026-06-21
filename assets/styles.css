@@ -4282,6 +4282,7 @@ body:has(.cookie-banner) .audit-cta {
 @media (max-width: 640px) {
   .chat-launcher,
   .wa-launcher { display: none; }
+  .audit-cta { display: none !important; }
   .a11y-launcher {
     bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 0.85rem);
     left: 0.85rem;
@@ -4330,6 +4331,32 @@ body.chat-open .mob-bar { display: none; }
     bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 0.5rem) !important;
     border-radius: var(--r-lg) !important;
     width: auto !important;
+    z-index: 169;
+  }
+  .cookie-inner {
+    gap: 0.55rem;
+    padding: 0.78rem 0.85rem;
+  }
+  .cookie-text {
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    line-height: 1.38;
+  }
+  .cookie-actions {
+    justify-content: flex-end;
+    gap: 0.45rem;
+  }
+  .cookie-btn {
+    min-height: 38px;
+    padding: 0.44rem 0.78rem;
+  }
+  .cookie-banner ~ .a11y-launcher {
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(8px) scale(0.94);
+  }
+  .cookie-banner ~ .a11y-panel {
+    display: none;
   }
 }
 
