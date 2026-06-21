@@ -56,6 +56,7 @@
 *, *::before, *::after { box-sizing: border-box; }
 html {
   scroll-behavior: smooth;
+  scroll-padding-top: 88px;
   -webkit-text-size-adjust: 100%;
   max-width: 100%;
   overflow-x: hidden;
@@ -780,11 +781,13 @@ html.menu-lock,
 body.menu-lock { overflow: hidden !important; }
 
 @media (max-width: 880px) {
+  html { scroll-padding-top: 76px; }
+  body { padding-top: 64px; }
   .nav-links { display: none; }
-  .nav-inner { height: 60px; padding: 0 1.25rem; }
+  .nav-inner { height: 64px; padding: 0 1.25rem; }
   .menu-btn {
     display: inline-flex; align-items: center; justify-content: center;
-    width: 42px; height: 42px;
+    width: 44px; height: 44px;
     border: 1px solid var(--line);
     border-radius: var(--r-md);
     background: transparent;
@@ -1719,10 +1722,10 @@ details.faq .faq-body {
 .cookie-accept:hover { background: rgba(244,240,234,0.88); }
 @media (max-width: 640px) {
   .cookie-banner { bottom: 0.6rem; left: 0.6rem; right: 0.6rem; }
-  .cookie-inner { grid-template-columns: 1fr; gap: 0.65rem; padding: 0.82rem 0.9rem; }
-  .cookie-text { font-size: 0.82rem; line-height: 1.42; }
-  .cookie-actions { justify-content: space-between; }
-  .cookie-btn { padding: 0.48rem 0.9rem; font-size: 0.78rem; }
+  .cookie-inner { grid-template-columns: 1fr auto; gap: 0.55rem; padding: 0.68rem 0.72rem; }
+  .cookie-text { font-size: 0.74rem; line-height: 1.28; }
+  .cookie-actions { justify-content: flex-end; gap: 0.35rem; }
+  .cookie-btn { min-height: 34px; padding: 0.36rem 0.62rem; font-size: 0.72rem; }
 }
 
 /* ── Visitor-controlled accessibility preferences ── */
@@ -4301,7 +4304,7 @@ body:has(.cookie-banner) .audit-cta {
   background: transparent;
   border: 0;
   cursor: pointer;
-  min-height: 40px;
+  min-height: 44px;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -4320,7 +4323,7 @@ body:has(.cookie-banner) .audit-cta {
   letter-spacing: -0.005em;
   text-transform: none;
   padding: 0.44rem 0.82rem;
-  min-height: 40px;
+  min-height: 44px;
   margin: 0.1rem 0.35rem;
   text-decoration: none;
 }
@@ -4395,23 +4398,40 @@ body.chat-open .mob-bar { display: none; }
     border-radius: var(--r-lg) !important;
     width: auto !important;
     z-index: 169;
+    background: rgba(251,248,242,0.97);
+    color: var(--ink);
+    border: 1px solid var(--line);
+    box-shadow: 0 18px 44px -22px rgba(26,22,18,0.34), 0 1px 0 rgba(255,255,255,0.65) inset;
   }
   .cookie-inner {
+    grid-template-columns: 1fr auto;
     gap: 0.55rem;
-    padding: 0.78rem 0.85rem;
+    padding: 0.68rem 0.72rem;
   }
   .cookie-text {
     font-family: var(--font-sans);
-    font-size: 0.78rem;
-    line-height: 1.38;
+    font-size: 0.74rem;
+    line-height: 1.28;
+    color: var(--ink-soft);
+  }
+  .cookie-text a {
+    color: var(--ink);
   }
   .cookie-actions {
     justify-content: flex-end;
-    gap: 0.45rem;
+    gap: 0.35rem;
   }
   .cookie-btn {
-    min-height: 38px;
-    padding: 0.44rem 0.78rem;
+    min-height: 34px;
+    padding: 0.36rem 0.62rem;
+    font-size: 0.72rem;
+    color: var(--ink);
+    border-color: var(--line);
+  }
+  .cookie-accept {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
   }
   .cookie-banner ~ .a11y-launcher {
     opacity: 0;
@@ -5234,7 +5254,7 @@ html { transition: background-color .3s ease, color .3s ease; }
   transition:color .2s, background .2s; -webkit-tap-highlight-color:transparent; }
 .theme-opt:hover { color:var(--ink); }
 .theme-opt.is-active { background:var(--bg); color:var(--accent); box-shadow:0 1px 2px rgba(0,0,0,0.10); }
-@media (max-width:880px){ .theme-toggle{ margin-left:0; margin-right:0.4rem; padding:2px; } .theme-opt{ width:28px; height:28px; } }
+@media (max-width:880px){ .theme-toggle{ margin-left:0; margin-right:0.4rem; padding:3px; } .theme-opt{ width:34px; height:34px; } }
 
 /* ═══════════════════════════════════════════════════════════════
    Location SEO and AI calling pages
@@ -7659,5 +7679,21 @@ html[data-theme="dark"] .home-portfolio-stage .pf-card-num {
   .home-portfolio-stage .pf-card--featured .pf-card-name,
   .home-portfolio-stage .pf-card-name {
     font-size: clamp(1.55rem, 8vw, 2.2rem);
+  }
+  .home-portfolio-stage .pf-card:nth-of-type(n+7) {
+    display: none;
+  }
+  .home-portfolio-stage .pf-card-foot {
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .home-portfolio-stage .pf-card-link {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0.58rem 0;
+  }
+  .home-portfolio-stage .pf-card-metric {
+    max-width: 12rem;
   }
 }

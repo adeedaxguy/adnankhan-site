@@ -676,8 +676,16 @@
     loadScript(widgetsSrc, 'lofts-widgets');
   }
 
+  function afterFirstPaint(fn, delay) {
+    var run = function () { window.setTimeout(fn, delay || 0); };
+    if (document.readyState === 'complete') run();
+    else window.addEventListener('load', run, { once: true });
+  }
+
   if (!fullCss && !analyticsId && !widgetsSrc) return;
   if (fullCss && window.location.hash) loadFullCss();
+  if (fullCss) afterFirstPaint(loadFullCss, 180);
+  if (widgetsSrc) afterFirstPaint(loadWidgets, 900);
   ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (eventName) {
     window.addEventListener(eventName, function () {
       loadFullCss();

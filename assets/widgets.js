@@ -33,7 +33,7 @@
       <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent">
         <div class="cookie-inner">
           <p class="cookie-text">
-            We use localStorage for site preferences, chat, and consent only. Nothing is sold or tracked across the web. <a href="/cookie-policy.html">Cookie policy</a>.
+            We use localStorage for preferences, chat, and consent. Nothing is sold or tracked. <a href="/cookie-policy.html">Cookie policy</a>.
           </p>
           <div class="cookie-actions">
             <button type="button" class="cookie-btn cookie-decline" data-decline>Decline</button>
