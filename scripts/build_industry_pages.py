@@ -254,7 +254,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 <script src="/assets/main.js?v=''' + VER + '''" defer></script>
-<a href="/#contact" class="audit-cta" aria-label="Book a free 15-minute audit">
+<a href="/#contact" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>
   Book a free 15-min audit
   <svg class="audit-cta-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>

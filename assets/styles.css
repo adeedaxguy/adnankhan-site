@@ -2661,14 +2661,17 @@ details.faq .faq-body {
   border-top: 1px solid var(--line);
 }
 .essay-foot-link {
-  display: flex;
-  align-items: baseline;
+  display: inline-flex;
+  align-items: center;
   gap: 10px;
-  padding: 0.85rem 0;
+  min-height: 44px;
+  padding: 0.72rem 0;
   font-family: var(--font-sans);
   font-size: 0.92rem;
   color: var(--ink);
   transition: gap .3s cubic-bezier(.2,.7,.2,1), color .25s;
+  width: max-content;
+  max-width: 100%;
 }
 .essay-foot-link:hover { gap: 14px; color: var(--accent); }
 .essay-foot-arrow {
@@ -4228,11 +4231,15 @@ body.chat-open .mob-bar { display: none; }
   border-radius: 4px;
   font-family: var(--font-mono);
   font-size: 0.68rem;
-  color: var(--muted);
+  color: #5b5146;
   text-align: center;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+html[data-theme="dark"] .scc-url {
+  color: #ded7cc;
+  background: rgba(244, 240, 234, 0.08);
 }
 
 /* ── Screenshot area ── */
