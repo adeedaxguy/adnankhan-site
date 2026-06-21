@@ -14,10 +14,6 @@
 <meta property="og:description" content="LA Paving case study by Lofts Studio: Site for a Southern California paving contractor. WordPress project for Trades · Construction" />
 <meta property="og:url" content="https://lofts.studio/portfolio/lapaving.html" />
 <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
-<meta property="og:image:width" content="1200" />
-<meta property="og:image:height" content="630" />
-<meta property="og:image:type" content="image/jpeg" />
-<meta property="og:image:alt" content="Lofts Studio — Senior Web Engineering" />
 <meta property="og:site_name" content="Lofts Studio" />
 
 <!-- Twitter Card -->
@@ -26,15 +22,15 @@
 <meta name="twitter:description" content="LA Paving case study by Lofts Studio: Site for a Southern California paving contractor. WordPress project for Trades · Construction" />
 <meta name="twitter:image" content="https://lofts.studio/assets/og.jpg?v=2" />
 
-<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="alternate icon" href="/favicon.svg" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260620g" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260620b" />
 
 <script type="application/ld+json">
 {
@@ -108,10 +104,11 @@
         "@id": "https://lofts.studio/portfolio/lapaving.html#project"
       },
       "keywords": [
-        "WordPress development",
-        "custom WordPress build",
-        "Elementor development",
-        "website redesign",
+        "WordPress developer for hire",
+        "custom WordPress development",
+        "WordPress website development services",
+        "WordPress expert",
+        "Elementor developer",
         "LA Paving",
         "WordPress",
         "Trades · Construction"
@@ -147,12 +144,10 @@
   ]
 }
 </script>
-
-
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
-  <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
+  <script>(function(){try{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}catch(e){}})();</script>
 </head>
 <body>
 
@@ -167,7 +162,7 @@
           <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
 
-        <div class="mega" role="menu">
+        <div class="mega">
           <div class="mega-col">
             <h4>By vertical</h4>
             <a href="/work/ecommerce/" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
@@ -287,6 +282,49 @@
   </div>
 </section>
 
+<section class="section-sm" style="padding:5rem 0;border-top:1px solid var(--line);">
+  <div class="container">
+    <div data-reveal style="display:grid;grid-template-columns:0.72fr 1.8fr;gap:4rem;max-width:1080px;margin:0 auto;">
+      <div>
+        <span class="eyebrow">Project notes</span>
+        <h2 class="h-2" style="margin:1rem 0 0;">What had to work for LA Paving</h2>
+      </div>
+      <div>
+        <p style="font-family:var(--font-serif);font-size:1.12rem;line-height:1.75;color:var(--ink);margin:0 0 1.5rem;">
+          LA Paving sits in a service journey where the site has to make the offer credible quickly. The page experience had to help visitors need to understand what is being offered, why it is reliable, and how to take the next step. That meant treating the build as more than a visual refresh: the structure, copy hierarchy, technical setup, and handoff all had to support the same commercial job.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin:2rem 0;">
+          <div class="card" style="padding:1.25rem;">
+            <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">Build priorities</p>
+            <ul style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.65;margin:0;padding-left:1.1rem;"><li style="margin-bottom:0.75rem;">Clarify the first screen so the visitor understands the offer before they scroll.</li>
+<li style="margin-bottom:0.75rem;">Support the page with proof, structure, and a path to enquire without unnecessary friction.</li>
+<li style="margin-bottom:0.75rem;">Keep the site maintainable so future edits do not require a full rebuild.</li></ul>
+          </div>
+          <div class="card" style="padding:1.25rem;">
+            <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">SEO &amp; conversion notes</p>
+            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:0;">For service projects, the strongest organic pages connect the service, audience, proof, location or category context, and next step in a way both people and search engines can understand.</p>
+            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:1rem 0 0;">Relevant search context includes WordPress developer for hire, custom WordPress development, WordPress website development services, WordPress expert, Elementor developer. The goal is not keyword stuffing; it is making the project, platform, audience, and outcome legible.</p>
+          </div>
+        </div>
+        <p style="font-family:var(--font-serif);font-size:1.04rem;line-height:1.75;color:var(--ink-soft);margin:0;">
+          If you are planning a similar WordPress project in Trades · Construction, the useful starting point is a clear page map, a proof-led first screen, fast mobile performance, and a maintainable CMS or theme setup. The related service page for this type of work is <a href="/services/woocommerce-development.html" style="color:var(--ink);text-decoration:underline;text-underline-offset:4px;">WordPress Development</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm" style="padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--line);">
+  <div class="container-narrow" data-reveal>
+    <span class="eyebrow">Case study FAQ</span>
+    <div style="margin-top:1.5rem;display:grid;gap:0.8rem;">
+      <details class="faq"><summary>What type of project was LA Paving? <span class="plus">+</span></summary><div class="faq-body">LA Paving was a WordPress project for Trades · Construction. The work focused on making the offer clearer, easier to maintain, and stronger as a public proof point.</div></details>
+      <details class="faq"><summary>What mattered most in the build? <span class="plus">+</span></summary><div class="faq-body">The important parts were clarity, mobile usability, performance discipline, and a structure the client could keep improving after launch.</div></details>
+      <details class="faq"><summary>Can Lofts Studio build something similar? <span class="plus">+</span></summary><div class="faq-body">Yes. Start with the related WordPress Development page or send the current URL through the homepage form so the first reply can include practical next steps.</div></details>
+    </div>
+  </div>
+</section>
+
 <section class="section-sm" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:5rem 0;">
   <div class="container-narrow" data-reveal style="text-align:center;">
     <p style="font-family:var(--font-sans);font-size:0.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.22em;margin:0 0 1.5rem;">The outcome</p>
@@ -388,14 +426,14 @@
     <!-- ── Row 3: Link columns ── -->
     <div class="footer-grid">
       <div>
-        <h5>By Vertical</h5>
+        <p class="footer-label">By Vertical</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/work/ecommerce/">Ecommerce</a></li>
           <li><a href="/work/insurance-finance/">Insurance &amp; Finance</a></li>
           <li><a href="/work/membership-community/">Membership &amp; Community</a></li>
           <li><a href="/work/custom-apps/">Custom Apps</a></li>
         </ul>
-        <h5 style="margin-top: 1.5rem;">Services</h5>
+        <p class="footer-label" style="margin-top: 1.5rem;">Services</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/services/shopify-development.html">Shopify Development</a></li>
           <li><a href="/services/woocommerce-development.html">WooCommerce Development</a></li>
@@ -406,23 +444,23 @@
         </ul>
       </div>
       <div>
-        <h5>Studio</h5>
+        <p class="footer-label">Studio</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/about.html">About</a></li>
-          <li><a href="/portfolio/">All work (47)</a></li>
+          <li><a href="/portfolio/">All work</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/process/">Process</a></li>
           
           <li><a href="/brand.html">Brand</a></li>
         </ul>
-        <h5 style="margin-top: 1.5rem;">Founders</h5>
+        <p class="footer-label" style="margin-top: 1.5rem;">Founders</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan Khan &middot; Multan</a></li>
           <li><a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan Khan &middot; Dubai</a></li>
         </ul>
       </div>
       <div>
-        <h5>Talk</h5>
+        <p class="footer-label">Talk</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; US &amp; UK hours</li>
           <li class="meta">US &amp; UK hours covered (Multan)</li>
@@ -430,7 +468,7 @@
           <li><a href="mailto:hi@lofts.studio">hi@lofts.studio</a></li>
           <li><a href="#contact">Send a note &nbsp;→</a></li>
         </ul>
-        <h5 style="margin-top: 1.5rem;">Legal</h5>
+        <p class="footer-label" style="margin-top: 1.5rem;">Legal</p>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/privacy.html">Privacy</a></li>
           <li><a href="/terms.html">Terms</a></li>
@@ -449,8 +487,8 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="/assets/main.js?v=20260620h" defer></script>
-<script src="/assets/widgets.js?v=20260618c" defer></script>
+<script src="/assets/main.js?v=20260620b" defer></script>
+<script src="/assets/widgets.js?v=20260620b" defer></script>
 
 <style>
   .case-brief { display:grid;grid-template-columns:0.6fr 2fr;gap:4rem;max-width:1080px;margin:0 auto; }

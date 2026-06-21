@@ -192,6 +192,130 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
     return json.dumps(graph, ensure_ascii=False, indent=2)
 
 
+def case_context_for(item: dict) -> dict:
+    """Return cautious, non-invented narrative details for a case study."""
+    platform = (item.get("platform") or "").lower()
+    category = (item.get("category") or "").lower()
+    stack = " ".join(item.get("stack") or []).lower()
+    text = f"{platform} {category} {stack}"
+
+    if any(k in text for k in ["finance", "insurance", "investment", "reinsurance"]):
+        return {
+            "market": "regulated, trust-heavy buying journey",
+            "buyer": "visitors need clarity, credibility, and a reason to keep moving before they enquire",
+            "priorities": [
+                "Make the first screen explain the offer without forcing the visitor to decode industry language.",
+                "Keep proof, team credibility, and next-step paths close to the moments where doubt appears.",
+                "Build pages so future compliance, copy, and market updates can be made without redesigning the site.",
+            ],
+            "seo": "For finance and insurance projects, search visibility depends on clean crawl paths, careful metadata, entity clarity, and pages that answer the real questions a cautious buyer asks before making contact.",
+        }
+    if any(k in text for k in ["b2b", "wholesale", "enterprise", "supplier"]):
+        return {
+            "market": "B2B buying journey with longer consideration and multiple stakeholders",
+            "buyer": "buyers need to understand the offer, qualify themselves, and trust the operation before they start a conversation",
+            "priorities": [
+                "Separate casual browsing from serious buyer intent with clear navigation and purposeful calls to action.",
+                "Give product, service, or capability pages enough context to support internal stakeholder sharing.",
+                "Keep the platform maintainable so the sales team can adjust messaging as the market changes.",
+            ],
+            "seo": "For B2B projects, the SEO opportunity is usually not one generic keyword; it is a cluster of service, category, industry, and problem-aware searches that need clear internal linking.",
+        }
+    if any(k in text for k in ["shopify", "woocommerce", "ecommerce", "dtc", "store", "retail"]):
+        return {
+            "market": "commerce journey where speed, trust, merchandising, and checkout confidence all matter",
+            "buyer": "customers need to understand the product quickly, believe the store is reliable, and reach purchase paths without friction",
+            "priorities": [
+                "Keep product discovery, trust signals, and buying actions visible without making the page feel crowded.",
+                "Protect performance by keeping images, scripts, and app dependencies under control.",
+                "Structure templates so new products, campaigns, and landing pages can be added without weakening the system.",
+            ],
+            "seo": "For ecommerce projects, organic growth depends on collection architecture, product metadata, internal links, structured data, image performance, and pages that match the way customers compare before buying.",
+        }
+    if any(k in text for k in ["app", "saas", "ai", "lms", "platform", "membership", "portal"]):
+        return {
+            "market": "product-led or platform journey where the interface has to explain value fast",
+            "buyer": "users need to see what the product does, why it is trustworthy, and what step to take next",
+            "priorities": [
+                "Turn the product story into a page structure that makes the use case obvious within seconds.",
+                "Balance marketing pages with product-like clarity, screenshots, flows, and clear next actions.",
+                "Keep the technical foundation flexible enough for new features, onboarding changes, and analytics.",
+            ],
+            "seo": "For SaaS and app projects, the strongest search pages usually combine use-case language, comparison intent, integration terms, and clear product proof rather than broad feature claims.",
+        }
+    if any(k in text for k in ["agency", "brand", "marketing", "editorial", "portfolio"]):
+        return {
+            "market": "brand-led journey where taste, proof, and clarity have to work together",
+            "buyer": "visitors need to understand the positioning, see proof of standard, and feel an obvious next step",
+            "priorities": [
+                "Make the visual system feel distinctive without hiding the practical offer.",
+                "Use hierarchy, typography, and project proof to make the page easier to scan.",
+                "Keep content blocks flexible so new campaigns, services, and proof can be added cleanly.",
+            ],
+            "seo": "For brand-led projects, search performance improves when the site names the offer clearly, supports it with project proof, and gives search engines structured context around services and expertise.",
+        }
+    return {
+        "market": "service journey where the site has to make the offer credible quickly",
+        "buyer": "visitors need to understand what is being offered, why it is reliable, and how to take the next step",
+        "priorities": [
+            "Clarify the first screen so the visitor understands the offer before they scroll.",
+            "Support the page with proof, structure, and a path to enquire without unnecessary friction.",
+            "Keep the site maintainable so future edits do not require a full rebuild.",
+        ],
+        "seo": "For service projects, the strongest organic pages connect the service, audience, proof, location or category context, and next step in a way both people and search engines can understand.",
+    }
+
+
+def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: str) -> str:
+    ctx = case_context_for(item)
+    name = item["name"]
+    platform = item.get("platform", "")
+    category = item.get("category", "")
+    priority_items = "\n".join(
+        f'<li style="margin-bottom:0.75rem;">{point}</li>' for point in ctx["priorities"]
+    )
+    return f'''<section class="section-sm" style="padding:5rem 0;border-top:1px solid var(--line);">
+  <div class="container">
+    <div data-reveal style="display:grid;grid-template-columns:0.72fr 1.8fr;gap:4rem;max-width:1080px;margin:0 auto;">
+      <div>
+        <span class="eyebrow">Project notes</span>
+        <h2 class="h-2" style="margin:1rem 0 0;">What had to work for {name}</h2>
+      </div>
+      <div>
+        <p style="font-family:var(--font-serif);font-size:1.12rem;line-height:1.75;color:var(--ink);margin:0 0 1.5rem;">
+          {name} sits in a {ctx["market"]}. The page experience had to help {ctx["buyer"]}. That meant treating the build as more than a visual refresh: the structure, copy hierarchy, technical setup, and handoff all had to support the same commercial job.
+        </p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin:2rem 0;">
+          <div class="card" style="padding:1.25rem;">
+            <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">Build priorities</p>
+            <ul style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.65;margin:0;padding-left:1.1rem;">{priority_items}</ul>
+          </div>
+          <div class="card" style="padding:1.25rem;">
+            <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">SEO &amp; conversion notes</p>
+            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:0;">{ctx["seo"]}</p>
+            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:1rem 0 0;">Relevant search context includes {kw_str}. The goal is not keyword stuffing; it is making the project, platform, audience, and outcome legible.</p>
+          </div>
+        </div>
+        <p style="font-family:var(--font-serif);font-size:1.04rem;line-height:1.75;color:var(--ink-soft);margin:0;">
+          If you are planning a similar {platform} project in {category}, the useful starting point is a clear page map, a proof-led first screen, fast mobile performance, and a maintainable CMS or theme setup. The related service page for this type of work is <a href="{service_url}" style="color:var(--ink);text-decoration:underline;text-underline-offset:4px;">{service_label}</a>.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-sm" style="padding:4rem 0;background:var(--bg-soft);border-top:1px solid var(--line);">
+  <div class="container-narrow" data-reveal>
+    <span class="eyebrow">Case study FAQ</span>
+    <div style="margin-top:1.5rem;display:grid;gap:0.8rem;">
+      <details class="faq"><summary>What type of project was {name}? <span class="plus">+</span></summary><div class="faq-body">{name} was a {platform} project for {category}. The work focused on making the offer clearer, easier to maintain, and stronger as a public proof point.</div></details>
+      <details class="faq"><summary>What mattered most in the build? <span class="plus">+</span></summary><div class="faq-body">The important parts were clarity, mobile usability, performance discipline, and a structure the client could keep improving after launch.</div></details>
+      <details class="faq"><summary>Can Lofts Studio build something similar? <span class="plus">+</span></summary><div class="faq-body">Yes. Start with the related {service_label} page or send the current URL through the homepage form so the first reply can include practical next steps.</div></details>
+    </div>
+  </div>
+</section>'''
+
+
 def get_next_item(items, current_slug):
     published = [i for i in items if i.get("published")]
     published.sort(key=lambda x: x.get("displayOrder", 999))
@@ -283,6 +407,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     og_image = image if image else "/assets/og.jpg?v=2"
 
     schema_graph = schema_graph_for(item, page_desc, og_image, kws)
+    case_depth = render_case_depth(item, service_url, service_label, kw_str)
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -376,6 +501,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     </div>
   </div>
 </section>
+
+{case_depth}
 
 <section class="section-sm" style="background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:5rem 0;">
   <div class="container-narrow" data-reveal style="text-align:center;">
