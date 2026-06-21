@@ -1,8 +1,10 @@
 /* ─────────────────────────────────────────────────────────────
    Adnan K. — Floating widgets
    1) Cookie consent (must run before chatbot)
-   2) AI chatbot (Groq-backed via /api/chat)
-   3) Lead capture inside chatbot → /api/chat falls through to email
+   2) Accessibility preferences (visitor-controlled only)
+   3) WhatsApp click-to-chat
+   4) AI chatbot (Groq-backed via /api/chat)
+   5) Lead capture inside chatbot → /api/chat falls through to email
    ───────────────────────────────────────────────────────────── */
 
 (function () {
@@ -31,7 +33,7 @@
       <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent">
         <div class="cookie-inner">
           <p class="cookie-text">
-            This site uses a small amount of localStorage to remember your visit and run the chat widget. Nothing is sold, shared, or tracked across the web. <a href="/cookie-policy.html">Read the cookie policy</a>.
+            This site uses a small amount of localStorage to remember your visit, run the chat widget, and save accessibility preferences only if you choose them. Nothing is sold, shared, or tracked across the web. <a href="/cookie-policy.html">Read the cookie policy</a>.
           </p>
           <div class="cookie-actions">
             <button type="button" class="cookie-btn cookie-decline" data-decline>Decline</button>
@@ -46,8 +48,10 @@
 
   // ─────────── CHATBOT ───────────
   const CHAT_KEY = 'adnank-chat-history-v1';
+  const A11Y_KEY = 'lofts-accessibility-prefs-v1';
   const calendlyURL = 'https://calendly.com/adnan-technodigg';
   const formAnchor = '/#contact';
+  const whatsappURL = 'https://wa.me/12027736947?text=Hi%20Lofts%20Studio%2C%20I%27d%20like%20to%20talk%20about%20a%20website%2C%20automation%2C%20or%20SEO%20project.';
 
   function getHistory() {
     try { return JSON.parse(localStorage.getItem(CHAT_KEY) || '[]'); } catch { return []; }
@@ -55,6 +59,132 @@
   function saveHistory(h) {
     if (consent !== 'accepted') return; // respect declined
     try { localStorage.setItem(CHAT_KEY, JSON.stringify(h.slice(-20))); } catch {}
+  }
+
+  function mountAccessibilityTools() {
+    if (document.getElementById('a11yLauncher')) return;
+    const html = `
+      <button id="a11yLauncher" class="a11y-launcher" type="button" aria-label="Open accessibility preferences" aria-expanded="false" aria-controls="a11yPanel">
+        <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="4" r="2"/>
+          <path d="M4 9h16"/>
+          <path d="M12 6v14"/>
+          <path d="m8 21 4-9 4 9"/>
+        </svg>
+        <span class="a11y-launcher-label">Accessibility</span>
+      </button>
+
+      <section id="a11yPanel" class="a11y-panel" role="dialog" aria-modal="false" aria-labelledby="a11yTitle" aria-hidden="true">
+        <header class="a11y-head">
+          <div>
+            <p class="a11y-kicker">Site preferences</p>
+            <h2 id="a11yTitle">Accessibility</h2>
+          </div>
+          <button type="button" class="a11y-close" aria-label="Close accessibility preferences" data-a11y-close>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </header>
+        <div class="a11y-body">
+          <button type="button" class="a11y-option" data-a11y-toggle="text" aria-pressed="false">
+            <span>Larger text</span><small>Increase readable body copy.</small>
+          </button>
+          <button type="button" class="a11y-option" data-a11y-toggle="contrast" aria-pressed="false">
+            <span>Higher contrast</span><small>Strengthen text and borders.</small>
+          </button>
+          <button type="button" class="a11y-option" data-a11y-toggle="links" aria-pressed="false">
+            <span>Underline links</span><small>Make text links easier to identify.</small>
+          </button>
+          <button type="button" class="a11y-option" data-a11y-toggle="motion" aria-pressed="false">
+            <span>Reduce motion</span><small>Minimize animation and smooth scrolling.</small>
+          </button>
+          <button type="button" class="a11y-option" data-a11y-toggle="spacing" aria-pressed="false">
+            <span>Relaxed spacing</span><small>Add breathing room to paragraphs.</small>
+          </button>
+        </div>
+        <footer class="a11y-foot">
+          <button type="button" class="a11y-reset" data-a11y-reset>Reset preferences</button>
+          <a href="/accessibility.html">Accessibility statement</a>
+        </footer>
+      </section>`;
+    document.body.insertAdjacentHTML('beforeend', html);
+
+    const root = document.documentElement;
+    const launcher = document.getElementById('a11yLauncher');
+    const panel = document.getElementById('a11yPanel');
+    const toggles = panel.querySelectorAll('[data-a11y-toggle]');
+    const classMap = {
+      text: 'a11y-text-lg',
+      contrast: 'a11y-contrast',
+      links: 'a11y-links',
+      motion: 'a11y-reduce-motion',
+      spacing: 'a11y-spacing',
+    };
+    let prefs = {};
+    try { prefs = JSON.parse(localStorage.getItem(A11Y_KEY) || '{}') || {}; } catch { prefs = {}; }
+
+    function applyPrefs(shouldStore) {
+      Object.keys(classMap).forEach(key => {
+        root.classList.toggle(classMap[key], !!prefs[key]);
+      });
+      toggles.forEach(btn => {
+        const key = btn.dataset.a11yToggle;
+        btn.setAttribute('aria-pressed', prefs[key] ? 'true' : 'false');
+      });
+      if (shouldStore) {
+        try { localStorage.setItem(A11Y_KEY, JSON.stringify(prefs)); } catch {}
+      }
+    }
+
+    function openPanel() {
+      panel.classList.add('open');
+      panel.setAttribute('aria-hidden', 'false');
+      launcher.setAttribute('aria-expanded', 'true');
+      setTimeout(() => panel.querySelector('[data-a11y-close]')?.focus(), 80);
+    }
+    function closePanel() {
+      panel.classList.remove('open');
+      panel.setAttribute('aria-hidden', 'true');
+      launcher.setAttribute('aria-expanded', 'false');
+      launcher.focus({ preventScroll: true });
+    }
+
+    launcher.addEventListener('click', () => {
+      panel.classList.contains('open') ? closePanel() : openPanel();
+    });
+    panel.querySelector('[data-a11y-close]')?.addEventListener('click', closePanel);
+    toggles.forEach(btn => {
+      btn.addEventListener('click', () => {
+        const key = btn.dataset.a11yToggle;
+        prefs[key] = !prefs[key];
+        applyPrefs(true);
+      });
+    });
+    panel.querySelector('[data-a11y-reset]')?.addEventListener('click', () => {
+      prefs = {};
+      try { localStorage.removeItem(A11Y_KEY); } catch {}
+      applyPrefs(false);
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && panel.classList.contains('open')) closePanel();
+    });
+    document.addEventListener('pointerdown', e => {
+      if (!panel.classList.contains('open')) return;
+      if (panel.contains(e.target) || launcher.contains(e.target)) return;
+      closePanel();
+    });
+    applyPrefs(false);
+  }
+
+  function mountWhatsAppChat() {
+    if (document.getElementById('whatsappLauncher')) return;
+    const html = `
+      <a id="whatsappLauncher" class="wa-launcher" href="${whatsappURL}" target="_blank" rel="noopener noreferrer" aria-label="Chat with Lofts Studio on WhatsApp">
+        <svg width="21" height="21" viewBox="0 0 32 32" fill="none" aria-hidden="true">
+          <path fill="currentColor" d="M16.03 4.2A11.72 11.72 0 0 0 5.9 21.78L4.25 27.8l6.17-1.62A11.7 11.7 0 1 0 16.03 4.2Zm0 21.37c-1.9 0-3.66-.55-5.14-1.5l-.37-.24-3.66.96.98-3.56-.24-.37a9.66 9.66 0 1 1 8.43 4.7Zm5.3-7.22c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.73.94-.9 1.13-.16.2-.33.22-.61.08-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.13-.59.13-.13.29-.33.43-.5.15-.16.2-.28.3-.48.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.2 0-.52.08-.79.37-.26.29-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.7-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/>
+        </svg>
+        <span>WhatsApp</span>
+      </a>`;
+    document.body.insertAdjacentHTML('beforeend', html);
   }
 
   function mountChatbot() {
@@ -98,7 +228,7 @@
           </button>
         </form>
 
-        <p class="chat-foot">AI-powered &middot; <a href="/cookie-policy.html">Cookie policy</a> &middot; <a href="/#contact">Contact form</a></p>
+        <p class="chat-foot">AI-powered &middot; <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer">WhatsApp</a> &middot; <a href="/#contact">Contact form</a></p>
       </div>`;
     document.body.insertAdjacentHTML('beforeend', html);
 
@@ -218,6 +348,9 @@
             Start a conversation
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
+          <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="chat-cta-btn chat-cta-whatsapp">
+            WhatsApp
+          </a>
         </div>
       </div>`;
       pushAssistant(html, { html: true });
@@ -274,10 +407,10 @@
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         Start a conversation
       </button>
-      <button type="button" class="mob-bar-item" id="mobBarChatBtn" aria-label="Ask the studio">
-        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
-        <span>Ask</span>
-      </button>`;
+      <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="mob-bar-item" aria-label="Chat on WhatsApp">
+        <svg width="17" height="17" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path fill="currentColor" d="M16.03 4.2A11.72 11.72 0 0 0 5.9 21.78L4.25 27.8l6.17-1.62A11.7 11.7 0 1 0 16.03 4.2Zm5.3 14.15c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.73.94-.9 1.13-.16.2-.33.22-.61.08-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.13-.59.13-.13.29-.33.43-.5.15-.16.2-.28.3-.48.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.2 0-.52.08-.79.37-.26.29-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.7-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/></svg>
+        <span>WhatsApp</span>
+      </a>`;
     document.body.appendChild(bar);
 
     // Glass popup for "Start a conversation"
@@ -305,6 +438,10 @@
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
               Chat with the studio AI
             </button>
+            <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="conv-popup-btn-secondary">
+              <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path fill="currentColor" d="M16.03 4.2A11.72 11.72 0 0 0 5.9 21.78L4.25 27.8l6.17-1.62A11.7 11.7 0 1 0 16.03 4.2Zm5.3 14.15c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.73.94-.9 1.13-.16.2-.33.22-.61.08-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.13-.59.13-.13.29-.33.43-.5.15-.16.2-.28.3-.48.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.2 0-.52.08-.79.37-.26.29-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.7-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/></svg>
+              WhatsApp
+            </a>
             <a href="mailto:hi@lofts.studio" class="conv-popup-btn-ghost">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
               hi@lofts.studio
@@ -398,14 +535,12 @@
       showView('convViewSuccess');
     });
 
-    // Wire AI chat button
-    document.getElementById('mobBarChatBtn')?.addEventListener('click', () => {
-      document.getElementById('chatLauncher')?.click();
-    });
   }
 
   function boot() {
     mountCookieBanner();
+    mountAccessibilityTools();
+    mountWhatsAppChat();
     // Mount chatbot regardless of consent — but it won't persist history if declined.
     mountChatbot();
     mountMobileBar();

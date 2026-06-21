@@ -67,6 +67,12 @@
     <priority>0.3</priority>
   </url>
   <url>
+    <loc>https://lofts.studio/accessibility.html</loc>
+    <lastmod>2026-06-21</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+  <url>
     <loc>https://lofts.studio/services/ai-calling-agents.html</loc>
     <lastmod>2026-06-21</lastmod>
     <changefreq>monthly</changefreq>

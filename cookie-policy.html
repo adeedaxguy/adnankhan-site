@@ -13,7 +13,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260621a" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260621d" />
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>
@@ -168,6 +168,7 @@
       <h2 class="h-2" style="margin: 0 0 1rem;">What this site stores</h2>
       <p><strong>Cookie consent flag.</strong> A single <code>localStorage</code> key (<code>adnank-cookie-consent-v1</code>) that remembers whether you accepted or declined the banner. Without this, the banner would reappear on every page load.</p>
       <p><strong>Chat history.</strong> If you accept and use the chat widget, your last few messages are kept in <code>localStorage</code> so the conversation persists when you scroll, navigate, or come back tomorrow. Twenty messages max, then the oldest is dropped. If you decline cookies, the chat still works &mdash; it just forgets the conversation when you leave.</p>
+      <p><strong>Accessibility preferences.</strong> If you open the accessibility panel and select a preference, this site stores the selected options in <code>localStorage</code> under <code>lofts-accessibility-prefs-v1</code>. Nothing is applied until you choose it, and the reset button removes those preferences.</p>
       <p><strong>Form submissions.</strong> The contact form submits to Formsubmit.co, which forwards messages to Adnan&rsquo;s email. No data is stored on this site.</p>
 
       <h2 class="h-2" style="margin: 2.5rem 0 1rem;">What this site doesn&rsquo;t store</h2>
@@ -177,9 +178,10 @@
       <h2 class="h-2" style="margin: 2.5rem 0 1rem;">Third-party services that may set their own cookies</h2>
       <p><strong>Google Fonts.</strong> Used to load the site&rsquo;s typography (Inter Tight and Source Serif 4). Google may set a font-related cache cookie.</p>
       <p><strong>Cloudflare / Vercel.</strong> The site is hosted on Vercel and served via Cloudflare-style edge caching. The infrastructure may set short-lived security cookies for bot detection. None of these are used for tracking.</p>
+      <p><strong>WhatsApp.</strong> The WhatsApp buttons are outbound links. This site does not embed WhatsApp tracking code; if you tap a WhatsApp link, you continue under WhatsApp/Meta&rsquo;s own terms and privacy policy.</p>
 
       <h2 class="h-2" style="margin: 2.5rem 0 1rem;">How to clear what&rsquo;s stored</h2>
-      <p>Open your browser&rsquo;s settings, find the site data for <code>lofts.studio</code>, and clear it. Or in DevTools (Chrome/Edge: F12 &rarr; Application &rarr; Local Storage), delete the <code>adnank-*</code> keys directly.</p>
+      <p>Open your browser&rsquo;s settings, find the site data for <code>lofts.studio</code>, and clear it. Or in DevTools (Chrome/Edge: F12 &rarr; Application &rarr; Local Storage), delete the <code>adnank-*</code> and <code>lofts-*</code> keys directly.</p>
 
       <h2 class="h-2" style="margin: 2.5rem 0 1rem;">Contact</h2>
       <p>Questions? Email <a href="/#contact">the contact form on the homepage</a>. Concerns about how your data is handled are answered within four hours during working days.</p>
@@ -306,7 +308,7 @@
   </div>
 </footer>
 
-<script src="/assets/main.js?v=20260620h" defer></script>
+<script src="/assets/main.js?v=20260621d" defer></script>
 <!-- ─── Sticky "Book a free audit" pill ─── -->
 <a href="/#contact" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>
@@ -315,6 +317,6 @@
 </a>
 
 
-<script src="/assets/widgets.js?v=20260618c" defer></script>
+<script src="/assets/widgets.js?v=20260621d" defer></script>
 </body>
 </html>

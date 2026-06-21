@@ -634,7 +634,7 @@
 
 /* ── Optional third-party loaders for PageSpeed-sensitive pages ── */
 (function () {
-  var script = document.currentScript;
+  var script = document.currentScript || document.querySelector('script[data-full-css], script[data-widgets-src], script[data-analytics-id]');
   var fullCss = script && script.dataset ? script.dataset.fullCss : '';
   var analyticsId = script && script.dataset ? script.dataset.analyticsId : '';
   var widgetsSrc = script && script.dataset ? script.dataset.widgetsSrc : '';

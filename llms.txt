@@ -11,6 +11,7 @@
 - [About](https://lofts.studio/about.html)
 - [Blog](https://lofts.studio/blog/)
 - [Tools](https://lofts.studio/tools/)
+- [Accessibility Statement](https://lofts.studio/accessibility.html)
 - [Contact](https://lofts.studio/#contact)
 - [Sitemap](https://lofts.studio/sitemap.xml)
 
