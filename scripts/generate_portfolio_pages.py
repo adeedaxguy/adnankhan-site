@@ -10,13 +10,14 @@ Outputs:
 
 import json
 import re
+from html import escape
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260621h"
+CACHE_VER = "20260621i"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -98,6 +99,15 @@ def abs_url(path: str) -> str:
     if path.startswith("http://") or path.startswith("https://"):
         return path
     return f"{SITE_URL}{path if path.startswith('/') else '/' + path}"
+
+
+def initials_for(name: str) -> str:
+    words = re.findall(r"[A-Za-z0-9]+", name or "")
+    if not words:
+        return "LS"
+    if len(words) == 1:
+        return words[0][:2].upper()
+    return "".join(word[0] for word in words[:2]).upper()
 
 
 def app_schema_type(item: dict) -> str:
@@ -646,11 +656,15 @@ def render_listing(items: list, nav: str, footer: str) -> str:
                 tone = "field"
             elif any(k in combined for k in ["agency", "brand", "marketing"]):
                 tone = "brand"
-            img_html = f'''<div class="work-card-designed" data-tone="{tone}">
+            initials = initials_for(item["name"])
+            designed_name = escape(item["name"])
+            designed_place = escape(place)
+            designed_meta = escape(f'{item.get("platform", "")} / {item.get("year", "")}')
+            img_html = f'''<div class="work-card-designed" data-tone="{tone}" data-initials="{initials}">
               <span class="work-card-designed-kicker">Portfolio preview</span>
-              <span class="work-card-designed-name">{item["name"]}</span>
-              <span class="work-card-designed-place">{place}</span>
-              <span class="work-card-designed-meta">{item.get("platform", "")} / {item.get("year", "")}</span>
+              <span class="work-card-designed-name">{designed_name}</span>
+              <span class="work-card-designed-place">{designed_place}</span>
+              <span class="work-card-designed-meta">{designed_meta}</span>
             </div>'''
 
         live_link = f'<a href="{item.get("url","#")}" target="_blank" rel="noopener" class="work-card-live" aria-label="Visit {item["name"]} live">&#8599;&nbsp;{url_display}</a>' if item.get("url") else ""
@@ -722,7 +736,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 }}
 </script>
 </head>
-<body>
+<body class="portfolio-page">
 
 {nav}
 

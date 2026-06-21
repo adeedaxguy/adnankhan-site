@@ -6504,36 +6504,140 @@ html[data-theme="dark"] .home-portfolio-stage .pf-card-num {
 .portfolio-page .work-card-designed[data-tone="field"],
 .portfolio-page .work-card-designed[data-tone="care"],
 .portfolio-page .work-card-designed[data-tone="studio"] {
+  --thumb-accent: 139 58 31;
+  --thumb-accent-2: 70 96 101;
+  --thumb-base: #FBF8F2;
+  --thumb-mid: #E9DED1;
+  --thumb-deep: #D2C0AA;
+  position: relative;
+  isolation: isolate;
+  align-items: flex-start;
+  justify-content: flex-end;
+  gap: 0.62rem;
+  min-height: 100%;
+  height: 100%;
+  overflow: hidden;
+  padding: clamp(4.65rem, 6vw, 5.6rem) clamp(1.25rem, 3vw, 2rem) clamp(1.25rem, 3vw, 1.85rem);
+  text-align: left;
   color: var(--ink);
   background:
-    radial-gradient(circle at 16% 14%, rgba(139,58,31,0.12), transparent 31%),
-    radial-gradient(circle at 82% 28%, rgba(94,122,74,0.1), transparent 36%),
-    linear-gradient(145deg, var(--surface) 0%, var(--bg-soft) 62%, #DDD3C4 100%);
+    linear-gradient(rgba(26,22,18,0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(26,22,18,0.028) 1px, transparent 1px),
+    radial-gradient(circle at 16% 22%, rgb(var(--thumb-accent) / 0.23), transparent 32%),
+    radial-gradient(circle at 84% 14%, rgb(var(--thumb-accent-2) / 0.16), transparent 36%),
+    radial-gradient(circle at 78% 88%, rgba(205,159,91,0.18), transparent 38%),
+    linear-gradient(145deg, var(--thumb-base) 0%, var(--thumb-mid) 58%, var(--thumb-deep) 100%);
+  background-size: 42px 42px, 42px 42px, auto, auto, auto, auto;
+}
+.portfolio-page .work-card-designed[data-tone="brand"] {
+  --thumb-accent: 126 78 139;
+  --thumb-accent-2: 139 58 31;
+  --thumb-mid: #E8DDE6;
+  --thumb-deep: #D0BFCA;
+}
+.portfolio-page .work-card-designed[data-tone="commerce"] {
+  --thumb-accent: 211 141 45;
+  --thumb-accent-2: 139 58 31;
+  --thumb-mid: #ECDFC8;
+  --thumb-deep: #D7C09D;
+}
+.portfolio-page .work-card-designed[data-tone="finance"] {
+  --thumb-accent: 58 108 117;
+  --thumb-accent-2: 139 58 31;
+  --thumb-mid: #DDE8E6;
+  --thumb-deep: #BDD0D0;
+}
+.portfolio-page .work-card-designed[data-tone="field"] {
+  --thumb-accent: 83 125 78;
+  --thumb-accent-2: 139 58 31;
+  --thumb-mid: #E1E6D4;
+  --thumb-deep: #C4D0B4;
+}
+.portfolio-page .work-card-designed[data-tone="care"] {
+  --thumb-accent: 72 134 149;
+  --thumb-accent-2: 139 58 31;
+  --thumb-mid: #DFEAE8;
+  --thumb-deep: #C1D4D1;
 }
 .portfolio-page .work-card-designed::before {
-  background:
-    linear-gradient(rgba(26,22,18,0.055) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(26,22,18,0.045) 1px, transparent 1px);
+  content: attr(data-initials);
+  position: absolute;
+  top: clamp(0.8rem, 2vw, 1.25rem);
+  right: clamp(-0.24rem, -1vw, -0.08rem);
+  z-index: 0;
+  font-family: var(--font-display);
+  font-size: clamp(7.4rem, 17vw, 12.6rem);
+  font-weight: 600;
+  line-height: 0.72;
+  letter-spacing: -0.08em;
+  color: rgb(var(--thumb-accent) / 0.16);
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.44);
+  pointer-events: none;
 }
 .portfolio-page .work-card-designed::after {
-  border-color: rgba(26,22,18,0.12);
-  background: linear-gradient(160deg, rgba(255,255,255,0.48), rgba(255,255,255,0.16));
+  content: "";
+  position: absolute;
+  inset: 0.92rem;
+  z-index: 1;
+  border: 1px solid rgba(26,22,18,0.12);
+  border-radius: 18px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.66), rgba(255,255,255,0.13) 56%, rgba(26,22,18,0.04)),
+    radial-gradient(circle at 18% 12%, rgb(var(--thumb-accent) / 0.1), transparent 34%);
   box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.52),
-    0 26px 70px -48px rgba(26,22,18,0.48);
+    inset 0 1px 0 rgba(255,255,255,0.7),
+    0 30px 70px -56px rgba(26,22,18,0.62);
+  pointer-events: none;
 }
-.portfolio-page .work-card-designed .work-card-designed-kicker,
+.portfolio-page .work-card-designed .work-card-designed-kicker {
+  position: absolute;
+  top: 1.62rem;
+  right: 1.52rem;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.44rem;
+  max-width: 15ch;
+  text-align: right;
+  color: rgba(26,22,18,0.54);
+}
+.portfolio-page .work-card-designed .work-card-designed-kicker::before {
+  content: "";
+  width: 0.42rem;
+  height: 0.42rem;
+  border-radius: 999px;
+  background: rgb(var(--thumb-accent));
+  box-shadow:
+    0.68rem 0 0 rgb(var(--thumb-accent) / 0.28),
+    1.36rem 0 0 rgb(var(--thumb-accent-2) / 0.24);
+}
 .portfolio-page .work-card-designed .work-card-designed-meta {
-  color: var(--muted);
+  position: relative;
+  z-index: 2;
+  max-width: min(32ch, 100%);
+  color: rgba(26,22,18,0.52);
 }
 .portfolio-page .work-card-designed .work-card-designed-name {
+  position: relative;
+  z-index: 2;
+  max-width: min(14ch, 100%);
+  font-size: clamp(1.82rem, 3.6vw, 3.38rem);
+  line-height: 0.98;
   color: var(--ink);
-  text-shadow: none;
+  overflow-wrap: anywhere;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.48), 0 18px 48px rgba(255,255,255,0.24);
 }
 .portfolio-page .work-card-designed .work-card-designed-place {
-  border-color: rgba(26,22,18,0.14);
-  background: rgba(251,248,242,0.58);
+  position: relative;
+  z-index: 2;
+  justify-content: flex-start;
+  max-width: min(30ch, 100%);
+  background: rgba(251,248,242,0.78);
+  border-color: rgba(26,22,18,0.13);
   color: var(--ink-soft);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 .portfolio-page #emptyState p {
   color: var(--muted) !important;
@@ -6914,6 +7018,42 @@ html[data-theme="dark"] .portfolio-closing-cta .btn {
   .home-portfolio-stage .h-1,
   .portfolio-hero-copy .h-display {
     font-size: 2rem;
+  }
+  .portfolio-page .paper .h-display {
+    max-width: 100%;
+    font-size: clamp(2.05rem, 9.2vw, 2.52rem);
+    line-height: 1.03;
+    text-wrap: balance;
+  }
+  .portfolio-page .paper .h-display .italic-serif {
+    display: block;
+    margin-top: 0.12em;
+  }
+  .portfolio-page .work-card-designed {
+    justify-content: center;
+    padding: 4.25rem 1.1rem 1.45rem;
+  }
+  .portfolio-page .work-card-designed::before {
+    top: 4.1rem;
+    right: -0.18rem;
+    font-size: clamp(6.4rem, 28vw, 8.2rem);
+    color: rgb(var(--thumb-accent) / 0.2);
+  }
+  .portfolio-page .work-card-designed::after {
+    inset: 0.7rem;
+    border-radius: 14px;
+  }
+  .portfolio-page .work-card-designed .work-card-designed-kicker {
+    top: 1.35rem;
+    right: 1rem;
+    font-size: 0.54rem;
+  }
+  .portfolio-page .work-card-designed .work-card-designed-name {
+    max-width: 11ch;
+    font-size: clamp(1.65rem, 8.2vw, 2.18rem);
+  }
+  .portfolio-page .work-card-designed .work-card-designed-place {
+    font-size: 0.76rem;
   }
   .home-portfolio-stage .pf-card-img,
   .home-portfolio-stage .pf-card--featured .pf-card-img,
