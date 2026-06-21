@@ -52,7 +52,12 @@
 
 /* ── Base ── */
 *, *::before, *::after { box-sizing: border-box; }
-html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 body {
   margin: 0;
   background: var(--bg);
@@ -64,6 +69,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "ss01", "ss02";
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
 img, svg { max-width: 100%; display: block; }
@@ -3097,9 +3104,9 @@ html.a11y-spacing .chat-msg {
 }
 @media (max-width: 520px) {
   .home-page .hero-main .h-display {
-    font-size: 2.9rem;
+    font-size: 2.48rem;
     line-height: 1.03;
-    letter-spacing: -0.04em;
+    letter-spacing: 0;
     text-wrap: balance;
   }
   .home-page .hero-main .word-mask,
@@ -3757,12 +3764,16 @@ body:has(.cookie-banner) .audit-cta {
 .hero-main { min-width: 0; max-width: 100%; }
 .hero-sidecar { min-width: 0; max-width: 100%; }
 .hero-title {
-  font-size: clamp(2.6rem, 5.5vw, 5rem);
-  line-height: 0.98;
+  max-width: 11.4em;
+  font-size: 4.35rem;
+  line-height: 1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 .hero-title .italic-serif {
   font-size: 0.9em;
-  line-height: 1.06;
+  line-height: 1.08;
+  letter-spacing: 0;
 }
 .hero-lead {
   font-size: clamp(1.02rem, 1.15vw, 1.14rem);
@@ -3771,14 +3782,23 @@ body:has(.cookie-banner) .audit-cta {
 
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: minmax(0, 1fr); gap: 3rem; }
+  .hero-title {
+    font-size: 3.7rem;
+  }
 }
 @media (max-width: 640px) {
   .hero-title {
-    font-size: clamp(2rem, 9vw, 2.75rem);
+    font-size: 2.55rem;
     line-height: 1.03;
   }
   .hero-title .italic-serif { font-size: 0.92em; }
   .hero-lead { line-height: 1.62; }
+}
+
+@media (max-width: 420px) {
+  .hero-title {
+    font-size: 2.28rem;
+  }
 }
 
 /* Device mockup must size from its grid cell, never from its content */
@@ -5735,9 +5755,10 @@ body.portfolio-page .cursor-ring {
   max-width: 10.8em;
   margin: 1.4rem 0 0;
   color: var(--ink);
-  font-size: 5rem;
-  line-height: 0.98;
+  font-size: 4.35rem;
+  line-height: 1;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 .portfolio-hero-copy .lead {
   max-width: 56ch;
@@ -7020,7 +7041,7 @@ html[data-theme="dark"] .portfolio-closing-cta .btn {
     margin-top: 0;
   }
   .portfolio-hero-copy .h-display {
-    font-size: 3.5rem;
+    font-size: 3.45rem;
   }
   .portfolio-proof-strip {
     grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -7037,7 +7058,8 @@ html[data-theme="dark"] .portfolio-closing-cta .btn {
   }
   .home-portfolio-stage .h-1,
   .portfolio-hero-copy .h-display {
-    font-size: 2.35rem;
+    font-size: 2.32rem;
+    line-height: 1.04;
   }
   .home-portfolio-stage .pf-grid,
   .portfolio-page #workGrid.work-grid {

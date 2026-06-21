@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260621j"
+CACHE_VER = "20260621k"
 
 INDEX = ROOT / "index.html"
 
