@@ -4230,20 +4230,20 @@ body.chat-open .mob-bar { display: none; }
 @media (max-width: 680px) {
   .trust-badges {
     display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    overflow-x: visible;
     gap: 0.4rem;
     padding-bottom: 0.4rem;
     -webkit-overflow-scrolling: touch;
-    scroll-snap-type: x mandatory;
+    scroll-snap-type: none;
     scrollbar-width: none;
-    margin-right: -1.1rem;
-    padding-right: 1.1rem;
+    margin-right: 0;
+    padding-right: 0;
   }
   .trust-badges::-webkit-scrollbar { display: none; }
   .trust-badge {
     scroll-snap-align: start;
-    flex-shrink: 0;
+    flex-shrink: 1;
     font-size: 0.66rem;
     padding: 0.4rem 0.8rem;
     white-space: nowrap;

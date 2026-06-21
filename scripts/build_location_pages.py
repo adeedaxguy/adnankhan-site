@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://lofts.studio"
-CACHE_VER = "20260621g"
+CACHE_VER = "20260621h"
 TODAY = "2026-06-18"
 
 

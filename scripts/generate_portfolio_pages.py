@@ -16,7 +16,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260621g"
+CACHE_VER = "20260621h"
 SITE_URL = "https://lofts.studio"
 
 # ── Service routing ───────────────────────────────────────────────────────────
@@ -276,7 +276,7 @@ def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: 
     )
     return f'''<section class="section-sm" style="padding:5rem 0;border-top:1px solid var(--line);">
   <div class="container">
-    <div data-reveal style="display:grid;grid-template-columns:0.72fr 1.8fr;gap:4rem;max-width:1080px;margin:0 auto;">
+    <div data-reveal class="case-depth-grid">
       <div>
         <span class="eyebrow">Project notes</span>
         <h2 class="h-2" style="margin:1rem 0 0;">What had to work for {name}</h2>
@@ -285,7 +285,7 @@ def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: 
         <p style="font-family:var(--font-serif);font-size:1.12rem;line-height:1.75;color:var(--ink);margin:0 0 1.5rem;">
           {name} sits in a {ctx["market"]}. The page experience had to help {ctx["buyer"]}. That meant treating the build as more than a visual refresh: the structure, copy hierarchy, technical setup, and handoff all had to support the same commercial job.
         </p>
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin:2rem 0;">
+        <div class="case-depth-cards">
           <div class="card" style="padding:1.25rem;">
             <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">Build priorities</p>
             <ul style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.65;margin:0;padding-left:1.1rem;">{priority_items}</ul>
@@ -542,8 +542,12 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 
 <style>
   .case-brief {{ display:grid;grid-template-columns:0.6fr 2fr;gap:4rem;max-width:1080px;margin:0 auto; }}
+  .case-depth-grid {{ display:grid;grid-template-columns:0.72fr 1.8fr;gap:4rem;max-width:1080px;margin:0 auto; }}
+  .case-depth-cards {{ display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.25rem;margin:2rem 0; }}
   @media (max-width:880px) {{
     .case-brief {{ grid-template-columns:1fr;gap:1.5rem; }}
+    .case-depth-grid {{ grid-template-columns:1fr;gap:1.75rem; }}
+    .case-depth-cards {{ grid-template-columns:1fr; }}
     .case-cta-grid {{ grid-template-columns:1fr !important; }}
   }}
 </style>

@@ -28,7 +28,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
-<link rel="stylesheet" href="../assets/styles.css?v=20260621g" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260621h" />
 
 <script type="application/ld+json">
 {
@@ -447,7 +447,7 @@
 <!-- ── Footer ── -->
 <footer class="site-footer">
   <div class="container">
-    <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:2rem;">
+    <div class="services-footer-grid">
       <div>
         <div style="font-family:var(--font-serif);font-size:1.1rem;margin-bottom:.75rem;"><a href="/" style="color:var(--ink);text-decoration:none;">Lofts Studio</a></div>
         <p class="meta">Multan · Dubai<br/>Est. 2017</p>
@@ -486,22 +486,13 @@
   </div>
 </footer>
 
-<!-- Bottom mobile bar -->
-<div class="bottom-bar" role="navigation" aria-label="Mobile bottom navigation">
-  <a href="/portfolio/" class="bottom-bar-item">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"/><rect width="7" height="7" x="14" y="3" rx="1"/><rect width="7" height="7" x="14" y="14" rx="1"/><rect width="7" height="7" x="3" y="14" rx="1"/></svg>
-    <span>WORK</span>
-  </a>
-  <a href="/#contact" class="bottom-bar-cta">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-    Start a conversation
-  </a>
-  <button class="bottom-bar-item" id="bottomAsk" aria-label="Ask a question">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-    <span>ASK</span>
-  </button>
-</div>
+<style>
+  .services-footer-grid { display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:2rem; }
+  @media (max-width:760px) { .services-footer-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media (max-width:420px) { .services-footer-grid { grid-template-columns:1fr; } }
+</style>
 
-<script src="../assets/main.js?v=20260621g" defer></script>
+<script src="../assets/main.js?v=20260621h" defer></script>
+<script src="../assets/widgets.js?v=20260621h" defer></script>
 </body>
 </html>
