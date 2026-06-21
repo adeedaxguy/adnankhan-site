@@ -67,7 +67,7 @@ NAV = '''<header class="nav-bar">
       <a href="/about.html" class="nav-link">About</a>
     </nav>
     <a href="/#contact" class="btn btn-primary">
-      Start a conversation
+      Get in touch
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
@@ -112,7 +112,7 @@ NAV = '''<header class="nav-bar">
     </a>
     <div class="mnav-foot">
       <a href="/#contact" class="mnav-cta">
-        Start a conversation
+        Get in touch
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
       <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US, UK &amp; CA hours</p>
@@ -1036,7 +1036,7 @@ def cta_band(name):
     <h2 class="h-1" style="color: var(--bg); margin: 0 0 1.5rem;">Want a {name.lower()} website that earns its keep?</h2>
     <p style="font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.65; color: rgba(244,240,234,.78); max-width: 56ch; margin: 0 auto 2.5rem;">Tell us about your business and what you want the site to do. We&rsquo;ll reply within four hours with honest, specific next steps &mdash; whether you hire us or not.</p>
     <a href="/#contact" class="btn" style="background: var(--bg); color: var(--ink); padding: 1rem 2rem;">
-      Start a conversation
+      Get in touch
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
   </div>
@@ -1103,7 +1103,7 @@ def render_trade(trade):
       </h1>
       <p class="lead" style="margin-top: 1.75rem; max-width: 680px;">{trade["lead"]}</p>
       <div style="margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
-        <a href="/#contact" class="btn btn-primary">Start a conversation
+        <a href="/#contact" class="btn btn-primary">Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
         <a href="/portfolio/" class="btn btn-ghost">See our work</a>
@@ -1220,7 +1220,7 @@ def render_hub():
       </h1>
       <p class="lead" style="margin-top: 1.75rem; max-width: 720px;">Most of your future customers will search for you on a phone, decide in seconds, and never call if the site is slow, dated, or missing. We build fast, trustworthy websites for local businesses across the US, UK and Canada &mdash; built around exactly how your customers choose.</p>
       <div style="margin-top: 2.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem;">
-        <a href="/#contact" class="btn btn-primary">Start a conversation
+        <a href="/#contact" class="btn btn-primary">Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
         <a href="/free-audit/" class="btn btn-ghost">Free 15-min audit</a>

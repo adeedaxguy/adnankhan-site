@@ -351,7 +351,7 @@ def nav() -> str:
       <a href="/blog/" class="nav-link">Blog</a>
       <a href="/about.html" class="nav-link">About</a>
     </nav>
-    <a href="/#contact" class="btn btn-primary">Start a conversation
+    <a href="/#contact" class="btn btn-primary">Get in touch
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
     </a>
     <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
@@ -390,7 +390,7 @@ def nav() -> str:
     </div>
     <a href="/free-audit/" class="mnav-audit-link">Free 15-min Audit</a>
     <div class="mnav-foot">
-      <a href="/#contact" class="mnav-cta">Start a conversation
+      <a href="/#contact" class="mnav-cta">Get in touch
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>
       <p class="mnav-meta">US, UK &amp; GCC hours covered</p>
@@ -413,7 +413,7 @@ def footer() -> str:
       <div class="footer-newsletter">
         <p class="footer-newsletter-eyebrow">Next step</p>
         <h3 class="footer-newsletter-title">Bring the website, search, and phone flow into one system.</h3>
-        <a href="/#contact" class="btn btn-primary">Start a conversation</a>
+        <a href="/#contact" class="btn btn-primary">Get in touch</a>
       </div>
     </div>
     <div class="footer-grid">

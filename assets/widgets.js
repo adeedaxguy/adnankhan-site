@@ -345,7 +345,7 @@
         <p class="chat-cta-text">Adnan reviews every brief personally and replies within four hours with three concrete suggestions &mdash; whether you hire him or not.</p>
         <div class="chat-cta-actions">
           <a href="${formAnchor}" class="chat-cta-btn chat-cta-primary">
-            Start a conversation
+            Get in touch
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
           </a>
           <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="chat-cta-btn chat-cta-whatsapp">
@@ -403,9 +403,9 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/></svg>
         <span>Work</span>
       </a>
-      <button type="button" class="mob-bar-item mob-bar-cta" id="mobConversationBtn" aria-label="Start a conversation">
+      <button type="button" class="mob-bar-item mob-bar-cta" id="mobConversationBtn" aria-label="Get in touch">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        Start a conversation
+        Get in touch
       </button>
       <a href="${whatsappURL}" target="_blank" rel="noopener noreferrer" class="mob-bar-item" aria-label="Chat on WhatsApp">
         <svg width="17" height="17" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path fill="currentColor" d="M16.03 4.2A11.72 11.72 0 0 0 5.9 21.78L4.25 27.8l6.17-1.62A11.7 11.7 0 1 0 16.03 4.2Zm5.3 14.15c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.73.94-.9 1.13-.16.2-.33.22-.61.08-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.13-.59.13-.13.29-.33.43-.5.15-.16.2-.28.3-.48.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.2 0-.52.08-.79.37-.26.29-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.7-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/></svg>
@@ -413,7 +413,7 @@
       </a>`;
     document.body.appendChild(bar);
 
-    // Glass popup for "Start a conversation"
+    // Glass popup for "Get in touch"
     const popup = document.createElement('div');
     popup.id = 'convPopup';
     popup.className = 'conv-popup';

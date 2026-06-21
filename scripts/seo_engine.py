@@ -919,7 +919,7 @@ def render_location_page(loc, nav, footer):
         {loc['hours']}. Async-friendly, written-first, and senior-only — no junior team, no PM layer.
       </p>
       <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
-        <a href="/#contact" class="btn btn-primary">Start a conversation &nbsp;&rarr;</a>
+        <a href="/#contact" class="btn btn-primary">Get in touch &nbsp;&rarr;</a>
         <a href="/portfolio/" class="btn btn-ghost">See 47 case studies</a>
       </div>
     </div>
@@ -1015,7 +1015,7 @@ def render_location_page(loc, nav, footer):
       <span style="font-family: var(--font-sans); font-size: 0.72rem; color: rgba(244,240,234,0.6); text-transform: uppercase; letter-spacing: 0.22em;">If you got this far</span>
       <h2 class="h-1" style="color: var(--bg); margin: 1.5rem 0;">Send your store URL.<br/><span class="italic-serif">I'll audit it before the call.</span></h2>
       <p style="font-family: var(--font-serif); font-size: 1.15rem; line-height: 1.6; color: rgba(244,240,234,0.85); max-width: 56ch; margin: 0 auto 2.5rem;">Three specific suggestions you can act on whether you hire me or not. Reply window: four hours, {loc['country']} business hours friendly.</p>
-      <a href="/#contact" class="btn" style="background: var(--bg); color: var(--ink); padding: 1rem 2rem;">Start a conversation &nbsp;&rarr;</a>
+      <a href="/#contact" class="btn" style="background: var(--bg); color: var(--ink); padding: 1rem 2rem;">Get in touch &nbsp;&rarr;</a>
     </div>
   </div>
 </section>

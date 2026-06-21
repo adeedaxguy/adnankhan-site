@@ -526,7 +526,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <div class="container">
     <div data-reveal class="case-cta-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:920px;margin:0 auto;">
       <a href="/#contact" class="card" style="text-decoration:none;display:flex;flex-direction:column;gap:0.85rem;">
-        <span style="font-family:var(--font-sans);font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.2em;font-weight:600;">Start a conversation</span>
+        <span style="font-family:var(--font-sans);font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.2em;font-weight:600;">Get in touch</span>
         <h3 class="h-2" style="margin:0;">Want something like {name} for your store?</h3>
         <p style="font-family:var(--font-serif);color:var(--ink-soft);margin:0;line-height:1.6;">Send a URL and what you&rsquo;d change. Four-hour reply with three specific suggestions, whether you hire me or not.</p>
         <span class="btn-editorial" style="align-self:flex-start;margin-top:0.5rem;">Open the form &nbsp;&rarr;</span>
