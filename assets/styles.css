@@ -29,6 +29,7 @@
   /* ─── Type ─── */
   --font-display: 'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-sans:    'Inter Tight', -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-logo:    'Iowan Old Style', Baskerville, 'Libre Baskerville', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
   --font-serif:   'Source Serif 4', 'Source Serif Pro', Georgia, 'Times New Roman', serif;
   --font-mono:    'JetBrains Mono', ui-monospace, 'SF Mono', Menlo, monospace;
 
@@ -46,6 +47,7 @@
 .home-page {
   --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   --font-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  --font-logo: 'Iowan Old Style', Baskerville, 'Libre Baskerville', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
   --font-serif: Georgia, 'Times New Roman', serif;
   --font-mono: ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
 }
@@ -323,7 +325,7 @@ body { padding-top: 76px; }
 }
 
 .nav-logo {
-  font-family: var(--font-serif);
+  font-family: var(--font-logo);
   font-size: 1.32rem;
   font-weight: 500;
   font-style: italic;
@@ -605,7 +607,7 @@ body { padding-top: 76px; }
   margin-bottom: 2rem;
 }
 .mnav-logo {
-  font-family: var(--font-serif);
+  font-family: var(--font-logo);
   font-size: 1.15rem;
   font-weight: 400;
   letter-spacing: -0.02em;
@@ -2484,7 +2486,7 @@ html.a11y-spacing .chat-msg {
   gap: 1rem;
 }
 .footer-logo-italic {
-  font-family: var(--font-serif);
+  font-family: var(--font-logo);
   font-style: italic;
   font-weight: 500;
   letter-spacing: -0.025em;
@@ -3771,9 +3773,10 @@ body:has(.cookie-banner) .audit-cta {
   overflow-wrap: anywhere;
 }
 .hero-title .italic-serif {
+  font-family: var(--font-logo);
   font-size: 0.9em;
   line-height: 1.08;
-  letter-spacing: 0;
+  letter-spacing: -0.045em;
 }
 .hero-lead {
   font-size: clamp(1.02rem, 1.15vw, 1.14rem);
@@ -3791,7 +3794,10 @@ body:has(.cookie-banner) .audit-cta {
     font-size: 2.55rem;
     line-height: 1.03;
   }
-  .hero-title .italic-serif { font-size: 0.92em; }
+  .hero-title .italic-serif {
+    font-size: 0.92em;
+    letter-spacing: -0.04em;
+  }
   .hero-lead { line-height: 1.62; }
 }
 
@@ -4213,7 +4219,7 @@ body:has(.cookie-banner) .audit-cta {
     max-width: 100%;
     overflow-x: hidden;
   }
-  body { padding-bottom: calc(64px + env(safe-area-inset-bottom, 0px)); }
+  body { padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px)); }
   .section { padding: 4rem 0; }
   .section-lg { padding: 4rem 0; }
   .section-sm { padding: 2.5rem 0; }
@@ -4230,9 +4236,9 @@ body:has(.cookie-banner) .audit-cta {
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-top: 1px solid var(--line);
-  padding: 0.35rem 0.85rem max(0.5rem, env(safe-area-inset-bottom, 0px));
+  padding: 0.28rem 0.75rem max(0.38rem, env(safe-area-inset-bottom, 0px));
   align-items: center;
-  gap: 0.25rem;
+  gap: 0.2rem;
 }
 @media (max-width: 640px) { .mob-bar { display: flex; } }
 
@@ -4242,10 +4248,10 @@ body:has(.cookie-banner) .audit-cta {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 3px;
-  padding: 0.35rem 0.25rem;
+  gap: 2px;
+  padding: 0.28rem 0.2rem;
   font-family: var(--font-sans);
-  font-size: 0.57rem;
+  font-size: 0.52rem;
   font-weight: 500;
   text-transform: uppercase;
   letter-spacing: 0.1em;
@@ -4254,29 +4260,45 @@ body:has(.cookie-banner) .audit-cta {
   background: transparent;
   border: 0;
   cursor: pointer;
-  min-height: 44px;
+  min-height: 40px;
   text-decoration: none;
   -webkit-tap-highlight-color: transparent;
 }
 .mob-bar-item:active { color: var(--ink); transform: scale(0.94); }
 
 .mob-bar-cta {
-  flex: 1.8;
+  flex: 1.35;
   flex-direction: row;
-  gap: 7px;
+  gap: 5px;
   background: var(--ink);
   color: var(--bg) !important;
   border-radius: 100px;
-  font-size: 0.78rem;
+  font-size: 0.68rem;
   font-weight: 500;
+  line-height: 1.12;
   letter-spacing: -0.005em;
   text-transform: none;
-  padding: 0.55rem 1.1rem;
-  min-height: 44px;
-  margin: 0.2rem 0.5rem;
+  padding: 0.44rem 0.82rem;
+  min-height: 40px;
+  margin: 0.1rem 0.35rem;
   text-decoration: none;
 }
+.mob-bar-cta svg {
+  width: 12px;
+  height: 12px;
+}
 .mob-bar-cta:active { background: var(--ink-soft) !important; transform: scale(0.97); }
+
+@media (max-width: 380px) {
+  .mob-bar { padding-inline: 0.55rem; }
+  .mob-bar-item { font-size: 0.5rem; }
+  .mob-bar-cta {
+    flex: 1.25;
+    font-size: 0.64rem;
+    padding: 0.4rem 0.68rem;
+    margin-inline: 0.22rem;
+  }
+}
 
 /* Hide floating chat/WhatsApp launchers on mobile — bottom bar has the routes */
 @media (max-width: 640px) {
