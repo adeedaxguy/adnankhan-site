@@ -12,11 +12,11 @@
 
   <!-- Top bar: tiny meta -->
   <text x="80" y="80" font-family="'Inter Tight', system-ui, sans-serif" font-size="20" font-weight="500" fill="#6C6258" letter-spacing="4">
-    ADNAN K. &nbsp;·&nbsp; SENIOR STUDIO &nbsp;·&nbsp; EST. 2017
+    ADNAN K. &nbsp;·&nbsp; SENIOR STUDIO &nbsp;·&nbsp; ALMOST 15 YEARS
   </text>
 
   <!-- Main headline -->
-  <text x="80" y="240" font-family="'Inter Tight', system-ui, sans-serif" font-size="88" font-weight="500" fill="#1A1612" letter-spacing="-2.5">Nine years.</text>
+  <text x="80" y="240" font-family="'Inter Tight', system-ui, sans-serif" font-size="88" font-weight="500" fill="#1A1612" letter-spacing="-2.5">Almost 15 years.</text>
   <text x="80" y="340" font-family="'Inter Tight', system-ui, sans-serif" font-size="88" font-weight="500" fill="#1A1612" letter-spacing="-2.5">Three hundred and seven stores.</text>
   <text x="80" y="440" font-family="'Source Serif 4', Georgia, serif" font-style="italic" font-size="80" font-weight="400" fill="#2A241E" letter-spacing="-2">One operator who answers his own email.</text>
 

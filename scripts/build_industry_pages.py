@@ -61,16 +61,6 @@ NAV = '''<header class="nav-bar">
         </div>
       </div>
       <a href="/websites/" class="nav-link">Web Design</a>
-      <a href="/websites/" class="nav-link">Web Design</a>
-=======
-      <a href="/websites/" class="nav-link">Web Design</a>
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
       <a href="/portfolio/" class="nav-link">Portfolio</a>
       <a href="/process/" class="nav-link">Process</a>
       <a href="/notes/" class="nav-link">Notes</a>
@@ -97,16 +87,6 @@ NAV = '''<header class="nav-bar">
     </div>
     <nav class="mnav-primary" aria-label="Main">
       <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
-      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
-=======
-      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
-=======
->>>>>>> theirs
       <a href="/portfolio/" class="mnav-link" data-num="02">Portfolio</a>
       <a href="/about.html" class="mnav-link" data-num="03">About</a>
       <a href="/process/" class="mnav-link" data-num="04">Process</a>
@@ -148,7 +128,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
           <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
           <span class="footer-logo-caps">STUDIO</span>
         </div>
-        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A long delivery record. Nine years. Built for owners who can tell the difference between a site that merely launches and one that earns its keep.</p>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A long delivery record. Almost 15 years. Built for owners who can tell the difference between a site that merely launches and one that earns its keep.</p>
         <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);">
           <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>
           Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US, UK &amp; Canada callable hours
@@ -1037,11 +1017,11 @@ def proof_band():
     <div data-reveal style="max-width: 720px; margin: 0 auto; text-align: center;">
       <span class="eyebrow">Who builds it</span>
       <h2 class="h-1" style="margin-top: 1rem;">Senior engineers. <span class="italic-serif" style="color: var(--accent);">No agency markup.</span></h2>
-      <p class="lead" style="margin-top: 1.5rem;">You work directly with the brothers who write the code &mdash; Adnan in Multan, Irfan in Dubai. Two Top Rated Upwork operators, a long delivery record since 2017, and a 100% Job Success Score. Hire us directly, or run it documented and milestone-led through Upwork &mdash; your call.</p>
+      <p class="lead" style="margin-top: 1.5rem;">You work directly with the brothers who write the code &mdash; Adnan in Multan, Irfan in Dubai. Two Top Rated Upwork operators, a long delivery record across almost 15 years, and a 100% Job Success Score. Hire us directly, or run it documented and milestone-led through Upwork &mdash; your call.</p>
       <div class="hero-stats" style="margin-top: 2.5rem; justify-content: center;">
         <div class="hero-stat"><div class="bignum"><span data-count="1000">1000</span><span class="bignum-suffix">+</span></div><div class="hero-stat-lbl">Projects delivered</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
-        <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Since 2017</div></div>
+        <div class="hero-stat"><div class="bignum">15<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Delivery history</div></div>
         <div class="hero-stat"><div class="bignum">4<span class="bignum-suffix">&nbsp;hr</span></div><div class="hero-stat-lbl">Reply, Mon&ndash;Sat</div></div>
       </div>
     </div>

@@ -99,3 +99,52 @@
 - [Contact Section](https://lofts.studio/#contact)
 - [Adnan Khan on Upwork](https://www.upwork.com/freelancers/wordpressandshopifydeveloper)
 - [Irfan Khan on Upwork](https://www.upwork.com/freelancers/irfankhan)
+
+<!-- INDUSTRY:START -->
+## Websites by industry (local businesses)
+Lofts Studio builds search-optimised websites for local businesses across the US, UK, and Canada. Hub: https://lofts.studio/websites/
+- Restaurants: https://lofts.studio/websites/restaurants/
+- Cafés & Bakeries: https://lofts.studio/websites/cafes-bakeries/
+- Bars & Pubs: https://lofts.studio/websites/bars-pubs/
+- Caterers: https://lofts.studio/websites/caterers/
+- Hotels & B&Bs: https://lofts.studio/websites/hotels-bnb/
+- Dentists: https://lofts.studio/websites/dentists/
+- Doctors & Clinics: https://lofts.studio/websites/medical-clinics/
+- Physiotherapy & Chiropractic: https://lofts.studio/websites/physiotherapy/
+- Opticians & Eye Care: https://lofts.studio/websites/opticians/
+- Veterinary Practices: https://lofts.studio/websites/veterinary/
+- Therapists & Counsellors: https://lofts.studio/websites/therapists/
+- Hair Salons: https://lofts.studio/websites/hair-salons/
+- Barbershops: https://lofts.studio/websites/barbershops/
+- Spas & Beauty: https://lofts.studio/websites/spas/
+- Nail Salons: https://lofts.studio/websites/nail-salons/
+- Gyms & Fitness Studios: https://lofts.studio/websites/gyms/
+- Yoga & Pilates Studios: https://lofts.studio/websites/yoga-pilates/
+- Personal Trainers: https://lofts.studio/websites/personal-trainers/
+- Trades & Contractors: https://lofts.studio/websites/trades/
+- Plumbers: https://lofts.studio/websites/plumbers/
+- Electricians: https://lofts.studio/websites/electricians/
+- HVAC & Heating: https://lofts.studio/websites/hvac/
+- Builders & Contractors: https://lofts.studio/websites/builders/
+- Roofers: https://lofts.studio/websites/roofers/
+- Landscaping & Lawn Care: https://lofts.studio/websites/landscaping/
+- Painters & Decorators: https://lofts.studio/websites/painters/
+- Cleaning Services: https://lofts.studio/websites/cleaning/
+- Pest Control: https://lofts.studio/websites/pest-control/
+- Law Firms & Solicitors: https://lofts.studio/websites/law-firms/
+- Accountants & Bookkeepers: https://lofts.studio/websites/accountants/
+- Real Estate Agents: https://lofts.studio/websites/real-estate/
+- Financial Advisors: https://lofts.studio/websites/financial-advisors/
+- Consultants & Coaches: https://lofts.studio/websites/consultants/
+- Recruitment Agencies: https://lofts.studio/websites/recruitment/
+- Auto Repair & Mechanics: https://lofts.studio/websites/auto-repair/
+- Car Dealerships: https://lofts.studio/websites/car-dealers/
+- Photographers: https://lofts.studio/websites/photographers/
+- Wedding & Event Planners: https://lofts.studio/websites/wedding-planners/
+- Florists: https://lofts.studio/websites/florists/
+- Childcare & Nurseries: https://lofts.studio/websites/childcare/
+- Tutors & Education: https://lofts.studio/websites/tutoring/
+- Driving Schools & Instructors: https://lofts.studio/websites/driving-schools/
+- Funeral Homes & Directors: https://lofts.studio/websites/funeral-homes/
+- Local Shops & Retailers: https://lofts.studio/websites/local-retail/
+<!-- INDUSTRY:END -->

@@ -146,7 +146,7 @@ POSTS = [
         "featured": True,
         "hook": "If you're about to hire a Shopify developer for the first time, you are about to make the most expensive decision of the year — and you almost certainly don't have the vocabulary yet to make it well.",
         "body": [
-            ("p", "I've spent nine years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The scope tag has almost nothing to do with which outcome they got."),
+            ("p", "I've spent almost 15 years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The scope tag has almost nothing to do with which outcome they got."),
             ("p", "This post is the screening playbook I wish every client had used before they reached me. It will not flatter the industry. It will save you a six-figure mistake."),
             ("h2", "The real Shopify developer rate market in 2026"),
             ("p", "Let's anchor reality before we discuss anything else. Here are the rate brackets you'll actually encounter:"),
@@ -368,7 +368,7 @@ POSTS = [
         "featured": False,
         "hook": "Every founder who has hired both knows the secret: you are rarely paying for the developer. You are paying for the layer of people sitting between you and the developer.",
         "body": [
-            ("p", "I've worked inside agencies, built solo for nine years, and inherited dozens of stores from both kinds of teams. The right choice depends on which problem you actually have. Let me unpack the real difference."),
+            ("p", "I've worked inside agencies, built solo for almost 15 years, and inherited dozens of stores from both kinds of teams. The right choice depends on which problem you actually have. Let me unpack the real difference."),
             ("h2", "What an agency adds overhead in 2026"),
             ("p", "A typical Shopify build at a mid-tier US/UK agency runs $30,000–$120,000. A Shopify Plus build at a top-tier agency runs $80,000–$300,000. Roughly half of that is engineering time. The other half is:"),
             ("ul", [
@@ -491,7 +491,7 @@ POSTS = [
         "featured": False,
         "hook": "WooCommerce is not inherently slow. It is, however, used by an ecosystem that builds plugins as if performance is something other people worry about. The result is what you're seeing in your Lighthouse score.",
         "body": [
-            ("p", "I've optimized 80+ WooCommerce stores over nine years. The diagnosis is almost always the same. This post is the playbook — the plugins, the server mistakes, and the order of operations that actually moves your LCP from 6 seconds to under 2.5."),
+            ("p", "I've optimized 80+ WooCommerce stores over almost 15 years. The diagnosis is almost always the same. This post is the playbook — the plugins, the server mistakes, and the order of operations that actually moves your LCP from 6 seconds to under 2.5."),
             ("h2", "The five plugins causing most WooCommerce slowdowns"),
             ("h3", "1. WooCommerce Subscriptions (when misconfigured)"),
             ("p", "Subscriptions is a great product, but it loads cart fragments via AJAX on every page load by default. On a homepage with no cart functionality, that's a 200–400ms request that does nothing. Fix: dequeue the cart fragments script on pages where it's not needed."),
@@ -809,7 +809,7 @@ def render_blog_post(p, nav, footer):
 def render_location_page(loc, nav, footer):
     """Render a country-specific service landing page."""
     title = f"Shopify & WooCommerce Developer {loc['country']} | Adnan K."
-    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. 9 years, years of custom store work shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
+    meta = f"Hire a senior Shopify and WooCommerce developer {loc['tagline']}. Almost 15 years of custom store work shipped, 100% Job Success. Top Rated Plus on Upwork. {loc['hours']}."
     canonical = f"{SITE}/services/shopify-developer-{loc['code']}.html"
 
     hreflang_tags = "\n".join([
@@ -915,7 +915,7 @@ def render_location_page(loc, nav, footer):
         Hire a senior Shopify developer <span class="italic-serif">in {loc['country']}.</span>
       </h1>
       <p class="lead" style="margin-top: 2rem;">
-        Nine years. Deep store delivery experience. Top Rated Plus on Upwork {loc['tagline']}.
+        Almost 15 years. Deep store delivery experience. Top Rated Plus on Upwork {loc['tagline']}.
         {loc['hours']}. Async-friendly, written-first, and senior-only — no junior team, no PM layer.
       </p>
       <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">

@@ -743,7 +743,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <section class="paper" style="padding:7rem 0 4rem;">
   <div class="container">
     <div data-reveal style="max-width:940px;">
-      <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2017&ndash;present</span>
+      <span class="eyebrow">Selected work &nbsp;&middot;&nbsp; 2011&ndash;present</span>
       <h1 class="h-display" data-split="words" style="margin-top:1.5rem;">
         A curated public archive. <span class="italic-serif">Every project here launched.</span>
       </h1>
@@ -752,7 +752,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
       </p>
       <div class="hero-stats">
         <div class="hero-stat"><div class="bignum">1,500<span class="bignum-suffix">+</span></div><div class="hero-stat-lbl">Projects handled</div></div>
-        <div class="hero-stat"><div class="bignum">9<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Client work</div></div>
+        <div class="hero-stat"><div class="bignum">15<span class="bignum-suffix">&nbsp;yrs</span></div><div class="hero-stat-lbl">Client work</div></div>
         <div class="hero-stat"><div class="bignum">100<span class="bignum-suffix">%</span></div><div class="hero-stat-lbl">Upwork JSS</div></div>
       </div>
     </div>
