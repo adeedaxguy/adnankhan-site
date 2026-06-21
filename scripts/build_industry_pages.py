@@ -10,7 +10,7 @@ Also rewrites sitemap.xml's <!-- INDUSTRY --> block and llms.txt's section.
 """
 import os, html, re, json, pathlib
 
-VER = "20260621d"
+VER = "20260621g"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
 

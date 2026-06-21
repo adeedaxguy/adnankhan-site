@@ -3390,7 +3390,7 @@ body::before {
    ───────────────────────────────────────────────────────────── */
 .audit-cta {
   position: fixed;
-  bottom: 1.5rem;
+  bottom: 5.45rem;
   left: 1.5rem;
   z-index: 70;
   display: inline-flex;
@@ -3441,7 +3441,11 @@ body.is-contact-visible .wa-launcher {
   transform: translateY(16px);
   pointer-events: none;
 }
+body:has(.cookie-banner) .audit-cta {
+  bottom: 9.35rem;
+}
 @media (max-width: 640px) {
+  body:has(.cookie-banner) .audit-cta,
   .audit-cta {
     bottom: 1rem;
     left: 1rem;
@@ -4199,10 +4203,12 @@ body.is-contact-visible .wa-launcher {
     display: none;
   }
   .audit-cta {
-    bottom: calc(72px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: calc(112px + env(safe-area-inset-bottom, 0px)) !important;
+    left: auto !important;
     right: 1rem !important;
     font-size: 0.72rem !important;
     padding: 0.55rem 0.95rem !important;
+    white-space: nowrap;
   }
 }
 
