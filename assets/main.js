@@ -418,7 +418,7 @@
     { tz: -120, tx: 55,  ty: 44,  op: 0    },
   ];
 
-  const isMobile = () => window.innerWidth <= 880;
+  const isMobile = () => window.innerWidth <= 768;
 
   function loadCardImage(card) {
     const img = card.querySelector('.stack-card-img[data-bg]');

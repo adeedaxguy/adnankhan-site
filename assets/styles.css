@@ -4778,24 +4778,8 @@ html[data-theme="dark"] .scc-url {
   to   { transform: translateY(-6px); }
 }
 
-/* ── Intro entrance animation ── */
-@keyframes stackEntrance {
-  from { opacity: 0; transform: rotateX(4deg) rotateY(-8deg) translateZ(0) translateY(30px); }
-  to   { opacity: 1; transform: rotateX(4deg) rotateY(-8deg) translateZ(0) translateY(0); }
-}
-.stack-card--1  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.10s both; }
-.stack-card--2  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.22s both; }
-.stack-card--3  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.32s both; }
-.stack-card--4  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.40s both; }
-.stack-card--5  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.47s both; }
-.stack-card--6  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.53s both; }
-.stack-card--7  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.58s both; }
-.stack-card--8  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.62s both; }
-.stack-card--9  { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.65s both; }
-.stack-card--10 { animation: stackEntrance 0.8s cubic-bezier(0.23,1,0.32,1) 0.68s both; }
-
 /* ── Mobile: crossfade gallery — no 3D transforms ── */
-@media (max-width: 880px) {
+@media (max-width: 768px) {
   .hero-sidecar { display: block; position: static; }
 
   .stack-scene {
@@ -4860,6 +4844,10 @@ html[data-theme="dark"] .scc-url {
 
   .stack-badge--tl { top: 12px; left: 12px; }
   .stack-badge--br { bottom: 52px; right: 12px; }
+}
+
+@media (max-width: 768px) {
+  .hero-sidecar { display: none; }
 }
 
 /* ═══════════════════════════════════════════════════════════════
