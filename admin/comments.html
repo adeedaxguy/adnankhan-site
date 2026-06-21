@@ -17,6 +17,9 @@
   .abar h1 small { color: var(--muted); font-weight:400; }
   .abar a { color:#fff; font-size:0.82rem; opacity:.8; text-decoration:none; }
   .abar a:hover { opacity:1; }
+  .admin-mini-nav { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+  .admin-mini-nav a { border:1px solid rgba(255,255,255,0.24); border-radius: var(--r-md); padding:0.42rem 0.75rem; opacity:1; }
+  .admin-mini-nav a:hover { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.46); }
   .wrap { max-width: 860px; margin: 2rem auto; padding: 0 1.5rem; }
   .gate { min-height:70vh; display:flex; align-items:center; justify-content:center; }
   .gate-card { background: var(--surface); border:1px solid var(--line); border-radius: var(--r-lg);
@@ -54,15 +57,18 @@
 </head>
 <body>
 <div class="abar">
-  <h1>Comment moderation <small>· Lofts Studio</small></h1>
-  <div><a href="/admin/">← Portfolio admin</a></div>
+  <h1>Blog comment moderation <small>· Lofts Studio</small></h1>
+  <div class="admin-mini-nav">
+    <a href="/admin/">Admin hub</a>
+    <a href="/admin/inbox.html">Inbox</a>
+  </div>
 </div>
 
 <!-- Token gate -->
 <div class="gate" id="gate">
   <div class="gate-card">
     <h2>Moderation</h2>
-    <p>Enter the comments admin token (set as <code>COMMENTS_ADMIN_TOKEN</code> in Vercel).</p>
+    <p>Enter the admin passphrase. This uses the same protected admin endpoint as the main hub.</p>
     <input class="inp" id="tok" type="password" placeholder="Admin token" autocomplete="off" />
     <button class="btn btn-primary btn-go" id="go">Unlock</button>
     <div class="err" id="err">That token didn’t work.</div>
@@ -82,7 +88,8 @@
 <script>
 (function () {
   var SS = 'lofts-comments-admin-token';
-  var token = sessionStorage.getItem(SS) || '';
+  var SHARED = 'lofts-admin-token';
+  var token = sessionStorage.getItem(SHARED) || sessionStorage.getItem(SS) || '';
   var gate = document.getElementById('gate'), app = document.getElementById('app');
   var all = [];
 
@@ -92,11 +99,18 @@
     var d=Math.floor(h/24); if(d<30)return d+'d ago'; return new Date(ts).toLocaleDateString(); }
 
   function api(method, body){
-    return fetch('/api/comments' + (method==='GET'?'?admin=1':''), {
+    var action = method === 'GET' ? 'load' : 'comment';
+    var payload = body ? { type: body.action, slug: body.slug, id: body.id } : null;
+    return fetch('/api/admin/data?action=' + action, {
       method: method,
       headers: { 'content-type':'application/json', 'x-admin-token': token },
-      body: method==='GET' ? undefined : JSON.stringify(body)
-    }).then(function(r){ return r.json().then(function(j){ return {status:r.status, j:j}; }); });
+      body: method==='GET' ? undefined : JSON.stringify(payload)
+    }).then(function(r){
+      return r.json().then(function(j){
+        if (method === 'GET') j.ok = r.status === 200;
+        return {status:r.status, j:j};
+      });
+    });
   }
 
   function unlock(){
@@ -105,6 +119,7 @@
     api('GET').then(function(res){
       if(res.status===200 && res.j.ok){
         sessionStorage.setItem(SS, token);
+        sessionStorage.setItem(SHARED, token);
         all = res.j.comments || [];
         gate.style.display='none'; app.style.display='';
         render();

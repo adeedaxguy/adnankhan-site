@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <meta name="robots" content="noindex,nofollow" />
 
-<title>Portfolio Admin · Adnan Khan</title>
+<title>Admin Hub · Lofts Studio</title>
 
 <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
@@ -51,7 +51,239 @@
   .admin-btn.danger { color: #ff6b6b; border-color: rgba(255,107,107,0.4); }
   .admin-btn.danger:hover { background: rgba(255,107,107,0.1); border-color: rgba(255,107,107,0.8); }
 
-  .admin-main { max-width: 1100px; margin: 2rem auto; padding: 0 1.5rem; }
+  .admin-main { max-width: 1180px; margin: 2rem auto; padding: 0 1.5rem; }
+  .admin-hero {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 2rem;
+    margin-bottom: 1.5rem;
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+    gap: 1.5rem;
+    align-items: end;
+  }
+  .admin-kicker {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    margin: 0 0 0.7rem;
+  }
+  .admin-hero h2 {
+    font-family: var(--font-display);
+    font-size: clamp(2rem, 4.4vw, 3.7rem);
+    line-height: 1;
+    letter-spacing: 0;
+    margin: 0;
+    color: var(--ink);
+  }
+  .admin-hero p {
+    color: var(--ink-soft);
+    margin: 1rem 0 0;
+    max-width: 68ch;
+    line-height: 1.65;
+  }
+  .admin-hero-actions {
+    display: grid;
+    gap: 0.65rem;
+  }
+  .admin-link-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .admin-link-btn:hover { border-color: var(--ink); background: var(--surface); }
+  .admin-dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+  }
+  .admin-dashboard-card {
+    background: var(--surface);
+    padding: 1.35rem;
+    min-height: 168px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .admin-dashboard-card h3 {
+    font-family: var(--font-display);
+    font-size: 1.15rem;
+    font-weight: 650;
+    letter-spacing: 0;
+    margin: 0 0 0.45rem;
+  }
+  .admin-dashboard-card p {
+    color: var(--muted);
+    font-size: 0.88rem;
+    line-height: 1.5;
+    margin: 0;
+  }
+  .admin-card-metric {
+    font-family: var(--font-display);
+    font-size: 2.05rem;
+    font-weight: 700;
+    line-height: 1;
+    margin-top: 1rem;
+    letter-spacing: 0;
+  }
+  .admin-card-foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 1rem;
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .admin-panel-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.35fr) minmax(280px, 0.65fr);
+    gap: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+  .admin-panel {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 1.5rem;
+  }
+  .admin-panel-head {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .admin-panel h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 650;
+    margin: 0 0 0.25rem;
+    letter-spacing: 0;
+  }
+  .admin-panel-sub { margin: 0; color: var(--muted); font-size: 0.88rem; line-height: 1.5; }
+  .mini-stat-row {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    overflow: hidden;
+    margin: 1rem 0;
+  }
+  .mini-stat {
+    background: var(--bg);
+    padding: 0.9rem;
+  }
+  .mini-stat strong {
+    display: block;
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    line-height: 1;
+    letter-spacing: 0;
+  }
+  .mini-stat span {
+    display: block;
+    margin-top: 0.35rem;
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .comment-preview-list { display: grid; gap: 0.7rem; }
+  .comment-preview {
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 0.9rem 1rem;
+    background: var(--bg);
+  }
+  .comment-preview.pending { border-left: 3px solid var(--gold); }
+  .comment-preview-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 0.8rem;
+    align-items: baseline;
+    color: var(--muted);
+    font-size: 0.76rem;
+    font-family: var(--font-sans);
+  }
+  .comment-preview strong { color: var(--ink); }
+  .comment-preview p {
+    margin: 0.45rem 0 0;
+    color: var(--ink-soft);
+    line-height: 1.5;
+    font-size: 0.9rem;
+  }
+  .comment-preview-actions {
+    display: flex;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+    margin-top: 0.75rem;
+  }
+  .small-admin-btn {
+    border: 1px solid var(--line);
+    background: var(--surface);
+    color: var(--ink);
+    border-radius: var(--r-md);
+    padding: 0.38rem 0.7rem;
+    font-family: var(--font-sans);
+    font-size: 0.78rem;
+    font-weight: 600;
+  }
+  .small-admin-btn:hover { border-color: var(--ink); }
+  .small-admin-btn.good { background: var(--green); border-color: var(--green); color: #fff; }
+  .small-admin-btn.danger { color: var(--accent-deep); border-color: rgba(139,58,31,0.35); }
+  .ops-list {
+    display: grid;
+    gap: 0.65rem;
+    margin: 1rem 0 0;
+  }
+  .ops-list a,
+  .ops-list button {
+    text-align: left;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.75rem 0.85rem;
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    font-size: 0.86rem;
+  }
+  .ops-list a:hover,
+  .ops-list button:hover { border-color: var(--ink); background: var(--surface); }
+  .ops-note {
+    color: var(--muted);
+    font-size: 0.82rem;
+    line-height: 1.55;
+    margin-top: 0.9rem;
+  }
 
   /* Login gate */
   .login-screen {
@@ -197,11 +429,35 @@
 
   /* Responsive */
   @media (max-width: 880px) {
+    .admin-hero,
+    .admin-panel-grid { grid-template-columns: 1fr; }
+    .admin-dashboard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .item-row { grid-template-columns: 50px 1fr; }
     .item-row .col-tagline, .item-row .col-platform, .item-row .col-badges { display: none; }
     .item-row.header { display: none; }
     .item-actions { grid-column: 2; justify-content: flex-start; }
     .modal-grid-2 { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .admin-main { padding: 0 1rem; }
+    .admin-hero,
+    .admin-panel { padding: 1.2rem; }
+    .admin-dashboard-grid,
+    .mini-stat-row { grid-template-columns: 1fr; }
+    .admin-bar { align-items: flex-start; gap: 0.7rem; padding: 0.85rem 1rem; }
+    .admin-actions {
+      width: 100%;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      padding-bottom: 0.15rem;
+      scrollbar-width: thin;
+    }
+    .admin-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+      padding: 0.5rem 0.7rem;
+      font-size: 0.76rem;
+    }
   }
 </style>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
@@ -211,12 +467,12 @@
 <!-- LOGIN GATE -->
 <div id="loginScreen" class="login-screen">
   <div class="login-card">
-    <h2>Portfolio Admin</h2>
-    <p>Single-user content tool. Enter access passphrase to continue.</p>
+    <h2>Lofts Studio Admin</h2>
+    <p>Unified command center for comments, inbox, portfolio, content, and publishing checks.</p>
     <input type="password" id="passwordInput" placeholder="Passphrase" autofocus />
     <button onclick="adminLogin()">Unlock</button>
     <p class="login-error" id="loginError">Wrong passphrase. Try again.</p>
-    <p style="font-size: 0.78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.5;">⚠ This is client-side only. Changes save to your browser's localStorage and export as JSON. Replace <code style="font-family: var(--font-mono); background: var(--bg-soft); padding: 1px 4px; border-radius: 3px;">portfolio.json</code> in the repo + redeploy to publish.</p>
+    <p style="font-size: 0.78rem; color: var(--muted); margin-top: 1.5rem; line-height: 1.5;">Portfolio edits save locally until exported. Inbox and comment data load from protected server endpoints when KV is configured.</p>
   </div>
 </div>
 
@@ -224,9 +480,10 @@
 <div id="adminApp" style="display: none;">
 
   <header class="admin-bar">
-    <h1>Portfolio Admin <small>· localStorage backed</small></h1>
+    <h1>Lofts Studio Admin <small>· command center</small></h1>
     <div class="admin-actions">
-      <a class="admin-btn" href="/admin/comments.html" style="text-decoration:none;">💬 Comments</a>
+      <a class="admin-btn" href="/admin/inbox.html" style="text-decoration:none;">Inbox</a>
+      <a class="admin-btn" href="/admin/comments.html" style="text-decoration:none;">Comments</a>
       <button class="admin-btn" onclick="reloadFromFile()">↺ Reload from file</button>
       <button class="admin-btn" onclick="resetLocal()">Clear local edits</button>
       <button class="admin-btn primary" onclick="exportJSON()">⬇ Export portfolio.json</button>
@@ -236,6 +493,101 @@
 
   <main class="admin-main">
 
+    <section class="admin-hero" aria-labelledby="adminHeroTitle">
+      <div>
+        <p class="admin-kicker">Admin overview</p>
+        <h2 id="adminHeroTitle">Run the public site from one place.</h2>
+        <p>Moderate blog comments, review leads and chat logs, maintain portfolio proof, and keep publishing tasks visible before anything goes live.</p>
+      </div>
+      <div class="admin-hero-actions" aria-label="Admin shortcuts">
+        <a class="admin-link-btn" href="/admin/inbox.html">Open lead inbox <span>→</span></a>
+        <a class="admin-link-btn" href="/admin/comments.html">Open full comment moderation <span>→</span></a>
+        <a class="admin-link-btn" href="/blog/" target="_blank" rel="noopener">View public blog <span>↗</span></a>
+      </div>
+    </section>
+
+    <section class="admin-dashboard-grid" aria-label="Admin health cards">
+      <article class="admin-dashboard-card">
+        <div>
+          <h3>Blog comments</h3>
+          <p>Pending and approved comments from every static blog post.</p>
+        </div>
+        <div>
+          <div class="admin-card-metric" id="dashComments">—</div>
+          <div class="admin-card-foot"><span id="dashPendingComments">Pending —</span><a href="#blog-comments">Review</a></div>
+        </div>
+      </article>
+      <article class="admin-dashboard-card">
+        <div>
+          <h3>Lead inbox</h3>
+          <p>Contact form, free audit, newsletter, and chat intake.</p>
+        </div>
+        <div>
+          <div class="admin-card-metric" id="dashSubmissions">—</div>
+          <div class="admin-card-foot"><span id="dashChats">Chats —</span><a href="/admin/inbox.html">Open</a></div>
+        </div>
+      </article>
+      <article class="admin-dashboard-card">
+        <div>
+          <h3>Portfolio proof</h3>
+          <p>Published projects, featured case studies, ordering, and JSON export.</p>
+        </div>
+        <div>
+          <div class="admin-card-metric" id="dashPortfolio">—</div>
+          <div class="admin-card-foot"><span id="dashPortfolioLive">Live —</span><a href="#portfolio-manager">Manage</a></div>
+        </div>
+      </article>
+      <article class="admin-dashboard-card">
+        <div>
+          <h3>Publishing</h3>
+          <p>Repo, sitemap, LLM file, generators, and deployment checks.</p>
+        </div>
+        <div>
+          <div class="admin-card-metric">Ready</div>
+          <div class="admin-card-foot"><span>Noindex admin</span><a href="#operations">Checklist</a></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="admin-panel-grid">
+      <article class="admin-panel" id="blog-comments">
+        <div class="admin-panel-head">
+          <div>
+            <h3>Blog comments</h3>
+            <p class="admin-panel-sub">Latest comments across all posts. Approve pending comments here or open the full moderation page.</p>
+          </div>
+          <a class="small-admin-btn" href="/admin/comments.html">Full moderation</a>
+        </div>
+        <div class="mini-stat-row">
+          <div class="mini-stat"><strong id="commentTotal">—</strong><span>Total</span></div>
+          <div class="mini-stat"><strong id="commentPending">—</strong><span>Pending</span></div>
+          <div class="mini-stat"><strong id="commentApproved">—</strong><span>Approved</span></div>
+        </div>
+        <div id="commentPreview" class="comment-preview-list">
+          <p class="ops-note">Loading comments from the protected admin endpoint…</p>
+        </div>
+      </article>
+
+      <aside class="admin-panel" id="operations">
+        <div class="admin-panel-head">
+          <div>
+            <h3>Admin tools</h3>
+            <p class="admin-panel-sub">The links and checks an operator needs most often.</p>
+          </div>
+        </div>
+        <div class="ops-list">
+          <a href="/admin/inbox.html">Inbox and chat logs <span>→</span></a>
+          <a href="/admin/comments.html">Comment moderation <span>→</span></a>
+          <a href="/portfolio/" target="_blank" rel="noopener">Public portfolio <span>↗</span></a>
+          <a href="/sitemap.xml" target="_blank" rel="noopener">Sitemap <span>↗</span></a>
+          <a href="/llms.txt" target="_blank" rel="noopener">LLM reference file <span>↗</span></a>
+          <a href="https://github.com/adeedaxguy/adnankhan-site" target="_blank" rel="noopener">GitHub repo <span>↗</span></a>
+        </div>
+        <p class="ops-note"><strong>Deploy flow:</strong> edit, export/regenerate if needed, commit, push to <code>main</code>. Vercel auto-deploys the static site.</p>
+        <p class="ops-note"><strong>Environment checks:</strong> <code>ADMIN_SECRET</code> must match the admin passphrase for inbox/comment data. Also confirm <code>COMMENTS_ADMIN_TOKEN</code>, <code>KV_REST_API_URL</code>, <code>KV_REST_API_TOKEN</code>, <code>RESEND_API_KEY</code>, and <code>CONTACT_EMAIL</code>.</p>
+      </aside>
+    </section>
+
     <div class="stat-row">
       <div class="stat"><div class="v" id="statTotal">0</div><div class="l">Total items</div></div>
       <div class="stat"><div class="v" id="statFeatured">0</div><div class="l">Featured (with inner pages)</div></div>
@@ -244,7 +596,7 @@
     </div>
 
     <div class="toolbar">
-      <h2>All portfolio items</h2>
+      <h2 id="portfolio-manager">All portfolio items</h2>
       <div style="display: flex; gap: 0.5rem;">
         <button class="admin-btn primary" style="background: var(--ink); border-color: var(--ink);" onclick="openModal('new')">+ Add new project</button>
       </div>
@@ -374,26 +726,6 @@
 
 <div class="toast" id="toast"></div>
 
-<script>
-// Inline auth so the button works immediately, before admin.js loads
-function adminLogin() {
-  const input = document.getElementById('passwordInput');
-  if (input && input.value === 'shipfaster') {
-    sessionStorage.setItem('adnank-portfolio-admin-unlocked', '1');
-    document.getElementById('loginScreen').style.display = 'none';
-    document.getElementById('adminApp').style.display = 'block';
-    // Trigger full init once admin.js is loaded
-    if (typeof loadData === 'function') { loadData().then(render); }
-  } else {
-    const err = document.getElementById('loginError');
-    if (err) err.style.display = 'block';
-    if (input) { input.value = ''; input.focus(); }
-  }
-}
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') adminLogin();
-});
-</script>
-<script src="admin.js?v=20260613b" defer></script>
+<script src="admin.js?v=20260621c" defer></script>
 </body>
 </html>

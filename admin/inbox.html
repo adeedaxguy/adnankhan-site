@@ -115,11 +115,14 @@
     .topbar-logo span { font-style: normal; font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: #9A8E84; margin-left: 6px; }
     .topbar-badge { font-size: 0.72rem; background: var(--accent); color: white; border-radius: 4px; padding: 2px 8px; letter-spacing: 0.05em; }
     .topbar-right { display: flex; align-items: center; gap: 1rem; }
+    .topbar-right a,
     .topbar-right button {
       background: none; border: 1px solid #3A3330; color: #9A8E84;
       border-radius: 5px; padding: 5px 12px; font-size: 0.78rem; cursor: pointer;
       transition: all 0.15s;
+      text-decoration: none;
     }
+    .topbar-right a:hover,
     .topbar-right button:hover { border-color: #666; color: var(--bg); }
     .topbar-time { font-size: 0.78rem; color: #9A8E84; }
 
@@ -433,6 +436,9 @@
     .kv-banner.show { display: block; }
 
     @media (max-width: 640px) {
+      .topbar { height: auto; padding: 0.75rem 1rem; align-items: flex-start; gap: 0.75rem; flex-wrap: wrap; }
+      .topbar-right { width: 100%; justify-content: flex-start; gap: 0.45rem; flex-wrap: wrap; }
+      .topbar-time { width: 100%; }
       .list-pane { width: 100%; border-right: none; }
       .tab-panel.active { flex-direction: column; }
       .detail-pane { display: none; }
@@ -464,6 +470,8 @@
     </div>
     <div class="topbar-right">
       <span class="topbar-time" id="topbar-time"></span>
+      <a href="/admin/">Admin hub</a>
+      <a href="/admin/comments.html">Comments</a>
       <button onclick="loadData()">↻ Refresh</button>
       <button onclick="logout()">Sign out</button>
     </div>
@@ -560,8 +568,8 @@
 
 <script>
   // ── Config ──────────────────────────────────────────────────────
-  const PASSPHRASE  = 'shipfaster';
   const SESSION_KEY = 'lofts-inbox-session';
+  const SHARED_TOKEN_KEY = 'lofts-admin-token';
   const API         = '/api/admin/data';
 
   let allSubmissions = [];
@@ -569,27 +577,43 @@
   let activeTab      = 'submissions';
 
   // ── Auth ─────────────────────────────────────────────────────────
-  function attemptLogin() {
-    const val = document.getElementById('pw-input').value;
-    if (val === PASSPHRASE) {
-      sessionStorage.setItem(SESSION_KEY, '1');
-      showApp();
-    } else {
-      document.getElementById('auth-error').style.display = 'block';
-      document.getElementById('pw-input').value = '';
+  function getToken() {
+    return sessionStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SHARED_TOKEN_KEY) || '';
+  }
+
+  async function attemptLogin() {
+    const input = document.getElementById('pw-input');
+    const val = input.value.trim();
+    if (!val) return showAuthError();
+
+    try {
+      const data = await fetchAdminData(val);
+      sessionStorage.setItem(SESSION_KEY, val);
+      sessionStorage.setItem(SHARED_TOKEN_KEY, val);
+      showApp(data);
+    } catch (err) {
+      showAuthError();
     }
+  }
+
+  function showAuthError() {
+    document.getElementById('auth-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
   }
   document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
 
   function logout() {
     sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SHARED_TOKEN_KEY);
     location.reload();
   }
 
-  function showApp() {
+  function showApp(initialData) {
     document.getElementById('auth-screen').style.display = 'none';
     document.getElementById('app').style.display = 'flex';
-    loadData();
+    if (initialData) hydrateData(initialData);
+    else loadData();
     startClock();
   }
 
@@ -604,23 +628,32 @@
   }
 
   // ── Data loading ──────────────────────────────────────────────────
+  async function fetchAdminData(token) {
+    const res = await fetch(`${API}?action=load`, {
+      headers: { 'x-admin-token': token }
+    });
+    if (!res.ok) throw new Error('Failed');
+    return res.json();
+  }
+
+  function hydrateData(data) {
+    allSubmissions = data.submissions || [];
+    allChats       = data.chats       || [];
+
+    renderStats(data.stats);
+    renderSubmissions(allSubmissions);
+    renderChats(allChats);
+    updateTabCounts();
+  }
+
   async function loadData() {
     try {
-      const res = await fetch(`${API}?action=load`, {
-        headers: { 'x-admin-token': PASSPHRASE }
-      });
-      if (!res.ok) throw new Error('Failed');
-      const data = await res.json();
-
-      allSubmissions = data.submissions || [];
-      allChats       = data.chats       || [];
-
-      renderStats(data.stats);
-      renderSubmissions(allSubmissions);
-      renderChats(allChats);
-      updateTabCounts();
+      const token = getToken();
+      if (!token) return logout();
+      const data = await fetchAdminData(token);
+      hydrateData(data);
     } catch (e) {
-      showToast('Could not load data — check KV setup.');
+      showToast('Could not load data — check token and KV setup.');
     }
   }
 
@@ -813,11 +846,14 @@
     const type = activeTab === 'submissions' ? 'submissions' : 'chats';
     if (!confirm(`Clear all ${type}? This cannot be undone.`)) return;
     try {
-      await fetch(`${API}?action=clear`, {
+      const token = getToken();
+      if (!token) return logout();
+      const res = await fetch(`${API}?action=clear`, {
         method: 'POST',
-        headers: { 'x-admin-token': PASSPHRASE, 'content-type': 'application/json' },
+        headers: { 'x-admin-token': token, 'content-type': 'application/json' },
         body: JSON.stringify({ type }),
       });
+      if (!res.ok) throw new Error('Clear failed');
       if (type === 'submissions') allSubmissions = [];
       else allChats = [];
       renderStats({});
@@ -873,6 +909,8 @@
 
   // ── Boot ──────────────────────────────────────────────────────────
   if (sessionStorage.getItem(SESSION_KEY) === '1') {
+    sessionStorage.removeItem(SESSION_KEY);
+  } else if (getToken()) {
     showApp();
   }
 </script>
