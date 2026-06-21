@@ -3821,6 +3821,47 @@ body:has(.cookie-banner) .audit-cta {
   flex-direction: column;
   gap: 0;
 }
+.hero-proof-panel {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+  gap: 1.25rem 3rem;
+  align-items: start;
+  margin-top: 0.35rem;
+  padding-top: 1.45rem;
+  border-top: 1px solid var(--line);
+}
+.hero-proof-copy {
+  min-width: 0;
+  display: grid;
+  gap: 0.95rem;
+  align-content: start;
+}
+.hero-proof-panel .founder-strip,
+.hero-proof-panel .trust-badges,
+.hero-proof-panel .hero-proof-strip {
+  margin-top: 0;
+}
+.hero-proof-panel .hero-proof-strip {
+  width: 100%;
+  max-width: none;
+}
+@media (max-width: 1024px) {
+  .hero-proof-panel {
+    grid-template-columns: 1fr;
+    gap: 1.35rem;
+    margin-top: 0.75rem;
+  }
+  .hero-proof-panel .hero-proof-strip {
+    max-width: 100%;
+  }
+}
+@media (max-width: 640px) {
+  .hero-proof-panel {
+    margin-top: 0.5rem;
+    padding-top: 1.2rem;
+  }
+}
 
 /* ─────────────────────────────────────────────────────────────
    Portfolio card placeholder v2 — branded mark, not "pending"
