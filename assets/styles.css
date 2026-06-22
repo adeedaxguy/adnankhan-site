@@ -3084,6 +3084,11 @@ html.a11y-spacing .chat-msg {
 .home-page .hero-proof-strip .bignum {
   font-size: clamp(2.15rem, 4.2vw, 3.55rem);
   line-height: 0.92;
+  gap: 0;
+}
+.home-page .hero-proof-strip .bignum-suffix {
+  margin-left: 1px;
+  transform: translateY(-0.06em);
 }
 .home-page .hero-proof-strip .bignum-word {
   max-width: 8ch;
@@ -3132,7 +3137,8 @@ html.a11y-spacing .chat-msg {
   }
   .home-page .hero-proof-strip .hero-stat {
     min-height: auto;
-    padding: 1.15rem 0.15rem;
+    align-items: flex-start;
+    padding: 1.15rem 0.95rem;
     border-left: 0 !important;
     border-top: 1px solid var(--line);
   }
@@ -3140,6 +3146,8 @@ html.a11y-spacing .chat-msg {
     border-top: 0;
   }
   .home-page .hero-proof-strip .bignum {
+    width: max-content;
+    max-width: 100%;
     font-size: clamp(2.2rem, 12vw, 3rem);
   }
   .home-page .hero-proof-strip .bignum-word {
@@ -3172,7 +3180,7 @@ html.a11y-spacing .chat-msg {
   font-size: 0.5em;
   font-weight: 500;
   letter-spacing: 0;
-  margin-left: 2px;
+  margin-left: 1px;
   color: var(--ink);
   align-self: baseline;
 }
