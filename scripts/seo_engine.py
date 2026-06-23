@@ -132,10 +132,125 @@ POSTS = [
         ],
     },
     {
+        "slug": "shopify-developer-freelance-rates",
+        "title": "Shopify Developer Freelance Rates: How to Compare Quotes Without Getting Burned",
+        "excerpt": "Google is already testing Lofts Studio for Shopify developer rate searches. This guide captures that intent without turning the site into a public rate card.",
+        "meta": "Shopify developer freelance rates guide: what changes a quote, how to compare junior, senior, and agency options, and what to ask before hiring.",
+        "category": "Shopify",
+        "date": "2026-06-23",
+        "readingTime": "10 min",
+        "primaryKeyword": "shopify developer freelance rates",
+        "secondaryKeyword": "shopify developer rates 2024",
+        "funnelTo": "/services/shopify-development.html",
+        "funnelLabel": "Shopify Development",
+        "featured": False,
+        "hook": "If you searched for Shopify developer freelance rates, you are not really looking for a number. You are trying to understand whether the person you hire can protect the store, the launch, and the revenue behind it. A rate without scope is a trap; the right comparison starts with what the developer is being trusted to change.",
+        "body": [
+            ("p", "This article exists because Google is already testing Lofts Studio for rate-intent Shopify searches. That is useful data. It means buyers are not only searching for inspiration or a portfolio; they are comparing risk, seniority, and hiring models before they choose who touches their store."),
+            ("p", "I am not going to publish a fixed rate card here. A serious Shopify project is not a menu item. The same phrase, <em>Shopify developer</em>, can mean a junior changing theme colors, a senior rebuilding checkout-adjacent flows, an app engineer integrating an ERP, or a team migrating a store before a peak trading period. Those are different jobs with different risk profiles."),
+            ("callout", "Use this page as a buyer's filter: if two quotes look wildly different, the question is not which one is cheaper. The question is what responsibility, QA, handoff, and future maintenance each quote actually includes."),
+            ("h2", "What people mean by Shopify developer rates"),
+            ("p", "Most buyers use <strong>rates</strong> as a shortcut for three hidden questions: how senior is this person, how much risk is in my scope, and how likely is the store to still be easy to run six months after launch? If a proposal does not answer those three questions, the number attached to it is not very useful."),
+            ("p", "Marketplaces make this more confusing because they put very different people under the same label. One profile may be a theme customizer. Another may be a Shopify Plus engineer. Another may be an agency salesperson using a freelancer profile as the front door. Public directories are useful for discovery, but the real comparison has to happen inside the scope."),
+            ("h2", "The work type changes the quote more than the platform"),
+            ("p", "Shopify itself is not the hard part. The hard part is what your store needs Shopify to do. Before you compare freelancers, sort the project into one of these buckets:"),
+            ("ul", [
+                "<strong>Theme cleanup.</strong> Existing theme, small visual edits, section ordering, content support, and light Liquid work.",
+                "<strong>Conversion rebuild.</strong> Product pages, collection pages, cart UX, bundles, trust proof, analytics events, and mobile-first QA.",
+                "<strong>Performance repair.</strong> App bloat, JavaScript cleanup, image strategy, Core Web Vitals, and measurement before/after.",
+                "<strong>Migration.</strong> Moving products, customers, redirects, analytics, tracking, content, and SEO signals without breaking revenue.",
+                "<strong>Custom app or integration.</strong> Inventory, ERP, subscriptions, wholesale logic, B2B workflows, dashboards, or internal operations.",
+                "<strong>Shopify Plus or advanced operations.</strong> Multi-market, checkout extensibility, B2B catalogs, automation, permissions, and launch governance.",
+            ]),
+            ("p", "A low-risk theme cleanup can be handled by a capable junior. A migration, app integration, or conversion rebuild needs someone who understands the store as a system. That is why two Shopify developers can quote the same store and sound like they are describing different planets."),
+            ("h2", "What changed since the 2024 rate searches"),
+            ("p", "The screenshot keyword includes <strong>shopify developer rates 2024</strong>, which tells us people are still using older query wording. The market has shifted since then, but not in the way most buyers think. The biggest change is not that every developer suddenly became more expensive. The bigger change is that the scope is heavier."),
+            ("ul", [
+                "Stores rely on more apps, which means more conflicts, more script weight, and more QA.",
+                "Shopify themes are more flexible, which is good, but flexible themes still need guardrails or the admin becomes messy fast.",
+                "AI search and richer snippets make technical SEO, schema, and content structure part of the build conversation.",
+                "Privacy, analytics, consent, and server-side tracking have become harder to ignore.",
+                "Buyers expect faster mobile experiences, not just cleaner desktop screenshots.",
+            ]),
+            ("p", "So when you compare a current proposal against an old forum thread or an old marketplace rate, remember that the average Shopify scope now includes more moving parts. The better question is whether the developer has a process for those parts."),
+            ("h2", "Freelancer, agency, or senior independent?"),
+            ("p", "The hiring model matters because it changes who is accountable. A freelancer can be efficient when the person selling the work is the person doing the work. An agency can be right when the project needs strategy, copy, design, QA, and account management at the same time. A senior independent sits in the middle: fewer layers than an agency, more judgment than a task-taker."),
+            ("p", "If you are comparing <a href='/blog/freelance-shopify-developer-vs-agency.html'>freelance Shopify developer vs agency</a>, do not only compare the headline figure. Compare the communication path, the QA process, the person reviewing code, and what happens after launch."),
+            ("h2", "The quote should explain the risk"),
+            ("p", "A serious Shopify quote should not be a one-line total. It should explain what is included, what is excluded, what assumptions the developer is making, and what could change after discovery. If a quote does not mention risk, it is usually hiding risk."),
+            ("ul", [
+                "Which templates, sections, or flows are included?",
+                "Which apps are staying, being removed, or being replaced?",
+                "Who owns design, copy, assets, and product data?",
+                "How will redirects, SEO metadata, and analytics be handled?",
+                "What does mobile QA include?",
+                "What happens if the theme or app stack is worse than expected?",
+                "What support window exists after launch?",
+            ]),
+            ("p", "That list is not bureaucracy. It is how you avoid the common pattern where the cheapest quote becomes the most expensive store to maintain."),
+            ("h2", "How to turn a rate search into a useful first message"),
+            ("p", "A good first message does not need to be long. It needs to give the developer enough context to stop guessing. When a buyer only asks for a rate, the developer has to either ask for discovery or invent assumptions. The better approach is to send a short brief that describes the store, the problem, the business risk, and the result you want after the work is done."),
+            ("p", "That changes the conversation immediately. A junior task-taker will still try to quote from the surface. A senior developer will start identifying dependencies: theme quality, app conflicts, analytics gaps, content readiness, redirects, product data, search behavior, and the team's ability to maintain the store after launch."),
+            ("ul", [
+                "<strong>Store context.</strong> Share the URL, platform version, theme name if known, and whether the store is live or pre-launch.",
+                "<strong>Commercial context.</strong> Explain what is hurting the business: low conversion, slow mobile pages, poor merchandising, broken tracking, weak SEO, or operational drag.",
+                "<strong>Scope context.</strong> List the pages, templates, apps, integrations, or workflows you believe are involved, even if you are not sure.",
+                "<strong>Risk context.</strong> Mention hard deadlines, active paid traffic, peak season, migration pressure, or anything that makes downtime expensive.",
+                "<strong>Success context.</strong> Define what would make the project feel successful: easier admin work, higher conversion confidence, better speed, cleaner analytics, fewer apps, or a safer launch.",
+            ]),
+            ("p", "This is also how you protect yourself from vague proposals. When the brief is clear, the proposal should become clearer too. If the answer still feels generic after you provided context, that is a strong signal the person has not actually thought through the store."),
+            ("h2", "What I would inspect before quoting a Shopify store"),
+            ("p", "Before I treat any Shopify rate as real, I want to know what shape the store is in. A clean-looking storefront can hide a fragile backend. A plain-looking store can be technically healthy and easy to improve. The first inspection is not about judging the brand; it is about finding the risk that will affect the work."),
+            ("ul", [
+                "Theme architecture: whether sections, snippets, templates, and metafields are organized or patched together.",
+                "App stack: which apps are essential, which duplicate each other, and which are slowing down key pages.",
+                "Product and collection structure: whether filters, variants, bundles, subscriptions, or B2B logic are creating complexity.",
+                "Analytics and SEO: whether tracking, redirects, schema, metadata, and search pages are reliable enough to preserve growth.",
+                "Mobile buying path: whether the first screen, product detail page, cart, and trust proof work under real thumb-scrolling conditions.",
+                "Admin maintainability: whether your team can update the store without breaking layouts or creating inconsistent pages.",
+            ]),
+            ("p", "Once those pieces are visible, a quote becomes more than a rate. It becomes a plan. That is the difference between hiring someone to change a Shopify theme and hiring someone to improve the store as a business asset."),
+            ("h2", "Questions to send before asking for a rate"),
+            ("p", "Before you ask for a number, send these questions. The answers will tell you whether the developer is thinking like a partner or like a task-taker."),
+            ("ol", [
+                "What would you inspect first if I gave you access to the current store?",
+                "Which part of this scope has the most risk, and why?",
+                "Can you show three live Shopify URLs where you handled a similar responsibility?",
+                "What do you need from us before you can give a reliable scope?",
+                "How do you handle QA across mobile, desktop, apps, analytics, and launch day?",
+                "What will be documented so another developer can maintain the store later?",
+            ]),
+            ("p", "A senior developer will answer with specifics. A weak hire will answer with adjectives: clean, fast, modern, professional. Adjectives do not protect a store."),
+            ("h2", "Red flags when comparing Shopify developer freelance rates"),
+            ("ul", [
+                "The developer gives a firm quote before asking about apps, theme, analytics, or product data.",
+                "The portfolio is screenshots only, with no live URLs you can inspect.",
+                "They promise speed without explaining what will be skipped.",
+                "They recommend adding another app before auditing what is already installed.",
+                "They cannot explain how their work will affect Core Web Vitals, SEO, or conversion tracking.",
+                "They talk about design polish but never talk about handoff or maintainability.",
+            ]),
+            ("p", "These signs matter because Shopify stores rarely fail dramatically on launch day. They fail quietly after launch: slow pages, broken tracking, confusing product templates, duplicate apps, and a team that cannot safely update its own store."),
+            ("h2", "A better way to compare two quotes"),
+            ("p", "Make a simple comparison table with these columns: scope clarity, seniority, live proof, technical risk, communication, QA, handoff, and post-launch support. Put the rate last. If one quote wins on the first seven columns, the rate becomes easier to interpret. If it loses on the first seven, the rate is usually bait."),
+            ("p", "For growth stores, I would rather see a smaller first scope with a senior developer than a bloated full-store rebuild with a weak process. A focused first sprint can repair the highest-risk parts of the store, prove communication, and give both sides better information before a larger engagement."),
+            ("h2", "Where this fits inside Lofts Studio"),
+            ("p", "If you want the practical next step, start with <a href='/services/shopify-development.html'>Shopify development</a> or a <a href='/services/technical-seo-audit.html'>technical SEO audit</a>. If speed is already hurting the store, look at <a href='/services/speed-optimization.html'>speed optimization</a>. If you are not sure whether the problem is design, performance, apps, or content, the audit route is usually cleaner than asking for a blind quote."),
+            ("p", "The goal is not to make you choose the most expensive option. The goal is to make sure you compare the right things before a developer changes the part of your business that takes orders."),
+            ("h2", "Frequently asked"),
+            ("h3", "Should I choose the lowest Shopify developer freelance rate?"),
+            ("p", "Only when the task is low-risk, clearly scoped, and easy to reverse. For revenue-critical templates, migrations, checkout-adjacent work, app integrations, or performance repairs, the lowest rate often skips the work that prevents expensive cleanup later."),
+            ("h3", "Why not publish a fixed Shopify developer rate card?"),
+            ("p", "Because a fixed public rate card encourages bad comparisons. The real scope depends on the theme, app stack, content, analytics, SEO risk, integrations, and launch timeline. A responsible quote starts with diagnosis."),
+            ("h3", "What should I prepare before contacting a Shopify developer?"),
+            ("p", "Send the store URL, the current pain points, the apps you rely on, examples of pages you like, analytics access if available, and the outcome you care about most: speed, conversion, migration, custom functionality, or maintainability."),
+        ],
+    },
+    {
         "slug": "hire-shopify-developer-guide-2026",
         "title": "How to Hire a Shopify Developer in 2026 (Without Getting Burned)",
-        "excerpt": "Ten red flags I've watched founders ignore, the questions that filter 80% of bad hires in one email, and what senior Shopify dev rates actually look like in 2026.",
-        "meta": "How to hire a Shopify developer without losing $20K to a bad hire. Red flags, screening questions, real rate ranges from a senior dev who's seen this 300+ times.",
+        "excerpt": "Ten red flags I've watched founders ignore, the questions that filter weak hires in one email, and how to judge Shopify scope before you sign.",
+        "meta": "How to hire a Shopify developer without a bad engagement: red flags, screening questions, scope checks, and what senior Shopify process should include.",
         "category": "Shopify",
         "date": "2026-06-12",
         "readingTime": "11 min",
@@ -146,17 +261,17 @@ POSTS = [
         "featured": True,
         "hook": "If you're about to hire a Shopify developer for the first time, you are about to make the most expensive decision of the year — and you almost certainly don't have the vocabulary yet to make it well.",
         "body": [
-            ("p", "I've spent almost 15 years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders pay $300 for a build they'll throw away in six months, and I've watched them pay $40,000 for a build they'll still be running in 2030. The scope tag has almost nothing to do with which outcome they got."),
+            ("p", "I've spent almost 15 years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders choose the cheapest path and rebuild months later, and I've watched careful scopes keep stores healthy for years. The headline number has almost nothing to do with which outcome they got."),
             ("p", "This post is the screening playbook I wish every client had used before they reached me. It will not flatter the industry. It will save you a six-figure mistake."),
-            ("h2", "The real Shopify developer rate market in 2026"),
-            ("p", "Let's anchor reality before we discuss anything else. Here are the rate brackets you'll actually encounter:"),
+            ("h2", "What Shopify developer rates actually signal in 2026"),
+            ("p", "If you are comparing rates, start with the work type. I wrote a dedicated guide to <a href='/blog/shopify-developer-freelance-rates.html'>Shopify developer freelance rates</a>, but the short version is this: the quote only makes sense once you know what responsibility the developer is carrying."),
             ("ul", [
-                "<strong>$10–$25/hour</strong> — Generalists from low-effort markets. Can install themes, do minor customizations, can't engineer. 70% of Upwork volume sits here. <em>Acceptable for: theme tweaks, content updates.</em>",
-                "<strong>$25–$60/hour</strong> — Mid-level developers, mixed quality. The bracket where you most often get burned, because the work <em>looks</em> like senior work for the first two weeks. <em>Acceptable for: brand new stores on stock themes.</em>",
-                "<strong>$60–$120/hour</strong> — Senior independents and Top Rated Plus operators. Will do less but will do it right. Code reviews are clean, sections don't break, page speed actually improves. <em>Right for: anything you'll be running for 2+ years.</em>",
-                "<strong>$120–$250/hour</strong> — Shopify Plus specialists, agencies. Pay for scale, ongoing support, and a bench. <em>Right for: $5M+ stores, headless builds, B2B.</em>",
+                "<strong>Theme task-takers.</strong> Good for content updates, simple section changes, and low-risk theme cleanup when the store is already stable.",
+                "<strong>Mid-level builders.</strong> Useful for straightforward new stores, but risky when the brief touches migration, performance, analytics, or custom logic.",
+                "<strong>Senior independents.</strong> Best when the store needs judgment: cleaner architecture, safer launch planning, fewer app conflicts, and a maintainable handoff.",
+                "<strong>Agency teams.</strong> Right when the scope needs parallel design, copy, QA, strategy, and support capacity around the development work.",
             ]),
-            ("p", "Anyone telling you a senior Shopify build will effort $500 is selling you a junior build in a senior wrapper. The effort of fixing that is, in my direct experience, 3–5x what doing it right the first time would have effort."),
+            ("p", "Anyone reducing a serious Shopify build to a quick fixed number before discovery is selling certainty they have not earned. The expensive part is rarely the first build; it is the cleanup when the first build was scoped badly."),
             ("h2", "The 10 red flags I'd run from"),
             ("h3", "1. They say yes to everything in the first email"),
             ("p", "A senior developer asks questions before quoting. A junior — or a sales-led shop — enquiries immediately because they don't yet know what they don't know. If your first reply contains a scope but zero clarifying questions, that's the entire signal you need."),
@@ -370,7 +485,7 @@ POSTS = [
         "body": [
             ("p", "I've worked inside agencies, built solo for almost 15 years, and inherited dozens of stores from both kinds of teams. The right choice depends on which problem you actually have. Let me unpack the real difference."),
             ("h2", "What an agency adds overhead in 2026"),
-            ("p", "A typical Shopify build at a mid-tier US/UK agency runs $30,000–$120,000. A Shopify Plus build at a top-tier agency runs $80,000–$300,000. Roughly half of that is engineering time. The other half is:"),
+            ("p", "A typical agency proposal includes more than engineering time. Some of that overhead is useful when the scope needs it. Some of it is simply the wrapper around the person doing the work. The extra layer usually includes:"),
             ("ul", [
                 "Project manager hours (15–25% of total)",
                 "Account manager hours (5–10%)",
@@ -380,7 +495,7 @@ POSTS = [
             ]),
             ("p", "You are paying for a system. The system has real value if your build needs it. If it doesn't, you're paying for capacity you'll never touch."),
             ("h2", "What a senior freelancer adds overhead in 2026"),
-            ("p", "A senior independent Shopify developer at $80–$150/hour will build the same scope for $15,000–$50,000. That's a 50–60% discount on the agency scope — not because the developer is worse, but because there is no project manager, no account manager, no overhead, no margin layer."),
+            ("p", "A senior independent Shopify developer can often deliver the same engineering responsibility with fewer layers. That is not because the work is smaller; it is because the communication path is shorter and the person scoping the work is usually the person building it."),
             ("p", "The trade-off: you are the project manager. You are the QA. If the freelancer gets sick, the project pauses. If you need 3 things at once, you have to sequence them."),
             ("h2", "When the agency model wins"),
             ("ul", [
@@ -402,10 +517,10 @@ POSTS = [
             ("p", "Most of my ongoing clients use this structure:"),
             ("ol", [
                 "<strong>Senior freelancer (me) — fractional CTO + lead engineer.</strong> Architecture, build, code review, weekly priorities.",
-                "<strong>One or two junior contractors I source for them.</strong> Content updates, theme tweaks, low-stakes work at $30/hour. Managed by me.",
+                "<strong>One or two junior contractors I source for them.</strong> Content updates, theme tweaks, and low-stakes work. Managed by me.",
                 "<strong>An agency on standby for surge capacity.</strong> Used 2–4 times a year for big launches.",
             ]),
-            ("p", "This structure adds overhead 40–60% less than a full agency ongoing support, gives you senior accountability, and lets you scale up and down without ending relationships."),
+            ("p", "This structure keeps senior accountability, avoids unnecessary layers, and lets you scale up and down without ending relationships."),
             ("h2", "Red flags in both models"),
             ("p", "Both agencies and freelancers can be the wrong hire. The red flags are different:"),
             ("p", "<strong>Agency red flags:</strong> The salesperson is brilliant and the people who actually do the work haven't been on a call. You'll meet them on day one of the engagement. By then it's too late."),
@@ -853,7 +968,6 @@ def render_location_page(loc, nav, footer):
   "description": "{meta}",
   "url": "{canonical}",
   "image": "{SITE}/assets/og.jpg?v=2",
-  "scopeRange": "$$$",
   "areaServed": {{ "@type": "Country", "name": "{loc['country']}" }},
   "serviceType": ["Shopify Development", "WooCommerce Development", "WordPress Development", "Shopify Plus Migration", "Speed Optimization"],
   "provider": {{
@@ -881,7 +995,7 @@ def render_location_page(loc, nav, footer):
     {{
       "@type": "Question",
       "name": "What does a Shopify build for a {loc['demonym']} brand effort?",
-      "acceptedAnswer": {{ "@type": "Answer", "text": "A senior independent Shopify build typically runs ${{15,000–50,000 USD ({loc['currency']} equivalent at current rates)}}, depending on scope. Page builders and tiny stock-theme setups effort less. Shopify Plus migrations run higher." }}
+      "acceptedAnswer": {{ "@type": "Answer", "text": "A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. I do not publish a fixed public rate card; the right next step is a short audit and written scope." }}
     }},
     {{
       "@type": "Question",
@@ -943,7 +1057,7 @@ def render_location_page(loc, nav, footer):
     </div>
 
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem;">
-      <a href="/services/shopify-development.html" class="card" data-reveal style="text-decoration: none;">
+      <a href='/services/shopify-development.html' class="card" data-reveal style="text-decoration: none;">
         <span class="eyebrow">Shopify Development</span>
         <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Custom Shopify builds</h3>
         <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Themes, sections, conversion-tuned PDPs. From discovery to launch in 4–8 weeks.</p>
@@ -958,7 +1072,7 @@ def render_location_page(loc, nav, footer):
         <h3 class="h-2" style="margin: 1rem 0 0.75rem;">WooCommerce that scales</h3>
         <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">Custom themes, subscriptions, B2B tiers, performance work that survives traffic spikes.</p>
       </a>
-      <a href="/services/speed-optimization.html" class="card" data-reveal style="text-decoration: none;">
+      <a href='/services/speed-optimization.html' class="card" data-reveal style="text-decoration: none;">
         <span class="eyebrow">Speed Optimization</span>
         <h3 class="h-2" style="margin: 1rem 0 0.75rem;">Pass Core Web Vitals</h3>
         <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">LCP under 2.5s, CLS under 0.1, INP under 200ms. Field-data improvement guaranteed.</p>
@@ -991,7 +1105,7 @@ def render_location_page(loc, nav, footer):
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">What does a Shopify build for a {loc['demonym']} brand effort?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A senior independent Shopify build typically runs $15,000–$50,000 USD ({loc['currency']} equivalent at current rates), depending on scope. Stock theme setups effort less. Shopify Plus migrations run higher.</p>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. I do not publish a fixed public rate card; the right next step is a short audit and written scope.</p>
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">Can you handle {loc['currency']} payment processing?</h3>
