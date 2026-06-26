@@ -8370,7 +8370,7 @@ html[data-theme="dark"] .diagnostic-input-row button {
   .diagnostic-nav-links a {
     padding-inline: 0.55rem;
   }
-  .diagnostic-nav-links a:first-child {
+  .diagnostic-nav-links a:nth-child(2) {
     display: none;
   }
   .diagnostic-hero {
@@ -8398,9 +8398,6 @@ html[data-theme="dark"] .diagnostic-input-row button {
 }
 
 @media (max-width: 480px) {
-  .diagnostic-nav-links a:nth-child(2) {
-    display: none;
-  }
   .aeo-category-grid {
     grid-template-columns: 1fr;
   }
