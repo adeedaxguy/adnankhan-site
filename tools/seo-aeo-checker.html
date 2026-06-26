@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SEO & AEO Compatibility Checker — Lofts Studio</title>
+<meta name="description" content="Run a focused SEO and answer-engine compatibility scan for any page. Check indexability, schema, titles, mobile signals, trust proof, and conversion readiness." />
+<link rel="canonical" href="https://lofts.studio/tools/seo-aeo-checker.html" />
+<meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
+<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="icon" type="image/png" href="/apple-touch-icon.png" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260626a" />
+<meta property="og:title" content="SEO & AEO Compatibility Checker — Lofts Studio" />
+<meta property="og:description" content="Check whether a page is ready for Google, AI Overviews, AI Mode, and answer-led discovery." />
+<meta property="og:url" content="https://lofts.studio/tools/seo-aeo-checker.html" />
+<meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "SEO & AEO Compatibility Checker",
+  "url": "https://lofts.studio/tools/seo-aeo-checker.html",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Any",
+  "description": "A free Lofts Studio tool that checks whether a page has the core SEO, schema, answer clarity, mobile, and trust signals needed for search and answer engines.",
+  "provider": { "@type": "Organization", "name": "Lofts Studio", "url": "https://lofts.studio/" }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lofts.studio/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://lofts.studio/tools/" },
+    { "@type": "ListItem", "position": 3, "name": "SEO & AEO Compatibility Checker", "item": "https://lofts.studio/tools/seo-aeo-checker.html" }
+  ]
+}
+</script>
+<script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
+</head>
+<body class="diagnostic-page">
+  <nav class="diagnostic-nav" aria-label="Tool navigation">
+    <a href="/" class="diagnostic-logo">Lofts<span>STUDIO</span></a>
+    <div class="diagnostic-nav-links">
+      <a href="/tools/">Tools</a>
+      <a href="/free-audit/">Website audit</a>
+      <a href="/#contact">Get in touch</a>
+    </div>
+  </nav>
+
+  <main>
+    <section class="diagnostic-hero section">
+      <div class="container diagnostic-shell">
+        <div class="diagnostic-copy" data-reveal>
+          <span class="eyebrow">Free tool · SEO · AEO · AI search</span>
+          <h1 class="h-display">SEO &amp; AEO compatibility checker.</h1>
+          <p class="lead">Paste a page URL and see whether it has the signals Google and answer engines can actually work with: indexability, title and meta quality, schema, mobile setup, trust proof, internal links, and a clear next step.</p>
+          <div class="diagnostic-badges" aria-label="Checks included">
+            <span>Indexability</span>
+            <span>Schema</span>
+            <span>Answer clarity</span>
+            <span>Mobile signals</span>
+            <span>Trust proof</span>
+          </div>
+        </div>
+        <div class="diagnostic-panel" data-reveal>
+          <form class="diagnostic-form" id="aeoForm">
+            <label for="aeoUrl">Page URL</label>
+            <div class="diagnostic-input-row">
+              <input id="aeoUrl" name="url" type="text" placeholder="yourbusiness.com/service-page" autocomplete="off" autocapitalize="none" spellcheck="false" required />
+              <button type="submit" id="aeoBtn">Run check <span aria-hidden="true">→</span></button>
+            </div>
+            <p>This uses the same safe audit backend as the website audit report, then translates the findings into a focused SEO/AEO readiness view.</p>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm diagnostic-results-wrap" id="resultsWrap" hidden>
+      <div class="container">
+        <div id="aeoResults" class="aeo-results" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="section-sm diagnostic-explain">
+      <div class="container diagnostic-explain-grid">
+        <div>
+          <span class="eyebrow">What this checks</span>
+          <h2 class="h-1">Not another mystery score.</h2>
+        </div>
+        <div class="diagnostic-explain-list">
+          <article>
+            <strong>Search foundation</strong>
+            <p>HTTPS, status, indexability, canonical, page title, meta description, viewport, and Open Graph basics.</p>
+          </article>
+          <article>
+            <strong>Answer-engine readiness</strong>
+            <p>H1/H2 structure, schema presence, readable content depth, social proof, internal links, and clear CTAs.</p>
+          </article>
+          <article>
+            <strong>What to fix first</strong>
+            <p>The report prioritizes critical and high-impact issues so you know what blocks ranking, citation, or enquiry quality.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+<script>
+const form = document.getElementById('aeoForm');
+const input = document.getElementById('aeoUrl');
+const btn = document.getElementById('aeoBtn');
+const resultsWrap = document.getElementById('resultsWrap');
+const resultsEl = document.getElementById('aeoResults');
+
+const params = new URLSearchParams(location.search);
+if (params.get('url')) {
+  input.value = params.get('url');
+  setTimeout(() => form.dispatchEvent(new Event('submit')), 250);
+}
+
+form.addEventListener('submit', async (event) => {
+  event.preventDefault();
+  const url = input.value.trim();
+  if (!url) return;
+  btn.disabled = true;
+  btn.textContent = 'Checking...';
+  resultsWrap.hidden = false;
+  resultsEl.innerHTML = '<div class="aeo-loading"><span></span><p>Checking indexability, schema, search basics, and answer-readiness...</p></div>';
+  try {
+    const res = await fetch('/api/audit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ url })
+    });
+    const data = await res.json();
+    if (data.error) throw new Error(data.error);
+    renderAeo(data);
+  } catch (error) {
+    resultsEl.innerHTML = `<div class="aeo-error"><strong>Could not check that page.</strong><p>${esc(error.message || 'Try the full website audit or check the URL.')}</p></div>`;
+  } finally {
+    btn.disabled = false;
+    btn.innerHTML = 'Run check <span aria-hidden="true">→</span>';
+  }
+});
+
+function renderAeo(data) {
+  const checks = buildAeoChecks(data);
+  const totalWeight = checks.reduce((sum, item) => sum + impactWeight(item.impact), 0);
+  const earned = checks.reduce((sum, item) => sum + (item.pass ? impactWeight(item.impact) : 0), 0);
+  const score = Math.round((earned / totalWeight) * 100);
+  const grade = score >= 90 ? 'A' : score >= 78 ? 'B' : score >= 64 ? 'C' : score >= 48 ? 'D' : 'F';
+  const failed = checks.filter(item => !item.pass).sort((a, b) => impactWeight(b.impact) - impactWeight(a.impact));
+  const categories = ['Search foundation', 'Answer clarity', 'Structured data', 'Trust and proof', 'Conversion path', 'Technical experience']
+    .map(label => categoryScore(label, checks));
+  const host = (data.url || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
+
+  resultsEl.innerHTML = `
+    <div class="aeo-score-card">
+      <div class="aeo-score-ring" style="--score:${score * 3.6}deg">
+        <span>${score}</span><small>/100</small>
+      </div>
+      <div>
+        <p class="aeo-kicker">SEO/AEO readiness</p>
+        <h2>Grade ${grade} for ${esc(host)}</h2>
+        <p>${summaryText(score, failed, data)}</p>
+      </div>
+    </div>
+    <div class="aeo-category-grid">
+      ${categories.map(cat => `<div class="aeo-cat"><strong>${cat.score}</strong><span>${esc(cat.label)}</span><i>${cat.passed}/${cat.total} checks</i></div>`).join('')}
+    </div>
+    <div class="aeo-action-panel">
+      <div>
+        <p class="aeo-kicker">What to fix first</p>
+        <h3>${failed.length ? 'Highest-impact blockers' : 'Core compatibility looks healthy'}</h3>
+      </div>
+      <a href="/free-audit/?url=${encodeURIComponent(data.url || input.value)}">Run full audit report →</a>
+    </div>
+    <div class="aeo-check-grid">
+      ${checks.map(item => `<article class="aeo-check ${item.pass ? 'pass' : 'fail'}">
+        <span>${item.pass ? '✓' : '!'}</span>
+        <div>
+          <strong>${esc(item.label)}</strong>
+          <p>${esc(item.value)}</p>
+          ${item.pass ? '' : `<em>${esc(item.fix)}</em>`}
+        </div>
+      </article>`).join('')}
+    </div>`;
+  resultsWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function buildAeoChecks(data) {
+  const r = data.results || {};
+  const t = data.technicalData || {};
+  const schemaTypes = schemaTypeList(r.schema && r.schema.value);
+  const wordCount = Number(t.wordCount || 0);
+  const h2Count = Number(t.headings && t.headings.h2 || 0);
+  const internalLinks = Number(t.linksFound || 0) - Number(data.linkAudit && data.linkAudit.externalChecked || 0);
+  const c = [];
+  push(c, 'Search foundation', r.status && r.status.pass, 'Page loads successfully', r.status && r.status.value || 'Status unknown', 'critical', 'Fix server errors, blocked responses, or redirects before SEO/AEO work.');
+  push(c, 'Search foundation', r.https && r.https.pass, 'HTTPS is active', r.https && r.https.value || 'HTTPS unknown', 'critical', 'Force HTTPS with a valid SSL certificate.');
+  push(c, 'Search foundation', r.noindex && r.noindex.pass, 'Google can index the page', r.noindex && r.noindex.value || 'Indexability unknown', 'critical', 'Remove noindex on pages that should rank or appear in AI-led answers.');
+  push(c, 'Search foundation', r.canonical && r.canonical.pass, 'Canonical URL is declared', r.canonical && r.canonical.value || 'Canonical unknown', 'medium', 'Add a canonical tag so search engines know the preferred URL.');
+  push(c, 'Search foundation', r.title && r.title.pass, 'Title tag is search-sized', r.title && r.title.value || 'Title unknown', 'high', 'Use a clear 30-65 character title with the topic and brand.');
+  push(c, 'Search foundation', r.metaDesc && r.metaDesc.pass, 'Meta description supports the click', r.metaDesc && r.metaDesc.value || 'Description unknown', 'medium', 'Write a 120-160 character description that explains the answer and reason to click.');
+  push(c, 'Answer clarity', r.h1 && r.h1.pass, 'One clear H1', r.h1 && r.h1.value || 'H1 unknown', 'high', 'Use exactly one H1 that names the page topic.');
+  push(c, 'Answer clarity', h2Count >= 3, 'Enough section headings', `${h2Count} H2 headings found`, 'medium', 'Add descriptive H2 sections for questions, proof, process, and next steps.');
+  push(c, 'Answer clarity', wordCount >= 500, 'Enough readable content depth', `${wordCount} readable words`, 'medium', 'Add original explanation, examples, caveats, and proof. Thin pages rarely become answer sources.');
+  push(c, 'Answer clarity', r.heroClarity && r.heroClarity.pass, 'First screen answers and acts', r.heroClarity && r.heroClarity.value || 'First screen unknown', 'high', 'Make the first screen explain the offer, proof, and next action.');
+  push(c, 'Structured data', r.schema && r.schema.pass, 'Schema markup is present', r.schema && r.schema.value || 'Schema unknown', 'high', 'Add JSON-LD for Organization, Service, Article, FAQPage, WebPage, and BreadcrumbList where appropriate.');
+  push(c, 'Structured data', schemaTypes.length > 0, 'Schema is readable', schemaTypes.length ? schemaTypes.join(', ') : 'No schema type detected from audit', 'medium', 'Use schema that matches visible page content.');
+  push(c, 'Trust and proof', r.socialProof && r.socialProof.pass, 'Visible trust proof exists', r.socialProof && r.socialProof.value || 'Trust proof unknown', 'high', 'Add case studies, reviews, client examples, delivery proof, or before/after context near claims.');
+  push(c, 'Trust and proof', r.footer && r.footer.pass, 'Footer supports trust and discovery', r.footer && r.footer.value || 'Footer unknown', 'low', 'Add footer links to key pages, privacy, contact, and service context.');
+  push(c, 'Trust and proof', r.privacy && r.privacy.pass, 'Privacy or terms path exists', r.privacy && r.privacy.value || 'Privacy unknown', 'medium', 'Link privacy and terms pages from the footer.');
+  push(c, 'Conversion path', r.cta && r.cta.pass, 'Clear CTA is present', r.cta && r.cta.value || 'CTA unknown', 'high', 'Add a clear audit, consultation, contact, or enquiry action near the answer.');
+  push(c, 'Conversion path', r.conversionPath && r.conversionPath.pass, 'Low-friction enquiry path', r.conversionPath && r.conversionPath.value || 'Enquiry path unknown', 'high', 'Make the next step obvious on mobile and desktop.');
+  push(c, 'Conversion path', internalLinks >= 5, 'Topic cluster is internally linked', `${Math.max(0, internalLinks)} estimated internal links`, 'medium', 'Link to supporting guides, service pages, case studies, and contact paths.');
+  push(c, 'Technical experience', r.viewport && r.viewport.pass, 'Mobile viewport is configured', r.viewport && r.viewport.value || 'Viewport unknown', 'critical', 'Add the viewport tag and test the page on mobile.');
+  push(c, 'Technical experience', r.openGraph && r.openGraph.pass, 'Open Graph preview is complete', r.openGraph && r.openGraph.value || 'Open Graph unknown', 'low', 'Add OG title, description, and image so shared links look credible.');
+  push(c, 'Technical experience', r.altText && r.altText.pass, 'Image alt text coverage is healthy', r.altText && r.altText.value || 'Alt text unknown', 'medium', 'Add useful alt text to meaningful images.');
+  push(c, 'Technical experience', r.speed && r.speed.pass, 'Server response is fast enough', r.speed && r.speed.value || 'Speed unknown', 'medium', 'Improve hosting, caching, CDN, and server response time.');
+  return c;
+}
+
+function push(list, category, pass, label, value, impact, fix) {
+  list.push({ category, pass: Boolean(pass), label, value: String(value || ''), impact, fix });
+}
+
+function schemaTypeList(value) {
+  if (!value || /no structured data/i.test(value)) return [];
+  if (/detected/i.test(value) && !/,/.test(value)) return ['Schema detected'];
+  return String(value).split(',').map(v => v.trim()).filter(Boolean).slice(0, 8);
+}
+
+function impactWeight(impact) {
+  return impact === 'critical' ? 8 : impact === 'high' ? 6 : impact === 'medium' ? 4 : 2;
+}
+
+function categoryScore(label, checks) {
+  const items = checks.filter(item => item.category === label);
+  const total = items.reduce((sum, item) => sum + impactWeight(item.impact), 0) || 1;
+  const earned = items.reduce((sum, item) => sum + (item.pass ? impactWeight(item.impact) : 0), 0);
+  return { label, score: Math.round((earned / total) * 100), passed: items.filter(item => item.pass).length, total: items.length };
+}
+
+function summaryText(score, failed, data) {
+  if (score >= 85) return 'Strong foundation. Use the full audit to refine content depth, proof placement, and conversion paths.';
+  if (score >= 65) return `Good base, but ${failed.length} compatibility checks need work before this page is easy to cite, trust, and choose.`;
+  return `This page has visible search and answer-readiness gaps. Start with ${failed[0] ? failed[0].label.toLowerCase() : 'the critical items'} before adding more content.`;
+}
+
+function esc(value) {
+  return String(value == null ? '' : value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
+}
+</script>
+<script src="/assets/main.js?v=20260622b" defer></script>
+<script src="/assets/widgets.js?v=20260622c" defer></script>
+</body>
+</html>
