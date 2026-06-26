@@ -280,7 +280,7 @@ export default async function handler(req) {
     //  CATEGORY: TRUST
     // ════════════════════════════════════════════
 
-    const hasAnalytics = /googletagmanager\.com|gtag\(|google-analytics\.com|_gaq\b/i.test(html);
+    const hasAnalytics = /googletagmanager\.com|gtag\(|google-analytics\.com|_gaq\b|data-analytics-id=["']G-[A-Z0-9]+["']/i.test(html);
     results.analytics = {
       pass: hasAnalytics,
       label: 'Analytics tracking installed',
