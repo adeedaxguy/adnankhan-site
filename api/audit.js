@@ -232,7 +232,8 @@ export default async function handler(req) {
     // ════════════════════════════════════════════
 
     const h2Matches = (html.match(/<h2[^>]*>/gi) || []).length;
-    const firstScreenText = htmlToText(stripScripts(html).slice(0, 7000));
+    const bodyHtml = (html.match(/<body[\s\S]*?<\/body>/i) || [html])[0];
+    const firstScreenText = htmlToText(stripScripts(bodyHtml).slice(0, 12000));
     const ctaRegex = /\b(contact us|get started|send an enquiry|book a call|request a demo|buy now|order now|sign up|schedule|free trial|talk to us|start free|get in touch|hire us|send enquiry|book now|free consultation|call us|speak to|try free|start a conversation|free audit)\b/i;
     const hasCTA = ctaRegex.test(textContent);
     const hasEarlyCTA = ctaRegex.test(firstScreenText);

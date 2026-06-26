@@ -2333,6 +2333,13 @@ html.a11y-spacing .chat-msg {
   max-width: 100%;
 }
 .hero-main { min-width: 0; }
+.hero-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem 1.2rem;
+  margin-top: 1.45rem;
+}
 .hero-sidecar { position: sticky; top: 110px; }
 @media (max-width: 1024px) {
   .hero-grid { grid-template-columns: 1fr; gap: 3rem; }
