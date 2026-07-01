@@ -58,6 +58,172 @@ def load_nav_and_footer():
 
 POSTS = [
     {
+        "slug": "ecommerce-geo-product-pages-ai-search",
+        "title": "Ecommerce GEO: How Product Pages Get Found in AI Search",
+        "excerpt": "AI search and answer engines do not read ecommerce sites like shoppers do. This guide shows how product pages, feeds, schema, and proof work together.",
+        "meta": "Ecommerce GEO guide for product pages: AI search, product schema, feeds, category pages, reviews, and conversion paths for Shopify and WooCommerce.",
+        "category": "SEO",
+        "date": "2026-07-01",
+        "readingTime": "12 min",
+        "primaryKeyword": "ecommerce GEO",
+        "secondaryKeyword": "AI product discovery SEO",
+        "funnelTo": "/services/technical-seo-audit.html",
+        "funnelLabel": "Technical SEO Audit",
+        "featured": False,
+        "hook": "Ecommerce GEO is the work of making your products easy for AI search systems, answer engines, shopping agents, and normal buyers to understand. It is not a new trick. It is the tighter version of ecommerce SEO: cleaner product data, clearer product pages, stronger proof, valid schema, crawlable category pages, and a purchase path that does not collapse after the answer.",
+        "faqs": [
+            {
+                "question": "What is ecommerce GEO?",
+                "answer": "Ecommerce GEO, or generative engine optimization for ecommerce, is the process of making product pages, category pages, product feeds, schema, reviews, and brand information clear enough for AI search systems and answer engines to understand, cite, and recommend."
+            },
+            {
+                "question": "Is ecommerce GEO different from ecommerce SEO?",
+                "answer": "The foundations overlap. Ecommerce SEO focuses on search visibility, crawlability, content, internal links, schema, speed, and conversion. Ecommerce GEO adds stricter emphasis on extractable answers, entity clarity, product data quality, feed consistency, and proof that can support AI-generated recommendations."
+            },
+            {
+                "question": "What should ecommerce brands fix first for AI product discovery?",
+                "answer": "Start with the data AI systems need to trust: product titles, product type, variants, availability, product identifiers, shipping and return clarity, Product schema, review signals, category page copy, and internal links from buying guides to product and collection pages."
+            },
+        ],
+        "body": [
+            ("p", "Search is moving from a list of links toward answers, comparisons, and recommendations. That does not remove the need for good ecommerce SEO. It raises the standard. A page that only looks good to a human may not be specific enough for a system that is trying to answer questions like <em>which waterproof leather boot is best for wide feet and ships quickly?</em> or <em>which silk scarf looks premium but is easy to gift?</em>"),
+            ("p", "The buyer still needs the storefront. The AI layer needs the facts behind the storefront. If those two disagree, the brand becomes harder to recommend. If they line up, the same work improves organic search, rich results, AI answers, product feeds, category pages, and conversion."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Key takeaway</th><th>What it means for an ecommerce site</th></tr></thead>
+      <tbody>
+        <tr><td><strong>AI search rewards clarity</strong></td><td>Product pages should answer material, fit, compatibility, use case, delivery, returns, and comparison questions without forcing the buyer to hunt.</td></tr>
+        <tr><td><strong>Feeds and pages must agree</strong></td><td>Titles, prices, variants, availability, identifiers, product type, and schema should not contradict each other.</td></tr>
+        <tr><td><strong>Category pages matter again</strong></td><td>Collections should explain choice, not just list products. They are the bridge between broad intent and product detail.</td></tr>
+        <tr><td><strong>Proof is a ranking and conversion asset</strong></td><td>Reviews, FAQs, returns, shipping, brand story, and real photography help both humans and answer systems reduce doubt.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "What ecommerce GEO really means"),
+            ("p", "GEO stands for generative engine optimization. In ecommerce, it means structuring the store so AI-generated answers can understand what you sell, who each product is for, when it is the right choice, and whether the claim is trustworthy. It includes traditional SEO work, but it is more demanding because product discovery is no longer only a keyword-to-page match."),
+            ("p", "Google's guidance for <a href='https://developers.google.com/search/docs/appearance/ai-features' rel='noopener'>AI features and your website</a> is clear on the broad direction: make pages accessible to Google, create useful people-first content, and keep technical SEO fundamentals strong. For ecommerce, that translates into a very practical system: crawlable product pages, accurate product structured data, complete product feeds, helpful category content, and original information that a competitor cannot copy in one afternoon."),
+            ("callout", "The simple rule: if a product fact matters to a buyer, it should be visible on the page, present in the feed when relevant, and confirmed in structured data where the format supports it."),
+            ("h2", "Why product pages are vulnerable in AI search"),
+            ("p", "Most product pages were built for a familiar journey: a shopper lands on a page, sees images, skims bullets, checks size or variant, and adds to cart. AI search changes the first half of that journey. The recommendation may happen before the shopper ever sees the page. The system may summarize options, compare products, or send the user directly to a short list."),
+            ("p", "That makes vague product pages risky. A beautiful PDP with a poetic title, weak attributes, thin description, missing schema, and unclear availability can look premium but remain hard to extract. A less polished page with better structured information may be easier to understand and recommend."),
+            ("p", "This is why ecommerce GEO sits between SEO, merchandising, UX, and operations. The page designer, developer, catalog manager, and marketer all touch the signals that decide whether the product is eligible for the right query."),
+            ("h2", "The AI product discovery stack"),
+            ("p", "A strong ecommerce GEO system has six layers. If one layer is weak, the store may still rank in classic search, but it becomes less dependable in answer-first discovery."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Layer</th><th>What to check</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td>Indexing</td><td>Product and category URLs are crawlable, canonical, and not blocked by robots or noindex rules.</td><td>AI search cannot use pages that search engines cannot reliably access.</td></tr>
+        <tr><td>Product data</td><td>Titles, descriptions, variants, product type, brand, identifiers, images, availability, and shipping are complete.</td><td>Specific data helps match long, attribute-heavy buyer prompts.</td></tr>
+        <tr><td>Structured data</td><td>Product, Offer, AggregateRating, Review, BreadcrumbList, and FAQ markup match visible content.</td><td>Schema reduces ambiguity and supports eligibility for product-rich search experiences.</td></tr>
+        <tr><td>Category context</td><td>Collection pages explain who the products are for, how to choose, and what differentiates them.</td><td>Category pages help answer broad comparison and selection questions.</td></tr>
+        <tr><td>Trust proof</td><td>Reviews, policies, delivery promises, product media, materials, guarantees, and support paths are visible.</td><td>Recommendations need confidence, not just relevance.</td></tr>
+        <tr><td>Conversion path</td><td>The add-to-cart, checkout, payment, and support paths work cleanly on mobile.</td><td>Visibility without checkout confidence becomes expensive curiosity.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Start with product data quality"),
+            ("p", "Product data is the unglamorous part of ecommerce GEO, which is exactly why it becomes an advantage. Many stores spend months polishing homepage sections while letting product titles, attributes, variant names, and availability drift. AI product discovery punishes that drift because it works by matching specific facts."),
+            ("p", "A useful product title should identify the item clearly before it tries to be clever. A useful description should include what the product is, who it is for, what problem it solves, what it is made of, how it fits or functions, what is included, and what would make someone choose it over a nearby alternative. This does not mean every description should become a wall of text. It means the facts should exist in a predictable place."),
+            ("ul", [
+                "Replace internal shorthand with customer-readable product titles.",
+                "Use attributes for material, size, color, fit, compatibility, use case, finish, bundle contents, and care instructions where relevant.",
+                "Keep variant names human. <em>Walnut / 42 / Wide</em> is easier to understand than an internal code.",
+                "Use product type and taxonomy consistently across the catalog.",
+                "Make delivery, return, and support information easy to find near the buying decision.",
+            ]),
+            ("p", "For Shopify stores, this often means cleaning product fields, metafields, collection rules, search engine listings, and theme output. For WooCommerce stores, it usually means cleaning product attributes, taxonomy, variation data, schema output from the theme or SEO plugin, and any feed plugin that sends data to Google Merchant Center or another shopping channel."),
+            ("h2", "Use Product schema as a confirmation layer"),
+            ("p", "Google's <a href='https://developers.google.com/search/docs/appearance/structured-data/product' rel='noopener'>Product structured data documentation</a> is still one of the best references for ecommerce implementation because it forces the right question: what product facts can search systems verify on this page? Schema should confirm what users can already see. It should not invent ratings, prices, availability, or offers that are not visible and accurate."),
+            ("p", "The same discipline applies to <a href='https://schema.org/Product' rel='noopener'>schema.org Product</a>, Offer, Review, AggregateRating, and BreadcrumbList markup. The markup is not a shortcut to authority. It is a machine-readable version of the page's real information."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Field</th><th>Page visibility</th><th>GEO value</th></tr></thead>
+      <tbody>
+        <tr><td>Product name</td><td>Visible H1 or clear title</td><td>Helps match product identity and query wording.</td></tr>
+        <tr><td>Brand</td><td>Shown on PDP or brand area</td><td>Connects the product to a recognizable entity.</td></tr>
+        <tr><td>Offers</td><td>Visible price, availability, currency, and condition where relevant</td><td>Supports product-rich results and reduces recommendation risk.</td></tr>
+        <tr><td>Aggregate rating</td><td>Visible reviews and rating summary</td><td>Provides proof when it is legitimate and review content is accessible.</td></tr>
+        <tr><td>Images</td><td>High-quality product media with useful alt text</td><td>Supports visual trust and richer discovery surfaces.</td></tr>
+        <tr><td>Breadcrumbs</td><td>Clear category path</td><td>Helps search systems understand product hierarchy and site structure.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Do not ignore product feeds"),
+            ("p", "The page is not the only source AI and shopping systems may use. Product feeds often decide whether a product is eligible for shopping surfaces, product listings, merchant experiences, and future agentic commerce workflows. Google's <a href='https://support.google.com/merchants/answer/7052112' rel='noopener'>Merchant Center product data specification</a> shows the level of detail shopping systems expect: identifiers, titles, descriptions, links, images, availability, condition, price, brand, GTIN or MPN where applicable, shipping, tax, and more."),
+            ("p", "The practical lesson is not to memorize every field. It is to stop treating the feed as a background export. The feed is a sales channel. It should be audited like a page. If the PDP says one thing, the feed says another, and schema says a third, the store creates distrust at machine speed."),
+            ("ul", [
+                "Check that feed titles are not truncated into nonsense.",
+                "Confirm out-of-stock and discontinued products are not still promoted as available.",
+                "Map variants clearly, especially size, color, material, and bundle differences.",
+                "Add product identifiers where the product has them.",
+                "Keep shipping and return data consistent with what the shopper sees on site.",
+                "Audit feed errors monthly, not only during launch.",
+            ]),
+            ("h2", "Category pages need real buying guidance"),
+            ("p", "Collection and category pages are often the weak middle of ecommerce SEO. They list products but do not help the buyer choose. That is a missed GEO opportunity because AI search often starts from category-level questions: best gifts for new homeowners, sustainable office chairs, premium silk scarves, waterproof boots for travel, or B2B coffee supplies for an office."),
+            ("p", "A useful category page should answer the decision behind the category. Who is this range for? How should someone choose? What materials, sizes, features, styles, or constraints matter? Which products are best for different scenarios? What should a buyer know before ordering?"),
+            ("p", "This is not doorway-page copy. It is merchandising turned into useful content. A strong category page can link to guides, compare product types, explain care or compatibility, and send shoppers to the right filters or hero products. It also gives AI systems a better summary of the product set than a bare grid can provide."),
+            ("h2", "Build PDPs that answer before they sell"),
+            ("p", "The strongest product pages answer the buyer's uncertainty before pushing the cart. For AI product discovery, that means the page should support direct answers to common pre-purchase questions. A human might read the FAQ. An answer engine might extract the same information. Both need accuracy."),
+            ("ul", [
+                "<strong>What is it?</strong> Use a clear product title and first paragraph.",
+                "<strong>Who is it for?</strong> Name the use case, audience, or scenario.",
+                "<strong>Why this one?</strong> Explain differentiators without vague premium language.",
+                "<strong>What are the constraints?</strong> Fit, compatibility, care, sizing, lead time, warranty, or installation requirements.",
+                "<strong>Can I trust it?</strong> Reviews, real photography, policies, brand proof, and support visibility.",
+                "<strong>What happens next?</strong> Clear add-to-cart, shipping estimate, payment options, and support route.",
+            ]),
+            ("p", "This is where UX and SEO finally stop pretending to be separate. The same section that helps a visitor choose can help a search system summarize. The same policy block that reduces checkout anxiety can reduce recommendation risk. The same product FAQ can support FAQ schema when the questions are visible and useful."),
+            ("h2", "Shopify and WooCommerce implementation notes"),
+            ("p", "Shopify and WooCommerce can both support ecommerce GEO, but the implementation risks are different. Shopify usually gives a cleaner hosted foundation, but themes and apps can still output weak schema, duplicate headings, bloated scripts, and inconsistent product data. Shopify's own <a href='https://help.shopify.com/en/manual/promoting-marketing/seo' rel='noopener'>SEO documentation</a> is a useful baseline, but serious stores still need theme-level QA."),
+            ("p", "WooCommerce gives more control because it sits on WordPress, but that control creates more variation. The theme, SEO plugin, schema plugin, product feed plugin, caching layer, and custom fields can all affect the final output. A WooCommerce store can be excellent for AI search if the data model is clean. It can also become chaotic if every plugin is trying to describe the product differently."),
+            ("callout", "The platform is not the strategy. The strategy is a clean source of truth for product facts, then page, schema, and feed outputs that stay aligned."),
+            ("h2", "A 30-day ecommerce GEO implementation plan"),
+            ("p", "Do not start by rewriting the whole catalog. Start with the pages that already have impressions, sales, or strategic value. This keeps the project tied to revenue and gives you proof before scaling."),
+            ("ol", [
+                "<strong>Week 1: audit the top pages.</strong> Pull top product and category URLs from Search Console, analytics, Shopify or WooCommerce reports, and paid traffic data. Check indexing, titles, descriptions, schema validity, feed status, reviews, page speed, and mobile UX.",
+                "<strong>Week 2: fix the product data model.</strong> Clean titles, attributes, variants, product type, identifiers, and internal categorization for the highest-value products first.",
+                "<strong>Week 3: rebuild the page answer layer.</strong> Add decision-focused descriptions, FAQs, comparison guidance, care or compatibility details, trust blocks, and internal links from related guides.",
+                "<strong>Week 4: validate schema, feeds, and conversion.</strong> Test Product schema, check Merchant Center feed issues, confirm canonical URLs, test mobile checkout, and monitor Search Console queries for new long-tail impressions.",
+            ]),
+            ("p", "That plan can be run inside a focused <a href='/services/technical-seo-audit.html'>technical SEO audit</a>, then turned into implementation work. If the store is on Shopify, pair it with the <a href='/blog/shopify-technical-seo-audit-checklist.html'>Shopify technical SEO audit checklist</a>. If the store is already thinking about AI shopping agents, read <a href='/blog/agentic-commerce-what-it-means-for-shopify.html'>agentic commerce for Shopify</a> as the next layer."),
+            ("h2", "How to measure progress"),
+            ("p", "Do not judge ecommerce GEO by one ranking screenshot. Use a cluster of signals. Search Console should show more impressions for attribute-heavy product queries and category-level comparison queries. Merchant Center should show fewer product data issues. Product pages should earn richer search appearances where eligible. Analytics should show better engagement from organic landing pages. Most importantly, the buying path should convert more confidently because the page answers better questions."),
+            ("ul", [
+                "Search Console impressions for product attributes and category modifiers",
+                "Product rich result eligibility and structured data validation",
+                "Merchant Center feed diagnostics and disapproval trends",
+                "Organic revenue or qualified enquiries from product and category landing pages",
+                "On-page engagement with FAQs, size guides, reviews, and comparison sections",
+                "Mobile checkout completion and support-contact reduction",
+            ]),
+            ("h2", "Internal links and content cluster ideas"),
+            ("p", "A single product page cannot carry the whole topic. Build a cluster around buying decisions. Product pages should link to size guides, material guides, care guides, comparison articles, and category explainers. Articles should link back to the relevant category and hero products. Case studies should show the business result when product data, UX, and search work together."),
+            ("ul", [
+                "<a href='/blog/ecommerce-conversion-audit.html'>Ecommerce conversion audit</a> for diagnosing PDP and checkout friction.",
+                "<a href='/blog/shopify-custom-app-vs-public-app.html'>Shopify custom app vs public app</a> for stores with product-data or integration limits.",
+                "<a href='/free-audit/'>Free audit</a> for a first pass at technical, SEO, performance, design, and trust issues.",
+            ]),
+            ("h2", "Image and chart ideas for this post"),
+            ("ul", [
+                "<strong>Alt text:</strong> Diagram showing how product page content, Product schema, product feeds, reviews, and category pages support ecommerce GEO.",
+                "<strong>Alt text:</strong> Table comparing traditional ecommerce SEO signals with AI product discovery signals.",
+                "<strong>Alt text:</strong> Product page wireframe highlighting title, attributes, reviews, schema fields, FAQs, and shipping information.",
+                "<strong>Alt text:</strong> 30-day ecommerce GEO implementation roadmap for Shopify and WooCommerce stores.",
+            ]),
+            ("h2", "Sources worth reading"),
+            ("ul", [
+                "<a href='https://developers.google.com/search/docs/appearance/ai-features' rel='noopener'>Google Search Central: AI features and your website</a>",
+                "<a href='https://developers.google.com/search/docs/appearance/structured-data/product' rel='noopener'>Google Search Central: Product structured data</a>",
+                "<a href='https://support.google.com/merchants/answer/7052112' rel='noopener'>Google Merchant Center: Product data specification</a>",
+                "<a href='https://help.shopify.com/en/manual/promoting-marketing/seo' rel='noopener'>Shopify Help Center: Improving search engine optimization</a>",
+                "<a href='https://schema.org/Product' rel='noopener'>Schema.org: Product</a>",
+            ]),
+            ("h2", "Frequently asked"),
+            ("h3", "What is ecommerce GEO?"),
+            ("p", "Ecommerce GEO is generative engine optimization for online stores. It makes product pages, category pages, feeds, schema, reviews, and brand signals clear enough for AI search and answer engines to understand and recommend."),
+            ("h3", "Is ecommerce GEO different from ecommerce SEO?"),
+            ("p", "The foundations overlap. Ecommerce GEO puts extra pressure on product data quality, extractable answers, entity clarity, and consistency between the visible page, structured data, and product feeds."),
+            ("h3", "What should ecommerce brands fix first?"),
+            ("p", "Fix the product data and page structure for the highest-value products first: titles, attributes, variants, availability, identifiers, Product schema, reviews, delivery information, internal links, and mobile checkout confidence."),
+        ],
+    },
+    {
         "slug": "why-your-website-isnt-showing-up-on-google",
         "title": "Why Your Website Isn\u2019t Showing Up on Google \u2014 and How to Fix It",
         "excerpt": "Your site is live but invisible on Google. Here\u2019s the plain-English reason it happens, how to tell which problem you actually have, and the exact steps to fix it.",
@@ -935,6 +1101,24 @@ def render_blog_post(p, nav, footer):
     """Render a single blog post HTML from a spec dict."""
     date_obj = datetime.strptime(p["date"], "%Y-%m-%d")
     date_readable = date_obj.strftime("%B %d, %Y")
+    faq_schema = ""
+    if p.get("faqs"):
+        faq_data = {
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+                {
+                    "@type": "Question",
+                    "name": faq["question"],
+                    "acceptedAnswer": {
+                        "@type": "Answer",
+                        "text": faq["answer"],
+                    },
+                }
+                for faq in p["faqs"]
+            ],
+        }
+        faq_schema = f'<script type="application/ld+json">\n{json.dumps(faq_data, ensure_ascii=False, indent=2)}\n</script>\n'
 
     # Body HTML from structured tuples
     body_parts = []
@@ -956,6 +1140,8 @@ def render_blog_post(p, nav, footer):
             body_parts.append(f"<pre><code>{content}</code></pre>")
         elif tag == "callout":
             body_parts.append(f'<div class="post-callout"><p>{content}</p></div>')
+        elif tag == "html":
+            body_parts.append(content)
     body_html = "\n\n    ".join(body_parts)
 
     return f'''<!DOCTYPE html>
@@ -1012,6 +1198,7 @@ def render_blog_post(p, nav, footer):
 <script type="application/ld+json">
 {{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {{"@type":"ListItem","position":1,"name":"Home","item":"{SITE}/"}}, {{"@type":"ListItem","position":2,"name":"Blog","item":"{SITE}/blog/"}}, {{"@type":"ListItem","position":3,"name":"{p["title"]}","item":"{SITE}/blog/{p["slug"]}.html"}} ] }}
 </script>
+{faq_schema}
 
 <style>
   .post-prose {{ max-width: 720px; margin: 0 auto; }}
@@ -1028,6 +1215,11 @@ def render_blog_post(p, nav, footer):
   .post-prose code {{ font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink); }}
   .post-prose pre {{ background: var(--ink); color: #E8E8E8; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.7; }}
   .post-prose pre code {{ background: transparent; padding: 0; color: inherit; font-size: inherit; }}
+  .post-table-wrap {{ width: min(100vw - 2rem, 860px); margin: 2rem 0 2rem 50%; transform: translateX(-50%); overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }}
+  .post-prose table {{ width: 100%; border-collapse: collapse; min-width: 680px; font-family: var(--font-sans); font-size: 0.94rem; }}
+  .post-prose th, .post-prose td {{ padding: 0.95rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); color: var(--ink-soft); }}
+  .post-prose th {{ color: var(--ink); font-weight: 650; background: var(--bg-soft); }}
+  .post-prose tr:last-child td {{ border-bottom: 0; }}
   .post-prose hr {{ border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }}
   .post-callout {{ background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }}
   .post-callout p {{ margin: 0; color: var(--ink); font-size: 1rem; }}
