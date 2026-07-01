@@ -64,6 +64,21 @@ python3 scripts/generate_blog_covers.py  # regenerates cover PNGs in assets/blog
 ```
 Requires Python 3 + Pillow (`pip3 install pillow`).
 
+## SEO blog writing preferences
+When the user asks to write, publish, or improve a blog post, use an elite SEO Content Director workflow:
+- Start with live keyword research and, when provided, Google Search Console query data. Use the user's actual impressions/clicks as topic signals.
+- Prioritize organic lead generation, not generic traffic. Target business owners and decision-makers looking for web design, ecommerce, SaaS, AI agents, SEO/AEO/GEO, technical SEO, conversion audits, and hiring help.
+- Build posts as plagiarism-free, human, authoritative content with practical advice in every section. Avoid filler, thin AI phrasing, and aggressively salesy copy.
+- For major posts, aim for 2,000+ words unless the user requests a shorter format. Use a pillar/cluster model: one definitive guide plus supporting article ideas and internal links.
+- Include SEO basics: meta title under ~60 chars, meta description around 120-160 chars, one clear H1, H2/H3 structure, readable URL slug, and natural keyword coverage.
+- Make content snippet-ready: early key takeaways, short direct answers, comparison tables, checklists, FAQs, and schema-ready sections.
+- Add at least 3 relevant internal link opportunities and 3-4 credible external citation targets when useful. Prefer official docs, reputable industry reports, and primary sources.
+- Include image/chart ideas with descriptive alt text when the topic benefits from visuals.
+- Add FAQ JSON-LD or recommend schema where relevant, especially FAQ, HowTo, Article, Breadcrumb, LocalBusiness, Service, or Product/Offer-style comparison schema.
+- For ecommerce posts, cover platform choice, rates/costs without conflicting with site policy, implementation risk, SEO, conversion, mobile UX, speed, trust, analytics, and post-launch maintenance.
+- For AI/AEO/GEO posts, cover answer-engine visibility, entity signals, schema, crawlability, page experience, topical authority, citations, and conversion path.
+- End with a useful next step that naturally points to Lofts Studio's audit, consultation, tools, or relevant service page.
+
 ## Security rules — never break these
 1. Email `adnan@technodigg.com` must **never appear in any file** — Vercel env var `CONTACT_EMAIL` only
 2. Admin password `shipfaster` lives only in `/admin/admin.js` — never commit or log it elsewhere
