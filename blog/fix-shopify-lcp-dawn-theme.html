@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<title>How to Fix Shopify LCP on Dawn Without Breaking Sections | Adnan K.</title>
+<meta name="description" content="Fix Shopify LCP on Dawn with hero image priority, responsive media, Liquid cleanup, app script control, font tuning, and Core Web Vitals QA." />
+<link rel="canonical" href="https://lofts.studio/blog/fix-shopify-lcp-dawn-theme.html" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
+<meta name="author" content="Adnan K." />
+<meta name="keywords" content="fix Shopify LCP, Shopify Dawn LCP optimization, shopify developer, woocommerce developer, hire shopify developer" />
+
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://lofts.studio/blog/fix-shopify-lcp-dawn-theme.html" />
+<meta property="og:title" content="How to Fix Shopify LCP on Dawn Without Breaking Sections" />
+<meta property="og:description" content="Fix Shopify LCP on Dawn with hero image priority, responsive media, Liquid cleanup, app script control, font tuning, and Core Web Vitals QA." />
+<meta property="og:image" content="https://lofts.studio/assets/blog/fix-shopify-lcp-dawn-theme.png?v=20260622j" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="675" />
+<meta property="og:image:alt" content="How to Fix Shopify LCP on Dawn Without Breaking Sections" />
+<meta property="article:published_time" content="2026-07-03T09:00:00Z" />
+<meta property="article:author" content="Adnan K." />
+<meta property="article:section" content="Speed" />
+<meta property="article:tag" content="fix Shopify LCP, Shopify Dawn LCP optimization" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:image" content="https://lofts.studio/assets/blog/fix-shopify-lcp-dawn-theme.png?v=20260622j" />
+
+<link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+<meta name="theme-color" content="#F4F0EA" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260622j" />
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "How to Fix Shopify LCP on Dawn Without Breaking Sections",
+  "description": "Fix Shopify LCP on Dawn with hero image priority, responsive media, Liquid cleanup, app script control, font tuning, and Core Web Vitals QA.",
+  "image": "https://lofts.studio/assets/blog/fix-shopify-lcp-dawn-theme.png?v=20260622j",
+  "datePublished": "2026-07-03T09:00:00Z",
+  "dateModified": "2026-07-03T09:00:00Z",
+  "author": { "@type": "Person", "name": "Adnan K.", "url": "https://lofts.studio/about.html" },
+  "publisher": { "@type": "Organization", "name": "Lofts Studio", "logo": { "@type": "ImageObject", "url": "https://lofts.studio/favicon.svg" } },
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "https://lofts.studio/blog/fix-shopify-lcp-dawn-theme.html" },
+  "keywords": "fix Shopify LCP, Shopify Dawn LCP optimization"
+}
+</script>
+<script type="application/ld+json">
+{ "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type":"ListItem","position":1,"name":"Home","item":"https://lofts.studio/"}, {"@type":"ListItem","position":2,"name":"Blog","item":"https://lofts.studio/blog/"}, {"@type":"ListItem","position":3,"name":"How to Fix Shopify LCP on Dawn Without Breaking Sections","item":"https://lofts.studio/blog/fix-shopify-lcp-dawn-theme.html"} ] }
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a good LCP score for Shopify?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A good Shopify LCP score is 2.5 seconds or faster at the 75th percentile of real user visits. PageSpeed Insights and Search Console are useful for field data, while Lighthouse and DevTools are better for diagnosing what to fix."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What usually causes poor LCP on Shopify Dawn?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The most common causes are lazy-loaded hero images, oversized media, missing image dimensions, slow app scripts, render-blocking CSS or JavaScript, too many font files, and above-the-fold sections that ask the browser to do too much before the first useful screen."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can Shopify LCP be fixed without redesigning the store?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. Many Shopify LCP issues can be fixed inside the existing Dawn-based theme by prioritizing the LCP element, reducing app and section weight, cleaning Liquid output, improving images, and testing templates separately."
+      }
+    }
+  ]
+}
+</script>
+
+
+<style>
+  .post-prose { max-width: 720px; margin: 0 auto; }
+  .post-prose h2 { font-family: var(--font-display); font-size: clamp(1.5rem, 2.4vw, 1.9rem); letter-spacing: -0.035em; font-weight: 600; margin: 3.5rem 0 1rem; line-height: 1.15; }
+  .post-prose h3 { font-family: var(--font-display); font-size: 1.25rem; letter-spacing: -0.025em; font-weight: 600; margin: 2.5rem 0 0.75rem; }
+  .post-prose p { color: var(--ink-soft); font-size: 1.075rem; line-height: 1.78; margin: 0 0 1.25rem; }
+  .post-prose p strong { color: var(--ink); }
+  .post-prose ul, .post-prose ol { padding-left: 1.5rem; margin: 0 0 1.5rem; color: var(--ink-soft); }
+  .post-prose li { margin-bottom: 0.55rem; font-size: 1.04rem; line-height: 1.7; }
+  .post-prose a { color: var(--accent); border-bottom: 1px solid rgba(0,64,255,0.3); }
+  .post-prose a:hover { border-bottom-color: var(--accent); }
+  .post-prose a.btn { color: var(--bg); border-bottom: 0; }
+  .post-prose a.btn:hover { color: var(--bg); border-bottom: 0; }
+  .post-prose code { font-family: var(--font-mono); font-size: 0.88em; background: var(--bg-soft); padding: 2px 6px; border-radius: 4px; color: var(--ink); }
+  .post-prose pre { background: var(--ink); color: #E8E8E8; padding: 1.25rem 1.5rem; border-radius: var(--r-md); overflow-x: auto; margin: 1.5rem 0; font-family: var(--font-mono); font-size: 0.86rem; line-height: 1.7; }
+  .post-prose pre code { background: transparent; padding: 0; color: inherit; font-size: inherit; }
+  .post-table-wrap { width: min(100vw - 2rem, 860px); margin: 2rem 0 2rem 50%; transform: translateX(-50%); overflow-x: auto; border: 1px solid var(--line); border-radius: var(--r-md); background: var(--surface); }
+  .post-prose table { width: 100%; border-collapse: collapse; min-width: 680px; font-family: var(--font-sans); font-size: 0.94rem; }
+  .post-prose th, .post-prose td { padding: 0.95rem 1rem; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line); color: var(--ink-soft); }
+  .post-prose th { color: var(--ink); font-weight: 650; background: var(--bg-soft); }
+  .post-prose tr:last-child td { border-bottom: 0; }
+  .post-prose hr { border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }
+  .post-callout { background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }
+  .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
+</style>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
+  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
+  <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
+</head>
+<body>
+
+<header class="nav-bar">
+  <div class="nav-inner">
+    <a href="/" class="nav-logo">Lofts<span class="dot">studio</span></a>
+
+    <nav class="nav-links" aria-label="Primary">
+      <div class="mega-wrap">
+        <button class="nav-link" data-mega-trigger aria-expanded="false" aria-haspopup="true">
+          Work
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+
+        <div class="mega">
+          <div class="mega-col">
+            <h4>By vertical</h4>
+            <a href="/work/ecommerce/" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
+            <a href="/work/insurance-finance/" class="mega-link"><div class="mega-link-title">Insurance &amp; Finance</div><div class="mega-link-desc">Brokers, carriers, reinsurance.</div></a>
+            <a href="/work/membership-community/" class="mega-link"><div class="mega-link-title">Membership &amp; Community</div><div class="mega-link-desc">Stripe, Discord, Whop.</div></a>
+            <a href="/work/custom-apps/" class="mega-link"><div class="mega-link-title">Custom Apps</div><div class="mega-link-desc">React, Next.js, Node.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Storefront</h4>
+            <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Custom themes. Shopify Plus.</div></a>
+            <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WooCommerce Development</div><div class="mega-link-desc">WordPress commerce, done right.</div></a>
+            <a href="/services/shopify-plus-migration.html" class="mega-link"><div class="mega-link-title">Shopify Plus Migration</div><div class="mega-link-desc">Replatform without downtime.</div></a>
+            <a href="/services/webflow-development.html" class="mega-link"><div class="mega-link-title">Webflow Development</div><div class="mega-link-desc">SaaS, B2B, brand-led sites.</div></a>
+          </div>
+
+          <div class="mega-col">
+            <h4>Performance</h4>
+            <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">90+ Lighthouse. Sub-2s LCP.</div></a>
+            <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Lift conversion measurably.</div></a>
+            <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Shopify &amp; WooCommerce.</div></a>
+            <a href="/services/landing-page-sprint.html" class="mega-link"><div class="mega-link-title">Landing Page Sprint</div><div class="mega-link-desc">Focused launch sprint.</div></a>
+          </div>
+
+          <div class="mega-feature">
+            <div>
+              <span class="tag">Two founders. Two cities.</span>
+              <h3 style="font-family: var(--font-display); font-weight: 500; font-size: 1.15rem; line-height: 1.3; margin: 0.6rem 0; color: var(--ink); letter-spacing: -0.025em;">Adnan Khan (Multan) leads ecommerce. Irfan Khan (Dubai) leads full-stack. Both Top Rated on Upwork.</h3>
+            </div>
+            <a href="/about.html" class="btn-link" style="margin-top: 1rem; font-size: 0.85rem;">
+              Meet the founders
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <a href="/websites/" class="nav-link">Web Design</a>
+      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/process/" class="nav-link">Process</a>
+      <a href="/blog/" class="nav-link">Blog</a>
+      <a href="/tools/" class="nav-link">Tools</a>
+      <a href="/about.html" class="nav-link">About</a>
+    </nav>
+
+    <div class="nav-actions">
+      <a href="/free-audit/" class="btn btn-audit">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Free Audit
+      </a>
+      <a href="/#contact" class="btn btn-primary">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+
+    <button id="menuBtn" class="menu-btn" aria-label="Open menu" aria-expanded="false">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>
+    </button>
+  </div>
+
+</header>
+
+<article>
+<section class="paper" style="padding: 5rem 0 3rem;">
+  <div class="container post-prose" data-reveal>
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
+      <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
+      <a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
+      <span style="color: var(--ink);">How to Fix Shopify LCP on Dawn Without Breaking Sections</span>
+    </nav>
+
+    <div style="display: flex; gap: 8px; margin-bottom: 1.25rem;">
+      <span class="tag-pill">Speed</span>
+    </div>
+
+    <h1 class="h-display" style="font-size: clamp(2rem, 4.5vw, 3.6rem); line-height: 1.08;">How to Fix Shopify LCP on Dawn Without Breaking Sections</h1>
+
+    <div style="display: flex; align-items: center; gap: 1rem; margin-top: 2rem; padding: 1.25rem 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line);">
+      <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700;">AK</div>
+      <div>
+        <div style="font-weight: 600;">Adnan K.</div>
+        <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="2026-07-03">July 03, 2026</time> · 12 min read</div>
+      </div>
+    </div>
+
+    <img class="post-hero-img" src="/assets/blog/fix-shopify-lcp-dawn-theme.png?v=20260622j" alt="How to Fix Shopify LCP on Dawn Without Breaking Sections" width="1200" height="675" style="margin-top: 2rem;" />
+  </div>
+</section>
+
+<section style="padding: 0 0 4rem;">
+  <div class="container post-prose">
+    <p style="font-size: 1.2rem; line-height: 1.65; color: var(--ink); font-family: var(--font-display); font-weight: 500; letter-spacing: -0.025em;">Most Shopify LCP fixes fail because the team optimizes the theme in general, not the exact element Google is measuring. On Dawn and Dawn-based themes, the Largest Contentful Paint element is usually a hero image, banner, product media block, collection image, or large text area above the fold. Fix that element first, then clean the supporting theme, app, font, and section work around it.</p>
+
+    <p>If a Shopify store is slow on mobile, the first instinct is usually to compress images, delete apps, or run a generic speed plugin. Sometimes that helps. Often it does not touch the real problem. Largest Contentful Paint, or LCP, is not a general feeling of speed. It is a specific Core Web Vitals metric that measures when the largest visible content element in the viewport finishes rendering. That means the browser is judging one dominant above-the-fold element, not the whole page equally.</p>
+
+    <p>For many Dawn-based stores, that element is obvious once you look: the homepage image banner, the first collection banner, the product gallery image, a full-width promotion, or a large heading. The work is not to make every asset tiny at once. The work is to make the right element arrive earlier, render cleaner, and stop competing with scripts, fonts, CSS, and sections that do not deserve priority on the first screen.</p>
+
+    <p>This is the exact order I use when a Shopify founder asks why PageSpeed Insights says their store is failing LCP even though the theme looks modern. It is practical, theme-safe, and built for stores that need to keep selling while the performance work happens.</p>
+
+    <div class="post-table-wrap"><table>
+      <thead><tr><th>Priority</th><th>What to fix first</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>Identify the real LCP element on each template.</td><td>You cannot fix LCP reliably until you know whether Google is measuring the hero, product image, banner text, or another above-fold element.</td></tr>
+        <tr><td><strong>2</strong></td><td>Give the LCP media the right loading priority.</td><td>The main visual should not be lazy-loaded or forced to wait behind lower-value images and scripts.</td></tr>
+        <tr><td><strong>3</strong></td><td>Reduce above-fold section weight.</td><td>Dawn is flexible, but too many sections, app blocks, videos, sliders, and animations above the fold delay the first useful render.</td></tr>
+        <tr><td><strong>4</strong></td><td>Control app, font, and script pressure.</td><td>Third-party code often competes with the LCP element before the visitor can even see the product or offer.</td></tr>
+        <tr><td><strong>5</strong></td><td>QA home, product, collection, and landing pages separately.</td><td>A homepage fix does not automatically repair product detail pages or collection pages.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="what-lcp-is-actually-measuring">What LCP is actually measuring</h2>
+
+    <p>Google defines LCP as the render time of the largest image or text block visible within the viewport, measured from when the page first starts loading. In plain English: when the first screen finally looks meaningful, the timer stops. The target most teams use is 2.5 seconds or faster for the 75th percentile of real user visits.</p>
+
+    <p>That distinction matters. A Lighthouse lab score can reveal what is wrong, but Search Console and PageSpeed Insights field data show what real users experienced. A store can feel acceptable on a fast office connection and still fail on mobile because real shoppers are loading it on weaker devices, slower networks, and app-heavy product pages.</p>
+
+    <p>On Shopify, the LCP element varies by template. The homepage may be judged on the image banner. A product page may be judged on the first product media image. A collection page may be judged on the collection hero. A blog post may be judged on the title block or featured image. If you only test the homepage, you can miss the pages that actually drive revenue.</p>
+
+    <h2 id="the-dawn-specific-mistake-fixing-everyth">The Dawn-specific mistake: fixing everything except the measured element</h2>
+
+    <p>Dawn is a strong baseline theme because it is section-based, modern, and designed around Shopify's Online Store 2.0 patterns. The problem is that stores rarely stay close to baseline. They add homepage sections, subscription widgets, review widgets, personalization scripts, sticky bars, tracking tags, popups, page builder remnants, custom font stacks, video embeds, and oversized campaign imagery.</p>
+
+    <p>The theme may still look clean, but the browser's queue is crowded. If the LCP image is lazy-loaded, requested late, too large, or hidden behind render-blocking work, the score gets punished. If the hero section waits for app JavaScript or a custom animation before settling, the user sees a blank or incomplete screen longer than they should.</p>
+
+    <p>That is why the first fix is diagnostic. Do not start with a random list of speed hacks. Start by finding the exact LCP element and the delay attached to it.</p>
+
+    <h2 id="step-1-identify-the-lcp-element-before-e">Step 1: identify the LCP element before editing anything</h2>
+
+    <p>Open PageSpeed Insights for the exact URL you care about and check the LCP element screenshot or diagnostics. Then verify in Chrome DevTools Performance panel if needed. You are looking for a specific node: an image, heading, banner, product media element, or section wrapper that becomes the largest visible piece of content.</p>
+
+    <p>Document this for the homepage, at least one product page, one collection page, and any paid-traffic landing page. Shopify stores often have different problems across templates. The homepage might fail because of a cinematic hero. The product page might fail because the first product image is too large. The collection page might fail because the theme loads filters, collection images, and product cards before the main visible content settles.</p>
+
+    <ul>
+      <li>Record the tested URL, device type, and test date.</li>
+      <li>Write down the LCP element that PageSpeed Insights identifies.</li>
+      <li>Check whether the LCP element is an image, video poster, text block, or product media component.</li>
+      <li>Note whether the element loads late, renders late, shifts, or waits behind scripts.</li>
+      <li>Repeat after every fix so you know whether the measured element changed.</li>
+    </ul>
+
+    <h2 id="step-2-stop-lazy-loading-the-hero-or-fir">Step 2: stop lazy-loading the hero or first product image</h2>
+
+    <p>Lazy loading is useful for images below the fold. It is usually wrong for the main above-the-fold image. If the LCP element is a hero image or first product image, it should be loaded eagerly and given stronger priority. In a Dawn-based theme, this often means adjusting the image tag in the relevant section or snippet so the first visible image is not treated like a lower-priority asset.</p>
+
+    <p>The exact file depends on the theme, but common places include image banner sections, slideshow sections, main product media snippets, collection banner sections, and custom landing page sections. The principle is stable: below-fold images can be lazy, but the LCP image should be available as early as possible.</p>
+
+    <pre><code><!-- Example principle only. Apply inside the actual Dawn section/snippet. -->
+{{ image | image_url: width: 1800 | image_tag:
+  loading: 'eager',
+  fetchpriority: 'high',
+  widths: '750, 1100, 1500, 1800',
+  sizes: '100vw',
+  alt: image.alt
+}}</code></pre>
+
+    <p>Do not apply high priority to every image. That just creates a new priority problem. Use it for the image that is actually above the fold and actually being measured as LCP.</p>
+
+    <h2 id="step-3-use-responsive-image-sizes-that-m">Step 3: use responsive image sizes that match the layout</h2>
+
+    <p>An LCP image can have the right loading priority and still be too heavy. Many Shopify stores upload hero assets designed for print-level quality, then crop them inside CSS. The browser still has to download more than it needs. The fix is not simply compression; it is sending an appropriate image width for the visitor's viewport and layout.</p>
+
+    <p>For full-width banners, define sensible widths and sizes. For product media, avoid requesting a giant desktop image for a mobile viewport. For split hero layouts, do not use 100vw if the image only takes half the screen on desktop. Use Shopify's image filters and responsive image output so the browser can choose the right candidate.</p>
+
+    <div class="post-callout"><p>The goal is not to make images ugly. The goal is to stop making mobile users download image data they cannot see.</p></div>
+
+    <h2 id="step-4-reserve-dimensions-so-the-first-s">Step 4: reserve dimensions so the first screen does not jump</h2>
+
+    <p>Poor LCP and layout shift often travel together. If the hero image, announcement bar, sticky header, app block, or product media area changes height after load, the browser may delay the final stable paint. Set width, height, aspect ratio, and predictable section spacing so the first screen has a stable shape before assets finish loading.</p>
+
+    <p>This is especially important when a homepage hero uses different desktop and mobile crops. If the mobile crop is taller, define that behavior clearly in CSS. If the desktop version is a split image and text layout, make sure the mobile stack does not wait on desktop-only assets.</p>
+
+    <h2 id="step-5-simplify-the-first-screen-before-">Step 5: simplify the first screen before touching the whole theme</h2>
+
+    <p>On many stores, the first screen tries to do too much. It contains a top bar, sticky header, mega menu, announcement carousel, image slider, discount popup, review widget, personalization script, chat launcher, animated text, and hero media. Every piece may feel small in isolation. Together they create a traffic jam before the main offer appears.</p>
+
+    <p>The first screen should do three things: show the offer, support trust, and make the next action obvious. Anything that does not help those jobs should move lower, load later, or become lighter.</p>
+
+    <div class="post-table-wrap"><table>
+      <thead><tr><th>LCP culprit</th><th>How it shows up</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Lazy hero image</td><td>PageSpeed identifies the hero as LCP and it starts loading late.</td><td>Load the first hero image eagerly and use high fetch priority only for that element.</td></tr>
+        <tr><td>Oversized hero</td><td>The image is visually cropped but the downloaded file is much larger than the viewport needs.</td><td>Use responsive widths, proper sizes, and a mobile-specific crop when needed.</td></tr>
+        <tr><td>Slideshow above the fold</td><td>The store waits on multiple slides, animations, or JavaScript before the first meaningful hero appears.</td><td>Prefer one strong static hero. If a slider must stay, prioritize the first slide and delay the rest.</td></tr>
+        <tr><td>App block near the top</td><td>Reviews, subscriptions, chat, tracking, or personalization scripts compete before the main content renders.</td><td>Move non-essential app blocks lower and defer scripts that do not affect the first decision.</td></tr>
+        <tr><td>Font delay</td><td>The hero text appears late, swaps awkwardly, or waits for multiple font files.</td><td>Limit font weights, preload the critical face, and use font-display behavior that protects readability.</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2 id="step-6-control-shopify-app-scripts-with-">Step 6: control Shopify app scripts with a first-screen rule</h2>
+
+    <p>Apps are not automatically bad. Uncontrolled app loading is bad. Reviews, bundles, subscriptions, loyalty, chat, heatmaps, analytics, upsells, inventory tools, and consent banners can all be legitimate. The question is whether they need to run before the visitor sees the first screen.</p>
+
+    <p>Create a simple rule: if the app does not affect the first above-the-fold decision, it should not compete with the LCP element. A review snippet below the product title may be important on a product page. A loyalty launcher or heatmap script does not need to block the hero. A chat widget can wait until after the main content becomes visible.</p>
+
+    <p>This is where Shopify speed work becomes business work. You cannot remove every app blindly. You have to decide which scripts create immediate value and which can be delayed without hurting conversion.</p>
+
+    <h2 id="step-7-reduce-font-pressure-without-losi">Step 7: reduce font pressure without losing the brand</h2>
+
+    <p>Typography is part of brand quality, but font loading can damage LCP when a page uses too many families, weights, styles, and remote requests. A clean Shopify theme can become slow because it loads a full editorial font system for a homepage that only needs a few critical weights.</p>
+
+    <p>For performance, keep the critical font set narrow. Use fewer weights above the fold. Preload only the font file that is truly needed early. Avoid loading decorative faces before the primary content. If the brand depends on a premium display face, use it with discipline and let body copy rely on a lighter, faster stack.</p>
+
+    <h2 id="step-8-clean-liquid-output-on-the-templa">Step 8: clean Liquid output on the templates that matter</h2>
+
+    <p>Dawn gives you a clean starting point, but custom sections can introduce expensive loops, duplicated snippets, hidden desktop/mobile markup, oversized metafield output, and repeated app embed containers. Liquid work matters because the browser cannot render what the server has not delivered.</p>
+
+    <p>Look for sections that output both desktop and mobile versions of the same hero, hidden carousels that still load images, product cards that request too much media, and snippets that repeat app or icon markup many times. The fix is to simplify the markup path for the first screen and load secondary details when the visitor reaches them.</p>
+
+    <h2 id="step-9-test-mobile-and-desktop-separatel">Step 9: test mobile and desktop separately</h2>
+
+    <p>A common mistake is fixing desktop screenshots while mobile field data keeps failing. Shopify shoppers are heavily mobile, and mobile LCP is less forgiving. A desktop hero may be fine as a wide image, while the mobile version needs a different crop, smaller art direction, tighter section height, and less JavaScript pressure.</p>
+
+    <p>For each important template, test mobile and desktop. Do not assume the same LCP element is measured on both. On desktop, the largest element might be the hero image. On mobile, it might be the heading because the image is lower or cropped differently. Fix what is measured in the actual viewport.</p>
+
+    <h2 id="a-shopify-lcp-repair-checklist">A Shopify LCP repair checklist</h2>
+
+    <ol>
+      <li>Test the exact URL in PageSpeed Insights and record the mobile LCP element.</li>
+      <li>Repeat for homepage, product page, collection page, and any landing page used in campaigns.</li>
+      <li>Remove lazy loading from the measured above-the-fold image.</li>
+      <li>Add fetch priority carefully to the one image that deserves it.</li>
+      <li>Generate responsive image widths that match the layout instead of sending one oversized asset.</li>
+      <li>Reserve width, height, and aspect ratio for the LCP media and surrounding section.</li>
+      <li>Move sliders, videos, popups, and app blocks lower if they are not essential to the first decision.</li>
+      <li>Delay or defer third-party scripts that do not affect the first screen.</li>
+      <li>Reduce above-fold font files and weights.</li>
+      <li>Clean duplicate Liquid markup and hidden sections that still load assets.</li>
+      <li>Re-test in lab tools, then monitor Search Console Core Web Vitals after real users see the change.</li>
+    </ol>
+
+    <h2 id="how-to-know-the-fix-worked">How to know the fix worked</h2>
+
+    <p>A successful LCP fix should show up in two places. First, the lab test should identify the LCP element earlier and with fewer blocking issues. Second, field data should improve after enough real traffic has visited the updated pages. Do not panic if Search Console takes time to reflect changes. Core Web Vitals field data is not instant.</p>
+
+    <p>Use the lab test for immediate debugging and field data for business confidence. If the lab score improves but real-user data does not, the store may have traffic patterns, device issues, apps, or templates that the lab test did not represent. That is why template-level QA matters.</p>
+
+    <h2 id="where-this-fits-inside-a-full-shopify-sp">Where this fits inside a full Shopify speed audit</h2>
+
+    <p>LCP is one important metric, not the whole performance story. Interaction to Next Paint, Cumulative Layout Shift, JavaScript execution, app governance, collection filtering, product media, checkout-adjacent scripts, and theme maintainability all matter. But LCP is often the most visible failure because it controls when the page first feels useful.</p>
+
+    <p>If your store has strong products but the first screen feels slow, start here. Find the LCP element, prioritize it, reduce the noise around it, and then move through the rest of the performance stack with discipline.</p>
+
+    <p>For a broader review, use the <a href="/free-audit/">free audit</a>, compare the related <a href="/blog/passing-core-web-vitals-on-shopify.html">Core Web Vitals guide for Shopify</a>, or review the <a href="/blog/shopify-technical-seo-audit-checklist.html">Shopify technical SEO audit checklist</a>. If the store needs implementation, the relevant service page is <a href="/services/speed-optimization.html">Shopify speed optimization</a>.</p>
+
+    <h2 id="sources-worth-reading">Sources worth reading</h2>
+
+    <ul>
+      <li><a href="https://web.dev/articles/lcp" rel="nofollow noopener">web.dev: Largest Contentful Paint</a></li>
+      <li><a href="https://web.dev/articles/optimize-lcp" rel="nofollow noopener">web.dev: Optimize Largest Contentful Paint</a></li>
+      <li><a href="https://shopify.dev/docs/storefronts/themes/best-practices/performance" rel="nofollow noopener">Shopify developer docs: theme performance best practices</a></li>
+      <li><a href="https://pagespeed.web.dev/" rel="nofollow noopener">PageSpeed Insights</a></li>
+    </ul>
+
+    <h2 id="frequently-asked">Frequently asked</h2>
+
+    <h3>What is a good LCP score for Shopify?</h3>
+
+    <p>Aim for 2.5 seconds or faster at the 75th percentile of real user visits. A single Lighthouse run is useful for diagnosis, but Search Console and PageSpeed Insights field data are better for deciding whether the store is passing for real shoppers.</p>
+
+    <h3>What usually causes poor LCP on Shopify Dawn?</h3>
+
+    <p>The usual causes are lazy-loaded hero images, oversized media, missing image dimensions, app scripts that run too early, render-blocking CSS or JavaScript, heavy font loading, and above-the-fold sections that try to do too much.</p>
+
+    <h3>Can Shopify LCP be fixed without redesigning the store?</h3>
+
+    <p>Yes. If the brand direction is already working, many LCP problems can be fixed inside the existing Dawn-based theme by prioritizing the measured element, cleaning media output, reducing first-screen app pressure, and testing the important templates one by one.</p>
+
+    <hr/>
+
+    <h2>If you'd rather not do this yourself</h2>
+    <p>This is the work I do for clients. If you want it done properly, the relevant offer is <a href="/services/speed-optimization.html">Speed Optimization</a>.</p>
+
+    <p style="text-align: center; margin-top: 2.5rem;">
+      <a href="/services/speed-optimization.html" class="btn btn-primary">Read about Speed Optimization &nbsp;&rarr;</a>
+    </p>
+
+    <hr style="margin-top: 4rem;"/>
+
+    <div style="display: grid; grid-template-columns: 64px 1fr; gap: 1.25rem; align-items: start; margin-top: 2rem;">
+      <div style="width: 64px; height: 64px; border-radius: 50%; background: var(--accent-soft); color: var(--accent); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1.4rem;">AK</div>
+      <div>
+        <h3 style="font-family: var(--font-display); font-size: 1.25rem; font-weight: 600; margin: 0; letter-spacing: -0.025em;">Adnan K.</h3>
+        <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. high-volume delivery, 100% Job Success.</p>
+        <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
+          <a href="/about.html" style="color: var(--accent);">About</a>
+          <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
+          <a href="/blog/" style="color: var(--accent);">More posts</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</article>
+
+<section class="comments" aria-labelledby="comments-title">
+  <div class="container container-narrow">
+    <div id="comments" data-slug="fix-shopify-lcp-dawn-theme">
+      <div class="comments-head">
+        <h2 id="comments-title">Comments <span class="comments-count" data-count></span></h2>
+        <p class="comments-sub">Have a question, or a better way to do this? Add it below — real replies, no sign-up.</p>
+      </div>
+      <ol class="comments-list" data-list></ol>
+      <p class="comments-empty" data-empty hidden>Be the first to comment.</p>
+      <form class="comment-form" data-form novalidate>
+        <div class="cf-row">
+          <input class="cf-input" type="text" name="name" maxlength="60" placeholder="Your name" required aria-label="Your name" autocomplete="name" />
+          <input class="cf-input" type="email" name="email" maxlength="120" placeholder="Email (optional, never shown)" aria-label="Email (optional)" autocomplete="email" />
+        </div>
+        <textarea class="cf-input cf-text" name="body" maxlength="3000" rows="4" placeholder="Add to the conversation…" required aria-label="Your comment"></textarea>
+        <div class="cf-hp"><label>Leave this field empty<input type="text" name="hp_url" tabindex="-1" autocomplete="off" /></label></div>
+        <div class="cf-foot">
+          <span class="cf-note" data-status>Be kind and constructive. Links are limited to keep spam out.</span>
+          <button class="btn btn-primary cf-submit" type="submit">Post comment</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+<script src="/assets/comments.js?v=20260622j" defer></script>
+
+<footer class="site-footer footer-rich">
+  <div class="container">
+
+    <!-- ── Row 1: Editorial logo + newsletter ── -->
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">
+          <span class="footer-logo-italic">Lofts<span class="footer-logo-dot">.</span></span>
+          <span class="footer-logo-caps">STUDIO</span>
+        </div>
+        <p class="footer-tag">Senior web engineering led by brothers <strong>Adnan Khan</strong> (Multan) and <strong>Irfan Khan</strong> (Dubai). Two Top Rated Upwork operators. A long delivery record. Almost 15 years. Built for founders who can tell the difference between a site that merely launches and one that earns its keep.</p>
+        <p class="footer-tag" style="margin-top: 1rem; font-size: 0.86rem; color: var(--muted);">
+          <span style="display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: var(--accent); margin-right: 0.4rem; vertical-align: middle;"></span>
+          Multan, Pakistan &nbsp;&middot;&nbsp; Dubai, UAE &nbsp;&middot;&nbsp; US &amp; UK callable hours
+        </p>
+      </div>
+
+      <div class="footer-newsletter" data-lead-wrap>
+        <p class="footer-newsletter-eyebrow">Field notes, occasionally</p>
+        <h3 class="footer-newsletter-title">One short essay a month. <span class="italic-serif">No newsletter cadence theater.</span></h3>
+        <form data-lead class="footer-newsletter-form" action="/api/contact" method="POST">
+          <input type="hidden" name="_subject" value="Newsletter signup — lofts.studio" />
+          <input type="hidden" name="_captcha" value="false" />
+          <input type="hidden" name="source" value="footer-newsletter" />
+          <label class="sr-only" for="footer-newsletter-email">Email address</label>
+          <input id="footer-newsletter-email" name="email" type="email" required placeholder="your@email.com" />
+          <button type="submit">Subscribe
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+          </button>
+        </form>
+        <div data-lead-success class="footer-newsletter-success" style="display: none;">Thanks &mdash; you&rsquo;ll hear from me when the next note ships.</div>
+        <p class="footer-newsletter-note">No sequences. No tracking pixels. Unsubscribe at the bottom of any note.</p>
+      </div>
+    </div>
+
+    <!-- ── Row 2: Currently building snippet ── -->
+    <div class="footer-now">
+      <div class="footer-now-head">
+        <span class="footer-now-pulse"></span>
+        <span class="footer-now-label">Currently building &nbsp;·&nbsp; updated by hand, monthly</span>
+        <a href="/now/" class="footer-now-link">See the full list &nbsp;→</a>
+      </div>
+      <div class="footer-now-grid">
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Build</span>
+          <p class="footer-now-text">US skincare DTC &mdash; Shopify build, week 3 of 4.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Migration</span>
+          <p class="footer-now-text">UK menswear brand &mdash; Shopify Plus migration, cutover Tuesday.</p>
+        </div>
+        <div class="footer-now-item">
+          <span class="footer-now-tag">Sprint</span>
+          <p class="footer-now-text">Returning client &mdash; CRO sprint on PDPs and checkout.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Row 3: Link columns ── -->
+    <div class="footer-grid">
+      <div>
+        <p class="footer-label">By Vertical</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/work/ecommerce/">Ecommerce</a></li>
+          <li><a href="/work/insurance-finance/">Insurance &amp; Finance</a></li>
+          <li><a href="/work/membership-community/">Membership &amp; Community</a></li>
+          <li><a href="/work/custom-apps/">Custom Apps</a></li>
+        </ul>
+        <p class="footer-label" style="margin-top: 1.5rem;">Services</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/services/shopify-development.html">Shopify Development</a></li>
+          <li><a href="/services/woocommerce-development.html">WooCommerce Development</a></li>
+          <li><a href="/services/shopify-plus-migration.html">Shopify Plus Migration</a></li>
+          <li><a href="/services/speed-optimization.html">Speed Optimization</a></li>
+          <li><a href="/services/conversion-rate-optimization.html">CRO</a></li>
+          <li><a href="/services/custom-app-development.html">Custom App Development</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-label">Studio</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/about.html">About</a></li>
+          <li><a href="/portfolio/">All work</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/process/">Process</a></li>
+          
+          <li><a href="/brand.html">Brand</a></li>
+        </ul>
+        <p class="footer-label" style="margin-top: 1.5rem;">Founders</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan Khan &middot; Multan</a></li>
+          <li><a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan Khan &middot; Dubai</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-label">Talk</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; US &amp; UK hours</li>
+          <li class="meta">US &amp; UK hours covered (Multan)</li>
+          <li class="meta">GCC hours covered (Dubai)</li>
+          <li><a href="mailto:hi@lofts.studio">hi@lofts.studio</a></li>
+          <li><a href="#contact">Send a note &nbsp;→</a></li>
+        </ul>
+        <p class="footer-label" style="margin-top: 1.5rem;">Legal</p>
+        <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
+          <li><a href="/privacy.html">Privacy</a></li>
+          <li><a href="/terms.html">Terms</a></li>
+          <li><a href="/cookie-policy.html">Cookie policy</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ── Bottom row ── -->
+    <div class="footer-bottom">
+      <p class="meta" style="margin: 0;">&copy; <span data-year>2026</span> Lofts Studio &middot; Multan, Pakistan &middot; Dubai, UAE &middot; Two Top Rated Upwork operators.</p>
+      <p class="meta" style="margin: 0;">CAN-SPAM &amp; UK GDPR compliant &nbsp;·&nbsp; Async, documented delivery</p>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
+<script src="/assets/main.js?v=20260622j" defer></script>
+<script src="/assets/widgets.js?v=20260622j" defer></script>
+</body>
+</html>

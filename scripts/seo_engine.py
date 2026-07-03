@@ -58,6 +58,148 @@ def load_nav_and_footer():
 
 POSTS = [
     {
+        "slug": "fix-shopify-lcp-dawn-theme",
+        "title": "How to Fix Shopify LCP on Dawn Without Breaking Sections",
+        "excerpt": "A practical Shopify LCP guide for fixing the real hero, image, Liquid, app, and section problems that slow Dawn-based stores without redesigning the whole theme.",
+        "meta": "Fix Shopify LCP on Dawn with hero image priority, responsive media, Liquid cleanup, app script control, font tuning, and Core Web Vitals QA.",
+        "category": "Speed",
+        "date": "2026-07-03",
+        "readingTime": "12 min",
+        "primaryKeyword": "fix Shopify LCP",
+        "secondaryKeyword": "Shopify Dawn LCP optimization",
+        "funnelTo": "/services/speed-optimization.html",
+        "funnelLabel": "Speed Optimization",
+        "featured": True,
+        "hook": "Most Shopify LCP fixes fail because the team optimizes the theme in general, not the exact element Google is measuring. On Dawn and Dawn-based themes, the Largest Contentful Paint element is usually a hero image, banner, product media block, collection image, or large text area above the fold. Fix that element first, then clean the supporting theme, app, font, and section work around it.",
+        "faqs": [
+            {
+                "question": "What is a good LCP score for Shopify?",
+                "answer": "A good Shopify LCP score is 2.5 seconds or faster at the 75th percentile of real user visits. PageSpeed Insights and Search Console are useful for field data, while Lighthouse and DevTools are better for diagnosing what to fix."
+            },
+            {
+                "question": "What usually causes poor LCP on Shopify Dawn?",
+                "answer": "The most common causes are lazy-loaded hero images, oversized media, missing image dimensions, slow app scripts, render-blocking CSS or JavaScript, too many font files, and above-the-fold sections that ask the browser to do too much before the first useful screen."
+            },
+            {
+                "question": "Can Shopify LCP be fixed without redesigning the store?",
+                "answer": "Yes. Many Shopify LCP issues can be fixed inside the existing Dawn-based theme by prioritizing the LCP element, reducing app and section weight, cleaning Liquid output, improving images, and testing templates separately."
+            },
+        ],
+        "body": [
+            ("p", "If a Shopify store is slow on mobile, the first instinct is usually to compress images, delete apps, or run a generic speed plugin. Sometimes that helps. Often it does not touch the real problem. Largest Contentful Paint, or LCP, is not a general feeling of speed. It is a specific Core Web Vitals metric that measures when the largest visible content element in the viewport finishes rendering. That means the browser is judging one dominant above-the-fold element, not the whole page equally."),
+            ("p", "For many Dawn-based stores, that element is obvious once you look: the homepage image banner, the first collection banner, the product gallery image, a full-width promotion, or a large heading. The work is not to make every asset tiny at once. The work is to make the right element arrive earlier, render cleaner, and stop competing with scripts, fonts, CSS, and sections that do not deserve priority on the first screen."),
+            ("p", "This is the exact order I use when a Shopify founder asks why PageSpeed Insights says their store is failing LCP even though the theme looks modern. It is practical, theme-safe, and built for stores that need to keep selling while the performance work happens."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Priority</th><th>What to fix first</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>1</strong></td><td>Identify the real LCP element on each template.</td><td>You cannot fix LCP reliably until you know whether Google is measuring the hero, product image, banner text, or another above-fold element.</td></tr>
+        <tr><td><strong>2</strong></td><td>Give the LCP media the right loading priority.</td><td>The main visual should not be lazy-loaded or forced to wait behind lower-value images and scripts.</td></tr>
+        <tr><td><strong>3</strong></td><td>Reduce above-fold section weight.</td><td>Dawn is flexible, but too many sections, app blocks, videos, sliders, and animations above the fold delay the first useful render.</td></tr>
+        <tr><td><strong>4</strong></td><td>Control app, font, and script pressure.</td><td>Third-party code often competes with the LCP element before the visitor can even see the product or offer.</td></tr>
+        <tr><td><strong>5</strong></td><td>QA home, product, collection, and landing pages separately.</td><td>A homepage fix does not automatically repair product detail pages or collection pages.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "What LCP is actually measuring"),
+            ("p", "Google defines LCP as the render time of the largest image or text block visible within the viewport, measured from when the page first starts loading. In plain English: when the first screen finally looks meaningful, the timer stops. The target most teams use is 2.5 seconds or faster for the 75th percentile of real user visits."),
+            ("p", "That distinction matters. A Lighthouse lab score can reveal what is wrong, but Search Console and PageSpeed Insights field data show what real users experienced. A store can feel acceptable on a fast office connection and still fail on mobile because real shoppers are loading it on weaker devices, slower networks, and app-heavy product pages."),
+            ("p", "On Shopify, the LCP element varies by template. The homepage may be judged on the image banner. A product page may be judged on the first product media image. A collection page may be judged on the collection hero. A blog post may be judged on the title block or featured image. If you only test the homepage, you can miss the pages that actually drive revenue."),
+            ("h2", "The Dawn-specific mistake: fixing everything except the measured element"),
+            ("p", "Dawn is a strong baseline theme because it is section-based, modern, and designed around Shopify's Online Store 2.0 patterns. The problem is that stores rarely stay close to baseline. They add homepage sections, subscription widgets, review widgets, personalization scripts, sticky bars, tracking tags, popups, page builder remnants, custom font stacks, video embeds, and oversized campaign imagery."),
+            ("p", "The theme may still look clean, but the browser's queue is crowded. If the LCP image is lazy-loaded, requested late, too large, or hidden behind render-blocking work, the score gets punished. If the hero section waits for app JavaScript or a custom animation before settling, the user sees a blank or incomplete screen longer than they should."),
+            ("p", "That is why the first fix is diagnostic. Do not start with a random list of speed hacks. Start by finding the exact LCP element and the delay attached to it."),
+            ("h2", "Step 1: identify the LCP element before editing anything"),
+            ("p", "Open PageSpeed Insights for the exact URL you care about and check the LCP element screenshot or diagnostics. Then verify in Chrome DevTools Performance panel if needed. You are looking for a specific node: an image, heading, banner, product media element, or section wrapper that becomes the largest visible piece of content."),
+            ("p", "Document this for the homepage, at least one product page, one collection page, and any paid-traffic landing page. Shopify stores often have different problems across templates. The homepage might fail because of a cinematic hero. The product page might fail because the first product image is too large. The collection page might fail because the theme loads filters, collection images, and product cards before the main visible content settles."),
+            ("ul", [
+                "Record the tested URL, device type, and test date.",
+                "Write down the LCP element that PageSpeed Insights identifies.",
+                "Check whether the LCP element is an image, video poster, text block, or product media component.",
+                "Note whether the element loads late, renders late, shifts, or waits behind scripts.",
+                "Repeat after every fix so you know whether the measured element changed."
+            ]),
+            ("h2", "Step 2: stop lazy-loading the hero or first product image"),
+            ("p", "Lazy loading is useful for images below the fold. It is usually wrong for the main above-the-fold image. If the LCP element is a hero image or first product image, it should be loaded eagerly and given stronger priority. In a Dawn-based theme, this often means adjusting the image tag in the relevant section or snippet so the first visible image is not treated like a lower-priority asset."),
+            ("p", "The exact file depends on the theme, but common places include image banner sections, slideshow sections, main product media snippets, collection banner sections, and custom landing page sections. The principle is stable: below-fold images can be lazy, but the LCP image should be available as early as possible."),
+            ("pre", """<!-- Example principle only. Apply inside the actual Dawn section/snippet. -->
+{{ image | image_url: width: 1800 | image_tag:
+  loading: 'eager',
+  fetchpriority: 'high',
+  widths: '750, 1100, 1500, 1800',
+  sizes: '100vw',
+  alt: image.alt
+}}"""),
+            ("p", "Do not apply high priority to every image. That just creates a new priority problem. Use it for the image that is actually above the fold and actually being measured as LCP."),
+            ("h2", "Step 3: use responsive image sizes that match the layout"),
+            ("p", "An LCP image can have the right loading priority and still be too heavy. Many Shopify stores upload hero assets designed for print-level quality, then crop them inside CSS. The browser still has to download more than it needs. The fix is not simply compression; it is sending an appropriate image width for the visitor's viewport and layout."),
+            ("p", "For full-width banners, define sensible widths and sizes. For product media, avoid requesting a giant desktop image for a mobile viewport. For split hero layouts, do not use 100vw if the image only takes half the screen on desktop. Use Shopify's image filters and responsive image output so the browser can choose the right candidate."),
+            ("callout", "The goal is not to make images ugly. The goal is to stop making mobile users download image data they cannot see."),
+            ("h2", "Step 4: reserve dimensions so the first screen does not jump"),
+            ("p", "Poor LCP and layout shift often travel together. If the hero image, announcement bar, sticky header, app block, or product media area changes height after load, the browser may delay the final stable paint. Set width, height, aspect ratio, and predictable section spacing so the first screen has a stable shape before assets finish loading."),
+            ("p", "This is especially important when a homepage hero uses different desktop and mobile crops. If the mobile crop is taller, define that behavior clearly in CSS. If the desktop version is a split image and text layout, make sure the mobile stack does not wait on desktop-only assets."),
+            ("h2", "Step 5: simplify the first screen before touching the whole theme"),
+            ("p", "On many stores, the first screen tries to do too much. It contains a top bar, sticky header, mega menu, announcement carousel, image slider, discount popup, review widget, personalization script, chat launcher, animated text, and hero media. Every piece may feel small in isolation. Together they create a traffic jam before the main offer appears."),
+            ("p", "The first screen should do three things: show the offer, support trust, and make the next action obvious. Anything that does not help those jobs should move lower, load later, or become lighter."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>LCP culprit</th><th>How it shows up</th><th>Fix</th></tr></thead>
+      <tbody>
+        <tr><td>Lazy hero image</td><td>PageSpeed identifies the hero as LCP and it starts loading late.</td><td>Load the first hero image eagerly and use high fetch priority only for that element.</td></tr>
+        <tr><td>Oversized hero</td><td>The image is visually cropped but the downloaded file is much larger than the viewport needs.</td><td>Use responsive widths, proper sizes, and a mobile-specific crop when needed.</td></tr>
+        <tr><td>Slideshow above the fold</td><td>The store waits on multiple slides, animations, or JavaScript before the first meaningful hero appears.</td><td>Prefer one strong static hero. If a slider must stay, prioritize the first slide and delay the rest.</td></tr>
+        <tr><td>App block near the top</td><td>Reviews, subscriptions, chat, tracking, or personalization scripts compete before the main content renders.</td><td>Move non-essential app blocks lower and defer scripts that do not affect the first decision.</td></tr>
+        <tr><td>Font delay</td><td>The hero text appears late, swaps awkwardly, or waits for multiple font files.</td><td>Limit font weights, preload the critical face, and use font-display behavior that protects readability.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Step 6: control Shopify app scripts with a first-screen rule"),
+            ("p", "Apps are not automatically bad. Uncontrolled app loading is bad. Reviews, bundles, subscriptions, loyalty, chat, heatmaps, analytics, upsells, inventory tools, and consent banners can all be legitimate. The question is whether they need to run before the visitor sees the first screen."),
+            ("p", "Create a simple rule: if the app does not affect the first above-the-fold decision, it should not compete with the LCP element. A review snippet below the product title may be important on a product page. A loyalty launcher or heatmap script does not need to block the hero. A chat widget can wait until after the main content becomes visible."),
+            ("p", "This is where Shopify speed work becomes business work. You cannot remove every app blindly. You have to decide which scripts create immediate value and which can be delayed without hurting conversion."),
+            ("h2", "Step 7: reduce font pressure without losing the brand"),
+            ("p", "Typography is part of brand quality, but font loading can damage LCP when a page uses too many families, weights, styles, and remote requests. A clean Shopify theme can become slow because it loads a full editorial font system for a homepage that only needs a few critical weights."),
+            ("p", "For performance, keep the critical font set narrow. Use fewer weights above the fold. Preload only the font file that is truly needed early. Avoid loading decorative faces before the primary content. If the brand depends on a premium display face, use it with discipline and let body copy rely on a lighter, faster stack."),
+            ("h2", "Step 8: clean Liquid output on the templates that matter"),
+            ("p", "Dawn gives you a clean starting point, but custom sections can introduce expensive loops, duplicated snippets, hidden desktop/mobile markup, oversized metafield output, and repeated app embed containers. Liquid work matters because the browser cannot render what the server has not delivered."),
+            ("p", "Look for sections that output both desktop and mobile versions of the same hero, hidden carousels that still load images, product cards that request too much media, and snippets that repeat app or icon markup many times. The fix is to simplify the markup path for the first screen and load secondary details when the visitor reaches them."),
+            ("h2", "Step 9: test mobile and desktop separately"),
+            ("p", "A common mistake is fixing desktop screenshots while mobile field data keeps failing. Shopify shoppers are heavily mobile, and mobile LCP is less forgiving. A desktop hero may be fine as a wide image, while the mobile version needs a different crop, smaller art direction, tighter section height, and less JavaScript pressure."),
+            ("p", "For each important template, test mobile and desktop. Do not assume the same LCP element is measured on both. On desktop, the largest element might be the hero image. On mobile, it might be the heading because the image is lower or cropped differently. Fix what is measured in the actual viewport."),
+            ("h2", "A Shopify LCP repair checklist"),
+            ("ol", [
+                "Test the exact URL in PageSpeed Insights and record the mobile LCP element.",
+                "Repeat for homepage, product page, collection page, and any landing page used in campaigns.",
+                "Remove lazy loading from the measured above-the-fold image.",
+                "Add fetch priority carefully to the one image that deserves it.",
+                "Generate responsive image widths that match the layout instead of sending one oversized asset.",
+                "Reserve width, height, and aspect ratio for the LCP media and surrounding section.",
+                "Move sliders, videos, popups, and app blocks lower if they are not essential to the first decision.",
+                "Delay or defer third-party scripts that do not affect the first screen.",
+                "Reduce above-fold font files and weights.",
+                "Clean duplicate Liquid markup and hidden sections that still load assets.",
+                "Re-test in lab tools, then monitor Search Console Core Web Vitals after real users see the change.",
+            ]),
+            ("h2", "How to know the fix worked"),
+            ("p", "A successful LCP fix should show up in two places. First, the lab test should identify the LCP element earlier and with fewer blocking issues. Second, field data should improve after enough real traffic has visited the updated pages. Do not panic if Search Console takes time to reflect changes. Core Web Vitals field data is not instant."),
+            ("p", "Use the lab test for immediate debugging and field data for business confidence. If the lab score improves but real-user data does not, the store may have traffic patterns, device issues, apps, or templates that the lab test did not represent. That is why template-level QA matters."),
+            ("h2", "Where this fits inside a full Shopify speed audit"),
+            ("p", "LCP is one important metric, not the whole performance story. Interaction to Next Paint, Cumulative Layout Shift, JavaScript execution, app governance, collection filtering, product media, checkout-adjacent scripts, and theme maintainability all matter. But LCP is often the most visible failure because it controls when the page first feels useful."),
+            ("p", "If your store has strong products but the first screen feels slow, start here. Find the LCP element, prioritize it, reduce the noise around it, and then move through the rest of the performance stack with discipline."),
+            ("p", "For a broader review, use the <a href=\"/free-audit/\">free audit</a>, compare the related <a href=\"/blog/passing-core-web-vitals-on-shopify.html\">Core Web Vitals guide for Shopify</a>, or review the <a href=\"/blog/shopify-technical-seo-audit-checklist.html\">Shopify technical SEO audit checklist</a>. If the store needs implementation, the relevant service page is <a href=\"/services/speed-optimization.html\">Shopify speed optimization</a>."),
+            ("h2", "Sources worth reading"),
+            ("ul", [
+                "<a href=\"https://web.dev/articles/lcp\" rel=\"nofollow noopener\">web.dev: Largest Contentful Paint</a>",
+                "<a href=\"https://web.dev/articles/optimize-lcp\" rel=\"nofollow noopener\">web.dev: Optimize Largest Contentful Paint</a>",
+                "<a href=\"https://shopify.dev/docs/storefronts/themes/best-practices/performance\" rel=\"nofollow noopener\">Shopify developer docs: theme performance best practices</a>",
+                "<a href=\"https://pagespeed.web.dev/\" rel=\"nofollow noopener\">PageSpeed Insights</a>"
+            ]),
+            ("h2", "Frequently asked"),
+            ("h3", "What is a good LCP score for Shopify?"),
+            ("p", "Aim for 2.5 seconds or faster at the 75th percentile of real user visits. A single Lighthouse run is useful for diagnosis, but Search Console and PageSpeed Insights field data are better for deciding whether the store is passing for real shoppers."),
+            ("h3", "What usually causes poor LCP on Shopify Dawn?"),
+            ("p", "The usual causes are lazy-loaded hero images, oversized media, missing image dimensions, app scripts that run too early, render-blocking CSS or JavaScript, heavy font loading, and above-the-fold sections that try to do too much."),
+            ("h3", "Can Shopify LCP be fixed without redesigning the store?"),
+            ("p", "Yes. If the brand direction is already working, many LCP problems can be fixed inside the existing Dawn-based theme by prioritizing the measured element, cleaning media output, reducing first-screen app pressure, and testing the important templates one by one."),
+        ],
+    },
+    {
         "slug": "ecommerce-geo-product-pages-ai-search",
         "title": "Ecommerce GEO: How Product Pages Get Found in AI Search",
         "excerpt": "AI search and answer engines do not read ecommerce sites like shoppers do. This guide shows how product pages, feeds, schema, and proof work together.",
