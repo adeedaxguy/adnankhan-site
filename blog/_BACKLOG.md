@@ -13,25 +13,25 @@ Topics sorted by commercial intent. Posts are written via specs in `scripts/seo_
 | 2026-06-15 | freelance-shopify-developer-vs-agency | freelance shopify developer vs agency |
 | 2026-06-16 | shopify-custom-app-vs-public-app | shopify custom app vs public app |
 | 2026-06-17 | speed-up-woocommerce-checklist | speed up woocommerce |
+| 2026-07-03 | fix-shopify-lcp-dawn-theme | fix shopify lcp dawn theme |
+| 2026-07-05 | shopify-theme-customization-modify-or-rebuild | shopify theme customization |
 
-## 🟡 Next 14 (autonomous weekly publish picks the top entry each Monday)
+## 🟡 Next 12 (brand-safe autonomous picks)
 
 | # | Title | Primary keyword | Funnel |
 |---|---|---|---|
-| 1 | How to Fix LCP on Shopify Dawn Theme Without Breaking Sections | fix shopify lcp | /services/speed-optimization.html |
-| 2 | Shopify Speed Optimization Cost: What $2K Buys You vs What $200 Buys You | shopify speed optimization cost | /services/speed-optimization.html |
-| 3 | I Audited 50 Shopify Stores — the 7 Speed Killers I Found in 43 of Them | shopify speed audit | /services/speed-optimization.html |
-| 4 | The Real Cost of a Shopify Plus Migration in 2026 | shopify plus migration cost | /services/shopify-plus-migration.html |
-| 5 | WooCommerce to Shopify Migration: A Senior Dev's Checklist (60 Items) | woocommerce to shopify migration | /services/shopify-development.html |
-| 6 | Elementor vs Custom Theme for High-Traffic WordPress: An Honest Take | elementor vs custom theme | /services/woocommerce-development.html |
-| 7 | Shopify Theme Customization: When to Modify, When to Rebuild | shopify theme customization | /services/shopify-development.html |
-| 8 | How We Got a DTC Skincare Brand from 1.4% to 3.1% Conversion in 9 Weeks | shopify cro case study | /services/conversion-rate-optimization.html |
-| 9 | The Shopify CRO Audit I Send to Every New Client (Free Template) | shopify cro audit | /services/conversion-rate-optimization.html |
-| 10 | Landing Page Conversion Benchmarks for DTC, B2B, and SaaS in 2026 | landing page conversion benchmark | /services/landing-page-sprint.html |
-| 11 | Shopify SEO: The Platform Quirks That Wreck Rankings | shopify seo issues | /services/technical-seo-audit.html |
-| 12 | On-Page SEO for Product Pages: A Template That Survives Algorithm Updates | product page seo | /services/technical-seo-audit.html |
-| 13 | Building a Private Shopify App for Internal Ops: A Real Walkthrough | private shopify app development | /services/custom-app-development.html |
-| 14 | Zapier vs Make vs n8n for eCommerce Automation in 2026 | zapier vs make for ecommerce | /services/ai-chatbot-automation.html |
+| 1 | I Audited 50 Shopify Stores — the 7 Speed Killers I Found in 43 of Them | shopify speed audit | /services/speed-optimization.html |
+| 2 | Shopify Plus Migration Checklist for SEO, Redirects, and Launch Safety | shopify plus migration checklist | /services/shopify-plus-migration.html |
+| 3 | WooCommerce to Shopify Migration: A Senior Dev's Checklist (60 Items) | woocommerce to shopify migration | /services/shopify-development.html |
+| 4 | Elementor vs Custom Theme for High-Traffic WordPress: An Honest Take | elementor vs custom theme | /services/woocommerce-development.html |
+| 5 | Shopify CRO Audit: The Checks I Run Before Rebuilding a Store | shopify cro audit | /services/conversion-rate-optimization.html |
+| 6 | Landing Page Conversion Benchmarks for DTC, B2B, and SaaS in 2026 | landing page conversion benchmark | /services/landing-page-sprint.html |
+| 7 | Shopify SEO: The Platform Quirks That Wreck Rankings | shopify seo issues | /services/technical-seo-audit.html |
+| 8 | On-Page SEO for Product Pages: A Template That Survives Algorithm Updates | product page seo | /services/technical-seo-audit.html |
+| 9 | Building a Private Shopify App for Internal Ops: A Real Walkthrough | private shopify app development | /services/custom-app-development.html |
+| 10 | Zapier vs Make vs n8n for eCommerce Automation in 2026 | zapier vs make for ecommerce | /services/ai-chatbot-automation.html |
+| 11 | AI Calling Agent Setup for Local Service Businesses | ai calling agent for service business | /services/ai-calling-agents.html |
+| 12 | AEO for Service Pages: How to Make Your Offer Answer-Ready | aeo service page optimization | /services/technical-seo-audit.html |
 
 ## How autonomous publishing works
 
