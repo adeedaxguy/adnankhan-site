@@ -40,6 +40,46 @@
   ]
 }
 </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is an SEO and AEO compatibility check?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "An SEO and AEO compatibility check reviews whether a page can be crawled, understood, trusted, cited in answer-led search, and used by a real visitor. It looks at indexability, titles, headings, schema, answer clarity, internal links, proof, mobile setup, and conversion paths."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is AEO different from normal SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "AEO does not replace SEO. It raises the standard. The same page still needs clean technical SEO, useful content, and links, but it also needs extractable answers, visible proof, clear entities, matching schema, and a next step that makes sense after the answer."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What should I fix first after running the checker?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Fix blockers in this order: indexability and canonical issues, unclear titles or descriptions, missing H1 and section structure, weak answer clarity, missing schema, thin proof, broken internal links, mobile friction, and unclear calls to action."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can this checker replace a full technical SEO audit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "No. The checker is a fast triage view for one page. A full technical SEO audit reviews crawl patterns, templates, redirects, sitemaps, schema conflicts, internal-link architecture, Core Web Vitals, analytics quality, and search performance across the site."
+      }
+    }
+  ]
+}
+</script>
 <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 </head>
 <body class="diagnostic-page">
@@ -105,6 +145,87 @@
             <strong>What to fix first</strong>
             <p>The report prioritizes critical and high-impact issues so you know what blocks ranking, citation, or enquiry quality.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm diagnostic-deep-dive" aria-labelledby="aeo-how-it-works">
+      <div class="container">
+        <div class="diagnostic-deep-head">
+          <span class="eyebrow">How to read the score</span>
+          <h2 class="h-1" id="aeo-how-it-works">A page is answer-ready when it can be found, understood, trusted, and chosen.</h2>
+          <p>Search engines still need a technically clean page. Answer engines need one more layer: a page that states the answer plainly, supports it with visible evidence, and gives the visitor a logical next step.</p>
+        </div>
+        <div class="diagnostic-signal-grid">
+          <article>
+            <span>01</span>
+            <h3>Crawl and index</h3>
+            <p>The checker looks for the basics that decide whether the page can enter the search system at all: status, HTTPS, noindex, canonical, viewport, and share metadata.</p>
+          </article>
+          <article>
+            <span>02</span>
+            <h3>Answer extraction</h3>
+            <p>AI Overviews and answer engines need clean headings, one clear H1, enough original copy, and short answer blocks that can be summarized without losing the point.</p>
+          </article>
+          <article>
+            <span>03</span>
+            <h3>Entity and schema clarity</h3>
+            <p>Schema should match the visible page. Organization, WebPage, Service, Article, BreadcrumbList, and FAQPage markup are useful when they describe real content, not hidden claims.</p>
+          </article>
+          <article>
+            <span>04</span>
+            <h3>Trust and conversion</h3>
+            <p>A page that ranks but does not earn trust is unfinished. The checker reviews proof signals, internal links, footer trust paths, and whether the first screen points to one obvious action.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-sm diagnostic-playbook" aria-labelledby="aeo-playbook">
+      <div class="container diagnostic-playbook-grid">
+        <div>
+          <span class="eyebrow">Fix order</span>
+          <h2 class="h-1" id="aeo-playbook">What to do after a weak SEO/AEO score.</h2>
+          <p>A weak score does not always mean you need a new website. It usually means the page is unclear in one of four places: search access, answer structure, proof, or conversion path.</p>
+          <a href="/free-audit/">Run the full website audit <span aria-hidden="true">→</span></a>
+        </div>
+        <ol class="diagnostic-priority-list">
+          <li><strong>Fix access first.</strong><span>Resolve crawl, HTTPS, noindex, canonical, redirect, sitemap, and mobile viewport issues before rewriting content.</span></li>
+          <li><strong>Make the first screen specific.</strong><span>State who the page is for, what outcome it supports, and what the visitor should do next.</span></li>
+          <li><strong>Add answer-led sections.</strong><span>Use H2s for buyer questions, short answer paragraphs, practical caveats, and proof from the business behind the page.</span></li>
+          <li><strong>Connect the cluster.</strong><span>Link to supporting guides, related services, case studies, and contact paths so search systems and visitors can follow the topic.</span></li>
+          <li><strong>Match schema to reality.</strong><span>Add only structured data that describes visible content. Better clean schema than a large block of claims the page does not support.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section-sm diagnostic-faq" aria-labelledby="aeo-faq">
+      <div class="container">
+        <div class="diagnostic-faq-head">
+          <span class="eyebrow">SEO/AEO FAQ</span>
+          <h2 class="h-1" id="aeo-faq">The short answers before you run the checker.</h2>
+        </div>
+        <details class="faq">
+          <summary>What is an SEO and AEO compatibility check? <span class="plus">+</span></summary>
+          <div class="faq-body">An SEO and AEO compatibility check reviews whether a page can be crawled, understood, trusted, cited in answer-led search, and used by a real visitor. It looks at indexability, titles, headings, schema, answer clarity, internal links, proof, mobile setup, and conversion paths.</div>
+        </details>
+        <details class="faq">
+          <summary>Is AEO different from normal SEO? <span class="plus">+</span></summary>
+          <div class="faq-body">AEO does not replace SEO. It raises the standard. The same page still needs clean technical SEO, useful content, and links, but it also needs extractable answers, visible proof, clear entities, matching schema, and a next step that makes sense after the answer.</div>
+        </details>
+        <details class="faq">
+          <summary>What should I fix first after running the checker? <span class="plus">+</span></summary>
+          <div class="faq-body">Fix blockers in this order: indexability and canonical issues, unclear titles or descriptions, missing H1 and section structure, weak answer clarity, missing schema, thin proof, broken internal links, mobile friction, and unclear calls to action.</div>
+        </details>
+        <details class="faq">
+          <summary>Can this checker replace a full technical SEO audit? <span class="plus">+</span></summary>
+          <div class="faq-body">No. The checker is a fast triage view for one page. A full <a href="/services/technical-seo-audit.html">technical SEO audit</a> reviews crawl patterns, templates, redirects, sitemaps, schema conflicts, internal-link architecture, Core Web Vitals, analytics quality, and search performance across the site.</div>
+        </details>
+        <div class="diagnostic-related-links" aria-label="Related SEO and AEO resources">
+          <a href="/blog/answer-engine-optimization-checklist.html">AEO checklist</a>
+          <a href="/blog/ai-search-optimization-service-businesses.html">AI search guide</a>
+          <a href="/blog/schema-markup-ai-search.html">Schema for AI search</a>
+          <a href="/services/technical-seo-audit.html">Technical SEO audit</a>
         </div>
       </div>
     </section>
