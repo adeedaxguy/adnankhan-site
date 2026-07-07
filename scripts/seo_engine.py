@@ -65,6 +65,150 @@ def load_nav_and_footer():
 
 POSTS = [
     {
+        "slug": "website-structure-audit-report",
+        "title": "Website Structure Audit Report: What to Check Before SEO or a Redesign",
+        "excerpt": "A plain-English website structure audit report guide for checking crawl paths, page hierarchy, internal links, content depth, schema, UX, and conversion before rebuilding anything.",
+        "meta": "Website structure audit report guide: check crawl paths, page hierarchy, internal links, content depth, schema, UX, and conversion before a redesign.",
+        "category": "SEO",
+        "date": "2026-07-08",
+        "readingTime": "12 min",
+        "primaryKeyword": "website structure audit report",
+        "secondaryKeyword": "website audit report for free",
+        "funnelTo": "/free-audit/",
+        "funnelLabel": "Free Website Audit Report",
+        "featured": False,
+        "hook": "A website structure audit report should tell you whether the site is built in a way that search engines, answer engines, and real buyers can follow. It is not only a technical checklist. It is a map of where trust, content, navigation, crawlability, and conversion are helping the business or quietly blocking it.",
+        "faqs": [
+            {
+                "question": "What is a website structure audit report?",
+                "answer": "A website structure audit report reviews how a site is organized, crawled, linked, understood, and used. It checks page hierarchy, navigation, internal links, indexability, schema, content depth, mobile UX, and conversion paths so the business knows what to fix before redesigning or adding more content."
+            },
+            {
+                "question": "Is a website structure audit different from a technical SEO audit?",
+                "answer": "Yes. A technical SEO audit focuses heavily on crawlability, indexability, speed, redirects, canonical tags, schema, and search health. A website structure audit includes those foundations, but also reviews how pages are grouped, how users move through the site, whether the content supports buyer decisions, and whether the next step is clear."
+            },
+            {
+                "question": "What should a website structure audit report include?",
+                "answer": "It should include crawl and index checks, sitemap and navigation review, page hierarchy, internal links, heading structure, content gaps, duplicate or thin pages, schema, mobile first-screen review, conversion paths, trust signals, and a prioritized fix plan."
+            },
+            {
+                "question": "Should I audit structure before redesigning a website?",
+                "answer": "Yes. A structure audit before a redesign protects the pages, rankings, links, proof, and conversion paths that already work. It also reveals whether the redesign should be a visual refresh, a content rebuild, a technical cleanup, or a full architecture change."
+            }
+        ],
+        "body": [
+            ("p", "Most website audits stop too early. They check whether the page loads, whether the title tag exists, whether an image is missing alt text, and whether a few SEO basics are present. That is useful, but it does not answer the bigger question: is the website organized in a way that helps people and search systems understand what the business does?"),
+            ("p", "That is the job of a website structure audit report. It looks at the site as a system. Homepage, service pages, blog posts, tools, case studies, location pages, footer links, navigation, forms, schema, and internal links all have to work together. If they do not, the site can have good individual pages and still feel confusing."),
+            ("p", "For Lofts Studio, this matters because Search Console is already testing the site around audit-report and compatibility queries. GA4 also shows people are using the audit tool and downloading reports. That is a useful early signal: visitors do not only want generic web design advice. They want to know what is wrong with a site and what should be fixed first."),
+            ("callout", "The practical goal: a website structure audit report should turn a vague feeling that the site is underperforming into a prioritized map of what to fix, what to keep, what to rewrite, and what to measure next."),
+            ("h2", "What a website structure audit report actually reviews"),
+            ("p", "A good structure audit does not treat every issue as equal. A missing meta description is not the same as a broken conversion path. A weak H2 is not the same as a service page that cannot be found from the navigation. The report should separate foundations, page architecture, content clarity, trust, and next actions."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Audit area</th><th>What it checks</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Crawl and index</strong></td><td>Status codes, HTTPS, robots, noindex, canonical tags, sitemap, and redirects.</td><td>Pages cannot earn search visibility if Google cannot reliably crawl or index them.</td></tr>
+        <tr><td><strong>Page hierarchy</strong></td><td>Homepage, service hubs, service pages, tools, blog posts, case studies, and location paths.</td><td>The site should explain what matters most through structure, not only through copy.</td></tr>
+        <tr><td><strong>Internal links</strong></td><td>Navigation, footer, in-content links, related posts, breadcrumbs, and CTA paths.</td><td>Links show users and crawlers which pages belong together and what to do next.</td></tr>
+        <tr><td><strong>Content depth</strong></td><td>Direct answers, buyer questions, proof, examples, FAQs, and page uniqueness.</td><td>Thin pages struggle in traditional search and are weaker for answer-led discovery.</td></tr>
+        <tr><td><strong>Trust and conversion</strong></td><td>Proof, case studies, forms, report downloads, contact paths, mobile UX, and first-screen clarity.</td><td>Traffic only matters if the page helps the visitor trust the business and take action.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Start with the crawlable map"),
+            ("p", "The first layer is simple: can search engines access the important pages, and is the site telling a consistent story about which URLs matter? This includes the XML sitemap, robots.txt, canonical tags, status codes, redirects, and indexability rules."),
+            ("p", "This is where many redesigns go wrong. A team starts with visuals, then later discovers old service pages were removed, useful blog posts were orphaned, redirects were missed, or canonical tags point at the wrong place. The damage is usually avoidable if structure is audited before the rebuild."),
+            ("ul", [
+                "Check that the sitemap includes the pages you actually want discovered.",
+                "Confirm important pages return 200 status codes and are not blocked by robots.txt or noindex.",
+                "Review canonical tags so each page points to its preferred public URL.",
+                "Map old URLs before removing or renaming pages.",
+                "Check whether redirects lead directly to the best replacement page.",
+                "Look for important pages that exist but are not linked from the site."
+            ]),
+            ("p", "This is also why the <a href='/free-audit/'>free website audit report</a> starts with reachability and technical signals before it talks about design. If the page cannot be reliably accessed, the rest of the advice sits on weak ground."),
+            ("h2", "Review the page hierarchy like a buyer would"),
+            ("p", "Page hierarchy is the skeleton of the site. A good hierarchy tells a visitor what the business does, who it helps, how the services relate, where proof lives, and what the next step should be. A weak hierarchy makes every page feel like a separate island."),
+            ("p", "For a service business, the structure usually needs a clear homepage, service hub or service pages, proof or portfolio pages, educational guides, tools, about page, contact path, and sometimes location or industry pages. The exact shape depends on the business, but the rule is consistent: the most valuable offers should not be buried."),
+            ("p", "A structure audit should ask whether the site has a clear path from broad interest to commercial action. For example, someone may land on an article about an audit checklist, then move to a free audit tool, then read a technical SEO service page, then submit a form. If those pages are not linked together, the site loses momentum."),
+            ("h2", "Find orphaned and under-linked pages"),
+            ("p", "An orphaned page is a page that exists but is not meaningfully linked from other pages. Search engines may still discover it through a sitemap, but users rarely will. More importantly, the site is not sending authority or context to that page through internal links."),
+            ("p", "This is especially common on sites that publish many blog posts, campaign landing pages, or location pages. The page goes live, gets added to the sitemap, and then slowly disappears from the real user journey. A website structure audit should identify those pages and decide whether to strengthen, merge, redirect, or remove them."),
+            ("ul", [
+                "Important commercial pages should be linked from navigation, footer, related blog posts, and relevant case studies.",
+                "Support articles should link back to the service or tool they support.",
+                "Case studies should link to the service category they prove.",
+                "Location pages should link to parent state or country pages and related service pages.",
+                "Old posts with similar intent should be consolidated or linked into a clearer cluster."
+            ]),
+            ("h2", "Check whether the content architecture matches search intent"),
+            ("p", "A structure audit is not only about menus and URLs. It also reviews whether each important page matches the reason someone would search for it. A page targeting an audit-report query should show what the report checks, how to interpret it, what to fix first, and what happens after the audit. A page targeting a technical SEO service should explain diagnosis, implementation, validation, and measurement."),
+            ("p", "If the content does not match intent, more internal links will not save it. The page may need a clearer answer near the top, a better section order, a stronger table or checklist, proof near the claim, and a CTA that fits the visitor's stage."),
+            ("p", "This is where SEO and AEO overlap. The page has to be useful to a searcher, but it also has to be easy for answer engines to summarize. That means direct answers, descriptive headings, clean schema, and enough original detail to be worth citing."),
+            ("h2", "Use the first screen as a structural test"),
+            ("p", "The first screen tells you whether the page knows what job it is doing. A strong first screen answers three questions quickly: what is this page about, who is it for, and what should I do next? A weak first screen may look polished but still leave the visitor unsure."),
+            ("p", "For a website audit or SEO page, the first screen should not hide behind vague lines like <em>we build digital experiences</em>. It should say what kind of audit or service it offers, what the visitor will learn, and why the next step is worth taking."),
+            ("p", "A structure audit should review first-screen clarity on the homepage, core service pages, tool pages, and high-traffic posts. If a page earns impressions but has poor CTR or weak engagement, the first screen is one of the first places to look."),
+            ("h2", "Check headings and answer blocks"),
+            ("p", "Headings are not decoration. They are the outline of the page. Search engines, answer engines, screen readers, and impatient humans all use headings to understand what comes next. If the headings are vague, repeated, or purely creative, the page becomes harder to scan."),
+            ("p", "A good audit report should identify whether each key page has one clear H1, descriptive H2s, and short answer blocks under the sections where buyers expect them. The goal is not keyword stuffing. The goal is making the page easy to understand without reading every sentence."),
+            ("ul", [
+                "Use one H1 that names the page topic.",
+                "Use H2s for the questions or decisions the page answers.",
+                "Add short answer paragraphs before deeper explanations.",
+                "Use tables when the visitor is comparing options.",
+                "Use ordered lists when the visitor needs steps.",
+                "Use FAQs for genuine buyer questions, not filler."
+            ]),
+            ("p", "If the page is meant to support AI search or answer-led discovery, run it through the <a href='/tools/seo-aeo-checker.html'>SEO/AEO compatibility checker</a> after the structure pass. That gives a second view on whether the page can be crawled, understood, trusted, and chosen."),
+            ("h2", "Look for thin, duplicate, or overlapping pages"),
+            ("p", "Thin pages are not always short. A long page can still be thin if it repeats broad claims without helping the reader make a decision. Duplicate pages are not always copied word-for-word. Two pages can compete with each other if they target the same intent with slightly different phrasing."),
+            ("p", "A structure audit should identify cannibalization before the site adds more content. If two posts are trying to rank for the same audit term, decide which one should be the main guide and which one should link into it, be merged, or be redirected. If service pages and blog posts overlap, clarify the job of each page."),
+            ("p", "This is one reason I prefer fewer excellent pages over a large library of thin posts. A site with a clean cluster around audit reports, technical SEO, AEO, AI visibility, and conversion can outperform a larger site that publishes disconnected articles."),
+            ("h2", "Audit trust signals in the page flow"),
+            ("p", "Trust signals should not live only in a footer or a portfolio grid. They should appear where the visitor needs reassurance. If a page says the audit finds conversion friction, show what kind of friction the audit checks. If it says the report is client-ready, explain what is included and how a non-technical owner should read it."),
+            ("p", "For service pages, proof might be case studies, process detail, screenshots, before-and-after explanations, or real examples of the checks being performed. For audit tools, proof comes from the clarity of the report itself: useful findings, readable categories, PDF download, broken-link scan, design analysis, technical snapshot, and a plain-English fix order."),
+            ("p", "GA4 already shows audit runs, completions, and downloads. That means the report experience is not just an SEO asset. It is part of the conversion path. The structure audit should treat it as a key page, not a side tool."),
+            ("h2", "Review schema after visible content is fixed"),
+            ("p", "Schema should confirm what the page visibly says. It should not invent a richer version of the business than the visitor can see. A website structure audit should check whether schema types match the page: Organization, WebSite, WebPage, BreadcrumbList, Article, FAQPage, Service, Product, or LocalBusiness where appropriate."),
+            ("p", "The most common schema issue is not the absence of markup. It is mismatch. FAQ schema for hidden questions, service schema for vague pages, review markup without visible review context, or duplicate organization data can create confusion. Clean schema is better than heavy schema."),
+            ("p", "For audit-report content, visible FAQs and matching FAQPage schema make sense. For a tool page, WebApplication schema can make sense. For a technical SEO service page, Service schema can make sense. The markup should follow the visible structure."),
+            ("h2", "Turn the audit into a fix order"),
+            ("p", "A report is only useful if it tells the business what to do next. The final section should prioritize issues by impact, not by how easy they were to find. A title tag warning may matter, but it should not outrank an indexability problem, a broken navigation path, or a mobile CTA that visitors cannot use."),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Priority</th><th>Fix first when...</th><th>Examples</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Critical</strong></td><td>The page cannot be accessed, indexed, trusted, or used.</td><td>Server errors, noindex, broken canonical, blocked page, broken form, broken mobile layout.</td></tr>
+        <tr><td><strong>High</strong></td><td>The page is visible but unclear or weak for conversion.</td><td>Vague H1, thin service page, no proof, poor first-screen CTA, missing internal links.</td></tr>
+        <tr><td><strong>Medium</strong></td><td>The page can work but is harder to understand or choose.</td><td>Weak meta description, incomplete FAQ, shallow comparison, missing schema, under-linked guide.</td></tr>
+        <tr><td><strong>Low</strong></td><td>The fix improves polish, sharing, or long-term maintenance.</td><td>Open Graph gaps, small alt text misses, footer cleanup, minor copy consistency.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "A simple structure audit checklist"),
+            ("ol", [
+                "Export or crawl the full URL list and compare it with the live sitemap.",
+                "Mark which pages are commercial, educational, proof, tool, location, legal, or support pages.",
+                "Check whether every important commercial page is linked from navigation, footer, and related content.",
+                "Find orphaned pages and decide whether to strengthen, merge, redirect, or remove them.",
+                "Review the first screen on homepage, service pages, tools, and top posts.",
+                "Check H1, H2, answer blocks, FAQs, and content depth for each priority page.",
+                "Map internal links between tools, services, guides, case studies, and contact paths.",
+                "Validate schema only after the visible content and page role are clear.",
+                "Review mobile layout and CTA visibility for the pages that should generate enquiries.",
+                "Turn the findings into a fix order with critical, high, medium, and low priorities."
+            ]),
+            ("h2", "How this should guide a redesign"),
+            ("p", "A redesign should not wipe the slate clean without understanding what already works. The structure audit tells you which URLs to preserve, which pages need stronger content, which links need to stay, which templates are weak, which CTAs are hidden, and which pages already have search demand."),
+            ("p", "That is how you avoid a redesign that looks better but performs worse. The design system, navigation, content plan, templates, schema, redirects, and measurement plan should all be shaped by the audit. Otherwise the redesign becomes a visual project instead of a business improvement."),
+            ("p", "If you want the fast version, use the <a href='/free-audit/'>free website audit report</a>. If the site needs deeper implementation, the next step is a <a href='/services/technical-seo-audit.html'>technical SEO audit</a> that turns findings into fixes."),
+            ("h2", "Frequently asked"),
+            ("h3", "What is the difference between a website audit and a website structure audit?"),
+            ("p", "A website audit can review many things: design, SEO, performance, trust, broken links, accessibility, and conversion. A website structure audit focuses specifically on how pages, links, hierarchy, content, schema, and conversion paths work together as a system."),
+            ("h3", "How often should a site structure be audited?"),
+            ("p", "Audit structure before any redesign, migration, major content expansion, or location-page rollout. For a growing business, a lighter quarterly review is useful because old posts, campaign pages, and service changes can create drift quickly."),
+            ("h3", "Can a structure audit improve AI search visibility?"),
+            ("p", "Yes, indirectly and often directly. AI search benefits from clear page roles, answer blocks, internal links, schema that matches visible content, and proof that supports claims. Those are all part of a strong structure audit."),
+        ],
+    },
+    {
         "slug": "shopify-theme-customization-modify-or-rebuild",
         "title": "Shopify Theme Customization: Modify or Rebuild?",
         "excerpt": "A senior Shopify decision guide for knowing when to customize the existing theme, when to clean the architecture, and when a rebuild protects the store better.",
