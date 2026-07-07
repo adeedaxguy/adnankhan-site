@@ -34,6 +34,26 @@
       "permanent": true
     },
     {
+      "source": "/blog/shopify-developer-freelance-rates.html",
+      "destination": "/blog/hire-shopify-developer-guide-2026.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/landing-page-design-cost.html",
+      "destination": "/blog/landing-page-conversion-rate-optimization.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/pricing-page-design.html",
+      "destination": "/blog/conversion-focused-web-design.html",
+      "permanent": true
+    },
+    {
+      "source": "/blog/small-business-website-cost-2026.html",
+      "destination": "/blog/custom-website-vs-template.html",
+      "permanent": true
+    },
+    {
       "source": "/(.*)",
       "has": [
         {

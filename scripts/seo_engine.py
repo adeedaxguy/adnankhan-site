@@ -34,6 +34,13 @@ BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
 
+EXCLUDED_PUBLIC_BLOG_SLUGS = {
+    "landing-page-design-cost",
+    "pricing-page-design",
+    "shopify-developer-freelance-rates",
+    "small-business-website-cost-2026",
+}
+
 BLOG_DIR = ROOT / "blog"
 SERVICES_DIR = ROOT / "services"
 POSTS_JSON = BLOG_DIR / "posts.json"
@@ -932,7 +939,7 @@ POSTS = [
         "date": "2026-06-12",
         "readingTime": "11 min",
         "primaryKeyword": "hire shopify developer",
-        "secondaryKeyword": "shopify developer rates 2026",
+        "secondaryKeyword": "shopify developer hiring guide",
         "funnelTo": "/services/shopify-development.html",
         "funnelLabel": "Shopify Development",
         "featured": True,
@@ -940,8 +947,8 @@ POSTS = [
         "body": [
             ("p", "I've spent almost 15 years inside this market — first as the developer being hired, then as the one cleaning up after the wrong ones. I've watched founders choose the cheapest path and rebuild months later, and I've watched careful scopes keep stores healthy for years. The headline number has almost nothing to do with which outcome they got."),
             ("p", "This post is the screening playbook I wish every client had used before they reached me. It will not flatter the industry. It will save you a six-figure mistake."),
-            ("h2", "What Shopify developer rates actually signal in 2026"),
-            ("p", "If you are comparing rates, start with the work type. I wrote a dedicated guide to <a href='/blog/shopify-developer-freelance-rates.html'>Shopify developer freelance rates</a>, but the short version is this: the quote only makes sense once you know what responsibility the developer is carrying."),
+            ("h2", "What a Shopify proposal should prove in 2026"),
+            ("p", "If you are comparing Shopify partners, start with the work type. A serious proposal should make responsibility visible: what will be touched, what will be tested, what could break, and how the store will be handed back after launch."),
             ("ul", [
                 "<strong>Theme task-takers.</strong> Good for content updates, simple section changes, and low-risk theme cleanup when the store is already stable.",
                 "<strong>Mid-level builders.</strong> Useful for straightforward new stores, but risky when the brief touches migration, performance, analytics, or custom logic.",
@@ -1698,7 +1705,7 @@ def render_location_page(loc, nav, footer):
     {{
       "@type": "Question",
       "name": "What does a Shopify build for a {loc['demonym']} brand effort?",
-      "acceptedAnswer": {{ "@type": "Answer", "text": "A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. I do not publish a fixed public rate card; the right next step is a short audit and written scope." }}
+      "acceptedAnswer": {{ "@type": "Answer", "text": "A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. The right next step is a short audit and written scope so the work is planned around the store's real constraints." }}
     }},
     {{
       "@type": "Question",
@@ -1808,7 +1815,7 @@ def render_location_page(loc, nav, footer):
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">What does a Shopify build for a {loc['demonym']} brand effort?</h3>
-        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. I do not publish a fixed public rate card; the right next step is a short audit and written scope.</p>
+        <p style="font-family: var(--font-serif); color: var(--ink-soft); margin: 0;">A serious Shopify scope depends on theme condition, integrations, content, analytics, migration risk, and launch timing. The right next step is a short audit and written scope so the work is planned around the store's real constraints.</p>
       </div>
       <div data-reveal>
         <h3 class="h-2" style="margin: 0 0 0.5rem;">Can you handle {loc['currency']} payment processing?</h3>
@@ -1867,6 +1874,8 @@ def update_posts_json():
 
     new_slugs = set()
     for p in POSTS:
+        if p["slug"] in EXCLUDED_PUBLIC_BLOG_SLUGS:
+            continue
         entry = {
             "slug": p["slug"],
             "title": p["title"],
@@ -1885,7 +1894,7 @@ def update_posts_json():
 
     # Append legacy posts not in current specs
     for slug, post in existing.items():
-        if slug not in new_slugs:
+        if slug not in new_slugs and slug not in EXCLUDED_PUBLIC_BLOG_SLUGS:
             data["posts"].append(post)
 
     # Sort by date desc
@@ -1914,6 +1923,8 @@ def gen_blog():
     """Generate all blog posts, their covers, and refresh posts.json."""
     nav, footer = load_nav_and_footer()
     for p in POSTS:
+        if p["slug"] in EXCLUDED_PUBLIC_BLOG_SLUGS:
+            continue
         html = render_blog_post(p, nav, footer)
         out = BLOG_DIR / f"{p['slug']}.html"
         out.write_text(html)
@@ -1976,6 +1987,8 @@ def gen_sitemap():
     # All blog posts
     for post in sorted(BLOG_DIR.glob("*.html")):
         if post.name.startswith("_"):
+            continue
+        if post.stem in EXCLUDED_PUBLIC_BLOG_SLUGS:
             continue
         urls.append((f"{SITE}/blog/{post.name}", today, "monthly", "0.8"))
 
