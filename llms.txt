@@ -27,6 +27,7 @@
 - [Shopify Plus Migration](https://lofts.studio/services/shopify-plus-migration.html)
 - [Speed Optimization](https://lofts.studio/services/speed-optimization.html)
 - [Technical SEO Audit](https://lofts.studio/services/technical-seo-audit.html)
+- [WordPress Development](https://lofts.studio/services/wordpress-development.html)
 - [Webflow Development](https://lofts.studio/services/webflow-development.html)
 - [WooCommerce Development](https://lofts.studio/services/woocommerce-development.html)
 
@@ -54,6 +55,7 @@
 - [Programmatic SEO for Local Business](https://lofts.studio/blog/programmatic-seo-local-business.html)
 - [Schema Markup for AI Search](https://lofts.studio/blog/schema-markup-ai-search.html)
 - [Technical SEO Audit Checklist for Business Websites](https://lofts.studio/blog/technical-seo-audit-checklist-business-websites.html)
+- [SaaS Website Design Agency: What a Founder Should Look For](https://lofts.studio/blog/saas-website-design-agency.html)
 - [Website Conversion Audit](https://lofts.studio/blog/website-conversion-audit.html)
 
 ## Work Categories
