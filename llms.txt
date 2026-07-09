@@ -79,6 +79,8 @@
 ## Location Hubs
 
 - [USA Web Design](https://lofts.studio/locations/usa/)
+- [UK Web Design](https://lofts.studio/locations/uk/)
+- [Australia Web Design](https://lofts.studio/locations/australia/)
 - [California Web Design](https://lofts.studio/locations/california/)
 - [New York Web Design](https://lofts.studio/locations/new-york/)
 - [Texas Web Design](https://lofts.studio/locations/texas/)
@@ -102,7 +104,7 @@
 
 <!-- INDUSTRY:START -->
 ## Websites by industry (local businesses)
-Lofts Studio builds search-optimised websites for local businesses across the US, UK, and Canada. Hub: https://lofts.studio/websites/
+Lofts Studio builds search-optimised websites for local businesses across the US, UK, Australia, and Canada. Hub: https://lofts.studio/websites/
 - Restaurants: https://lofts.studio/websites/restaurants/
 - Cafés & Bakeries: https://lofts.studio/websites/cafes-bakeries/
 - Bars & Pubs: https://lofts.studio/websites/bars-pubs/
