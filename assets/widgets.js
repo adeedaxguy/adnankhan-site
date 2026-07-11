@@ -526,12 +526,36 @@
       if (errEl) errEl.style.display = 'none';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       try {
-        await fetch('/api/contact', {
+        const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, message, source: 'mobile-popup' }),
+          body: JSON.stringify({
+            name,
+            email,
+            message,
+            source: 'mobile-popup',
+            page_url: window.location.href,
+            page_title: document.title,
+            source_path: window.location.pathname
+          }),
         });
-      } catch {}
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || data.success !== true) throw new Error(data.message || 'Submission failed');
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'form_submit', {
+            event_category: 'lead',
+            event_label: 'mobile-popup',
+            form_location: window.location.pathname
+          });
+        }
+      } catch {
+        if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
+        if (errEl) {
+          errEl.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
+          errEl.style.display = '';
+        }
+        return;
+      }
       showView('convViewSuccess');
     });
 

@@ -195,9 +195,7 @@
     });
   });
 
-  // ── Lead forms — Formsubmit.co AJAX ──
-  // First submission triggers an activation email to .
-  // After one click in that email, all future submissions deliver automatically.
+  // ── Lead forms — AJAX contact endpoint ──
   document.querySelectorAll('form[data-lead]').forEach(form => {
     form.addEventListener('submit', async e => {
       e.preventDefault();
@@ -208,17 +206,29 @@
       if (btn) { btn.disabled = true; btn.innerHTML = 'Sending…'; }
 
       try {
+        const formData = new FormData(form);
+        if (!formData.has('page_url')) formData.append('page_url', window.location.href);
+        if (!formData.has('page_title')) formData.append('page_title', document.title);
+        if (!formData.has('source_path')) formData.append('source_path', window.location.pathname);
+
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
-          body: new FormData(form),
+          body: formData,
         });
         const data = await res.json().catch(() => ({}));
-        const ok = res.ok && (data.success === 'true' || data.success === true || res.status === 200);
+        const ok = res.ok && (data.success === 'true' || data.success === true);
         if (!ok) throw new Error(data.message || 'Submission failed');
 
         form.style.display = 'none';
         if (success) success.style.display = 'block';
+        if (typeof window.gtag === 'function') {
+          window.gtag('event', 'form_submit', {
+            event_category: 'lead',
+            event_label: formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form',
+            form_location: window.location.pathname
+          });
+        }
         // Reset button state in case the form is reopened later
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
       } catch (err) {
@@ -231,7 +241,7 @@
           inlineErr.style.cssText = 'margin-top:0.75rem;font-size:0.85rem;color:#B91C1C;text-align:center;';
           form.appendChild(inlineErr);
         }
-        inlineErr.textContent = "Couldn't send — please use the contact form directly.";
+        inlineErr.textContent = "Couldn't send right now — please email hi@lofts.studio or try again in a minute.";
       }
     });
   });

@@ -214,11 +214,22 @@
     }
 
     /* CTA card */
-    .audit-cta-card { background: linear-gradient(135deg, var(--ink) 0%, #2A2420 100%); color: var(--bg); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; flex-wrap: wrap; }
+    .audit-cta-card { background: linear-gradient(135deg, var(--ink) 0%, #2A2420 100%); color: var(--bg); border-radius: 16px; padding: 1.75rem; margin-bottom: 1.5rem; display: grid; grid-template-columns: minmax(0, 1fr) minmax(280px, 0.85fr); gap: 1.5rem; align-items: start; }
     .audit-cta-card h3 { font-family: var(--font-serif); font-size: 1.1rem; font-weight: 700; margin-bottom: 0.3rem; }
     .audit-cta-card p { font-size: 0.85rem; color: rgba(244,240,234,0.7); }
-    .audit-cta-card a { display: inline-flex; align-items: center; gap: 6px; padding: 0.7rem 1.25rem; background: var(--accent); color: white; border-radius: 8px; font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: background .15s; }
-    .audit-cta-card a:hover { background: #C4622D; }
+    .audit-cta-list { display: grid; gap: 0.45rem; margin-top: 0.9rem; padding: 0; list-style: none; }
+    .audit-cta-list li { display: flex; gap: 0.45rem; align-items: flex-start; font-size: 0.78rem; line-height: 1.45; color: rgba(244,240,234,0.78); }
+    .audit-cta-list li::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); flex: none; margin-top: 0.45rem; }
+    .audit-cta-form { display: grid; gap: 0.65rem; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; padding: 0.85rem; }
+    .audit-cta-form input, .audit-cta-form textarea { width: 100%; border: 1px solid rgba(255,255,255,0.14); border-radius: 8px; background: rgba(255,255,255,0.08); color: var(--bg); padding: 0.72rem 0.8rem; font: 500 0.84rem/1.2 var(--font-sans); outline: none; }
+    .audit-cta-form textarea { min-height: 76px; resize: vertical; }
+    .audit-cta-form input::placeholder, .audit-cta-form textarea::placeholder { color: rgba(244,240,234,0.55); }
+    .audit-cta-form button { display: inline-flex; align-items: center; justify-content: center; gap: 6px; padding: 0.78rem 1rem; background: var(--accent); color: white; border: 0; border-radius: 8px; font-size: 0.85rem; font-weight: 700; font-family: var(--font-sans); cursor: pointer; transition: background .15s; }
+    .audit-cta-form button:hover { background: #C4622D; }
+    .audit-cta-form button:disabled { opacity: 0.65; cursor: wait; }
+    .audit-cta-status { display: none; font-size: 0.78rem; line-height: 1.45; color: rgba(244,240,234,0.82); }
+    .audit-cta-status.show { display: block; }
+    @media (max-width: 760px) { .audit-cta-card { grid-template-columns: 1fr; padding: 1.25rem; } }
 
     /* Section title */
     .section-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); margin: 1.75rem 0 0.75rem; display: flex; align-items: center; gap: 8px; }
@@ -527,14 +538,28 @@ function renderResults(data) {
     sectionsHtml += `</div>`;
   }
 
-  const ctaHtml = score < 80 ? `
+  const issueCopy = (critical + high) > 0
+    ? `We found ${critical + high} high-impact item${critical + high === 1 ? '' : 's'} worth reviewing first.`
+    : 'The obvious checks look healthy; the next gains usually come from offer clarity, proof, and page flow.';
+  const ctaHtml = `
     <div class="audit-cta-card">
       <div>
-        <h3>We can fix ${critical + high} of these issues.</h3>
-        <p>Send us the URL and we'll come back with a specific improvement plan — no pitch, no commitment.</p>
+        <h3>Want the fix plan for ${esc(auditUrl.replace(/^https?:\/\//, ''))}?</h3>
+        <p>${esc(issueCopy)} Send the report to Lofts Studio and we will reply with the first three changes we would make to improve trust, clarity, and lead flow.</p>
+        <ul class="audit-cta-list">
+          <li>We review the report manually instead of sending a generic checklist.</li>
+          <li>You get a short, plain-English next-step note tied to this exact URL.</li>
+          <li>No newsletter sequence. This is a project enquiry, not a drip campaign.</li>
+        </ul>
       </div>
-      <a href="/#contact">Get a free fix plan →</a>
-    </div>` : '';
+      <form class="audit-cta-form" onsubmit="submitAuditFixPlan(event)">
+        <input id="auditLeadName" name="name" type="text" autocomplete="name" placeholder="Your name" required>
+        <input id="auditLeadEmail" name="email" type="email" autocomplete="email" placeholder="Email for the fix plan" required>
+        <textarea id="auditLeadNote" name="message" placeholder="What should we focus on first?"></textarea>
+        <button id="auditLeadBtn" type="submit">Send report for review →</button>
+        <p id="auditLeadStatus" class="audit-cta-status" role="status"></p>
+      </form>
+    </div>`;
 
   const reportHtml = buildReportPreview(report, linkAudit, technicalData);
 
@@ -699,6 +724,63 @@ function downloadAuditReport() {
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
   if (typeof gtag !== 'undefined') gtag('event', 'audit_report_download', { event_category: 'engagement' });
+}
+
+async function submitAuditFixPlan(event) {
+  event.preventDefault();
+  if (!currentAuditData) return;
+  const btn = document.getElementById('auditLeadBtn');
+  const status = document.getElementById('auditLeadStatus');
+  const name = document.getElementById('auditLeadName')?.value.trim();
+  const email = document.getElementById('auditLeadEmail')?.value.trim();
+  const note = document.getElementById('auditLeadNote')?.value.trim();
+  if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
+  if (status) { status.classList.remove('show'); status.textContent = ''; }
+
+  try {
+    const payload = {
+      _subject: 'Audit fix plan request — lofts.studio',
+      source: 'free-audit-report',
+      name,
+      email,
+      website: currentAuditData.url || '',
+      score: String(currentAuditData.score ?? ''),
+      grade: currentAuditData.grade || '',
+      message: note || 'Please review this audit and send the first three fixes.',
+      page_url: window.location.href,
+      page_title: document.title
+    };
+    const res = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok || data.success !== true) throw new Error(data.message || 'Submission failed');
+
+    if (typeof gtag !== 'undefined') {
+      gtag('event', 'form_submit', {
+        event_category: 'lead',
+        event_label: 'free-audit-report',
+        form_location: '/free-audit/'
+      });
+      gtag('event', 'audit_fix_plan_request', {
+        event_category: 'lead',
+        value: currentAuditData.score || 0
+      });
+    }
+    if (status) {
+      status.textContent = 'Sent. We will review the report and reply with the first fixes to discuss.';
+      status.classList.add('show');
+    }
+    if (btn) btn.textContent = 'Report sent';
+  } catch {
+    if (status) {
+      status.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
+      status.classList.add('show');
+    }
+    if (btn) { btn.disabled = false; btn.textContent = 'Send report for review →'; }
+  }
 }
 
 function buildPdfReport(data) {
