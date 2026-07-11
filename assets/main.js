@@ -246,6 +246,22 @@
     });
   });
 
+  // ── Lead-intent clicks — helps separate traffic quality from form friction ──
+  document.addEventListener('click', event => {
+    const link = event.target.closest('a[href]');
+    if (!link || typeof window.gtag !== 'function') return;
+    const href = link.getAttribute('href') || '';
+    let eventName = '';
+    if (href.startsWith('mailto:')) eventName = 'email_click';
+    if (href.includes('wa.me/') || href.toLowerCase().includes('whatsapp')) eventName = 'whatsapp_click';
+    if (!eventName) return;
+    window.gtag('event', eventName, {
+      event_category: 'lead',
+      event_label: href.replace(/^mailto:/, '').split('?')[0],
+      link_location: window.location.pathname
+    });
+  });
+
   // ── Reveal fallback (used ONLY if GSAP fails to load) ──
   // If GSAP loads (the usual path), it takes over via the .gsap-ready class and
   // animates these elements smoothly. If GSAP fails — broken CDN, ad blocker,
