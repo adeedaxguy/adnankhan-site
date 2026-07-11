@@ -16,6 +16,19 @@
   ],
   "posts": [
     {
+      "slug": "landing-page-sprint",
+      "title": "Landing Page Sprint: Build a Lead Page That Can Sell",
+      "excerpt": "A practical landing page sprint guide for founders who need one focused lead page to explain the offer, prove trust, and move buyers to enquiry.",
+      "category": "CRO",
+      "date": "2026-07-11",
+      "readingTime": "13 min",
+      "primaryKeyword": "landing page sprint",
+      "secondaryKeyword": "landing page design sprint",
+      "funnelTo": "/services/landing-page-sprint.html",
+      "featured": false,
+      "published": true
+    },
+    {
       "slug": "seo-compatibility-checker",
       "title": "SEO Compatibility Checker: Test Pages Before Launch",
       "excerpt": "A practical SEO compatibility checker guide for deciding whether a page is ready for Google, AI answers, internal links, trust, and conversion.",

@@ -104,7 +104,7 @@
   </url>
   <url>
     <loc>https://lofts.studio/services/landing-page-sprint.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -1544,6 +1544,12 @@
   </url>
   <url>
     <loc>https://lofts.studio/blog/seo-compatibility-checker.html</loc>
+    <lastmod>2026-07-11</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+  <url>
+    <loc>https://lofts.studio/blog/landing-page-sprint.html</loc>
     <lastmod>2026-07-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>

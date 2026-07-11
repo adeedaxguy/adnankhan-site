@@ -153,3 +153,4 @@ Lofts Studio builds search-optimised websites for local businesses across the US
 - Local Shops & Retailers: https://lofts.studio/websites/local-retail/
 <!-- INDUSTRY:END -->
 - https://lofts.studio/blog/seo-compatibility-checker.html — SEO Compatibility Checker: Test Pages Before Launch
+- [Landing Page Sprint Guide](https://lofts.studio/blog/landing-page-sprint.html)
