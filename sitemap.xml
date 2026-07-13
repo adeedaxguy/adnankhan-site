@@ -1394,7 +1394,7 @@
   </url>
   <url>
     <loc>https://lofts.studio/blog/website-structure-audit-report.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
@@ -1490,9 +1490,15 @@
   </url>
   <url>
     <loc>https://lofts.studio/tools/index.html</loc>
-    <lastmod>2026-07-08</lastmod>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
+  </url>
+  <url>
+    <loc>https://lofts.studio/free-audit/</loc>
+    <lastmod>2026-07-12</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.82</priority>
   </url>
   <url>
     <loc>https://lofts.studio/tools/seo-aeo-checker.html</loc>
@@ -1544,7 +1550,7 @@
   </url>
   <url>
     <loc>https://lofts.studio/blog/seo-compatibility-checker.html</loc>
-    <lastmod>2026-07-11</lastmod>
+    <lastmod>2026-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.75</priority>
   </url>
