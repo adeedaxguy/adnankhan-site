@@ -223,10 +223,17 @@
         form.style.display = 'none';
         if (success) success.style.display = 'block';
         if (typeof window.gtag === 'function') {
+          const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
           window.gtag('event', 'form_submit', {
             event_category: 'lead',
-            event_label: formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form',
+            event_label: leadSource,
             form_location: window.location.pathname
+          });
+          window.gtag('event', 'generate_lead', {
+            event_category: 'lead',
+            event_label: leadSource,
+            form_location: window.location.pathname,
+            page_title: document.title
           });
         }
         // Reset button state in case the form is reopened later
@@ -254,6 +261,8 @@
     let eventName = '';
     if (href.startsWith('mailto:')) eventName = 'email_click';
     if (href.includes('wa.me/') || href.toLowerCase().includes('whatsapp')) eventName = 'whatsapp_click';
+    if (href === '/#contact' || href === '#contact') eventName = 'contact_cta_click';
+    if (href.includes('/free-audit/')) eventName = 'audit_cta_click';
     if (!eventName) return;
     window.gtag('event', eventName, {
       event_category: 'lead',

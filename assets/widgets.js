@@ -547,6 +547,12 @@
             event_label: 'mobile-popup',
             form_location: window.location.pathname
           });
+          window.gtag('event', 'generate_lead', {
+            event_category: 'lead',
+            event_label: 'mobile-popup',
+            form_location: window.location.pathname,
+            page_title: document.title
+          });
         }
       } catch {
         if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
