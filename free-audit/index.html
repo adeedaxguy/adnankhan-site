@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PM4CX9JG');</script>
+<!-- End Google Tag Manager -->
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Free Website Audit Report PDF | Lofts Studio</title>
@@ -296,6 +303,10 @@
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 </head>
 <body class="diagnostic-page audit-diagnostic-page">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM4CX9JG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <nav class="diagnostic-nav" aria-label="Tool navigation">
   <a href="/" class="diagnostic-logo">Lofts<span>STUDIO</span></a>
@@ -431,6 +442,58 @@ const whatWeFix  = document.getElementById('whatWeFix');
 const loadingUrl = document.getElementById('auditLoadingUrl');
 let currentAuditData = null;
 
+const auditAttributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid'];
+const auditAttributionStore = 'lofts_ad_attribution';
+
+function readAuditAttribution() {
+  try {
+    return JSON.parse(window.sessionStorage.getItem(auditAttributionStore) || '{}') || {};
+  } catch {
+    return {};
+  }
+}
+
+function persistAuditAttribution() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const next = {};
+    auditAttributionKeys.forEach(key => {
+      const value = params.get(key);
+      if (value) next[key] = value;
+    });
+    if (!Object.keys(next).length) return;
+    next.landing_page = window.location.href;
+    next.referrer = document.referrer || '';
+    next.captured_at = new Date().toISOString();
+    window.sessionStorage.setItem(auditAttributionStore, JSON.stringify(next));
+  } catch {
+    // Attribution should never interrupt the audit experience.
+  }
+}
+
+function getAuditAttribution() {
+  const stored = readAuditAttribution();
+  return {
+    ...stored,
+    landing_page: stored.landing_page || window.location.href,
+    referrer: stored.referrer || document.referrer || ''
+  };
+}
+
+function trackAuditEvent(eventName, params = {}) {
+  const payload = {
+    ...params,
+    page_path: window.location.pathname,
+    page_title: document.title,
+    ...getAuditAttribution()
+  };
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({ event: eventName, ...payload });
+  if (typeof gtag !== 'undefined') gtag('event', eventName, payload);
+}
+
+persistAuditAttribution();
+
 const qp = new URLSearchParams(location.search);
 if (qp.get('url')) { input.value = qp.get('url'); setTimeout(() => form.dispatchEvent(new Event('submit')), 300); }
 
@@ -447,7 +510,7 @@ form.addEventListener('submit', async (e) => {
   loadingUrl.textContent = url.replace(/^https?:\/\//, '');
   btn.disabled = true;
 
-  if (typeof gtag !== 'undefined') gtag('event', 'audit_run', { event_category: 'engagement', event_label: url });
+  trackAuditEvent('audit_run', { event_category: 'engagement', event_label: url, audited_url: url });
 
   try {
     const res  = await fetch('/api/audit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
@@ -596,7 +659,7 @@ function renderResults(data) {
   whatWeFix.style.display = 'block';
   resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  if (typeof gtag !== 'undefined') gtag('event', 'audit_complete', { event_category: 'engagement', value: score });
+  trackAuditEvent('audit_complete', { event_category: 'engagement', value: score, score });
 }
 
 function buildReportPreview(report, linkAudit, technicalData) {
@@ -727,7 +790,11 @@ function downloadAuditReport() {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  if (typeof gtag !== 'undefined') gtag('event', 'audit_report_download', { event_category: 'engagement' });
+  trackAuditEvent('audit_report_download', {
+    event_category: 'engagement',
+    audited_url: currentAuditData.url || '',
+    score: currentAuditData.score || 0
+  });
 }
 
 async function submitAuditFixPlan(event) {
@@ -752,7 +819,8 @@ async function submitAuditFixPlan(event) {
       grade: currentAuditData.grade || '',
       message: note || 'Please review this audit and send the first three fixes.',
       page_url: window.location.href,
-      page_title: document.title
+      page_title: document.title,
+      ...getAuditAttribution()
     };
     const res = await fetch('/api/contact', {
       method: 'POST',
@@ -762,17 +830,17 @@ async function submitAuditFixPlan(event) {
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success !== true) throw new Error(data.message || 'Submission failed');
 
-    if (typeof gtag !== 'undefined') {
-      gtag('event', 'form_submit', {
-        event_category: 'lead',
-        event_label: 'free-audit-report',
-        form_location: '/free-audit/'
-      });
-      gtag('event', 'audit_fix_plan_request', {
-        event_category: 'lead',
-        value: currentAuditData.score || 0
-      });
-    }
+    trackAuditEvent('form_submit', {
+      event_category: 'lead',
+      event_label: 'free-audit-report',
+      form_location: '/free-audit/'
+    });
+    trackAuditEvent('audit_fix_plan_request', {
+      event_category: 'lead',
+      value: currentAuditData.score || 0,
+      score: currentAuditData.score || 0,
+      audited_url: currentAuditData.url || ''
+    });
     if (status) {
       status.textContent = 'Sent. We will review the report and reply with the first fixes to discuss.';
       status.classList.add('show');

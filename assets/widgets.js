@@ -526,6 +526,7 @@
       if (errEl) errEl.style.display = 'none';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       try {
+        const attribution = typeof window.loftsGetAdAttribution === 'function' ? window.loftsGetAdAttribution() : {};
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -536,24 +537,32 @@
             source: 'mobile-popup',
             page_url: window.location.href,
             page_title: document.title,
-            source_path: window.location.pathname
+            source_path: window.location.pathname,
+            ...attribution
           }),
         });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || data.success !== true) throw new Error(data.message || 'Submission failed');
-        if (typeof window.gtag === 'function') {
-          window.gtag('event', 'form_submit', {
-            event_category: 'lead',
-            event_label: 'mobile-popup',
-            form_location: window.location.pathname
-          });
-          window.gtag('event', 'generate_lead', {
-            event_category: 'lead',
-            event_label: 'mobile-popup',
-            form_location: window.location.pathname,
-            page_title: document.title
-          });
-        }
+        const trackEvent = typeof window.loftsTrackEvent === 'function'
+          ? window.loftsTrackEvent
+          : (eventName, params) => {
+              window.dataLayer = window.dataLayer || [];
+              window.dataLayer.push({ event: eventName, ...params });
+              if (typeof window.gtag === 'function') window.gtag('event', eventName, params);
+            };
+        trackEvent('form_submit', {
+          event_category: 'lead',
+          event_label: 'mobile-popup',
+          form_location: window.location.pathname,
+          ...attribution
+        });
+        trackEvent('generate_lead', {
+          event_category: 'lead',
+          event_label: 'mobile-popup',
+          form_location: window.location.pathname,
+          page_title: document.title,
+          ...attribution
+        });
       } catch {
         if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
         if (errEl) {

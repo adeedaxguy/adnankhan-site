@@ -5,6 +5,69 @@
 (function () {
   'use strict';
 
+  const adAttributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid'];
+  const adAttributionStore = 'lofts_ad_attribution';
+
+  const readStoredAttribution = () => {
+    try {
+      return JSON.parse(window.sessionStorage.getItem(adAttributionStore) || '{}') || {};
+    } catch {
+      return {};
+    }
+  };
+
+  const persistAdAttribution = () => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const next = {};
+      adAttributionKeys.forEach(key => {
+        const value = params.get(key);
+        if (value) next[key] = value;
+      });
+      if (!Object.keys(next).length) return;
+      next.landing_page = window.location.href;
+      next.referrer = document.referrer || '';
+      next.captured_at = new Date().toISOString();
+      window.sessionStorage.setItem(adAttributionStore, JSON.stringify(next));
+    } catch {
+      // Attribution is useful, but never worth breaking the page over.
+    }
+  };
+
+  const getAdAttribution = () => {
+    const stored = readStoredAttribution();
+    return {
+      ...stored,
+      landing_page: stored.landing_page || window.location.href,
+      referrer: stored.referrer || document.referrer || ''
+    };
+  };
+
+  const appendAdAttribution = (formData) => {
+    const attribution = getAdAttribution();
+    Object.entries(attribution).forEach(([key, value]) => {
+      if (value && !formData.has(key)) formData.append(key, value);
+    });
+    return attribution;
+  };
+
+  const trackMarketingEvent = (eventName, params = {}) => {
+    const payload = {
+      ...params,
+      page_path: window.location.pathname,
+      page_title: document.title
+    };
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...payload });
+    if (typeof window.gtag === 'function') {
+      window.gtag('event', eventName, payload);
+    }
+  };
+
+  persistAdAttribution();
+  window.loftsGetAdAttribution = getAdAttribution;
+  window.loftsTrackEvent = trackMarketingEvent;
+
   // ── Hero word-split (runs synchronously, before paint of split-done state) ──
   // CSS animation drives the actual reveal; we just wrap words + add the class.
   // Works without GSAP — independent of CDN availability.
@@ -210,6 +273,7 @@
         if (!formData.has('page_url')) formData.append('page_url', window.location.href);
         if (!formData.has('page_title')) formData.append('page_title', document.title);
         if (!formData.has('source_path')) formData.append('source_path', window.location.pathname);
+        const attribution = appendAdAttribution(formData);
 
         const res = await fetch(form.action, {
           method: 'POST',
@@ -222,20 +286,19 @@
 
         form.style.display = 'none';
         if (success) success.style.display = 'block';
-        if (typeof window.gtag === 'function') {
-          const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
-          window.gtag('event', 'form_submit', {
-            event_category: 'lead',
-            event_label: leadSource,
-            form_location: window.location.pathname
-          });
-          window.gtag('event', 'generate_lead', {
-            event_category: 'lead',
-            event_label: leadSource,
-            form_location: window.location.pathname,
-            page_title: document.title
-          });
-        }
+        const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
+        trackMarketingEvent('form_submit', {
+          event_category: 'lead',
+          event_label: leadSource,
+          form_location: window.location.pathname,
+          ...attribution
+        });
+        trackMarketingEvent('generate_lead', {
+          event_category: 'lead',
+          event_label: leadSource,
+          form_location: window.location.pathname,
+          ...attribution
+        });
         // Reset button state in case the form is reopened later
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
       } catch (err) {
@@ -264,7 +327,7 @@
     if (href === '/#contact' || href === '#contact') eventName = 'contact_cta_click';
     if (href.includes('/free-audit/')) eventName = 'audit_cta_click';
     if (!eventName) return;
-    window.gtag('event', eventName, {
+    trackMarketingEvent(eventName, {
       event_category: 'lead',
       event_label: href.replace(/^mailto:/, '').split('?')[0],
       link_location: window.location.pathname
