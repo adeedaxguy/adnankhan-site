@@ -283,6 +283,46 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a free website audit report?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "A free website audit report is a practical review of one page or website that checks technical access, SEO/AEO readiness, design clarity, trust signals, broken links, and the next action a visitor should take."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the report download as a PDF?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. After the audit runs, you can download a PDF that summarizes the score, before-and-after improvement plan, design opportunities, broken-link scan, and technical snapshot."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Does the report check more than SEO?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes. The report reviews search basics, answer-engine compatibility, first-screen clarity, mobile friction, trust proof, performance signals, and whether the page gives serious buyers a clear enquiry path."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "When should Lofts Studio review the audit?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Use the report first, then send it when you want the fixes prioritized. Lofts Studio looks for the few changes most likely to improve trust, visibility, and lead quality before recommending deeper work."
+      }
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   "itemListElement": [
     {
@@ -323,7 +363,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <div class="diagnostic-copy" data-reveal>
         <span class="eyebrow">Free tool · Website audit · PDF report</span>
         <h1 class="h-display">Free website audit report with PDF download.</h1>
-        <p class="lead">Paste any URL and get a client-ready website audit report: design, SEO/AEO compatibility, performance, trust signals, broken links, and a plain-English before/after improvement plan you can discuss with a non-technical client.</p>
+        <p class="lead">Paste any URL and get a client-ready website audit report: design, SEO/AEO compatibility, performance, trust signals, broken links, and a plain-English before/after improvement plan you can discuss with a non-technical client or use before hiring a team.</p>
         <div class="diagnostic-badges" aria-label="Audit checks included">
           <span>Design friction</span>
           <span>Broken links</span>
@@ -368,6 +408,33 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <article>
           <strong>Service business fit</strong>
           <p>For contractors, trades, clinics, agencies, and local service firms, the report checks whether the page explains the offer, proves trust, and gives visitors one clear enquiry path.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-sm diagnostic-explain" aria-labelledby="audit-report-faq">
+    <div class="container diagnostic-explain-grid">
+      <div>
+        <span class="eyebrow">Audit report FAQ</span>
+        <h2 class="h-1" id="audit-report-faq">What the free website audit report includes.</h2>
+      </div>
+      <div class="diagnostic-explain-list">
+        <article>
+          <strong>What is a free website audit report?</strong>
+          <p>It is a practical review of one page or website that checks technical access, SEO/AEO readiness, design clarity, trust signals, broken links, and the next action a visitor should take.</p>
+        </article>
+        <article>
+          <strong>Does the report download as a PDF?</strong>
+          <p>Yes. After the audit runs, you can download a PDF that summarizes the score, before-and-after improvement plan, design opportunities, broken-link scan, and technical snapshot.</p>
+        </article>
+        <article>
+          <strong>Does it check more than SEO?</strong>
+          <p>Yes. The report reviews search basics, answer-engine compatibility, first-screen clarity, mobile friction, trust proof, performance signals, and whether the page gives serious buyers a clear enquiry path.</p>
+        </article>
+        <article>
+          <strong>When should Lofts Studio review it?</strong>
+          <p>Use the report first, then send it when you want the fixes prioritized. We look for the few changes most likely to improve trust, visibility, and lead quality before recommending deeper work.</p>
         </article>
       </div>
     </div>
@@ -834,6 +901,15 @@ async function submitAuditFixPlan(event) {
       event_category: 'lead',
       event_label: 'free-audit-report',
       form_location: '/free-audit/'
+    });
+    trackAuditEvent('generate_lead', {
+      event_category: 'lead',
+      event_label: 'free-audit-report',
+      form_location: '/free-audit/',
+      page_title: document.title,
+      value: currentAuditData.score || 0,
+      score: currentAuditData.score || 0,
+      audited_url: currentAuditData.url || ''
     });
     trackAuditEvent('audit_fix_plan_request', {
       event_category: 'lead',
