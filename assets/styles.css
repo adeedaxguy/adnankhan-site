@@ -812,6 +812,10 @@ body.menu-lock { overflow: hidden !important; }
 }
 .site-footer a { color: var(--ink-soft); font-family: var(--font-sans); }
 .site-footer a:hover { color: var(--ink); }
+.site-footer a.btn-primary,
+.site-footer a.btn-primary:hover {
+  color: var(--bg);
+}
 .site-footer .meta { color: var(--muted); font-size: 0.85rem; font-family: var(--font-sans); }
 
 /* ── Utility ── */
