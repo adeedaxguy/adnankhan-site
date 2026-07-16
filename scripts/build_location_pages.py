@@ -7,8 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://lofts.studio"
-CACHE_VER = "20260622j"
-TODAY = "2026-06-18"
+CACHE_VER = "20260716a"
+TODAY = "2026-07-16"
 
 
 INDUSTRIES = {
@@ -27,7 +27,23 @@ INDUSTRIES = {
     "financial": ("Financial advisors", "/websites/financial-advisors/", "credibility-first pages for advisory, planning, and local trust"),
     "auto": ("Auto repair", "/websites/auto-repair/", "repair, diagnostics, service-area, and booking-focused auto websites"),
     "retail": ("Local retail", "/websites/local-retail/", "local shop websites built for discovery, inventory clarity, and repeat visits"),
+    "consultants": ("Consultants", "/websites/consultants/", "expert-led service sites with clear positioning, proof, and enquiry paths"),
+    "accountants": ("Accountants", "/websites/accountants/", "trust-led accounting websites with service pages, local SEO, and intake flows"),
+    "recruitment": ("Recruitment", "/websites/recruitment/", "candidate and employer journeys that make placements easier to start"),
+    "builders": ("Builders", "/websites/builders/", "project-led construction websites with galleries, service areas, and quote paths"),
 }
+
+
+PLATFORM_SERVICES = [
+    ("WordPress development", "/services/wordpress-development.html", "Flexible content, service-area SEO, booking paths, and clean admin handoff."),
+    ("Webflow development", "/services/webflow-development.html", "High-end brand and SaaS pages with fast launches and controlled editing."),
+    ("Shopify development", "/services/shopify-development.html", "Custom ecommerce builds, CRO, speed, and durable merchandising workflows."),
+    ("WooCommerce development", "/services/woocommerce-development.html", "WordPress commerce for local, B2B, and catalog-heavy businesses."),
+    ("Custom websites and web apps", "/services/custom-app-development.html", "When templates are not enough: portals, workflows, integrations, and product logic."),
+    ("SaaS website design", "/services/saas-website-design.html", "Positioning, proof, comparison paths, and demo-ready product marketing pages."),
+    ("Technical SEO audits", "/services/technical-seo-audit.html", "Indexability, schema, page speed, internal links, and search structure."),
+    ("AI calling agents", "/services/ai-calling-agents.html", "Missed-call capture, lead qualification, summaries, and handoff workflows."),
+]
 
 
 STATES = [
@@ -276,6 +292,96 @@ STATES = [
             },
         ],
     },
+    {
+        "name": "Illinois",
+        "slug": "illinois",
+        "abbr": "IL",
+        "angle": "Illinois search combines Chicago-level competition with strong suburban and statewide service demand. A useful Illinois page needs to handle B2B, healthcare, legal, restaurants, trades, and ecommerce without pretending Lofts Studio is physically based there.",
+        "industries": ["medical", "law", "restaurants", "trades", "consultants", "financial"],
+        "city_targets": ["Chicago", "Aurora", "Naperville", "Joliet", "Springfield", "Evanston"],
+        "search_intent": "Illinois buyers often search for a web design agency, WordPress developer, Webflow developer, Shopify developer, website redesign partner, local SEO help, and better lead capture in the same research journey.",
+    },
+    {
+        "name": "Pennsylvania",
+        "slug": "pennsylvania",
+        "abbr": "PA",
+        "angle": "Pennsylvania has dense professional-service, healthcare, education, ecommerce, and contractor markets. The page has to serve both Philadelphia-style competitive intent and practical service-area searches across the rest of the state.",
+        "industries": ["medical", "law", "financial", "restaurants", "trades", "accountants"],
+        "city_targets": ["Philadelphia", "Pittsburgh", "Allentown", "Erie", "Harrisburg", "Lancaster"],
+        "search_intent": "Pennsylvania searches tend to split between redesign, WordPress development, ecommerce rebuilds, local SEO, professional-service credibility, and lead generation from organic traffic.",
+    },
+    {
+        "name": "Ohio",
+        "slug": "ohio",
+        "abbr": "OH",
+        "angle": "Ohio is a strong fit for practical, conversion-led websites: healthcare, manufacturing-adjacent B2B, trades, legal, restaurants, finance, and local retail all need clear service pages and reliable enquiry paths.",
+        "industries": ["medical", "trades", "law", "restaurants", "financial", "auto"],
+        "city_targets": ["Columbus", "Cleveland", "Cincinnati", "Toledo", "Akron", "Dayton"],
+        "search_intent": "Ohio buyers usually need a site that proves the business quickly, supports local SEO, and routes visitors into a call, appointment, quote request, or audit instead of a vague contact page.",
+    },
+    {
+        "name": "North Carolina",
+        "slug": "north-carolina",
+        "abbr": "NC",
+        "angle": "North Carolina demand is split between fast-growth technology, healthcare, finance, real estate, home services, restaurants, and local operators. The best pages connect search intent to a serious buyer path fast.",
+        "industries": ["medical", "real_estate", "restaurants", "trades", "financial", "consultants"],
+        "city_targets": ["Charlotte", "Raleigh", "Durham", "Greensboro", "Wilmington", "Cary"],
+        "search_intent": "North Carolina searches often include SaaS website design, custom website development, WordPress, Webflow, Shopify, local SEO, and website audit terms.",
+    },
+    {
+        "name": "Arizona",
+        "slug": "arizona",
+        "abbr": "AZ",
+        "angle": "Arizona search has strong intent across healthcare, real estate, home services, hospitality, spas, restaurants, law, and ecommerce. A page has to be fast, mobile-first, and direct because buyers compare options quickly.",
+        "industries": ["medical", "real_estate", "spas", "trades", "restaurants", "law"],
+        "city_targets": ["Phoenix", "Scottsdale", "Tucson", "Mesa", "Tempe", "Chandler"],
+        "search_intent": "Arizona visitors often need local service pages, booking paths, trust proof, AI phone intake, and a clear redesign or audit offer without being pushed into a generic package.",
+    },
+    {
+        "name": "Washington",
+        "slug": "washington",
+        "abbr": "WA",
+        "angle": "Washington buyers are comfortable with technical evaluation. SaaS, B2B, healthcare, ecommerce, restaurants, finance, and trades need sites that explain the offer, prove competence, and move users toward a qualified conversation.",
+        "industries": ["consultants", "medical", "financial", "restaurants", "trades", "retail"],
+        "city_targets": ["Seattle", "Bellevue", "Tacoma", "Spokane", "Vancouver", "Redmond"],
+        "search_intent": "Washington searches tend to reward clear technical positioning: Webflow, WordPress, custom websites, SaaS pages, Shopify, SEO audits, speed, and conversion fixes.",
+    },
+    {
+        "name": "Colorado",
+        "slug": "colorado",
+        "abbr": "CO",
+        "angle": "Colorado search mixes SaaS and B2B with hospitality, outdoor brands, healthcare, real estate, trades, and professional services. The page needs a clean service path and enough proof to feel senior.",
+        "industries": ["hospitality", "medical", "real_estate", "trades", "consultants", "retail"],
+        "city_targets": ["Denver", "Boulder", "Colorado Springs", "Fort Collins", "Aurora", "Lakewood"],
+        "search_intent": "Colorado buyers often compare web design, website redesign, SEO, Webflow, WordPress, Shopify, and AI lead capture before choosing who to contact.",
+    },
+    {
+        "name": "Massachusetts",
+        "slug": "massachusetts",
+        "abbr": "MA",
+        "angle": "Massachusetts has high-trust demand across healthcare, education, biotech-adjacent B2B, law, finance, restaurants, and consultants. Generic agency copy will not carry enough credibility.",
+        "industries": ["medical", "law", "financial", "restaurants", "consultants", "recruitment"],
+        "city_targets": ["Boston", "Cambridge", "Worcester", "Springfield", "Lowell", "Newton"],
+        "search_intent": "Massachusetts searches often require evidence, technical SEO, compliance-aware content structure, SaaS or B2B clarity, and a strong audit-first call to action.",
+    },
+    {
+        "name": "New Jersey",
+        "slug": "new-jersey",
+        "abbr": "NJ",
+        "angle": "New Jersey is competitive for professional services, healthcare, logistics, restaurants, home services, retail, and regional B2B. The website has to show local relevance without fake proximity claims.",
+        "industries": ["medical", "law", "restaurants", "trades", "retail", "accountants"],
+        "city_targets": ["Newark", "Jersey City", "Hoboken", "Princeton", "Trenton", "Morristown"],
+        "search_intent": "New Jersey buyers often search by service, platform, city, and problem: redesign, WordPress, Webflow, Shopify, local SEO, forms not converting, and missed calls.",
+    },
+    {
+        "name": "Tennessee",
+        "slug": "tennessee",
+        "abbr": "TN",
+        "angle": "Tennessee demand is strong across healthcare, hospitality, music and creative businesses, trades, restaurants, local retail, B2B, and professional services. The right page should feel practical, human, and easy to act on.",
+        "industries": ["medical", "hospitality", "restaurants", "trades", "retail", "photographers"],
+        "city_targets": ["Nashville", "Memphis", "Knoxville", "Chattanooga", "Franklin", "Murfreesboro"],
+        "search_intent": "Tennessee searches often need a fast path from website design or redesign research into an audit, consultation, booking path, or AI phone-capture conversation.",
+    },
 ]
 
 
@@ -480,6 +586,56 @@ def industry_cards(keys: list[str]) -> str:
     )
 
 
+def platform_cards() -> str:
+    return "\n".join(
+        f"""<a class="loc-card loc-card-link" href="{href}">
+          <span class="loc-card-kicker">Service path</span>
+          <h3>{esc(label)}</h3>
+          <p>{esc(description)}</p>
+        </a>"""
+        for label, href, description in PLATFORM_SERVICES
+    )
+
+
+def city_cards(state: dict) -> str:
+    cities = state.get("cities", [])
+    if cities:
+        return "\n".join(
+            f"""<a class="loc-card loc-card-link" href="{city_url(state, city)}">
+          <span class="loc-card-kicker">City page</span>
+          <h3>{esc(city["name"])} web design</h3>
+          <p>{esc(city["market"])}</p>
+        </a>"""
+            for city in cities
+        )
+    return "\n".join(
+        f"""<article class="loc-card">
+          <span class="loc-card-kicker">City cluster</span>
+          <h3>{esc(city)} web design</h3>
+          <p>Queued for a deeper city page after Search Console shows enough local intent. For now, this {esc(state["abbr"])} hub connects {esc(city)} searches to audit, platform, industry, and AI calling paths.</p>
+        </article>"""
+        for city in state.get("city_targets", [])
+    )
+
+
+def state_faq_items(state: dict) -> list[tuple[str, str]]:
+    article = indefinite_article(state["name"])
+    return [
+        (
+            f"Does Lofts Studio have a physical office in {state['name']}?",
+            f"No. Lofts Studio works remotely with US businesses and does not claim a physical {state['name']} office. This page is built for service-area intent: senior website design, WordPress, Webflow, Shopify, WooCommerce, custom websites, SEO/AEO, audits, and AI calling agents for teams serving {state['name']} customers.",
+        ),
+        (
+            f"What kind of {state['name']} website projects are a fit?",
+            f"Strong fits include website redesigns, WordPress builds, Webflow marketing sites, Shopify and WooCommerce stores, SaaS/product websites, custom web applications, technical SEO fixes, conversion improvements, and AI phone intake for missed enquiries.",
+        ),
+        (
+            f"How should {article} {state['name']} business start?",
+            "Start with a short audit or project map. The goal is to understand the current website, search intent, lead path, tracking, and what must change before design or development work starts.",
+        ),
+    ]
+
+
 def state_url(state: dict) -> str:
     return f"/locations/{state['slug']}/"
 
@@ -536,7 +692,7 @@ def build_usa() -> None:
       <div class="loc-hero-copy" data-reveal>
         <span class="eyebrow">USA service-area SEO</span>
         <h1 class="h-display">Website design, local SEO, and AI calling agents for US businesses.</h1>
-        <p class="lead">This is the first layer of a controlled location system: state hubs, priority city pages, industry pages, and AI phone workflows connected into one lead path. No fake local offices. No thin city swaps. Each page has a real search intent and a real next step.</p>
+        <p class="lead">This is the first layer of a controlled location system: state hubs, priority city pages, industry pages, and AI phone workflows connected into one lead path. No invented offices. No thin city swaps. Each page has a real search intent and a real next step.</p>
         <div class="loc-actions">
           <a href="/#contact" class="btn btn-primary">Plan my lead flow</a>
           <a href="/services/ai-calling-agents.html" class="btn btn-ghost">See AI calling agents</a>
@@ -577,21 +733,17 @@ def build_usa() -> None:
 
 def build_state(state: dict) -> None:
     path = state_url(state)
-    title = f"Website Design in {state['name']} | Local SEO & AI Calling Agents"
-    description = f"Senior website design, local SEO structure, and AI calling agents for {state['name']} businesses. Priority city pages built for qualified enquiries and clean handoff."
+    title = f"Website Design in {state['name']} | Web Development, SEO & AI"
+    description = f"Senior website design, WordPress, Webflow, Shopify, WooCommerce, custom websites, SEO/AEO, audits, and AI calling agents for {state['name']} businesses."
+    state_article = indefinite_article(state["name"])
+    faq_items = state_faq_items(state)
     schema = [
         {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": f"{SITE}{path}", "description": description, "isPartOf": {"@type": "WebSite", "url": SITE}},
-        {"@context": "https://schema.org", "@type": "Service", "name": f"Website design in {state['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "State", "name": state["name"]}], "serviceType": ["Website design", "Local SEO", "AI calling agents"]},
+        {"@context": "https://schema.org", "@type": "Service", "name": f"Website design and web development in {state['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "AdministrativeArea", "name": state["name"]}], "serviceType": ["Website design", "WordPress development", "Webflow development", "Shopify development", "WooCommerce development", "Custom website development", "SaaS website design", "Technical SEO", "AEO", "AI calling agents"]},
         breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], path)]),
+        faq_schema(faq_items),
     ]
-    city_links = "\n".join(
-        f"""<a class="loc-card loc-card-link" href="{city_url(state, city)}">
-          <span class="loc-card-kicker">City page</span>
-          <h3>{esc(city["name"])} web design</h3>
-          <p>{esc(city["market"])}</p>
-        </a>"""
-        for city in state["cities"]
-    )
+    city_links = city_cards(state)
     other_states = "\n".join(
         f'<a href="{state_url(other)}">{esc(other["name"])}</a>'
         for other in STATES
@@ -605,21 +757,34 @@ def build_state(state: dict) -> None:
       {breadcrumb([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], None)])}
       <div class="loc-hero-copy" data-reveal>
         <span class="eyebrow">{esc(state["name"])} web design</span>
-        <h1 class="h-display">Website design in {esc(state["name"])} for businesses that need search visibility and booked conversations.</h1>
+        <h1 class="h-display">Website design in {esc(state["name"])} for businesses that need search visibility, stronger pages, and booked conversations.</h1>
         <p class="lead">{esc(state["angle"])}</p>
         <div class="loc-actions">
-          <a href="/#contact" class="btn btn-primary">Map my {esc(state["abbr"])} lead path</a>
+          <a href="/free-audit/" class="btn btn-primary">Audit my website</a>
           <a href="/websites/" class="btn btn-ghost">Browse industry pages</a>
         </div>
       </div>
     </div>
   </section>
   <section class="section">
+    <div class="container loc-split">
+      <div data-reveal>
+        <span class="eyebrow">Direct answer</span>
+        <h2 class="h-1">What should {esc(state_article)} {esc(state["name"])} website design partner actually improve?</h2>
+      </div>
+      <div class="prose" data-reveal>
+        <p>A serious {esc(state["name"])} website project should improve the buyer path, not just the visual layer: clearer positioning, better service pages, faster mobile performance, stronger internal links, useful schema, cleaner tracking, and a next step that matches the visitor's intent.</p>
+        <p>{esc(state.get("search_intent", "The page should connect state and city search intent to the right service, industry, audit, and contact paths without using fake local claims."))}</p>
+        <p>Lofts Studio works across WordPress, Webflow, Shopify, WooCommerce, custom websites, SaaS/product sites, technical SEO, AEO/GEO improvements, and AI calling agents, so the recommendation can match the business instead of forcing every project into one platform.</p>
+      </div>
+    </div>
+  </section>
+  <section class="section">
     <div class="container">
       <div class="loc-section-head" data-reveal>
-        <span class="eyebrow">Priority cities</span>
-        <h2 class="h-1">The first {esc(state["name"])} city pages are built around real search intent.</h2>
-        <p>Each city links into the industries most likely to convert, then into AI calling agents where phone capture is part of the lead problem.</p>
+        <span class="eyebrow">Priority city clusters</span>
+        <h2 class="h-1">Start with the {esc(state["name"])} city intent we can support without thin doorway pages.</h2>
+        <p>Live city pages are only useful when they can answer the search better than a generic local swap. These city clusters guide internal links, Search Console monitoring, and the next rollout.</p>
       </div>
       <div class="loc-grid loc-grid-3" data-reveal>
         {city_links}
@@ -627,6 +792,18 @@ def build_state(state: dict) -> None:
     </div>
   </section>
   <section class="loc-band">
+    <div class="container">
+      <div class="loc-section-head" data-reveal>
+        <span class="eyebrow">Platform and service routes</span>
+        <h2 class="h-1">The state page should not trap every visitor in the same generic offer.</h2>
+        <p>Different buyers land with different problems: rebuild the site, move platform, fix SEO, improve conversions, build a custom workflow, or capture phone enquiries.</p>
+      </div>
+      <div class="loc-grid loc-grid-4" data-reveal>
+        {platform_cards()}
+      </div>
+    </div>
+  </section>
+  <section class="section">
     <div class="container">
       <div class="loc-section-head" data-reveal>
         <span class="eyebrow">Best-fit industries</span>
@@ -637,6 +814,17 @@ def build_state(state: dict) -> None:
       </div>
       <div class="loc-inline-links" data-reveal>
         <span>Other state hubs:</span>{other_states}
+      </div>
+    </div>
+  </section>
+  <section class="loc-band">
+    <div class="container loc-faq">
+      <div data-reveal>
+        <span class="eyebrow">Questions</span>
+        <h2 class="h-1">{esc(state["name"])} website design, answered.</h2>
+      </div>
+      <div data-reveal>
+        {"".join(f'<div class="faq-item"><h3>{esc(q)}</h3><p>{esc(a)}</p></div>' for q, a in faq_items)}
       </div>
     </div>
   </section>
@@ -657,7 +845,7 @@ def build_city(state: dict, city: dict) -> None:
     ]
     schema = [
         {"@context": "https://schema.org", "@type": "WebPage", "name": title, "url": f"{SITE}{path}", "description": description, "isPartOf": {"@type": "WebSite", "url": SITE}},
-        {"@context": "https://schema.org", "@type": "Service", "name": f"Web design in {city['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "City", "name": city["name"]}, {"@type": "State", "name": state["name"]}], "serviceType": ["Website design", "Local SEO", "AI calling agents"]},
+        {"@context": "https://schema.org", "@type": "Service", "name": f"Web design in {city['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "City", "name": city["name"]}, {"@type": "AdministrativeArea", "name": state["name"]}], "serviceType": ["Website design", "Local SEO", "AI calling agents"]},
         breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], state_url(state)), (city["name"], path)]),
         faq_schema(faq_items),
     ]
@@ -857,7 +1045,7 @@ def sitemap_urls() -> list[tuple[str, str, str]]:
     urls = [("/services/ai-calling-agents.html", "weekly", "0.9"), ("/locations/usa/", "weekly", "0.9")]
     for state in STATES:
         urls.append((state_url(state), "weekly", "0.85"))
-        for city in state["cities"]:
+        for city in state.get("cities", []):
             urls.append((city_url(state, city), "weekly", "0.8"))
     return urls
 
@@ -890,7 +1078,7 @@ def main() -> None:
     build_usa()
     for state in STATES:
         build_state(state)
-        for city in state["cities"]:
+        for city in state.get("cities", []):
             build_city(state, city)
     build_ai_calling()
     update_sitemap()
