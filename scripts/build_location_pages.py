@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import html
 import json
+import re
 from pathlib import Path
 
 
@@ -1042,12 +1043,17 @@ def build_ai_calling() -> None:
 
 
 def sitemap_urls() -> list[tuple[str, str, str]]:
-    urls = [("/services/ai-calling-agents.html", "weekly", "0.9"), ("/locations/usa/", "weekly", "0.9")]
+    urls = []
     for state in STATES:
         urls.append((state_url(state), "weekly", "0.85"))
         for city in state.get("cities", []):
             urls.append((city_url(state, city), "weekly", "0.8"))
     return urls
+
+
+def refresh_existing_sitemap_lastmod(text: str, url: str) -> str:
+    pattern = rf"(<loc>{re.escape(SITE + url)}</loc>\n    <lastmod>)([^<]+)(</lastmod>)"
+    return re.sub(pattern, rf"\g<1>{TODAY}\3", text, count=1)
 
 
 def update_sitemap() -> None:
@@ -1071,6 +1077,8 @@ def update_sitemap() -> None:
         text = before + new_block + after
     else:
         text = text.replace("</urlset>", new_block + "\n</urlset>")
+    text = refresh_existing_sitemap_lastmod(text, "/services/ai-calling-agents.html")
+    text = refresh_existing_sitemap_lastmod(text, "/locations/usa/")
     sitemap.write_text(text)
 
 
