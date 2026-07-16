@@ -889,6 +889,12 @@ async function submitAuditFixPlan(event) {
       page_title: document.title,
       ...getAuditAttribution()
     };
+    trackAuditEvent('form_submit_attempt', {
+      event_category: 'lead',
+      event_label: 'free-audit-report',
+      form_location: '/free-audit/',
+      audited_url: currentAuditData.url || ''
+    });
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -922,7 +928,14 @@ async function submitAuditFixPlan(event) {
       status.classList.add('show');
     }
     if (btn) btn.textContent = 'Report sent';
-  } catch {
+  } catch (err) {
+    trackAuditEvent('form_submit_error', {
+      event_category: 'lead',
+      event_label: 'free-audit-report',
+      form_location: '/free-audit/',
+      audited_url: currentAuditData.url || '',
+      error_message: err && err.message ? String(err.message).slice(0, 120) : 'Submission failed'
+    });
     if (status) {
       status.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
       status.classList.add('show');

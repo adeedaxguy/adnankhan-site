@@ -260,6 +260,17 @@
 
   // ── Lead forms — AJAX contact endpoint ──
   document.querySelectorAll('form[data-lead]').forEach(form => {
+    let leadFormStarted = false;
+    form.addEventListener('focusin', () => {
+      if (leadFormStarted) return;
+      leadFormStarted = true;
+      trackMarketingEvent('form_start', {
+        event_category: 'lead',
+        event_label: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form',
+        form_location: window.location.pathname
+      });
+    });
+
     form.addEventListener('submit', async e => {
       e.preventDefault();
       const wrap = form.closest('[data-lead-wrap]') || form.parentElement;
@@ -274,6 +285,14 @@
         if (!formData.has('page_title')) formData.append('page_title', document.title);
         if (!formData.has('source_path')) formData.append('source_path', window.location.pathname);
         const attribution = appendAdAttribution(formData);
+        const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
+
+        trackMarketingEvent('form_submit_attempt', {
+          event_category: 'lead',
+          event_label: leadSource,
+          form_location: window.location.pathname,
+          ...attribution
+        });
 
         const res = await fetch(form.action, {
           method: 'POST',
@@ -286,7 +305,6 @@
 
         form.style.display = 'none';
         if (success) success.style.display = 'block';
-        const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
         trackMarketingEvent('form_submit', {
           event_category: 'lead',
           event_label: leadSource,
@@ -303,6 +321,12 @@
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
       } catch (err) {
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
+        trackMarketingEvent('form_submit_error', {
+          event_category: 'lead',
+          event_label: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form',
+          form_location: window.location.pathname,
+          error_message: err && err.message ? String(err.message).slice(0, 120) : 'Submission failed'
+        });
         // Inline error message — no native alert popup
         let inlineErr = form.querySelector('[data-lead-error]');
         if (!inlineErr) {
