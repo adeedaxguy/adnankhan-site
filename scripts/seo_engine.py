@@ -66,17 +66,38 @@ def load_nav_and_footer():
 POSTS = [
     {
         "slug": "website-structure-audit-report",
-        "title": "Website Structure Audit Report: What to Check Before SEO or a Redesign",
+        "title": "Website Structure Audit Report + Free Tool",
         "excerpt": "A plain-English website structure audit report guide for checking crawl paths, page hierarchy, internal links, content depth, schema, UX, and conversion before rebuilding anything.",
-        "meta": "Website structure audit report guide: check crawl paths, page hierarchy, internal links, content depth, schema, UX, and conversion before a redesign.",
+        "meta": "Use the free website structure audit report tool, then read the checklist for crawl paths, hierarchy, internal links, UX, schema, and leads.",
         "category": "SEO",
         "date": "2026-07-08",
+        "modifiedDate": "2026-07-17",
         "readingTime": "12 min",
         "primaryKeyword": "website structure audit report",
         "secondaryKeyword": "website audit report for free",
         "funnelTo": "/free-audit/",
         "funnelLabel": "Free Website Audit Report",
         "featured": False,
+        "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-structure-audit-now">
+      <h2 id="run-structure-audit-now">Need the report, not just the article?</h2>
+      <form class="post-audit-launcher" action="/free-audit/" method="get">
+        <label for="structure-audit-url">Website URL to audit</label>
+        <div class="post-audit-row">
+          <input id="structure-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
+          <button class="btn btn-primary" type="submit">Start report <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </form>
+      <p>Open the Lofts Studio audit tool from here. It checks structure, SEO/AEO, trust, broken links, design friction, and the next fixes worth discussing.</p>
+      <div class="post-intent-actions">
+        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Check SEO/AEO compatibility</a>
+      </div>
+      <div class="post-intent-note" aria-label="Audit report includes">
+        <span>PDF report</span>
+        <span>Structure + SEO checks</span>
+        <span>Fix order</span>
+      </div>
+    </aside>""",
         "hook": "A website structure audit report should tell you whether the site is built in a way that search engines, answer engines, and real buyers can follow. It is not only a technical checklist. It is a map of where trust, content, navigation, crawlability, and conversion are helping the business or quietly blocking it.",
         "faqs": [
             {
@@ -1588,6 +1609,8 @@ def render_blog_post(p, nav, footer):
         elif tag == "html":
             body_parts.append(content)
     body_html = "\n\n    ".join(body_parts)
+    modified_date = p.get("modifiedDate", p["date"])
+    intent_card_html = p.get("intentCardHtml", "")
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -1633,7 +1656,7 @@ def render_blog_post(p, nav, footer):
   "description": "{p["meta"]}",
   "image": "{SITE}/assets/blog/{p["slug"]}.png?v={CACHE_VER}",
   "datePublished": "{p["date"]}T09:00:00Z",
-  "dateModified": "{p["date"]}T09:00:00Z",
+  "dateModified": "{modified_date}T09:00:00Z",
   "author": {{ "@type": "Person", "name": "Adnan K.", "url": "{SITE}/about.html" }},
   "publisher": {{ "@type": "Organization", "name": "Lofts Studio", "logo": {{ "@type": "ImageObject", "url": "{SITE}/favicon.svg" }} }},
   "mainEntityOfPage": {{ "@type": "WebPage", "@id": "{SITE}/blog/{p["slug"]}.html" }},
@@ -1668,6 +1691,20 @@ def render_blog_post(p, nav, footer):
   .post-prose hr {{ border: 0; border-top: 1px solid var(--line); margin: 3rem 0; }}
   .post-callout {{ background: var(--accent-soft); border-left: 3px solid var(--accent); padding: 1.25rem 1.5rem; margin: 2rem 0; border-radius: 0 var(--r-md) var(--r-md) 0; }}
   .post-callout p {{ margin: 0; color: var(--ink); font-size: 1rem; }}
+  .post-intent-card {{ margin: 2rem 0 0; padding: clamp(1.15rem, 2.8vw, 1.6rem); border: 1px solid var(--line); border-radius: 14px; background: linear-gradient(135deg, rgba(255,255,255,0.72), var(--bg-soft)); box-shadow: 0 18px 60px rgba(30,24,19,0.08); }}
+  .post-intent-card h2 {{ font-family: var(--font-display); font-size: clamp(1.25rem, 2.3vw, 1.65rem); line-height: 1.12; letter-spacing: -0.035em; margin: 0; }}
+  .post-intent-card p {{ margin: 0.75rem 0 0; color: var(--ink-soft); font-size: 0.98rem; line-height: 1.62; }}
+  .post-audit-launcher {{ margin-top: 1.15rem; }}
+  .post-audit-launcher label {{ display: block; margin-bottom: 0.45rem; color: var(--muted); font: 650 0.72rem/1.2 var(--font-mono); letter-spacing: 0.1em; text-transform: uppercase; }}
+  .post-audit-row {{ display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 0.65rem; align-items: stretch; }}
+  .post-audit-row input {{ width: 100%; min-height: 48px; border: 1px solid var(--line); border-radius: var(--r-md); background: rgba(255,255,255,0.78); color: var(--ink); padding: 0 0.95rem; font: 500 0.95rem/1 var(--font-sans); outline: 0; }}
+  .post-audit-row input:focus {{ border-color: var(--accent); box-shadow: 0 0 0 3px rgba(150,74,43,0.14); }}
+  .post-audit-row button.btn {{ border: 0; cursor: pointer; color: var(--bg); white-space: nowrap; }}
+  .post-intent-actions {{ display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.2rem; }}
+  .post-intent-actions .btn {{ min-height: 44px; }}
+  .post-intent-note {{ display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; margin-top: 1.1rem; }}
+  .post-intent-note span {{ display: block; padding: 0.72rem 0.78rem; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,0.52); color: var(--muted); font: 600 0.72rem/1.35 var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }}
+  @media (max-width: 620px) {{ .post-audit-row, .post-intent-actions {{ display: grid; grid-template-columns: 1fr; }} .post-audit-row .btn, .post-intent-actions .btn {{ width: 100%; justify-content: center; }} .post-intent-note {{ grid-template-columns: 1fr; }} }}
 </style>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
@@ -1700,6 +1737,8 @@ def render_blog_post(p, nav, footer):
         <div style="font-size: 0.85rem; color: var(--muted);"><time datetime="{p["date"]}">{date_readable}</time> · {p["readingTime"]} read</div>
       </div>
     </div>
+
+    {intent_card_html}
 
     <img class="post-hero-img" src="/assets/blog/{p["slug"]}.png?v={CACHE_VER}" alt="{p["title"]}" width="1200" height="675" style="margin-top: 2rem;" />
   </div>
