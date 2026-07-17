@@ -95,7 +95,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @media (max-width: 500px) { .audit-input-row { flex-direction: column; } .audit-btn { justify-content: center; } }
 
     /* Loading */
-    .audit-loading { display: none; flex-direction: column; align-items: center; gap: 1rem; padding: 3rem 1.5rem; text-align: center; }
+    .audit-loading { display: none; flex-direction: column; align-items: center; gap: 1rem; padding: 3rem 1.5rem; text-align: center; scroll-margin-top: 90px; }
     .audit-loading.show { display: flex; }
     .audit-spinner-ring { width: 48px; height: 48px; border: 3px solid var(--line); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.75s linear infinite; }
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -105,12 +105,12 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     @keyframes fadeIn { to { opacity: 1; } }
 
     /* Error */
-    .audit-error { display: none; text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem; }
+    .audit-error { display: none; text-align: center; padding: 2rem; color: var(--muted); font-size: 0.9rem; scroll-margin-top: 90px; }
     .audit-error.show { display: block; }
     .audit-error strong { color: var(--ink); display: block; margin-bottom: 0.5rem; font-size: 1rem; }
 
     /* Results wrapper */
-    .audit-results { display: none; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; }
+    .audit-results { display: none; max-width: 960px; margin: 0 auto; padding: 0 1.5rem 4rem; scroll-margin-top: 90px; }
     .audit-results.show { display: block; }
 
     /* Score card */
@@ -507,7 +507,25 @@ const resultsEl  = document.getElementById('auditResults');
 const errorEl    = document.getElementById('auditError');
 const whatWeFix  = document.getElementById('whatWeFix');
 const loadingUrl = document.getElementById('auditLoadingUrl');
+const heroSection = document.querySelector('.diagnostic-hero');
 let currentAuditData = null;
+
+function placeAuditOutputAfterForm() {
+  if (!heroSection || !loading || !errorEl || !resultsEl || !whatWeFix) return;
+  let anchor = heroSection;
+  [loading, errorEl, resultsEl, whatWeFix].forEach(section => {
+    anchor.insertAdjacentElement('afterend', section);
+    anchor = section;
+  });
+}
+
+function scrollToAuditOutput(section) {
+  if (!section) return;
+  const prefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  section.scrollIntoView({ behavior: prefersReducedMotion ? 'auto' : 'smooth', block: 'start' });
+}
+
+placeAuditOutputAfterForm();
 
 const auditAttributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid'];
 const auditAttributionStore = 'lofts_ad_attribution';
@@ -576,6 +594,7 @@ form.addEventListener('submit', async (e) => {
   loading.classList.add('show');
   loadingUrl.textContent = url.replace(/^https?:\/\//, '');
   btn.disabled = true;
+  requestAnimationFrame(() => scrollToAuditOutput(loading));
 
   trackAuditEvent('audit_run', { event_category: 'engagement', event_label: url, audited_url: url });
 
@@ -584,13 +603,18 @@ form.addEventListener('submit', async (e) => {
     const data = await parseAuditResponse(res);
     loading.classList.remove('show');
     btn.disabled = false;
-    if (data.error) { errorEl.classList.add('show'); return; }
+    if (data.error) {
+      errorEl.classList.add('show');
+      scrollToAuditOutput(errorEl);
+      return;
+    }
     renderResults(data);
   } catch (error) {
     loading.classList.remove('show');
     btn.disabled = false;
     setAuditError(error.message || 'The audit service could not check that page right now.');
     errorEl.classList.add('show');
+    scrollToAuditOutput(errorEl);
   }
 });
 
@@ -760,7 +784,7 @@ function renderResults(data) {
 
   resultsEl.classList.add('show');
   whatWeFix.style.display = 'block';
-  resultsEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  scrollToAuditOutput(resultsEl);
 
   trackAuditEvent('audit_complete', { event_category: 'engagement', value: score, score });
 }
