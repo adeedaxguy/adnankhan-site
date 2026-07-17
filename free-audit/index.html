@@ -581,17 +581,46 @@ form.addEventListener('submit', async (e) => {
 
   try {
     const res  = await fetch('/api/audit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
-    const data = await res.json();
+    const data = await parseAuditResponse(res);
     loading.classList.remove('show');
     btn.disabled = false;
     if (data.error) { errorEl.classList.add('show'); return; }
     renderResults(data);
-  } catch {
+  } catch (error) {
     loading.classList.remove('show');
     btn.disabled = false;
+    setAuditError(error.message || 'The audit service could not check that page right now.');
     errorEl.classList.add('show');
   }
 });
+
+async function parseAuditResponse(res) {
+  const raw = await res.text();
+  let data = {};
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch {
+    throw new Error(res.ok
+      ? 'The audit service returned an unreadable response. Please try again.'
+      : 'The audit service is temporarily unavailable. Please try again or contact Lofts Studio.');
+  }
+  if (!res.ok) throw new Error(data.error || 'The audit service is temporarily unavailable.');
+  return data;
+}
+
+function setAuditError(message) {
+  errorEl.innerHTML = `<strong>Could not complete that audit</strong>${escapeHtml(message)}`;
+}
+
+function escapeHtml(value) {
+  return String(value == null ? '' : value).replace(/[&<>"']/g, ch => ({
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  }[ch]));
+}
 
 function renderResults(data) {
   currentAuditData = data;

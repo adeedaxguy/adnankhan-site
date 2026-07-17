@@ -1,18 +1,24 @@
-// Vercel Edge Function — Website Audit Tool (v3)
+// Vercel Function — Website Audit Tool (v3)
 // Client-ready report with technical, SEO, performance, design, trust, and broken-link checks.
-
-export const config = { runtime: 'edge' };
 
 const TIMEOUT_MS = 9000;
 const LINK_AUDIT_LIMIT = 24;
 const LINK_TIMEOUT_MS = 3200;
 
-export default async function handler(req) {
+export default async function handler(req, res) {
+  const webReq = await toWebRequest(req);
+  const response = await handleAuditRequest(webReq);
+  if (res && typeof res.setHeader === 'function') return sendNodeResponse(res, response);
+  return response;
+}
+
+async function handleAuditRequest(req) {
   if (req.method === 'OPTIONS') return new Response(null, { status: 204, headers: cors() });
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
 
   let body;
   try { body = await req.json(); } catch { body = {}; }
+  const isAeoMode = body.mode === 'aeo';
 
   let rawUrl = (body.url || '').trim();
   if (!rawUrl) return json({ error: 'No URL provided' }, 400);
@@ -103,7 +109,7 @@ export default async function handler(req) {
     };
 
     const linkInventory = extractLinks(html, finalUrl);
-    linkAudit = await auditLinks(linkInventory, finalUrl, html);
+    linkAudit = await auditLinks(linkInventory, finalUrl, html, isAeoMode ? 8 : LINK_AUDIT_LIMIT);
     const brokenCount = linkAudit.broken.length;
     results.brokenLinks = {
       pass: brokenCount === 0,
@@ -372,6 +378,45 @@ export default async function handler(req) {
   return json({ url: finalUrl, score, grade, passed, total, critical, high, ttfbMs, results, catScores, linkAudit, technicalData, report, errors });
 }
 
+async function toWebRequest(req) {
+  if (req && typeof req.json === 'function' && req.headers && typeof req.headers.get === 'function') return req;
+
+  const headers = new Headers();
+  for (const [key, value] of Object.entries(req.headers || {})) {
+    if (Array.isArray(value)) value.forEach(item => headers.append(key, String(item)));
+    else if (value != null) headers.set(key, String(value));
+  }
+
+  const protocolHeader = headers.get('x-forwarded-proto') || 'https';
+  const protocol = protocolHeader.split(',')[0].trim() || 'https';
+  const host = headers.get('host') || 'lofts.studio';
+  const url = /^https?:\/\//i.test(req.url || '') ? req.url : `${protocol}://${host}${req.url || '/'}`;
+  const method = req.method || 'GET';
+  let body;
+
+  if (!/^(GET|HEAD)$/i.test(method)) {
+    if (req.body != null) body = typeof req.body === 'string' ? req.body : JSON.stringify(req.body);
+    else body = await readRawBody(req);
+  }
+
+  return new Request(url, { method, headers, body });
+}
+
+function readRawBody(req) {
+  return new Promise(resolve => {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => resolve(body));
+    req.on('error', () => resolve(''));
+  });
+}
+
+async function sendNodeResponse(res, response) {
+  res.statusCode = response.status;
+  response.headers.forEach((value, key) => res.setHeader(key, value));
+  res.end(await response.text());
+}
+
 function json(data, status = 200) {
   return new Response(JSON.stringify(data), { status, headers: { 'content-type': 'application/json', ...cors() } });
 }
@@ -450,7 +495,7 @@ function extractLinks(html, baseUrl) {
   return [...anchors, ...internal, ...external];
 }
 
-async function auditLinks(links, finalUrl, html) {
+async function auditLinks(links, finalUrl, html, limit = LINK_AUDIT_LIMIT) {
   const audit = emptyLinkAudit();
   audit.totalFound = links.length;
 
@@ -466,7 +511,7 @@ async function auditLinks(links, finalUrl, html) {
 
   const toCheck = links
     .filter(link => !link.samePageAnchor)
-    .slice(0, Math.max(0, LINK_AUDIT_LIMIT - samePageAnchors.length));
+    .slice(0, Math.max(0, limit - samePageAnchors.length));
   audit.skipped = Math.max(0, links.length - samePageAnchors.length - toCheck.length);
 
   const checked = await Promise.all(toCheck.map(checkLink));

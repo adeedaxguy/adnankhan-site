@@ -271,9 +271,9 @@ form.addEventListener('submit', async (event) => {
     const res = await fetch('/api/audit', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ url })
+      body: JSON.stringify({ url, mode: 'aeo' })
     });
-    const data = await res.json();
+    const data = await parseAuditResponse(res);
     if (data.error) throw new Error(data.error);
     renderAeo(data);
   } catch (error) {
@@ -283,6 +283,20 @@ form.addEventListener('submit', async (event) => {
     btn.innerHTML = 'Run check <span aria-hidden="true">→</span>';
   }
 });
+
+async function parseAuditResponse(res) {
+  const raw = await res.text();
+  let data = {};
+  try {
+    data = raw ? JSON.parse(raw) : {};
+  } catch {
+    throw new Error(res.ok
+      ? 'The checker received an unreadable audit response. Please try the full website audit.'
+      : 'The audit service is temporarily unavailable. Please try the full website audit or contact Lofts Studio.');
+  }
+  if (!res.ok) throw new Error(data.error || 'The audit service is temporarily unavailable.');
+  return data;
+}
 
 function renderAeo(data) {
   const checks = buildAeoChecks(data);
