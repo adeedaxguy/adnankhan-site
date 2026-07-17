@@ -140,6 +140,10 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .post-audit-row input:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(150,74,43,0.14); }
   .post-audit-row button.btn { border: 0; cursor: pointer; color: var(--bg); white-space: nowrap; }
   .post-intent-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.2rem; }
+  .post-intent-actions .btn-primary { color: var(--bg); background: var(--ink); border-color: var(--ink); }
+  .post-intent-actions .btn-primary:hover { color: var(--bg); background: var(--accent); border-color: var(--accent); }
+  .post-intent-actions .btn-ghost { color: var(--ink); background: rgba(255,255,255,0.76); border: 1px solid var(--line); }
+  .post-intent-actions .btn-ghost:hover { color: var(--bg); background: var(--ink); border-color: var(--ink); }
   .post-intent-actions .btn { min-height: 44px; }
   .post-intent-note { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.65rem; margin-top: 1.1rem; }
   .post-intent-note span { display: block; padding: 0.72rem 0.78rem; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,0.52); color: var(--muted); font: 600 0.72rem/1.35 var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -265,8 +269,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       </form>
       <p>Open the Lofts Studio audit tool from here. It checks structure, SEO/AEO, trust, broken links, design friction, and the next fixes worth discussing.</p>
       <div class="post-intent-actions">
-        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
-        <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Check SEO/AEO compatibility</a>
+        <a href="/free-audit/" class="btn btn-primary" data-audit-article-cta="open-audit-tool">Open audit report tool</a>
+        <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost" data-audit-article-cta="seo-aeo-checker">Check SEO/AEO compatibility</a>
       </div>
       <div class="post-intent-note" aria-label="Audit report includes">
         <span>PDF report</span>
@@ -472,7 +476,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
     <p>That is how you avoid a redesign that looks better but performs worse. The design system, navigation, content plan, templates, schema, redirects, and measurement plan should all be shaped by the audit. Otherwise the redesign becomes a visual project instead of a business improvement.</p>
 
-    <p>If you want the fast version, use the <a href='/free-audit/'>free website audit report</a>. If you only need to test one page for search and answer readiness, run the <a href='/tools/seo-aeo-checker.html'>SEO/AEO compatibility checker</a> and use the <a href='/blog/seo-compatibility-checker.html'>SEO compatibility checker guide</a> to interpret the result. If the site needs deeper implementation, the next step is a <a href='/services/technical-seo-audit.html'>technical SEO audit</a> that turns findings into fixes.</p>
+    <p>If you want the fast version, use the <a href='/free-audit/'>free website audit report</a>. If you only need to test one page for search and answer readiness, run the <a href='/tools/seo-aeo-checker.html'>SEO/AEO compatibility checker</a> and use the <a href='/blog/seo-compatibility-checker.html'>SEO compatibility checker guide</a> to interpret the result. If you need to show stakeholders what a report should contain, use the <a href="/blog/website-audit-report-pdf-sample.html">website audit report PDF sample guide</a>. If the site needs deeper implementation, the next step is a <a href='/services/technical-seo-audit.html'>technical SEO audit</a> that turns findings into fixes.</p>
 
     <h2 id="frequently-asked">Frequently asked</h2>
 
@@ -494,7 +498,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <p>This is the work I do for clients. If you want it done properly, the relevant offer is <a href="/free-audit/">Free Website Audit Report</a>.</p>
 
     <p style="text-align: center; margin-top: 2.5rem;">
-      <a href="/free-audit/" class="btn btn-primary">Read about Free Website Audit Report &nbsp;&rarr;</a>
+      <a href="/free-audit/" class="btn btn-primary">Run the audit report tool &nbsp;&rarr;</a>
     </p>
 
     <hr style="margin-top: 4rem;"/>
@@ -539,6 +543,24 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     </div>
   </div>
 </section>
+<script>
+  document.querySelectorAll('[data-audit-article-cta]').forEach(function(link) {
+    link.addEventListener('click', function() {
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'audit_article_cta_click',
+        cta_type: link.getAttribute('data-audit-article-cta'),
+        source_path: window.location.pathname
+      });
+      if (typeof window.gtag === 'function') {
+        window.gtag('event', 'audit_article_cta_click', {
+          event_category: 'lead_path',
+          event_label: link.getAttribute('data-audit-article-cta')
+        });
+      }
+    });
+  });
+</script>
 <script src="/assets/comments.js?v=20260622j" defer></script>
 
 <footer class="site-footer footer-rich">
