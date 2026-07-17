@@ -883,6 +883,7 @@ function buildReportPreview(report, linkAudit, technicalData) {
 
 function downloadAuditReport() {
   if (!currentAuditData) return;
+  setDownloadButtonState('starting');
   const pdfBytes = buildPdfReport(currentAuditData);
   const blob = new Blob([pdfBytes], { type: 'application/pdf' });
   const url = URL.createObjectURL(blob);
@@ -898,6 +899,23 @@ function downloadAuditReport() {
     audited_url: currentAuditData.url || '',
     score: currentAuditData.score || 0
   });
+  setDownloadButtonState('complete');
+}
+
+function setDownloadButtonState(state) {
+  const button = document.querySelector('[data-download-report]');
+  if (!button) return;
+  if (!button.dataset.defaultHtml) button.dataset.defaultHtml = button.innerHTML;
+  button.dataset.downloadState = state;
+  if (state === 'starting') {
+    button.textContent = 'Preparing PDF...';
+  } else if (state === 'complete') {
+    button.textContent = 'PDF downloaded';
+    setTimeout(() => {
+      button.innerHTML = button.dataset.defaultHtml;
+      button.dataset.downloadState = 'ready';
+    }, 1800);
+  }
 }
 
 async function submitAuditFixPlan(event) {
