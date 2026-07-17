@@ -454,10 +454,10 @@
   <div class="auth-box">
     <div class="logo">Lofts<span>STUDIO · INBOX</span></div>
     <h1>Sign in to continue</h1>
-    <p>Admin access only.</p>
-    <input type="password" id="pw-input" placeholder="Passphrase" autocomplete="current-password" />
+    <p>Use the same admin passphrase as the main admin hub.</p>
+    <input type="password" id="pw-input" placeholder="Admin passphrase" autocomplete="current-password" />
     <button onclick="attemptLogin()">Enter</button>
-    <p class="auth-error" id="auth-error">Wrong passphrase.</p>
+    <p class="auth-error" id="auth-error">That passphrase did not work.</p>
   </div>
 </div>
 
@@ -570,6 +570,7 @@
   // ── Config ──────────────────────────────────────────────────────
   const SESSION_KEY = 'lofts-inbox-session';
   const SHARED_TOKEN_KEY = 'lofts-admin-token';
+  const COMMENTS_TOKEN_KEY = 'lofts-comments-admin-token';
   const API         = '/api/admin/data';
 
   let allSubmissions = [];
@@ -577,8 +578,25 @@
   let activeTab      = 'submissions';
 
   // ── Auth ─────────────────────────────────────────────────────────
+  function cleanToken(value) {
+    return value && value !== '1' ? value : '';
+  }
+
   function getToken() {
-    return sessionStorage.getItem(SESSION_KEY) || sessionStorage.getItem(SHARED_TOKEN_KEY) || '';
+    return cleanToken(sessionStorage.getItem(SHARED_TOKEN_KEY))
+      || cleanToken(sessionStorage.getItem(SESSION_KEY))
+      || cleanToken(sessionStorage.getItem(COMMENTS_TOKEN_KEY))
+      || '';
+  }
+
+  function persistToken(token) {
+    sessionStorage.setItem(SESSION_KEY, token);
+    sessionStorage.setItem(SHARED_TOKEN_KEY, token);
+  }
+
+  function clearTokens() {
+    sessionStorage.removeItem(SESSION_KEY);
+    sessionStorage.removeItem(SHARED_TOKEN_KEY);
   }
 
   async function attemptLogin() {
@@ -588,25 +606,34 @@
 
     try {
       const data = await fetchAdminData(val);
-      sessionStorage.setItem(SESSION_KEY, val);
-      sessionStorage.setItem(SHARED_TOKEN_KEY, val);
+      persistToken(val);
       showApp(data);
     } catch (err) {
-      showAuthError();
+      showAuthError(err.status === 401
+        ? 'That passphrase did not work.'
+        : 'Admin data is unavailable right now. Try again in a moment.');
     }
   }
 
-  function showAuthError() {
-    document.getElementById('auth-error').style.display = 'block';
+  function showAuthError(message) {
+    const error = document.getElementById('auth-error');
+    error.textContent = message || 'That passphrase did not work.';
+    error.style.display = 'block';
     document.getElementById('pw-input').value = '';
     document.getElementById('pw-input').focus();
   }
   document.getElementById('pw-input').addEventListener('keydown', e => { if (e.key === 'Enter') attemptLogin(); });
 
   function logout() {
-    sessionStorage.removeItem(SESSION_KEY);
-    sessionStorage.removeItem(SHARED_TOKEN_KEY);
+    clearTokens();
     location.reload();
+  }
+
+  function showAuthScreen(message) {
+    clearTokens();
+    document.getElementById('app').style.display = 'none';
+    document.getElementById('auth-screen').style.display = 'flex';
+    if (message) showAuthError(message);
   }
 
   function showApp(initialData) {
@@ -630,10 +657,16 @@
   // ── Data loading ──────────────────────────────────────────────────
   async function fetchAdminData(token) {
     const res = await fetch(`${API}?action=load`, {
-      headers: { 'x-admin-token': token }
+      headers: { 'x-admin-token': token },
+      cache: 'no-store',
     });
-    if (!res.ok) throw new Error('Failed');
-    return res.json();
+    const data = await res.json().catch(() => ({}));
+    if (!res.ok) {
+      const err = new Error(data.error || data.message || 'Admin data request failed');
+      err.status = res.status;
+      throw err;
+    }
+    return data;
   }
 
   function hydrateData(data) {
@@ -649,11 +682,15 @@
   async function loadData() {
     try {
       const token = getToken();
-      if (!token) return logout();
+      if (!token) return showAuthScreen();
       const data = await fetchAdminData(token);
       hydrateData(data);
     } catch (e) {
-      showToast('Could not load data — check token and KV setup.');
+      if (e.status === 401) {
+        showAuthScreen('Your saved admin session expired. Enter the admin passphrase again.');
+        return;
+      }
+      showToast('Admin data could not load. Check KV setup or try refresh.');
     }
   }
 
@@ -847,7 +884,7 @@
     if (!confirm(`Clear all ${type}? This cannot be undone.`)) return;
     try {
       const token = getToken();
-      if (!token) return logout();
+      if (!token) return showAuthScreen();
       const res = await fetch(`${API}?action=clear`, {
         method: 'POST',
         headers: { 'x-admin-token': token, 'content-type': 'application/json' },
@@ -910,8 +947,11 @@
   // ── Boot ──────────────────────────────────────────────────────────
   if (sessionStorage.getItem(SESSION_KEY) === '1') {
     sessionStorage.removeItem(SESSION_KEY);
-  } else if (getToken()) {
+  }
+  if (getToken()) {
     showApp();
+  } else {
+    document.getElementById('pw-input').focus();
   }
 </script>
 </body>
