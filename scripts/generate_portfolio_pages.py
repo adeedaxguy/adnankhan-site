@@ -37,42 +37,98 @@ SERVICE_MAP = {
     "shopify":      ("/services/shopify-development.html",    "Shopify Development"),
     "woocommerce":  ("/services/woocommerce-development.html","WooCommerce Development"),
     "webflow":      ("/services/webflow-development.html",    "Webflow Development"),
-    "wordpress":    ("/services/woocommerce-development.html","WordPress Development"),
-    "elementor":    ("/services/woocommerce-development.html","WordPress + Elementor"),
+    "wordpress":    ("/services/wordpress-development.html",  "WordPress Development"),
+    "elementor":    ("/services/wordpress-development.html",  "WordPress + Elementor"),
     "custom platform": ("/services/custom-app-development.html","Custom App Development"),
+    "custom":       ("/services/custom-app-development.html", "Custom Website Development"),
+    "saas":         ("/services/saas-website-design.html",    "SaaS Website Design"),
+    "app":          ("/services/custom-app-development.html", "Custom App Development"),
+    "ai":           ("/services/ai-calling-agents.html",      "AI Automation"),
     "lms":          ("/services/custom-app-development.html","Custom App Development"),
 }
 
 # Keywords per platform for SEO density on case-study pages
 PLATFORM_KEYWORDS = {
     "shopify": [
-        "hire Shopify developer", "Shopify development services",
+        "Shopify development portfolio", "Shopify website design",
         "custom Shopify theme development", "Shopify expert",
         "Shopify store setup and customization",
     ],
     "woocommerce": [
-        "WooCommerce development services", "hire WooCommerce developer",
+        "WooCommerce development portfolio", "WooCommerce website design",
         "WooCommerce store setup", "WooCommerce expert",
-        "custom WooCommerce plugin development",
+        "custom WooCommerce development",
     ],
     "wordpress": [
-        "WordPress developer for hire", "custom WordPress development",
-        "WordPress website development services", "WordPress expert",
+        "WordPress development portfolio", "custom WordPress development",
+        "WordPress website design", "WordPress expert",
         "Elementor developer",
     ],
     "shopify plus": [
         "Shopify Plus migration", "Shopify Plus developer",
         "migrate to Shopify Plus", "Shopify Plus expert",
     ],
+    "webflow": [
+        "Webflow development portfolio", "Webflow website design",
+        "Webflow developer", "custom Webflow development",
+    ],
+    "custom": [
+        "custom website development portfolio", "custom web development",
+        "website design portfolio", "senior web engineering",
+    ],
 }
 
 
-def keywords_for(platform: str) -> list:
+INDUSTRY_KEYWORDS = {
+    "b2b": ["B2B website design", "B2B web development", "lead generation website"],
+    "marketplace": ["marketplace website development", "marketplace web design"],
+    "finance": ["finance website design", "trust-led website design"],
+    "insurance": ["insurance website design", "regulated business website"],
+    "ecommerce": ["ecommerce website design", "conversion-focused ecommerce site"],
+    "dtc": ["DTC ecommerce website", "direct-to-consumer web design"],
+    "saas": ["SaaS website design", "product website design"],
+    "app": ["web app design", "product-led website"],
+    "ai": ["AI website design", "AI automation website"],
+    "pet": ["pet services website design"],
+    "construction": ["construction website design"],
+    "architecture": ["architecture portfolio website"],
+    "food": ["food marketplace website"],
+    "travel": ["travel website development"],
+    "automotive": ["automotive ecommerce website"],
+    "membership": ["membership website development"],
+    "community": ["community website development"],
+    "agency": ["agency website design"],
+    "brand": ["brand website design"],
+}
+
+
+def keywords_for(item) -> list:
+    if isinstance(item, str):
+        platform = item
+        category = ""
+        stack = ""
+        name = ""
+    else:
+        platform = item.get("platform", "")
+        category = item.get("category", "")
+        stack = " ".join(item.get("stack") or [])
+        name = item.get("name", "")
     p = platform.lower()
+    combined = f"{platform} {category} {stack}".lower()
+    kws = []
     for key, kws in PLATFORM_KEYWORDS.items():
         if key in p:
-            return kws
-    return PLATFORM_KEYWORDS["shopify"]
+            kws = list(kws)
+            break
+    if not kws:
+        kws = list(PLATFORM_KEYWORDS["custom"])
+    for key, industry_kws in INDUSTRY_KEYWORDS.items():
+        if key in combined:
+            kws.extend(industry_kws)
+    if name:
+        kws.extend([f"{name} case study", f"{name} website"])
+    # Preserve order while removing duplicates.
+    return list(dict.fromkeys([kw for kw in kws if kw]))
 
 
 def service_for(platform: str):
@@ -80,16 +136,19 @@ def service_for(platform: str):
     for key, val in SERVICE_MAP.items():
         if key in p:
             return val
-    return ("/services/shopify-development.html", "Shopify Development")
+    return ("/websites/", "Website Design & Development")
 
 
 def title_for(item: dict) -> str:
-    """SEO title: [Client] Case Study — [Service] | Lofts Studio."""
+    """SEO title: [Client] [Service] case study | Lofts Studio."""
     _, svc = service_for(item.get("platform", ""))
     name = item["name"]
-    base = f"{name} Case Study — {svc}"
+    category = (item.get("category") or "").split("·")[0].strip()
+    base = f"{name} {svc} Case Study"
+    if category and len(f"{base} for {category} | Lofts Studio") <= 65:
+        base = f"{base} for {category}"
     suffix = " | Lofts Studio"
-    if len(base) + len(suffix) <= 60:
+    if len(base) + len(suffix) <= 65:
         return base + suffix
     return f"{name} Case Study | Lofts Studio"
 
@@ -100,7 +159,8 @@ def meta_desc_for(item: dict) -> str:
     tagline = item.get("tagline", "")
     platform = item.get("platform", "")
     category = item.get("category", "")
-    base = f"{name} case study by Lofts Studio: {tagline}. {platform} project for {category}."
+    _, svc = service_for(platform)
+    base = f"See {name}, a Lofts Studio {svc} case study for {category}: {tagline}. Built for clarity, trust, performance, and conversion."
     return base[:155].rstrip(" ,.;:-") + ("." if len(base) > 155 else "")
 
 
@@ -138,6 +198,9 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
     url = item.get("url") or f"{SITE_URL}/portfolio/{slug}.html"
     app_type = app_schema_type(item)
     app_node_id = f"{SITE_URL}/portfolio/{slug}.html#project"
+    service_url, service_label = service_for(item.get("platform", ""))
+    category = item.get("category", "")
+    platform = item.get("platform", "")
     graph = {
         "@context": "https://schema.org",
         "@graph": [
@@ -177,6 +240,24 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
                 "description": f"{item.get('tagline', '')}. {item.get('summary', '')}".strip(),
             },
             {
+                "@type": "Service",
+                "@id": f"{SITE_URL}/portfolio/{slug}.html#service",
+                "name": service_label,
+                "serviceType": service_label,
+                "provider": {"@id": f"{SITE_URL}/#organization"},
+                "url": f"{SITE_URL}{service_url}",
+                "areaServed": [
+                    {"@type": "Country", "name": "United States"},
+                    {"@type": "Country", "name": "United Kingdom"},
+                    {"@type": "Country", "name": "Australia"},
+                    {"@type": "Country", "name": "United Arab Emirates"}
+                ],
+                "audience": {
+                    "@type": "BusinessAudience",
+                    "audienceType": category or "Business websites"
+                }
+            },
+            {
                 "@type": "CreativeWork",
                 "@id": f"{SITE_URL}/portfolio/{slug}.html#case-study",
                 "name": f"{name} case study",
@@ -187,7 +268,31 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
                 "dateCreated": str(item.get("year", "")),
                 "creator": {"@id": f"{SITE_URL}/#organization"},
                 "about": {"@id": app_node_id},
+                "workExample": {"@id": app_node_id},
+                "provider": {"@id": f"{SITE_URL}/#organization"},
                 "keywords": kw_list + [name, item.get("platform", ""), item.get("category", "")],
+            },
+            {
+                "@type": "FAQPage",
+                "@id": f"{SITE_URL}/portfolio/{slug}.html#faq",
+                "mainEntity": [
+                    {
+                        "@type": "Question",
+                        "name": f"What type of project was {name}?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": f"{name} was a {platform} project for {category}. The work focused on making the offer clearer, easier to maintain, and stronger as a public proof point."
+                        }
+                    },
+                    {
+                        "@type": "Question",
+                        "name": f"Can Lofts Studio build something similar to {name}?",
+                        "acceptedAnswer": {
+                            "@type": "Answer",
+                            "text": f"Yes. Lofts Studio handles {service_label} work for serious businesses that need clearer structure, stronger conversion paths, mobile usability, and a maintainable build."
+                        }
+                    }
+                ]
             },
             {
                 "@type": "WebPage",
@@ -199,6 +304,10 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
                 "publisher": {"@id": f"{SITE_URL}/#organization"},
                 "breadcrumb": {"@id": f"{SITE_URL}/portfolio/{slug}.html#breadcrumb"},
                 "mainEntity": {"@id": f"{SITE_URL}/portfolio/{slug}.html#case-study"},
+                "hasPart": [
+                    {"@id": f"{SITE_URL}/portfolio/{slug}.html#faq"},
+                    {"@id": f"{SITE_URL}/portfolio/{slug}.html#service"}
+                ],
                 "primaryImageOfPage": abs_url(og_image),
                 "significantLink": [
                     f"{SITE_URL}/portfolio/",
@@ -374,7 +483,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     nxt = get_next_item(items, slug)
     page_title = title_for(item)
     page_desc  = meta_desc_for(item)
-    kws        = keywords_for(platform)
+    kws        = keywords_for(item)
     kw_str     = ", ".join(kws)
 
     # ── Screenshot / wordmark block ───────────────────────────────────────────
@@ -489,8 +598,13 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
       <span class="eyebrow">{category}</span>
       <h1 class="h-display" data-split="words" style="margin-top:1.25rem;">{name}.</h1>
       <p class="lead" style="margin-top:1.5rem;">{tagline}.</p>
+      <div style="margin-top:1.4rem;border:1px solid var(--line);border-radius:var(--r-md);padding:1rem 1.15rem;max-width:720px;background:var(--surface);">
+        <p style="font-family:var(--font-sans);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.45rem;">Quick answer</p>
+        <p style="font-family:var(--font-serif);font-size:1.02rem;line-height:1.6;color:var(--ink-soft);margin:0;">Lofts Studio used {platform} web development for {name} to support a {category} experience with clearer structure, maintainable templates, and a direct path from visitor attention to enquiry or purchase.</p>
+      </div>
       <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
         {f'<a href="{url}" target="_blank" rel="noopener" class="btn btn-primary">Visit live site &nbsp;&rarr;</a>' if url else ''}
+        <a href="/free-audit/" class="btn btn-ghost">Audit a similar site</a>
         <a href="/portfolio/" class="btn btn-ghost">&larr; All case studies</a>
       </div>
     </div>

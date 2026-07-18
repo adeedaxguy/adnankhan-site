@@ -3118,7 +3118,7 @@
       "url": "https://mokeinternational.com",
       "image": "/assets/work/mokeinternational.jpg",
       "platform": "Shopify",
-      "category": "Automotive · Ecommerce",
+      "category": "Automotive \u00b7 Ecommerce",
       "stack": [
         "Shopify",
         "Product catalogue",
@@ -3130,10 +3130,535 @@
         "label": "Vehicle brand catalogue"
       },
       "year": "2025",
-      "role": "Shopify Developer · Catalogue support · Theme updates",
+      "role": "Shopify Developer \u00b7 Catalogue support \u00b7 Theme updates",
       "featured": false,
       "published": true,
       "displayOrder": 127
+    },
+    {
+      "slug": "realestateinvestorsnetwork",
+      "name": "Real Estate Investors Network",
+      "tagline": "Property investment platform for Australian buyers",
+      "summary": "Website support for a property investment network, with attention to buyer clarity, enquiry paths and content structure for a high-consideration real estate audience.",
+      "url": "https://realestateinvestorsnetwork.com.au",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Real Estate \u00b7 Investment",
+      "stack": [
+        "WordPress",
+        "Property content",
+        "Lead generation",
+        "Mobile UX"
+      ],
+      "metric": {
+        "value": "Investor",
+        "label": "Property enquiry journey"
+      },
+      "year": "2025\u2013present",
+      "role": "Developer \u00b7 Website support \u00b7 Content structure",
+      "featured": false,
+      "published": true,
+      "displayOrder": 128
+    },
+    {
+      "slug": "bluebirdfo",
+      "name": "Blue Bird Family Office",
+      "tagline": "Family office website with trust-led positioning",
+      "summary": "Website support for a family office brand where credibility, restraint and clear navigation matter more than decoration.",
+      "url": "https://bluebirdfo.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Finance \u00b7 Family Office",
+      "stack": [
+        "WordPress",
+        "Editorial pages",
+        "Trust signals",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Family office",
+        "label": "Trust-led website"
+      },
+      "year": "2025\u2013present",
+      "role": "Developer \u00b7 WordPress support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 129
+    },
+    {
+      "slug": "idealcabinetry",
+      "name": "Ideal Cabinetry",
+      "tagline": "Furniture and cabinetry website with ecommerce support",
+      "summary": "Furniture website work including WordPress/WooCommerce support, product structure and practical page updates for a cabinetry business.",
+      "url": "https://idealcabinetry.com",
+      "image": "",
+      "platform": "WordPress + WooCommerce",
+      "category": "Furniture \u00b7 Ecommerce",
+      "stack": [
+        "WordPress",
+        "WooCommerce",
+        "Product catalogue",
+        "Responsive pages"
+      ],
+      "metric": {
+        "value": "Catalogue",
+        "label": "Furniture buying path"
+      },
+      "year": "2022\u2013present",
+      "role": "Developer \u00b7 WooCommerce setup \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 130
+    },
+    {
+      "slug": "rentable",
+      "name": "Rentable",
+      "tagline": "Security deposit management platform content support",
+      "summary": "Website and blog page support for a proptech platform, focused on clearer article templates and content paths for a product-led audience.",
+      "url": "https://rentable.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Proptech \u00b7 SaaS",
+      "stack": [
+        "WordPress",
+        "Blog templates",
+        "Content architecture",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Proptech",
+        "label": "Product content system"
+      },
+      "year": "2025",
+      "role": "Developer \u00b7 Blog templates \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 131
+    },
+    {
+      "slug": "orseundiris",
+      "name": "Orseund Iris",
+      "tagline": "Luxury fashion ecommerce maintenance and Shopify support",
+      "summary": "Shopify support for a luxury womenswear brand, covering storefront updates, merchandising details and theme-level ecommerce maintenance.",
+      "url": "https://orseundiris.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Fashion \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Theme updates",
+        "Merchandising",
+        "Product pages"
+      ],
+      "metric": {
+        "value": "Fashion",
+        "label": "Luxury ecommerce support"
+      },
+      "year": "2023\u2013present",
+      "role": "Shopify Developer \u00b7 Theme updates",
+      "featured": false,
+      "published": true,
+      "displayOrder": 132
+    },
+    {
+      "slug": "beautifulwigs",
+      "name": "Beautiful Wigs",
+      "tagline": "Ready-to-wear wigs ecommerce storefront",
+      "summary": "Ecommerce website support for a ready-to-wear wigs store, with attention to product browsing, trust signals and mobile shopping paths.",
+      "url": "https://beautifulwigs.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Beauty \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Product catalogue",
+        "Mobile commerce",
+        "Theme support"
+      ],
+      "metric": {
+        "value": "Beauty",
+        "label": "Product-led storefront"
+      },
+      "year": "2025\u2013present",
+      "role": "Shopify Developer \u00b7 Storefront support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 133
+    },
+    {
+      "slug": "ptafoodlab",
+      "name": "PTA Foodlab",
+      "tagline": "Research and nutritional services website redesign",
+      "summary": "Website redesign support for a food research and nutritional services brand, focused on clearer service presentation and maintainable pages.",
+      "url": "https://ptafoodlab.eu",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Food \u00b7 Research",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Content structure",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Research",
+        "label": "Service website redesign"
+      },
+      "year": "2025\u2013present",
+      "role": "Developer \u00b7 Website redesign support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 134
+    },
+    {
+      "slug": "ghaliaalul",
+      "name": "Ghalia Alul",
+      "tagline": "Personal brand and WordPress presence",
+      "summary": "WordPress website support for a personal brand, focused on a clean public presence, readable page structure and straightforward content management.",
+      "url": "https://ghaliaalul.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Personal Brand \u00b7 Portfolio",
+      "stack": [
+        "WordPress",
+        "Personal brand",
+        "Responsive pages",
+        "Content support"
+      ],
+      "metric": {
+        "value": "Brand",
+        "label": "Personal website support"
+      },
+      "year": "2025\u2013present",
+      "role": "WordPress Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 135
+    },
+    {
+      "slug": "newelloutdoors",
+      "name": "Newell Outdoors",
+      "tagline": "Outdoor paddle board ecommerce migration support",
+      "summary": "Shopify migration and storefront support for an outdoor products brand moving from BigCommerce into a more manageable ecommerce setup.",
+      "url": "https://newelloutdoors.ca",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Outdoor \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Migration support",
+        "Product catalogue",
+        "Theme updates"
+      ],
+      "metric": {
+        "value": "Migration",
+        "label": "Outdoor ecommerce store"
+      },
+      "year": "2024\u2013present",
+      "role": "Shopify Developer \u00b7 Migration support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 136
+    },
+    {
+      "slug": "happyhound",
+      "name": "Happy Hound",
+      "tagline": "Pet care website and customer journey support",
+      "summary": "Website support for a pet care brand, including experience planning around services, customer information and the practical path to enquiry.",
+      "url": "https://happyhound.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Pet \u00b7 Services",
+      "stack": [
+        "Shopify",
+        "Service pages",
+        "Customer journey",
+        "Responsive UX"
+      ],
+      "metric": {
+        "value": "Pet care",
+        "label": "Service enquiry path"
+      },
+      "year": "2025",
+      "role": "Shopify Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 137
+    },
+    {
+      "slug": "armyandworkwear",
+      "name": "Army And Workwear",
+      "tagline": "Workwear and safety product ecommerce site",
+      "summary": "Ecommerce website support for a workwear and safety tools business, with practical product browsing and store-management needs.",
+      "url": "https://armyandworkwear.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Workwear \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Product catalogue",
+        "Storefront support",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Workwear",
+        "label": "Product catalogue site"
+      },
+      "year": "2020",
+      "role": "Developer \u00b7 Ecommerce support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 138
+    },
+    {
+      "slug": "liebestipps",
+      "name": "Liebestipps",
+      "tagline": "Coaching website built around trust and content",
+      "summary": "Divi and WordPress support for a coaching site, focused on content presentation, maintainability and a calm path through the offer.",
+      "url": "https://liebestipps.com",
+      "image": "",
+      "platform": "WordPress + Divi",
+      "category": "Coaching \u00b7 Content",
+      "stack": [
+        "WordPress",
+        "Divi",
+        "Content pages",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Coaching",
+        "label": "Content-led website"
+      },
+      "year": "2020",
+      "role": "WordPress Developer \u00b7 Divi support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 139
+    },
+    {
+      "slug": "nomisk",
+      "name": "Nomisk",
+      "tagline": "Women\u2019s self-care ecommerce storefront",
+      "summary": "Shopify support for a women\u2019s self-care ecommerce brand, focused on storefront structure, product presentation and mobile shopping flow.",
+      "url": "https://nomisk.com",
+      "image": "",
+      "platform": "Shopify",
+      "category": "Wellness \u00b7 Ecommerce",
+      "stack": [
+        "Shopify",
+        "Product pages",
+        "Theme updates",
+        "Mobile commerce"
+      ],
+      "metric": {
+        "value": "Wellness",
+        "label": "Self-care storefront"
+      },
+      "year": "2023\u2013present",
+      "role": "Shopify Developer \u00b7 Storefront support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 140
+    },
+    {
+      "slug": "gagaconstruction",
+      "name": "GAGA Construction",
+      "tagline": "General contractor website for service enquiries",
+      "summary": "Website support for a Los Angeles general contractor, focused on service clarity, local trust and a simple path to contact.",
+      "url": "https://gagaconstruction.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Construction \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Local SEO",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Contractor",
+        "label": "Service enquiry website"
+      },
+      "year": "2024\u2013present",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 141
+    },
+    {
+      "slug": "opsolutionary",
+      "name": "Opsolutionary",
+      "tagline": "Operations consulting website on WordPress",
+      "summary": "WordPress website support for an operations consulting brand, with emphasis on clearer service pages and a maintainable content structure.",
+      "url": "https://opsolutionary.net",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Consulting \u00b7 Operations",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Content structure",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Consulting",
+        "label": "Service website support"
+      },
+      "year": "2024\u2013present",
+      "role": "WordPress Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 142
+    },
+    {
+      "slug": "autowranglers",
+      "name": "Auto Wranglers",
+      "tagline": "Automotive service website support",
+      "summary": "Website support for an automotive business, focused on making the offer understandable and keeping the path to contact simple.",
+      "url": "https://autowranglers.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Automotive \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Contact paths",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Auto",
+        "label": "Service website"
+      },
+      "year": "2020",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 143
+    },
+    {
+      "slug": "instinctanimations",
+      "name": "Instinct Animations",
+      "tagline": "Explainer animation studio website",
+      "summary": "Website support for an explainer animation studio, focused on communicating creative services, proof and enquiry paths clearly.",
+      "url": "https://instinctanimations.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Creative Studio \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Portfolio pages",
+        "Service content",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Studio",
+        "label": "Creative service website"
+      },
+      "year": "2022",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 144
+    },
+    {
+      "slug": "familytaxrecovery",
+      "name": "Family Tax Recovery",
+      "tagline": "Tax recovery service website",
+      "summary": "Website support for a tax recovery service, where clarity, trust and straightforward next steps are central to the visitor journey.",
+      "url": "https://familytaxrecovery.ca",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Finance \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Trust content",
+        "Responsive build"
+      ],
+      "metric": {
+        "value": "Tax",
+        "label": "Service enquiry path"
+      },
+      "year": "2020",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 145
+    },
+    {
+      "slug": "amacaerospace",
+      "name": "AMAC Aerospace",
+      "tagline": "Aerospace company website support",
+      "summary": "Website support for an aerospace brand, focused on a professional public presence, content structure and responsive page presentation.",
+      "url": "https://amacaerospace.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Aerospace \u00b7 Corporate",
+      "stack": [
+        "WordPress",
+        "Corporate pages",
+        "Responsive build",
+        "Content support"
+      ],
+      "metric": {
+        "value": "Aerospace",
+        "label": "Corporate website"
+      },
+      "year": "2023",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 146
+    },
+    {
+      "slug": "midwestdentalarts",
+      "name": "Midwest Dental Arts",
+      "tagline": "Cosmetic dental lab website",
+      "summary": "Website support for a cosmetic dental lab, focused on service clarity, professional presentation and a practical contact path.",
+      "url": "https://midwestdentalarts.com",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Dental \u00b7 Services",
+      "stack": [
+        "WordPress",
+        "Service pages",
+        "Responsive build",
+        "Contact paths"
+      ],
+      "metric": {
+        "value": "Dental",
+        "label": "Service website"
+      },
+      "year": "2020",
+      "role": "Developer \u00b7 Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 147
+    },
+    {
+      "slug": "iphoneincanada",
+      "name": "iPhone in Canada",
+      "tagline": "Technology publication website support",
+      "summary": "WordPress support for a technology publication, focused on content updates, page maintenance and a stable editorial experience.",
+      "url": "https://iphoneincanada.ca",
+      "image": "",
+      "platform": "WordPress",
+      "category": "Technology \u00b7 Editorial",
+      "stack": [
+        "WordPress",
+        "Editorial site",
+        "Content support",
+        "Maintenance"
+      ],
+      "metric": {
+        "value": "Editorial",
+        "label": "Technology publication"
+      },
+      "year": "2020\u2013present",
+      "role": "WordPress Developer \u00b7 Editorial support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 148
     }
   ]
 }
