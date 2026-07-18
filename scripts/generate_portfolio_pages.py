@@ -17,8 +17,19 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260622j"
+CACHE_VER = "20260714c"
 SITE_URL = "https://lofts.studio"
+GTM_HEAD = """<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-PM4CX9JG');</script>
+<!-- End Google Tag Manager -->"""
+GTM_BODY = """<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-PM4CX9JG"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->"""
 
 # ── Service routing ───────────────────────────────────────────────────────────
 SERVICE_MAP = {
@@ -422,6 +433,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
+{GTM_HEAD}
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{page_title}</title>
@@ -462,6 +474,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
 </head>
 <body>
+{GTM_BODY}
 
 {nav}
 
@@ -698,6 +711,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
     return f'''<!DOCTYPE html>
 <html lang="en">
 <head>
+{GTM_HEAD}
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Portfolio — Web, Shopify & App Case Studies | Lofts Studio</title>
@@ -737,6 +751,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 </script>
 </head>
 <body class="portfolio-page">
+{GTM_BODY}
 
 {nav}
 
