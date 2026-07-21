@@ -311,12 +311,14 @@
           form_location: window.location.pathname,
           ...attribution
         });
-        trackMarketingEvent('generate_lead', {
-          event_category: 'lead',
-          event_label: leadSource,
-          form_location: window.location.pathname,
-          ...attribution
-        });
+        if (leadSource !== 'footer-newsletter') {
+          trackMarketingEvent('generate_lead', {
+            event_category: 'lead',
+            event_label: leadSource,
+            form_location: window.location.pathname,
+            ...attribution
+          });
+        }
         // Reset button state in case the form is reopened later
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
       } catch (err) {
@@ -347,6 +349,7 @@
     const href = link.getAttribute('href') || '';
     let eventName = '';
     if (href.startsWith('mailto:')) eventName = 'email_click';
+    if (href.startsWith('tel:')) eventName = 'phone_click';
     if (href.includes('wa.me/') || href.toLowerCase().includes('whatsapp')) eventName = 'whatsapp_click';
     if (href === '/#contact' || href === '#contact') eventName = 'contact_cta_click';
     if (href.includes('/free-audit/')) eventName = 'audit_cta_click';

@@ -456,16 +456,17 @@
             <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
             Back
           </button>
-          <h3 class="conv-popup-title" style="margin-top:0.6rem">Send us a message</h3>
-          <p class="conv-popup-sub">We reply within 4 hours, Mon&ndash;Sat.</p>
+          <h3 class="conv-popup-title" style="margin-top:0.6rem">Request a callback</h3>
+          <p class="conv-popup-sub">Leave the best number to reach you, Mon&ndash;Sat.</p>
           <form id="convInlineForm" class="conv-inline-form" novalidate>
             <input type="text"  name="name"    id="convName"    class="conv-field" placeholder="Your name"            required autocomplete="name" />
             <input type="email" name="email"   id="convEmail"   class="conv-field" placeholder="your@email.com"       required autocomplete="email" />
+            <input type="tel"   name="phone"   id="convPhone"   class="conv-field" placeholder="Phone / WhatsApp"      required autocomplete="tel" inputmode="tel" />
             <textarea           name="message" id="convMessage" class="conv-field conv-field-ta" placeholder="Tell us about your project…" rows="3" required></textarea>
             <div id="convFormError" class="conv-form-error" style="display:none">Please fill in all fields.</div>
             <button type="submit" class="conv-popup-btn-primary" id="convSubmitBtn">
               <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-              Send message
+              Request callback
             </button>
           </form>
         </div>
@@ -519,10 +520,11 @@
       e.preventDefault();
       const name    = document.getElementById('convName')?.value.trim();
       const email   = document.getElementById('convEmail')?.value.trim();
+      const phone   = document.getElementById('convPhone')?.value.trim();
       const message = document.getElementById('convMessage')?.value.trim();
       const errEl   = document.getElementById('convFormError');
       const btn     = document.getElementById('convSubmitBtn');
-      if (!name || !email || !message) { if (errEl) errEl.style.display = ''; return; }
+      if (!name || !email || !phone || !message) { if (errEl) errEl.style.display = ''; return; }
       if (errEl) errEl.style.display = 'none';
       if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
       try {
@@ -533,6 +535,7 @@
           body: JSON.stringify({
             name,
             email,
+            phone,
             message,
             source: 'mobile-popup',
             page_url: window.location.href,
