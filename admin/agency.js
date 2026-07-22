@@ -193,7 +193,8 @@ function renderAlert() {
   const strip = document.getElementById('agency-alert-strip');
   const project = agencyState.data.project;
   const messages = [];
-  if (project.tracking?.googleAdsApi !== 'verified') messages.push('Google Ads live reporting is not connected; performance uses recorded snapshots.');
+  if (project.tracking?.googleAdsApi === 'stale') messages.push('Google Ads reporting is stale; check the scheduled script before using performance data.');
+  if (project.tracking?.googleAdsApi === 'not_connected') messages.push('Google Ads reporting is not connected; performance uses recorded snapshots.');
   if (!project.campaigns.length) messages.push('No campaign has been added to this project.');
   strip.hidden = !messages.length;
   strip.innerHTML = messages.length ? `<strong>Attention:</strong> ${escapeHtml(messages.join(' '))}` : '';
@@ -261,7 +262,7 @@ function renderHealth() {
     { label: 'Form conversion', ok: project.tracking?.formConversion === 'verified', detail: project.tracking?.formConversion || 'missing' },
     { label: 'GTM and event QA', ok: project.tracking?.gtm === 'verified', detail: project.tracking?.gtm || 'missing' },
     { label: 'Lead delivery', ok: project.tracking?.emailDelivery === 'verified', detail: project.tracking?.emailDelivery || 'missing' },
-    { label: 'Google Ads reporting', ok: project.tracking?.googleAdsApi === 'verified', detail: project.tracking?.googleAdsApi === 'verified' ? 'live' : 'snapshot mode' },
+    { label: 'Google Ads reporting', ok: project.tracking?.googleAdsApi === 'verified', detail: project.tracking?.googleAdsApi === 'verified' ? `Synced ${relativeTime(project.googleAdsConnection?.lastSyncedAt)}` : project.tracking?.googleAdsApi === 'stale' ? 'Stale feed' : 'Snapshot mode' },
   ];
   const score = Math.round(checks.filter(item => item.ok).length / checks.length * 100);
   document.getElementById('agency-health-panel').innerHTML = `<div class="agency-health-score"><div><p class="agency-eyebrow">System health</p><strong>${score}</strong></div><span>${checks.filter(item => item.ok).length}/${checks.length} ready</span></div><div class="agency-health-list">${checks.map(item => `<div class="agency-health-row ${item.ok ? 'good' : 'warn'}"><i data-lucide="${item.ok ? 'circle-check' : 'triangle-alert'}"></i><span>${escapeHtml(item.label)}</span><small>${escapeHtml(titleCase(item.detail))}</small></div>`).join('')}</div>`;
@@ -336,7 +337,12 @@ function filterKeywords() {
   const query = document.getElementById('keyword-search').value.trim().toLowerCase();
   const status = document.getElementById('keyword-status-filter').value;
   const keywords = (agencyState.data.project.research?.keywords || []).filter(item => (!query || item.keyword.toLowerCase().includes(query)) && (status === 'all' || item.status === status));
-  document.getElementById('keyword-table').innerHTML = `<thead><tr><th>Keyword</th><th>Match</th><th>Status</th><th>Intent</th><th>Volume</th><th>KD</th><th>CPC</th><th>Source</th><th>Decision</th></tr></thead><tbody>${keywords.length ? keywords.map(item => `<tr><td><strong>${escapeHtml(item.keyword)}</strong></td><td><span class="agency-chip blue">${escapeHtml(item.matchType)}</span></td><td><span class="agency-chip ${item.status === 'enabled' ? 'green' : 'red'}">${escapeHtml(item.status)}</span></td><td>${escapeHtml(item.intent)}</td><td class="agency-table-number">${formatNumber(item.volume)}</td><td class="agency-table-number">${formatNumber(item.kd)}</td><td class="agency-table-number">${money(item.cpc, 2)}</td><td>${escapeHtml(item.source)}</td><td>${escapeHtml(item.decision)}</td></tr>`).join('') : '<tr><td colspan="9"><div class="agency-empty">No matching keywords</div></td></tr>'}</tbody>`;
+  const metricKey = item => `${String(item.keyword || '').trim().toLowerCase()}|${String(item.matchType || '').trim().toLowerCase()}`;
+  const liveMetrics = new Map((agencyState.data.googleAdsKeywordMetrics || []).map(item => [metricKey(item), item]));
+  document.getElementById('keyword-table').innerHTML = `<thead><tr><th>Keyword</th><th>Match</th><th>Status</th><th>Intent</th><th>Volume</th><th>KD</th><th>Research CPC</th><th>Live impr.</th><th>Live clicks</th><th>Live spend</th><th>Live conv.</th><th>Source</th><th>Decision</th></tr></thead><tbody>${keywords.length ? keywords.map(item => {
+    const live = liveMetrics.get(metricKey(item));
+    return `<tr><td><strong>${escapeHtml(item.keyword)}</strong></td><td><span class="agency-chip blue">${escapeHtml(item.matchType)}</span></td><td><span class="agency-chip ${item.status === 'enabled' ? 'green' : 'red'}">${escapeHtml(item.status)}</span></td><td>${escapeHtml(item.intent)}</td><td class="agency-table-number">${formatNumber(item.volume)}</td><td class="agency-table-number">${formatNumber(item.kd)}</td><td class="agency-table-number">${money(item.cpc, 2)}</td><td class="agency-table-number">${live ? formatNumber(live.impressions) : '—'}</td><td class="agency-table-number">${live ? formatNumber(live.clicks) : '—'}</td><td class="agency-table-number">${live ? money(live.cost, 2) : '—'}</td><td class="agency-table-number">${live ? formatNumber(live.conversions, 1) : '—'}</td><td>${escapeHtml(item.source)}</td><td>${escapeHtml(item.decision)}</td></tr>`;
+  }).join('') : '<tr><td colspan="13"><div class="agency-empty">No matching keywords</div></td></tr>'}</tbody>`;
 }
 
 function leadStageClass(stage) {
@@ -502,18 +508,55 @@ function renderReports() {
 
 function renderSettings() {
   const project = agencyState.data.project;
+  const adsConnection = project.googleAdsConnection;
+  const adsReady = project.tracking?.googleAdsApi === 'verified';
+  const adsStale = project.tracking?.googleAdsApi === 'stale';
   const connections = [
-    ['Google Ads', project.tracking?.googleAdsApi === 'verified', 'Campaign reporting', 'megaphone'],
+    ['Google Ads', adsReady, adsStale ? 'Reporting feed stale' : adsReady ? `Synced ${relativeTime(adsConnection?.lastSyncedAt)}` : 'Campaign reporting', 'megaphone', adsStale ? 'Stale' : adsReady ? 'Connected' : 'Pending'],
     ['Google Tag Manager', project.tracking?.gtm === 'verified', 'Conversion events', 'tags'],
     ['Lead forms', project.tracking?.formConversion === 'verified', 'Primary conversion', 'notebook-tabs'],
     ['Email delivery', project.tracking?.emailDelivery === 'verified', 'Lead notifications', 'mail-check'],
     ['Agency CRM', true, 'KV lead pipeline', 'contact-round'],
     ['Meta Ads', project.tracking?.metaAdsApi === 'verified', 'Future channel', 'megaphone'],
   ];
-  document.getElementById('agency-connections').innerHTML = connections.map(([name, ready, detail, icon]) => `<article class="agency-connection"><span class="agency-connection-icon"><i data-lucide="${icon}"></i></span><span><strong>${escapeHtml(name)}</strong><small>${escapeHtml(detail)}</small></span><span class="agency-chip ${ready ? 'green' : 'amber'}">${ready ? 'Connected' : 'Pending'}</span></article>`).join('');
+  document.getElementById('agency-connections').innerHTML = connections.map(([name, ready, detail, icon, label]) => `<article class="agency-connection"><span class="agency-connection-icon"><i data-lucide="${icon}"></i></span><span><strong>${escapeHtml(name)}</strong><small>${escapeHtml(detail)}</small></span><span class="agency-chip ${ready ? 'green' : 'amber'}">${escapeHtml(label || (ready ? 'Connected' : 'Pending'))}</span></article>`).join('');
+  document.getElementById('agency-google-ads-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Google Ads reporting</p><h2>Scheduled data feed</h2></div><span class="agency-chip ${adsReady ? 'green' : adsStale ? 'amber' : 'gray'}">${adsReady ? 'Connected' : adsStale ? 'Stale' : 'Not connected'}</span></div><div class="agency-sync-meta">${[
+    ['Mode', 'Google Ads Script'],
+    ['Account', adsConnection?.accountId || 'Not verified'],
+    ['Last sync', adsConnection?.lastSyncedAt ? fullDate(adsConnection.lastSyncedAt) : 'Never'],
+    ['Campaigns received', adsConnection?.campaignCount ?? '—'],
+    ['Keywords received', adsConnection?.keywordCount ?? '—'],
+  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions"><button class="agency-primary-btn" id="copy-google-ads-script" type="button" ${project.campaigns.length ? '' : 'disabled'}><i data-lucide="copy"></i>Copy sync script</button></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'Not set')}</strong></div>`).join('')}</div>`;
+  document.getElementById('copy-google-ads-script')?.addEventListener('click', copyGoogleAdsScript);
+}
+
+async function copyGoogleAdsScript() {
+  const button = document.getElementById('copy-google-ads-script');
+  button.disabled = true;
+  try {
+    const result = await requestAgency('google-ads-script');
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(result.script);
+    } else {
+      const field = document.createElement('textarea');
+      field.value = result.script;
+      field.setAttribute('readonly', '');
+      field.style.position = 'fixed';
+      field.style.opacity = '0';
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand('copy');
+      field.remove();
+    }
+    showToast('Google Ads sync script copied');
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    button.disabled = false;
+  }
 }
 
 function switchView(view) {

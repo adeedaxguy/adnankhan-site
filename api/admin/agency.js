@@ -97,6 +97,93 @@ async function kvList(key, end = 499) {
   return Array.isArray(result) ? result.map(item => parseJson(item, item)) : [];
 }
 
+async function googleAdsSyncToken(projectId) {
+  const input = new TextEncoder().encode(`${ADMIN_SECRET}:${projectId}:google-ads-sync-v1`);
+  const digest = await crypto.subtle.digest('SHA-256', input);
+  return Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, '0')).join('');
+}
+
+function googleAdsScript(project, endpoint, token) {
+  const config = JSON.stringify({
+    endpoint,
+    token,
+    projectId: project.id,
+    campaignIds: (project.campaigns || []).map(campaign => String(campaign.id)).filter(Boolean),
+  }, null, 2);
+  return `const CONFIG = ${config};
+
+function main() {
+  if (!CONFIG.campaignIds.length) throw new Error('No campaign IDs are configured.');
+  const account = AdsApp.currentAccount();
+  const campaignIds = CONFIG.campaignIds.join(', ');
+  const campaigns = [];
+  const campaignRows = AdsApp.search(
+    'SELECT campaign.id, campaign.name, campaign.status, metrics.impressions, ' +
+    'metrics.clicks, metrics.cost_micros, metrics.conversions, metrics.conversions_value ' +
+    'FROM campaign WHERE campaign.id IN (' + campaignIds + ') ' +
+    'AND segments.date DURING LAST_30_DAYS'
+  );
+
+  while (campaignRows.hasNext()) {
+    const row = campaignRows.next();
+    campaigns.push({
+      id: String(row.campaign.id),
+      name: String(row.campaign.name || ''),
+      status: String(row.campaign.status || ''),
+      impressions: Number(row.metrics.impressions || 0),
+      clicks: Number(row.metrics.clicks || 0),
+      cost: Number(row.metrics.costMicros || 0) / 1000000,
+      conversions: Number(row.metrics.conversions || 0),
+      conversionValue: Number(row.metrics.conversionsValue || 0)
+    });
+  }
+
+  const keywords = [];
+  const keywordRows = AdsApp.search(
+    'SELECT campaign.id, ad_group_criterion.keyword.text, ' +
+    'ad_group_criterion.keyword.match_type, ad_group_criterion.status, ' +
+    'metrics.impressions, metrics.clicks, metrics.cost_micros, metrics.conversions ' +
+    'FROM keyword_view WHERE campaign.id IN (' + campaignIds + ') ' +
+    'AND segments.date DURING LAST_30_DAYS'
+  );
+
+  while (keywordRows.hasNext()) {
+    const row = keywordRows.next();
+    keywords.push({
+      campaignId: String(row.campaign.id),
+      keyword: String(row.adGroupCriterion.keyword.text || ''),
+      matchType: String(row.adGroupCriterion.keyword.matchType || ''),
+      status: String(row.adGroupCriterion.status || ''),
+      impressions: Number(row.metrics.impressions || 0),
+      clicks: Number(row.metrics.clicks || 0),
+      cost: Number(row.metrics.costMicros || 0) / 1000000,
+      conversions: Number(row.metrics.conversions || 0)
+    });
+  }
+
+  const payload = {
+    projectId: CONFIG.projectId,
+    accountId: account.getCustomerId(),
+    currencyCode: account.getCurrencyCode(),
+    timezone: account.getTimeZone(),
+    campaigns: campaigns,
+    keywords: keywords
+  };
+  const response = UrlFetchApp.fetch(CONFIG.endpoint, {
+    method: 'post',
+    contentType: 'application/json',
+    headers: { 'X-Ads-Sync-Token': CONFIG.token },
+    payload: JSON.stringify(payload),
+    muteHttpExceptions: true
+  });
+  const status = response.getResponseCode();
+  if (status < 200 || status >= 300) {
+    throw new Error('Ads Command sync failed (' + status + '): ' + response.getContentText());
+  }
+  Logger.log(response.getContentText());
+}`;
+}
+
 function hashString(value) {
   let hash = 2166136261;
   for (let i = 0; i < value.length; i++) {
@@ -217,6 +304,15 @@ async function campaignData(project) {
   return { campaigns, snapshots };
 }
 
+async function googleAdsConnection(projectId) {
+  return parseJson(await kvCmd('HGET', 'agency:connections', projectId), null);
+}
+
+async function googleAdsKeywordMetrics(projectId) {
+  const metrics = parseJson(await kvCmd('HGET', 'agency:google-ads-keywords', projectId), []);
+  return Array.isArray(metrics) ? metrics : [];
+}
+
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {
     status,
@@ -244,7 +340,19 @@ export default async function handler(req) {
       return { projectId: project.id, leads, summary: leadSummary(leads) };
     }));
     const selectedSet = projectLeadSets.find(item => item.projectId === selected.id);
-    const { campaigns, snapshots } = await campaignData(selected);
+    const [{ campaigns, snapshots }, adsConnection, keywordMetrics] = await Promise.all([
+      campaignData(selected),
+      googleAdsConnection(selected.id),
+      googleAdsKeywordMetrics(selected.id),
+    ]);
+    const adsAge = adsConnection?.lastSyncedAt ? Date.now() - Number(adsConnection.lastSyncedAt) : Infinity;
+    const adsStatus = adsConnection?.lastSyncedAt ? (adsAge <= 27 * 60 * 60 * 1000 ? 'verified' : 'stale') : 'not_connected';
+    const selectedProject = {
+      ...selected,
+      tracking: { ...selected.tracking, googleAdsApi: adsStatus },
+      googleAdsConnection: adsConnection ? { ...adsConnection, status: adsStatus, ageHours: adsAge / 3600000 } : null,
+      campaigns,
+    };
     const projectSummaries = projects.map(project => {
       const leadSet = projectLeadSets.find(item => item.projectId === project.id);
       return { ...project, campaigns: undefined, research: undefined, leadSummary: leadSet?.summary || leadSummary([]) };
@@ -252,13 +360,25 @@ export default async function handler(req) {
 
     return jsonResponse({
       projects: projectSummaries,
-      project: { ...selected, campaigns },
+      project: selectedProject,
       leads: selectedSet?.leads || [],
       leadSummary: selectedSet?.summary || leadSummary([]),
       campaignSnapshots: snapshots,
+      googleAdsKeywordMetrics: keywordMetrics,
       stages: STAGES,
       generatedAt: Date.now(),
     });
+  }
+
+  if (action === 'google-ads-script') {
+    const projects = await getProjects();
+    const projectId = url.searchParams.get('project') || projects[0]?.id;
+    const project = projects.find(item => item.id === projectId);
+    if (!project) return jsonResponse({ error: 'Project not found.' }, 404);
+    if (!(project.campaigns || []).length) return jsonResponse({ error: 'Add a campaign before connecting Google Ads.' }, 400);
+    const endpoint = new URL('/api/google-ads-sync', url.origin).toString();
+    const syncToken = await googleAdsSyncToken(project.id);
+    return jsonResponse({ script: googleAdsScript(project, endpoint, syncToken), endpoint, mode: 'google_ads_script' });
   }
 
   if (action === 'lead' && req.method === 'POST') {

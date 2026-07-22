@@ -9459,6 +9459,13 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .agency-connection strong { font-size: 0.78rem; }
 .agency-connection small { margin-top: 0.2rem; color: var(--ac-muted); font-size: 0.65rem; }
 .agency-settings-band { margin-top: 1rem; padding: 1rem; }
+.agency-sync-meta { display: grid; grid-template-columns: repeat(5,minmax(0,1fr)); gap: 1rem; }
+.agency-sync-meta span,
+.agency-sync-meta strong { display: block; }
+.agency-sync-meta span { color: var(--ac-muted); font-size: 0.65rem; }
+.agency-sync-meta strong { margin-top: 0.35rem; overflow-wrap: anywhere; font-size: 0.76rem; }
+.agency-sync-actions { display: flex; justify-content: flex-end; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--ac-line); }
+.agency-primary-btn:disabled { cursor: not-allowed; opacity: 0.5; }
 .agency-project-profile-grid { display: grid; grid-template-columns: repeat(4,minmax(0,1fr)); gap: 1rem; }
 .agency-project-profile-grid div span,
 .agency-project-profile-grid div strong { display: block; }
@@ -9503,6 +9510,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
   .agency-lead-workspace { grid-template-columns: minmax(300px,0.75fr) minmax(420px,1.25fr); overflow-x: auto; }
   .agency-report-header { grid-template-columns: repeat(2,minmax(0,1fr)); }
   .agency-project-profile-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .agency-sync-meta { grid-template-columns: repeat(3,minmax(0,1fr)); }
 }
 @media (max-width: 680px) {
   .agency-command-page { overflow: auto; }
@@ -9543,6 +9551,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
   .agency-form-grid.metrics,
   .agency-connection-grid,
   .agency-project-profile-grid { grid-template-columns: 1fr; }
+  .agency-sync-meta { grid-template-columns: 1fr 1fr; }
   .agency-rejection-item { grid-template-columns: 1fr; gap: 0.35rem; }
   .agency-report-header { grid-template-columns: 1fr 1fr; }
 }
