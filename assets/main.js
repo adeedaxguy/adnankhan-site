@@ -345,7 +345,7 @@
   // ── Lead-intent clicks — helps separate traffic quality from form friction ──
   document.addEventListener('click', event => {
     const link = event.target.closest('a[href]');
-    if (!link || typeof window.gtag !== 'function') return;
+    if (!link) return;
     const href = link.getAttribute('href') || '';
     let eventName = '';
     if (href.startsWith('mailto:')) eventName = 'email_click';
