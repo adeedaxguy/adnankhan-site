@@ -581,6 +581,7 @@
 
   function boot() {
     mountCookieBanner();
+    if (document.body.classList.contains('landing-page-paid')) return;
     mountAccessibilityTools();
     mountWhatsAppChat();
     // Mount chatbot regardless of consent — but it won't persist history if declined.
