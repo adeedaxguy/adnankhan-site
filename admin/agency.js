@@ -18,6 +18,7 @@ const agencyState = {
   selectedLeadId: '',
   draggedLeadId: '',
   zohoNoticeShown: false,
+  emailLeadContext: null,
 };
 
 function escapeHtml(value) {
@@ -553,12 +554,13 @@ function renderSettings() {
     ['Connected', zoho.connectedAt ? fullDate(zoho.connectedAt) : 'Never'],
     ['Last sent', zoho.lastSentAt ? fullDate(zoho.lastSentAt) : 'No emails sent'],
     ['Data center', String(zoho.dataCenter || 'us').toUpperCase()],
-  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-zoho" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${zoho.clientConfigured ? `<button class="agency-primary-btn" id="authorise-zoho" type="button"><i data-lucide="shield-check"></i>${zoho.connected ? 'Reauthorise' : 'Authorise mailbox'}</button>` : ''}${zoho.connected ? `<button class="agency-secondary-btn danger" id="disconnect-zoho" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
+  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-zoho" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${zoho.connected ? `<button class="agency-secondary-btn" id="test-zoho" type="button"><i data-lucide="send"></i>Send test to mailbox</button>` : ''}${zoho.clientConfigured ? `<button class="agency-primary-btn" id="authorise-zoho" type="button"><i data-lucide="shield-check"></i>${zoho.connected ? 'Reauthorise' : 'Authorise mailbox'}</button>` : ''}${zoho.connected ? `<button class="agency-secondary-btn danger" id="disconnect-zoho" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'Not set')}</strong></div>`).join('')}</div>`;
   document.getElementById('open-google-ads-script')?.addEventListener('click', openGoogleAdsScript);
   document.getElementById('configure-zoho')?.addEventListener('click', openZohoConfig);
+  document.getElementById('test-zoho')?.addEventListener('click', testZohoMail);
   document.getElementById('authorise-zoho')?.addEventListener('click', startZohoAuthorization);
   document.getElementById('disconnect-zoho')?.addEventListener('click', disconnectZohoMail);
 }
@@ -639,6 +641,26 @@ async function disconnectZohoMail() {
   }
 }
 
+async function testZohoMail() {
+  const zoho = agencyState.data.project.zohoMail || {};
+  if (!zoho.connected || !zoho.fromEmail) return;
+  if (!window.confirm(`Send one connection test to ${zoho.fromEmail}?`)) return;
+  const button = document.getElementById('test-zoho');
+  if (button) button.disabled = true;
+  try {
+    await requestAgency('send-test-email', {
+      method: 'POST',
+      body: { projectId: agencyState.data.project.id },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast(`Test email sent to ${zoho.fromEmail}`);
+  } catch (error) {
+    showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
 function openLeadEmail(lead) {
   const zoho = agencyState.data.project.zohoMail || {};
   if (!zoho.connected || !lead.email) return;
@@ -646,9 +668,9 @@ function openLeadEmail(lead) {
   const projectName = String(project.name || 'our team').trim();
   const owner = String(project.owner || projectName).trim();
   const firstName = String(lead.name || '').trim().split(/\s+/)[0] || 'there';
+  agencyState.emailLeadContext = Object.freeze({ id: String(lead.id), email: String(lead.email).trim().toLowerCase() });
   document.getElementById('email-from').value = zoho.fromEmail || '';
   document.getElementById('email-to').value = lead.email;
-  document.getElementById('email-lead-id').value = lead.id;
   document.getElementById('email-subject').value = `Re: Your enquiry to ${projectName}`;
   document.getElementById('email-content').value = `Hi ${firstName},\n\nThank you for reaching out to ${projectName}. I have reviewed your enquiry and would be glad to discuss the project with you.\n\nWould you be available for a short call this week? You can reply with a time that works for you.\n\nBest,\n${owner}\n${projectName}`;
   setText('email-form-error', '');
@@ -658,6 +680,12 @@ function openLeadEmail(lead) {
 async function sendLeadEmail(event) {
   event.preventDefault();
   const form = event.currentTarget;
+  const context = agencyState.emailLeadContext;
+  const lead = (agencyState.data.leads || []).find(item => item.id === context?.id);
+  if (!lead || String(lead.email || '').trim().toLowerCase() !== context.email) {
+    setText('email-form-error', 'The selected lead changed. Close this email and open it again.');
+    return;
+  }
   const button = document.getElementById('email-send-button');
   button.disabled = true;
   setText('email-form-error', '');
@@ -665,11 +693,12 @@ async function sendLeadEmail(event) {
     const fields = Object.fromEntries(new FormData(form).entries());
     const result = await requestAgency('send-email', {
       method: 'POST',
-      body: { ...fields, projectId: agencyState.data.project.id },
+      body: { ...fields, projectId: agencyState.data.project.id, leadId: context.id, toAddress: context.email },
     });
     closeDialog('email-lead-modal');
     await loadAgency(agencyState.data.project.id, { silent: true });
-    agencyState.selectedLeadId = fields.leadId;
+    agencyState.selectedLeadId = context.id;
+    agencyState.emailLeadContext = null;
     switchView('leads');
     renderLeads();
     showToast(result.warning || 'Email sent through Zoho Mail');
@@ -700,6 +729,7 @@ function openDialog(id) {
 function closeDialog(id) {
   const dialog = document.getElementById(id);
   if (dialog?.open) dialog.close();
+  if (id === 'email-lead-modal') agencyState.emailLeadContext = null;
 }
 
 function handleZohoReturn() {

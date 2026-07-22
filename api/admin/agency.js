@@ -486,6 +486,28 @@ export default async function handler(req) {
     }
   }
 
+  if (action === 'send-test-email' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    if (!projectId) return jsonResponse({ error: 'Missing project.' }, 400);
+    const projects = await getProjects();
+    const project = projects.find(item => item.id === projectId);
+    if (!project) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      const status = await getZohoStatus(projectId);
+      if (!status.connected || !status.fromEmail) return jsonResponse({ error: 'Connect Zoho Mail before testing.' }, 409);
+      const sent = await sendZohoEmail(projectId, {
+        toAddress: status.fromEmail,
+        subject: `[TEST] Ads Command Zoho connection - ${new Date().toISOString().slice(0, 10)}`,
+        content: `This is an automated connection test from Ads Command for ${project.name}.\n\nIt verifies the Zoho Mail OAuth connection and send endpoint. No action is required.`,
+      });
+      return jsonResponse({ ok: true, sentAt: sent.sentAt, toAddress: status.fromEmail });
+    } catch (error) {
+      const responseStatus = error.code === 'not_connected' ? 409 : error.code === 'invalid_message' ? 400 : 502;
+      return jsonResponse({ error: error.message || 'Zoho could not send the test email.' }, responseStatus);
+    }
+  }
+
   if (action === 'lead' && req.method === 'POST') {
     const body = await req.json().catch(() => ({}));
     const projectId = String(body.projectId || '').slice(0, 64);
