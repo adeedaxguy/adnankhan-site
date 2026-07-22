@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Ads Command | Agency OS</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260723a" />
+  <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
+</head>
+<body class="agency-command-page">
+  <div class="agency-auth" id="agency-auth">
+    <form class="agency-auth-box" id="agency-auth-form">
+      <div class="agency-mark"><i data-lucide="chart-no-axes-combined"></i></div>
+      <p class="agency-eyebrow">Agency OS</p>
+      <h1>Ads Command</h1>
+      <label for="agency-password">Admin passphrase</label>
+      <input id="agency-password" type="password" autocomplete="current-password" required />
+      <button class="agency-primary-btn" type="submit">Sign in</button>
+      <p class="agency-form-error" id="agency-auth-error" role="alert"></p>
+    </form>
+  </div>
+
+  <div class="agency-shell" id="agency-app" hidden>
+    <aside class="agency-sidebar">
+      <a class="agency-brand" href="/admin/agency.html" aria-label="Ads Command home">
+        <span class="agency-brand-icon"><i data-lucide="chart-no-axes-combined"></i></span>
+        <span><strong>Ads Command</strong><small>Agency OS</small></span>
+      </a>
+
+      <div class="agency-project-select-wrap">
+        <label for="agency-project-select">Active project</label>
+        <select id="agency-project-select"></select>
+      </div>
+
+      <nav class="agency-nav" aria-label="Command center">
+        <button class="agency-nav-item active" data-view="overview"><i data-lucide="layout-dashboard"></i><span>Overview</span></button>
+        <button class="agency-nav-item" data-view="campaigns"><i data-lucide="megaphone"></i><span>Campaigns</span><em id="nav-campaign-count">0</em></button>
+        <button class="agency-nav-item" data-view="keywords"><i data-lucide="search"></i><span>Keywords</span><em id="nav-keyword-count">0</em></button>
+        <button class="agency-nav-item" data-view="leads"><i data-lucide="inbox"></i><span>Leads</span><em id="nav-lead-count">0</em></button>
+        <button class="agency-nav-item" data-view="pipeline"><i data-lucide="kanban-square"></i><span>Pipeline</span></button>
+        <button class="agency-nav-item" data-view="research"><i data-lucide="flask-conical"></i><span>Research</span></button>
+        <button class="agency-nav-item" data-view="reports"><i data-lucide="file-chart-column"></i><span>Reports</span></button>
+        <button class="agency-nav-item" data-view="settings"><i data-lucide="settings-2"></i><span>Setup</span></button>
+      </nav>
+
+      <div class="agency-sidebar-footer">
+        <a href="/admin/inbox.html"><i data-lucide="mail"></i><span>Raw inbox</span></a>
+        <a href="/admin/"><i data-lucide="panels-top-left"></i><span>Admin hub</span></a>
+        <button id="agency-sign-out"><i data-lucide="log-out"></i><span>Sign out</span></button>
+      </div>
+    </aside>
+
+    <main class="agency-main">
+      <header class="agency-topbar">
+        <div class="agency-title-block">
+          <p id="agency-view-kicker">Agency overview</p>
+          <div class="agency-title-line">
+            <h1 id="agency-view-title">Command center</h1>
+            <span class="agency-status-dot" id="agency-project-status">Active</span>
+          </div>
+        </div>
+        <div class="agency-topbar-actions">
+          <div class="agency-range-control" role="group" aria-label="Reporting period">
+            <button data-range="7">7D</button>
+            <button class="active" data-range="30">30D</button>
+            <button data-range="all">All</button>
+          </div>
+          <button class="agency-icon-btn" id="agency-refresh" title="Refresh data" aria-label="Refresh data"><i data-lucide="refresh-cw"></i></button>
+          <button class="agency-secondary-btn" id="agency-new-project"><i data-lucide="plus"></i>Project</button>
+        </div>
+      </header>
+
+      <div class="agency-alert-strip" id="agency-alert-strip" hidden></div>
+
+      <section class="agency-view active" id="view-overview" data-title="Command center" data-kicker="Agency overview">
+        <div class="agency-metric-band" id="agency-kpis"></div>
+
+        <div class="agency-overview-grid">
+          <section class="agency-surface agency-performance-panel">
+            <div class="agency-section-head">
+              <div>
+                <p class="agency-eyebrow">Performance</p>
+                <h2>Spend and outcomes</h2>
+              </div>
+              <div class="agency-chart-legend">
+                <span><i class="spend"></i>Spend</span>
+                <span><i class="lead"></i>Leads</span>
+              </div>
+            </div>
+            <div class="agency-chart-wrap" id="agency-chart-wrap">
+              <svg id="agency-performance-chart" viewBox="0 0 760 260" role="img" aria-label="Campaign performance chart"></svg>
+              <div class="agency-chart-empty" id="agency-chart-empty" hidden>No performance snapshots yet</div>
+            </div>
+          </section>
+
+          <aside class="agency-health-panel" id="agency-health-panel"></aside>
+        </div>
+
+        <section class="agency-table-section">
+          <div class="agency-section-head">
+            <div>
+              <p class="agency-eyebrow">Live media</p>
+              <h2>Campaigns</h2>
+            </div>
+            <button class="agency-text-btn" data-go-view="campaigns">View all <i data-lucide="arrow-right"></i></button>
+          </div>
+          <div class="agency-table-wrap"><table class="agency-data-table" id="overview-campaign-table"></table></div>
+        </section>
+
+        <div class="agency-lower-grid">
+          <section class="agency-surface">
+            <div class="agency-section-head">
+              <div><p class="agency-eyebrow">Revenue path</p><h2>Lead funnel</h2></div>
+            </div>
+            <div class="agency-funnel" id="agency-funnel"></div>
+          </section>
+          <section class="agency-surface">
+            <div class="agency-section-head">
+              <div><p class="agency-eyebrow">Latest activity</p><h2>Recent leads</h2></div>
+              <button class="agency-text-btn" data-go-view="leads">Open CRM <i data-lucide="arrow-right"></i></button>
+            </div>
+            <div class="agency-activity-list" id="agency-recent-leads"></div>
+          </section>
+        </div>
+      </section>
+
+      <section class="agency-view" id="view-campaigns" data-title="Campaigns" data-kicker="Media operations">
+        <div class="agency-view-toolbar">
+          <div><p class="agency-eyebrow">Channel performance</p><h2>Campaign control</h2></div>
+          <button class="agency-primary-btn" id="agency-add-snapshot"><i data-lucide="database-backup"></i>Record snapshot</button>
+        </div>
+        <div class="agency-campaign-summary" id="agency-campaign-summary"></div>
+        <div class="agency-table-wrap"><table class="agency-data-table" id="campaign-table"></table></div>
+        <div class="agency-detail-grid" id="campaign-detail-grid"></div>
+      </section>
+
+      <section class="agency-view" id="view-keywords" data-title="Keywords" data-kicker="Search intelligence">
+        <div class="agency-view-toolbar agency-filter-toolbar">
+          <div><p class="agency-eyebrow">Research and launch set</p><h2>Keyword intelligence</h2></div>
+          <div class="agency-toolbar-controls">
+            <label class="agency-search-control"><i data-lucide="search"></i><input id="keyword-search" type="search" placeholder="Search keywords" /></label>
+            <select id="keyword-status-filter" aria-label="Keyword status"><option value="all">All statuses</option><option value="enabled">Enabled</option><option value="paused">Paused</option></select>
+          </div>
+        </div>
+        <div class="agency-metric-band compact" id="keyword-kpis"></div>
+        <div class="agency-table-wrap"><table class="agency-data-table" id="keyword-table"></table></div>
+      </section>
+
+      <section class="agency-view" id="view-leads" data-title="Leads" data-kicker="Attribution CRM">
+        <div class="agency-view-toolbar agency-filter-toolbar">
+          <div><p class="agency-eyebrow">First click to close</p><h2>Lead workspace</h2></div>
+          <div class="agency-toolbar-controls">
+            <label class="agency-search-control"><i data-lucide="search"></i><input id="lead-search" type="search" placeholder="Search leads" /></label>
+            <select id="lead-stage-filter" aria-label="Lead stage"><option value="all">All stages</option></select>
+            <label class="agency-toggle"><input id="hide-test-leads" type="checkbox" checked /><span></span>Hide tests</label>
+          </div>
+        </div>
+        <div class="agency-lead-workspace">
+          <div class="agency-lead-list" id="agency-lead-list"></div>
+          <aside class="agency-lead-detail" id="agency-lead-detail"></aside>
+        </div>
+      </section>
+
+      <section class="agency-view" id="view-pipeline" data-title="Sales pipeline" data-kicker="CRM operations">
+        <div class="agency-view-toolbar">
+          <div><p class="agency-eyebrow">Opportunity management</p><h2>Pipeline</h2></div>
+          <div class="agency-pipeline-total"><span>Open value</span><strong id="pipeline-open-value">$0</strong></div>
+        </div>
+        <div class="agency-pipeline-board" id="agency-pipeline-board"></div>
+      </section>
+
+      <section class="agency-view" id="view-research" data-title="Research" data-kicker="Strategy archive">
+        <div class="agency-view-toolbar">
+          <div><p class="agency-eyebrow">Evidence before spend</p><h2>Research vault</h2></div>
+          <span class="agency-updated-label" id="research-updated"></span>
+        </div>
+        <div class="agency-research-layout">
+          <section class="agency-surface" id="research-summary"></section>
+          <section class="agency-surface" id="landing-page-review"></section>
+        </div>
+        <section class="agency-table-section">
+          <div class="agency-section-head"><div><p class="agency-eyebrow">Decision log</p><h2>Rejected opportunities</h2></div></div>
+          <div class="agency-rejection-list" id="research-rejections"></div>
+        </section>
+      </section>
+
+      <section class="agency-view" id="view-reports" data-title="Reports" data-kicker="Client communication">
+        <div class="agency-view-toolbar">
+          <div><p class="agency-eyebrow">Performance history</p><h2>Reporting</h2></div>
+          <button class="agency-secondary-btn" id="print-report"><i data-lucide="printer"></i>Print report</button>
+        </div>
+        <div class="agency-report-header" id="agency-report-header"></div>
+        <div class="agency-table-wrap"><table class="agency-data-table" id="snapshot-table"></table></div>
+      </section>
+
+      <section class="agency-view" id="view-settings" data-title="Setup" data-kicker="Data and tracking">
+        <div class="agency-view-toolbar"><div><p class="agency-eyebrow">Project infrastructure</p><h2>Connections</h2></div></div>
+        <div class="agency-connection-grid" id="agency-connections"></div>
+        <section class="agency-settings-band" id="agency-project-profile"></section>
+      </section>
+    </main>
+  </div>
+
+  <dialog class="agency-modal" id="project-modal">
+    <form id="project-form" method="dialog">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">Onboarding</p><h2>New project</h2></div><button class="agency-icon-btn" type="button" data-close-modal="project-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <div class="agency-form-grid">
+        <label>Project name<input name="name" required /></label>
+        <label>Website<input name="website" type="url" placeholder="https://" required /></label>
+        <label>Primary channel<select name="channel"><option>Google Ads</option><option>Meta Ads</option><option>Google Ads + Meta Ads</option></select></label>
+        <label>Monthly budget<input name="monthlyBudget" type="number" min="0" step="1" /></label>
+        <label>Currency<select name="currency"><option>USD</option><option>GBP</option><option>AUD</option><option>EUR</option></select></label>
+        <label>Owner<input name="owner" /></label>
+        <label class="wide">Primary goal<input name="goal" value="Qualified leads" /></label>
+      </div>
+      <p class="agency-form-error" id="project-form-error" role="alert"></p>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="project-modal">Cancel</button><button class="agency-primary-btn" type="submit">Create project</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="agency-modal" id="snapshot-modal">
+    <form id="snapshot-form" method="dialog">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">Performance sync</p><h2>Record snapshot</h2></div><button class="agency-icon-btn" type="button" data-close-modal="snapshot-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <label>Campaign<select name="campaignId" id="snapshot-campaign" required></select></label>
+      <div class="agency-form-grid metrics">
+        <label>Impressions<input name="impressions" type="number" min="0" required /></label>
+        <label>Clicks<input name="clicks" type="number" min="0" required /></label>
+        <label>Spend<input name="cost" type="number" min="0" step="0.01" required /></label>
+        <label>Conversions<input name="conversions" type="number" min="0" step="0.01" required /></label>
+        <label>Qualified leads<input name="qualified" type="number" min="0" required /></label>
+        <label>Revenue<input name="revenue" type="number" min="0" step="0.01" required /></label>
+      </div>
+      <p class="agency-form-error" id="snapshot-form-error" role="alert"></p>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="snapshot-modal">Cancel</button><button class="agency-primary-btn" type="submit">Save snapshot</button></div>
+    </form>
+  </dialog>
+
+  <div class="agency-toast" id="agency-toast" role="status"></div>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="/admin/agency.js?v=20260723a"></script>
+</body>
+</html>

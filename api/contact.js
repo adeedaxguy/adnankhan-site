@@ -106,8 +106,14 @@ export default async function handler(req) {
     const data = await r.json().catch(() => ({}));
     const success = r.ok;
 
-    // Store in KV regardless
-    await kvStore({ ...clean, _subject: subject, source });
+    // Keep a stable CRM identity and project relationship with every lead.
+    await kvStore({
+      ...clean,
+      _id: crypto.randomUUID(),
+      _projectId: 'lofts-studio',
+      _subject: subject,
+      source,
+    });
 
     return new Response(JSON.stringify({ success, message: success ? 'Sent' : (data.message || 'Failed') }),
       { status: 200, headers: { 'content-type': 'application/json' } });
