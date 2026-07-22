@@ -526,32 +526,20 @@ function renderSettings() {
     ['Last sync', adsConnection?.lastSyncedAt ? fullDate(adsConnection.lastSyncedAt) : 'Never'],
     ['Campaigns received', adsConnection?.campaignCount ?? '—'],
     ['Keywords received', adsConnection?.keywordCount ?? '—'],
-  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions"><button class="agency-primary-btn" id="copy-google-ads-script" type="button" ${project.campaigns.length ? '' : 'disabled'}><i data-lucide="copy"></i>Copy sync script</button></div>`;
+  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions"><button class="agency-primary-btn" id="open-google-ads-script" type="button" ${project.campaigns.length ? '' : 'disabled'}><i data-lucide="code-xml"></i>Open sync script</button></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'Not set')}</strong></div>`).join('')}</div>`;
-  document.getElementById('copy-google-ads-script')?.addEventListener('click', copyGoogleAdsScript);
+  document.getElementById('open-google-ads-script')?.addEventListener('click', openGoogleAdsScript);
 }
 
-async function copyGoogleAdsScript() {
-  const button = document.getElementById('copy-google-ads-script');
+async function openGoogleAdsScript() {
+  const button = document.getElementById('open-google-ads-script');
   button.disabled = true;
   try {
     const result = await requestAgency('google-ads-script');
-    if (navigator.clipboard?.writeText) {
-      await navigator.clipboard.writeText(result.script);
-    } else {
-      const field = document.createElement('textarea');
-      field.value = result.script;
-      field.setAttribute('readonly', '');
-      field.style.position = 'fixed';
-      field.style.opacity = '0';
-      document.body.appendChild(field);
-      field.select();
-      document.execCommand('copy');
-      field.remove();
-    }
-    showToast('Google Ads sync script copied');
+    document.getElementById('google-ads-script-output').value = result.script;
+    openDialog('google-ads-script-modal');
   } catch (error) {
     showToast(error.message);
   } finally {

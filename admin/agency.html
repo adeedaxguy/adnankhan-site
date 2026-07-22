@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/styles.css?v=20260723b" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260723c" />
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 </head>
 <body class="agency-command-page">
@@ -241,8 +241,16 @@
     </form>
   </dialog>
 
+  <dialog class="agency-modal" id="google-ads-script-modal">
+    <form method="dialog">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">Google Ads reporting</p><h2>Connection script</h2></div><button class="agency-icon-btn" type="button" data-close-modal="google-ads-script-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <textarea class="agency-code-output" id="google-ads-script-output" aria-label="Google Ads connection script" readonly></textarea>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="google-ads-script-modal">Close</button></div>
+    </form>
+  </dialog>
+
   <div class="agency-toast" id="agency-toast" role="status"></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/admin/agency.js?v=20260723b"></script>
+  <script src="/admin/agency.js?v=20260723c"></script>
 </body>
 </html>
