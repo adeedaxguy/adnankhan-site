@@ -17,6 +17,7 @@ const agencyState = {
   currentView: 'overview',
   selectedLeadId: '',
   draggedLeadId: '',
+  zohoNoticeShown: false,
 };
 
 function escapeHtml(value) {
@@ -383,6 +384,20 @@ function detailRows(rows) {
   return visible.length ? `<dl>${visible.map(([key, value]) => `<div><dt>${escapeHtml(key)}</dt><dd>${escapeHtml(value)}</dd></div>`).join('')}</dl>` : '<div class="agency-empty">No data captured</div>';
 }
 
+function renderLeadActivity(lead) {
+  const activity = Array.isArray(lead.activity) ? lead.activity : [];
+  if (!activity.length) return '<div class="agency-empty">No activity yet</div>';
+  return `<div class="agency-timeline">${activity.map(item => {
+    if (item.type === 'email') {
+      return `<article class="agency-timeline-item email"><span><i data-lucide="send"></i></span><div><strong>${escapeHtml(item.subject || 'Email sent')}</strong><small>To ${escapeHtml(item.to || lead.email || 'lead')} · ${escapeHtml(fullDate(item.at))}</small>${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}</div></article>`;
+    }
+    if (item.type === 'stage') {
+      return `<article class="agency-timeline-item"><span><i data-lucide="arrow-right-left"></i></span><div><strong>Stage changed to ${escapeHtml(STAGE_LABELS[item.to] || titleCase(item.to))}</strong><small>From ${escapeHtml(STAGE_LABELS[item.from] || titleCase(item.from))} · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
+    }
+    return `<article class="agency-timeline-item"><span><i data-lucide="notebook-pen"></i></span><div><strong>${item.type === 'note' ? 'Note added' : escapeHtml(titleCase(item.type))}</strong><small>${escapeHtml(fullDate(item.at))}</small></div></article>`;
+  }).join('')}</div>`;
+}
+
 function renderLeadDetail(leadId) {
   const container = document.getElementById('agency-lead-detail');
   const lead = (agencyState.data.leads || []).find(item => item.id === leadId);
@@ -402,7 +417,8 @@ function renderLeadDetail(leadId) {
   ];
   const known = new Set(['id', 'projectId', 'name', 'email', 'phone', 'website', 'url', 'message', 'scope', 'source', 'stage', 'assignedTo', 'value', 'nextAction', 'lostReason', 'isTest', 'notes', 'activity', 'updatedAt', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gad_campaignid', 'landing_page', 'landingPage', 'page_url', 'page_title']);
   const extra = Object.entries(lead).filter(([key, value]) => !known.has(key) && !key.startsWith('_') && value !== '' && value !== null && value !== undefined).slice(0, 14);
-  container.innerHTML = `<div class="agency-lead-detail-head"><div><h2>${escapeHtml(lead.name || 'Anonymous')}</h2><p>${escapeHtml(lead.email || lead.phone || 'No contact details')} · ${escapeHtml(fullDate(lead._ts))}</p></div><span class="agency-chip ${lead.isTest ? 'amber' : leadStageClass(lead.stage)}">${lead.isTest ? 'Test lead' : escapeHtml(STAGE_LABELS[lead.stage])}</span></div>
+  const mailReady = Boolean(agencyState.data.project.zohoMail?.connected);
+  container.innerHTML = `<div class="agency-lead-detail-head"><div><h2>${escapeHtml(lead.name || 'Anonymous')}</h2><p>${escapeHtml(lead.email || lead.phone || 'No contact details')} · ${escapeHtml(fullDate(lead._ts))}</p></div><div class="agency-lead-head-actions"><button class="agency-secondary-btn" id="lead-email" type="button" ${lead.email && mailReady ? '' : 'disabled'} title="${lead.email ? (mailReady ? 'Email this lead' : 'Connect Zoho Mail in Setup') : 'No email address'}"><i data-lucide="mail"></i>Email</button><span class="agency-chip ${lead.isTest ? 'amber' : leadStageClass(lead.stage)}">${lead.isTest ? 'Test lead' : escapeHtml(STAGE_LABELS[lead.stage])}</span></div></div>
     <div class="agency-lead-controls">
       <label>Stage<select id="lead-stage-input">${agencyState.data.stages.map(stage => `<option value="${stage}" ${lead.stage === stage ? 'selected' : ''}>${STAGE_LABELS[stage]}</option>`).join('')}</select></label>
       <label>Deal value<input id="lead-value-input" type="number" min="0" step="0.01" value="${escapeHtml(lead.value)}" /></label>
@@ -417,8 +433,10 @@ function renderLeadDetail(leadId) {
       ${lead.message ? `<section class="agency-lead-section wide"><h3>Message</h3><p class="agency-research-copy">${escapeHtml(lead.message)}</p></section>` : ''}
       ${extra.length ? `<section class="agency-lead-section wide"><h3>Submission data</h3>${detailRows(extra.map(([key, value]) => [titleCase(key), value]))}</section>` : ''}
       <section class="agency-lead-section wide"><h3>Sales notes</h3><form class="agency-note-form" id="lead-note-form"><textarea id="lead-note-input" placeholder="Add a call note, qualification detail, or next step"></textarea><button class="agency-secondary-btn" type="submit"><i data-lucide="plus"></i>Add note</button></form><div class="agency-note-list">${lead.notes.length ? lead.notes.map(note => `<article class="agency-note">${escapeHtml(note.body)}<time>${escapeHtml(fullDate(note.at))}</time></article>`).join('') : '<div class="agency-empty">No notes yet</div>'}</div></section>
+      <section class="agency-lead-section wide"><h3>Activity</h3>${renderLeadActivity(lead)}</section>
     </div>`;
   document.getElementById('lead-save').addEventListener('click', () => saveLead(lead.id));
+  document.getElementById('lead-email')?.addEventListener('click', () => openLeadEmail(lead));
   document.getElementById('lead-note-form').addEventListener('submit', event => {
     event.preventDefault();
     const note = document.getElementById('lead-note-input').value.trim();
@@ -511,11 +529,13 @@ function renderSettings() {
   const adsConnection = project.googleAdsConnection;
   const adsReady = project.tracking?.googleAdsApi === 'verified';
   const adsStale = project.tracking?.googleAdsApi === 'stale';
+  const zoho = project.zohoMail || {};
   const connections = [
     ['Google Ads', adsReady, adsStale ? 'Reporting feed stale' : adsReady ? `Synced ${relativeTime(adsConnection?.lastSyncedAt)}` : 'Campaign reporting', 'megaphone', adsStale ? 'Stale' : adsReady ? 'Connected' : 'Pending'],
     ['Google Tag Manager', project.tracking?.gtm === 'verified', 'Conversion events', 'tags'],
     ['Lead forms', project.tracking?.formConversion === 'verified', 'Primary conversion', 'notebook-tabs'],
-    ['Email delivery', project.tracking?.emailDelivery === 'verified', 'Lead notifications', 'mail-check'],
+    ['Lead notifications', project.tracking?.emailDelivery === 'verified', 'Inbound delivery', 'mail-check'],
+    ['Zoho Mail', zoho.connected, zoho.connected ? zoho.fromEmail : 'CRM outbound email', 'send', zoho.connected ? 'Connected' : zoho.clientConfigured ? 'Authorise' : 'Pending'],
     ['Agency CRM', true, 'KV lead pipeline', 'contact-round'],
     ['Meta Ads', project.tracking?.metaAdsApi === 'verified', 'Future channel', 'megaphone'],
   ];
@@ -527,10 +547,20 @@ function renderSettings() {
     ['Campaigns received', adsConnection?.campaignCount ?? '—'],
     ['Keywords received', adsConnection?.keywordCount ?? '—'],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions"><button class="agency-primary-btn" id="open-google-ads-script" type="button" ${project.campaigns.length ? '' : 'disabled'}><i data-lucide="code-xml"></i>Open sync script</button></div>`;
+  document.getElementById('agency-zoho-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">CRM outbound email</p><h2>Zoho Mail</h2></div><span class="agency-chip ${zoho.connected ? 'green' : zoho.clientConfigured ? 'amber' : 'gray'}">${zoho.connected ? 'Connected' : zoho.clientConfigured ? 'Ready to authorise' : 'Not connected'}</span></div><div class="agency-sync-meta">${[
+    ['Mailbox', zoho.fromEmail || 'Not configured'],
+    ['Permission', zoho.permission || 'Send only'],
+    ['Connected', zoho.connectedAt ? fullDate(zoho.connectedAt) : 'Never'],
+    ['Last sent', zoho.lastSentAt ? fullDate(zoho.lastSentAt) : 'No emails sent'],
+    ['Data center', String(zoho.dataCenter || 'us').toUpperCase()],
+  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-zoho" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${zoho.clientConfigured ? `<button class="agency-primary-btn" id="authorise-zoho" type="button"><i data-lucide="shield-check"></i>${zoho.connected ? 'Reauthorise' : 'Authorise mailbox'}</button>` : ''}${zoho.connected ? `<button class="agency-secondary-btn danger" id="disconnect-zoho" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'Not set')}</strong></div>`).join('')}</div>`;
   document.getElementById('open-google-ads-script')?.addEventListener('click', openGoogleAdsScript);
+  document.getElementById('configure-zoho')?.addEventListener('click', openZohoConfig);
+  document.getElementById('authorise-zoho')?.addEventListener('click', startZohoAuthorization);
+  document.getElementById('disconnect-zoho')?.addEventListener('click', disconnectZohoMail);
 }
 
 async function openGoogleAdsScript() {
@@ -542,6 +572,109 @@ async function openGoogleAdsScript() {
     openDialog('google-ads-script-modal');
   } catch (error) {
     showToast(error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+function openZohoConfig() {
+  const zoho = agencyState.data.project.zohoMail || {};
+  const form = document.getElementById('zoho-config-form');
+  form.elements.fromEmail.value = zoho.fromEmail || '';
+  form.elements.clientId.value = '';
+  form.elements.clientSecret.value = '';
+  form.elements.dataCenter.value = zoho.dataCenter || 'us';
+  setText('zoho-config-error', '');
+  openDialog('zoho-config-modal');
+}
+
+async function configureZohoClient(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+  setText('zoho-config-error', '');
+  try {
+    const payload = Object.fromEntries(new FormData(form).entries());
+    await requestAgency('zoho-client', {
+      method: 'POST',
+      body: { ...payload, projectId: agencyState.data.project.id },
+    });
+    closeDialog('zoho-config-modal');
+    await startZohoAuthorization();
+  } catch (error) {
+    setText('zoho-config-error', error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function startZohoAuthorization() {
+  const button = document.getElementById('authorise-zoho');
+  if (button) button.disabled = true;
+  try {
+    const result = await requestAgency('zoho-authorize');
+    window.location.assign(result.authorizeUrl);
+  } catch (error) {
+    showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
+async function disconnectZohoMail() {
+  if (!window.confirm('Disconnect Zoho Mail from this project?')) return;
+  const button = document.getElementById('disconnect-zoho');
+  if (button) button.disabled = true;
+  try {
+    await requestAgency('zoho-disconnect', {
+      method: 'POST',
+      body: { projectId: agencyState.data.project.id },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast('Zoho Mail disconnected');
+  } catch (error) {
+    showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
+function openLeadEmail(lead) {
+  const zoho = agencyState.data.project.zohoMail || {};
+  if (!zoho.connected || !lead.email) return;
+  const project = agencyState.data.project;
+  const projectName = String(project.name || 'our team').trim();
+  const owner = String(project.owner || projectName).trim();
+  const firstName = String(lead.name || '').trim().split(/\s+/)[0] || 'there';
+  document.getElementById('email-from').value = zoho.fromEmail || '';
+  document.getElementById('email-to').value = lead.email;
+  document.getElementById('email-lead-id').value = lead.id;
+  document.getElementById('email-subject').value = `Re: Your enquiry to ${projectName}`;
+  document.getElementById('email-content').value = `Hi ${firstName},\n\nThank you for reaching out to ${projectName}. I have reviewed your enquiry and would be glad to discuss the project with you.\n\nWould you be available for a short call this week? You can reply with a time that works for you.\n\nBest,\n${owner}\n${projectName}`;
+  setText('email-form-error', '');
+  openDialog('email-lead-modal');
+}
+
+async function sendLeadEmail(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = document.getElementById('email-send-button');
+  button.disabled = true;
+  setText('email-form-error', '');
+  try {
+    const fields = Object.fromEntries(new FormData(form).entries());
+    const result = await requestAgency('send-email', {
+      method: 'POST',
+      body: { ...fields, projectId: agencyState.data.project.id },
+    });
+    closeDialog('email-lead-modal');
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    agencyState.selectedLeadId = fields.leadId;
+    switchView('leads');
+    renderLeads();
+    showToast(result.warning || 'Email sent through Zoho Mail');
+  } catch (error) {
+    setText('email-form-error', error.message);
   } finally {
     button.disabled = false;
   }
@@ -567,6 +700,26 @@ function openDialog(id) {
 function closeDialog(id) {
   const dialog = document.getElementById(id);
   if (dialog?.open) dialog.close();
+}
+
+function handleZohoReturn() {
+  if (agencyState.zohoNoticeShown) return;
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('zoho');
+  if (!status) return;
+  agencyState.zohoNoticeShown = true;
+  const reason = params.get('reason');
+  const messages = {
+    access_denied: 'Zoho access was not granted.',
+    mailbox_not_found: 'That Zoho account does not contain the configured sender mailbox.',
+    token_exchange: 'Zoho could not complete the secure token exchange.',
+    refresh_token_missing: 'Zoho did not provide offline access. Reauthorise the mailbox.',
+    invalid_state: 'The Zoho connection request expired. Start it again.',
+    client_missing: 'The Zoho OAuth client is not configured.',
+  };
+  switchView('settings');
+  showToast(status === 'connected' ? 'Zoho Mail connected' : (messages[reason] || 'Zoho Mail connection failed.'));
+  window.history.replaceState({}, '', '/admin/agency.html');
 }
 
 async function createProject(event) {
@@ -618,6 +771,7 @@ function bindAgencyEvents() {
       agencyState.data = data;
       showAgencyApp();
       renderAgency();
+      handleZohoReturn();
     } catch (error) {
       setText('agency-auth-error', error.status === 401 ? 'That passphrase did not work.' : error.message);
     }
@@ -641,6 +795,8 @@ function bindAgencyEvents() {
   document.getElementById('hide-test-leads').addEventListener('change', renderLeads);
   document.getElementById('project-form').addEventListener('submit', createProject);
   document.getElementById('snapshot-form').addEventListener('submit', saveSnapshot);
+  document.getElementById('zoho-config-form').addEventListener('submit', configureZohoClient);
+  document.getElementById('email-lead-form').addEventListener('submit', sendLeadEmail);
   document.getElementById('print-report').addEventListener('click', () => window.print());
   document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => closeDialog(button.dataset.closeModal)));
   document.getElementById('agency-sign-out').addEventListener('click', () => {
@@ -661,6 +817,7 @@ async function startAgency() {
   }
   try {
     await loadAgency('', { silent: true });
+    handleZohoReturn();
   } catch (error) {
     if (error.status === 401) {
       sessionStorage.removeItem(AGENCY_TOKEN_KEY);

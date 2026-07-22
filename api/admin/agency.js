@@ -1,3 +1,11 @@
+import {
+  createZohoAuthorization,
+  disconnectZoho,
+  getZohoStatus,
+  saveZohoClient,
+  sendZohoEmail,
+} from '../_lib/zoho.js';
+
 export const config = { runtime: 'edge' };
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
@@ -340,10 +348,11 @@ export default async function handler(req) {
       return { projectId: project.id, leads, summary: leadSummary(leads) };
     }));
     const selectedSet = projectLeadSets.find(item => item.projectId === selected.id);
-    const [{ campaigns, snapshots }, adsConnection, keywordMetrics] = await Promise.all([
+    const [{ campaigns, snapshots }, adsConnection, keywordMetrics, zohoMail] = await Promise.all([
       campaignData(selected),
       googleAdsConnection(selected.id),
       googleAdsKeywordMetrics(selected.id),
+      getZohoStatus(selected.id),
     ]);
     const adsAge = adsConnection?.lastSyncedAt ? Date.now() - Number(adsConnection.lastSyncedAt) : Infinity;
     const adsStatus = adsConnection?.lastSyncedAt ? (adsAge <= 27 * 60 * 60 * 1000 ? 'verified' : 'stale') : 'not_connected';
@@ -351,6 +360,7 @@ export default async function handler(req) {
       ...selected,
       tracking: { ...selected.tracking, googleAdsApi: adsStatus },
       googleAdsConnection: adsConnection ? { ...adsConnection, status: adsStatus, ageHours: adsAge / 3600000 } : null,
+      zohoMail,
       campaigns,
     };
     const projectSummaries = projects.map(project => {
@@ -379,6 +389,101 @@ export default async function handler(req) {
     const endpoint = new URL('/api/google-ads-sync', url.origin).toString();
     const syncToken = await googleAdsSyncToken(project.id);
     return jsonResponse({ script: googleAdsScript(project, endpoint, syncToken), endpoint, mode: 'google_ads_script' });
+  }
+
+  if (action === 'zoho-client' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    if (!projectId) return jsonResponse({ error: 'Missing project.' }, 400);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      const client = await saveZohoClient(projectId, body);
+      return jsonResponse({ ok: true, client });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not save the Zoho client.' }, error.code === 'storage_unavailable' ? 503 : 400);
+    }
+  }
+
+  if (action === 'zoho-authorize') {
+    const projects = await getProjects();
+    const projectId = url.searchParams.get('project') || projects[0]?.id;
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      const authorizeUrl = await createZohoAuthorization(projectId, url.origin);
+      return jsonResponse({ authorizeUrl });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not start Zoho authorization.' }, error.code === 'storage_unavailable' ? 503 : 400);
+    }
+  }
+
+  if (action === 'zoho-disconnect' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    if (!projectId) return jsonResponse({ error: 'Missing project.' }, 400);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      await disconnectZoho(projectId);
+      return jsonResponse({ ok: true });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not disconnect Zoho Mail.' }, 503);
+    }
+  }
+
+  if (action === 'send-email' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    const leadId = String(body.leadId || '').slice(0, 96);
+    if (!projectId || !leadId) return jsonResponse({ error: 'Missing project or lead.' }, 400);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    const overlays = await loadOverlays();
+    const rawLeads = await loadRawLeads(projectId);
+    const lead = rawLeads.map(item => normalizeLead(projectId, item, overlays)).find(item => item.id === leadId);
+    if (!lead?.email) return jsonResponse({ error: 'This lead does not have an email address.' }, 400);
+    const recipient = String(body.toAddress || '').trim().toLowerCase();
+    if (recipient !== String(lead.email).trim().toLowerCase()) {
+      return jsonResponse({ error: 'The recipient must match the selected CRM lead.' }, 400);
+    }
+    try {
+      const sent = await sendZohoEmail(projectId, {
+        toAddress: recipient,
+        subject: body.subject,
+        content: body.content,
+      });
+      const key = `${projectId}:${leadId}`;
+      const current = overlays[key] || {};
+      const currentStage = STAGES.includes(current.stage) ? current.stage : 'new';
+      const activity = [{
+        type: 'email',
+        direction: 'outbound',
+        provider: 'zoho',
+        from: sent.fromEmail,
+        to: recipient,
+        subject: String(body.subject || '').trim().slice(0, 180),
+        body: String(body.content || '').trim().slice(0, 4000),
+        messageId: sent.messageId,
+        at: sent.sentAt,
+      }];
+      if (currentStage === 'new') activity.push({ type: 'stage', from: 'new', to: 'contacted', at: sent.sentAt });
+      const next = {
+        ...current,
+        stage: currentStage === 'new' ? 'contacted' : currentStage,
+        activity: [...activity, ...(current.activity || [])].slice(0, 50),
+        updatedAt: sent.sentAt,
+      };
+      const saved = await kvCmd('HSET', 'agency:lead-overlays', key, JSON.stringify(next));
+      return jsonResponse({
+        ok: true,
+        sentAt: sent.sentAt,
+        messageId: sent.messageId,
+        warning: saved === null ? 'Email sent, but CRM activity could not be saved.' : '',
+      });
+    } catch (error) {
+      const status = error.code === 'not_connected' ? 409 : error.code === 'invalid_message' ? 400 : 502;
+      return jsonResponse({ error: error.message || 'Zoho could not send the email.' }, status);
+    }
   }
 
   if (action === 'lead' && req.method === 'POST') {

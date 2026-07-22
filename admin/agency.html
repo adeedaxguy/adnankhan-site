@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/styles.css?v=20260723c" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260723d" />
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 </head>
 <body class="agency-command-page">
@@ -202,6 +202,7 @@
         <div class="agency-view-toolbar"><div><p class="agency-eyebrow">Project infrastructure</p><h2>Connections</h2></div></div>
         <div class="agency-connection-grid" id="agency-connections"></div>
         <section class="agency-settings-band" id="agency-google-ads-setup"></section>
+        <section class="agency-settings-band" id="agency-zoho-setup"></section>
         <section class="agency-settings-band" id="agency-project-profile"></section>
       </section>
     </main>
@@ -249,8 +250,37 @@
     </form>
   </dialog>
 
+  <dialog class="agency-modal" id="zoho-config-modal">
+    <form id="zoho-config-form" method="dialog">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">CRM outbound email</p><h2>Connect Zoho Mail</h2></div><button class="agency-icon-btn" type="button" data-close-modal="zoho-config-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <div class="agency-form-grid">
+        <label class="wide">Sender email<input name="fromEmail" type="email" autocomplete="email" required /></label>
+        <label class="wide">Zoho client ID<input name="clientId" autocomplete="off" required /></label>
+        <label class="wide">Zoho client secret<input name="clientSecret" type="password" autocomplete="new-password" required /></label>
+        <label>Data center<select name="dataCenter"><option value="us">US / Global</option><option value="eu">Europe</option><option value="in">India</option><option value="au">Australia</option><option value="jp">Japan</option><option value="ca">Canada</option></select></label>
+      </div>
+      <p class="agency-form-error" id="zoho-config-error" role="alert"></p>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="zoho-config-modal">Cancel</button><button class="agency-primary-btn" type="submit"><i data-lucide="lock-keyhole"></i>Save and authorise</button></div>
+    </form>
+  </dialog>
+
+  <dialog class="agency-modal" id="email-lead-modal">
+    <form id="email-lead-form" method="dialog">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">Lead follow-up</p><h2>New email</h2></div><button class="agency-icon-btn" type="button" data-close-modal="email-lead-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <div class="agency-form-grid agency-email-form-grid">
+        <label>From<input id="email-from" readonly /></label>
+        <label>To<input id="email-to" name="toAddress" type="email" readonly required /></label>
+        <label class="wide">Subject<input id="email-subject" name="subject" maxlength="180" required /></label>
+        <label class="wide">Message<textarea id="email-content" name="content" maxlength="10000" required></textarea></label>
+      </div>
+      <input id="email-lead-id" name="leadId" type="hidden" />
+      <p class="agency-form-error" id="email-form-error" role="alert"></p>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="email-lead-modal">Cancel</button><button class="agency-primary-btn" id="email-send-button" type="submit"><i data-lucide="send"></i>Send email</button></div>
+    </form>
+  </dialog>
+
   <div class="agency-toast" id="agency-toast" role="status"></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/admin/agency.js?v=20260723c"></script>
+  <script src="/admin/agency.js?v=20260723d"></script>
 </body>
 </html>
