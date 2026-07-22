@@ -296,6 +296,15 @@ def body_for(topic):
     return [
         ("p", f"Search Console is already testing Lofts Studio around audit-report and compatibility terms, which means the opportunity is not abstract. People are looking for a usable {artifact}: something that explains what is wrong, why it matters, and what to fix first. The page you are reading is built around that exact need."),
         ("p", f"The SERP pattern for <strong>{primary}</strong> is crowded with automated scanners, generic checklist posts, PDF samples, and large SEO platforms. Those can be useful, but they often stop at surface warnings. A better audit connects technical health, page structure, content intent, AI-search readability, and the path from visitor to lead."),
+        ("h2", "GSC and PDF-result gap to close"),
+        ("p", f"Today's Search Console refresh shows Lofts Studio is already being tested for audit-report intent: website structure audit report, site audit report, website audit report, SEO compatibility, website audit PDF, and free report variants. The job of this page is to give a useful answer before the reader has to open a generic PDF, a Scribd upload, or a one-click grader."),
+        ("p", f"For <strong>{primary}</strong>, the conversion path should be clear: understand the report structure, compare it to your own site, run the <a href='/free-audit/'>free Lofts Studio audit</a>, and decide which crawl, structure, content, UX, or conversion issues deserve implementation work."),
+        ("ul", [
+            "Related search expansions covered: website audit report pdf free download, free website audit report pdf, website audit report pdf download, website audit report example, website design audit pdf, SEO monthly report PDF, and website audit report for free.",
+            "SERP competitors reviewed included Scribd/PDF uploads, White Label IQ, WebCEO, Roast My Web, ColoredCow, HubSpot, Brady Mills Agency, Slideshare, automated graders, and SEO checker tools.",
+            "The outperformance angle is not a prettier PDF. It is a report page that explains the issue, business impact, fix priority, and audit-to-implementation path for real lead websites.",
+            "For AI answers, the page should make the report format, first fixes, and limitations of automated tools extractable without hiding the practical next step.",
+        ]),
         ("callout", f"The goal of a {artifact} is not to prove the site has problems. Every site has problems. The goal is to separate small warnings from the few issues that are actually blocking search visibility, buyer trust, or enquiries."),
         ("h2", f"Short answer: what should a {artifact} include?"),
         ("p", f"A strong {artifact} should include crawl and index checks, page hierarchy, internal links, search intent, visible proof, schema, mobile UX, speed signals, conversion paths, and a prioritized fix order. It should show the URL affected, the evidence for the issue, the business impact, and the recommended next step."),
@@ -366,7 +375,7 @@ def make_post(topic):
         "meta": topic["meta"],
         "category": "SEO",
         "date": "2026-07-22",
-        "modifiedDate": "2026-07-22",
+        "modifiedDate": "2026-07-23",
         "readingTime": "9 min",
         "primaryKeyword": topic["primary"],
         "secondaryKeyword": topic["secondary"],
@@ -394,7 +403,7 @@ def update_sitemap_for_batch():
         insertion.append(
             "  <url>\n"
             f"    <loc>{loc}</loc>\n"
-            "    <lastmod>2026-07-22</lastmod>\n"
+            "    <lastmod>2026-07-23</lastmod>\n"
             "    <changefreq>monthly</changefreq>\n"
             "    <priority>0.8</priority>\n"
             "  </url>"
