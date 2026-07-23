@@ -154,3 +154,28 @@ Lofts Studio builds search-optimised websites for local businesses across the US
 <!-- INDUSTRY:END -->
 - https://lofts.studio/blog/seo-compatibility-checker.html — SEO Compatibility Checker: Test Pages Before Launch
 - [Landing Page Sprint Guide](https://lofts.studio/blog/landing-page-sprint.html)
+
+<!-- 2026-07-24-CONVERSION-AI:START -->
+## July 24, 2026 conversion and AI-search website design cluster
+Lofts Studio added 20 search assets for conversion-led redesign, AI-search-ready websites, service page architecture, local-business lead funnels, and SEO-safe redesign migration.
+- [Conversion-Led Website Redesign: Start With the Leak](https://lofts.studio/blog/conversion-led-website-redesign.html) — A practical redesign framework for finding the message, trust, speed, and CTA leaks before touching visual design.
+- [Website Redesign for Lead Generation: The Page Flow](https://lofts.studio/blog/website-redesign-for-lead-generation.html) — How to redesign a business website around search intent, proof, forms, audit paths, and qualified enquiry flow.
+- [Conversion Audit Before a Website Redesign](https://lofts.studio/blog/conversion-audit-before-website-redesign.html) — Run this conversion audit before a redesign so you preserve what works and fix the real friction first.
+- [SaaS Website Redesign Agency Checklist](https://lofts.studio/blog/saas-website-redesign-agency-checklist.html) — A founder checklist for choosing a SaaS redesign partner by strategy, architecture, migration safety, and measurable buyer flow.
+- [B2B Homepage Redesign Checklist for Pipeline](https://lofts.studio/blog/b2b-homepage-redesign-checklist.html) — A B2B homepage redesign checklist for clarifying the offer, proof, buyer path, technical SEO, and demo intent.
+- [Service Page Architecture for SEO and Leads](https://lofts.studio/blog/service-page-architecture-seo.html) — How to structure service pages so Google, AI answers, and real buyers understand the offer and next step.
+- [AI Search Ready Website Design](https://lofts.studio/blog/ai-search-ready-website-design.html) — AI-search-ready design means direct answers, clean entity signals, schema, proof, and pages that can be cited.
+- [GEO Website Audit Checklist for Business Sites](https://lofts.studio/blog/geo-website-audit-checklist.html) — A generative engine optimization audit checklist for pages that need clear entities, source-of-truth sections, and cite-ready answers.
+- [Answer-Engine Optimized Service Pages](https://lofts.studio/blog/answer-engine-optimized-service-pages.html) — How to write and structure service pages so answer engines can extract a confident, accurate recommendation.
+- [Website Audit for Local Service Businesses](https://lofts.studio/blog/website-audit-for-local-service-businesses.html) — A local service website audit for search visibility, trust, mobile clarity, call paths, forms, and lead quality.
+- [Technical SEO and Conversion Redesign Belong Together](https://lofts.studio/blog/technical-seo-and-conversion-redesign.html) — Why redesigns should fix crawlability, speed, schema, analytics, messaging, and form flow in the same sprint.
+- [Landing Page Hierarchy of Evidence](https://lofts.studio/blog/landing-page-hierarchy-of-evidence.html) — A landing page should organize promise, proof, objections, offer mechanics, and CTA in the order buyers need.
+- [Website Modernization for Local Businesses](https://lofts.studio/blog/website-modernization-for-local-businesses.html) — Modernize a local business site around mobile trust, local intent, service pages, schema, speed, and contact actions.
+- [Web Design and SEO Agency Checklist](https://lofts.studio/blog/web-design-and-seo-agency-checklist.html) — Use this checklist to evaluate whether a web design partner can protect SEO, improve conversion, and ship clean code.
+- [Conversion-Focused Web Design Checklist](https://lofts.studio/blog/conversion-focused-web-design-checklist.html) — A conversion-focused design checklist covering first screen, offer clarity, proof, forms, speed, schema, and follow-up.
+- [Core Web Vitals Redesign Checklist](https://lofts.studio/blog/core-web-vitals-redesign-checklist.html) — A redesign checklist for protecting LCP, INP, CLS, image strategy, script weight, and mobile experience.
+- [Schema and Internal Links for Service Websites](https://lofts.studio/blog/schema-internal-links-service-websites.html) — How service websites should connect schema, internal links, FAQs, proof pages, and conversion paths.
+- [Website Lead Funnel Audit](https://lofts.studio/blog/website-lead-funnel-audit.html) — Audit how visitors move from search query to page, proof, form, follow-up, and sales conversation.
+- [Website Redesign Migration SEO Checklist](https://lofts.studio/blog/website-redesign-migration-seo-checklist.html) — A redesign migration checklist for URL mapping, redirects, metadata, analytics, schema, sitemaps, and live QA.
+- [Local Business Landing Page Template](https://lofts.studio/blog/local-business-landing-page-template.html) — A local business landing page structure for service intent, local proof, FAQs, calls, forms, and search clarity.
+<!-- 2026-07-24-CONVERSION-AI:END -->
