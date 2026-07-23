@@ -58,10 +58,9 @@
       page_title: document.title
     };
     window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push({ event: eventName, ...payload });
     if (typeof window.gtag === 'function') {
       window.gtag('event', eventName, payload);
-    } else {
-      window.dataLayer.push({ event: eventName, ...payload });
     }
   };
 
