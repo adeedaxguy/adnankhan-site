@@ -5,6 +5,15 @@ import {
   saveZohoClient,
   sendZohoEmail,
 } from '../_lib/zoho.js';
+import {
+  buildCrmEmail,
+  controlSequence,
+  getAutomationSnapshot,
+  processDueAutomations,
+  saveAutomationConfig,
+  stopSequenceForStage,
+  syncZohoReplies,
+} from '../_lib/automation.js';
 
 export const config = { runtime: 'edge' };
 
@@ -348,12 +357,15 @@ export default async function handler(req) {
       return { projectId: project.id, leads, summary: leadSummary(leads) };
     }));
     const selectedSet = projectLeadSets.find(item => item.projectId === selected.id);
-    const [{ campaigns, snapshots }, adsConnection, keywordMetrics, zohoMail] = await Promise.all([
+    const [{ campaigns, snapshots }, adsConnection, keywordMetrics, zohoMail, automation] = await Promise.all([
       campaignData(selected),
       googleAdsConnection(selected.id),
       googleAdsKeywordMetrics(selected.id),
       getZohoStatus(selected.id),
+      getAutomationSnapshot(selected.id),
     ]);
+    const sequenceByLead = new Map(automation.sequences.map(sequence => [sequence.leadId, sequence]));
+    const selectedLeads = (selectedSet?.leads || []).map(lead => ({ ...lead, automation: sequenceByLead.get(lead.id) || null }));
     const adsAge = adsConnection?.lastSyncedAt ? Date.now() - Number(adsConnection.lastSyncedAt) : Infinity;
     const adsStatus = adsConnection?.lastSyncedAt ? (adsAge <= 27 * 60 * 60 * 1000 ? 'verified' : 'stale') : 'not_connected';
     const selectedProject = {
@@ -361,6 +373,7 @@ export default async function handler(req) {
       tracking: { ...selected.tracking, googleAdsApi: adsStatus },
       googleAdsConnection: adsConnection ? { ...adsConnection, status: adsStatus, ageHours: adsAge / 3600000 } : null,
       zohoMail,
+      automation: { ...automation, sequences: undefined },
       campaigns,
     };
     const projectSummaries = projects.map(project => {
@@ -371,7 +384,7 @@ export default async function handler(req) {
     return jsonResponse({
       projects: projectSummaries,
       project: selectedProject,
-      leads: selectedSet?.leads || [],
+      leads: selectedLeads,
       leadSummary: selectedSet?.summary || leadSummary([]),
       campaignSnapshots: snapshots,
       googleAdsKeywordMetrics: keywordMetrics,
@@ -431,6 +444,53 @@ export default async function handler(req) {
     }
   }
 
+  if (action === 'automation-config' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      return jsonResponse({ ok: true, ...await saveAutomationConfig(projectId, body) });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Automation settings could not be saved.' }, error.code === 'not_ready' ? 409 : 400);
+    }
+  }
+
+  if (action === 'automation-sync' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    try {
+      return jsonResponse({ ok: true, sync: await syncZohoReplies(projectId) });
+    } catch (error) {
+      const status = error.code === 'reauthorization_required' ? 409 : 502;
+      return jsonResponse({ error: error.message || 'Reply sync failed.' }, status);
+    }
+  }
+
+  if (action === 'automation-process' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    try {
+      return jsonResponse({ ok: true, result: await processDueAutomations(projectId) });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Automation run failed.' }, 502);
+    }
+  }
+
+  if (action === 'sequence' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    const leadId = String(body.leadId || '').slice(0, 96);
+    const sequenceAction = String(body.sequenceAction || '');
+    if (!projectId || !leadId) return jsonResponse({ error: 'Missing project or lead.' }, 400);
+    try {
+      return jsonResponse({ ok: true, sequence: await controlSequence(projectId, leadId, sequenceAction) });
+    } catch (error) {
+      const status = ['not_found', 'invalid_action'].includes(error.code) ? 404 : error.code === 'already_replied' ? 409 : 400;
+      return jsonResponse({ error: error.message || 'Sequence could not be updated.' }, status);
+    }
+  }
+
   if (action === 'send-email' && req.method === 'POST') {
     const body = await req.json().catch(() => ({}));
     const projectId = String(body.projectId || '').slice(0, 64);
@@ -447,10 +507,12 @@ export default async function handler(req) {
       return jsonResponse({ error: 'The recipient must match the selected CRM lead.' }, 400);
     }
     try {
+      const rendered = await buildCrmEmail(projectId, lead, body.subject, body.content, url.origin);
       const sent = await sendZohoEmail(projectId, {
         toAddress: recipient,
-        subject: body.subject,
-        content: body.content,
+        subject: rendered.subject,
+        content: rendered.text,
+        htmlContent: rendered.html,
       });
       const key = `${projectId}:${leadId}`;
       const current = overlays[key] || {};
@@ -461,8 +523,8 @@ export default async function handler(req) {
         provider: 'zoho',
         from: sent.fromEmail,
         to: recipient,
-        subject: String(body.subject || '').trim().slice(0, 180),
-        body: String(body.content || '').trim().slice(0, 4000),
+        subject: rendered.subject,
+        body: rendered.text.slice(0, 4000),
         messageId: sent.messageId,
         at: sent.sentAt,
       }];
@@ -523,6 +585,7 @@ export default async function handler(req) {
         next.activity = [{ type: 'stage', from: current.stage || 'new', to: patch.stage, at: Date.now() }, ...(current.activity || [])].slice(0, 50);
       }
       next.stage = patch.stage;
+      await stopSequenceForStage(projectId, leadId, patch.stage);
     }
     if (typeof patch.assignedTo === 'string') next.assignedTo = patch.assignedTo.slice(0, 80);
     if (typeof patch.nextAction === 'string') next.nextAction = patch.nextAction.slice(0, 240);

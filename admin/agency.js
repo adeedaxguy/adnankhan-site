@@ -198,6 +198,8 @@ function renderAlert() {
   if (project.tracking?.googleAdsApi === 'stale') messages.push('Google Ads reporting is stale; check the scheduled script before using performance data.');
   if (project.tracking?.googleAdsApi === 'not_connected') messages.push('Google Ads reporting is not connected; performance uses recorded snapshots.');
   if (!project.campaigns.length) messages.push('No campaign has been added to this project.');
+  if (project.automation?.config?.mode === 'active' && !project.automation?.readiness?.ready) messages.push('Lead lifecycle is not ready; open Setup to resolve the sending blockers.');
+  if (project.zohoMail?.needsReauthorization) messages.push('Zoho needs reauthorisation before reply detection and automated follow-ups can run.');
   strip.hidden = !messages.length;
   strip.innerHTML = messages.length ? `<strong>Attention:</strong> ${escapeHtml(messages.join(' '))}` : '';
 }
@@ -355,6 +357,13 @@ function leadStageClass(stage) {
   return 'gray';
 }
 
+function automationClass(status) {
+  if (['active', 'booked', 'replied', 'completed'].includes(status)) return 'green';
+  if (['blocked', 'review', 'needs-review'].includes(status)) return 'amber';
+  if (['unsubscribed', 'suppressed', 'stopped'].includes(status)) return 'red';
+  return 'gray';
+}
+
 function filteredLeads() {
   const query = document.getElementById('lead-search').value.trim().toLowerCase();
   const stage = document.getElementById('lead-stage-filter').value;
@@ -390,8 +399,15 @@ function renderLeadActivity(lead) {
   if (!activity.length) return '<div class="agency-empty">No activity yet</div>';
   return `<div class="agency-timeline">${activity.map(item => {
     if (item.type === 'email') {
-      return `<article class="agency-timeline-item email"><span><i data-lucide="send"></i></span><div><strong>${escapeHtml(item.subject || 'Email sent')}</strong><small>To ${escapeHtml(item.to || lead.email || 'lead')} · ${escapeHtml(fullDate(item.at))}</small>${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}</div></article>`;
+      const timing = item.status === 'scheduled' && item.scheduledFor ? `Scheduled for ${fullDate(item.scheduledFor)}` : fullDate(item.at);
+      return `<article class="agency-timeline-item email"><span><i data-lucide="send"></i></span><div><strong>${escapeHtml(item.subject || 'Email sent')}</strong><small>To ${escapeHtml(item.to || lead.email || 'lead')} · ${escapeHtml(timing)}</small>${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}</div></article>`;
     }
+    if (item.type === 'reply') return `<article class="agency-timeline-item reply"><span><i data-lucide="reply"></i></span><div><strong>${escapeHtml(item.subject || 'Lead replied')}</strong><small>Reply detected · ${escapeHtml(fullDate(item.at))}</small>${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}</div></article>`;
+    if (item.type === 'booking') return `<article class="agency-timeline-item booking"><span><i data-lucide="calendar-check"></i></span><div><strong>Call booked</strong><small>${escapeHtml(fullDate(item.startAt))} · ${escapeHtml(String(item.durationMinutes || 30))} minutes</small></div></article>`;
+    if (item.type === 'open') return `<article class="agency-timeline-item"><span><i data-lucide="eye"></i></span><div><strong>Likely opened</strong><small>Estimated from an image load · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
+    if (item.type === 'click') return `<article class="agency-timeline-item"><span><i data-lucide="mouse-pointer-click"></i></span><div><strong>Booking link requested</strong><small>May include a security scanner · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
+    if (item.type === 'unsubscribe') return `<article class="agency-timeline-item"><span><i data-lucide="mail-x"></i></span><div><strong>Follow-ups stopped</strong><small>Unsubscribed · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
+    if (item.type === 'automation') return `<article class="agency-timeline-item"><span><i data-lucide="workflow"></i></span><div><strong>Lifecycle ${escapeHtml(titleCase(item.status || 'updated'))}</strong><small>${escapeHtml(fullDate(item.at))}</small></div></article>`;
     if (item.type === 'stage') {
       return `<article class="agency-timeline-item"><span><i data-lucide="arrow-right-left"></i></span><div><strong>Stage changed to ${escapeHtml(STAGE_LABELS[item.to] || titleCase(item.to))}</strong><small>From ${escapeHtml(STAGE_LABELS[item.from] || titleCase(item.from))} · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
     }
@@ -416,9 +432,16 @@ function renderLeadDetail(leadId) {
     ['Google campaign', lead.gad_campaignid],
     ['Landing page', lead.landing_page || lead.landingPage || lead.page_url],
   ];
-  const known = new Set(['id', 'projectId', 'name', 'email', 'phone', 'website', 'url', 'message', 'scope', 'source', 'stage', 'assignedTo', 'value', 'nextAction', 'lostReason', 'isTest', 'notes', 'activity', 'updatedAt', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gad_campaignid', 'landing_page', 'landingPage', 'page_url', 'page_title']);
+  const known = new Set(['id', 'projectId', 'name', 'email', 'phone', 'website', 'url', 'message', 'scope', 'source', 'stage', 'assignedTo', 'value', 'nextAction', 'lostReason', 'isTest', 'notes', 'activity', 'automation', 'updatedAt', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gad_campaignid', 'landing_page', 'landingPage', 'page_url', 'page_title']);
   const extra = Object.entries(lead).filter(([key, value]) => !known.has(key) && !key.startsWith('_') && value !== '' && value !== null && value !== undefined).slice(0, 14);
   const mailReady = Boolean(agencyState.data.project.zohoMail?.connected);
+  const sequence = lead.automation;
+  const nextStep = sequence?.steps?.find(step => step.status === 'pending');
+  const sequencePanel = sequence ? `<section class="agency-lead-section wide"><div class="agency-section-head"><div><h3>Lead lifecycle</h3><p class="agency-research-copy">Website review, email sequence, reply detection, and booking stop rules.</p></div><span class="agency-chip ${automationClass(sequence.status)}">${escapeHtml(titleCase(sequence.status))}</span></div>
+    <div class="agency-sequence-summary"><div><span>Next step</span><strong>${escapeHtml(nextStep?.label || 'No pending step')}</strong></div><div><span>Due</span><strong>${escapeHtml(nextStep ? fullDate(nextStep.dueAt) : 'Complete')}</strong></div><div><span>Consent</span><strong>${sequence.lead?.nurtureConsent === 'yes' ? 'Extended nurture' : 'Enquiry only'}</strong></div><div><span>Site review</span><strong>${escapeHtml(titleCase(sequence.analysis?.status || 'Pending'))}</strong></div></div>
+    ${sequence.analysis?.observations?.length ? `<ul class="agency-insight-list">${sequence.analysis.observations.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>` : ''}
+    <div class="agency-sequence-steps">${(sequence.steps || []).map(step => `<span class="${escapeHtml(step.status)}"><i></i>${escapeHtml(step.label)}<small>${escapeHtml(titleCase(step.status))}</small></span>`).join('')}</div>
+    <div class="agency-sequence-actions">${!['stopped', 'unsubscribed', 'suppressed', 'replied', 'booked', 'completed'].includes(sequence.status) ? `<button class="agency-secondary-btn" type="button" data-sequence-action="${sequence.status === 'active' ? 'pause' : 'resume'}"><i data-lucide="${sequence.status === 'active' ? 'pause' : 'play'}"></i>${sequence.status === 'active' ? 'Pause' : 'Resume'}</button><button class="agency-primary-btn" type="button" data-sequence-action="send-next"><i data-lucide="send"></i>Send next now</button><button class="agency-secondary-btn danger" type="button" data-sequence-action="stop"><i data-lucide="circle-stop"></i>Stop</button>` : ''}</div></section>` : `<section class="agency-lead-section wide"><h3>Lead lifecycle</h3><div class="agency-empty">This lead arrived before lifecycle automation was installed.</div></section>`;
   container.innerHTML = `<div class="agency-lead-detail-head"><div><h2>${escapeHtml(lead.name || 'Anonymous')}</h2><p>${escapeHtml(lead.email || lead.phone || 'No contact details')} · ${escapeHtml(fullDate(lead._ts))}</p></div><div class="agency-lead-head-actions"><button class="agency-secondary-btn" id="lead-email" type="button" ${lead.email && mailReady ? '' : 'disabled'} title="${lead.email ? (mailReady ? 'Email this lead' : 'Connect Zoho Mail in Setup') : 'No email address'}"><i data-lucide="mail"></i>Email</button><span class="agency-chip ${lead.isTest ? 'amber' : leadStageClass(lead.stage)}">${lead.isTest ? 'Test lead' : escapeHtml(STAGE_LABELS[lead.stage])}</span></div></div>
     <div class="agency-lead-controls">
       <label>Stage<select id="lead-stage-input">${agencyState.data.stages.map(stage => `<option value="${stage}" ${lead.stage === stage ? 'selected' : ''}>${STAGE_LABELS[stage]}</option>`).join('')}</select></label>
@@ -433,11 +456,13 @@ function renderLeadDetail(leadId) {
       <section class="agency-lead-section"><h3>Attribution</h3>${detailRows(attribution)}</section>
       ${lead.message ? `<section class="agency-lead-section wide"><h3>Message</h3><p class="agency-research-copy">${escapeHtml(lead.message)}</p></section>` : ''}
       ${extra.length ? `<section class="agency-lead-section wide"><h3>Submission data</h3>${detailRows(extra.map(([key, value]) => [titleCase(key), value]))}</section>` : ''}
+      ${sequencePanel}
       <section class="agency-lead-section wide"><h3>Sales notes</h3><form class="agency-note-form" id="lead-note-form"><textarea id="lead-note-input" placeholder="Add a call note, qualification detail, or next step"></textarea><button class="agency-secondary-btn" type="submit"><i data-lucide="plus"></i>Add note</button></form><div class="agency-note-list">${lead.notes.length ? lead.notes.map(note => `<article class="agency-note">${escapeHtml(note.body)}<time>${escapeHtml(fullDate(note.at))}</time></article>`).join('') : '<div class="agency-empty">No notes yet</div>'}</div></section>
       <section class="agency-lead-section wide"><h3>Activity</h3>${renderLeadActivity(lead)}</section>
     </div>`;
   document.getElementById('lead-save').addEventListener('click', () => saveLead(lead.id));
   document.getElementById('lead-email')?.addEventListener('click', () => openLeadEmail(lead));
+  container.querySelectorAll('[data-sequence-action]').forEach(button => button.addEventListener('click', () => updateSequence(lead.id, button.dataset.sequenceAction)));
   document.getElementById('lead-note-form').addEventListener('submit', event => {
     event.preventDefault();
     const note = document.getElementById('lead-note-input').value.trim();
@@ -471,6 +496,24 @@ async function saveLead(leadId, note = '') {
   renderOverview();
   renderPipeline();
   showToast(note ? 'Note added' : 'Lead updated');
+}
+
+async function updateSequence(leadId, sequenceAction) {
+  const labels = { pause: 'pause this sequence', resume: 'resume this sequence', stop: 'stop all follow-ups', 'send-next': 'send the next email now' };
+  if (!window.confirm(`Confirm: ${labels[sequenceAction] || 'update this sequence'}?`)) return;
+  try {
+    await requestAgency('sequence', {
+      method: 'POST',
+      body: { projectId: agencyState.data.project.id, leadId, sequenceAction },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    agencyState.selectedLeadId = leadId;
+    switchView('leads');
+    renderLeads();
+    showToast(sequenceAction === 'send-next' ? 'Next email sent' : 'Lifecycle updated');
+  } catch (error) {
+    showToast(error.message);
+  }
 }
 
 function renderPipeline() {
@@ -531,12 +574,16 @@ function renderSettings() {
   const adsReady = project.tracking?.googleAdsApi === 'verified';
   const adsStale = project.tracking?.googleAdsApi === 'stale';
   const zoho = project.zohoMail || {};
+  const automation = project.automation || {};
+  const automationConfig = automation.config || {};
+  const automationReady = Boolean(automation.readiness?.ready);
   const connections = [
     ['Google Ads', adsReady, adsStale ? 'Reporting feed stale' : adsReady ? `Synced ${relativeTime(adsConnection?.lastSyncedAt)}` : 'Campaign reporting', 'megaphone', adsStale ? 'Stale' : adsReady ? 'Connected' : 'Pending'],
     ['Google Tag Manager', project.tracking?.gtm === 'verified', 'Conversion events', 'tags'],
     ['Lead forms', project.tracking?.formConversion === 'verified', 'Primary conversion', 'notebook-tabs'],
     ['Lead notifications', project.tracking?.emailDelivery === 'verified', 'Inbound delivery', 'mail-check'],
     ['Zoho Mail', zoho.connected, zoho.connected ? zoho.fromEmail : 'CRM outbound email', 'send', zoho.connected ? 'Connected' : zoho.clientConfigured ? 'Authorise' : 'Pending'],
+    ['Lead lifecycle', automationReady && automationConfig.mode === 'active', automationConfig.mode === 'active' ? 'Automated follow-up and booking' : 'Review mode', 'workflow', automationConfig.mode === 'active' ? (automationReady ? 'Active' : 'Blocked') : titleCase(automationConfig.mode || 'Review')],
     ['Agency CRM', true, 'KV lead pipeline', 'contact-round'],
     ['Meta Ads', project.tracking?.metaAdsApi === 'verified', 'Future channel', 'megaphone'],
   ];
@@ -555,6 +602,17 @@ function renderSettings() {
     ['Last sent', zoho.lastSentAt ? fullDate(zoho.lastSentAt) : 'No emails sent'],
     ['Data center', String(zoho.dataCenter || 'us').toUpperCase()],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-zoho" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${zoho.connected ? `<button class="agency-secondary-btn" id="test-zoho" type="button"><i data-lucide="send"></i>Send test to mailbox</button>` : ''}${zoho.clientConfigured ? `<button class="agency-primary-btn" id="authorise-zoho" type="button"><i data-lucide="shield-check"></i>${zoho.connected ? 'Reauthorise' : 'Authorise mailbox'}</button>` : ''}${zoho.connected ? `<button class="agency-secondary-btn danger" id="disconnect-zoho" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
+  const blockers = automation.readiness?.blockers || [];
+  document.getElementById('agency-automation-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Lead lifecycle</p><h2>Response, follow-up and booking</h2></div><span class="agency-chip ${automationConfig.mode === 'active' ? (automationReady ? 'green' : 'red') : automationConfig.mode === 'review' ? 'amber' : 'gray'}">${escapeHtml(automationConfig.mode === 'active' && !automationReady ? 'Blocked' : titleCase(automationConfig.mode || 'Review'))}</span></div>
+    <div class="agency-sync-meta">${[
+      ['First response', `${automationConfig.initialDelayMinutes || 5} minutes`],
+      ['Sequences', automation.summary?.total || 0],
+      ['Awaiting review', automation.summary?.review || 0],
+      ['Replies detected', automation.summary?.replied || 0],
+      ['Calls booked', automation.summary?.booked || 0],
+    ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div>
+    ${blockers.length ? `<div class="agency-readiness-list">${blockers.map(item => `<span><i data-lucide="circle-alert"></i>${escapeHtml(item)}</span>`).join('')}</div>` : '<div class="agency-readiness-list ready"><span><i data-lucide="circle-check"></i>Reply detection, sender identity, booking, and postal-address checks are ready.</span></div>'}
+    <div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-automation" type="button"><i data-lucide="sliders-horizontal"></i>Lifecycle settings</button><span><button class="agency-secondary-btn" id="sync-automation-replies" type="button" ${zoho.needsReauthorization || !zoho.connected ? 'disabled' : ''}><i data-lucide="refresh-cw"></i>Sync replies</button><button class="agency-primary-btn" id="run-automation-now" type="button" ${automationConfig.mode === 'active' && automationReady ? '' : 'disabled'}><i data-lucide="play"></i>Run due now</button></span></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value || 'Not set')}</strong></div>`).join('')}</div>`;
@@ -563,6 +621,9 @@ function renderSettings() {
   document.getElementById('test-zoho')?.addEventListener('click', testZohoMail);
   document.getElementById('authorise-zoho')?.addEventListener('click', startZohoAuthorization);
   document.getElementById('disconnect-zoho')?.addEventListener('click', disconnectZohoMail);
+  document.getElementById('configure-automation')?.addEventListener('click', openAutomationConfig);
+  document.getElementById('sync-automation-replies')?.addEventListener('click', syncAutomationReplies);
+  document.getElementById('run-automation-now')?.addEventListener('click', runAutomationNow);
 }
 
 async function openGoogleAdsScript() {
@@ -657,6 +718,93 @@ async function testZohoMail() {
     showToast(`Test email sent to ${zoho.fromEmail}`);
   } catch (error) {
     showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
+function openAutomationConfig() {
+  const config = agencyState.data.project.automation?.config || {};
+  const booking = config.booking || {};
+  const form = document.getElementById('automation-config-form');
+  form.elements.mode.value = config.mode || 'review';
+  form.elements.initialDelayMinutes.value = config.initialDelayMinutes || 5;
+  form.elements.senderName.value = config.senderName || '';
+  form.elements.senderRole.value = config.senderRole || '';
+  form.elements.phone.value = config.phone || '';
+  form.elements.whatsapp.value = config.whatsapp || '';
+  form.elements.complianceAddress.value = config.complianceAddress || '';
+  form.elements.trackClicks.checked = Boolean(config.trackClicks);
+  form.elements.trackOpens.checked = Boolean(config.trackOpens);
+  form.elements.bookingEnabled.checked = booking.enabled !== false;
+  form.elements.bookingTimezone.value = booking.timezone || 'Asia/Karachi';
+  form.elements.bookingDuration.value = String(booking.durationMinutes || 30);
+  form.elements.bookingStart.value = booking.start || '17:00';
+  form.elements.bookingEnd.value = booking.end || '22:00';
+  form.elements.minimumNoticeHours.value = booking.minimumNoticeHours || 12;
+  form.elements.horizonDays.value = booking.horizonDays || 21;
+  document.querySelectorAll('#automation-days input').forEach(input => { input.checked = (booking.days || []).includes(Number(input.value)); });
+  setText('automation-config-error', '');
+  openDialog('automation-config-modal');
+}
+
+async function saveAutomationConfig(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+  setText('automation-config-error', '');
+  try {
+    const fields = Object.fromEntries(new FormData(form).entries());
+    fields.trackClicks = form.elements.trackClicks.checked;
+    fields.trackOpens = form.elements.trackOpens.checked;
+    fields.bookingEnabled = form.elements.bookingEnabled.checked;
+    fields.bookingDays = [...document.querySelectorAll('#automation-days input:checked')].map(input => input.value).join(',');
+    await requestAgency('automation-config', {
+      method: 'POST',
+      body: { ...fields, projectId: agencyState.data.project.id },
+    });
+    closeDialog('automation-config-modal');
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast('Lifecycle settings saved');
+  } catch (error) {
+    setText('automation-config-error', error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function syncAutomationReplies() {
+  const button = document.getElementById('sync-automation-replies');
+  if (button) button.disabled = true;
+  try {
+    const result = await requestAgency('automation-sync', {
+      method: 'POST', body: { projectId: agencyState.data.project.id },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast(`${result.sync.replies} new ${result.sync.replies === 1 ? 'reply' : 'replies'} detected`);
+  } catch (error) {
+    showToast(error.message);
+  } finally {
+    if (button) button.disabled = false;
+  }
+}
+
+async function runAutomationNow() {
+  if (!window.confirm('Run all currently due lifecycle emails now? Reply, booking, opt-out, and CRM stop rules will be checked first.')) return;
+  const button = document.getElementById('run-automation-now');
+  if (button) button.disabled = true;
+  try {
+    const result = await requestAgency('automation-process', {
+      method: 'POST', body: { projectId: agencyState.data.project.id },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast(`${result.result.sent} due ${result.result.sent === 1 ? 'email' : 'emails'} sent`);
+  } catch (error) {
+    showToast(error.message);
+  } finally {
     if (button) button.disabled = false;
   }
 }
@@ -826,6 +974,7 @@ function bindAgencyEvents() {
   document.getElementById('project-form').addEventListener('submit', createProject);
   document.getElementById('snapshot-form').addEventListener('submit', saveSnapshot);
   document.getElementById('zoho-config-form').addEventListener('submit', configureZohoClient);
+  document.getElementById('automation-config-form').addEventListener('submit', saveAutomationConfig);
   document.getElementById('email-lead-form').addEventListener('submit', sendLeadEmail);
   document.getElementById('print-report').addEventListener('click', () => window.print());
   document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => closeDialog(button.dataset.closeModal)));

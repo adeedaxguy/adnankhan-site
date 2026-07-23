@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..700&family=JetBrains+Mono:wght@400..600&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="/assets/styles.css?v=20260723e" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260723f" />
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 </head>
 <body class="agency-command-page">
@@ -203,6 +203,7 @@
         <div class="agency-connection-grid" id="agency-connections"></div>
         <section class="agency-settings-band" id="agency-google-ads-setup"></section>
         <section class="agency-settings-band" id="agency-zoho-setup"></section>
+        <section class="agency-settings-band" id="agency-automation-setup"></section>
         <section class="agency-settings-band" id="agency-project-profile"></section>
       </section>
     </main>
@@ -278,8 +279,34 @@
     </form>
   </dialog>
 
+  <dialog class="agency-modal agency-modal-wide" id="automation-config-modal">
+    <form id="automation-config-form">
+      <div class="agency-modal-head"><div><p class="agency-eyebrow">Lead lifecycle</p><h2>Automation and booking</h2></div><button class="agency-icon-btn" type="button" data-close-modal="automation-config-modal" aria-label="Close" title="Close"><i data-lucide="x"></i></button></div>
+      <div class="agency-form-grid">
+        <label>Mode<select name="mode"><option value="review">Review drafts</option><option value="active">Active</option><option value="paused">Paused</option></select></label>
+        <label>First response delay<input name="initialDelayMinutes" type="number" min="5" max="60" step="1" /></label>
+        <label>Sender name<input name="senderName" required /></label>
+        <label>Sender role<input name="senderRole" required /></label>
+        <label>Phone<input name="phone" /></label>
+        <label>WhatsApp digits<input name="whatsapp" inputmode="numeric" /></label>
+        <label class="wide">Valid physical postal address<textarea name="complianceAddress" rows="2" placeholder="Required before Active mode can send follow-ups"></textarea></label>
+        <fieldset class="wide agency-option-fieldset"><legend>Engagement signals</legend><label class="agency-toggle"><input name="trackClicks" type="checkbox" /><span></span>Estimate booking-link clicks</label><label class="agency-toggle"><input name="trackOpens" type="checkbox" /><span></span>Estimate opens only where consent is recorded</label></fieldset>
+        <fieldset class="wide agency-option-fieldset"><legend>Booking availability</legend><label class="agency-toggle"><input name="bookingEnabled" type="checkbox" /><span></span>Enable first-party booking</label><div class="agency-day-picker" id="automation-days"><label><input type="checkbox" value="1" />Mon</label><label><input type="checkbox" value="2" />Tue</label><label><input type="checkbox" value="3" />Wed</label><label><input type="checkbox" value="4" />Thu</label><label><input type="checkbox" value="5" />Fri</label><label><input type="checkbox" value="6" />Sat</label><label><input type="checkbox" value="0" />Sun</label></div></fieldset>
+        <label>Host timezone<input name="bookingTimezone" value="Asia/Karachi" /></label>
+        <label>Call length<select name="bookingDuration"><option value="15">15 minutes</option><option value="30">30 minutes</option><option value="45">45 minutes</option><option value="60">60 minutes</option></select></label>
+        <label>Available from<input name="bookingStart" type="time" /></label>
+        <label>Available until<input name="bookingEnd" type="time" /></label>
+        <label>Minimum notice<input name="minimumNoticeHours" type="number" min="1" max="168" /></label>
+        <label>Booking horizon<input name="horizonDays" type="number" min="7" max="60" /></label>
+      </div>
+      <p class="agency-form-note">The first response is scheduled through Zoho. Later steps run daily and stop before sending when a reply, booking, opt-out, or closed CRM stage is detected. Day 60 and 90 require the optional consent captured on the form.</p>
+      <p class="agency-form-error" id="automation-config-error" role="alert"></p>
+      <div class="agency-modal-actions"><button class="agency-secondary-btn" type="button" data-close-modal="automation-config-modal">Cancel</button><button class="agency-primary-btn" type="submit"><i data-lucide="save"></i>Save lifecycle</button></div>
+    </form>
+  </dialog>
+
   <div class="agency-toast" id="agency-toast" role="status"></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/admin/agency.js?v=20260723e"></script>
+  <script src="/admin/agency.js?v=20260723f"></script>
 </body>
 </html>

@@ -261,6 +261,16 @@
 
   // ── Lead forms — AJAX contact endpoint ──
   document.querySelectorAll('form[data-lead]').forEach(form => {
+    const formStartedAt = Date.now();
+    const submissionId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const honeypot = document.createElement('input');
+    honeypot.type = 'text';
+    honeypot.name = '_gotcha';
+    honeypot.tabIndex = -1;
+    honeypot.autocomplete = 'off';
+    honeypot.setAttribute('aria-hidden', 'true');
+    honeypot.style.cssText = 'position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;';
+    form.appendChild(honeypot);
     let leadFormStarted = false;
     form.addEventListener('focusin', () => {
       if (leadFormStarted) return;
@@ -282,6 +292,8 @@
 
       try {
         const formData = new FormData(form);
+        formData.set('_startedAt', String(formStartedAt));
+        formData.set('_submissionId', submissionId);
         if (!formData.has('page_url')) formData.append('page_url', window.location.href);
         if (!formData.has('page_title')) formData.append('page_title', document.title);
         if (!formData.has('source_path')) formData.append('source_path', window.location.pathname);

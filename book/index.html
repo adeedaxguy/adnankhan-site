@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex,nofollow" />
+  <title>Book a Call | Lofts Studio</title>
+  <link rel="icon" href="/favicon.ico" sizes="any" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/assets/styles.css?v=20260723f" />
+</head>
+<body class="booking-page">
+  <header class="booking-header">
+    <a href="/" class="booking-brand">Lofts Studio</a>
+    <a href="mailto:hi@lofts.studio" class="booking-help">hi@lofts.studio</a>
+  </header>
+
+  <main class="booking-main">
+    <section class="booking-intro">
+      <p class="booking-kicker">Project conversation</p>
+      <h1>Choose a time that works for you.</h1>
+      <p>A focused 30-minute call to review the enquiry, the current page, and the clearest next step.</p>
+      <dl class="booking-facts">
+        <div><dt><i data-lucide="clock-3"></i> Duration</dt><dd id="booking-duration">30 minutes</dd></div>
+        <div><dt><i data-lucide="video"></i> Format</dt><dd>Google Meet or phone</dd></div>
+        <div><dt><i data-lucide="calendar-check"></i> Confirmation</dt><dd>Immediate by email</dd></div>
+      </dl>
+    </section>
+
+    <section class="booking-tool" aria-labelledby="booking-title">
+      <div class="booking-tool-head">
+        <div><p class="booking-kicker">Availability</p><h2 id="booking-title">Select a call time</h2></div>
+        <label class="booking-timezone"><i data-lucide="globe-2"></i><select id="booking-timezone" aria-label="Display timezone"></select></label>
+      </div>
+
+      <div class="booking-status" id="booking-status"><span class="booking-spinner"></span>Checking live availability</div>
+      <div class="booking-days" id="booking-days" hidden></div>
+
+      <form class="booking-details" id="booking-form" hidden>
+        <div class="booking-selected" id="booking-selected"></div>
+        <div class="booking-fields">
+          <label>Your name<input id="booking-name" name="name" autocomplete="name" required /></label>
+          <label>Email<input id="booking-email" name="email" type="email" readonly /></label>
+          <label>Phone / WhatsApp <span>Optional</span><input name="phone" type="tel" autocomplete="tel" /></label>
+          <label>Anything to prepare? <span>Optional</span><textarea name="note" rows="3" placeholder="A question, page, or priority for the call"></textarea></label>
+        </div>
+        <p class="booking-form-error" id="booking-error" role="alert"></p>
+        <button class="booking-confirm" type="submit"><i data-lucide="calendar-check"></i>Confirm call</button>
+      </form>
+
+      <div class="booking-confirmed" id="booking-confirmed" hidden>
+        <span class="booking-confirmed-icon"><i data-lucide="check"></i></span>
+        <p class="booking-kicker">Confirmed</p>
+        <h2>Your call is booked.</h2>
+        <p id="booking-confirmed-time"></p>
+        <button class="booking-calendar-button" id="booking-calendar" type="button"><i data-lucide="calendar-plus"></i>Add to calendar</button>
+        <small>A confirmation has been sent to your email. Reply there if anything changes.</small>
+      </div>
+    </section>
+  </main>
+
+  <footer class="booking-footer"><span>Lofts Studio</span><span>Multan, Pakistan &middot; Dubai, UAE</span><a href="/privacy.html">Privacy</a></footer>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="/assets/booking.js?v=20260723f"></script>
+</body>
+</html>

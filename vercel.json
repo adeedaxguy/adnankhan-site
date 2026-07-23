@@ -10,6 +10,10 @@
     {
       "path": "/api/cron/portfolio",
       "schedule": "30 3 * * *"
+    },
+    {
+      "path": "/api/cron/lead-automation",
+      "schedule": "15 2 * * *"
     }
   ],
   "redirects": [
