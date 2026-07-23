@@ -22,7 +22,8 @@ async function handleAuditRequest(req) {
 
   let rawUrl = (body.url || '').trim();
   if (!rawUrl) return json({ error: 'No URL provided' }, 400);
-  if (!/^https?:\/\//i.test(rawUrl)) rawUrl = 'https://' + rawUrl;
+  const enteredWithoutProtocol = !/^https?:\/\//i.test(rawUrl);
+  if (enteredWithoutProtocol) rawUrl = 'https://' + rawUrl.replace(/^\/+/, '');
   let url;
   try { url = new URL(rawUrl); } catch { return json({ error: 'Invalid URL' }, 400); }
 
@@ -32,22 +33,39 @@ async function handleAuditRequest(req) {
   // ── Fetch the page ─────────────────────────────────────────────
   let html = '', finalUrl = url.href, statusCode = 0, headers = {}, ttfbMs = 0;
 
-  try {
+  const fetchPage = async (targetUrl) => {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), TIMEOUT_MS);
     const t0 = Date.now();
-    const res = await fetch(url.href, {
+    const res = await fetch(targetUrl.href, {
       signal: ctrl.signal,
       redirect: 'follow',
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; LoftsStudio-Audit/1.0)', 'Accept': 'text/html,application/xhtml+xml' },
     });
     clearTimeout(timer);
-    ttfbMs    = Date.now() - t0;
-    statusCode = res.status;
-    finalUrl   = res.url || url.href;
-    headers    = Object.fromEntries(res.headers.entries());
-    html       = await res.text();
-  } catch (e) { errors.fetch = String(e).slice(0, 120); }
+    return {
+      ttfbMs: Date.now() - t0,
+      statusCode: res.status,
+      finalUrl: res.url || targetUrl.href,
+      headers: Object.fromEntries(res.headers.entries()),
+      html: await res.text(),
+    };
+  };
+
+  try {
+    ({ html, finalUrl, statusCode, headers, ttfbMs } = await fetchPage(url));
+  } catch (e) {
+    if (enteredWithoutProtocol && url.protocol === 'https:') {
+      try {
+        url = new URL(url.href.replace(/^https:/i, 'http:'));
+        ({ html, finalUrl, statusCode, headers, ttfbMs } = await fetchPage(url));
+      } catch (fallbackError) {
+        errors.fetch = String(fallbackError).slice(0, 120);
+      }
+    } else {
+      errors.fetch = String(e).slice(0, 120);
+    }
+  }
 
   const textContent = html ? htmlToText(html) : '';
   let linkAudit = emptyLinkAudit();
