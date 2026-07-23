@@ -26,6 +26,9 @@ const RETURN_MAX    = 200;
 
 const KV_URL   = process.env.KV_REST_API_URL;
 const KV_TOKEN = process.env.KV_REST_API_TOKEN;
+// Public blog comments are intentionally disabled. Keep the endpoint stable so
+// old cached pages fail gracefully instead of accepting new submissions.
+const COMMENTS_ENABLED = process.env.COMMENTS_ENABLED === '1';
 // Moderated by default — new comments are held until approved in /admin/comments.html.
 // Set COMMENTS_MODERATION="0" to auto-publish instead.
 const MODERATED = process.env.COMMENTS_MODERATION !== '0';
@@ -136,6 +139,11 @@ async function findAndMutate(slug, id, mutate) {
 
 export default async function handler(req) {
   const url = new URL(req.url);
+
+  if (!COMMENTS_ENABLED) {
+    if (req.method === 'GET') return json({ ok: true, comments: [] });
+    return json({ ok: false, message: 'Blog comments are turned off.' }, 410);
+  }
 
   // ── Admin: list every comment (incl. pending) for moderation ────
   if (req.method === 'GET' && url.searchParams.get('admin')) {
