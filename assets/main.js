@@ -152,7 +152,8 @@
     onScroll();
   }
 
-  const contactSection = document.getElementById('contact');
+  const contactSection = document.getElementById('contact')
+    || document.querySelector('.landing-page-paid #book');
   if (contactSection) {
     const setContactVisibility = () => {
       const rect = contactSection.getBoundingClientRect();

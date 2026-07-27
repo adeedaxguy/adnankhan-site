@@ -8726,6 +8726,14 @@ html[data-theme="dark"] .diagnostic-related-links a {
   line-height: 1.6;
 }
 .lp-hero-proof strong { color: var(--ink); }
+.landing-page-paid [data-split="words"],
+.landing-page-paid [data-split="words"].split-done {
+  visibility: visible;
+}
+.landing-page-paid [data-split="words"].split-done .word {
+  animation: none;
+  will-change: auto;
+}
 .lp-hero-proof a,
 .lp-direct-contact a,
 .lp-work-more a {
@@ -8810,6 +8818,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .lp-proof-profiles strong { color: #f7f0e8; }
 
 .lp-book-section {
+  scroll-margin-top: 96px;
   border-bottom: 1px solid var(--line);
   background: var(--surface);
 }
@@ -8980,6 +8989,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 }
 @media (max-width: 680px) {
   .landing-page-paid .cookie-banner { bottom: 0.75rem !important; }
+  .lp-book-section { scroll-margin-top: 80px; }
   .lp-hero-actions { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.7rem; }
   .lp-hero-actions .btn { justify-content: center; min-width: 0; padding: 0.85rem 0.7rem; font-size: 0.8rem; }
   .lp-hero-links { grid-column: 1 / -1; justify-content: space-between; padding: 0.45rem 0 0; }
