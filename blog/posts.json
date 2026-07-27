@@ -16,6 +16,58 @@
   ],
   "posts": [
     {
+      "slug": "gsc-insights-for-service-website-seo",
+      "title": "GSC Insights for Service Website SEO",
+      "excerpt": "Use GSC Insights to find service pages that already earn attention, then turn that attention into audits, consultations, and qualified leads.",
+      "category": "SEO",
+      "date": "2026-07-28",
+      "readingTime": "7 min",
+      "primaryKeyword": "GSC Insights service website SEO",
+      "secondaryKeyword": "service website SEO",
+      "funnelTo": "/free-audit/",
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "seo-content-gap-analysis-for-service-pages",
+      "title": "SEO Content Gap Analysis for Service Pages",
+      "excerpt": "Use competitor, Ahrefs, SEMrush, and Google related-search evidence to decide which service pages need new sections or support content.",
+      "category": "SEO",
+      "date": "2026-07-28",
+      "readingTime": "7 min",
+      "primaryKeyword": "SEO content gap analysis for service pages",
+      "secondaryKeyword": "competitor content gap",
+      "funnelTo": "/free-audit/",
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "ai-search-landing-page-audit",
+      "title": "AI Search Landing Page Audit",
+      "excerpt": "Audit a landing page for answer-engine visibility, entity clarity, schema, first-screen usefulness, and lead conversion.",
+      "category": "SEO",
+      "date": "2026-07-28",
+      "readingTime": "7 min",
+      "primaryKeyword": "AI search landing page audit",
+      "secondaryKeyword": "AEO landing page audit",
+      "funnelTo": "/free-audit/",
+      "featured": false,
+      "published": true
+    },
+    {
+      "slug": "conversion-funnel-for-web-design-leads",
+      "title": "Conversion Funnel for Web Design Leads",
+      "excerpt": "Turn web design SEO traffic into audit requests and consultations with a clearer first screen, proof path, and follow-up loop.",
+      "category": "SEO",
+      "date": "2026-07-28",
+      "readingTime": "7 min",
+      "primaryKeyword": "conversion funnel for web design leads",
+      "secondaryKeyword": "web design leads",
+      "funnelTo": "/free-audit/",
+      "featured": false,
+      "published": true
+    },
+    {
       "slug": "service-website-audit-report-checklist",
       "title": "Service Website Audit Report Checklist for Better Leads",
       "excerpt": "Service Website Audit Report Checklist for Better Leads: a practical audit template page for SEO, AEO, GEO, and lead generation.",
