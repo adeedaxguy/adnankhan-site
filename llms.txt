@@ -179,3 +179,25 @@ Lofts Studio added 20 search assets for conversion-led redesign, AI-search-ready
 - [Website Redesign Migration SEO Checklist](https://lofts.studio/blog/website-redesign-migration-seo-checklist.html) — A redesign migration checklist for URL mapping, redirects, metadata, analytics, schema, sitemaps, and live QA.
 - [Local Business Landing Page Template](https://lofts.studio/blog/local-business-landing-page-template.html) — A local business landing page structure for service intent, local proof, FAQs, calls, forms, and search clarity.
 <!-- 2026-07-24-CONVERSION-AI:END -->
+
+## 2026-07-27 lead-generation SEO cluster
+- https://lofts.studio/blog/lead-generation-website-audit-checklist.html - Lead Generation Website Audit Checklist for Service Businesses
+- https://lofts.studio/blog/ai-search-ready-service-page-template.html - AI Search Ready Service Page Template for Better Enquiries
+- https://lofts.studio/blog/conversion-path-audit-for-local-business-websites.html - Conversion Path Audit for Local Business Websites
+- https://lofts.studio/blog/website-redesign-for-qualified-leads.html - Website Redesign for Qualified Leads: What to Fix First
+- https://lofts.studio/blog/technical-seo-for-lead-generation-sites.html - Technical SEO for Lead Generation Sites
+- https://lofts.studio/blog/service-business-landing-page-qa.html - Service Business Landing Page QA Before Launch
+- https://lofts.studio/blog/local-service-page-entity-signals.html - Local Service Page Entity Signals for AI Search
+- https://lofts.studio/blog/homepage-audit-for-consultation-leads.html - Homepage Audit for Consultation Leads
+- https://lofts.studio/blog/schema-for-web-design-service-pages.html - Schema for Web Design Service Pages
+- https://lofts.studio/blog/internal-links-for-service-business-seo.html - Internal Links for Service Business SEO
+- https://lofts.studio/blog/ai-bait-box-examples-for-service-pages.html - AI Bait Box Examples for Service Pages
+- https://lofts.studio/blog/website-proof-section-examples.html - Website Proof Section Examples for Trust and Leads
+- https://lofts.studio/blog/mobile-lead-flow-audit.html - Mobile Lead Flow Audit for Service Websites
+- https://lofts.studio/blog/contact-page-conversion-checklist.html - Contact Page Conversion Checklist for Service Businesses
+- https://lofts.studio/blog/geo-seo-for-web-design-studios.html - GEO SEO for Web Design Studios
+- https://lofts.studio/blog/programmatic-service-area-page-qa.html - Programmatic Service Area Page QA
+- https://lofts.studio/blog/website-brief-for-ai-search.html - Website Brief for AI Search Visibility
+- https://lofts.studio/blog/lead-quality-analytics-for-service-websites.html - Lead Quality Analytics for Service Websites
+- https://lofts.studio/blog/competitor-page-gap-analysis-web-design.html - Competitor Page Gap Analysis for Web Design SEO
+- https://lofts.studio/blog/service-page-faq-schema-checklist.html - Service Page FAQ Schema Checklist
