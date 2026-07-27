@@ -8818,7 +8818,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .lp-proof-profiles strong { color: #f7f0e8; }
 .lp-proof-work {
   display: grid;
-  grid-template-columns: minmax(150px, 0.7fr) repeat(3, minmax(0, 1fr));
+  grid-template-columns: minmax(140px, 0.65fr) repeat(4, minmax(0, 1fr));
   gap: 0;
   align-items: stretch;
   margin-top: 1.5rem;
@@ -8982,7 +8982,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .lp-work-head p { color: var(--muted); }
 .lp-work-grid {
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1.25rem;
   margin-top: 2.5rem;
 }
