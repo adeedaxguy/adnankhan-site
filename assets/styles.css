@@ -8958,13 +8958,44 @@ html[data-theme="dark"] .diagnostic-related-links a {
   font-size: 0.72rem;
   line-height: 1.4;
 }
+.lp-form-actions {
+  display: grid;
+  gap: 1rem;
+}
+.form-editorial .form-consent {
+  display: grid;
+  grid-template-columns: 18px minmax(0, 1fr);
+  gap: 0.75rem;
+  align-items: start;
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.76rem;
+  font-weight: 400;
+  line-height: 1.55;
+  letter-spacing: 0;
+  text-align: left;
+  text-transform: none;
+}
+.form-editorial .form-consent input {
+  width: 18px;
+  height: 18px;
+  margin: 1px 0 0;
+  padding: 0;
+  border: 1px solid var(--muted-2);
+  border-radius: 4px;
+  accent-color: var(--accent);
+}
+.form-editorial .lp-form-actions .lp-submit {
+  margin-top: 0.25rem;
+}
 .lp-submit {
   width: 100%;
   min-height: 52px;
   padding: 1rem;
 }
 .lp-form-privacy {
-  margin: 0.75rem 0 0;
+  margin: 0;
   color: var(--muted);
   font-size: 0.78rem;
   line-height: 1.5;
