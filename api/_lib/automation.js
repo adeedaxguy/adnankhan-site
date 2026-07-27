@@ -327,8 +327,8 @@ function stepCopy(sequence, step) {
   const useCase = cleanText(lead.bottleneck || lead.scope, 140) || 'your project enquiry';
   const copies = {
     'first-response': {
-      subject: 'Your Lofts Studio enquiry',
-      body: `Hi ${name},\n\nThanks for sharing ${useCase.toLowerCase()} with Lofts Studio. I took a first pass at the information you sent.\n\n${observation}\n\nThe clearest next step looks like ${recommendation}.\n\nWhat time would suit you for a short call tomorrow? You can reply with a time, or choose an available slot below.`,
+      subject: 'Your 3-point paid-traffic review',
+      body: `Hi ${name},\n\nThanks for sharing ${useCase.toLowerCase()} with Lofts Studio. I took the first pass I promised.\n\n1. ${observation}\n2. ${secondObservation}\n3. The clearest next step is ${recommendation}.\n\nThose are the first three decisions I would settle before buying more traffic. What time would suit you for a short call tomorrow? You can reply with a time, or choose an available slot below.`,
     },
     'priority-fix': {
       subject: 'The first conversion fix I would make',
