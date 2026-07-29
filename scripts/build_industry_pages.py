@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """
-build_industry_pages.py — generates the /websites/ industry hub + one page
+build_industry_pages.py — generates the /websites industry hub + one page
 per local-business type. Each page has unique, trade-specific copy and full
 Service + FAQPage + BreadcrumbList schema. SEO + GEO optimised.
 
 Run:  python3 scripts/build_industry_pages.py
-Writes: /websites/index.html  and  /websites/<slug>/index.html
+Writes: /websitesindex.html  and  /websites<slug>/index.html
 Also rewrites sitemap.xml's <!-- INDUSTRY --> block and llms.txt's section.
 """
 import os, html, re, json, pathlib
@@ -36,10 +36,10 @@ NAV = '''<header class="nav-bar">
           </div>
           <div class="mega-col">
             <h4>For local business</h4>
-            <a href="/websites/" class="mega-link"><div class="mega-link-title">Websites by industry</div><div class="mega-link-desc">Restaurants, clinics, trades &amp; more.</div></a>
+            <a href="/websites" class="mega-link"><div class="mega-link-title">Websites by industry</div><div class="mega-link-desc">Restaurants, clinics, trades &amp; more.</div></a>
             <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WordPress &amp; WooCommerce</div><div class="mega-link-desc">The local-business workhorse.</div></a>
             <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Sell online, done right.</div></a>
-            <a href="/free-audit/" class="mega-link"><div class="mega-link-title">Free 15-min Audit</div><div class="mega-link-desc">Why you&rsquo;re not getting found.</div></a>
+            <a href="/free-audit" class="mega-link"><div class="mega-link-title">Free 15-min Audit</div><div class="mega-link-desc">Why you&rsquo;re not getting found.</div></a>
           </div>
           <div class="mega-col">
             <h4>Performance</h4>
@@ -60,8 +60,8 @@ NAV = '''<header class="nav-bar">
           </div>
         </div>
       </div>
-      <a href="/websites/" class="nav-link">Web Design</a>
-      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/websites" class="nav-link">Web Design</a>
+      <a href="/portfolio" class="nav-link">Portfolio</a>
       <a href="/process/" class="nav-link">Process</a>
       <a href="/notes/" class="nav-link">Notes</a>
       <a href="/about.html" class="nav-link">About</a>
@@ -86,8 +86,8 @@ NAV = '''<header class="nav-bar">
       </button>
     </div>
     <nav class="mnav-primary" aria-label="Main">
-      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
-      <a href="/portfolio/" class="mnav-link" data-num="02">Portfolio</a>
+      <a href="/websites" class="mnav-link" data-num="01">Web Design</a>
+      <a href="/portfolio" class="mnav-link" data-num="02">Portfolio</a>
       <a href="/about.html" class="mnav-link" data-num="03">About</a>
       <a href="/process/" class="mnav-link" data-num="04">Process</a>
       <a href="/services/" class="mnav-link" data-num="05">Services</a>
@@ -106,7 +106,7 @@ NAV = '''<header class="nav-bar">
         <a href="/services/ai-calling-agents.html">AI Calling</a>
       </div>
     </div>
-    <a href="/free-audit/" class="mnav-audit-link">
+    <a href="/free-audit" class="mnav-audit-link">
       <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
       Free 15-min Audit
     </a>
@@ -155,12 +155,12 @@ FOOTER = '''<footer class="site-footer footer-rich">
       <div>
         <h5>Websites by industry</h5>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
-          <li><a href="/websites/">All industries</a></li>
-          <li><a href="/websites/restaurants/">Restaurants</a></li>
-          <li><a href="/websites/dentists/">Dentists &amp; clinics</a></li>
-          <li><a href="/websites/trades/">Trades &amp; contractors</a></li>
-          <li><a href="/websites/law-firms/">Law firms</a></li>
-          <li><a href="/websites/real-estate/">Real estate</a></li>
+          <li><a href="/websites">All industries</a></li>
+          <li><a href="/websitesrestaurants/">Restaurants</a></li>
+          <li><a href="/websitesdentists/">Dentists &amp; clinics</a></li>
+          <li><a href="/websitestrades/">Trades &amp; contractors</a></li>
+          <li><a href="/websiteslaw-firms/">Law firms</a></li>
+          <li><a href="/websitesreal-estate/">Real estate</a></li>
         </ul>
         <h5 style="margin-top: 1.5rem;">Services</h5>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
@@ -174,7 +174,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
         <h5>Studio</h5>
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/about.html">About</a></li>
-          <li><a href="/portfolio/">All work (47)</a></li>
+          <li><a href="/portfolio">All work (47)</a></li>
           <li><a href="/blog/">Blog</a></li>
           <li><a href="/process/">Process</a></li>
           <li><a href="/notes/">Notes</a></li>
@@ -191,7 +191,7 @@ FOOTER = '''<footer class="site-footer footer-rich">
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li class="meta">Mon&ndash;Sat &nbsp;·&nbsp; 4-hour reply</li>
           <li class="meta">US, UK &amp; CA hours covered</li>
-          <li><a href="/free-audit/">Free 15-min audit &nbsp;→</a></li>
+          <li><a href="/free-audit">Free 15-min audit &nbsp;→</a></li>
           <li><a href="/#contact">Send a note &nbsp;→</a></li>
         </ul>
         <h5 style="margin-top: 1.5rem;">Legal</h5>
@@ -1048,7 +1048,7 @@ def siblings_band(trade):
     if len(sibs) < 3:
         sibs += [t for t in TRADES if t["slug"] != trade["slug"] and t not in sibs][:3 - len(sibs)]
     cards = "\n".join(
-        f'        <a href="/websites/{s["slug"]}/" class="ind-card"><h3>{s["name"]}</h3><p>{s["kw"].capitalize()} design that gets found and books customers.</p></a>'
+        f'        <a href="/websites{s["slug"]}/" class="ind-card"><h3>{s["name"]}</h3><p>{s["kw"].capitalize()} design that gets found and books customers.</p></a>'
         for s in sibs
     )
     return f'''
@@ -1061,7 +1061,7 @@ def siblings_band(trade):
     <div class="ind-grid" data-reveal>
 {cards}
     </div>
-    <p style="margin-top: 2rem;"><a href="/websites/" class="btn-link">See every industry we build for
+    <p style="margin-top: 2rem;"><a href="/websites" class="btn-link">See every industry we build for
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a></p>
   </div>
 </section>'''
@@ -1069,7 +1069,7 @@ def siblings_band(trade):
 
 def render_trade(trade):
     slug = trade["slug"]; name = trade["name"]; kw = trade["kw"]
-    canonical = f"{SITE}/websites/{slug}/"
+    canonical = f"{SITE}/websites{slug}"
     title = f'{name.replace("&amp;", "&")} Website Design &amp; Development | Lofts Studio'
     title_plain = re.sub("<[^>]+>", "", title).replace("&amp;", "&")
     jsonld = [
@@ -1077,7 +1077,7 @@ def render_trade(trade):
         faq_jsonld([(re.sub("&[a-z]+;", lambda m: {"&amp;":"&","&rsquo;":"’","&ldquo;":"“","&rdquo;":"”","&lsquo;":"‘"}.get(m.group(0), m.group(0)), q),
                      re.sub("&[a-z]+;", lambda m: {"&amp;":"&","&rsquo;":"’","&ldquo;":"“","&rdquo;":"”","&lsquo;":"‘"}.get(m.group(0), m.group(0)), a))
                     for q, a in trade["faqs"]]),
-        breadcrumb_jsonld([("Home", SITE + "/"), ("Websites", SITE + "/websites/"), (re.sub("&amp;", "&", name), canonical)]),
+        breadcrumb_jsonld([("Home", SITE + "/"), ("Websites", SITE + "/websites"), (re.sub("&amp;", "&", name), canonical)]),
     ]
     includes = "\n".join(
         f'        <div class="feat-card" data-reveal><h3>{t}</h3><p>{d}</p></div>'
@@ -1093,7 +1093,7 @@ def render_trade(trade):
   <div class="container">
     <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);" data-reveal>
       <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
-      <a href="/websites/" style="color: var(--muted);">Websites</a> <span style="margin: 0 8px;">/</span>
+      <a href="/websites" style="color: var(--muted);">Websites</a> <span style="margin: 0 8px;">/</span>
       <span style="color: var(--ink);">{name}</span>
     </nav>
     <div data-reveal style="max-width: 920px;">
@@ -1106,7 +1106,7 @@ def render_trade(trade):
         <a href="/#contact" class="btn btn-primary">Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="/portfolio/" class="btn btn-ghost">See our work</a>
+        <a href="/portfolio" class="btn btn-ghost">See our work</a>
       </div>
       <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted);"><strong style="color: var(--ink);">Top Rated on Upwork</strong> · 100% Job Success · US, UK &amp; Canada hours · Direct hire or a documented workspace</p>
     </div>
@@ -1172,11 +1172,11 @@ def render_trade(trade):
 
 
 def render_hub():
-    canonical = f"{SITE}/websites/"
+    canonical = f"{SITE}/websites"
     title = "Websites for Local Businesses | Lofts Studio"
     desc = "Fast, search-optimised websites for local businesses — restaurants, dentists, trades, law firms, salons, gyms and more. Get found on Google and turn visitors into booked customers."
     items = ", ".join(
-        f'{{"@type": "ListItem", "position": {i+1}, "name": "{re.sub("&amp;","&",t["name"])} Website Design", "url": "{SITE}/websites/{t["slug"]}/"}}'
+        f'{{"@type": "ListItem", "position": {i+1}, "name": "{re.sub("&amp;","&",t["name"])} Website Design", "url": "{SITE}/websites{t["slug"]}"}}'
         for i, t in enumerate(TRADES)
     )
     hub_faqs = [
@@ -1198,7 +1198,7 @@ def render_hub():
     groups = ""
     for cat in CATS:
         cards = "\n".join(
-            f'      <a href="/websites/{t["slug"]}/" class="ind-card"><h3>{t["name"]}</h3><p>{t["kw"].capitalize()} design that gets you found and books customers.</p></a>'
+            f'      <a href="/websites{t["slug"]}/" class="ind-card"><h3>{t["name"]}</h3><p>{t["kw"].capitalize()} design that gets you found and books customers.</p></a>'
             for t in TRADES if t["cat"] == cat
         )
         groups += f'\n    <p class="ind-cat">{cat}</p>\n    <div class="ind-grid">\n{cards}\n    </div>\n'
@@ -1223,7 +1223,7 @@ def render_hub():
         <a href="/#contact" class="btn btn-primary">Get in touch
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </a>
-        <a href="/free-audit/" class="btn btn-ghost">Free 15-min audit</a>
+        <a href="/free-audit" class="btn btn-ghost">Free 15-min audit</a>
       </div>
       <p style="margin-top: 1.5rem; font-size: 0.85rem; color: var(--muted);"><strong style="color: var(--ink);">Top Rated on Upwork</strong> · 100% Job Success · high-volume delivery · Direct hire or a documented workspace</p>
     </div>
@@ -1268,7 +1268,7 @@ def write(path, content):
 def update_sitemap():
     sm = ROOT / "sitemap.xml"
     xml = sm.read_text()
-    urls = [f"{SITE}/websites/"] + [f"{SITE}/websites/{t['slug']}/" for t in TRADES]
+    urls = [f"{SITE}/websites"] + [f"{SITE}/websites{t['slug']}" for t in TRADES]
     block = "\n".join(
         f"  <url>\n    <loc>{u}</loc>\n    <lastmod>2026-06-14</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>0.8</priority>\n  </url>"
         for u in urls
@@ -1286,10 +1286,10 @@ def update_llms():
     txt = p.read_text()
     # Remove any scoping line (no scoping anywhere on the site)
     txt = re.sub(r"- Typical [^\n]*\n", "- Scoping is shared on a short strategy call; every project is fixed-scope, fixed-date, and includes 30 days of post-launch support.\n", txt)
-    lines = "\n".join(f"- {re.sub('&amp;','&',t['name'])}: {SITE}/websites/{t['slug']}/" for t in TRADES)
+    lines = "\n".join(f"- {re.sub('&amp;','&',t['name'])}: {SITE}/websites{t['slug']}" for t in TRADES)
     section = (f"<!-- INDUSTRY:START -->\n## Websites by industry (local businesses)\n"
                f"Lofts Studio builds search-optimised websites for local businesses across the US, UK, and Canada. "
-               f"Hub: {SITE}/websites/\n{lines}\n<!-- INDUSTRY:END -->")
+               f"Hub: {SITE}/websites\n{lines}\n<!-- INDUSTRY:END -->")
     if "<!-- INDUSTRY:START -->" in txt:
         txt = re.sub(r"<!-- INDUSTRY:START -->.*?<!-- INDUSTRY:END -->", section, txt, flags=re.S)
     else:
@@ -1303,7 +1303,7 @@ def main():
         write(ROOT / "websites" / t["slug"] / "index.html", render_trade(t))
     update_sitemap()
     update_llms()
-    print(f"Generated /websites/ hub + {len(TRADES)} industry pages.")
+    print(f"Generated /websites hub + {len(TRADES)} industry pages.")
     print("Updated sitemap.xml and llms.txt.")
 
 

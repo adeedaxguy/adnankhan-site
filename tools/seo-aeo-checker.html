@@ -42,7 +42,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   "@type": "BreadcrumbList",
   "itemListElement": [
     { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://lofts.studio/" },
-    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://lofts.studio/tools/" },
+    { "@type": "ListItem", "position": 2, "name": "Tools", "item": "https://lofts.studio/tools" },
     { "@type": "ListItem", "position": 3, "name": "SEO & AEO Compatibility Checker", "item": "https://lofts.studio/tools/seo-aeo-checker.html" }
   ]
 }
@@ -97,8 +97,8 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <nav class="diagnostic-nav" aria-label="Tool navigation">
     <a href="/" class="diagnostic-logo">Lofts<span>STUDIO</span></a>
     <div class="diagnostic-nav-links">
-      <a href="/tools/">Tools</a>
-      <a href="/free-audit/">Website audit</a>
+      <a href="/tools">Tools</a>
+      <a href="/free-audit">Website audit</a>
       <a href="/#contact">Get in touch</a>
     </div>
   </nav>
@@ -199,7 +199,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
           <span class="eyebrow">Fix order</span>
           <h2 class="h-1" id="aeo-playbook">What to do after a weak SEO/AEO score.</h2>
           <p>A weak score does not always mean you need a new website. It usually means the page is unclear in one of four places: search access, answer structure, proof, or conversion path.</p>
-          <a href="/free-audit/">Run the full website audit <span aria-hidden="true">→</span></a>
+          <a href="/free-audit">Run the full website audit <span aria-hidden="true">→</span></a>
           <a href="/blog/website-structure-audit-report.html" style="margin-left: 1rem;">Read the audit report guide <span aria-hidden="true">→</span></a>
           <a href="/blog/seo-compatibility-checker.html" style="margin-left: 1rem;">SEO checker guide <span aria-hidden="true">→</span></a>
           <a href="/blog/website-audit-report-pdf-sample.html" style="margin-left: 1rem;">Audit PDF sample <span aria-hidden="true">→</span></a>
@@ -330,7 +330,7 @@ function renderAeo(data) {
         <p class="aeo-kicker">What to fix first</p>
         <h3>${failed.length ? 'Highest-impact blockers' : 'Core compatibility looks healthy'}</h3>
       </div>
-      <a href="/free-audit/?url=${encodeURIComponent(data.url || input.value)}">Run full audit report →</a>
+      <a href="/free-audit?url=${encodeURIComponent(data.url || input.value)}">Run full audit report →</a>
     </div>
     <div class="aeo-check-grid">
       ${checks.map(item => `<article class="aeo-check ${item.pass ? 'pass' : 'fail'}">

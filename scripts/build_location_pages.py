@@ -13,25 +13,25 @@ TODAY = "2026-07-16"
 
 
 INDUSTRIES = {
-    "dentists": ("Dentists", "/websites/dentists/", "trust-heavy dental sites that turn anxious searches into booked appointments"),
-    "medical": ("Medical clinics", "/websites/medical-clinics/", "clinic websites with clear services, credentials, intake paths, and local SEO"),
-    "hvac": ("HVAC", "/websites/hvac/", "emergency and installation pages for heating, cooling, and seasonal demand"),
-    "law": ("Law firms", "/websites/law-firms/", "authority-led practice pages, attorney proof, and intake flows"),
-    "restaurants": ("Restaurants", "/websites/restaurants/", "menus, local discovery, direct booking, and mobile-first ordering paths"),
-    "real_estate": ("Real estate", "/websites/real-estate/", "valuation requests, listings, neighborhood pages, and lead routing"),
+    "dentists": ("Dentists", "/websitesdentists/", "trust-heavy dental sites that turn anxious searches into booked appointments"),
+    "medical": ("Medical clinics", "/websitesmedical-clinics/", "clinic websites with clear services, credentials, intake paths, and local SEO"),
+    "hvac": ("HVAC", "/websiteshvac/", "emergency and installation pages for heating, cooling, and seasonal demand"),
+    "law": ("Law firms", "/websiteslaw-firms/", "authority-led practice pages, attorney proof, and intake flows"),
+    "restaurants": ("Restaurants", "/websitesrestaurants/", "menus, local discovery, direct booking, and mobile-first ordering paths"),
+    "real_estate": ("Real estate", "/websitesreal-estate/", "valuation requests, listings, neighborhood pages, and lead routing"),
     "spas": ("Spas and beauty", "/websites/spas/", "premium local service pages for med spas, salons, and beauty clinics"),
-    "trades": ("Trades", "/websites/trades/", "proof-led contractor websites with galleries, service areas, and fast enquiries"),
-    "plumbers": ("Plumbers", "/websites/plumbers/", "urgent-service pages and photo-upload project request flows"),
-    "electricians": ("Electricians", "/websites/electricians/", "certification-forward electrical websites for emergency and planned work"),
-    "photographers": ("Photographers", "/websites/photographers/", "portfolio-led sites that make style, availability, and enquiry paths obvious"),
-    "hospitality": ("Hotels and B&Bs", "/websites/hotels-bnb/", "direct-booking pages, local trust, and mobile guest journeys"),
-    "financial": ("Financial advisors", "/websites/financial-advisors/", "credibility-first pages for advisory, planning, and local trust"),
-    "auto": ("Auto repair", "/websites/auto-repair/", "repair, diagnostics, service-area, and booking-focused auto websites"),
-    "retail": ("Local retail", "/websites/local-retail/", "local shop websites built for discovery, inventory clarity, and repeat visits"),
-    "consultants": ("Consultants", "/websites/consultants/", "expert-led service sites with clear positioning, proof, and enquiry paths"),
-    "accountants": ("Accountants", "/websites/accountants/", "trust-led accounting websites with service pages, local SEO, and intake flows"),
-    "recruitment": ("Recruitment", "/websites/recruitment/", "candidate and employer journeys that make placements easier to start"),
-    "builders": ("Builders", "/websites/builders/", "project-led construction websites with galleries, service areas, and quote paths"),
+    "trades": ("Trades", "/websitestrades/", "proof-led contractor websites with galleries, service areas, and fast enquiries"),
+    "plumbers": ("Plumbers", "/websitesplumbers/", "urgent-service pages and photo-upload project request flows"),
+    "electricians": ("Electricians", "/websiteselectricians/", "certification-forward electrical websites for emergency and planned work"),
+    "photographers": ("Photographers", "/websitesphotographers/", "portfolio-led sites that make style, availability, and enquiry paths obvious"),
+    "hospitality": ("Hotels and B&Bs", "/websiteshotels-bnb/", "direct-booking pages, local trust, and mobile guest journeys"),
+    "financial": ("Financial advisors", "/websitesfinancial-advisors/", "credibility-first pages for advisory, planning, and local trust"),
+    "auto": ("Auto repair", "/websitesauto-repair/", "repair, diagnostics, service-area, and booking-focused auto websites"),
+    "retail": ("Local retail", "/websiteslocal-retail/", "local shop websites built for discovery, inventory clarity, and repeat visits"),
+    "consultants": ("Consultants", "/websitesconsultants/", "expert-led service sites with clear positioning, proof, and enquiry paths"),
+    "accountants": ("Accountants", "/websitesaccountants/", "trust-led accounting websites with service pages, local SEO, and intake flows"),
+    "recruitment": ("Recruitment", "/websitesrecruitment/", "candidate and employer journeys that make placements easier to start"),
+    "builders": ("Builders", "/websitesbuilders/", "project-led construction websites with galleries, service areas, and quote paths"),
 }
 
 
@@ -450,10 +450,10 @@ def nav() -> str:
   <div class="nav-inner">
     <a href="/" class="nav-logo">Lofts<span class="dot">studio</span></a>
     <nav class="nav-links" aria-label="Primary">
-      <a href="/websites/" class="nav-link">Web Design</a>
-      <a href="/locations/usa/" class="nav-link">Locations</a>
+      <a href="/websites" class="nav-link">Web Design</a>
+      <a href="/locations/usa" class="nav-link">Locations</a>
       <a href="/services/ai-calling-agents.html" class="nav-link">AI Calling</a>
-      <a href="/portfolio/" class="nav-link">Portfolio</a>
+      <a href="/portfolio" class="nav-link">Portfolio</a>
       <a href="/process/" class="nav-link">Process</a>
       <a href="/blog/" class="nav-link">Blog</a>
       <a href="/about.html" class="nav-link">About</a>
@@ -475,10 +475,10 @@ def nav() -> str:
       </button>
     </div>
     <nav class="mnav-primary" aria-label="Main">
-      <a href="/websites/" class="mnav-link" data-num="01">Web Design</a>
-      <a href="/locations/usa/" class="mnav-link" data-num="02">Locations</a>
+      <a href="/websites" class="mnav-link" data-num="01">Web Design</a>
+      <a href="/locations/usa" class="mnav-link" data-num="02">Locations</a>
       <a href="/services/ai-calling-agents.html" class="mnav-link" data-num="03">AI Calling</a>
-      <a href="/portfolio/" class="mnav-link" data-num="04">Portfolio</a>
+      <a href="/portfolio" class="mnav-link" data-num="04">Portfolio</a>
       <a href="/services/" class="mnav-link" data-num="05">Services</a>
       <a href="/blog/" class="mnav-link" data-num="06">Blog</a>
     </nav>
@@ -486,16 +486,16 @@ def nav() -> str:
       <p class="mnav-label">Services</p>
       <div class="mnav-grid">
         <a href="/services/ai-calling-agents.html">AI Calling</a>
-        <a href="/websites/">Local websites</a>
+        <a href="/websites">Local websites</a>
         <a href="/services/shopify-development.html">Shopify</a>
         <a href="/services/woocommerce-development.html">WooCommerce</a>
         <a href="/services/webflow-development.html">Webflow</a>
         <a href="/services/custom-app-development.html">Custom Apps</a>
         <a href="/services/technical-seo-audit.html">Technical SEO</a>
-        <a href="/free-audit/">Free Audit</a>
+        <a href="/free-audit">Free Audit</a>
       </div>
     </div>
-    <a href="/free-audit/" class="mnav-audit-link">Free 15-min Audit</a>
+    <a href="/free-audit" class="mnav-audit-link">Free 15-min Audit</a>
     <div class="mnav-foot">
       <a href="/#contact" class="mnav-cta">Get in touch
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
@@ -527,10 +527,10 @@ def footer() -> str:
       <div>
         <h5>Growth pages</h5>
         <ul>
-          <li><a href="/locations/usa/">USA locations</a></li>
-          <li><a href="/websites/">Websites by industry</a></li>
+          <li><a href="/locations/usa">USA locations</a></li>
+          <li><a href="/websites">Websites by industry</a></li>
           <li><a href="/services/ai-calling-agents.html">AI calling agents</a></li>
-          <li><a href="/free-audit/">Free audit</a></li>
+          <li><a href="/free-audit">Free audit</a></li>
         </ul>
       </div>
       <div>
@@ -545,7 +545,7 @@ def footer() -> str:
       <div>
         <h5>Studio</h5>
         <ul>
-          <li><a href="/portfolio/">Portfolio</a></li>
+          <li><a href="/portfolio">Portfolio</a></li>
           <li><a href="/about.html">About</a></li>
           <li><a href="/process/">Process</a></li>
           <li><a href="/blog/">Blog</a></li>
@@ -638,11 +638,11 @@ def state_faq_items(state: dict) -> list[tuple[str, str]]:
 
 
 def state_url(state: dict) -> str:
-    return f"/locations/{state['slug']}/"
+    return f"/locations/{state['slug']}"
 
 
 def city_url(state: dict, city: dict) -> str:
-    return f"/locations/{state['slug']}/{city['slug']}/"
+    return f"/locations/{state['slug']}/{city['slug']}"
 
 
 def breadcrumbs_schema(items: list[tuple[str, str]]) -> dict:
@@ -668,7 +668,7 @@ def faq_schema(items: list[tuple[str, str]]) -> dict:
 
 
 def build_usa() -> None:
-    path = "/locations/usa/"
+    path = "/locations/usa"
     title = "USA Website Design, Local SEO & AI Calling Agents | Lofts Studio"
     description = "Senior remote website design, local SEO structure, and AI calling agents for US service businesses. Start with priority state and city pages built for qualified enquiries."
     schema = [
@@ -741,7 +741,7 @@ def build_state(state: dict) -> None:
     schema = [
         {"@context": "https://schema.org", "@type": "CollectionPage", "name": title, "url": f"{SITE}{path}", "description": description, "isPartOf": {"@type": "WebSite", "url": SITE}},
         {"@context": "https://schema.org", "@type": "Service", "name": f"Website design and web development in {state['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "AdministrativeArea", "name": state["name"]}], "serviceType": ["Website design", "WordPress development", "Webflow development", "Shopify development", "WooCommerce development", "Custom website development", "SaaS website design", "Technical SEO", "AEO", "AI calling agents"]},
-        breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], path)]),
+        breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa"), (state["name"], path)]),
         faq_schema(faq_items),
     ]
     city_links = city_cards(state)
@@ -755,14 +755,14 @@ def build_state(state: dict) -> None:
 <main>
   <section class="loc-hero">
     <div class="container">
-      {breadcrumb([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], None)])}
+      {breadcrumb([("Home", "/"), ("USA locations", "/locations/usa"), (state["name"], None)])}
       <div class="loc-hero-copy" data-reveal>
         <span class="eyebrow">{esc(state["name"])} web design</span>
         <h1 class="h-display">Website design in {esc(state["name"])} for businesses that need search visibility, stronger pages, and booked conversations.</h1>
         <p class="lead">{esc(state["angle"])}</p>
         <div class="loc-actions">
-          <a href="/free-audit/" class="btn btn-primary">Audit my website</a>
-          <a href="/websites/" class="btn btn-ghost">Browse industry pages</a>
+          <a href="/free-audit" class="btn btn-primary">Audit my website</a>
+          <a href="/websites" class="btn btn-ghost">Browse industry pages</a>
         </div>
       </div>
     </div>
@@ -847,7 +847,7 @@ def build_city(state: dict, city: dict) -> None:
     schema = [
         {"@context": "https://schema.org", "@type": "WebPage", "name": title, "url": f"{SITE}{path}", "description": description, "isPartOf": {"@type": "WebSite", "url": SITE}},
         {"@context": "https://schema.org", "@type": "Service", "name": f"Web design in {city['name']}", "provider": {"@type": "Organization", "name": "Lofts Studio", "url": SITE}, "areaServed": [{"@type": "City", "name": city["name"]}, {"@type": "AdministrativeArea", "name": state["name"]}], "serviceType": ["Website design", "Local SEO", "AI calling agents"]},
-        breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], state_url(state)), (city["name"], path)]),
+        breadcrumbs_schema([("Home", "/"), ("USA locations", "/locations/usa"), (state["name"], state_url(state)), (city["name"], path)]),
         faq_schema(faq_items),
     ]
     nearby = "\n".join(
@@ -860,7 +860,7 @@ def build_city(state: dict, city: dict) -> None:
 <main>
   <section class="loc-hero">
     <div class="container">
-      {breadcrumb([("Home", "/"), ("USA locations", "/locations/usa/"), (state["name"], state_url(state)), (city["name"], None)])}
+      {breadcrumb([("Home", "/"), ("USA locations", "/locations/usa"), (state["name"], state_url(state)), (city["name"], None)])}
       <div class="loc-hero-copy" data-reveal>
         <span class="eyebrow">{esc(city["name"])} web design</span>
         <h1 class="h-display">Website design for {esc(city["name"])} businesses that need search visibility, qualified enquiries, and booked calls.</h1>
@@ -968,7 +968,7 @@ def build_ai_calling() -> None:
         <p class="lead">Most local websites lose the lead after the visitor decides to call. Staff are with customers, on jobs, in appointments, or offline. I build AI calling agents that answer clearly, collect the right details, and route serious conversations without turning your business into a chatbot gimmick.</p>
         <div class="loc-actions">
           <a href="/#contact" class="btn btn-primary">Map my call flow</a>
-          <a href="/locations/usa/" class="btn btn-ghost">See location strategy</a>
+          <a href="/locations/usa" class="btn btn-ghost">See location strategy</a>
         </div>
       </div>
     </div>
@@ -1045,9 +1045,9 @@ def build_ai_calling() -> None:
 def sitemap_urls() -> list[tuple[str, str, str]]:
     urls = []
     for state in STATES:
-        urls.append((state_url(state), "weekly", "0.85"))
+        urls.append((state_url(state).rstrip("/"), "weekly", "0.85"))
         for city in state.get("cities", []):
-            urls.append((city_url(state, city), "weekly", "0.8"))
+            urls.append((city_url(state, city).rstrip("/"), "weekly", "0.8"))
     return urls
 
 
@@ -1078,7 +1078,7 @@ def update_sitemap() -> None:
     else:
         text = text.replace("</urlset>", new_block + "\n</urlset>")
     text = refresh_existing_sitemap_lastmod(text, "/services/ai-calling-agents.html")
-    text = refresh_existing_sitemap_lastmod(text, "/locations/usa/")
+    text = refresh_existing_sitemap_lastmod(text, "/locations/usa")
     sitemap.write_text(text)
 
 

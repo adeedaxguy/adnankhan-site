@@ -12,20 +12,20 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Free Website Audit Report + Site Audit PDF | Lofts Studio</title>
   <meta name="description" content="Run a free site audit report and website audit report PDF with SEO/AEO checks, design review, trust gaps, broken links, and before/after fixes." />
-  <link rel="canonical" href="https://lofts.studio/free-audit/" />
+  <link rel="canonical" href="https://lofts.studio/free-audit" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
   <meta property="og:title" content="Free Website Audit Report + Site Audit PDF" />
   <meta property="og:description" content="Instant client-ready site audit report: design, SEO, performance, trust, broken links, and PDF download. Free. No signup." />
-  <meta property="og:url" content="https://lofts.studio/free-audit/" />
+  <meta property="og:url" content="https://lofts.studio/free-audit" />
   <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
     "name": "Free Website Audit Report",
-    "url": "https://lofts.studio/free-audit/",
+    "url": "https://lofts.studio/free-audit",
     "applicationCategory": "BusinessApplication",
     "operatingSystem": "Any",
     "description": "A free Lofts Studio tool that creates a site audit report and website audit report PDF for design friction, SEO and AEO compatibility, performance, trust signals, broken links, and client-ready improvement opportunities.",
@@ -346,7 +346,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
       "@type": "ListItem",
       "position": 2,
       "name": "Free Audit",
-      "item": "https://lofts.studio/free-audit/"
+      "item": "https://lofts.studio/free-audit"
     }
   ]
 }
@@ -362,7 +362,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <nav class="diagnostic-nav" aria-label="Tool navigation">
   <a href="/" class="diagnostic-logo">Lofts<span>STUDIO</span></a>
   <div class="diagnostic-nav-links">
-    <a href="/tools/">Tools</a>
+    <a href="/tools">Tools</a>
     <a href="/tools/seo-aeo-checker.html">SEO/AEO checker</a>
     <a href="/#contact">Get in touch</a>
   </div>
@@ -992,7 +992,7 @@ async function submitAuditFixPlan(event) {
     trackAuditEvent('form_submit_attempt', {
       event_category: 'lead',
       event_label: 'free-audit-report',
-      form_location: '/free-audit/',
+      form_location: '/free-audit',
       audited_url: currentAuditData.url || ''
     });
     const res = await fetch('/api/contact', {
@@ -1006,12 +1006,12 @@ async function submitAuditFixPlan(event) {
     trackAuditEvent('form_submit', {
       event_category: 'lead',
       event_label: 'free-audit-report',
-      form_location: '/free-audit/'
+      form_location: '/free-audit'
     });
     trackAuditEvent('generate_lead', {
       event_category: 'lead',
       event_label: 'free-audit-report',
-      form_location: '/free-audit/',
+      form_location: '/free-audit',
       page_title: document.title,
       value: currentAuditData.score || 0,
       score: currentAuditData.score || 0,
@@ -1032,7 +1032,7 @@ async function submitAuditFixPlan(event) {
     trackAuditEvent('form_submit_error', {
       event_category: 'lead',
       event_label: 'free-audit-report',
-      form_location: '/free-audit/',
+      form_location: '/free-audit',
       audited_url: currentAuditData.url || '',
       error_message: err && err.message ? String(err.message).slice(0, 120) : 'Submission failed'
     });

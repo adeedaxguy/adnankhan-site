@@ -1558,6 +1558,16 @@ LOCATIONS = [
         "marketNotes": "I've shipped Shopify and WordPress builds for the Dubai market — luxury retail, hospitality, B2B insurance. Comfortable with bilingual (English/Arabic) builds, AED checkout, and regional payment gateways like Telr and Tap.",
     },
 ]
+HREFLANG_REGION_CODES = {"uk": "gb", "uae": "ae"}
+SITEMAP_EXCLUDED_PATHS = {
+    "/services/shopify-developer-ae.html",
+    "/blog/shopify-developer-freelance-rates.html",
+    "/blog/landing-page-design-cost.html",
+    "/blog/pricing-page-design.html",
+    "/blog/small-business-website-cost-2026.html",
+    "/blog/post",
+    "/unsubscribe",
+}
 
 # Service templates per location — currently we generate one master page per location
 # that lists Shopify + WooCommerce + WordPress capability for that market.
@@ -2135,6 +2145,30 @@ def gen_sitemap():
     """Crawl the filesystem for .html files and generate sitemap.xml."""
     today = datetime.now().strftime("%Y-%m-%d")
     urls = []
+    seen = {}
+
+    def add_url(path, freq, priority):
+        if path == "/":
+            canonical_path = "/"
+        elif path.startswith("/notes/") or path == "/notes":
+            return
+        elif path.endswith("/index.html"):
+            canonical_path = path[: -len("/index.html")] or "/"
+        elif path.endswith("/"):
+            canonical_path = path.rstrip("/")
+        else:
+            canonical_path = path
+        if canonical_path in SITEMAP_EXCLUDED_PATHS:
+            return
+        url = f"{SITE}{canonical_path}"
+        if url in seen:
+            index = seen[url]
+            existing = urls[index]
+            if float(priority) > float(existing[3]):
+                urls[index] = (url, today, freq, priority)
+            return
+        seen[url] = len(urls)
+        urls.append((url, today, freq, priority))
 
     # Static top-level pages with priorities
     top = {
@@ -2143,7 +2177,6 @@ def gen_sitemap():
         "/portfolio/": ("0.95", "weekly"),
         "/blog/": ("0.9", "weekly"),
         "/process/": ("0.7", "monthly"),
-        "/notes/": ("0.7", "weekly"),
         "/tools/": ("0.7", "monthly"),
         "/now/": ("0.6", "weekly"),
         "/privacy.html": ("0.3", "yearly"),
@@ -2151,18 +2184,18 @@ def gen_sitemap():
         "/cookie-policy.html": ("0.3", "yearly"),
     }
     for path, (priority, freq) in top.items():
-        urls.append((f"{SITE}{path}", today, freq, priority))
+        add_url(path, freq, priority)
 
     # All services
     for svc in sorted(SERVICES_DIR.glob("*.html")):
-        urls.append((f"{SITE}/services/{svc.name}", today, "monthly", "0.85"))
+        add_url(f"/services/{svc.name}", "monthly", "0.85")
 
     # Vertical pillar pages — high priority commercial pages
     work_dir = ROOT / "work"
     if work_dir.exists():
         for pillar in sorted(work_dir.iterdir()):
             if pillar.is_dir() and (pillar / "index.html").exists():
-                urls.append((f"{SITE}/work/{pillar.name}/", today, "weekly", "0.95"))
+                add_url(f"/work/{pillar.name}/", "weekly", "0.95")
 
     # Brand guide (noindex but included for completeness)
     if (ROOT / "brand.html").exists():
@@ -2170,7 +2203,7 @@ def gen_sitemap():
 
     # All portfolio
     for pf in sorted(ROOT.glob("portfolio/*.html")):
-        urls.append((f"{SITE}/portfolio/{pf.name}", today, "monthly", "0.75"))
+        add_url(f"/portfolio/{pf.name}", "monthly", "0.75")
 
     # All blog posts
     for post in sorted(BLOG_DIR.glob("*.html")):
@@ -2178,15 +2211,29 @@ def gen_sitemap():
             continue
         if post.stem in EXCLUDED_PUBLIC_BLOG_SLUGS:
             continue
-        urls.append((f"{SITE}/blog/{post.name}", today, "monthly", "0.8"))
+        add_url(f"/blog/{post.name}", "monthly", "0.8")
 
-    # Notes, tools, process
-    for d in ["notes", "tools", "process"]:
+    # Tools and process directory pages. Notes are legacy URLs redirected to /blog.
+    for d in ["tools", "process"]:
         sub = ROOT / d
         if sub.exists():
             for f in sorted(sub.glob("*.html")):
                 if not f.name.startswith("_"):
-                    urls.append((f"{SITE}/{d}/{f.name}", today, "monthly", "0.65"))
+                    add_url(f"/{d}/{f.name}", "monthly", "0.65")
+
+    # Catch directory index pages and newer batch assets that live outside the
+    # legacy explicit lists, while skipping private, API, noindex, and redirect-only paths.
+    skipped_dirs = {".git", ".vercel", "admin", "api", "assets", "scripts", "tests"}
+    skipped_files = {"404.html", "brand.html"}
+    for page in sorted(ROOT.rglob("*.html")):
+        rel = page.relative_to(ROOT)
+        if any(part.startswith(".") or part in skipped_dirs for part in rel.parts[:-1]):
+            continue
+        if rel.parts[0] == "notes":
+            continue
+        if rel.name.startswith("_") or rel.name in skipped_files:
+            continue
+        add_url(f"/{rel.as_posix()}", "monthly", "0.65")
 
     # Build XML
     xml = ['<?xml version="1.0" encoding="UTF-8"?>',
@@ -2196,7 +2243,8 @@ def gen_sitemap():
         if "shopify-developer-" in u and u.endswith(".html"):
             xml.append(f"  <url>\n    <loc>{u}</loc>\n    <lastmod>{lastmod}</lastmod>")
             for loc in LOCATIONS:
-                xml.append(f'    <xhtml:link rel="alternate" hreflang="en-{loc["code"]}" href="{SITE}/services/shopify-developer-{loc["code"]}.html"/>')
+                region_code = HREFLANG_REGION_CODES.get(loc["code"], loc["code"])
+                xml.append(f'    <xhtml:link rel="alternate" hreflang="en-{region_code}" href="{SITE}/services/shopify-developer-{loc["code"]}.html"/>')
             xml.append(f'    <xhtml:link rel="alternate" hreflang="x-default" href="{SITE}/"/>')
             xml.append(f"    <changefreq>{freq}</changefreq>\n    <priority>{prio}</priority>\n  </url>")
         else:
