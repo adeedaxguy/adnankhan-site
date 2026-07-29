@@ -65,6 +65,162 @@ def load_nav_and_footer():
 
 POSTS = [
     {
+        "slug": "seo-audit-report-template-for-leads",
+        "title": "SEO Audit Report Template for Leads: What a Service Website Should Show",
+        "excerpt": "Use an SEO audit report template to turn technical findings, content gaps, and conversion friction into a lead-focused fix plan.",
+        "meta": "A practical SEO audit report template for service websites that need more qualified leads from Google, AI search, and better landing pages.",
+        "category": "SEO",
+        "date": "2026-07-30",
+        "readingTime": "8 min",
+        "primaryKeyword": "SEO audit report template for leads",
+        "secondaryKeyword": "service website SEO audit report",
+        "funnelTo": "/free-audit/",
+        "funnelLabel": "Free Website Audit Report",
+        "featured": False,
+        "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-lead-audit-now">
+      <h2 id="run-lead-audit-now">Want the audit report for your own site?</h2>
+      <form class="post-audit-launcher" action="/free-audit/" method="get">
+        <label for="lead-audit-url">Website URL to audit</label>
+        <div class="post-audit-row">
+          <input id="lead-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
+          <button class="btn btn-primary" type="submit">Start report <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </form>
+      <p>Lofts Studio checks crawlability, page structure, answer clarity, trust signals, and the path from search visitor to qualified inquiry.</p>
+      <div class="post-intent-actions">
+        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Check SEO/AEO</a>
+      </div>
+      <div class="post-intent-note" aria-label="Audit report includes">
+        <span>SEO + AEO</span>
+        <span>Lead path</span>
+        <span>Fix priority</span>
+      </div>
+    </aside>""",
+        "hook": "An SEO audit report template is useful only if it helps the business decide what to fix first. For a service website, that means connecting crawl health, page quality, internal links, search intent, and lead flow into one clear action plan.",
+        "faqs": [
+            {
+                "question": "What should an SEO audit report template include for a service website?",
+                "answer": "It should include indexability, canonical and redirect checks, sitemap status, page intent, content gaps, internal links, schema, mobile UX, trust signals, and the next conversion step for each important page."
+            },
+            {
+                "question": "Should an SEO audit focus only on technical issues?",
+                "answer": "No. Technical issues matter, but a service website audit also needs to show how pages convert search visitors into audit requests, calls, messages, or qualified inquiries."
+            },
+            {
+                "question": "How does this help AI search visibility?",
+                "answer": "The report should check whether important pages include direct answers, clear entity context, visible proof, FAQs, and structured data that match the content users can see."
+            }
+        ],
+        "body": [
+            ("p", "A weak audit report lists issues. A useful report explains the business impact. If a page has a redirect problem, the report should say whether that URL is intentionally retired or whether a valuable page is being hidden from search. If a service page has traffic but no leads, the report should show whether the next step is visible, trusted, and easy to complete."),
+            ("callout", "The goal is not to create a longer checklist. The goal is to create a fix order that improves indexability, useful content, and lead quality."),
+            ("h2", "The lead-focused audit structure"),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Audit area</th><th>Question to answer</th><th>Lead-focused fix</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Indexability</strong></td><td>Can Google crawl and index the intended URL?</td><td>Fix status code, canonical, robots, sitemap, or redirect path.</td></tr>
+        <tr><td><strong>Intent match</strong></td><td>Does the page answer the query the visitor used?</td><td>Add a direct answer, comparison, checklist, or FAQ section.</td></tr>
+        <tr><td><strong>Trust</strong></td><td>Does the page prove the business can do the work?</td><td>Add examples, process, outcomes, proof, or owner context.</td></tr>
+        <tr><td><strong>Internal links</strong></td><td>Can visitors and crawlers move to the next useful page?</td><td>Link articles, service pages, tools, audit flow, and contact pages.</td></tr>
+        <tr><td><strong>Conversion</strong></td><td>Is the next action obvious on mobile and desktop?</td><td>Add audit, consultation, WhatsApp, form, or download path.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Use Search Console before writing new pages"),
+            ("p", "Search Console often shows which pages Google is already testing. Pages with impressions, low CTR, indexing issues, or rising queries should be reviewed before the team writes new content. Sometimes the fastest win is a better title, answer box, schema, or internal link on a page that already has data."),
+            ("h2", "Add the AEO and GEO layer"),
+            ("p", "For answer engines, the report should check whether the page states the business, service, audience, location or market, and useful next step clearly. A direct answer near the top helps, but it should be supported by proof, examples, FAQs, and schema that match visible content."),
+            ("h2", "Where Lofts Studio fits"),
+            ("p", "Lofts Studio uses this audit style when planning service pages, blog clusters, technical fixes, and landing pages. The work is not just to get noticed. It is to help the right visitor understand the offer, trust the page, and start a conversation."),
+            ("h2", "Daily fix order"),
+            ("ol", [
+                "Check GSC indexing, sitemap, redirects, canonical signals, and top pages.",
+                "Check Ahrefs or SEMrush for competitor pages and content gaps.",
+                "Refresh pages that already have attention before building thin new pages.",
+                "Add a direct answer, proof section, internal links, schema, and lead path.",
+                "Deploy, live-check, and record the URL for follow-up measurement."
+            ]),
+        ],
+    },
+    {
+        "slug": "website-conversion-path-audit",
+        "title": "Website Conversion Path Audit: Turn SEO Traffic Into Better Leads",
+        "excerpt": "A website conversion path audit checks whether visitors can move from search query to trust, proof, offer, and inquiry without getting lost.",
+        "meta": "Run a website conversion path audit to turn SEO and AI-search traffic into qualified leads through better pages, CTAs, proof, and follow-up paths.",
+        "category": "CRO",
+        "date": "2026-07-30",
+        "readingTime": "8 min",
+        "primaryKeyword": "website conversion path audit",
+        "secondaryKeyword": "turn SEO traffic into leads",
+        "funnelTo": "/free-audit/",
+        "funnelLabel": "Free Website Audit Report",
+        "featured": False,
+        "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-conversion-audit-now">
+      <h2 id="run-conversion-audit-now">Check your own conversion path</h2>
+      <form class="post-audit-launcher" action="/free-audit/" method="get">
+        <label for="conversion-audit-url">Website URL to audit</label>
+        <div class="post-audit-row">
+          <input id="conversion-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
+          <button class="btn btn-primary" type="submit">Start audit <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </form>
+      <p>The audit looks for first-screen clarity, proof, internal links, form friction, mobile UX, and whether the page gives search visitors a reason to take the next step.</p>
+      <div class="post-intent-actions">
+        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/#contact" class="btn btn-ghost">Discuss a rebuild</a>
+      </div>
+      <div class="post-intent-note" aria-label="Conversion audit includes">
+        <span>First screen</span>
+        <span>Proof path</span>
+        <span>Lead action</span>
+      </div>
+    </aside>""",
+        "hook": "SEO traffic does not become a lead by accident. The page has to answer the query, prove the business can help, remove doubt, and make the next action easy. A conversion path audit checks that full journey.",
+        "faqs": [
+            {
+                "question": "What is a website conversion path audit?",
+                "answer": "It is a review of how a visitor moves from landing page to trust, offer, proof, call to action, form, message, or booking. It checks whether the page turns search traffic into a qualified business action."
+            },
+            {
+                "question": "Is this different from a normal CRO audit?",
+                "answer": "Yes. A conversion path audit for SEO starts with the search intent and landing page, then follows the visitor through internal links, proof, forms, and follow-up actions."
+            },
+            {
+                "question": "Which pages should be audited first?",
+                "answer": "Start with pages that get impressions, clicks, paid traffic, backlinks, service intent, or existing leads. Those pages have more evidence and faster upside."
+            }
+        ],
+        "body": [
+            ("p", "A service website can rank and still lose the buyer. The first screen might be vague, the proof might be hidden, the form might ask too much, or the next useful page might not be linked. Search visibility is only the first half of the job."),
+            ("callout", "The conversion path starts before the click. The search query tells you what the visitor expects, and the landing page has to confirm that expectation quickly."),
+            ("h2", "The conversion path to audit"),
+            ("html", """<div class="post-table-wrap"><table>
+      <thead><tr><th>Stage</th><th>What the visitor needs</th><th>What to improve</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Query</strong></td><td>A page that matches the problem they searched.</td><td>Align title, H1, intro answer, and page type.</td></tr>
+        <tr><td><strong>First screen</strong></td><td>Clarity on who the page helps and what happens next.</td><td>Add a direct answer, service fit, and primary action.</td></tr>
+        <tr><td><strong>Proof</strong></td><td>Reasons to trust the business.</td><td>Add process, screenshots, examples, testimonials, or case evidence.</td></tr>
+        <tr><td><strong>Decision</strong></td><td>A clear way to compare options or scope.</td><td>Add checklist, FAQ, risk notes, and internal links.</td></tr>
+        <tr><td><strong>Action</strong></td><td>A low-friction next step.</td><td>Audit tool, contact form, WhatsApp, calendar, or scoped request.</td></tr>
+      </tbody>
+    </table></div>"""),
+            ("h2", "Use analytics to find friction"),
+            ("p", "GA4 can show landing pages, engagement, scroll behavior, events, and paths. Search Console can show the queries and pages earning attention. Together, they tell you where the visitor arrived, what they expected, and whether the page encouraged a meaningful action."),
+            ("h2", "Improve the page before adding more content"),
+            ("p", "If a page already earns impressions but produces weak engagement, refresh the page first. Add a clearer answer, stronger proof, a more useful CTA, better internal links, and schema. New posts should support the page, not distract from the funnel."),
+            ("h2", "Make the next step feel natural"),
+            ("p", "For Lofts Studio, the next step may be a free audit report, a contact form, a WhatsApp conversation, or a service page. The right CTA depends on the visitor's intent. Someone reading an audit template is closer to the audit tool; someone reading a rebuild guide may need the contact path."),
+            ("h2", "Daily conversion audit checklist"),
+            ("ul", [
+                "Match the page to one search intent and one business goal.",
+                "Put a direct answer and primary action near the top.",
+                "Add proof before asking for commitment.",
+                "Use internal links to connect article, service, audit, and contact paths.",
+                "Live-check mobile layout after deployment."
+            ]),
+        ],
+    },
+    {
         "slug": "website-structure-audit-report",
         "title": "Website Structure Audit Report + Free Tool",
         "excerpt": "A plain-English website structure audit report guide for checking crawl paths, page hierarchy, internal links, content depth, schema, UX, and conversion before rebuilding anything.",
