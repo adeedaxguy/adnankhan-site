@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="675" viewBox="0 0 1200 675" role="img" aria-labelledby="t d">
+  <title id="t">Authority loop</title>
+  <desc id="d">Useful assets earn mentions and stronger visibility</desc>
+  <rect width="1200" height="675" fill="#fbf8f0"/>
+  <rect x="70" y="70" width="1060" height="535" rx="28" fill="#ffffff" stroke="#c8ded2" stroke-width="3"/>
+  <text x="105" y="132" font-family="Arial, sans-serif" font-size="42" font-weight="700" fill="#12312b">Authority loop</text>
+  <text x="106" y="168" font-family="Arial, sans-serif" font-size="21" fill="#4f635d">Useful assets earn mentions and stronger visibility</text>
+  <rect x="105" y="185" width="990" height="48" rx="14" fill="#ffffff" stroke="#d5e5dc"/><circle cx="140" cy="209" r="13" fill="#0f766e"/><text x="166" y="216" font-size="24" fill="#1b2d2a">Publish useful guide</text><rect x="105" y="259" width="990" height="48" rx="14" fill="#f2f7f5" stroke="#d5e5dc"/><circle cx="140" cy="283" r="13" fill="#0f766e"/><text x="166" y="290" font-size="24" fill="#1b2d2a">Create data hook</text><rect x="105" y="333" width="990" height="48" rx="14" fill="#ffffff" stroke="#d5e5dc"/><circle cx="140" cy="357" r="13" fill="#0f766e"/><text x="166" y="364" font-size="24" fill="#1b2d2a">Pitch relevant editor</text><rect x="105" y="407" width="990" height="48" rx="14" fill="#f2f7f5" stroke="#d5e5dc"/><circle cx="140" cy="431" r="13" fill="#0f766e"/><text x="166" y="438" font-size="24" fill="#1b2d2a">Earn mention</text><rect x="105" y="481" width="990" height="48" rx="14" fill="#ffffff" stroke="#d5e5dc"/><circle cx="140" cy="505" r="13" fill="#0f766e"/><text x="166" y="512" font-size="24" fill="#1b2d2a">Refresh by performance</text>
+  <text x="105" y="565" font-family="Arial, sans-serif" font-size="20" fill="#0f766e">SEO/AEO/GEO run 2026-07-31</text>
+</svg>

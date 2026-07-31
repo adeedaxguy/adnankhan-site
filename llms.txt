@@ -201,3 +201,25 @@ Lofts Studio added 20 search assets for conversion-led redesign, AI-search-ready
 - https://lofts.studio/blog/lead-quality-analytics-for-service-websites.html - Lead Quality Analytics for Service Websites
 - https://lofts.studio/blog/competitor-page-gap-analysis-web-design.html - Competitor Page Gap Analysis for Web Design SEO
 - https://lofts.studio/blog/service-page-faq-schema-checklist.html - Service Page FAQ Schema Checklist
+## Lofts Studio July 31 SEO lead-generation guides
+- Service Website SERP Appearance Checklist: https://lofts.studio/blog/service-website-serp-appearance-checklist.html
+- AI Overview Ready Service Page: https://lofts.studio/blog/ai-overview-ready-service-page.html
+- Local Business Lead Landing Page Audit: https://lofts.studio/blog/local-business-lead-landing-page-audit.html
+- GSC Indexing Issues for Service Websites: https://lofts.studio/blog/gsc-indexing-issues-service-website.html
+- Duplicate Canonical Service Page Fix: https://lofts.studio/blog/duplicate-canonical-service-page-fix.html
+- Redirect Map for Service Website SEO: https://lofts.studio/blog/redirect-map-service-website-seo.html
+- Backlink Risk Triage for Service Businesses: https://lofts.studio/blog/backlink-risk-triage-service-business.html
+- Guest Post Data Drop for Service Websites: https://lofts.studio/blog/guest-post-data-drop-service-website.html
+- Internal Link Map for Service Pages: https://lofts.studio/blog/internal-link-map-service-pages.html
+- Website Design Competitor Content Gap: https://lofts.studio/blog/website-design-competitor-content-gap.html
+- SEO Insights to Leads Workflow: https://lofts.studio/blog/seo-insights-to-leads-workflow.html
+- Website Audit Report for AI Search: https://lofts.studio/blog/website-audit-report-for-ai-search.html
+- Visual Content for Service Page SEO: https://lofts.studio/blog/visual-content-for-service-page-seo.html
+- Conversion CTA for Blog Posts: https://lofts.studio/blog/conversion-cta-for-blog-posts.html
+- Service Page Sitelinks Architecture: https://lofts.studio/blog/service-page-sitelinks-architecture.html
+- Homepage Snippet Optimization for Service Businesses: https://lofts.studio/blog/homepage-snippet-optimization-service-business.html
+- Web Design Leads From GSC Insights: https://lofts.studio/blog/web-design-leads-from-gsc-insights.html
+- Technical SEO Priority Matrix for Service Sites: https://lofts.studio/blog/technical-seo-priority-matrix-service-sites.html
+- AI Search Brand Entity Co-occurrence: https://lofts.studio/blog/ai-search-brand-entity-cooccurrence.html
+- Landing Page Proof Section Checklist: https://lofts.studio/blog/landing-page-proof-section-checklist.html
+
