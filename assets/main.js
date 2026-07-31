@@ -189,6 +189,7 @@
       mnav.removeAttribute('aria-hidden');
       mnav.removeAttribute('inert');
       menuBtn.setAttribute('aria-expanded', 'true');
+      menuBtn.setAttribute('aria-label', 'Close menu');
       document.documentElement.classList.add('menu-lock');
       document.body.classList.add('menu-lock');
       mnav.scrollTop = 0;
@@ -200,6 +201,7 @@
       mnav.setAttribute('aria-hidden', 'true');
       mnav.setAttribute('inert', '');
       menuBtn.setAttribute('aria-expanded', 'false');
+      menuBtn.setAttribute('aria-label', 'Open menu');
       document.documentElement.classList.remove('menu-lock');
       document.body.classList.remove('menu-lock');
     };
@@ -536,8 +538,8 @@
 
   // ── State ──────────────────────────────────────────────────────
   let frontIdx   = 0;
-  let tiltX      = 4;   // base tilt
-  let tiltY      = -8;
+  let tiltX      = 2;   // restrained editorial tilt
+  let tiltY      = -4;
   let isHovering = false;
   let cycleTimer = null;
   let cycleStarted = false;
@@ -545,15 +547,15 @@
   // ── Positions for each depth slot ─────────────────────────────
   const SLOTS = [
     { tz:    0, tx:  0,  ty:  0,  op: 1.0  },
-    { tz:  -22, tx: 13,  ty: 11,  op: 0.85 },
-    { tz:  -44, tx: 24,  ty: 20,  op: 0.65 },
-    { tz:  -66, tx: 34,  ty: 28,  op: 0.45 },
-    { tz:  -88, tx: 42,  ty: 34,  op: 0.20 },
-    { tz: -108, tx: 50,  ty: 40,  op: 0.08 },
-    { tz: -120, tx: 55,  ty: 44,  op: 0    },
-    { tz: -120, tx: 55,  ty: 44,  op: 0    },
-    { tz: -120, tx: 55,  ty: 44,  op: 0    },
-    { tz: -120, tx: 55,  ty: 44,  op: 0    },
+    { tz:  -18, tx:  8,  ty:  7,  op: 0.82 },
+    { tz:  -36, tx: 15,  ty: 13,  op: 0.55 },
+    { tz:  -54, tx: 21,  ty: 18,  op: 0.30 },
+    { tz:  -72, tx: 27,  ty: 23,  op: 0.12 },
+    { tz:  -88, tx: 32,  ty: 27,  op: 0.04 },
+    { tz: -100, tx: 36,  ty: 31,  op: 0    },
+    { tz: -100, tx: 36,  ty: 31,  op: 0    },
+    { tz: -100, tx: 36,  ty: 31,  op: 0    },
+    { tz: -100, tx: 36,  ty: 31,  op: 0    },
   ];
 
   const isMobile = () => window.innerWidth <= 768;
@@ -598,8 +600,8 @@
     const r  = scene.getBoundingClientRect();
     const px = (e.clientX - r.left) / r.width  - 0.5;
     const py = (e.clientY - r.top)  / r.height - 0.5;
-    tiltX =  py * -14 + 2;
-    tiltY =  px *  18 - 4;
+    tiltX =  py * -8 + 1;
+    tiltY =  px *  10 - 2;
     applySlots(tiltX, tiltY);
   });
 
@@ -609,10 +611,10 @@
     const lerp = (a, b, t) => a + (b - a) * t;
     let frame;
     const ease = () => {
-      tiltX = lerp(tiltX, 4,  0.08);
-      tiltY = lerp(tiltY, -8, 0.08);
+      tiltX = lerp(tiltX, 2,  0.08);
+      tiltY = lerp(tiltY, -4, 0.08);
       applySlots(tiltX, tiltY);
-      if (Math.abs(tiltX - 4) > 0.05 || Math.abs(tiltY + 8) > 0.05) {
+      if (Math.abs(tiltX - 2) > 0.05 || Math.abs(tiltY + 4) > 0.05) {
         frame = requestAnimationFrame(ease);
       }
     };
@@ -657,6 +659,20 @@
   window.addEventListener('resize', () => applySlots(tiltX, tiltY));
   scene.addEventListener('pointerenter', startCycle, { once: true, passive: true });
   scene.addEventListener('focusin', startCycle, { once: true });
+
+  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    if ('IntersectionObserver' in window) {
+      const sceneObserver = new IntersectionObserver((entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          startCycle();
+          sceneObserver.disconnect();
+        }
+      }, { rootMargin: '120px' });
+      sceneObserver.observe(scene);
+    } else {
+      startCycle();
+    }
+  }
 
 })();
 
@@ -770,6 +786,72 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
 })();
 
+/* ── Lofts 2026 experience layer ──────────────────────────────── */
+(function () {
+  'use strict';
+
+  document.documentElement.classList.add('lofts-experience');
+
+  var route = window.location.pathname.split('/').filter(Boolean)[0] || 'home';
+  document.body.classList.add('route-' + route.replace(/[^a-z0-9-]/gi, '-').toLowerCase());
+
+  var footerContainer = document.querySelector('.site-footer .container');
+  if (footerContainer && !footerContainer.querySelector('.lofts-footer-call')) {
+    var footerCall = document.createElement('div');
+    footerCall.className = 'lofts-footer-call';
+    footerCall.innerHTML = '<a class="lofts-footer-call__link" href="/#contact">Let&#39;s build what&#39;s next.</a><p class="lofts-footer-call__note">Tell us what needs to move: the whole site, one funnel, or the system behind it.</p>';
+    footerContainer.insertBefore(footerCall, footerContainer.firstChild);
+  }
+
+  function installMobileAccessibility() {
+    var mobileNavFoot = document.querySelector('.mnav-foot');
+    var accessibilityLauncher = document.querySelector('.a11y-launcher');
+    if (!mobileNavFoot || !accessibilityLauncher) return false;
+    if (mobileNavFoot.querySelector('.mnav-accessibility')) return true;
+
+    var mobileAccessibility = document.createElement('button');
+    mobileAccessibility.type = 'button';
+    mobileAccessibility.className = 'mnav-accessibility';
+    mobileAccessibility.innerHTML = '<span aria-hidden="true">A</span> Accessibility preferences';
+    mobileAccessibility.addEventListener('click', function () {
+      var menuClose = document.getElementById('menuClose');
+      if (menuClose) menuClose.click();
+      window.setTimeout(function () { accessibilityLauncher.click(); }, 90);
+    });
+    mobileNavFoot.insertBefore(mobileAccessibility, mobileNavFoot.firstChild);
+    document.documentElement.classList.add('has-mnav-accessibility');
+    return true;
+  }
+
+  if (!installMobileAccessibility() && 'MutationObserver' in window) {
+    var accessibilityObserver = new MutationObserver(function () {
+      if (installMobileAccessibility()) accessibilityObserver.disconnect();
+    });
+    accessibilityObserver.observe(document.body, { childList: true, subtree: true });
+    window.setTimeout(function () { accessibilityObserver.disconnect(); }, 15000);
+  }
+
+  var canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (canTilt) {
+    document.querySelectorAll('.home-portfolio-stage .pf-card-img, .portfolio-page .work-card-img-link').forEach(function (media) {
+      media.setAttribute('data-lofts-tilt', '');
+      media.addEventListener('pointermove', function (event) {
+        var rect = media.getBoundingClientRect();
+        var x = (event.clientX - rect.left) / rect.width - .5;
+        var y = (event.clientY - rect.top) / rect.height - .5;
+        media.style.setProperty('--tilt-x', (y * -2.4).toFixed(2) + 'deg');
+        media.style.setProperty('--tilt-y', (x * 2.4).toFixed(2) + 'deg');
+      }, { passive: true });
+      media.addEventListener('pointerleave', function () {
+        media.style.setProperty('--tilt-x', '0deg');
+        media.style.setProperty('--tilt-y', '0deg');
+      }, { passive: true });
+    });
+  }
+})();
+
 /* ── Optional third-party loaders for PageSpeed-sensitive pages ── */
 (function () {
   var script = document.currentScript || document.querySelector('script[data-full-css], script[data-widgets-src], script[data-analytics-id]');
@@ -795,7 +877,12 @@
     var link = document.createElement('link');
     link.rel = 'stylesheet';
     link.href = fullCss;
-    document.head.appendChild(link);
+    var experienceLink = document.querySelector('link[data-lofts-experience]');
+    if (experienceLink && experienceLink.parentNode) {
+      experienceLink.parentNode.insertBefore(link, experienceLink);
+    } else {
+      document.head.appendChild(link);
+    }
   }
 
   function loadAnalytics() {
