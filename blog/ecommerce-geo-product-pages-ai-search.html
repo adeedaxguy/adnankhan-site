@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script data-lofts-theme-init>(function(){var m="light";try{m=localStorage.getItem("lofts-theme")==="dark"?"dark":"light"}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m}())</script>
 
 <title>Ecommerce GEO: How Product Pages Get Found in AI Search</title>
 <meta name="description" content="Ecommerce GEO guide for product pages: AI search, product schema, feeds, category pages, reviews, and conversion paths for Shopify and WooCommerce." />
@@ -110,7 +111,7 @@
   .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
 </style>
 <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
-<link rel="stylesheet" href="/assets/experience.css?v=20260731h" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801b" data-lofts-experience />
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -229,7 +230,7 @@
       <thead><tr><th>Key takeaway</th><th>What it means for an ecommerce site</th></tr></thead>
       <tbody>
         <tr><td><strong>AI search rewards clarity</strong></td><td>Product pages should answer material, fit, compatibility, use case, delivery, returns, and comparison questions without forcing the buyer to hunt.</td></tr>
-        <tr><td><strong>Feeds and pages must agree</strong></td><td>Titles, prices, variants, availability, identifiers, product type, and schema should not contradict each other.</td></tr>
+        <tr><td><strong>Feeds and pages must agree</strong></td><td>Titles, offer details, variants, availability, identifiers, product type, and schema should not contradict each other.</td></tr>
         <tr><td><strong>Category pages matter again</strong></td><td>Collections should explain choice, not just list products. They are the bridge between broad intent and product detail.</td></tr>
         <tr><td><strong>Proof is a ranking and conversion asset</strong></td><td>Reviews, FAQs, returns, shipping, brand story, and real photography help both humans and answer systems reduce doubt.</td></tr>
       </tbody>
@@ -285,7 +286,7 @@
 
     <h2 id="use-product-schema-as-a-confirmation-lay">Use Product schema as a confirmation layer</h2>
 
-    <p>Google's <a href='https://developers.google.com/search/docs/appearance/structured-data/product' rel='noopener'>Product structured data documentation</a> is still one of the best references for ecommerce implementation because it forces the right question: what product facts can search systems verify on this page? Schema should confirm what users can already see. It should not invent ratings, prices, availability, or offers that are not visible and accurate.</p>
+    <p>Google's <a href='https://developers.google.com/search/docs/appearance/structured-data/product' rel='noopener'>Product structured data documentation</a> is still one of the best references for ecommerce implementation because it forces the right question: what product facts can search systems verify on this page? Schema should confirm what users can already see. It should not invent ratings, commercial details, availability, or offers that are not visible and accurate.</p>
 
     <p>The same discipline applies to <a href='https://schema.org/Product' rel='noopener'>schema.org Product</a>, Offer, Review, AggregateRating, and BreadcrumbList markup. The markup is not a shortcut to authority. It is a machine-readable version of the page's real information.</p>
 
@@ -294,7 +295,7 @@
       <tbody>
         <tr><td>Product name</td><td>Visible H1 or clear title</td><td>Helps match product identity and query wording.</td></tr>
         <tr><td>Brand</td><td>Shown on PDP or brand area</td><td>Connects the product to a recognizable entity.</td></tr>
-        <tr><td>Offers</td><td>Visible price, availability, currency, and condition where relevant</td><td>Supports product-rich results and reduces recommendation risk.</td></tr>
+        <tr><td>Offers</td><td>Visible offer details, availability, currency, and condition where relevant</td><td>Supports product-rich results and reduces recommendation risk.</td></tr>
         <tr><td>Aggregate rating</td><td>Visible reviews and rating summary</td><td>Provides proof when it is legitimate and review content is accessible.</td></tr>
         <tr><td>Images</td><td>High-quality product media with useful alt text</td><td>Supports visual trust and richer discovery surfaces.</td></tr>
         <tr><td>Breadcrumbs</td><td>Clear category path</td><td>Helps search systems understand product hierarchy and site structure.</td></tr>
@@ -303,7 +304,7 @@
 
     <h2 id="do-not-ignore-product-feeds">Do not ignore product feeds</h2>
 
-    <p>The page is not the only source AI and shopping systems may use. Product feeds often decide whether a product is eligible for shopping surfaces, product listings, merchant experiences, and future agentic commerce workflows. Google's <a href='https://support.google.com/merchants/answer/7052112' rel='noopener'>Merchant Center product data specification</a> shows the level of detail shopping systems expect: identifiers, titles, descriptions, links, images, availability, condition, price, brand, GTIN or MPN where applicable, shipping, tax, and more.</p>
+    <p>The page is not the only source AI and shopping systems may use. Product feeds often decide whether a product is eligible for shopping surfaces, product listings, merchant experiences, and future agentic commerce workflows. Google's <a href='https://support.google.com/merchants/answer/7052112' rel='noopener'>Merchant Center product data specification</a> shows the level of detail shopping systems expect: identifiers, titles, descriptions, links, images, availability, condition, offer details, brand, GTIN or MPN where applicable, shipping, tax, and more.</p>
 
     <p>The practical lesson is not to memorize every field. It is to stop treating the feed as a background export. The feed is a sales channel. It should be audited like a page. If the PDP says one thing, the feed says another, and schema says a third, the store creates distrust at machine speed.</p>
 
@@ -567,7 +568,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="/assets/main.js?v=20260731e" defer></script>
+<script src="/assets/main.js?v=20260731g" defer></script>
 <script src="/assets/widgets.js?v=20260731d" defer></script>
 </body>
 </html>

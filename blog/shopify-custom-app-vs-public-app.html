@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script data-lofts-theme-init>(function(){var m="light";try{m=localStorage.getItem("lofts-theme")==="dark"?"dark":"light"}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m}())</script>
 
 <title>Shopify App Types: Custom vs Private vs Public</title>
 <meta name="description" content="Custom Shopify app vs private app vs public app — what each one adds overhead, what each one limits, and which one is right for your situation, with examples." />
@@ -78,7 +79,7 @@
   .post-callout p { margin: 0; color: var(--ink); font-size: 1rem; }
 </style>
 <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
-<link rel="stylesheet" href="/assets/experience.css?v=20260731h" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801b" data-lofts-experience />
 </head>
 <body>
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -213,13 +214,13 @@
       <li><strong>You need to automate internal ops.</strong> Order routing, inventory sync to external WMS, custom reporting, finance integrations.</li>
       <li><strong>You need workflows the App Store doesn't cover.</strong> A B2B catalog logic specific to your industry, a custom scoping engine for one client tier, an internal portal.</li>
       <li><strong>You don't want to share data with a third party.</strong> Public apps require you to grant access to a third-party developer's database. Custom apps live entirely under your control.</li>
-      <li><strong>You're already paying for 5+ apps that overlap.</strong> Often a single custom app replaces $300–$800/month of App Store subscriptions and pays itself back in 8–14 months.</li>
+      <li><strong>You're already paying for 5+ apps that overlap.</strong> A focused custom app can replace several overlapping subscriptions and simplify long-term maintenance.</li>
     </ul>
 
     <h2 id="when-you-should-build-a-public-app">When you should build a public app</h2>
 
     <ul>
-      <li><strong>You want to commercialize it.</strong> If 100 other merchants would pay $20/month for it, build a public app.</li>
+      <li><strong>You want to commercialize it.</strong> If many other merchants share the same need, consider building a public app.</li>
       <li><strong>You need Shopify's distribution.</strong> The App Store is a real sales channel — millions of merchants browse it.</li>
       <li><strong>You're OK with Shopify's revenue share.</strong> 0–15% depending on tier and revenue level.</li>
       <li><strong>You're committed to ongoing maintenance.</strong> Public apps must keep up with Shopify API changes, security reviews, and support tickets.</li>
@@ -241,7 +242,7 @@
 
     <ol>
       <li><strong>Does the App Store already have something that solves 80% of your need?</strong> Install it. Don't build.</li>
-      <li><strong>Are you paying $300+/month across multiple overlapping apps?</strong> Build a custom app to consolidate.</li>
+      <li><strong>Are multiple overlapping apps creating recurring operational drag?</strong> Build a custom app to consolidate.</li>
       <li><strong>Are you doing something Shopify's APIs allow but no public app handles?</strong> Custom app.</li>
       <li><strong>Do you want to sell this to other merchants?</strong> Public app — even if the first version is built for one merchant.</li>
       <li><strong>Is the use case so specific that no one else would pay for it?</strong> Custom app. Always.</li>
@@ -253,7 +254,7 @@
 
     <p><strong>Choosing public because "it's safer."</strong> Custom apps are not less safe. They're often safer — your data doesn't leave your control.</p>
 
-    <p><strong>Trying to replicate an App Store app for $2K.</strong> If a public app does what you need and adds overhead lower-tier, install the public app. Building a worse version of it adds overhead more in dev time than three years of the subscription.</p>
+    <p><strong>Trying to replicate a proven App Store app without a strong product reason.</strong> If a public app does what you need and adds overhead lower-tier, install the public app. Building a worse version of it adds overhead more in dev time than three years of the subscription.</p>
 
     <h2 id="the-honest-summary">The honest summary</h2>
 
@@ -410,7 +411,7 @@
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="/assets/main.js?v=20260731e" defer></script>
+<script src="/assets/main.js?v=20260731g" defer></script>
 <script src="/assets/widgets.js?v=20260731d" defer></script>
 </body>
 </html>

@@ -79,42 +79,10 @@
   window.loftsGetAdAttribution = getAdAttribution;
   window.loftsTrackEvent = trackMarketingEvent;
 
-  // ── Hero word-split (runs synchronously, before paint of split-done state) ──
-  // CSS animation drives the actual reveal; we just wrap words + add the class.
-  // Works without GSAP — independent of CDN availability.
-  const splitWordsForReveal = (el) => {
-    let idx = 0;
-    const walk = (node) => {
-      if (node.nodeType === 3) {
-        const frag = document.createDocumentFragment();
-        node.textContent.split(/(\s+)/).forEach(piece => {
-          if (!piece) return;
-          if (/^\s+$/.test(piece)) {
-            frag.appendChild(document.createTextNode(piece));
-          } else {
-            const mask = document.createElement('span');
-            mask.className = 'word-mask';
-            const inner = document.createElement('span');
-            inner.className = 'word';
-            inner.style.setProperty('--i', idx++);
-            inner.textContent = piece;
-            mask.appendChild(inner);
-            frag.appendChild(mask);
-          }
-        });
-        node.parentNode.replaceChild(frag, node);
-      } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
-        Array.from(node.childNodes).forEach(walk);
-      }
-    };
-    walk(el);
-  };
-
-  // Process every data-split element immediately on script eval.
-  // Browsers respect defer → this runs after DOMContent but before window.load.
+  // Keep headings intact. Whole-block reveals avoid the layout flicker and
+  // uneven line breaks caused by wrapping every word after first paint.
   document.querySelectorAll('[data-split="words"]').forEach(el => {
-    splitWordsForReveal(el);
-    el.classList.add('split-done');
+    el.classList.add('split-static');
   });
 
   const hydrateLazyImage = (img) => {
@@ -138,14 +106,6 @@
       lazyImages.forEach(hydrateLazyImage);
     }
   }
-
-  // Failsafe: if for any reason the words aren't visible after 3s, force them visible.
-  setTimeout(() => {
-    document.querySelectorAll('[data-split="words"]').forEach(el => {
-      el.style.visibility = 'visible';
-      el.querySelectorAll('.word').forEach(w => { w.style.transform = 'translateY(0)'; });
-    });
-  }, 3000);
 
   // ── Floating nav: toggle "scrolled" state for opacity/shadow shift ──
   const navBar = document.querySelector('.nav-bar');
@@ -498,51 +458,8 @@
     // 1) Hero word-reveal already handled by IIFE + CSS animation (above).
     //    GSAP doesn't need to touch [data-split="words"] elements.
 
-    // 1b) Scroll-triggered mask-reveal for .h-1 / .h-2 headlines.
-    //     Reuses the same .word-mask wrapper but driven by ScrollTrigger.
-    const splitWordsScroll = (el) => {
-      const walk = (node) => {
-        if (node.nodeType === 3) {
-          const frag = document.createDocumentFragment();
-          node.textContent.split(/(\s+)/).forEach(piece => {
-            if (!piece) return;
-            if (/^\s+$/.test(piece)) {
-              frag.appendChild(document.createTextNode(piece));
-            } else {
-              const mask = document.createElement('span');
-              mask.className = 'word-mask';
-              const inner = document.createElement('span');
-              inner.className = 'word';
-              inner.textContent = piece;
-              mask.appendChild(inner);
-              frag.appendChild(mask);
-            }
-          });
-          node.parentNode.replaceChild(frag, node);
-        } else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE') {
-          Array.from(node.childNodes).forEach(walk);
-        }
-      };
-      walk(el);
-    };
-
-    document.querySelectorAll('.h-1, .h-2').forEach(el => {
-      if (el.closest('[data-split="words"]')) return;
-      if (el.querySelector('.word-mask')) return;
-      splitWordsScroll(el);
-      gsap.set(el.querySelectorAll('.word'), { yPercent: 110 });
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 88%',
-        once: true,
-        onEnter: () => gsap.to(el.querySelectorAll('.word'), {
-          yPercent: 0,
-          duration: 1.1,
-          ease: 'power3.out',
-          stagger: 0.04,
-        }),
-      });
-    });
+    // Headings reveal as intact blocks so their line breaks stay stable across
+    // font loading, breakpoints, and accessibility text scaling.
 
     // 2) Counters — animate from 0 → target when the element scrolls into view.
     document.querySelectorAll('[data-count]').forEach(el => {
