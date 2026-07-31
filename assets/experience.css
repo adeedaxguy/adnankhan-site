@@ -405,7 +405,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
 }
 
 /* Shared editorial hero treatment */
-body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type {
+body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type {
   min-height: min(76svh, 840px);
   padding: clamp(9rem, 14vw, 12.5rem) 0 clamp(4.5rem, 7vw, 7rem) !important;
   border-bottom: 1px solid var(--line);
@@ -414,13 +414,13 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
   align-items: flex-end;
 }
 
-body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type .h-display {
+body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type .h-display {
   max-width: 13ch;
   font-size: clamp(4rem, 9.2vw, 9.2rem);
   line-height: .88;
 }
 
-body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type .lead {
+body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-page):not(.agency-command-page) section.paper:first-of-type .lead {
   max-width: 58ch;
   margin-top: clamp(2rem, 4vw, 4rem) !important;
 }
@@ -4583,4 +4583,413 @@ html[data-theme="dark"] .home-page .home-contact .contact-form-card {
   transform: none !important;
   border-color: rgba(9, 9, 9, .34);
   box-shadow: 0 18px 42px -34px rgba(9, 9, 9, .55);
+}
+
+/* --------------------------------------------------------------------------
+   Precision regression pass - July 31, 2026
+   Removes the duplicated work reel, restores theme contrast, and keeps the
+   homepage and archive on one restrained editorial system.
+   -------------------------------------------------------------------------- */
+
+.home-page,
+.portfolio-page {
+  --rhythm-acid: #9d4027;
+  --lofts-lime: #9d4027;
+}
+
+html[data-theme="dark"] .home-page,
+html[data-theme="dark"] .portfolio-page {
+  --rhythm-acid: #f08a69;
+  --lofts-lime: #f08a69;
+}
+
+/* The manifesto now carries the point once; portfolio imagery lives below. */
+.home-page .home-manifesto {
+  padding-block: clamp(5.5rem, 8vw, 7.5rem);
+}
+
+.home-page .manifesto-principles {
+  margin-top: clamp(3rem, 5vw, 4.5rem);
+}
+
+html[data-theme="light"] .home-page .home-manifesto {
+  background: var(--rhythm-paper);
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="light"] .home-page .manifesto-head h2,
+html[data-theme="light"] .home-page .manifesto-principles h3 {
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="light"] .home-page .manifesto-head p,
+html[data-theme="light"] .home-page .manifesto-principles p {
+  color: var(--rhythm-muted);
+}
+
+html[data-theme="light"] .home-page .manifesto-principles,
+html[data-theme="light"] .home-page .manifesto-principles article {
+  border-color: var(--rhythm-line);
+}
+
+html[data-theme="light"] .home-page .home-tools-section {
+  border-top: 1px solid var(--rhythm-line);
+  background: var(--rhythm-paper);
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="light"] .home-page .home-tools-head .h-1,
+html[data-theme="light"] .home-page .home-tool-card h3,
+html[data-theme="light"] .home-page .home-tool-card strong {
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="light"] .home-page .home-tools-head p,
+html[data-theme="light"] .home-page .home-tool-card p,
+html[data-theme="light"] .home-page .home-tool-topline {
+  color: var(--rhythm-muted);
+}
+
+html[data-theme="light"] .home-page .home-tool-card,
+html[data-theme="light"] .home-page .home-tool-card--aeo {
+  border-color: var(--rhythm-line);
+  background: #fff;
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="light"] .home-page .home-tool-card--aeo {
+  background: color-mix(in srgb, var(--rhythm-acid) 6%, #fff);
+}
+
+html[data-theme="light"] .home-page .home-tool-meter {
+  border-color: var(--rhythm-line);
+  background: var(--rhythm-soft);
+}
+
+/* Remove the acid-green collision while preserving one clear accent. */
+.home-page .stack-badge--tl,
+.home-page .hero-proof-strip .hero-stat:nth-child(3),
+.home-page .public-proof-summary,
+.home-page .capabilities-grid > a:hover,
+.home-page .capabilities-grid > a:focus-visible {
+  background: var(--rhythm-acid);
+  color: #fff;
+}
+
+html[data-theme="light"] .home-page .home-compare-section {
+  background: color-mix(in srgb, var(--rhythm-acid) 12%, var(--rhythm-paper));
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="dark"] .home-page .home-compare-section {
+  background: color-mix(in srgb, #090909 76%, var(--rhythm-acid));
+  color: #f5f5ef;
+}
+
+html[data-theme="dark"] .home-page .home-compare-section .h-1,
+html[data-theme="dark"] .home-page .home-compare-section > .container > .eyebrow {
+  color: #f5f5ef;
+}
+
+html[data-theme="dark"] .home-page .home-compare-section > .container > .lead {
+  color: rgba(245, 245, 239, .76) !important;
+}
+
+.home-page .hero-proof-strip .hero-stat,
+.home-page .hero-proof-strip .hero-stat:nth-child(n) {
+  background: var(--rhythm-paper);
+  color: var(--rhythm-ink);
+}
+
+.home-page .hero-proof-strip .hero-stat:nth-child(2) {
+  background: var(--rhythm-soft);
+}
+
+.home-page .hero-proof-strip .hero-stat:nth-child(3) {
+  background: color-mix(in srgb, var(--rhythm-acid) 16%, var(--rhythm-paper));
+  color: var(--rhythm-ink);
+}
+
+.home-page .hero-proof-strip .hero-stat:nth-child(4) {
+  background: #111;
+  color: #f5f5ef;
+}
+
+html[data-theme="dark"] .home-page .hero-proof-strip .hero-stat,
+html[data-theme="dark"] .home-page .hero-proof-strip .hero-stat:nth-child(n) {
+  background: var(--rhythm-paper);
+  color: var(--rhythm-ink);
+}
+
+html[data-theme="dark"] .home-page .hero-proof-strip .hero-stat:nth-child(2) {
+  background: var(--rhythm-soft);
+}
+
+html[data-theme="dark"] .home-page .hero-proof-strip .hero-stat:nth-child(3) {
+  background: color-mix(in srgb, var(--rhythm-acid) 16%, var(--rhythm-paper));
+}
+
+html[data-theme="dark"] .home-page .hero-proof-strip .hero-stat:nth-child(4) {
+  background: #050505;
+}
+
+.home-page .hero-proof-strip .bignum,
+.home-page .hero-proof-strip .bignum-suffix,
+.home-page .hero-proof-strip .hero-stat-lbl {
+  color: inherit !important;
+}
+
+/* A shorter, calmer work introduction that does not dominate the projects. */
+.home-page .home-portfolio-stage {
+  padding-block: clamp(5.5rem, 8vw, 7.5rem);
+}
+
+.home-page .home-portfolio-stage .home-portfolio-head {
+  grid-template-columns: minmax(0, 1.15fr) minmax(220px, .45fr);
+  gap: 2rem 5rem;
+  align-items: end;
+  margin-bottom: clamp(3rem, 5vw, 4.5rem);
+}
+
+.home-page .home-portfolio-stage .h-1 {
+  max-width: 14ch;
+  font-size: clamp(3rem, 4.8vw, 4.25rem);
+  line-height: .98;
+}
+
+.home-page .home-portfolio-stage .home-portfolio-lead {
+  max-width: 48ch;
+}
+
+/* Portfolio archive hero: first viewport contains the proposition and proof. */
+.portfolio-page .portfolio-archive-hero,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+  min-height: 0;
+  padding: clamp(6.5rem, 8vw, 8rem) 0 clamp(3rem, 4.5vw, 4.25rem) !important;
+  display: block !important;
+  align-items: initial !important;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  color: var(--ink);
+}
+
+.portfolio-page .portfolio-hero-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(300px, .65fr);
+  gap: clamp(1.5rem, 3vw, 3.25rem) clamp(3rem, 7vw, 8rem);
+  align-items: end;
+  max-width: none;
+}
+
+.portfolio-page .portfolio-hero-shell > .eyebrow,
+.portfolio-page .portfolio-hero-stats {
+  grid-column: 1 / -1;
+}
+
+.portfolio-page .portfolio-hero-shell .h-display,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+  grid-column: 1;
+  max-width: 12ch !important;
+  margin: 0;
+  font-size: clamp(3.75rem, 6.2vw, 6.2rem) !important;
+  line-height: .92 !important;
+  color: var(--ink);
+}
+
+.portfolio-page .portfolio-hero-lead {
+  grid-column: 2;
+  max-width: 44ch;
+  margin: 0 !important;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.25vw, 1.18rem);
+  line-height: 1.58;
+}
+
+.portfolio-page .portfolio-hero-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  width: min(100%, 920px);
+  margin-top: clamp(1rem, 2vw, 2rem);
+  border-block: 1px solid var(--line);
+}
+
+.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 104px;
+  padding: 1.15rem 1.25rem;
+  border: 0;
+  border-right: 1px solid var(--line);
+  background: transparent;
+}
+
+.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+  border-right: 0;
+}
+
+.portfolio-page .portfolio-hero-stats .bignum,
+.portfolio-page .portfolio-hero-stats .bignum-suffix {
+  color: var(--ink);
+}
+
+.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(2rem, 3vw, 3rem);
+}
+
+.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .63rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+}
+
+/* Resolve the old two-column rule fighting the newer twelve-column spans. */
+.portfolio-page #workGrid.work-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-auto-rows: auto;
+  gap: clamp(3rem, 5vw, 5.5rem) clamp(1.25rem, 2.5vw, 2.5rem);
+  align-items: start;
+}
+
+.portfolio-page #workGrid > .work-card,
+.portfolio-page #workGrid > .work-card-featured,
+.portfolio-page #workGrid > .work-card:nth-child(n) {
+  grid-column: auto !important;
+  width: 100%;
+  margin-top: 0;
+}
+
+.portfolio-page .work-card-img-link,
+.portfolio-page .work-card-img {
+  border-radius: 7px;
+}
+
+.portfolio-page .work-card-img img,
+.portfolio-page .work-card:hover .work-card-img img {
+  transform: none;
+  filter: none;
+  will-change: auto;
+}
+
+/* Keep the two conversion routes useful without making a floating tower. */
+@media (min-width: 641px) {
+  .wa-launcher,
+  .chat-launcher {
+    right: 1.25rem;
+    width: 48px;
+    min-width: 48px;
+    height: 48px;
+    min-height: 48px;
+    padding: 0;
+    border-radius: 50%;
+    overflow: hidden;
+    font-size: 0;
+  }
+
+  .wa-launcher {
+    bottom: 4.75rem;
+  }
+
+  .chat-launcher {
+    bottom: 1.25rem;
+  }
+
+  .wa-launcher span,
+  .chat-launcher-label {
+    display: none;
+  }
+}
+
+@media (max-width: 880px) {
+  .portfolio-page .portfolio-archive-hero,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+    padding: 6rem 0 3.25rem !important;
+  }
+
+  .portfolio-page .portfolio-hero-shell {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+  }
+
+  .portfolio-page .portfolio-hero-shell .h-display,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display,
+  .portfolio-page .portfolio-hero-lead {
+    grid-column: 1;
+  }
+
+  .portfolio-page .portfolio-hero-shell .h-display,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+    max-width: 10ch;
+    font-size: clamp(3.15rem, 10vw, 4.8rem) !important;
+  }
+
+  .portfolio-page .portfolio-hero-lead {
+    max-width: 58ch;
+  }
+
+  .home-page .home-portfolio-stage .home-portfolio-head {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page .home-manifesto,
+  .home-page .home-portfolio-stage {
+    padding-block: 4.75rem;
+  }
+
+  .home-page .home-portfolio-stage .h-1 {
+    max-width: 10.5ch;
+    font-size: 2.7rem;
+  }
+
+  .home-page .hero-proof-strip .hero-stat,
+  .home-page .hero-proof-strip .hero-stat:nth-child(n) {
+    min-height: 8rem;
+    padding: 1rem;
+  }
+
+  .home-page .hero-proof-strip .bignum {
+    font-size: clamp(1.8rem, 9vw, 2.35rem);
+  }
+
+  .home-page .hero-proof-strip .bignum-word {
+    font-size: 1.35rem;
+  }
+
+  .portfolio-page .portfolio-archive-hero,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+    padding: 5.25rem 0 2.75rem !important;
+  }
+
+  .portfolio-page .portfolio-hero-shell .h-display,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+    max-width: 10.5ch;
+    font-size: clamp(2.65rem, 12vw, 3.4rem) !important;
+    line-height: .93;
+  }
+
+  .portfolio-page .portfolio-hero-stats {
+    width: 100%;
+    margin-top: .75rem;
+  }
+
+  .portfolio-page .portfolio-hero-stats .hero-stat {
+    min-height: 92px;
+    padding: .85rem .65rem;
+  }
+
+  .portfolio-page .portfolio-hero-stats .bignum {
+    font-size: clamp(1.55rem, 8vw, 2rem);
+  }
+
+  .portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+    font-size: .54rem;
+  }
+
+  .portfolio-page #workGrid.work-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
 }
