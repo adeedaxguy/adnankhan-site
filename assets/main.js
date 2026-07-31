@@ -7,6 +7,15 @@
 
   const adAttributionKeys = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content', 'gclid', 'gbraid', 'wbraid'];
   const adAttributionStore = 'lofts_ad_attribution';
+  const marketingConsentStore = 'adnank-cookie-consent-v1';
+
+  const hasMarketingConsent = () => {
+    try {
+      return window.localStorage.getItem(marketingConsentStore) === 'accepted';
+    } catch {
+      return false;
+    }
+  };
 
   const readStoredAttribution = () => {
     try {
@@ -52,6 +61,7 @@
   };
 
   const trackMarketingEvent = (eventName, params = {}) => {
+    if (!hasMarketingConsent()) return false;
     const payload = {
       ...params,
       page_path: window.location.pathname,
@@ -62,6 +72,7 @@
     if (typeof window.gtag === 'function') {
       window.gtag('event', eventName, payload);
     }
+    return true;
   };
 
   persistAdAttribution();
@@ -176,6 +187,56 @@
   }
 
   // ── Mobile nav overlay ──
+  function ensureMobilePanel() {
+    if (!document.getElementById('menuBtn') || document.getElementById('mobilePanel')) return;
+    const panel = document.createElement('div');
+    panel.id = 'mobilePanel';
+    panel.className = 'mnav';
+    panel.setAttribute('aria-hidden', 'true');
+    panel.setAttribute('inert', '');
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+    panel.setAttribute('aria-label', 'Navigation');
+    panel.innerHTML = `
+      <div class="mnav-inner">
+        <div class="mnav-top">
+          <a href="/" class="mnav-logo">Lofts<span>studio</span></a>
+          <button class="mnav-close" id="menuClose" type="button" aria-label="Close menu">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </button>
+        </div>
+        <nav class="mnav-primary" aria-label="Main">
+          <a href="/websites" class="mnav-link" data-num="01">Web Design</a>
+          <a href="/portfolio" class="mnav-link" data-num="02">Portfolio</a>
+          <a href="/about.html" class="mnav-link" data-num="03">About</a>
+          <a href="/process" class="mnav-link" data-num="04">Process</a>
+          <a href="/services" class="mnav-link" data-num="05">Services</a>
+          <a href="/blog" class="mnav-link" data-num="06">Blog</a>
+          <a href="/tools" class="mnav-link" data-num="07">Tools</a>
+        </nav>
+        <div class="mnav-services">
+          <p class="mnav-label">Services</p>
+          <div class="mnav-grid">
+            <a href="/services/shopify-development.html">Shopify</a>
+            <a href="/services/woocommerce-development.html">WooCommerce</a>
+            <a href="/services/webflow-development.html">Webflow</a>
+            <a href="/services/wordpress-development.html">WordPress</a>
+            <a href="/services/saas-website-design.html">SaaS</a>
+            <a href="/services/speed-optimization.html">Speed Opt.</a>
+            <a href="/services/custom-app-development.html">Custom Apps</a>
+            <a href="/services/ai-calling-agents.html">AI Calling</a>
+          </div>
+        </div>
+        <a href="/free-audit" class="mnav-audit-link">Free 15-min Audit</a>
+        <div class="mnav-foot">
+          <a href="/#contact" class="mnav-cta">Get in touch <span aria-hidden="true">→</span></a>
+          <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
+        </div>
+      </div>`;
+    document.body.appendChild(panel);
+  }
+
+  ensureMobilePanel();
   const menuBtn   = document.getElementById('menuBtn');
   const menuClose = document.getElementById('menuClose');
   const mnav      = document.getElementById('mobilePanel');
@@ -193,9 +254,11 @@
       document.documentElement.classList.add('menu-lock');
       document.body.classList.add('menu-lock');
       mnav.scrollTop = 0;
+      setTimeout(() => menuClose?.focus({ preventScroll: true }), 80);
     };
 
     const closeMenu = () => {
+      const shouldRestoreFocus = mnav.contains(document.activeElement);
       open = false;
       mnav.classList.remove('open');
       mnav.setAttribute('aria-hidden', 'true');
@@ -204,6 +267,7 @@
       menuBtn.setAttribute('aria-label', 'Open menu');
       document.documentElement.classList.remove('menu-lock');
       document.body.classList.remove('menu-lock');
+      if (shouldRestoreFocus) menuBtn.focus({ preventScroll: true });
     };
 
     // Open: hamburger button
@@ -218,7 +282,25 @@
     });
 
     // Keyboard
-    document.addEventListener('keydown', e => { if (e.key === 'Escape' && open) closeMenu(); });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && open) {
+        e.preventDefault();
+        closeMenu();
+        return;
+      }
+      if (e.key !== 'Tab' || !open) return;
+      const focusable = [...mnav.querySelectorAll('a[href], button:not([disabled])')];
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    });
 
     // Resize: close if going back to desktop
     window.addEventListener('resize', () => { if (window.innerWidth > 880 && open) closeMenu(); });
@@ -349,6 +431,8 @@
         if (!inlineErr) {
           inlineErr = document.createElement('p');
           inlineErr.setAttribute('data-lead-error', '');
+          inlineErr.setAttribute('role', 'alert');
+          inlineErr.setAttribute('aria-live', 'polite');
           inlineErr.style.cssText = 'margin-top:0.75rem;font-size:0.85rem;color:#B91C1C;text-align:center;';
           form.appendChild(inlineErr);
         }
@@ -633,7 +717,7 @@
 
   // ── Auto-cycle ────────────────────────────────────────────────
   function startCycle() {
-    if (cycleStarted) return;
+    if (cycleStarted || isMobile() || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     cycleStarted = true;
     cards.forEach((card, i) => {
       const slotIdx = (i - frontIdx + cards.length) % cards.length;
@@ -660,20 +744,6 @@
   window.addEventListener('resize', () => applySlots(tiltX, tiltY));
   scene.addEventListener('pointerenter', startCycle, { once: true, passive: true });
   scene.addEventListener('focusin', startCycle, { once: true });
-
-  if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    if ('IntersectionObserver' in window) {
-      const sceneObserver = new IntersectionObserver((entries) => {
-        if (entries.some((entry) => entry.isIntersecting)) {
-          startCycle();
-          sceneObserver.disconnect();
-        }
-      }, { rootMargin: '120px' });
-      sceneObserver.observe(scene);
-    } else {
-      startCycle();
-    }
-  }
 
 })();
 
@@ -740,11 +810,17 @@
       var b = document.createElement('button');
       b.type = 'button'; b.className = 'theme-opt' + (m === cur ? ' is-active' : '');
       b.dataset.mode = m; var label = m.charAt(0).toUpperCase()+m.slice(1);
-      b.title = label; b.setAttribute('aria-label', label + ' theme'); b.innerHTML = ICON[m];
+      b.title = label; b.setAttribute('aria-label', label + ' theme');
+      b.setAttribute('aria-pressed', m === cur ? 'true' : 'false');
+      b.innerHTML = ICON[m];
       b.addEventListener('click', function(){
         try { localStorage.setItem(KEY, m); } catch(e){}
         apply(m);
-        wrap.querySelectorAll('.theme-opt').forEach(function(o){ o.classList.toggle('is-active', o.dataset.mode === m); });
+        wrap.querySelectorAll('.theme-opt').forEach(function(o){
+          var active = o.dataset.mode === m;
+          o.classList.toggle('is-active', active);
+          o.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
       });
       wrap.appendChild(b);
     });
@@ -806,20 +882,27 @@
 
   function installMobileAccessibility() {
     var mobileNavFoot = document.querySelector('.mnav-foot');
+    var diagnosticNavLinks = document.querySelector('.diagnostic-nav-links');
     var accessibilityLauncher = document.querySelector('.a11y-launcher');
-    if (!mobileNavFoot || !accessibilityLauncher) return false;
-    if (mobileNavFoot.querySelector('.mnav-accessibility')) return true;
+    if (!accessibilityLauncher || (!mobileNavFoot && !diagnosticNavLinks)) return false;
+    if (mobileNavFoot?.querySelector('.mnav-accessibility') || diagnosticNavLinks?.querySelector('.diagnostic-a11y')) return true;
 
     var mobileAccessibility = document.createElement('button');
     mobileAccessibility.type = 'button';
-    mobileAccessibility.className = 'mnav-accessibility';
-    mobileAccessibility.innerHTML = '<span aria-hidden="true">A</span> Accessibility preferences';
+    var useDiagnosticNav = !mobileNavFoot && diagnosticNavLinks;
+    mobileAccessibility.className = useDiagnosticNav ? 'diagnostic-a11y' : 'mnav-accessibility';
+    mobileAccessibility.setAttribute('aria-label', 'Accessibility preferences');
+    var accessibilityIcon = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="4" r="2"/><path d="M4 9h16M12 6v14m-4 1 4-9 4 9"/></svg>';
+    mobileAccessibility.innerHTML = useDiagnosticNav
+      ? accessibilityIcon
+      : accessibilityIcon + ' Accessibility preferences';
     mobileAccessibility.addEventListener('click', function () {
       var menuClose = document.getElementById('menuClose');
       if (menuClose) menuClose.click();
       window.setTimeout(function () { accessibilityLauncher.click(); }, 90);
     });
-    mobileNavFoot.insertBefore(mobileAccessibility, mobileNavFoot.firstChild);
+    if (useDiagnosticNav) diagnosticNavLinks.appendChild(mobileAccessibility);
+    else mobileNavFoot.insertBefore(mobileAccessibility, mobileNavFoot.firstChild);
     document.documentElement.classList.add('has-mnav-accessibility');
     return true;
   }
@@ -868,7 +951,14 @@
       var siblings = Array.from(element.parentElement ? element.parentElement.children : []);
       var order = Math.max(0, siblings.indexOf(element)) % 5;
       element.style.setProperty('--lofts-reveal-delay', (order * 65) + 'ms');
-      var rect = element.getBoundingClientRect();
+    });
+
+    var initialRevealRects = revealNodes.map(function (element) {
+      return { element: element, rect: element.getBoundingClientRect() };
+    });
+    initialRevealRects.forEach(function (item) {
+      var element = item.element;
+      var rect = item.rect;
       if (rect.top < window.innerHeight * .94 && rect.bottom > 0) {
         element.classList.add('lofts-in-view');
       }
@@ -1029,6 +1119,8 @@
   var fullCss = script && script.dataset ? script.dataset.fullCss : '';
   var analyticsId = script && script.dataset ? script.dataset.analyticsId : '';
   var widgetsSrc = script && script.dataset ? script.dataset.widgetsSrc : '';
+  var gtmId = 'GTM-PM4CX9JG';
+  var consentKey = 'adnank-cookie-consent-v1';
   var loadedFullCss = false;
   var loadedAnalytics = false;
   var loadedWidgets = false;
@@ -1057,13 +1149,13 @@
   }
 
   function loadAnalytics() {
-    if (!analyticsId || loadedAnalytics || typeof window.gtag === 'function') return;
+    var consent = null;
+    try { consent = window.localStorage.getItem(consentKey); } catch (_) {}
+    if ((!analyticsId && !gtmId) || consent !== 'accepted' || loadedAnalytics || document.getElementById('lofts-gtm')) return;
     loadedAnalytics = true;
     window.dataLayer = window.dataLayer || [];
-    window.gtag = function(){ window.dataLayer.push(arguments); };
-    loadScript('https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(analyticsId), 'lofts-gtag');
-    window.gtag('js', new Date());
-    window.gtag('config', analyticsId);
+    window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js' });
+    loadScript('https://www.googletagmanager.com/gtm.js?id=' + encodeURIComponent(gtmId), 'lofts-gtm');
   }
 
   function loadWidgets() {
@@ -1078,10 +1170,14 @@
     else window.addEventListener('load', run, { once: true });
   }
 
-  if (!fullCss && !analyticsId && !widgetsSrc) return;
+  if (!fullCss && !analyticsId && !widgetsSrc && !gtmId) return;
   if (fullCss && window.location.hash) loadFullCss();
   if (fullCss) afterFirstPaint(loadFullCss, 180);
   if (widgetsSrc) afterFirstPaint(loadWidgets, 900);
+  document.addEventListener('cookie:consent', function (event) {
+    if (event.detail === 'accepted') loadAnalytics();
+  });
+  afterFirstPaint(loadAnalytics, 1200);
   ['pointerdown', 'keydown', 'touchstart', 'scroll'].forEach(function (eventName) {
     window.addEventListener(eventName, function () {
       loadFullCss();

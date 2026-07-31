@@ -511,11 +511,35 @@ def make_body(t):
         p("Fix clarity first. If the first screen does not explain who the page is for, what problem it solves, and what to do next, technical tweaks will not save the page. After clarity, fix proof, speed, schema, and follow-up."),
     ]
 
-    while words_in(body, "") < 2050:
+    supplemental_checks = [
+        (
+            "Validate the buyer path before publishing",
+            f"Read the page as a buyer comparing three options. Confirm that the approach to {primary}, the evidence behind it, and the next step are all obvious without decoding agency language.",
+            "Follow every CTA from mobile and desktop. The destination should continue the same promise, preserve context, and ask only for information the team will actually use.",
+        ),
+        (
+            "Check the page as a search system",
+            "Make the topic, entity, service, audience, and next step explicit in the HTML. Use descriptive headings, useful internal links, accurate metadata, and schema that matches visible content.",
+            "Inspect the rendered page as well as the source. Important answers cannot depend on an animation, tab, or script that prevents crawlers and assistive technology from reaching them.",
+        ),
+        (
+            "Pressure-test the proof",
+            "Replace generic claims with bounded examples, screenshots, methodology, or a clear explanation of how the work is done. Remove any statement the business could not defend in a sales call.",
+            "Proof should sit beside the decision it supports. Do not hide all credibility in a testimonial strip at the end while the service sections ask readers to trust unsupported promises.",
+        ),
+        (
+            "Run the final mobile and conversion review",
+            "Test the first screen, navigation, forms, links, tap targets, typography, and performance on a real narrow viewport. A page that works only on a large monitor is not ready to attract leads.",
+            "Finally, confirm that analytics can distinguish page views, meaningful CTA clicks, form starts, successful submissions, and qualified follow-up without collecting more data than the visitor agreed to share.",
+        ),
+    ]
+    for heading, first_paragraph, second_paragraph in supplemental_checks:
+        if words_in(body, "") >= 2050:
+            break
         body.extend([
-            h2("One more quality check before publishing"),
-            p(f"Read the page as if you were a buyer comparing three options. Would you understand why this approach to {primary} is different, what evidence supports it, and what happens after you enquire? If not, the page needs more clarity, not more keywords."),
-            p("Then read it as if you were a search system. Are the topic, entity, service, audience, and next step explicit in the HTML? Are the headings descriptive? Are the links useful? Is the page connected to the rest of the site? This second pass usually finds the gaps that make a page look complete to a human editor but weak to search."),
+            h2(heading),
+            p(first_paragraph),
+            p(second_paragraph),
         ])
     return body
 

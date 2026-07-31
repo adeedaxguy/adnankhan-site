@@ -4,6 +4,35 @@
    Instrument Sans (display/body) + IBM Plex Mono (utility).
    ───────────────────────────────────────────────────────────── */
 
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: block;
+  src: url('/assets/fonts/instrument-sans-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Instrument Sans';
+  font-style: italic;
+  font-weight: 400 700;
+  font-display: block;
+  src: url('/assets/fonts/instrument-sans-italic-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 400;
+  font-display: block;
+  src: url('/assets/fonts/ibm-plex-mono-400-latin.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'IBM Plex Mono';
+  font-style: normal;
+  font-weight: 500;
+  font-display: block;
+  src: url('/assets/fonts/ibm-plex-mono-500-latin.woff2') format('woff2');
+}
+
 :root {
   /* ─── Quiet Luxury palette ─── */
   --bg:        #F4F0EA;          /* warm cream */
@@ -89,6 +118,21 @@ body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+.skip-link {
+  position: fixed;
+  z-index: 1000;
+  top: 0.75rem;
+  left: 0.75rem;
+  transform: translateY(-160%);
+  padding: 0.7rem 1rem;
+  border-radius: 4px;
+  background: #0f0c09;
+  color: #fff;
+  font: 600 0.85rem/1 var(--font-sans);
+  transition: transform 0.18s ease;
+}
+.skip-link:focus { transform: translateY(0); }
 
 img, svg { max-width: 100%; display: block; }
 a { color: inherit; text-decoration: none; }
@@ -4355,7 +4399,7 @@ body:has(.cookie-banner) .audit-cta {
     max-width: 100%;
     overflow-x: hidden;
   }
-  body { padding-bottom: calc(58px + env(safe-area-inset-bottom, 0px)); }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px)); }
   .section { padding: 4rem 0; }
   .section-lg { padding: 4rem 0; }
   .section-sm { padding: 2.5rem 0; }
@@ -4650,8 +4694,30 @@ body.chat-open .mob-bar { display: none; }
 }
 
 /* ── Contact section ── */
+.contact-form-intro {
+  margin: 0 0 2rem;
+}
+
+.contact-form-intro h3 {
+  margin: 0.75rem 0 0.5rem;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2vw, 1.85rem);
+  font-weight: 500;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.contact-form-intro p {
+  margin: 0;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
 @media (max-width: 640px) {
   .contact-grid { grid-template-columns: 1fr !important; gap: 2rem !important; }
+  .contact-form-card { order: -1; }
   .card-static { padding: 1.75rem 1.25rem !important; }
 }
 
@@ -4858,7 +4924,11 @@ html[data-theme="dark"] .scc-url {
 
 /* ── Screenshot area ── */
 .stack-card-img {
+  display: block;
+  width: 100%;
   flex: 1;
+  object-fit: cover;
+  object-position: top center;
   background-size: cover;
   background-position: top center;
   background-color: var(--surface);
@@ -4866,6 +4936,7 @@ html[data-theme="dark"] .scc-url {
   transition: background-position 3s ease, opacity .35s ease;
 }
 .stack-card.is-front .stack-card-img {
+  object-position: bottom center;
   background-position: bottom center;
 }
 
@@ -5059,6 +5130,27 @@ html[data-theme="dark"] .scc-url {
   background: rgba(26,22,18,0.18);
   border-radius: 100px;
   margin: 1rem auto 1.75rem;
+}
+
+.conv-popup-close {
+  position: absolute;
+  top: 0.8rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 1px solid rgba(26,22,18,0.12);
+  border-radius: 50%;
+  background: rgba(253,250,246,0.76);
+  color: var(--ink);
+  cursor: pointer;
+}
+
+.conv-popup-close:hover,
+.conv-popup-close:focus-visible {
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
 .conv-popup-avatar {
@@ -8043,6 +8135,9 @@ html[data-theme="dark"] .home-portfolio-stage .pf-card-num {
   border-color: var(--line);
   background: var(--surface);
 }
+.diagnostic-a11y {
+  display: none;
+}
 .diagnostic-shell {
   display: grid;
   grid-template-columns: minmax(0, 1.04fr) minmax(340px, 0.68fr);
@@ -8615,6 +8710,26 @@ html[data-theme="dark"] .diagnostic-related-links a {
   }
   .diagnostic-nav-links a:nth-child(2) {
     display: none;
+  }
+  .diagnostic-a11y {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    min-height: 42px;
+    margin-left: 0.15rem;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    background: var(--surface);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    cursor: pointer;
+  }
+  .diagnostic-a11y:hover,
+  .diagnostic-a11y:focus-visible {
+    border-color: var(--accent);
+    color: var(--accent);
   }
   .diagnostic-hero {
     padding-top: 4rem;

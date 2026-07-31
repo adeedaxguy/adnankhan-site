@@ -229,6 +229,23 @@ html[data-theme="dark"] .nav-bar.scrolled {
   pointer-events: auto;
 }
 
+@media (max-width: 880px) {
+  .nav-bar,
+  .nav-bar.scrolled {
+    height: 76px;
+    border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    backdrop-filter: saturate(150%) blur(18px);
+    -webkit-backdrop-filter: saturate(150%) blur(18px);
+  }
+
+  html[data-theme="dark"] .nav-bar,
+  html[data-theme="dark"] .nav-bar.scrolled {
+    background: color-mix(in srgb, var(--bg) 92%, transparent);
+    border-bottom-color: color-mix(in srgb, var(--line) 72%, transparent);
+  }
+}
+
 .nav-logo {
   align-self: flex-start;
   margin-right: auto;
@@ -566,6 +583,8 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
 
 .home-page .stack-card-img {
   height: calc(100% - 76px);
+  object-fit: cover;
+  object-position: top center;
   filter: saturate(1.08) contrast(1.02);
 }
 
@@ -598,6 +617,8 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
   font-size: .64rem;
   letter-spacing: 0;
   text-transform: uppercase;
+  color: var(--accent-deep);
+  border-bottom-color: var(--accent-deep);
 }
 
 .home-page .hero-sidecar-availability-value {
@@ -731,16 +752,16 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
   display: none;
 }
 
-.home-page .marq {
+.home-page .stack-band .marq {
   border: 0;
 }
 
-.home-page .marq-track {
+.home-page .stack-band .marq-track {
   gap: 0;
   animation-duration: 34s;
 }
 
-.home-page .chip {
+.home-page .stack-band .chip {
   gap: .75rem;
   padding: 0 1.5rem;
   border: 0;
@@ -756,7 +777,7 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
   text-transform: uppercase;
 }
 
-.home-page .chip-dot {
+.home-page .stack-band .chip-dot {
   width: .18em;
   height: .18em;
   background: var(--lofts-lime);
@@ -1312,6 +1333,10 @@ textarea:focus {
 .site-footer .footer-now-label,
 .site-footer .footer-now-tag,
 .site-footer a {
+  color: #aaa;
+}
+
+.site-footer .footer-start-card p:not(.footer-label) {
   color: #aaa;
 }
 

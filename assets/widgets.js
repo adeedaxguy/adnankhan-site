@@ -12,11 +12,12 @@
 
   // ─────────── COOKIE CONSENT ───────────
   const COOKIE_KEY = 'adnank-cookie-consent-v1';
-  const consent = (() => {
+  let consent = (() => {
     try { return localStorage.getItem(COOKIE_KEY); } catch { return null; }
   })();
 
   function setConsent(val) {
+    consent = val;
     try { localStorage.setItem(COOKIE_KEY, val); } catch {}
     document.dispatchEvent(new CustomEvent('cookie:consent', { detail: val }));
     const banner = document.getElementById('cookieBanner');
@@ -33,7 +34,7 @@
       <div id="cookieBanner" class="cookie-banner" role="region" aria-label="Cookie consent">
         <div class="cookie-inner">
           <p class="cookie-text">
-            We use localStorage for preferences, chat, and consent. Nothing is sold or tracked. <a href="/cookie-policy.html">Cookie policy</a>.
+            We use local storage for preferences and optional analytics to improve the site and measure enquiries. Analytics loads only after you accept. <a href="/cookie-policy.html">Cookie policy</a>.
           </p>
           <div class="cookie-actions">
             <button type="button" class="cookie-btn cookie-decline" data-decline>Decline</button>
@@ -74,7 +75,7 @@
         <span class="a11y-launcher-label">Accessibility</span>
       </button>
 
-      <section id="a11yPanel" class="a11y-panel" role="dialog" aria-modal="false" aria-labelledby="a11yTitle" aria-hidden="true">
+      <section id="a11yPanel" class="a11y-panel" role="dialog" aria-modal="false" aria-labelledby="a11yTitle" aria-hidden="true" inert>
         <header class="a11y-head">
           <div>
             <p class="a11y-kicker">Site preferences</p>
@@ -138,14 +139,17 @@
     function openPanel() {
       panel.classList.add('open');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
       launcher.setAttribute('aria-expanded', 'true');
       setTimeout(() => panel.querySelector('[data-a11y-close]')?.focus(), 80);
     }
     function closePanel() {
       panel.classList.remove('open');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       launcher.setAttribute('aria-expanded', 'false');
-      launcher.focus({ preventScroll: true });
+      if (launcher.offsetParent !== null) launcher.focus({ preventScroll: true });
+      else document.querySelector('.menu-btn')?.focus({ preventScroll: true });
     }
 
     launcher.addEventListener('click', () => {
@@ -189,7 +193,7 @@
 
   function mountChatbot() {
     const html = `
-      <button id="chatLauncher" class="chat-launcher" aria-label="Open chat" aria-expanded="false">
+      <button id="chatLauncher" class="chat-launcher" aria-label="Ask the studio" aria-expanded="false">
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
           <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
         </svg>
@@ -197,7 +201,7 @@
         <span class="chat-launcher-dot" aria-hidden="true"></span>
       </button>
 
-      <div id="chatPanel" class="chat-panel" role="dialog" aria-label="Chat with Adnan's studio" aria-hidden="true">
+      <div id="chatPanel" class="chat-panel" role="dialog" aria-label="Chat with Adnan's studio" aria-hidden="true" inert>
         <header class="chat-head">
           <div class="chat-head-meta">
             <div class="chat-avatar" aria-hidden="true">AK</div>
@@ -248,6 +252,7 @@
     function open() {
       panel.classList.add('open');
       panel.setAttribute('aria-hidden', 'false');
+      panel.removeAttribute('inert');
       launcher.setAttribute('aria-expanded', 'true');
       launcher.classList.add('chat-launcher-open');
       document.body.classList.add('chat-open');
@@ -260,6 +265,7 @@
     function close() {
       panel.classList.remove('open');
       panel.setAttribute('aria-hidden', 'true');
+      panel.setAttribute('inert', '');
       launcher.setAttribute('aria-expanded', 'false');
       launcher.classList.remove('chat-launcher-open');
       document.body.classList.remove('chat-open');
@@ -399,7 +405,7 @@
     bar.className = 'mob-bar';
     bar.setAttribute('aria-label', 'Quick navigation');
     bar.innerHTML = `
-      <a href="/portfolio/" class="mob-bar-item" aria-label="View portfolio">
+      <a href="/portfolio/" class="mob-bar-item" aria-label="Work">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="3" width="7" height="7" rx="1.2"/><rect x="14" y="14" width="7" height="7" rx="1.2"/><rect x="3" y="14" width="7" height="7" rx="1.2"/></svg>
         <span>Work</span>
       </a>
@@ -419,10 +425,16 @@
     popup.className = 'conv-popup';
     popup.setAttribute('aria-modal', 'true');
     popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-label', 'Project enquiry options');
+    popup.setAttribute('aria-hidden', 'true');
+    popup.setAttribute('inert', '');
     popup.innerHTML = `
       <div class="conv-popup-backdrop" id="convPopupBackdrop"></div>
       <div class="conv-popup-sheet">
-        <div class="conv-popup-handle"></div>
+        <div class="conv-popup-handle" aria-hidden="true"></div>
+        <button type="button" class="conv-popup-close" id="convPopupClose" aria-label="Close project enquiry options">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+        </button>
 
         <!-- View 1: action buttons -->
         <div id="convViewActions">
@@ -459,11 +471,15 @@
           <h3 class="conv-popup-title" style="margin-top:0.6rem">Request a callback</h3>
           <p class="conv-popup-sub">Leave the best number to reach you, Mon&ndash;Sat.</p>
           <form id="convInlineForm" class="conv-inline-form" novalidate>
-            <input type="text"  name="name"    id="convName"    class="conv-field" placeholder="Your name"            required autocomplete="name" />
-            <input type="email" name="email"   id="convEmail"   class="conv-field" placeholder="your@email.com"       required autocomplete="email" />
-            <input type="tel"   name="phone"   id="convPhone"   class="conv-field" placeholder="Phone / WhatsApp"      required autocomplete="tel" inputmode="tel" />
-            <textarea           name="message" id="convMessage" class="conv-field conv-field-ta" placeholder="Tell us about your project…" rows="3" required></textarea>
-            <div id="convFormError" class="conv-form-error" style="display:none">Please fill in all fields.</div>
+            <label class="sr-only" for="convName">Your name</label>
+            <input type="text"  name="name"    id="convName"    class="conv-field" placeholder="Your name"            required autocomplete="name" aria-describedby="convFormError" />
+            <label class="sr-only" for="convEmail">Email address</label>
+            <input type="email" name="email"   id="convEmail"   class="conv-field" placeholder="your@email.com"       required autocomplete="email" aria-describedby="convFormError" />
+            <label class="sr-only" for="convPhone">Phone or WhatsApp number</label>
+            <input type="tel"   name="phone"   id="convPhone"   class="conv-field" placeholder="Phone / WhatsApp"      required autocomplete="tel" inputmode="tel" aria-describedby="convFormError" />
+            <label class="sr-only" for="convMessage">Project details</label>
+            <textarea           name="message" id="convMessage" class="conv-field conv-field-ta" placeholder="Tell us about your project…" rows="3" required aria-describedby="convFormError"></textarea>
+            <div id="convFormError" class="conv-form-error" role="alert" aria-live="polite" style="display:none">Please fill in all fields.</div>
             <button type="submit" class="conv-popup-btn-primary" id="convSubmitBtn">
               <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
               Request callback
@@ -494,15 +510,22 @@
     function openPopup() {
       showView('convViewActions');
       popup.classList.add('open');
+      popup.removeAttribute('inert');
+      popup.setAttribute('aria-hidden', 'false');
       document.body.classList.add('menu-lock');
+      setTimeout(() => document.getElementById('convShowForm')?.focus(), 180);
     }
     function closePopup() {
       popup.classList.remove('open');
+      popup.setAttribute('aria-hidden', 'true');
+      popup.setAttribute('inert', '');
       document.body.classList.remove('menu-lock');
+      document.getElementById('mobConversationBtn')?.focus();
     }
 
     document.getElementById('mobConversationBtn')?.addEventListener('click', openPopup);
     document.getElementById('convPopupBackdrop')?.addEventListener('click', closePopup);
+    document.getElementById('convPopupClose')?.addEventListener('click', closePopup);
     document.getElementById('convDoneBtn')?.addEventListener('click', closePopup);
     document.getElementById('convBackBtn')?.addEventListener('click', () => showView('convViewActions'));
 
@@ -514,6 +537,10 @@
     document.getElementById('convPopupChat')?.addEventListener('click', () => {
       closePopup();
       setTimeout(() => document.getElementById('chatLauncher')?.click(), 100);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && popup.classList.contains('open')) closePopup();
     });
 
     document.getElementById('convInlineForm')?.addEventListener('submit', async (e) => {

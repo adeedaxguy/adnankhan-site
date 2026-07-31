@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260731b"
+CACHE_VER = "20260731d"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -1723,6 +1723,7 @@ SITEMAP_EXCLUDED_PATHS = {
     "/blog/small-business-website-cost-2026.html",
     "/blog/post",
     "/unsubscribe",
+    "/book",
 }
 
 # Service templates per location — currently we generate one master page per location
@@ -1777,6 +1778,7 @@ def render_blog_post(p, nav, footer):
     body_html = "\n\n    ".join(body_parts)
     modified_date = p.get("modifiedDate", p["date"])
     intent_card_html = p.get("intentCardHtml", "")
+    seo_title = p["title"] if len(p["title"]) > 51 else f'{p["title"]} | Lofts Studio'
 
     return f'''<!DOCTYPE html>
 <html lang="en">
@@ -1784,7 +1786,7 @@ def render_blog_post(p, nav, footer):
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-<title>{p["title"]} | Adnan K.</title>
+<title>{seo_title}</title>
 <meta name="description" content="{p["meta"]}" />
 <link rel="canonical" href="{SITE}/blog/{p["slug"]}.html" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
@@ -1809,9 +1811,6 @@ def render_blog_post(p, nav, footer):
 <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
 <link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
 
@@ -1878,15 +1877,13 @@ def render_blog_post(p, nav, footer):
   .post-intent-note span {{ display: block; padding: 0.72rem 0.78rem; border: 1px solid var(--line); border-radius: 10px; background: rgba(255,255,255,0.52); color: var(--muted); font: 600 0.72rem/1.35 var(--font-mono); text-transform: uppercase; letter-spacing: 0.08em; }}
   @media (max-width: 620px) {{ .post-audit-row, .post-intent-actions {{ display: grid; grid-template-columns: 1fr; }} .post-audit-row .btn, .post-intent-actions .btn {{ width: 100%; justify-content: center; }} .post-intent-note {{ grid-template-columns: 1fr; }} }}
 </style>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}}catch(e){{}}}})();</script>
 </head>
 <body>
 
 {nav}
 
+<main id="main-content">
 <article>
 <section class="paper" style="padding: 5rem 0 3rem;">
   <div class="container post-prose" data-reveal>
@@ -1948,32 +1945,7 @@ def render_blog_post(p, nav, footer):
   </div>
 </section>
 </article>
-
-<section class="comments" aria-labelledby="comments-title">
-  <div class="container container-narrow">
-    <div id="comments" data-slug="{p['slug']}">
-      <div class="comments-head">
-        <h2 id="comments-title">Comments <span class="comments-count" data-count></span></h2>
-        <p class="comments-sub">Have a question, or a better way to do this? Add it below — real replies, no sign-up.</p>
-      </div>
-      <ol class="comments-list" data-list></ol>
-      <p class="comments-empty" data-empty hidden>Be the first to comment.</p>
-      <form class="comment-form" data-form novalidate>
-        <div class="cf-row">
-          <input class="cf-input" type="text" name="name" maxlength="60" placeholder="Your name" required aria-label="Your name" autocomplete="name" />
-          <input class="cf-input" type="email" name="email" maxlength="120" placeholder="Email (optional, never shown)" aria-label="Email (optional)" autocomplete="email" />
-        </div>
-        <textarea class="cf-input cf-text" name="body" maxlength="3000" rows="4" placeholder="Add to the conversation…" required aria-label="Your comment"></textarea>
-        <div class="cf-hp"><label>Leave this field empty<input type="text" name="hp_url" tabindex="-1" autocomplete="off" /></label></div>
-        <div class="cf-foot">
-          <span class="cf-note" data-status>Be kind and constructive. Links are limited to keep spam out.</span>
-          <button class="btn btn-primary cf-submit" type="submit">Post comment</button>
-        </div>
-      </form>
-    </div>
-  </div>
-</section>
-<script src="/assets/comments.js?v={CACHE_VER}" defer></script>
+</main>
 
 {footer}
 
