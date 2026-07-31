@@ -5303,25 +5303,25 @@ body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-displa
    -------------------------------------------------------------------------- */
 
 @font-face {
-  font-family: "DM Sans";
+  font-family: "Instrument Sans";
   font-style: normal;
-  font-weight: 100 1000;
+  font-weight: 400 700;
   font-display: swap;
-  src: url("/assets/fonts/dm-sans-latin.woff2") format("woff2");
+  src: url("/assets/fonts/instrument-sans-latin.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "DM Sans";
+  font-family: "Instrument Sans";
   font-style: italic;
-  font-weight: 100 1000;
+  font-weight: 400 700;
   font-display: swap;
-  src: url("/assets/fonts/dm-sans-italic-latin.woff2") format("woff2");
+  src: url("/assets/fonts/instrument-sans-italic-latin.woff2") format("woff2");
 }
 
 :root {
-  --font-display: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-serif: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-logo: "Iowan Old Style", Baskerville, "Palatino Linotype", Georgia, serif;
   --bg: #f4f4f0;
   --bg-soft: #e9e9e3;
@@ -5350,9 +5350,9 @@ body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-displa
 }
 
 .home-page {
-  --font-display: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-sans: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  --font-serif: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-display: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-sans: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-serif: "Instrument Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --font-logo: "Iowan Old Style", Baskerville, "Palatino Linotype", Georgia, serif;
 }
 
@@ -5615,20 +5615,20 @@ body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-pag
   max-width: 10.5ch;
   margin: 0 !important;
   font-size: clamp(4rem, 6.2vw, 6.45rem);
-  font-weight: 520;
-  line-height: .9;
+  font-weight: 500;
+  line-height: .92;
 }
 
 .home-page .hero-title .hero-title-accent {
   display: block;
   max-width: 18ch;
-  margin-top: .45em;
+  margin-top: .4em;
   color: var(--accent-deep);
   font-family: var(--font-sans);
-  font-size: .34em;
+  font-size: .32em;
   font-style: italic;
-  font-weight: 430;
-  line-height: 1.05;
+  font-weight: 400;
+  line-height: 1.08;
 }
 
 .home-page .hero-lead {
