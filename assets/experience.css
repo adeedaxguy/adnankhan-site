@@ -247,16 +247,16 @@ html[data-theme="dark"] .nav-bar.scrolled {
 }
 
 .nav-logo {
-  align-self: flex-start;
+  align-self: center;
   margin-right: auto;
-  padding-top: 1px;
-  font-family: var(--font-sans);
-  font-size: clamp(1.7rem, 2.4vw, 2.45rem);
-  font-style: normal;
-  font-weight: 650;
-  line-height: .92;
+  padding: 0 0 2px;
+  font-family: 'Iowan Old Style', Baskerville, 'Libre Baskerville', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
+  font-size: 1.32rem;
+  font-style: italic;
+  font-weight: 500;
+  line-height: 1;
   letter-spacing: 0;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .nav-logo .logo-serif {
@@ -285,21 +285,35 @@ html[data-theme="dark"] .nav-bar.scrolled {
 
 .nav-logo .dot {
   display: inline-block;
-  margin-left: .55rem;
-  color: var(--ink);
-  font-family: var(--font-mono);
-  font-size: .25em;
+  margin-left: .42rem;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: .5rem;
   font-style: normal;
   font-weight: 500;
+  letter-spacing: .42em;
   line-height: 1;
   text-transform: uppercase;
-  transform: translateY(-.62rem);
+  transform: translateY(-1px);
 }
 
 .nav-logo .dot::after {
-  content: ".";
-  color: var(--accent);
-  margin-left: .3rem;
+  content: none;
+}
+
+.mnav-logo {
+  font-family: 'Iowan Old Style', Baskerville, 'Libre Baskerville', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
+  font-style: italic;
+  letter-spacing: 0;
+}
+
+.mnav-logo span {
+  font-family: var(--font-sans);
+  font-style: normal;
+}
+
+.footer-logo-italic {
+  font-family: 'Iowan Old Style', Baskerville, 'Libre Baskerville', 'Palatino Linotype', Georgia, 'Times New Roman', serif;
 }
 
 .nav-links,
@@ -486,24 +500,49 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
   margin-bottom: 1.25rem;
 }
 
+.home-page .hero-eyebrow-wide,
+.home-page .hero-eyebrow-compact {
+  display: inline;
+}
+
+.home-page .hero-eyebrow-compact {
+  display: none;
+}
+
 .home-page .hero-title {
   grid-column: 1;
   grid-row: 2 / span 2;
   align-self: end;
-  max-width: 10ch;
+  max-width: none;
   margin: 0 !important;
-  font-size: clamp(4.8rem, 8vw, 8.6rem);
+  font-size: 5.75rem;
   font-weight: 500;
-  line-height: .86;
+  line-height: .9;
   letter-spacing: 0;
-  text-wrap: balance;
+  text-wrap: initial;
+  overflow-wrap: normal;
 }
 
-.home-page .hero-title .italic-serif {
+.home-page .hero-title-primary,
+.home-page .hero-title-wide,
+.home-page .hero-title-compact {
   display: block;
-  margin-top: .08em;
-  font-size: .56em;
-  line-height: .96;
+}
+
+.home-page .hero-title-compact {
+  display: none;
+}
+
+.home-page .hero-title .hero-title-accent {
+  display: block;
+  max-width: 22ch;
+  margin-top: .22em;
+  font-size: .42em;
+  line-height: 1.02;
+}
+
+.home-page .hero-title-accent > span {
+  display: inline;
 }
 
 .home-page .hero-lead {
@@ -537,9 +576,13 @@ body:not(.home-page):not(.diagnostic-page):not(.booking-page):not(.agency-comman
 }
 
 @media (min-width: 981px) {
+  .home-page .hero-main {
+    padding-bottom: 6rem;
+  }
+
   .home-page .hero-lead,
   .home-page .hero-actions {
-    transform: translateY(4.25rem);
+    transform: translateY(1.25rem);
   }
 }
 
@@ -1493,7 +1536,7 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   }
 
   .home-page .hero-title {
-    font-size: clamp(4.3rem, 8vw, 7rem);
+    font-size: 4.9rem;
   }
 
   .home-page .hero-sidecar {
@@ -1522,7 +1565,16 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   }
 
   .home-page .hero-title {
-    max-width: 11ch;
+    max-width: none;
+    font-size: 4.5rem;
+  }
+
+  .home-page .hero-title-wide {
+    display: block;
+  }
+
+  .home-page .hero-title-compact {
+    display: none;
   }
 
   .home-page .hero-lead {
@@ -1587,12 +1639,12 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   }
 
   .nav-logo {
-    padding-top: 7px;
-    font-size: 1.55rem;
+    padding-top: 0;
+    font-size: 1.22rem;
   }
 
   .nav-logo .dot {
-    transform: translateY(-.4rem);
+    transform: translateY(-1px);
   }
 
   .theme-toggle {
@@ -1629,7 +1681,8 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
 
   .home-page .hero-main {
     display: block;
-    padding: 7.5rem 0 0;
+    max-width: 46rem;
+    padding: 7rem 0 0;
   }
 
   .home-page .hero-main > .eyebrow {
@@ -1637,14 +1690,15 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   }
 
   .home-page .hero-title {
-    max-width: 10ch;
-    font-size: clamp(3.25rem, 15.4vw, 4.9rem);
-    line-height: .88;
+    max-width: none;
+    font-size: 3.65rem;
+    line-height: .92;
   }
 
-  .home-page .hero-title .italic-serif {
-    margin-top: .14em;
-    font-size: .58em;
+  .home-page .hero-title .hero-title-accent {
+    margin-top: .28em;
+    font-size: .5em;
+    line-height: 1.04;
   }
 
   .home-page .hero-lead {
@@ -1791,8 +1845,16 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
     padding-inline: 1rem;
   }
 
+  .home-page .hero-main {
+    padding-top: 6.5rem;
+  }
+
   .home-page .hero-title {
-    font-size: clamp(3.05rem, 15vw, 4.25rem);
+    font-size: 3.15rem;
+  }
+
+  .home-page .hero-title .hero-title-accent {
+    font-size: .54em;
   }
 
   .home-page .hero-proof-strip .hero-stat {
@@ -1863,6 +1925,71 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
     min-height: 42px;
     margin: 8px 0;
     border-radius: var(--r-md);
+  }
+}
+
+@media (min-width: 1500px) {
+  .home-page .hero-title {
+    font-size: 6.25rem;
+  }
+}
+
+@media (min-width: 981px) and (max-width: 1399px) {
+  .home-page .hero-title-wide {
+    display: none;
+  }
+
+  .home-page .hero-title-compact {
+    display: block;
+  }
+}
+
+@media (max-width: 520px) {
+  .home-page .hero-main {
+    padding-top: 6.25rem;
+  }
+
+  .home-page .hero-main > .eyebrow {
+    max-width: none;
+    margin-bottom: 1.25rem;
+    line-height: 1.55;
+  }
+
+  .home-page .hero-eyebrow-wide {
+    display: none;
+  }
+
+  .home-page .hero-eyebrow-compact {
+    display: inline;
+  }
+
+  .home-page .hero-title {
+    font-size: 2.75rem;
+    line-height: .94;
+  }
+
+  .home-page .hero-title-wide {
+    display: none;
+  }
+
+  .home-page .hero-title-compact {
+    display: block;
+  }
+
+  .home-page .hero-title .hero-title-accent {
+    margin-top: .38em;
+    font-size: .62em;
+    line-height: 1.02;
+  }
+
+  .home-page .hero-title-accent > span {
+    display: block;
+  }
+}
+
+@media (max-width: 360px) {
+  .home-page .hero-title {
+    font-size: 2.55rem;
   }
 }
 
