@@ -409,12 +409,12 @@ def render_brand_guide(nav, footer):
     <h2 class="h-1" style="margin: 1rem 0 2.5rem;">Two faces. <span class="italic-serif">Both deliberate.</span></h2>
 
     <div class="type-sample">
-      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Display &amp; UI — Instrument Sans</p>
+      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Display &amp; UI — Inter Tight</p>
       <p style="font-family: var(--font-display); font-size: 3.2rem; line-height: 1.05; letter-spacing: -0.035em; font-weight: 500; margin: 0; color: var(--ink);">Two brothers. A long delivery record.</p>
     </div>
 
     <div class="type-sample">
-      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Editorial — Instrument Sans Italic</p>
+      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Editorial — Inter Tight Italic</p>
       <p style="font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.65; color: var(--ink-soft); margin: 0;">Lofts Studio is the senior web engineering team of brothers Adnan and Irfan Khan. <em>Two cities. One craft.</em></p>
     </div>
 
