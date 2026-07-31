@@ -4551,3 +4551,36 @@ html[data-theme="dark"] .home-page .home-contact .contact-form-card {
     transform: none !important;
   }
 }
+
+/* Keep interface detail in portfolio screenshots pixel-sharp. */
+.home-page .home-portfolio-stage .pf-card-img,
+.home-page .home-portfolio-stage .pf-card--featured .pf-card-img,
+.home-page .home-portfolio-stage .pf-card:nth-child(n) .pf-card-img {
+  animation: none !important;
+  transform: none !important;
+  will-change: auto;
+}
+
+.home-page .home-portfolio-stage .pf-card-img::after,
+.home-page .home-portfolio-stage .pf-card--featured .pf-card-img::after {
+  opacity: 0;
+}
+
+.home-page .home-portfolio-stage .pf-card-img img,
+.home-page .home-portfolio-stage .pf-card--featured .pf-card-img img,
+.home-page .home-portfolio-stage .pf-card:nth-child(n) .pf-card-img img,
+.home-page .home-portfolio-stage .pf-card:hover .pf-card-img img,
+.home-page .home-portfolio-stage .pf-card--featured:hover .pf-card-img img {
+  filter: none !important;
+  transform: none !important;
+  transition: none;
+  will-change: auto;
+  image-rendering: auto;
+}
+
+.home-page .home-portfolio-stage .pf-card:hover .pf-card-img,
+.home-page .home-portfolio-stage .pf-card--featured:hover .pf-card-img {
+  transform: none !important;
+  border-color: rgba(9, 9, 9, .34);
+  box-shadow: 0 18px 42px -34px rgba(9, 9, 9, .55);
+}
