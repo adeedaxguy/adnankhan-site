@@ -2834,6 +2834,16 @@ html[data-theme="dark"] .home-page .nav-bar.scrolled {
   white-space: nowrap;
 }
 
+@media (max-width: 1399px) {
+  .home-page .hero-title-wide {
+    display: none;
+  }
+
+  .home-page .hero-title-compact {
+    display: block;
+  }
+}
+
 .home-page .hero-title .hero-title-accent {
   display: block;
   max-width: 16ch;
