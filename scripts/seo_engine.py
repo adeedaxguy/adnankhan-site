@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260731a"
+CACHE_VER = "20260731b"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -1813,7 +1813,7 @@ def render_blog_post(p, nav, footer):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731a" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -2024,7 +2024,7 @@ def render_location_page(loc, nav, footer):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731a" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
 
 <script type="application/ld+json">
 {{

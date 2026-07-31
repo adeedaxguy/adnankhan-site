@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260731a"
+CACHE_VER = "20260731b"
 
 INDEX = ROOT / "index.html"
 
@@ -198,7 +198,7 @@ def render_pillar(p, nav, footer, all_pillars):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731a" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -341,7 +341,7 @@ def render_brand_guide(nav, footer):
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731a" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
 
 <style>
   .swatch {{ aspect-ratio: 1; border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; font-family: var(--font-mono); font-size: 0.74rem; color: var(--bg); }}

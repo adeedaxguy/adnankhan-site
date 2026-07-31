@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://lofts.studio"
-CACHE_VER = "20260731a"
+CACHE_VER = "20260731b"
 TODAY = "2026-07-16"
 
 
@@ -432,7 +432,7 @@ def header(title: str, description: str, canonical: str, schema: list[dict]) -> 
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731a" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
 {schema_tags}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>

@@ -571,6 +571,7 @@
   function applyFade() {
     cards.forEach((card, i) => {
       const isFront = i === frontIdx;
+      if (isFront) loadCardImage(card);
       card.classList.toggle('is-front', isFront);
       card.style.transform = '';
       card.style.opacity   = '';
@@ -831,8 +832,9 @@
     window.setTimeout(function () { accessibilityObserver.disconnect(); }, 15000);
   }
 
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   var canTilt = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
-    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    !reduceMotion;
 
   if (canTilt) {
     document.querySelectorAll('.home-portfolio-stage .pf-card-img, .portfolio-page .work-card-img-link').forEach(function (media) {
@@ -850,6 +852,175 @@
       }, { passive: true });
     });
   }
+
+  function installScrollExperience() {
+    if (reduceMotion) return;
+
+    var root = document.documentElement;
+    var revealNodes = Array.from(document.querySelectorAll(
+      '[data-reveal], .service-card, .tool-card, .post-card, .review-card, .metric-card, .portfolio-page .work-card'
+    )).filter(function (element) {
+      return !element.classList.contains('hero-grid') && !element.closest('.hero-scroll-scene');
+    });
+
+    revealNodes.forEach(function (element) {
+      element.setAttribute('data-lofts-reveal', '');
+      var siblings = Array.from(element.parentElement ? element.parentElement.children : []);
+      var order = Math.max(0, siblings.indexOf(element)) % 5;
+      element.style.setProperty('--lofts-reveal-delay', (order * 65) + 'ms');
+      var rect = element.getBoundingClientRect();
+      if (rect.top < window.innerHeight * .94 && rect.bottom > 0) {
+        element.classList.add('lofts-in-view');
+      }
+    });
+
+    root.classList.add('lofts-motion-ready');
+
+    if ('IntersectionObserver' in window) {
+      var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('lofts-in-view');
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: .08, rootMargin: '0px 0px -8% 0px' });
+      revealNodes.forEach(function (element) {
+        if (!element.classList.contains('lofts-in-view')) revealObserver.observe(element);
+      });
+    } else {
+      revealNodes.forEach(function (element) { element.classList.add('lofts-in-view'); });
+    }
+
+    var parallaxFrames = Array.from(document.querySelectorAll(
+      '.home-portfolio-stage .pf-card-img, .portfolio-page .work-card-img-link, .case-study .case-image'
+    ));
+    var activeParallax = new Set();
+    parallaxFrames.forEach(function (frame) { frame.setAttribute('data-lofts-parallax', ''); });
+
+    if ('IntersectionObserver' in window) {
+      var parallaxObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) activeParallax.add(entry.target);
+          else activeParallax.delete(entry.target);
+        });
+      }, { rootMargin: '240px 0px' });
+      parallaxFrames.forEach(function (frame) { parallaxObserver.observe(frame); });
+    } else {
+      parallaxFrames.forEach(function (frame) { activeParallax.add(frame); });
+    }
+
+    var heroTrack = document.querySelector('.hero-scroll-track');
+    var heroScene = document.querySelector('.hero-scroll-scene');
+    var essay = document.querySelector('.home-page .essay-section');
+    var lastInputY = window.scrollY;
+    var lastInputTime = performance.now();
+    var scrollVelocity = 0;
+    var framePending = false;
+
+    function clamp(value, min, max) {
+      return Math.max(min, Math.min(max, value));
+    }
+
+    function easeProgress(value) {
+      return value * value * (3 - (2 * value));
+    }
+
+    function updateHero() {
+      if (!heroTrack || !heroScene) return;
+      var enabled = window.innerWidth > 980 && window.innerHeight > 680;
+      if (!enabled) {
+        heroScene.style.removeProperty('--hero-copy-opacity');
+        heroScene.style.removeProperty('--hero-copy-y');
+        heroScene.style.removeProperty('--hero-reel-x');
+        heroScene.style.removeProperty('--hero-reel-scale');
+        heroScene.style.removeProperty('--hero-reel-y');
+        heroScene.style.removeProperty('--hero-detail-opacity');
+        heroScene.style.removeProperty('--hero-echo-shadow');
+        heroScene.classList.remove('hero-copy-away');
+        return;
+      }
+
+      var rect = heroTrack.getBoundingClientRect();
+      var travel = Math.max(1, heroTrack.offsetHeight - heroScene.offsetHeight);
+      var progress = clamp(-rect.top / travel, 0, 1);
+      var eased = easeProgress(progress);
+      var copyExit = clamp((progress - .04) / .68, 0, 1);
+      var detailExit = clamp((progress - .06) / .38, 0, 1);
+      var velocityPulse = Math.min(.055, Math.abs(scrollVelocity) * .014);
+      var baseLeft = window.innerWidth <= 1220 ? .66 : .64;
+      var targetLeft = .52;
+      var xShift = -(baseLeft - targetLeft) * window.innerWidth * eased;
+
+      heroScene.style.setProperty('--hero-copy-opacity', Math.max(.045, 1 - (copyExit * .955)).toFixed(3));
+      heroScene.style.setProperty('--hero-copy-y', (-52 * copyExit).toFixed(1) + 'px');
+      heroScene.style.setProperty('--hero-reel-x', xShift.toFixed(1) + 'px');
+      heroScene.style.setProperty('--hero-reel-scale', (1 + (.38 * eased) + velocityPulse).toFixed(4));
+      heroScene.style.setProperty('--hero-reel-y', (18 * eased).toFixed(1) + 'px');
+      heroScene.style.setProperty('--hero-detail-opacity', Math.max(0, 1 - detailExit).toFixed(3));
+      heroScene.style.setProperty('--hero-echo-shadow', Math.min(18, Math.abs(scrollVelocity) * 5).toFixed(1) + 'px');
+      heroScene.classList.toggle('hero-copy-away', progress > .72);
+    }
+
+    function updateParallax() {
+      if (window.innerWidth <= 640) {
+        activeParallax.forEach(function (frame) {
+          var image = frame.querySelector('img');
+          if (image) image.style.removeProperty('--lofts-media-y');
+        });
+        return;
+      }
+
+      activeParallax.forEach(function (frame) {
+        var image = frame.querySelector('img');
+        if (!image) return;
+        var rect = frame.getBoundingClientRect();
+        var centerOffset = ((rect.top + (rect.height / 2)) - (window.innerHeight / 2)) / window.innerHeight;
+        var range = window.innerWidth > 980 ? 22 : 12;
+        image.style.setProperty('--lofts-media-y', clamp(centerOffset * -range, -range, range).toFixed(1) + 'px');
+      });
+    }
+
+    function updateEssay() {
+      if (!essay) return;
+      var rect = essay.getBoundingClientRect();
+      var progress = clamp((window.innerHeight - rect.top) / (window.innerHeight + rect.height * .55), 0, 1);
+      essay.style.setProperty('--essay-rule-progress', (progress * 100).toFixed(2) + '%');
+      essay.style.setProperty('--essay-content-y', ((1 - progress) * 24).toFixed(1) + 'px');
+    }
+
+    function renderMotion() {
+      framePending = false;
+      document.body.classList.toggle('lofts-scrolled', window.scrollY > 24);
+      updateHero();
+      updateParallax();
+      updateEssay();
+      scrollVelocity *= .72;
+      if (Math.abs(scrollVelocity) > .015) requestFrame();
+    }
+
+    function requestFrame() {
+      if (framePending) return;
+      framePending = true;
+      window.requestAnimationFrame(renderMotion);
+    }
+
+    function onScroll() {
+      var now = performance.now();
+      var y = window.scrollY;
+      var elapsed = Math.max(16, now - lastInputTime);
+      var instantVelocity = (y - lastInputY) / elapsed;
+      scrollVelocity = (scrollVelocity * .48) + (instantVelocity * .52);
+      lastInputY = y;
+      lastInputTime = now;
+      requestFrame();
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', requestFrame, { passive: true });
+    requestFrame();
+  }
+
+  installScrollExperience();
 })();
 
 /* ── Optional third-party loaders for PageSpeed-sensitive pages ── */
