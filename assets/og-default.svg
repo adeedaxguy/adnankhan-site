@@ -4,11 +4,11 @@
   <rect x="106" y="108" width="68" height="18" rx="3" fill="#F4F0EA"/>
   <rect x="106" y="130" width="68" height="18" rx="3" fill="#F4F0EA" opacity="0.72"/>
   <rect x="106" y="160" width="12" height="4" rx="2" fill="#8B3A1F"/>
-  <text x="80" y="380" font-family="'Source Serif 4', Georgia, serif" font-weight="500" font-size="120" fill="#1A1612" letter-spacing="-0.03em">Lofts</text>
+  <text x="80" y="380" font-family="'Instrument Sans', system-ui, sans-serif" font-weight="500" font-size="120" fill="#1A1612" letter-spacing="-0.03em">Lofts</text>
   <circle cx="385" cy="370" r="8" fill="#8B3A1F"/>
-  <text x="408" y="380" font-family="'Source Serif 4', Georgia, serif" font-weight="400" font-style="italic" font-size="100" fill="#6C6258" letter-spacing="-0.01em">studio</text>
-  <text x="80" y="450" font-family="'Inter Tight', sans-serif" font-weight="500" font-size="36" fill="#2A241E">Senior web engineering for founders.</text>
-  <text x="80" y="500" font-family="'Source Serif 4', Georgia, serif" font-style="italic" font-size="28" fill="#6C6258">Led by Adnan &amp; Irfan Khan. Multan · Dubai.</text>
+  <text x="408" y="380" font-family="'Instrument Sans', system-ui, sans-serif" font-weight="400" font-style="italic" font-size="100" fill="#6C6258" letter-spacing="-0.01em">studio</text>
+  <text x="80" y="450" font-family="'Instrument Sans', system-ui, sans-serif" font-weight="500" font-size="36" fill="#2A241E">Senior web engineering for founders.</text>
+  <text x="80" y="500" font-family="'Instrument Sans', system-ui, sans-serif" font-style="italic" font-size="28" fill="#6C6258">Led by Adnan &amp; Irfan Khan. Multan · Dubai.</text>
   <line x1="80" y1="540" x2="1120" y2="540" stroke="#D9D2C4" stroke-width="1"/>
-  <text x="80" y="580" font-family="'Inter Tight', sans-serif" font-size="22" fill="#6C6258" letter-spacing="0.18em">1,000+ PROJECTS · 9 YEARS · TWO TOP RATED UPWORK OPERATORS</text>
+  <text x="80" y="580" font-family="'Instrument Sans', system-ui, sans-serif" font-size="22" fill="#6C6258" letter-spacing="0.18em">1,500+ PROJECTS · ALMOST 15 YEARS · TWO TOP RATED UPWORK OPERATORS</text>
 </svg>

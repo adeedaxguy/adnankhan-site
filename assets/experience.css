@@ -55,6 +55,8 @@ body {
   background: var(--bg);
   overflow-x: clip;
   font-family: var(--font-sans);
+  font-synthesis: none;
+  font-optical-sizing: auto;
   color: var(--ink);
 }
 
@@ -134,7 +136,7 @@ li,
 .italic-serif {
   font-family: var(--font-logo);
   font-style: italic;
-  font-weight: 400;
+  font-weight: 450;
   letter-spacing: 0;
 }
 
@@ -238,6 +240,30 @@ html[data-theme="dark"] .nav-bar.scrolled {
   line-height: .92;
   letter-spacing: 0;
   text-transform: uppercase;
+}
+
+.nav-logo .logo-serif {
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+}
+
+.nav-logo .logo-sans {
+  display: inline-block;
+  margin-left: .48rem;
+  color: var(--muted);
+  font-family: var(--font-mono);
+  font-size: .28em;
+  font-style: normal;
+  font-weight: 500;
+  letter-spacing: .32em;
+  line-height: 1;
+  text-transform: uppercase;
+  transform: translateY(-.25em);
+}
+
+.nav-logo .logo-dot {
+  display: none;
 }
 
 .nav-logo .dot {

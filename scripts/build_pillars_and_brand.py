@@ -196,9 +196,9 @@ def render_pillar(p, nav, footer, all_pillars):
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -339,9 +339,9 @@ def render_brand_guide(nav, footer):
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,400..600;1,400..500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400..600;1,8..60,400..500&family=JetBrains+Mono:wght@400..500&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731b" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
 
 <style>
   .swatch {{ aspect-ratio: 1; border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; font-family: var(--font-mono); font-size: 0.74rem; color: var(--bg); }}
@@ -409,17 +409,17 @@ def render_brand_guide(nav, footer):
     <h2 class="h-1" style="margin: 1rem 0 2.5rem;">Two faces. <span class="italic-serif">Both deliberate.</span></h2>
 
     <div class="type-sample">
-      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Display &amp; UI — Inter Tight</p>
+      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Display &amp; UI — Instrument Sans</p>
       <p style="font-family: var(--font-display); font-size: 3.2rem; line-height: 1.05; letter-spacing: -0.035em; font-weight: 500; margin: 0; color: var(--ink);">Two brothers. A long delivery record.</p>
     </div>
 
     <div class="type-sample">
-      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Editorial — Source Serif 4</p>
+      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Editorial — Instrument Sans Italic</p>
       <p style="font-family: var(--font-serif); font-size: 1.25rem; line-height: 1.65; color: var(--ink-soft); margin: 0;">Lofts Studio is the senior web engineering team of brothers Adnan and Irfan Khan. <em>Two cities. One craft.</em></p>
     </div>
 
     <div class="type-sample">
-      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Monospace — JetBrains Mono</p>
+      <p style="font-family: var(--font-sans); font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.22em; color: var(--muted); margin: 0 0 1rem;">Monospace — IBM Plex Mono</p>
       <p style="font-family: var(--font-mono); font-size: 0.92rem; color: var(--ink); margin: 0;">// long delivery record · almost 15 years · 100% JSS · founder-led work</p>
     </div>
   </div>
