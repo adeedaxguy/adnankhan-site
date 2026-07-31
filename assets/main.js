@@ -1017,38 +1017,14 @@
 
     function updateHero() {
       if (!heroTrack || !heroScene) return;
-      var enabled = window.innerWidth > 980 && window.innerHeight > 680;
-      if (!enabled) {
-        heroScene.style.removeProperty('--hero-copy-opacity');
-        heroScene.style.removeProperty('--hero-copy-y');
-        heroScene.style.removeProperty('--hero-reel-x');
-        heroScene.style.removeProperty('--hero-reel-scale');
-        heroScene.style.removeProperty('--hero-reel-y');
-        heroScene.style.removeProperty('--hero-detail-opacity');
-        heroScene.style.removeProperty('--hero-echo-shadow');
-        heroScene.classList.remove('hero-copy-away');
-        return;
-      }
-
-      var rect = heroTrack.getBoundingClientRect();
-      var travel = Math.max(1, heroTrack.offsetHeight - heroScene.offsetHeight);
-      var progress = clamp(-rect.top / travel, 0, 1);
+      var rect = heroScene.getBoundingClientRect();
+      var progress = clamp(-rect.top / Math.max(1, rect.height), 0, 1);
       var eased = easeProgress(progress);
-      var copyExit = clamp((progress - .04) / .68, 0, 1);
-      var detailExit = clamp((progress - .06) / .38, 0, 1);
-      var velocityPulse = Math.min(.055, Math.abs(scrollVelocity) * .014);
-      var baseLeft = window.innerWidth <= 1220 ? .66 : .64;
-      var targetLeft = .52;
-      var xShift = -(baseLeft - targetLeft) * window.innerWidth * eased;
 
-      heroScene.style.setProperty('--hero-copy-opacity', Math.max(.045, 1 - (copyExit * .955)).toFixed(3));
-      heroScene.style.setProperty('--hero-copy-y', (-52 * copyExit).toFixed(1) + 'px');
-      heroScene.style.setProperty('--hero-reel-x', xShift.toFixed(1) + 'px');
-      heroScene.style.setProperty('--hero-reel-scale', (1 + (.38 * eased) + velocityPulse).toFixed(4));
-      heroScene.style.setProperty('--hero-reel-y', (18 * eased).toFixed(1) + 'px');
-      heroScene.style.setProperty('--hero-detail-opacity', Math.max(0, 1 - detailExit).toFixed(3));
-      heroScene.style.setProperty('--hero-echo-shadow', Math.min(18, Math.abs(scrollVelocity) * 5).toFixed(1) + 'px');
-      heroScene.classList.toggle('hero-copy-away', progress > .72);
+      heroScene.style.setProperty('--hero-copy-y', (-8 * eased).toFixed(1) + 'px');
+      heroScene.style.setProperty('--hero-reel-y', (-18 * eased).toFixed(1) + 'px');
+      heroScene.style.setProperty('--hero-echo-shadow', Math.min(8, Math.abs(scrollVelocity) * 2.5).toFixed(1) + 'px');
+      heroScene.classList.remove('hero-copy-away');
     }
 
     function updateParallax() {
