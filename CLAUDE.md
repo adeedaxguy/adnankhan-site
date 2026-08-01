@@ -35,7 +35,7 @@ find . -name "*.html" -not -path "*/.vercel/*" | xargs sed -i '' 's/main\.js?v=O
 - **Name:** Lofts Studio
 - **Domain:** lofts.studio
 - **Colors:** bg `#F4F0EA`, ink `#1A1612`, accent `#8B3A1F`
-- **Fonts:** Source Serif 4 (serif), Inter Tight (sans), JetBrains Mono (mono)
+- **Fonts:** Libertinus Math site-wide; the original Lofts wordmark keeps its established serif stack
 - **Tone:** Quiet Luxury — no hype, no aggressive selling
 
 ## Key files

@@ -1811,11 +1811,8 @@ def render_blog_post(p, nav, footer):
 <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -1881,6 +1878,7 @@ def render_blog_post(p, nav, footer):
   @media (max-width: 620px) {{ .post-audit-row, .post-intent-actions {{ display: grid; grid-template-columns: 1fr; }} .post-audit-row .btn, .post-intent-actions .btn {{ width: 100%; justify-content: center; }} .post-intent-note {{ grid-template-columns: 1fr; }} }}
 </style>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}}catch(e){{}}}})();</script>
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body>
 
@@ -1996,7 +1994,7 @@ def render_location_page(loc, nav, footer):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -2048,6 +2046,7 @@ def render_location_page(loc, nav, footer):
   ]
 }}
 </script>
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body>
 

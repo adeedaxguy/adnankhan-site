@@ -276,11 +276,8 @@ def head(title, desc, canonical, jsonld_blocks, og_title=None):
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/styles.css?v={VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
 
 {blocks}
   <!-- Google tag (gtag.js) -->
@@ -292,6 +289,7 @@ def head(title, desc, canonical, jsonld_blocks, og_title=None):
     gtag('config', 'G-1KT1MFDY8R');
   </script>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body>
 '''

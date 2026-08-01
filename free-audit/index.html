@@ -26,12 +26,7 @@
     "provider": { "@type": "Organization", "name": "Lofts Studio", "url": "https://lofts.studio/" }
   }
   </script>
-
-
-<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="stylesheet" href="/assets/styles.css?v=20260801i" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260801j" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
@@ -46,8 +41,6 @@
       --amber:   #92400E;
       --red:     #991B1B;
       --blue:    #1E40AF;
-      --font-sans: 'Inter Tight', system-ui, sans-serif;
-      --font-serif: 'Inter Tight', system-ui, sans-serif;
     }
     body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); min-height: 100vh; -webkit-font-smoothing: antialiased; }
 
@@ -119,7 +112,7 @@
     .score-ring-num { font-size: 1.6rem; font-weight: 700; line-height: 1; }
     .score-ring-label { font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); font-weight: 600; }
     .score-info h2 { font-family: var(--font-serif); font-size: 1.3rem; font-weight: 700; margin-bottom: 0.4rem; }
-    .score-url { font-size: 0.78rem; color: var(--muted); font-family: 'SF Mono', 'Fira Code', monospace; word-break: break-all; margin-bottom: 0.75rem; }
+    .score-url { font-size: 0.78rem; color: var(--muted); font-family: var(--font-mono); word-break: break-all; margin-bottom: 0.75rem; }
     .score-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
     .score-pill { display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; border-radius: 999px; font-size: 0.72rem; font-weight: 600; }
     .pill-green { background: #D1FAE5; color: #065F46; }
@@ -210,7 +203,7 @@
     .action-impact { font-size: 0.58rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 999px; padding: 3px 7px; background: rgba(26,22,18,0.08); white-space: nowrap; }
     .action-item p { font-size: 0.78rem; line-height: 1.5; color: var(--muted); margin: 0.3rem 0 0; }
     .broken-link-list { display: grid; gap: 0.45rem; font-size: 0.78rem; color: var(--muted); }
-    .broken-link-list code { color: var(--ink); word-break: break-all; font-family: 'SF Mono', 'Fira Code', monospace; }
+    .broken-link-list code { color: var(--ink); word-break: break-all; font-family: var(--font-mono); }
     @media (max-width: 680px) {
       .report-head, .report-actions { flex-direction: column; align-items: stretch; }
       .report-btn { justify-content: center; }
@@ -346,13 +339,14 @@
 }
 </script>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
-<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
 
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:title" content="Free Website Audit Report + Site Audit PDF | Lofts Studio" />
 <meta name="twitter:description" content="Run a free site audit report and website audit report PDF with SEO/AEO checks, design review, trust gaps, broken links, and before/after fixes." />
 <meta name="twitter:image" content="https://lofts.studio/assets/og.jpg?v=2" />
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body class="diagnostic-page audit-diagnostic-page">
 <a class="skip-link" href="#main-content">Skip to main content</a>

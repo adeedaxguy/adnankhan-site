@@ -21,7 +21,7 @@
 
 <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg:#F4F0EA; --surface:#FDFAF6; --ink:#1A1612; --muted:#7A6E64; --line:#DDD7CE; --accent:#8B3A1F; --font-sans:'Inter',system-ui,sans-serif; --font-serif:'Fraunces',Georgia,serif; }
+    :root { --bg:#F4F0EA; --surface:#FDFAF6; --ink:#1A1612; --muted:#7A6E64; --line:#DDD7CE; --accent:#8B3A1F; }
     body { background: var(--bg); color: var(--ink); font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
     .nav { padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); background: var(--surface); }
     .nav-logo { font-family: var(--font-serif); font-style: italic; font-size: 1.2rem; color: var(--ink); text-decoration: none; }
@@ -43,7 +43,7 @@
     .art-body strong { font-weight: 600; }
     .art-body em { font-style: italic; }
     .art-body blockquote { border-left: 3px solid var(--accent); padding-left: 1.25rem; color: var(--muted); margin: 1.5rem 0; font-style: italic; }
-    .art-body code { background: #EDE8E0; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; font-family: 'SF Mono', monospace; }
+    .art-body code { background: #EDE8E0; padding: 2px 6px; border-radius: 4px; font-size: 0.88em; font-family: var(--font-mono); }
     .art-cta { background: var(--ink); color: var(--bg); border-radius: 16px; padding: 2rem; margin-top: 3rem; }
     .art-cta h3 { font-family: var(--font-serif); font-size: 1.2rem; margin-bottom: 0.5rem; }
     .art-cta p { font-size: 0.88rem; color: rgba(244,240,234,0.75); margin-bottom: 1.25rem; }
@@ -54,6 +54,7 @@
     .error h2 { font-family: var(--font-serif); font-size: 1.4rem; color: var(--ink); margin-bottom: 0.5rem; }
   </style>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body>
 <nav class="nav">

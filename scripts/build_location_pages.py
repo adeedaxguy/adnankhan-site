@@ -428,11 +428,8 @@ def header(title: str, description: str, canonical: str, schema: list[dict]) -> 
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
-<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
 {schema_tags}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>
@@ -442,6 +439,7 @@ def header(title: str, description: str, canonical: str, schema: list[dict]) -> 
     gtag('config', 'G-1KT1MFDY8R');
   </script>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}}catch(e){{}}}})();</script>
+<link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body>"""
 
