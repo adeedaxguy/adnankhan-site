@@ -17,7 +17,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260801g"
+CACHE_VER = "20260801i"
 SITE_URL = "https://lofts.studio"
 GTM_HEAD = """<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -569,8 +569,11 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
+<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801e" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
 
 <script type="application/ld+json">
 {schema_graph}
@@ -841,8 +844,11 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
+<link rel="preload" href="/assets/fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/assets/fonts/newsreader-italic-latin.woff2" as="font" type="font/woff2" crossorigin />
+<link rel="preload" href="/assets/fonts/inter-tight-latin.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801e" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801f" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
