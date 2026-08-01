@@ -6065,6 +6065,16 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   will-change: auto;
 }
 
+/* A listing must never depend on scroll observers to become readable. */
+.route-blog #posts-grid[data-lofts-reveal],
+.route-blog #posts-grid .post-card[data-lofts-reveal] {
+  opacity: 1 !important;
+  clip-path: none !important;
+  transform: none !important;
+  transition: none !important;
+  will-change: auto !important;
+}
+
 @keyframes loftsHeroEnter {
   from { opacity: 0; transform: translate3d(0, 18px, 0); }
   to { opacity: 1; transform: translate3d(0, 0, 0); }
