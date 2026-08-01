@@ -18,7 +18,7 @@
 
 html,
 body {
-  font-synthesis: weight style !important;
+  font-synthesis: style !important;
   font-kerning: normal;
   font-variant-ligatures: common-ligatures contextual;
 }
