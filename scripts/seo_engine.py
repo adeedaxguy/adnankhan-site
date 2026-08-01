@@ -29,7 +29,7 @@ from datetime import datetime
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260731d"
+CACHE_VER = "20260801g"
 BRAND_NAME = "Lofts Studio"
 BRAND_TAGLINE = "Senior web engineering for founders."
 FOUNDERS = "Adnan & Irfan Khan"
@@ -1812,7 +1812,7 @@ def render_blog_post(p, nav, footer):
 <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801e" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -1992,11 +1992,8 @@ def render_location_page(loc, nav, footer):
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801e" data-lofts-experience />
 
 <script type="application/ld+json">
 {{

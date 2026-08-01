@@ -10,7 +10,7 @@ Also rewrites sitemap.xml's <!-- INDUSTRY --> block and llms.txt's section.
 """
 import os, html, re, json, pathlib
 
-VER = "20260731b"
+VER = "20260801g"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
 
@@ -276,11 +276,8 @@ def head(title, desc, canonical, jsonld_blocks, og_title=None):
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400..700;1,400..700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet" />
 <link rel="stylesheet" href="/assets/styles.css?v={VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260731c" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260801e" data-lofts-experience />
 
 {blocks}
   <!-- Google tag (gtag.js) -->
