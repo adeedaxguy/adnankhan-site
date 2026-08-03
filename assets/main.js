@@ -568,16 +568,23 @@
     img.removeAttribute('data-bg');
   }
 
+  function updateSceneLabel() {
+    const currentName = cards[frontIdx].querySelector('.scf-name');
+    scene.setAttribute('aria-label', `Browse selected client work. Current project: ${currentName ? currentName.textContent.trim() : 'selected work'}`);
+  }
+
   // ── Mobile: pure crossfade, no transforms ─────────────────────
   function applyFade() {
     cards.forEach((card, i) => {
       const isFront = i === frontIdx;
       if (isFront) loadCardImage(card);
       card.classList.toggle('is-front', isFront);
-      card.style.transform = '';
-      card.style.opacity   = '';
-      card.style.zIndex    = '';
+      card.style.transform = 'none';
+      card.style.opacity   = isFront ? '1' : '0';
+      card.style.zIndex    = isFront ? '2' : '1';
+      card.setAttribute('aria-hidden', isFront ? 'false' : 'true');
     });
+    updateSceneLabel();
   }
 
   // ── Desktop: full 3D stack ─────────────────────────────────────
@@ -591,7 +598,9 @@
       card.style.opacity   = s.op;
       card.style.zIndex    = cards.length - slotIdx;
       card.classList.toggle('is-front', slotIdx === 0);
+      card.setAttribute('aria-hidden', slotIdx === 0 ? 'false' : 'true');
     });
+    updateSceneLabel();
   }
 
   // ── Mouse tilt (desktop only) ──────────────────────────────────
@@ -625,11 +634,21 @@
   });
 
   // ── Tap → next card ───────────────────────────────────────────
-  scene.addEventListener('click', () => {
+  function advanceCard(direction) {
     startCycle();
-    frontIdx = (frontIdx + 1) % cards.length;
+    frontIdx = (frontIdx + direction + cards.length) % cards.length;
     applySlots(tiltX, tiltY);
     resetCycle();
+  }
+
+  scene.addEventListener('click', () => {
+    advanceCard(1);
+  });
+
+  scene.addEventListener('keydown', (event) => {
+    if (!['Enter', ' ', 'ArrowRight', 'ArrowLeft'].includes(event.key)) return;
+    event.preventDefault();
+    advanceCard(event.key === 'ArrowLeft' ? -1 : 1);
   });
 
   // ── Auto-cycle ────────────────────────────────────────────────
@@ -662,6 +681,57 @@
   scene.addEventListener('pointerenter', startCycle, { once: true, passive: true });
   scene.addEventListener('focusin', startCycle, { once: true });
 
+})();
+
+/* ── Homepage hero anti-gravity motion ─────────────────────────── */
+(function () {
+  'use strict';
+
+  const scene = document.querySelector('[data-hero-gravity]');
+  const reel = scene && scene.querySelector('.hero-sidecar');
+  const canRespond = window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+    !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!scene || !reel || !canRespond) return;
+
+  const current = { x: 0, y: 0, r: 0 };
+  const target = { x: 0, y: 0, r: 0 };
+  let frame = 0;
+
+  function render() {
+    current.x += (target.x - current.x) * .095;
+    current.y += (target.y - current.y) * .095;
+    current.r += (target.r - current.r) * .095;
+
+    scene.style.setProperty('--hero-float-x', current.x.toFixed(2) + 'px');
+    scene.style.setProperty('--hero-float-y', current.y.toFixed(2) + 'px');
+    scene.style.setProperty('--hero-float-r', current.r.toFixed(3) + 'deg');
+
+    const moving = Math.abs(target.x - current.x) > .03 ||
+      Math.abs(target.y - current.y) > .03 ||
+      Math.abs(target.r - current.r) > .003;
+    frame = moving ? window.requestAnimationFrame(render) : 0;
+  }
+
+  function requestRender() {
+    if (!frame) frame = window.requestAnimationFrame(render);
+  }
+
+  scene.addEventListener('pointermove', function (event) {
+    const rect = scene.getBoundingClientRect();
+    const x = Math.max(-1, Math.min(1, ((event.clientX - rect.left) / rect.width - .5) * 2));
+    const y = Math.max(-1, Math.min(1, ((event.clientY - rect.top) / rect.height - .5) * 2));
+    target.x = x * 11;
+    target.y = y * 7;
+    target.r = x * .42;
+    requestRender();
+  }, { passive: true });
+
+  scene.addEventListener('pointerleave', function () {
+    target.x = 0;
+    target.y = 0;
+    target.r = 0;
+    requestRender();
+  }, { passive: true });
 })();
 
 
