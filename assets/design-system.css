@@ -734,7 +734,7 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
 .lofts-visual-hero {
   position: relative;
   min-height: auto !important;
-  padding: clamp(3rem, 4.75vw, 5.25rem) 0 clamp(3rem, 4.25vw, 4.75rem) !important;
+  padding: clamp(2.25rem, 3.2vw, 3.75rem) 0 clamp(2.75rem, 3.8vw, 4.5rem) !important;
   overflow: clip;
   border-bottom: 1px solid var(--line);
   background:
@@ -746,8 +746,9 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
   --lofts-hero-main-row: 2;
   display: grid !important;
   grid-template-columns: minmax(0, 1.02fr) minmax(430px, .9fr);
-  gap: clamp(2rem, 4.5vw, 5.5rem);
-  align-items: center;
+  column-gap: clamp(2rem, 4.5vw, 5.5rem);
+  row-gap: clamp(1rem, 1.45vw, 1.65rem);
+  align-items: start;
 }
 
 .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid.lofts-has-breadcrumb {
@@ -768,13 +769,13 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
 .lofts-visual-hero__breadcrumb {
   grid-column: 1 / -1 !important;
   grid-row: 2 !important;
-  margin: calc(clamp(2rem, 3vw, 3.25rem) * -1) 0 0 !important;
+  margin: 0 !important;
 }
 
 .lofts-visual-hero__copy {
   grid-column: 1 !important;
   grid-row: var(--lofts-hero-main-row) !important;
-  align-self: center;
+  align-self: start;
   display: block !important;
   min-width: 0;
   max-width: none !important;
@@ -821,8 +822,9 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
 
 .page-hero .page-hero-grid.lofts-visual-hero__grid {
   grid-template-columns: minmax(0, 1.02fr) minmax(430px, .9fr);
-  gap: clamp(2rem, 4.5vw, 5.5rem);
-  align-items: center;
+  column-gap: clamp(2rem, 4.5vw, 5.5rem);
+  row-gap: clamp(1rem, 1.45vw, 1.65rem);
+  align-items: start;
 }
 
 .page-hero .lofts-legacy-hero-proof {
@@ -839,7 +841,7 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
   --stage-y: 0px;
   grid-column: 2;
   grid-row: var(--lofts-hero-main-row, 1);
-  align-self: center;
+  align-self: start;
   min-width: 0;
   color: var(--ink);
 }
@@ -1216,7 +1218,8 @@ html[data-theme="dark"] .lofts-hero-stage__proof {
   .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid,
   .page-hero .page-hero-grid.lofts-visual-hero__grid {
     grid-template-columns: minmax(0, 1fr) minmax(360px, .8fr);
-    gap: 2.75rem;
+    column-gap: 2.75rem;
+    row-gap: 1.35rem;
   }
 
   .lofts-visual-hero__copy > .h-display,
@@ -1231,7 +1234,7 @@ html[data-theme="dark"] .lofts-hero-stage__proof {
 
 @media (max-width: 820px) {
   .lofts-visual-hero {
-    padding: 3.5rem 0 3.25rem !important;
+    padding: 2.5rem 0 3.25rem !important;
   }
 
   .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid,
@@ -1240,11 +1243,11 @@ html[data-theme="dark"] .lofts-hero-stage__proof {
   }
 
   .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid::before {
-    margin-bottom: 1.5rem !important;
+    margin-bottom: 1rem !important;
   }
 
   .lofts-visual-hero__breadcrumb {
-    margin: 0 0 2rem !important;
+    margin: 0 0 1.35rem !important;
   }
 
   .lofts-hero-stage {
