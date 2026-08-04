@@ -860,8 +860,241 @@
   var route = window.location.pathname.split('/').filter(Boolean)[0] || 'home';
   document.body.classList.add('route-' + route.replace(/[^a-z0-9-]/gi, '-').toLowerCase());
 
-  var footerContainer = document.querySelector('.site-footer .container');
-  if (footerContainer && !footerContainer.querySelector('.lofts-footer-call')) {
+  function installVisualHeroes() {
+    var pathname = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '') || '/';
+    var segments = pathname.split('/').filter(Boolean);
+    var primaryRoute = segments[0] || '';
+    var isLandingPage = primaryRoute === 'services' || primaryRoute === 'locations' ||
+      primaryRoute === 'websites' || primaryRoute === 'work' ||
+      (primaryRoute === 'portfolio' && segments.length === 1) ||
+      (primaryRoute === 'blog' && segments.length === 1) ||
+      (primaryRoute === 'tools' && segments.length === 1) ||
+      (primaryRoute === 'notes' && segments.length === 1) ||
+      primaryRoute === 'process' || primaryRoute === 'now' ||
+      pathname === '/about.html' || pathname === '/brand.html';
+
+    if (!isLandingPage || document.querySelector('[data-lofts-hero-stage]')) return;
+
+    var hero = null;
+    var grid = null;
+    var copy = null;
+    var breadcrumb = null;
+    var legacyProof = null;
+
+    if (primaryRoute === 'portfolio' && segments.length === 1) {
+      hero = document.querySelector('.portfolio-archive-hero');
+      grid = hero && hero.querySelector(':scope > .container');
+      copy = grid && grid.querySelector('.portfolio-hero-shell');
+    } else if (document.querySelector('main > .loc-hero, main > .region-hero')) {
+      hero = document.querySelector('main > .loc-hero, main > .region-hero');
+      grid = hero && hero.querySelector(':scope > .container');
+      copy = grid && grid.querySelector('.loc-hero-copy');
+    } else if (document.querySelector('main > .page-hero')) {
+      hero = document.querySelector('main > .page-hero');
+      grid = hero && hero.querySelector('.page-hero-grid');
+      copy = grid && grid.querySelector('.page-hero-copy');
+      legacyProof = grid && grid.querySelector('.page-hero-proof');
+    } else {
+      hero = document.querySelector('main > section.paper:first-of-type');
+      grid = hero && hero.querySelector(':scope > .container');
+      if (grid) {
+        copy = Array.from(grid.children).find(function (child) {
+          return child.matches('[data-reveal], .portfolio-hero-shell') && child.querySelector('h1');
+        });
+      }
+    }
+
+    if (!hero || !grid || !copy) return;
+
+    breadcrumb = hero.querySelector('.page-breadcrumb, .loc-breadcrumb, nav[aria-label="Breadcrumb"]');
+
+    var projects = {
+      studio: [
+        { name: 'Discova', meta: 'WordPress / Travel / B2B', image: '/assets/work/discova.webp', href: '/portfolio/discova.html' },
+        { name: 'Salud Capital', meta: 'WordPress / Finance / Editorial', image: '/assets/work/saludcap.webp', href: '/portfolio/saludcap.html' },
+        { name: 'American Gulf', meta: 'Insurance / B2B / WordPress', image: '/assets/work/americangulf.webp', href: '/portfolio/americangulf.html' },
+        { name: 'Woven Media', meta: 'Publishing / Editorial / CMS', image: '/assets/work/wovenmedia.webp', href: '/portfolio/wovenmedia.html' }
+      ],
+      commerce: [
+        { name: 'Joshifresco', meta: 'Commerce / Art / Editorial', image: '/assets/work/joshifresco.webp', href: '/portfolio/joshifresco.html' },
+        { name: 'Jamaican Coffee Club', meta: 'DTC / Subscription / WooCommerce', image: '/assets/work/jamaicancoffeeclub.webp', href: '/portfolio/jamaicancoffeeclub.html' },
+        { name: 'Mercanto', meta: 'B2B / Marketplace / Food', image: '/assets/work/mercanto.webp', href: '/portfolio/mercanto.html' },
+        { name: 'Counter Culture', meta: 'Shopify / Fashion / DTC', image: '/assets/work/counter-culture.webp', href: '/portfolio/counter-culture.html' }
+      ],
+      product: [
+        { name: 'Woven Media', meta: 'Product / Publishing / CMS', image: '/assets/work/wovenmedia.webp', href: '/portfolio/wovenmedia.html' },
+        { name: 'iCloseLeads', meta: 'SaaS / AI / Lead operations', image: '/assets/work/icloseleads.jpg', href: '/portfolio/icloseleads.html' },
+        { name: 'Acturion', meta: 'B2B / Insurance / Platform', image: '/assets/work/acturion.webp', href: '/portfolio/acturion.html' },
+        { name: 'Cartelligent', meta: 'Automotive / Service / Platform', image: '/assets/work/cartelligent.webp', href: '/portfolio/cartelligent.html' }
+      ],
+      local: [
+        { name: 'American Reinsurance', meta: 'Professional services / B2B', image: '/assets/work/americanreinsurance.webp', href: '/portfolio/americanreinsurance.html' },
+        { name: 'Cartelligent', meta: 'Automotive / Service / Lead flow', image: '/assets/work/cartelligent.webp', href: '/portfolio/cartelligent.html' },
+        { name: 'Discova', meta: 'Multi-market / WordPress / B2B', image: '/assets/work/discova.webp', href: '/portfolio/discova.html' },
+        { name: 'Acturion', meta: 'Finance / B2B / WordPress', image: '/assets/work/acturion.webp', href: '/portfolio/acturion.html' }
+      ],
+      editorial: [
+        { name: 'Website structure audit', meta: 'Audit / Structure / Conversion', image: '/assets/blog/website-structure-audit-report.png', href: '/blog/website-structure-audit-report.html' },
+        { name: 'Answer engine checklist', meta: 'SEO / AEO / Entity signals', image: '/assets/blog/answer-engine-optimization-checklist.png', href: '/blog/answer-engine-optimization-checklist.html' },
+        { name: 'Modify or rebuild?', meta: 'Shopify / Architecture / Risk', image: '/assets/blog/shopify-theme-customization-modify-or-rebuild.png', href: '/blog/shopify-theme-customization-modify-or-rebuild.html' },
+        { name: 'AI-search landing audit', meta: 'AI search / Landing pages / Leads', image: '/assets/blog/ai-search-landing-page-audit.png', href: '/blog/ai-search-landing-page-audit.html' }
+      ]
+    };
+
+    var routeKey = pathname.toLowerCase();
+    var group = 'studio';
+    if (primaryRoute === 'blog' || primaryRoute === 'notes' || primaryRoute === 'tools') {
+      group = 'editorial';
+    } else if (/shopify|woocommerce|ecommerce|store|retail|restaurant|cafe|bakery|florist|fashion|jewel|coffee/.test(routeKey)) {
+      group = 'commerce';
+    } else if (/saas|custom|software|webflow|ai-|automation|app-development|product/.test(routeKey)) {
+      group = 'product';
+    } else if (primaryRoute === 'locations' || primaryRoute === 'websites') {
+      group = 'local';
+    }
+
+    var source = projects[group];
+    var hash = Array.from(pathname).reduce(function (total, character) {
+      return ((total * 31) + character.charCodeAt(0)) >>> 0;
+    }, 7);
+    var chosen = [0, 1, 2].map(function (step) {
+      return source[(hash + step) % source.length];
+    });
+
+    var stageLabel = group === 'editorial' ? 'Selected field notes' : 'Selected shipped work';
+    var archiveLabel = group === 'editorial' ? 'Read the journal' : 'Explore the archive';
+    var archiveHref = group === 'editorial' ? '/blog' : '/portfolio';
+    var proofValue = primaryRoute === 'portfolio' ? '15 years' : '3,400+';
+    var proofLabel = primaryRoute === 'portfolio' ? 'of senior-led delivery' : 'projects handled across almost 15 years';
+
+    var stage = document.createElement('aside');
+    stage.className = 'lofts-hero-stage';
+    stage.setAttribute('data-lofts-hero-stage', '');
+    stage.setAttribute('aria-label', stageLabel);
+    stage.innerHTML =
+      '<div class="lofts-hero-stage__head">' +
+        '<span><i aria-hidden="true"></i>' + stageLabel + '</span>' +
+        '<a href="' + archiveHref + '">' + archiveLabel + '<b aria-hidden="true">&nearr;</b></a>' +
+      '</div>' +
+      '<div class="lofts-hero-stage__canvas">' +
+        chosen.map(function (item, index) {
+          return '<a class="lofts-hero-tile lofts-hero-tile--' + (index + 1) + '" href="' + item.href + '" aria-label="View ' + item.name + '">' +
+            '<span class="lofts-hero-tile__chrome" aria-hidden="true"><i></i><i></i><i></i></span>' +
+            '<img src="' + item.image + '" alt="' + item.name + ' project by Lofts Studio" width="1200" height="900" ' + (index === 0 ? 'loading="eager" fetchpriority="high"' : 'loading="lazy"') + ' decoding="async" />' +
+            '<span class="lofts-hero-tile__caption"><strong>' + item.name + '</strong><small>' + item.meta + '</small></span>' +
+          '</a>';
+        }).join('') +
+        '<div class="lofts-hero-stage__proof"><strong>' + proofValue + '</strong><span>' + proofLabel + '</span></div>' +
+      '</div>';
+
+    hero.classList.add('lofts-visual-hero');
+    grid.classList.add('lofts-visual-hero__grid');
+    copy.classList.add('lofts-visual-hero__copy');
+    if (breadcrumb) {
+      breadcrumb.classList.add('lofts-visual-hero__breadcrumb');
+      grid.classList.add('lofts-has-breadcrumb');
+    }
+    if (legacyProof) legacyProof.classList.add('lofts-legacy-hero-proof');
+
+    if (grid.classList.contains('page-hero-grid')) {
+      grid.appendChild(stage);
+    } else {
+      Array.from(grid.children).forEach(function (child) {
+        if (child !== copy && child !== breadcrumb) child.classList.add('lofts-visual-hero__after');
+      });
+      grid.appendChild(stage);
+    }
+
+    window.requestAnimationFrame(function () { stage.classList.add('lofts-hero-stage--ready'); });
+
+    if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches &&
+        window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+      stage.addEventListener('pointermove', function (event) {
+        var rect = stage.getBoundingClientRect();
+        var x = ((event.clientX - rect.left) / rect.width) - .5;
+        var y = ((event.clientY - rect.top) / rect.height) - .5;
+        stage.style.setProperty('--stage-x', (x * 8).toFixed(2) + 'px');
+        stage.style.setProperty('--stage-y', (y * 6).toFixed(2) + 'px');
+      }, { passive: true });
+      stage.addEventListener('pointerleave', function () {
+        stage.style.setProperty('--stage-x', '0px');
+        stage.style.setProperty('--stage-y', '0px');
+      }, { passive: true });
+    }
+  }
+
+  installVisualHeroes();
+
+  var socialProfiles = [
+    { name: 'Instagram', mark: 'IG', url: 'https://www.instagram.com/lofts.studio/' },
+    { name: 'Facebook', mark: 'f', url: 'https://www.facebook.com/profile.php?id=61591722984967' },
+    { name: 'Pinterest', mark: 'P', url: 'https://www.pinterest.com/loftsstudio/' },
+    { name: 'LinkedIn', mark: 'in', url: 'https://www.linkedin.com/company/lofts-studio/' }
+  ];
+
+  function ensurePublicFooter() {
+    if (/^\/admin(?:\/|$)/.test(window.location.pathname) ||
+        document.body.classList.contains('landing-page-paid')) return null;
+
+    var footer = document.querySelector('.site-footer');
+    if (footer) return footer;
+
+    var main = document.querySelector('main');
+    if (!main) return null;
+
+    footer = document.createElement('footer');
+    footer.className = 'site-footer lofts-compact-footer';
+    footer.innerHTML =
+      '<div class="container">' +
+        '<div class="lofts-compact-footer__nav">' +
+          '<a class="lofts-compact-footer__brand" href="/" aria-label="Lofts Studio home"><em>Lofts</em><span>STUDIO</span></a>' +
+          '<nav aria-label="Footer navigation">' +
+            '<a href="/portfolio">Work</a>' +
+            '<a href="/services">Services</a>' +
+            '<a href="/tools">Tools</a>' +
+            '<a href="/#contact">Get in touch</a>' +
+          '</nav>' +
+        '</div>' +
+        '<div class="footer-bottom">' +
+          '<p class="meta">&copy; ' + new Date().getFullYear() + ' Lofts Studio</p>' +
+          '<p class="meta">Senior web design &amp; engineering</p>' +
+        '</div>' +
+      '</div>';
+    main.insertAdjacentElement('afterend', footer);
+    return footer;
+  }
+
+  function installFooterSocials(footer) {
+    if (!footer || footer.querySelector('.lofts-footer-socials')) return;
+    var footerContainer = footer.querySelector(':scope > .container') || footer;
+    var footerBottom = footerContainer.querySelector(':scope > .footer-bottom');
+    var socialSection = document.createElement('section');
+    socialSection.className = 'lofts-footer-socials';
+    socialSection.setAttribute('aria-labelledby', 'lofts-social-heading');
+    socialSection.innerHTML =
+      '<div class="lofts-footer-socials__intro">' +
+        '<span>Elsewhere</span>' +
+        '<p id="lofts-social-heading">Follow the work, field notes, and studio updates.</p>' +
+      '</div>' +
+      '<nav class="lofts-footer-socials__links" aria-label="Lofts Studio social profiles">' +
+        socialProfiles.map(function (profile) {
+          return '<a class="lofts-social-link" href="' + profile.url + '" target="_blank" rel="me noopener noreferrer" aria-label="Lofts Studio on ' + profile.name + ' (opens in a new tab)">' +
+            '<span class="lofts-social-link__mark" aria-hidden="true">' + profile.mark + '</span>' +
+            '<span>' + profile.name + '</span>' +
+            '<b aria-hidden="true">&nearr;</b>' +
+          '</a>';
+        }).join('') +
+      '</nav>';
+
+    if (footerBottom) footerContainer.insertBefore(socialSection, footerBottom);
+    else footerContainer.appendChild(socialSection);
+  }
+
+  var publicFooter = ensurePublicFooter();
+  installFooterSocials(publicFooter);
+
+  var footerContainer = publicFooter && (publicFooter.querySelector(':scope > .container') || publicFooter);
+  if (footerContainer && !publicFooter.classList.contains('lofts-compact-footer') && !footerContainer.querySelector('.lofts-footer-call')) {
     var footerCall = document.createElement('div');
     footerCall.className = 'lofts-footer-call';
     footerCall.innerHTML = '<a class="lofts-footer-call__link" href="/#contact">Let&#39;s build what&#39;s next.</a><p class="lofts-footer-call__note">Tell us what needs to move: the whole site, one funnel, or the system behind it.</p>';
