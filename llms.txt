@@ -223,3 +223,15 @@ Lofts Studio added 20 search assets for conversion-led redesign, AI-search-ready
 - AI Search Brand Entity Co-occurrence: https://lofts.studio/blog/ai-search-brand-entity-cooccurrence.html
 - Landing Page Proof Section Checklist: https://lofts.studio/blog/landing-page-proof-section-checklist.html
 
+
+
+<!-- 2026-08-08-AUDIT-REPORT-CLUSTER:START -->
+## August 8, 2026 audit report and AEO checker cluster
+Lofts Studio connects site audit report, free website audit report, AEO checker, website conversion audit, and technical SEO audit intent to practical implementation paths for service businesses.
+- [Free Website Audit Report](https://lofts.studio/free-audit) - live site audit report with PDF output, SEO/AEO checks, trust gaps, broken links, and prioritized fixes.
+- [SEO and AEO Compatibility Checker](https://lofts.studio/tools/seo-aeo-checker.html) - one-page checker for indexability, answer clarity, schema, entity proof, internal links, mobile UX, and conversion path.
+- [Website Structure Audit Report](https://lofts.studio/blog/website-structure-audit-report.html) - structure, crawl path, internal link, AI-search, and lead-path audit guide.
+- [Site Audit Report PDF](https://lofts.studio/blog/site-audit-report-pdf.html) - PDF format, evidence fields, owners, fix priority, and validation criteria.
+- [Website Conversion Path Audit](https://lofts.studio/blog/website-conversion-path-audit.html) - query-to-lead path review for first screen, proof, CTA, form, analytics, and follow-up.
+- [Technical SEO Audit Service](https://lofts.studio/services/technical-seo-audit.html) - implementation-led crawl, indexation, schema, redirect, Core Web Vitals, search appearance, and AEO audit support.
+<!-- 2026-08-08-AUDIT-REPORT-CLUSTER:END -->
