@@ -729,6 +729,118 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
   }
 }
 
+/* Tools landing hero ----------------------------------------------------- */
+
+.route-tools .tools-hero,
+body.route-tools section.paper.tools-hero:first-of-type {
+  min-height: auto;
+  padding: clamp(3.5rem, 6.5vw, 6.25rem) 0 clamp(3.25rem, 5.5vw, 5.5rem) !important;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+}
+
+.route-tools .tools-hero > .container::before {
+  display: none;
+}
+
+.route-tools .tools-hero__layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.25fr) minmax(19rem, .65fr);
+  grid-template-areas:
+    "label support"
+    "title support";
+  column-gap: clamp(3rem, 8vw, 8rem);
+  row-gap: clamp(1.35rem, 2vw, 2rem);
+  align-items: end;
+  max-width: none;
+}
+
+.route-tools .tools-hero__layout > .eyebrow {
+  grid-area: label;
+  align-self: start;
+  margin: 0;
+}
+
+.route-tools .tools-hero__layout > .h-display {
+  grid-area: title;
+  max-width: 15ch !important;
+  margin: 0 !important;
+  font-size: clamp(3.5rem, 5.35vw, 5.35rem) !important;
+  line-height: .96 !important;
+  transform: none !important;
+}
+
+.route-tools .tools-hero__support {
+  grid-area: support;
+  align-self: end;
+  padding-bottom: .35rem;
+}
+
+.route-tools .tools-hero__support .lead {
+  max-width: 48ch;
+  margin: 0;
+}
+
+.route-tools .tools-hero__support .page-hero-actions {
+  margin-top: clamp(1.5rem, 2.5vw, 2.25rem);
+}
+
+@media (max-width: 900px) {
+  .route-tools .tools-hero,
+  body.route-tools section.paper.tools-hero:first-of-type {
+    padding: 3.25rem 0 3.5rem !important;
+  }
+
+  .route-tools .tools-hero__layout {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "label"
+      "title"
+      "support";
+    gap: 1.35rem;
+  }
+
+  .route-tools .tools-hero__layout > .h-display {
+    max-width: 12ch !important;
+  }
+
+  .route-tools .tools-hero__support {
+    max-width: 42rem;
+    padding: .4rem 0 0;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 900px) {
+  .route-tools .tools-hero,
+  body.route-tools section.paper.tools-hero:first-of-type {
+    padding-top: 7rem !important;
+  }
+
+  .route-tools .tools-hero__layout > .eyebrow {
+    display: none;
+  }
+}
+
+@media (max-width: 640px) {
+  .route-tools .tools-hero,
+  body.route-tools section.paper.tools-hero:first-of-type {
+    padding: 2.6rem 0 3rem !important;
+  }
+
+  .route-tools .tools-hero__layout > .h-display {
+    font-size: clamp(2.55rem, 12.5vw, 3.15rem) !important;
+    line-height: .98 !important;
+  }
+
+  .route-tools .tools-hero__support .page-hero-actions {
+    align-items: stretch;
+  }
+
+  .route-tools .tools-hero__support .btn {
+    justify-content: center;
+  }
+}
+
 /* The landing-page collage is injected from one shared data source so the
    hundreds of service, industry, and location pages cannot visually drift. */
 .lofts-visual-hero {
