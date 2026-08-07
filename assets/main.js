@@ -496,7 +496,7 @@
         onEnter: () => gsap.fromTo(el, {
           y: 18,
         }, {
-          y: 0, duration: 0.72, ease: 'power3.out',
+          y: 0, duration: 0.2, ease: 'power2.out',
         }),
       });
     });
@@ -508,10 +508,10 @@
         const r = btn.getBoundingClientRect();
         const x = (e.clientX - r.left - r.width / 2) * strength;
         const y = (e.clientY - r.top - r.height / 2) * strength;
-        gsap.to(btn, { x, y, duration: 0.45, ease: 'power3.out' });
+        gsap.to(btn, { x, y, duration: 0.2, ease: 'power2.out' });
       };
       const onLeave = () => {
-        gsap.to(btn, { x: 0, y: 0, duration: 0.7, ease: 'elastic.out(1, 0.3)' });
+        gsap.to(btn, { x: 0, y: 0, duration: 0.2, ease: 'power2.out' });
       };
       btn.addEventListener('mousemove', onMove);
       btn.addEventListener('mouseleave', onLeave);
@@ -1382,4 +1382,17 @@
       loadWidgets();
     }, { once: true, passive: true });
   });
+})();
+
+/* ── Shared motion system: self-hosted, progressive, and public pages only ── */
+(function () {
+  if (window.location.pathname.indexOf('/admin/') === 0 || document.getElementById('lofts-motion-system')) return;
+  var script = document.createElement('script');
+  script.id = 'lofts-motion-system';
+  script.src = '/assets/motion-system.js?v=20260808c';
+  script.async = true;
+
+  var load = function () { document.head.appendChild(script); };
+  if ('requestIdleCallback' in window) window.requestIdleCallback(load, { timeout: 650 });
+  else window.setTimeout(load, 180);
 })();

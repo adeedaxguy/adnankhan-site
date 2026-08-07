@@ -26,7 +26,7 @@
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
-<link rel="stylesheet" href="../assets/styles.css?v=20260801j" />
+<link rel="stylesheet" href="../assets/styles.css?v=20260808k" />
 
 <script type="application/ld+json">
 {
@@ -67,9 +67,9 @@
 }
 </script>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
-<link rel="stylesheet" href="/assets/experience.css?v=20260801h" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260808h" data-lofts-experience />
 <link rel="stylesheet" href="/assets/typography.css" />
-<link rel="stylesheet" href="/assets/design-system.css?v=20260807a" />
+<link rel="stylesheet" href="/assets/design-system.css?v=20260808j" />
 </head>
 <body class="route-blog">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -2666,10 +2666,7 @@
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr !important; } }
 .featured-card:hover { border-color: var(--ink) !important; }
 </style>
-<!-- GSAP — async, non-render-blocking. main.js detects and gracefully degrades. -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
-<script src="../assets/main.js?v=20260804c" defer></script>
+<script src="../assets/main.js?v=20260808c" defer></script>
 <!-- ─── Sticky "Book a free audit" pill ─── -->
 <a href="/#contact" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>
@@ -2688,7 +2685,40 @@
   var grid = document.getElementById('posts-grid');
   var pagination = document.getElementById('blogPagination');
 
+  function readState() {
+    var params = new URLSearchParams(window.location.search);
+    var requestedFilter = params.get('category') || 'all';
+    var validFilter = filterButtons.some(function(button){
+      return button.getAttribute('data-blog-filter') === requestedFilter;
+    });
+    activeFilter = validFilter ? requestedFilter : 'all';
+    currentPage = Math.max(1, parseInt(params.get('page') || '1', 10) || 1);
+  }
+
+  function writeState(mode) {
+    var url = new URL(window.location.href);
+    if (activeFilter === 'all') url.searchParams.delete('category');
+    else url.searchParams.set('category', activeFilter);
+    if (currentPage === 1) url.searchParams.delete('page');
+    else url.searchParams.set('page', String(currentPage));
+    window.history[mode || 'pushState']({}, '', url.pathname + url.search + url.hash);
+  }
+
+  function syncFilterButtons() {
+    filterButtons.forEach(function(button){
+      var isActive = button.getAttribute('data-blog-filter') === activeFilter;
+      button.classList.toggle('is-active', isActive);
+      button.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+    });
+  }
+
   function categoryKey(card) {
+    var explicit = card.getAttribute('data-blog-category');
+    if (explicit) {
+      if (explicit === 'ai-automation') return 'ai';
+      if (explicit === 'cro') return 'conversion';
+      return explicit;
+    }
     var tag = card.querySelector('.tag-pill');
     var text = (tag ? tag.textContent : '').toLowerCase();
     if (text.indexOf('ai') !== -1 || text.indexOf('automation') !== -1) return 'ai';
@@ -2708,7 +2738,7 @@
     });
   }
 
-  function renderPagination(total, visibleCount) {
+  function renderPagination(total) {
     if (!pagination) return;
     var totalPages = Math.max(1, Math.ceil(total / pageSize));
     if (totalPages <= 1) {
@@ -2719,11 +2749,18 @@
     pagination.hidden = false;
     var html = '';
     html += '<button type="button" class="blog-page-btn" data-page-action="prev" '+(currentPage === 1 ? 'disabled' : '')+' aria-label="Previous blog page">&larr;</button>';
-    for (var i = 1; i <= totalPages; i++) {
-      html += '<button type="button" class="blog-page-btn '+(i === currentPage ? 'is-active' : '')+'" data-page="'+i+'" aria-label="Blog page '+i+'" '+(i === currentPage ? 'aria-current="page"' : '')+'>'+i+'</button>';
-    }
+    var pages = [1, totalPages, currentPage - 1, currentPage, currentPage + 1]
+      .filter(function(page){ return page >= 1 && page <= totalPages; })
+      .filter(function(page, index, list){ return list.indexOf(page) === index; })
+      .sort(function(a, b){ return a - b; });
+    var previousPage = 0;
+    pages.forEach(function(page){
+      if (previousPage && page - previousPage > 1) html += '<span class="blog-page-ellipsis" aria-hidden="true">&hellip;</span>';
+      html += '<button type="button" class="blog-page-btn '+(page === currentPage ? 'is-active' : '')+'" data-page="'+page+'" aria-label="Blog page '+page+'" '+(page === currentPage ? 'aria-current="page"' : '')+'>'+page+'</button>';
+      previousPage = page;
+    });
     html += '<button type="button" class="blog-page-btn" data-page-action="next" '+(currentPage === totalPages ? 'disabled' : '')+' aria-label="Next blog page">&rarr;</button>';
-    html += '<span class="blog-page-status">Showing '+(((currentPage - 1) * pageSize) + 1)+'&ndash;'+Math.min(currentPage * pageSize, total)+' of '+total+' posts</span>';
+    html += '<span class="blog-page-status" aria-live="polite">Showing '+(((currentPage - 1) * pageSize) + 1)+'&ndash;'+Math.min(currentPage * pageSize, total)+' of '+total+' posts</span>';
     pagination.innerHTML = html;
   }
 
@@ -2740,19 +2777,23 @@
     matches.forEach(function(card, index){
       card.hidden = !(index >= start && index < end);
     });
-    renderPagination(matches.length, Math.min(pageSize, matches.length));
+    renderPagination(matches.length);
+  }
+
+  function scrollToPosts() {
+    if (!grid) return;
+    if (window.loftsLenis) window.loftsLenis.scrollTo(grid, { offset: -110, duration: 0.7 });
+    else grid.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' });
   }
 
   filterButtons.forEach(function(btn){
     btn.addEventListener('click', function(){
       activeFilter = btn.getAttribute('data-blog-filter') || 'all';
       currentPage = 1;
-      filterButtons.forEach(function(b){
-        var isActive = b === btn;
-        b.classList.toggle('is-active', isActive);
-        b.setAttribute('aria-pressed', isActive ? 'true' : 'false');
-      });
+      syncFilterButtons();
       applyBlogFilter();
+      writeState('pushState');
+      scrollToPosts();
     });
   });
 
@@ -2766,8 +2807,8 @@
       else if (btn.getAttribute('data-page-action') === 'next') currentPage = Math.min(totalPages, currentPage + 1);
       else currentPage = parseInt(btn.getAttribute('data-page') || '1', 10);
       applyBlogFilter();
-      var heading = document.querySelector('#posts-grid');
-      if (heading) heading.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      writeState('pushState');
+      scrollToPosts();
     });
   }
 
@@ -2788,6 +2829,7 @@
         el.className = 'post-card';
         el.setAttribute('data-reveal','');
         el.setAttribute('data-blog-card','');
+        el.setAttribute('data-blog-category', String(cat || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'));
         el.innerHTML = '<a href="/blog/post?slug='+encodeURIComponent(slug)+'" class="post-card-link">'
           +'<img class="post-card-img" src="'+coverUrl+'" alt="" width="1200" height="675" loading="lazy" />'
           +'<div class="post-card-body">'
@@ -2805,6 +2847,13 @@
     .catch(function(){});
   }
   function esc(s){ return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  window.addEventListener('popstate', function(){
+    readState();
+    syncFilterButtons();
+    applyBlogFilter();
+  });
+  readState();
+  syncFilterButtons();
   applyBlogFilter();
 })();
 </script>

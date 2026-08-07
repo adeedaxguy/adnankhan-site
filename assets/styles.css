@@ -801,7 +801,7 @@ html.menu-lock,
 body.menu-lock { overflow: hidden !important; }
 
 @media (max-width: 880px) {
-  html { scroll-padding-top: 76px; }
+  html { scroll-padding-top: 64px; }
   body { padding-top: 64px; }
   .nav-links { display: none; }
   .nav-inner { height: 64px; padding: 0 1.25rem; }

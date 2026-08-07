@@ -232,7 +232,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
 @media (max-width: 880px) {
   .nav-bar,
   .nav-bar.scrolled {
-    height: 76px;
+    height: 64px;
     border-bottom: 1px solid color-mix(in srgb, var(--line) 72%, transparent);
     background: color-mix(in srgb, var(--bg) 92%, transparent);
     backdrop-filter: saturate(150%) blur(18px);
