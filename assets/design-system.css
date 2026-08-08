@@ -2083,12 +2083,82 @@ body:not(.home-page) section.paper.services-hero:first-of-type .services-hero__c
   display: block;
 }
 
+/* The fixed header sits at 900; the modal navigation must own the top layer. */
+.mnav {
+  z-index: 1000;
+}
+
+/* Homepage atmosphere: the same restrained low-poly system, mounted behind the hero. */
+.hero-scroll-scene {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero-scroll-scene > :not(.home-hero-canvas) {
+  position: relative;
+  z-index: 1;
+}
+
+.home-hero-canvas {
+  position: absolute;
+  z-index: 0;
+  top: 4%;
+  left: 43%;
+  width: min(38vw, 620px);
+  aspect-ratio: 1;
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -8%);
+  transition: opacity var(--motion-fast) var(--motion-ease-out);
+  -webkit-mask-image: radial-gradient(circle, #000 42%, transparent 74%);
+  mask-image: radial-gradient(circle, #000 42%, transparent 74%);
+}
+
+.home-hero-canvas.is-rendered {
+  opacity: .34;
+  filter: contrast(1.12) saturate(.88);
+}
+
+.home-hero-canvas canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+html[data-theme="dark"] .home-hero-canvas.is-rendered {
+  opacity: .42;
+  filter: brightness(1.16) contrast(1.08);
+}
+
+@media (max-width: 880px) {
+  .home-hero-canvas {
+    top: 1.5rem;
+    left: 74%;
+    width: min(76vw, 430px);
+    transform: translate(-50%, 0);
+  }
+
+  .home-hero-canvas.is-rendered {
+    opacity: .18;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-hero-canvas {
+    display: none;
+  }
+}
+
 html[data-theme="dark"] .services-hero-canvas {
   filter: brightness(1.12) contrast(1.04);
   opacity: .22;
 }
 
 /* Compact, stateful blog pagination. */
+.route-blog .post-card[hidden] {
+  display: none !important;
+}
+
 .blog-pagination {
   position: relative;
   gap: .42rem;
