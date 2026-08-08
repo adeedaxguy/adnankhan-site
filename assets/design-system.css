@@ -455,8 +455,97 @@ body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-displa
   background: transparent !important;
 }
 
-.pf-filter-bar {
-  background: color-mix(in srgb, var(--bg) 94%, transparent) !important;
+.portfolio-page .pf-filter-bar {
+  position: sticky;
+  top: var(--nav-h, 76px) !important;
+  z-index: 55;
+  background: var(--bg) !important;
+  border: 0 !important;
+  border-top: 1px solid var(--line) !important;
+  border-bottom: 1px solid var(--line) !important;
+  box-shadow: 0 14px 30px -28px color-mix(in srgb, var(--ink) 48%, transparent) !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.portfolio-page .nav-bar.scrolled {
+  min-height: var(--nav-h, 76px);
+  background: var(--bg) !important;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.portfolio-page .pf-filter-shell {
+  overflow-x: auto;
+  padding-block: .35rem !important;
+  scrollbar-width: none;
+  overscroll-behavior-inline: contain;
+}
+
+.portfolio-page .pf-filter-shell::-webkit-scrollbar {
+  display: none;
+}
+
+.portfolio-page .pf-filter-row {
+  display: flex;
+  width: max-content;
+  min-width: 100%;
+  align-items: center;
+  gap: .42rem;
+  white-space: nowrap;
+}
+
+.portfolio-page .pf-filter-label,
+.portfolio-page .pf-filter-count {
+  flex: 0 0 auto;
+  font-family: var(--font-mono);
+  font-size: .62rem;
+  line-height: 1;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.portfolio-page .pf-filter-label {
+  margin-right: .28rem;
+}
+
+.portfolio-page .pf-filter-count {
+  margin-left: auto;
+  padding-left: 1rem;
+}
+
+.portfolio-page .filter-group {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: .3rem;
+  flex-wrap: nowrap !important;
+}
+
+.portfolio-page .pf-filter-divider {
+  width: 1px;
+  height: 18px;
+  margin-inline: .35rem;
+  flex: 0 0 auto;
+  background: var(--line);
+}
+
+.portfolio-page .filter-btn {
+  min-height: 34px;
+  padding: .42rem .7rem;
+  border-radius: 4px;
+  transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out;
+}
+
+html[data-theme="dark"] .portfolio-page .pf-filter-bar {
+  background: var(--bg) !important;
+}
+
+@media (max-width: 880px) {
+  .portfolio-page .nav-bar.scrolled {
+    min-height: 64px;
+  }
 }
 
 .loc-hero,
