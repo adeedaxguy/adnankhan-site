@@ -2219,6 +2219,36 @@ html[data-theme="dark"] .services-hero-canvas {
 }
 
 @media (max-width: 640px) {
+  .site-footer .footer-newsletter-form,
+  .home-page .home-footer .footer-newsletter-form {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: .75rem;
+    padding: .75rem;
+    border: 1px solid #3b3b38;
+  }
+
+  .site-footer .footer-newsletter-form input,
+  .home-page .home-footer .footer-newsletter-form input {
+    width: 100%;
+    min-width: 0;
+    padding: .7rem .15rem .85rem;
+    border-bottom: 1px solid #3b3b38;
+  }
+
+  .site-footer .footer-newsletter-form button,
+  .home-page .home-footer .footer-newsletter-form button {
+    width: 100%;
+    min-height: 44px;
+    justify-content: center;
+  }
+
+  .site-footer .footer-newsletter-note,
+  .home-page .home-footer .footer-newsletter-note {
+    max-width: 100%;
+    overflow-wrap: anywhere;
+  }
+
   .h-display,
   .lofts-visual-hero .h-display,
   .lofts-visual-hero h1,
