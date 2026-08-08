@@ -2102,21 +2102,21 @@ body:not(.home-page) section.paper.services-hero:first-of-type .services-hero__c
 .home-hero-canvas {
   position: absolute;
   z-index: 0;
-  top: 4%;
-  left: 43%;
-  width: min(38vw, 620px);
+  top: -2%;
+  left: 52%;
+  width: min(52vw, 760px);
   aspect-ratio: 1;
   opacity: 0;
   pointer-events: none;
-  transform: translate(-50%, -8%);
+  transform: translate(-50%, -3%);
   transition: opacity var(--motion-fast) var(--motion-ease-out);
   -webkit-mask-image: radial-gradient(circle, #000 42%, transparent 74%);
   mask-image: radial-gradient(circle, #000 42%, transparent 74%);
 }
 
 .home-hero-canvas.is-rendered {
-  opacity: .34;
-  filter: contrast(1.12) saturate(.88);
+  opacity: .72;
+  filter: saturate(.9);
 }
 
 .home-hero-canvas canvas {
@@ -2126,20 +2126,20 @@ body:not(.home-page) section.paper.services-hero:first-of-type .services-hero__c
 }
 
 html[data-theme="dark"] .home-hero-canvas.is-rendered {
-  opacity: .42;
-  filter: brightness(1.16) contrast(1.08);
+  opacity: .64;
+  filter: brightness(1.08);
 }
 
 @media (max-width: 880px) {
   .home-hero-canvas {
-    top: 1.5rem;
-    left: 74%;
-    width: min(76vw, 430px);
+    top: 3.75rem;
+    left: 94%;
+    width: min(112vw, 560px);
     transform: translate(-50%, 0);
   }
 
   .home-hero-canvas.is-rendered {
-    opacity: .18;
+    opacity: .4;
   }
 }
 

@@ -186,8 +186,8 @@
     import(vendorRoot + 'three-r184.module.min.js').then(function (THREE) {
       var mobile = window.matchMedia('(max-width: 760px)').matches;
       var scene = new THREE.Scene();
-      var camera = new THREE.PerspectiveCamera(36, 1, 0.1, 40);
-      camera.position.set(0, 0, 6.2);
+      var camera = new THREE.PerspectiveCamera(34, 1, 0.1, 40);
+      camera.position.set(0, 0, 5.4);
 
       var renderer = new THREE.WebGLRenderer({ alpha: true, antialias: !mobile, powerPreference: 'low-power' });
       renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, mobile ? 1 : 1.5));
@@ -195,36 +195,50 @@
       renderer.outputColorSpace = THREE.SRGBColorSpace;
       host.appendChild(renderer.domElement);
 
-      var geometry = new THREE.IcosahedronGeometry(2.05, mobile ? 1 : 2);
+      var geometry = new THREE.IcosahedronGeometry(1.72, mobile ? 1 : 2);
       var material = new THREE.MeshPhysicalMaterial({
-        color: 0xb8b5ae,
+        color: 0xd2cdc2,
         metalness: 0.1,
         roughness: 0.2,
         clearcoat: 1.0,
-        clearcoatRoughness: 0.08,
-        transmission: 0.16,
-        thickness: 0.55,
+        clearcoatRoughness: 0.12,
+        transmission: 0.72,
+        thickness: 0.34,
         transparent: true,
-        opacity: 0.62,
-        flatShading: true
+        opacity: 0.04,
+        depthWrite: false,
+        side: THREE.DoubleSide
       });
       var mesh = new THREE.Mesh(geometry, material);
-      mesh.rotation.set(-0.18, 0.48, 0.08);
+      mesh.rotation.set(-0.16, 0.42, 0.08);
+      mesh.scale.set(1.18, 0.9, 1);
       scene.add(mesh);
 
       var wire = new THREE.LineSegments(
-        new THREE.EdgesGeometry(geometry, 18),
-        new THREE.LineBasicMaterial({ color: 0x8b3a1f, transparent: true, opacity: 0.32 })
+        new THREE.EdgesGeometry(geometry, 14),
+        new THREE.LineBasicMaterial({ color: 0x8b3a1f, transparent: true, opacity: 0.34, depthWrite: false })
       );
+      wire.scale.setScalar(1.012);
       mesh.add(wire);
 
-      scene.add(new THREE.HemisphereLight(0xf8f5ef, 0x3f443f, 2.2));
-      var key = new THREE.DirectionalLight(0xffffff, 3.4);
+      scene.add(new THREE.HemisphereLight(0xf8f5ef, 0x3f443f, 1.25));
+      var key = new THREE.DirectionalLight(0xffffff, 1.8);
       key.position.set(3, 4, 5);
       scene.add(key);
-      var edge = new THREE.PointLight(0xa44c30, 8, 12);
+      var edge = new THREE.PointLight(0xa44c30, 2.8, 12);
       edge.position.set(-3, -1, 3);
       scene.add(edge);
+
+      function syncThreeTheme() {
+        var dark = root.getAttribute('data-theme') === 'dark';
+        material.color.setHex(dark ? 0xa7a096 : 0xd2cdc2);
+        material.opacity = dark ? 0.05 : 0.035;
+        wire.material.color.setHex(dark ? 0xc96b4a : 0x8b3a1f);
+        wire.material.opacity = dark ? 0.3 : 0.34;
+      }
+      syncThreeTheme();
+      var themeObserver = new MutationObserver(syncThreeTheme);
+      themeObserver.observe(root, { attributes: true, attributeFilter: ['data-theme'] });
 
       var positions = geometry.attributes.position;
       var base = new Float32Array(positions.array);
@@ -289,9 +303,11 @@
       window.addEventListener('pagehide', function () {
         running = false;
         observer.disconnect();
+        themeObserver.disconnect();
         renderer.dispose();
         geometry.dispose();
         material.dispose();
+        wire.material.dispose();
       }, { once: true });
 
       sizeCanvas();
