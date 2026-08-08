@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-08-08T23:23:17Z",
+  "title": "Design System: Lofts Studio",
+  "extensions": {
+    "colorMeta": {
+      "paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#f4f0e9",
+        "tonalRamp": ["oklch(15% 0.012 80)", "oklch(27% 0.012 80)", "oklch(39% 0.012 80)", "oklch(51% 0.012 80)", "oklch(63% 0.012 80)", "oklch(75% 0.012 80)", "oklch(87% 0.012 80)", "oklch(95% 0.012 80)"]
+      },
+      "paper-soft": {
+        "role": "neutral",
+        "displayName": "Soft Paper",
+        "canonical": "#ebe5db",
+        "tonalRamp": ["oklch(15% 0.016 80)", "oklch(27% 0.016 80)", "oklch(39% 0.016 80)", "oklch(51% 0.016 80)", "oklch(63% 0.016 80)", "oklch(75% 0.016 80)", "oklch(87% 0.016 80)", "oklch(95% 0.016 80)"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Clean Surface",
+        "canonical": "#fbfaf7",
+        "tonalRamp": ["oklch(15% 0.006 80)", "oklch(27% 0.006 80)", "oklch(39% 0.006 80)", "oklch(51% 0.006 80)", "oklch(63% 0.006 80)", "oklch(75% 0.006 80)", "oklch(87% 0.006 80)", "oklch(95% 0.006 80)"]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Warm Ink",
+        "canonical": "#171411",
+        "tonalRamp": ["oklch(15% 0.012 70)", "oklch(27% 0.012 70)", "oklch(39% 0.012 70)", "oklch(51% 0.012 70)", "oklch(63% 0.012 70)", "oklch(75% 0.012 70)", "oklch(87% 0.012 70)", "oklch(95% 0.012 70)"]
+      },
+      "ink-soft": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#4f4942",
+        "tonalRamp": ["oklch(15% 0.016 72)", "oklch(27% 0.016 72)", "oklch(39% 0.016 72)", "oklch(51% 0.016 72)", "oklch(63% 0.016 72)", "oklch(75% 0.016 72)", "oklch(87% 0.016 72)", "oklch(95% 0.016 72)"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted Utility",
+        "canonical": "#766f67",
+        "tonalRamp": ["oklch(15% 0.014 72)", "oklch(27% 0.014 72)", "oklch(39% 0.014 72)", "oklch(51% 0.014 72)", "oklch(63% 0.014 72)", "oklch(75% 0.014 72)", "oklch(87% 0.014 72)", "oklch(95% 0.014 72)"]
+      },
+      "muted-2": {
+        "role": "neutral",
+        "displayName": "Quiet Placeholder",
+        "canonical": "#9a9289",
+        "tonalRamp": ["oklch(15% 0.014 72)", "oklch(27% 0.014 72)", "oklch(39% 0.014 72)", "oklch(51% 0.014 72)", "oklch(63% 0.014 72)", "oklch(75% 0.014 72)", "oklch(87% 0.014 72)", "oklch(95% 0.014 72)"]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Paper Hairline",
+        "canonical": "#d7cec2",
+        "tonalRamp": ["oklch(15% 0.018 76)", "oklch(27% 0.018 76)", "oklch(39% 0.018 76)", "oklch(51% 0.018 76)", "oklch(63% 0.018 76)", "oklch(75% 0.018 76)", "oklch(87% 0.018 76)", "oklch(95% 0.018 76)"]
+      },
+      "line-soft": {
+        "role": "neutral",
+        "displayName": "Soft Hairline",
+        "canonical": "#e6ded4",
+        "tonalRamp": ["oklch(15% 0.012 76)", "oklch(27% 0.012 76)", "oklch(39% 0.012 76)", "oklch(51% 0.012 76)", "oklch(63% 0.012 76)", "oklch(75% 0.012 76)", "oklch(87% 0.012 76)", "oklch(95% 0.012 76)"]
+      },
+      "accent": {
+        "role": "primary",
+        "displayName": "Restrained Terracotta",
+        "canonical": "#a9432d",
+        "tonalRamp": ["oklch(15% 0.145 32)", "oklch(27% 0.145 32)", "oklch(39% 0.145 32)", "oklch(51% 0.145 32)", "oklch(63% 0.145 32)", "oklch(75% 0.145 32)", "oklch(87% 0.145 32)", "oklch(95% 0.145 32)"]
+      },
+      "accent-deep": {
+        "role": "primary",
+        "displayName": "Deep Terracotta",
+        "canonical": "#843322",
+        "tonalRamp": ["oklch(15% 0.13 32)", "oklch(27% 0.13 32)", "oklch(39% 0.13 32)", "oklch(51% 0.13 32)", "oklch(63% 0.13 32)", "oklch(75% 0.13 32)", "oklch(87% 0.13 32)", "oklch(95% 0.13 32)"]
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Soft Terracotta",
+        "canonical": "#ead2c9",
+        "tonalRamp": ["oklch(15% 0.042 32)", "oklch(27% 0.042 32)", "oklch(39% 0.042 32)", "oklch(51% 0.042 32)", "oklch(63% 0.042 32)", "oklch(75% 0.042 32)", "oklch(87% 0.042 32)", "oklch(95% 0.042 32)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Editorial Display", "purpose": "Opening propositions and the page's principal statement." },
+      "headline": { "displayName": "Section Headline", "purpose": "Major sectional propositions and evidence breaks." },
+      "title": { "displayName": "Panel Title", "purpose": "Contained panels, forms, and secondary section titles." },
+      "body": { "displayName": "Evidence Body", "purpose": "Supporting explanation and readable operational detail." },
+      "label": { "displayName": "Utility Label", "purpose": "Small uppercase context for eyebrows, labels, and metadata." },
+      "wordmark": { "displayName": "Lofts Wordmark", "purpose": "The compact serif-italic Lofts identity signature." }
+    },
+    "shadows": [
+      { "name": "soft", "value": "0 18px 50px -42px rgba(23, 20, 17, .38)", "purpose": "Subtle lift for a quiet, bounded surface." },
+      { "name": "card", "value": "0 30px 80px -56px rgba(23, 20, 17, .48)", "purpose": "Action-bearing diagnostic panels and studio tool cards." }
+    ],
+    "motion": [
+      { "name": "fast", "value": "200ms cubic-bezier(.16, 1, .3, 1)", "purpose": "Default interactive timing for buttons, links, and cards." },
+      { "name": "reveal", "value": "opacity .58s cubic-bezier(.22, .75, .2, 1), transform .7s cubic-bezier(.22, .75, .2, 1)", "purpose": "Calm lower-page entrance; the first screen remains stable." }
+    ],
+    "breakpoints": [
+      { "name": "navigation-compact", "value": "880px" },
+      { "name": "diagnostic-stack", "value": "820px" },
+      { "name": "mobile", "value": "640px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Direct, near-black call to action for a committed next step.",
+      "html": "<button class=\"ds-btn-primary\" type=\"button\">Get the cleanup plugin</button>",
+      "css": ".ds-btn-primary { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: .9rem 1.5rem; border: 1px solid var(--ink, #171411); border-radius: 3px; background: var(--ink, #171411); color: var(--bg, #f4f0e9); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .92rem; font-weight: 400; line-height: 1; cursor: pointer; transition: background var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)), border-color var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)), color var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)); } .ds-btn-primary:hover { border-color: var(--accent, #a9432d); background: var(--accent, #a9432d); color: #fff; } .ds-btn-primary:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; } .ds-btn-primary:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Paper-preserving secondary action with a fine bordered edge.",
+      "html": "<button class=\"ds-btn-ghost\" type=\"button\">See managed care</button>",
+      "css": ".ds-btn-ghost { min-height: 46px; display: inline-flex; align-items: center; justify-content: center; padding: .9rem 1.5rem; border: 1px solid var(--line, #d7cec2); border-radius: 3px; background: transparent; color: var(--ink, #171411); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .92rem; font-weight: 400; line-height: 1; cursor: pointer; transition: background var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)), border-color var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)); } .ds-btn-ghost:hover { border-color: var(--ink, #171411); background: var(--surface, #fbfaf7); } .ds-btn-ghost:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; } .ds-btn-ghost:active { transform: translateY(1px); }"
+    },
+    {
+      "name": "Editorial Field",
+      "kind": "input",
+      "refersTo": "editorial-field",
+      "description": "A labeled form field that lets the value and its one-pixel baseline do the visual work.",
+      "html": "<label class=\"ds-editorial-field\"><span class=\"ds-editorial-field__label\">Work email</span><input class=\"ds-editorial-field__input\" type=\"email\" placeholder=\"you@company.com\" /></label>",
+      "css": ".ds-editorial-field { display: block; } .ds-editorial-field__label { display: block; margin-bottom: .7rem; color: var(--muted, #766f67); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .68rem; font-weight: 500; line-height: 1.35; text-transform: uppercase; } .ds-editorial-field__input { width: 100%; padding: .5rem 0 .85rem; border: 0; border-bottom: 1px solid var(--line, #d7cec2); border-radius: 0; outline: none; background: transparent; color: var(--ink, #171411); font-family: var(--font-serif, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: clamp(1.1rem, 1.5vw, 1.3rem); font-weight: 400; line-height: 1.3; transition: border-bottom-color .35s ease; } .ds-editorial-field__input::placeholder { color: var(--muted-2, #9a9289); font-style: italic; } .ds-editorial-field__input:hover { border-bottom-color: var(--ink-soft, #4f4942); } .ds-editorial-field__input:focus-visible { border-bottom-color: var(--ink, #171411); outline: 2px solid var(--accent, #a9432d); outline-offset: 2px; }"
+    },
+    {
+      "name": "Diagnostic Panel",
+      "kind": "card",
+      "refersTo": "diagnostic-panel",
+      "description": "A contained signup or action surface paired with an explanatory diagnostic opening.",
+      "html": "<aside class=\"ds-diagnostic-panel\"><div class=\"ds-diagnostic-panel__body\"><h3>Get the WordPress cleanup tool.</h3><p>This short signup creates a support request, then shows the installer.</p><button class=\"ds-diagnostic-panel__action\" type=\"button\">Get the cleanup plugin</button></div></aside>",
+      "css": ".ds-diagnostic-panel { border: 1px solid var(--line, #d7cec2); border-radius: 6px; background: var(--surface, #fbfaf7); box-shadow: var(--shadow-card, 0 30px 80px -56px rgba(23, 20, 17, .48)); } .ds-diagnostic-panel__body { padding: clamp(1.3rem, 3vw, 1.8rem); } .ds-diagnostic-panel h3 { margin: 0; color: var(--ink, #171411); font-family: var(--font-display, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: clamp(2rem, 3.25vw, 3.45rem); font-weight: 400; line-height: 1; } .ds-diagnostic-panel p { margin: .7rem 0 1.5rem; color: var(--ink-soft, #4f4942); font-family: var(--font-serif, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); line-height: 1.55; } .ds-diagnostic-panel__action { width: 100%; min-height: 46px; border: 1px solid var(--ink, #171411); border-radius: 4px; background: var(--ink, #171411); color: var(--bg, #f4f0e9); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); cursor: pointer; transition: background var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)); } .ds-diagnostic-panel__action:hover { background: var(--accent, #a9432d); } .ds-diagnostic-panel__action:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; }"
+    },
+    {
+      "name": "FAQ Row",
+      "kind": "custom",
+      "refersTo": "faq-row",
+      "description": "A native details row for factual, low-drama answers.",
+      "html": "<details class=\"ds-faq\" open><summary class=\"ds-faq__summary\">Does the scanner upload my files?<span class=\"ds-faq__plus\">+</span></summary><div class=\"ds-faq__body\">No. The local scan and quarantine workflow run inside WordPress on the site's own server.</div></details>",
+      "css": ".ds-faq { padding: 1.6rem 0; border-bottom: 1px solid var(--line, #d7cec2); color: var(--ink, #171411); } .ds-faq__summary { display: flex; align-items: center; justify-content: space-between; gap: 1rem; cursor: pointer; list-style: none; font-family: var(--font-display, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: 1.18rem; font-weight: 500; line-height: 1.2; } .ds-faq__summary::-webkit-details-marker { display: none; } .ds-faq__summary:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 4px; } .ds-faq__plus { flex: 0 0 auto; color: var(--muted, #766f67); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: 1.4rem; font-weight: 300; transition: transform .25s ease, color .25s ease; } .ds-faq[open] .ds-faq__plus { color: var(--ink, #171411); transform: rotate(45deg); } .ds-faq__body { max-width: 60ch; padding-top: .85rem; color: var(--ink-soft, #4f4942); font-family: var(--font-serif, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: 1.05rem; line-height: 1.7; }"
+    },
+    {
+      "name": "Diagnostic Navigation",
+      "kind": "nav",
+      "refersTo": "diagnostic-nav",
+      "description": "A sticky, translucent paper navigation band for an isolated tool route.",
+      "html": "<nav class=\"ds-diagnostic-nav\" aria-label=\"Tool navigation\"><a class=\"ds-diagnostic-nav__logo\" href=\"#\">Lofts<span>STUDIO</span></a><div class=\"ds-diagnostic-nav__links\"><a href=\"#\">Tools</a><a href=\"#\">WordPress care</a><a href=\"#\">Get in touch</a></div></nav>",
+      "css": ".ds-diagnostic-nav { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 1.25rem; padding: 0 clamp(1rem, 4vw, 3rem); border-bottom: 1px solid rgba(217, 210, 196, .82); background: color-mix(in srgb, var(--bg, #f4f0e9) 88%, transparent); backdrop-filter: blur(18px); } .ds-diagnostic-nav__logo { display: inline-flex; align-items: baseline; gap: .35rem; color: var(--ink, #171411); font-family: var(--font-logo, \"Iowan Old Style\", Baskerville, Georgia, serif); font-size: clamp(1.05rem, 2vw, 1.35rem); font-style: italic; line-height: 1; text-decoration: none; } .ds-diagnostic-nav__logo span { color: var(--muted, #766f67); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .58em; font-style: normal; letter-spacing: .24em; } .ds-diagnostic-nav__links { display: flex; align-items: center; gap: .35rem; } .ds-diagnostic-nav__links a { min-height: 44px; display: inline-flex; align-items: center; padding: .55rem .95rem; border: 1px solid transparent; border-radius: 999px; color: var(--ink, #171411); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .9rem; text-decoration: none; } .ds-diagnostic-nav__links a:hover { border-color: var(--line, #d7cec2); background: var(--surface, #fbfaf7); } .ds-diagnostic-nav__links a:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; } @media (max-width: 640px) { .ds-diagnostic-nav { min-height: 64px; padding-inline: 1rem; } .ds-diagnostic-nav__links a:nth-child(2) { display: none; } .ds-diagnostic-nav__links a { padding-inline: .55rem; font-size: .82rem; } }"
+    },
+    {
+      "name": "Studio Tool Card",
+      "kind": "card",
+      "refersTo": "tool-card",
+      "description": "A bordered, gently textured entry card for a Lofts diagnostic tool or resource.",
+      "html": "<article class=\"ds-tool-card\"><div class=\"ds-tool-card__label\">Lofts Studio tool</div><h3>WordPress malware scanner</h3><p>Review local evidence and take one reversible next step.</p><a class=\"ds-tool-card__link\" href=\"#\">Open tool <span aria-hidden=\"true\">→</span></a></article>",
+      "css": ".ds-tool-card { position: relative; min-height: 100%; display: flex; flex-direction: column; gap: 1.35rem; overflow: hidden; padding: clamp(1.35rem, 3vw, 2rem); border: 1px solid var(--line, #d7cec2); border-radius: 8px; background: linear-gradient(180deg, rgba(255, 255, 255, .34), rgba(255, 255, 255, 0)), var(--surface, #fbfaf7); box-shadow: var(--shadow-card, 0 30px 80px -56px rgba(23, 20, 17, .48)); transition: transform var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)), border-color var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)), box-shadow var(--motion-fast, 200ms) var(--motion-ease-out, cubic-bezier(.16, 1, .3, 1)); } .ds-tool-card::before { content: \"\"; position: absolute; inset: 0; pointer-events: none; opacity: .55; background: linear-gradient(90deg, rgba(139, 58, 31, .10), transparent 42%), repeating-linear-gradient(90deg, rgba(26, 22, 18, .045) 0 1px, transparent 1px 92px); } .ds-tool-card > * { position: relative; z-index: 1; } .ds-tool-card:hover { transform: translateY(-4px); border-color: rgba(139, 58, 31, .42); box-shadow: 0 28px 80px -46px rgba(26, 22, 18, .34); } .ds-tool-card:focus-within { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; } .ds-tool-card__label { color: var(--muted, #766f67); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .72rem; font-weight: 500; line-height: 1.2; text-transform: uppercase; } .ds-tool-card h3 { max-width: 12ch; margin: 0; color: var(--ink, #171411); font-family: var(--font-display, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: clamp(1.7rem, 4.2vw, 3rem); font-weight: 520; line-height: .98; } .ds-tool-card p { max-width: 48ch; margin: .85rem 0 0; color: var(--ink-soft, #4f4942); font-family: var(--font-serif, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); line-height: 1.58; } .ds-tool-card__link { display: inline-flex; align-items: center; gap: .45rem; margin-top: auto; color: var(--ink, #171411); font-family: var(--font-sans, \"Libertinus Math\", Georgia, \"Times New Roman\", serif); font-size: .98rem; font-weight: 540; text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: .28rem; } .ds-tool-card__link:focus-visible { outline: 2px solid var(--accent, #a9432d); outline-offset: 3px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Quiet Evidence Desk",
+    "overview": "Lofts Studio makes operational and service pages feel like a composed paper desk: warm, quiet, clear, and ready for an honest next action. The system earns authority through generous editorial type, restrained utility framing, and short visual paths rather than a dashboard-like density or fear-based visual drama.\n\nThe interface uses an editorial voice without becoming ornamental. Large serif statements hold the premise, compact explanatory text supplies the proof, and almost-square controls keep the action practical. The WordPress diagnostic route expresses this system as a direct two-column explanation-and-panel layout; it is an application of the incumbent language, not a separate security identity.",
+    "keyCharacteristics": [
+      "Warm paper fields, quiet tonal surfaces, and fine dividers establish a calm reading environment.",
+      "A single Libertinus-led type voice carries display, body, form, and utility text; the Iowan Old Style wordmark is the exception.",
+      "Small-radius, bordered panels contain actions without turning the page into a card grid.",
+      "Near-black leads primary actions; terracotta is a deliberate signal, hover, and marker rather than a full-screen brand field."
+    ],
+    "rules": [
+      { "name": "The Restrained Accent Rule", "body": "Keep terracotta to the small evidence marks, focus treatment, and interactive states that need a precise signal. Primary commitment stays ink-led, and an otherwise quiet page may need no accent at all.", "section": "colors" },
+      { "name": "The Measured Line Rule", "body": "Let display statements take the narrow, balanced measure established by the route; supporting copy carries the details beside or beneath it instead of widening the headline into a banner.", "section": "typography" },
+      { "name": "The Flat-Until-Needed Rule", "body": "Use elevation to identify an actionable contained surface, not to decorate every section or create floating-dashboard density.", "section": "elevation" },
+      { "name": "The Quiet Corners Rule", "body": "Keep large containers gently softened and everyday controls almost square so the system reads as precise and utilitarian, not soft or app-like.", "section": "shapes" }
+    ],
+    "dos": [
+      "Do use warm paper, clean surfaces, and hairline rules to make dense information feel calm.",
+      "Do lead with a concise editorial proposition, then place the explanation and action in a clear visual sequence.",
+      "Do make a contained action panel visibly practical with a border, small radius, and only the elevation it needs.",
+      "Do reserve terracotta for a small rule, marker, focus state, or meaningful interaction shift.",
+      "Do preserve visible keyboard focus and native form affordances."
+    ],
+    "donts": [
+      "Don't turn every primary action terracotta; direct commitments are ink-led in the incumbent system.",
+      "Don't replace the fine-divider structure with borderless, heavily elevated dashboard cards.",
+      "Don't use oversized radii or pervasive pills for core controls and containers.",
+      "Don't make utility panels loud with high-saturation fills, dramatic gradients, or fear-based visual urgency."
+    ]
+  }
+}
