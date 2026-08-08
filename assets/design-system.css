@@ -855,7 +855,7 @@ body.route-tools section.paper.tools-hero:first-of-type {
 }
 
 .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid {
-  --lofts-hero-main-row: 2;
+  --lofts-hero-main-row: 1;
   display: grid !important;
   grid-template-columns: minmax(0, 1.02fr) minmax(430px, .9fr);
   column-gap: clamp(2rem, 4.5vw, 5.5rem);
@@ -864,23 +864,17 @@ body.route-tools section.paper.tools-hero:first-of-type {
 }
 
 .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid.lofts-has-breadcrumb {
-  --lofts-hero-main-row: 3;
+  --lofts-hero-main-row: 2;
 }
 
 .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid::before {
-  content: "" !important;
-  display: block !important;
-  grid-column: 1 / -1;
-  grid-row: 1;
-  width: 3.25rem !important;
-  height: 2px !important;
-  margin: 0 !important;
-  background: var(--accent) !important;
+  content: none !important;
+  display: none !important;
 }
 
 .lofts-visual-hero__breadcrumb {
   grid-column: 1 / -1 !important;
-  grid-row: 2 !important;
+  grid-row: 1 !important;
   margin: 0 !important;
 }
 
@@ -1352,10 +1346,6 @@ html[data-theme="dark"] .lofts-hero-stage__proof {
   .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid,
   .page-hero .page-hero-grid.lofts-visual-hero__grid {
     display: block !important;
-  }
-
-  .lofts-visual-hero:not(.page-hero) > .lofts-visual-hero__grid::before {
-    margin-bottom: 1rem !important;
   }
 
   .lofts-visual-hero__breadcrumb {
