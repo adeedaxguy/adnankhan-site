@@ -159,7 +159,7 @@
           ease: 'none',
           scrollTrigger: {
             trigger: block,
-            start: 'top 82%',
+            start: 'top top',
             end: 'bottom 20%',
             scrub: 0.45
           }
@@ -169,7 +169,7 @@
           ease: 'none',
           scrollTrigger: {
             trigger: block,
-            start: 'top 82%',
+            start: 'top top',
             end: 'bottom 20%',
             scrub: 0.45
           }
