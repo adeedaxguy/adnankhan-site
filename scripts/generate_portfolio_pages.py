@@ -473,6 +473,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     summary  = item.get("summary", "")
     url      = item.get("url", "")
     image    = item.get("image", "")
+    image_width = item.get("imageWidth")
+    image_height = item.get("imageHeight")
     platform = item.get("platform", "")
     category = item.get("category", "")
     stack    = item.get("stack") or []
@@ -490,11 +492,12 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     # ── Screenshot / wordmark block ───────────────────────────────────────────
     if image and not item.get("hideScreenshot"):
         url_display = url.replace("https://", "").replace("http://", "")
+        image_dimensions = f' width="{image_width}" height="{image_height}"' if image_width and image_height else ""
         image_html = f'''<section class="section-sm" style="padding:1rem 0 5rem;">
   <div class="container" data-reveal>
     <div style="border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--bg-soft);">
       <a href="{url}" target="_blank" rel="noopener" aria-label="Visit {name} live site">
-        <img src="{image}" alt="{name} homepage screenshot — {platform} project by Lofts Studio" loading="lazy" decoding="async" style="display:block;width:100%;height:auto;" />
+        <img src="{image}" alt="{name} homepage screenshot — {platform} project by Lofts Studio"{image_dimensions} loading="lazy" decoding="async" style="display:block;width:100%;height:auto;" />
       </a>
     </div>
     <p style="text-align:center;font-family:var(--font-sans);font-size:0.78rem;color:var(--muted);margin:1.25rem 0 0;letter-spacing:0.01em;">
@@ -588,6 +591,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 
 {nav}
 
+<main id="main-content">
+
 <section class="paper" style="padding:6rem 0 3rem;">
   <div class="container">
     <nav aria-label="Breadcrumb" data-reveal style="margin-bottom:1.5rem;font-family:var(--font-sans);font-size:0.78rem;color:var(--muted);letter-spacing:0.01em;">
@@ -670,6 +675,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 </section>
 
 {next_section}
+
+</main>
 
 {footer}
 
