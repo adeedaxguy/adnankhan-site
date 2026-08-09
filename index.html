@@ -42,6 +42,7 @@
 <link rel="preload" href="/assets/work/americangulf-1050.webp" as="image" type="image/webp" fetchpriority="high" imagesrcset="/assets/work/americangulf-720.webp 720w, /assets/work/americangulf-1050.webp 1050w, /assets/work/americangulf.webp 1440w" imagesizes="(max-width: 880px) calc(100vw - 32px), min(34vw, 460px)" />
 <link rel="stylesheet" href="assets/home-critical.css?v=20260801f" />
 <link rel="stylesheet" href="assets/home.css?v=20260801f" />
+<link rel="stylesheet" href="/assets/reviews.css?v=20260810a" />
 
 <!-- ── JSON-LD: Organization + 2 Founder Persons ── -->
 <script type="application/ld+json">
@@ -65,7 +66,6 @@
     { "@type": "PostalAddress", "addressLocality": "Multan", "addressCountry": "PK" },
     { "@type": "PostalAddress", "addressLocality": "Dubai", "addressCountry": "AE" }
   ],
-  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "5.0", "reviewCount": "900", "bestRating": "5" },
   "sameAs": [
     "https://www.upwork.com/freelancers/wordpressandshopifydeveloper",
     "https://www.upwork.com/freelancers/irfankhan",
@@ -1266,32 +1266,57 @@
   </div>
 </section>
 
-<!-- ─────────────────────── PUBLIC PROOF ─────────────────────── -->
-<section class="section home-public-proof" id="reviews">
+<!-- ─────────────────────── CLIENT FEEDBACK ─────────────────────── -->
+<section class="section review-proof" id="reviews" aria-labelledby="home-reviews-title">
   <div class="container">
-    <header class="public-proof-head" data-reveal>
-      <span class="eyebrow">A record you can inspect</span>
-      <h2 class="h-1">Look past the presentation. Inspect the people doing the work.</h2>
-      <p>Open either external profile to review the information, history, and feedback currently published there before starting a conversation.</p>
-    </header>
-    <div class="public-proof-grid" data-reveal>
-      <a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">
-        <span class="public-proof-index">01 / Ecommerce + websites</span>
-        <div class="public-proof-person"><i aria-hidden="true">A</i><strong>Adnan Khan</strong></div>
-        <p>Shopify, WordPress, WooCommerce, conversion, and performance work.</p>
-        <span class="public-proof-link">Open Adnan&rsquo;s profile &nbsp;&nearr;</span>
-      </a>
-      <a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">
-        <span class="public-proof-index">02 / Full-stack + products</span>
-        <div class="public-proof-person"><i aria-hidden="true">I</i><strong>Irfan Khan</strong></div>
-        <p>Custom platforms, React, Next.js, Node.js, SaaS products, APIs, and website engineering.</p>
-        <span class="public-proof-link">Open Irfan&rsquo;s profile &nbsp;&nearr;</span>
-      </a>
-      <div class="public-proof-summary">
-        <span>How Lofts works</span>
-        <strong>Senior ownership stays close to every decision.</strong>
-        <p>Clear scope, direct communication, documented handoff, and post-launch support.</p>
-      </div>
+    <div class="review-proof__intro">
+      <header class="review-proof__copy" data-reveal>
+        <span class="eyebrow">Public client feedback</span>
+        <h2 class="h-1" id="home-reviews-title">The part of the portfolio <span class="italic-serif">clients wrote.</span></h2>
+        <p>Two public Upwork histories, collected into one inspectable record. The archive keeps project names, dates, ratings, and mixed feedback visible so you can judge the working relationship, not just the finished screens.</p>
+      </header>
+      <aside class="review-proof__ledger" data-reveal aria-label="Public feedback archive summary">
+        <strong class="review-proof__number">525</strong>
+        <span>Distinct public feedback entries collected across both founder profiles</span>
+        <div class="review-proof__profiles">
+          <a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener"><span>Adnan profile · 160 feedback entries</span><span aria-hidden="true">↗</span></a>
+          <a href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener"><span>Irfan profile · 367 feedback entries</span><span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="review-proof__source-note">Upwork lists 527 entries across the profiles. Repeated pagination instances are removed from this 525-entry archive.</p>
+      </aside>
+    </div>
+
+    <div class="review-wall" data-reveal>
+      <article class="review-quote review-quote--feature">
+        <div class="review-quote__top"><span class="review-quote__rating">5.0 / 5</span><time class="review-quote__date" datetime="2026-08-04">Aug 4, 2026</time></div>
+        <blockquote>&ldquo;From start to finish, Adnan demonstrated a strong commitment and exceptional attention to detail. His technical skills and dedication ensured that the page functions perfectly well and meets every requirement with precision.&rdquo;</blockquote>
+        <footer class="review-quote__footer"><span class="review-quote__client">Victor D.</span><span class="review-quote__project">Web page development for a photographer with integrated store</span><a class="review-quote__source" href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Adnan&rsquo;s Upwork profile ↗</a></footer>
+      </article>
+      <article class="review-quote review-quote--wide">
+        <div class="review-quote__top"><span class="review-quote__rating">5.0 / 5</span><time class="review-quote__date" datetime="2026-07-22">Jul 22, 2026</time></div>
+        <blockquote>&ldquo;He clearly communicated steps and needs throughout the process and the final result was exactly what I wanted. I would work with him again.&rdquo;</blockquote>
+        <footer class="review-quote__footer"><span class="review-quote__client">Mark S.</span><span class="review-quote__project">WordPress redesign and migration off Elementor</span><a class="review-quote__source" href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Irfan&rsquo;s Upwork profile ↗</a></footer>
+      </article>
+      <article class="review-quote review-quote--compact">
+        <div class="review-quote__top"><span class="review-quote__rating">5.0 / 5</span><time class="review-quote__date" datetime="2026-04-02">Apr 2, 2026</time></div>
+        <blockquote>&ldquo;As always it&rsquo;s been a pleasure working with Adnan. He is great at what he does and always goes above and beyond.&rdquo;</blockquote>
+        <footer class="review-quote__footer"><span class="review-quote__client">Upwork client</span><span class="review-quote__project">Website configuration and optimisation</span><a class="review-quote__source" href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" target="_blank" rel="noopener">Source ↗</a></footer>
+      </article>
+      <article class="review-quote review-quote--compact">
+        <div class="review-quote__top"><span class="review-quote__rating">5.0 / 5</span><time class="review-quote__date" datetime="2026-04-08">Apr 8, 2026</time></div>
+        <blockquote>&ldquo;Great job as always, super helpful. My third time working with Irfan.&rdquo;</blockquote>
+        <footer class="review-quote__footer"><span class="review-quote__client">Upwork client</span><span class="review-quote__project">SSL recertification of website</span><a class="review-quote__source" href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Source ↗</a></footer>
+      </article>
+      <article class="review-quote review-quote--wide">
+        <div class="review-quote__top"><span class="review-quote__rating">5.0 / 5</span><time class="review-quote__date" datetime="2025-05-21">May 21, 2025</time></div>
+        <blockquote>&ldquo;Second time working with Irfan — delivered again magnificently and was very accommodating as we worked through an iterative process.&rdquo;</blockquote>
+        <footer class="review-quote__footer"><span class="review-quote__client">Upwork client</span><span class="review-quote__project">Website redesign and templated subpages</span><a class="review-quote__source" href="https://www.upwork.com/freelancers/irfankhan" target="_blank" rel="noopener">Source ↗</a></footer>
+      </article>
+    </div>
+
+    <div class="review-proof__actions" data-reveal>
+      <p>Captured from the two public Upwork profiles on August 10, 2026. Names appear only when the client published one; longer feedback may use Upwork&rsquo;s visible excerpt.</p>
+      <a class="btn btn-primary" href="/reviews/">Read the complete review archive <span aria-hidden="true">→</span></a>
     </div>
   </div>
 </section>
@@ -1678,6 +1703,7 @@
           <li><a href="/about.html">About</a></li>
           <li><a href="/portfolio">All work</a></li>
           <li><a href="/blog">Blog</a></li>
+          <li><a href="/reviews/">Reviews</a></li>
           <li><a href="/process">Process</a></li>
           
           <li><a href="/brand.html">Brand</a></li>
