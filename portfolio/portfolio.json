@@ -672,7 +672,9 @@
       "tagline": "Insurance platform serving the Gulf market",
       "summary": "Full WordPress + Elementor build for American Gulf, an insurance services company operating across the Gulf region. Designed from custom Figma specs \u2014 agent portal integration, compliant product pages, optimised performance benchmarks and a multi-page site built to enterprise standards.",
       "url": "https://americangulf.com",
-      "image": "/assets/work/americangulf.jpg",
+      "image": "/assets/work/americangulf.webp",
+      "imageWidth": 1440,
+      "imageHeight": 900,
       "platform": "WordPress + Elementor",
       "category": "WordPress \u00b7 Insurance \u00b7 B2C",
       "stack": [
@@ -687,7 +689,7 @@
       },
       "year": "2025",
       "role": "Full-site build \u00b7 Figma implementation \u00b7 Performance",
-      "featured": false,
+      "featured": true,
       "published": true,
       "displayOrder": 27
     },
@@ -721,8 +723,10 @@
       "name": "American Reinsurance",
       "tagline": "Corporate site for a US reinsurance company",
       "summary": "American Reinsurance Company SPC \u2014 a B2B financial-services site built from a premium Figma system. Custom wing animation, product and solutions pages, multi-entity footer with structured contact routing. Third in a suite of three sites delivered for the same client group.",
-      "url": "https://amre.co",
-      "image": "/assets/work/americanreinsurance.jpg",
+      "url": "https://americanre.com",
+      "image": "/assets/work/americanreinsurance.webp",
+      "imageWidth": 1440,
+      "imageHeight": 960,
       "platform": "WordPress + Elementor",
       "category": "WordPress \u00b7 Finance \u00b7 Reinsurance \u00b7 B2B",
       "stack": [
@@ -737,7 +741,7 @@
       },
       "year": "2025\u20132026",
       "role": "Full-site build \u00b7 Animation \u00b7 Multi-site architecture",
-      "featured": false,
+      "featured": true,
       "published": true,
       "displayOrder": 29
     },
@@ -1085,28 +1089,29 @@
     },
     {
       "slug": "coach-carolin",
-      "name": "LEAD Better (Coach Carolin)",
-      "tagline": "Coaching Shopify store with Klaviyo email capture",
-      "summary": "Coaching and training Shopify store for the LEAD Better brand \u2014 Klaviyo email signup forms and customised checkout flows. Lead capture and a seamless buying journey for coaching products.",
-      "url": "",
-      "image": "",
-      "platform": "Shopify",
-      "category": "Shopify \u00b7 Coaching",
+      "name": "Coach Carolin Golf",
+      "tagline": "Membership-led golf coaching for players ready to improve",
+      "summary": "A membership-led golf coaching website bringing plans, private lessons, instructional content, accessories, and a seven-day trial into one clear customer journey.",
+      "url": "https://coachcarolingolf.com",
+      "image": "/assets/work/coachcarolingolf.webp",
+      "imageWidth": 1440,
+      "imageHeight": 720,
+      "platform": "WordPress + WooCommerce",
+      "category": "WordPress \u00b7 Golf Coaching \u00b7 Membership",
       "stack": [
-        "Shopify",
-        "Klaviyo",
-        "Custom Checkout",
-        "Email Capture"
+        "WordPress",
+        "WooCommerce",
+        "Membership",
+        "Video coaching"
       ],
       "metric": {
-        "value": "Klaviyo",
-        "label": "Email capture wired into checkout"
+        "value": "7-day",
+        "label": "Trial route into the coaching membership"
       },
       "year": "2024",
-      "role": "Shopify developer & Klaviyo integration",
-      "featured": false,
+      "role": "Website development \u00b7 Membership commerce \u00b7 Responsive delivery",
+      "featured": true,
       "published": true,
-      "hideScreenshot": true,
       "displayOrder": 43
     },
     {
@@ -3847,6 +3852,33 @@
       "featured": false,
       "published": true,
       "displayOrder": 155
+    },
+    {
+      "slug": "coap-online",
+      "name": "COAP Online",
+      "tagline": "Aviation photography learning and membership platform",
+      "summary": "An aviation photography learning platform organizing 150+ tutorials, monthly workshops, courses, community access, and a clear membership path in one focused experience.",
+      "url": "https://www.coaponline.com",
+      "image": "/assets/work/coap-online.webp",
+      "imageWidth": 1440,
+      "imageHeight": 960,
+      "platform": "Kajabi",
+      "category": "Membership \u00b7 Aviation Photography \u00b7 Education",
+      "stack": [
+        "Kajabi",
+        "Online courses",
+        "Membership",
+        "Community"
+      ],
+      "metric": {
+        "value": "150+",
+        "label": "Aviation photography tutorials organized for members"
+      },
+      "year": "2024",
+      "role": "Website development \u00b7 Course platform \u00b7 Membership experience",
+      "featured": true,
+      "published": true,
+      "displayOrder": 156
     }
   ]
 }
