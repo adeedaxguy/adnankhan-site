@@ -820,11 +820,27 @@
   const currentLabel = stage.querySelector('[data-portfolio-current]');
   const titleLabel = stage.querySelector('[data-portfolio-title]');
   const totalLabel = stage.querySelector('[data-portfolio-total]');
+  const playToggle = stage.querySelector('[data-portfolio-play]');
+  const playIcon = stage.querySelector('[data-portfolio-play-icon]');
+  const pauseIcon = stage.querySelector('[data-portfolio-pause-icon]');
+  const announcer = stage.querySelector('[data-portfolio-announcer]');
   const desktop = window.matchMedia('(min-width: 821px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const autoplayDelay = 4200;
+  const resumeDelay = 6200;
   let active = 0;
   let dragStart = null;
+  let dragMoved = false;
+  let suppressClick = false;
   let scrollFrame = 0;
+  let autoplayTimer = 0;
+  let resumeTimer = 0;
+  let wheelAccumulator = 0;
+  let wheelResetTimer = 0;
+  let userPaused = false;
+  let pointerInside = false;
+  let focusInside = false;
+  let stageVisible = false;
 
   if (!cards.length) return;
   if (totalLabel) totalLabel.textContent = String(cards.length).padStart(2, '0');
@@ -860,7 +876,11 @@
     const selected = cards[active];
     if (currentLabel) currentLabel.textContent = String(active + 1).padStart(2, '0');
     if (titleLabel) titleLabel.textContent = projectName(selected);
-    if (announce) rail.setAttribute('aria-label', 'Selected client work. Current project: ' + projectName(selected));
+    if (announce) {
+      const message = 'Current project: ' + projectName(selected) + ', ' + (active + 1) + ' of ' + cards.length;
+      rail.setAttribute('aria-label', 'Selected client work. ' + message);
+      if (announcer) announcer.textContent = message;
+    }
   }
 
   function select(index, announce) {
@@ -873,21 +893,82 @@
     }
   }
 
+  function canAutoplay() {
+    return !userPaused && !reducedMotion.matches && stageVisible && !pointerInside && !focusInside && !document.hidden;
+  }
+
+  function stopAutoplay() {
+    window.clearTimeout(autoplayTimer);
+    autoplayTimer = 0;
+  }
+
+  function queueAutoplay(delay) {
+    stopAutoplay();
+    if (!canAutoplay()) return;
+    autoplayTimer = window.setTimeout(function () {
+      select(active + 1, false);
+      queueAutoplay(autoplayDelay);
+    }, typeof delay === 'number' ? delay : autoplayDelay);
+  }
+
+  function updatePlayToggle() {
+    if (!playToggle) return;
+    const paused = userPaused || reducedMotion.matches;
+    playToggle.setAttribute('aria-pressed', String(paused));
+    playToggle.setAttribute('aria-label', paused ? 'Resume automatic rotation' : 'Pause automatic rotation');
+    playToggle.title = paused ? 'Resume automatic rotation' : 'Pause automatic rotation';
+    playToggle.disabled = reducedMotion.matches;
+    if (playIcon) playIcon.hidden = !paused;
+    if (pauseIcon) pauseIcon.hidden = paused;
+  }
+
+  function resumeAfterInteraction() {
+    stopAutoplay();
+    window.clearTimeout(resumeTimer);
+    if (userPaused || reducedMotion.matches) return;
+    resumeTimer = window.setTimeout(function () { queueAutoplay(500); }, resumeDelay);
+  }
+
+  function selectManually(index) {
+    select(index, true);
+    resumeAfterInteraction();
+  }
+
   cards.forEach(function (card, index) {
-    card.addEventListener('focusin', function () { select(index, true); });
+    card.addEventListener('focusin', function () { selectManually(index); });
   });
 
-  if (previous) previous.addEventListener('click', function () { select(active - 1, true); });
-  if (next) next.addEventListener('click', function () { select(active + 1, true); });
+  if (previous) previous.addEventListener('click', function () { selectManually(active - 1); });
+  if (next) next.addEventListener('click', function () { selectManually(active + 1); });
+  if (playToggle) playToggle.addEventListener('click', function () {
+    userPaused = !userPaused;
+    window.clearTimeout(resumeTimer);
+    updatePlayToggle();
+    if (userPaused) stopAutoplay();
+    else queueAutoplay(600);
+  });
 
   rail.addEventListener('keydown', function (event) {
     if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
     event.preventDefault();
-    select(active + (event.key === 'ArrowRight' ? 1 : -1), true);
+    selectManually(active + (event.key === 'ArrowRight' ? 1 : -1));
   });
 
   rail.addEventListener('pointerdown', function (event) {
+    if (!desktop.matches || event.button !== 0) return;
     dragStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    dragMoved = false;
+    rail.classList.add('is-dragging');
+    rail.setPointerCapture(event.pointerId);
+    stopAutoplay();
+  });
+
+  rail.addEventListener('pointermove', function (event) {
+    if (!dragStart || dragStart.id !== event.pointerId) return;
+    const dx = event.clientX - dragStart.x;
+    const dy = event.clientY - dragStart.y;
+    if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) dragMoved = true;
+    rail.style.setProperty('--portfolio-drag-x', Math.max(-90, Math.min(90, dx * .34)) + 'px');
   }, { passive: true });
 
   rail.addEventListener('pointerup', function (event) {
@@ -895,10 +976,67 @@
     const dx = event.clientX - dragStart.x;
     const dy = event.clientY - dragStart.y;
     dragStart = null;
-    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) select(active + (dx < 0 ? 1 : -1), true);
+    rail.classList.remove('is-dragging');
+    rail.style.removeProperty('--portfolio-drag-x');
+    if (rail.hasPointerCapture(event.pointerId)) rail.releasePointerCapture(event.pointerId);
+    if (dragMoved) {
+      suppressClick = true;
+      window.setTimeout(function () { suppressClick = false; }, 0);
+    }
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) selectManually(active + (dx < 0 ? 1 : -1));
+    else resumeAfterInteraction();
+  });
+
+  rail.addEventListener('pointercancel', function () {
+    dragStart = null;
+    rail.classList.remove('is-dragging');
+    rail.style.removeProperty('--portfolio-drag-x');
+    resumeAfterInteraction();
   }, { passive: true });
 
-  rail.addEventListener('pointercancel', function () { dragStart = null; }, { passive: true });
+  rail.addEventListener('click', function (event) {
+    if (!suppressClick) return;
+    event.preventDefault();
+    event.stopPropagation();
+  }, true);
+
+  rail.addEventListener('dragstart', function (event) { event.preventDefault(); });
+
+  rail.addEventListener('wheel', function (event) {
+    if (!desktop.matches) return;
+    const horizontal = event.shiftKey && Math.abs(event.deltaX) < 1 ? event.deltaY : event.deltaX;
+    const isHorizontalIntent = event.shiftKey || (Math.abs(horizontal) >= 10 && Math.abs(horizontal) > Math.abs(event.deltaY));
+    if (!isHorizontalIntent) return;
+    event.preventDefault();
+    wheelAccumulator += horizontal;
+    window.clearTimeout(wheelResetTimer);
+    wheelResetTimer = window.setTimeout(function () { wheelAccumulator = 0; }, 180);
+    if (Math.abs(wheelAccumulator) < 42) return;
+    selectManually(active + (wheelAccumulator > 0 ? 1 : -1));
+    wheelAccumulator = 0;
+  }, { passive: false });
+
+  rail.addEventListener('pointerenter', function () {
+    pointerInside = true;
+    stopAutoplay();
+  });
+
+  rail.addEventListener('pointerleave', function () {
+    pointerInside = false;
+    if (!dragStart) resumeAfterInteraction();
+  });
+
+  rail.addEventListener('focusin', function () {
+    focusInside = true;
+    stopAutoplay();
+  });
+
+  rail.addEventListener('focusout', function () {
+    window.setTimeout(function () {
+      focusInside = rail.contains(document.activeElement);
+      if (!focusInside) resumeAfterInteraction();
+    }, 0);
+  });
 
   rail.addEventListener('scroll', function () {
     if (desktop.matches || scrollFrame) return;
@@ -921,7 +1059,31 @@
     });
   }, { passive: true });
 
-  desktop.addEventListener('change', function () { render(false); });
+  const visibilityObserver = 'IntersectionObserver' in window ? new IntersectionObserver(function (entries) {
+    stageVisible = entries[0].isIntersecting && entries[0].intersectionRatio >= .28;
+    if (stageVisible) queueAutoplay(autoplayDelay);
+    else stopAutoplay();
+  }, { threshold: [0, .28, .6] }) : null;
+
+  if (visibilityObserver) visibilityObserver.observe(stage);
+  else stageVisible = true;
+
+  document.addEventListener('visibilitychange', function () {
+    if (document.hidden) stopAutoplay();
+    else queueAutoplay(autoplayDelay);
+  });
+
+  reducedMotion.addEventListener('change', function () {
+    updatePlayToggle();
+    if (reducedMotion.matches) stopAutoplay();
+    else queueAutoplay(autoplayDelay);
+  });
+
+  desktop.addEventListener('change', function () {
+    rail.style.removeProperty('--portfolio-drag-x');
+    render(false);
+  });
+  updatePlayToggle();
   render(false);
 })();
 

@@ -3146,6 +3146,20 @@ html[data-theme="dark"] .nav-bar.scrolled {
   transform: translateY(-2px);
 }
 
+.home-page .portfolio-rail-button:disabled {
+  cursor: not-allowed;
+  opacity: .45;
+  transform: none;
+}
+
+.home-page .portfolio-rail-play {
+  margin-left: .15rem;
+}
+
+.home-page .portfolio-rail-play svg[hidden] {
+  display: none;
+}
+
 .home-page .portfolio-rail-status {
   display: grid;
   grid-template-columns: auto minmax(36px, 84px) minmax(8ch, auto) auto;
@@ -3191,6 +3205,12 @@ html[data-theme="dark"] .nav-bar.scrolled {
     perspective-origin: 50% 42%;
     isolation: isolate;
     touch-action: pan-y;
+    cursor: grab;
+    user-select: none;
+  }
+
+  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail].is-dragging {
+    cursor: grabbing;
   }
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail]::before {
@@ -3238,7 +3258,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
     min-width: 0;
     margin: 0;
     opacity: var(--rail-opacity, 1) !important;
-    transform: translate(-50%, -50%) translate3d(var(--rail-x, 0), var(--rail-y, 0), var(--rail-z, 0)) rotateY(var(--rail-rotate, 0deg)) rotateZ(var(--rail-tilt, 0deg)) scale(var(--rail-scale, 1)) !important;
+    transform: translate(-50%, -50%) translate3d(var(--rail-x, 0), var(--rail-y, 0), var(--rail-z, 0)) translateX(var(--portfolio-drag-x, 0px)) rotateY(var(--rail-rotate, 0deg)) rotateZ(var(--rail-tilt, 0deg)) scale(var(--rail-scale, 1)) !important;
     transform-origin: 50% 82%;
     transition: transform 200ms ease-out, opacity 200ms ease-out, filter 200ms ease-out;
     will-change: transform !important;
@@ -3399,11 +3419,16 @@ html[data-theme="dark"] .nav-bar.scrolled {
 
   .home-page .portfolio-rail-controls {
     justify-content: space-between;
+    gap: .45rem;
   }
 
   .home-page .portfolio-rail-status {
     min-width: 0;
     grid-template-columns: auto minmax(24px, 1fr) minmax(7ch, auto) auto;
+  }
+
+  .home-page .portfolio-rail-play {
+    margin-left: 0;
   }
 }
 
