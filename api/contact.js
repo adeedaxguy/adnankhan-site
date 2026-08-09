@@ -93,6 +93,39 @@ async function notifyTeam(lead, subject) {
   }
 }
 
+async function forwardToGrowthOs(lead) {
+  const endpoint = process.env.GROWTH_OS_INQUIRY_URL;
+  if (!endpoint) return { ok: false, status: 'not-configured' };
+  const detail = cleanField(lead.message || lead.project || lead.details || Object.entries(lead).filter(([key]) => !key.startsWith('_') && !['name', 'email', 'source'].includes(key)).map(([key, value]) => `${key}: ${value}`).join('\n'), 3000);
+  if (detail.length < 20) return { ok: false, status: 'insufficient-context' };
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: { Origin: 'https://lofts.studio', 'Content-Type': 'application/json', 'Idempotency-Key': `lofts-${lead._id}` },
+      body: JSON.stringify({
+        name: lead.name,
+        email: lead.email,
+        company: cleanField(lead.company || lead.business || lead.website || 'Inbound project inquiry', 180),
+        website: /^https?:\/\//i.test(String(lead.website || '')) ? lead.website : '',
+        message: detail,
+        consent: true,
+        source: lead.source || 'lofts_site_inquiry',
+        attribution: {
+          country: lead.country || null,
+          landing_page: lead.landingPage || lead.page || null,
+          referrer: lead.referrer || null,
+          utm_source: lead.utm_source || null,
+          utm_medium: lead.utm_medium || null,
+          utm_campaign: lead.utm_campaign || null,
+        },
+      }),
+    });
+    return { ok: response.ok, status: response.ok ? 'forwarded' : 'delayed' };
+  } catch {
+    return { ok: false, status: 'delayed' };
+  }
+}
+
 export default async function handler(req) {
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
 
@@ -158,8 +191,10 @@ export default async function handler(req) {
 
   const notification = await notifyTeam(lead, subject);
   let automation = null;
+  let growthOs = { status: 'not-applicable' };
   if (!isNewsletter) {
     try { automation = await enrollLeadAutomation(lead, new URL(req.url).origin); } catch { automation = null; }
+    growthOs = await forwardToGrowthOs(lead);
   }
 
   return json({
@@ -168,5 +203,6 @@ export default async function handler(req) {
     submissionId,
     notification: notification.ok ? 'sent' : 'delayed',
     automation: automation?.status || 'not-enrolled',
+    growthOs: growthOs.status,
   });
 }
