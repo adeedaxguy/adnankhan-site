@@ -295,10 +295,8 @@
 </script>
 <link rel="stylesheet" href="/assets/experience.css?v=20260808h" data-lofts-experience />
 <link rel="stylesheet" href="/assets/typography.css" />
-<link rel="stylesheet" href="/assets/design-system.css?v=20260809g" />
-<link rel="modulepreload" href="/assets/vendor/three-r184.module.min.js" />
-<script id="lofts-motion-system" src="/assets/motion-system.js?v=20260809d" defer></script>
-<script type="module" src="/assets/home-service-world.js?v=20260809c"></script>
+<link rel="stylesheet" href="/assets/design-system.css?v=20260809k" />
+<script src="/assets/home-service-world-loader.js?v=20260809a" defer></script>
 </head>
 <body class="home-page">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -499,7 +497,7 @@
 
       <!-- ── Hero 3D card stack ── -->
       <aside class="hero-sidecar" aria-label="Recent client work">
-        <div class="stack-scene" id="stackScene" role="button" tabindex="0" aria-label="Browse selected client work">
+        <div class="stack-scene" id="stackScene" role="button" tabindex="0">
 
           <!-- Card 1 -->
           <div class="stack-card stack-card--1" data-stack-card>
@@ -817,7 +815,7 @@
       <div class="home-portfolio-copy">
         <span class="eyebrow">Selected client work</span>
         <h2 class="h-1">Built to perform. Made to last.</h2>
-        <p class="home-portfolio-lead">A focused edit of shipped websites and digital products across ecommerce, SaaS, B2B, finance, and custom platforms. Open a case study and inspect the work.</p>
+        <p class="home-portfolio-lead" id="homePortfolioLead">A focused edit of shipped websites and digital products across ecommerce, SaaS, B2B, finance, and custom platforms. Open a case study and inspect the work.</p>
       </div>
       <a href="/portfolio" class="btn-link home-portfolio-link">
         See the work
@@ -825,7 +823,7 @@
       </a>
     </div>
 
-    <div class="pf-grid">
+    <div class="pf-grid" data-portfolio-rail role="region" aria-roledescription="carousel" aria-label="Selected client work" aria-describedby="homePortfolioLead" tabindex="0">
 
       <!-- 01 — Featured: Discova (full-width, horizontal) -->
       <article class="pf-card--featured" data-reveal>
@@ -1126,6 +1124,16 @@
         </div>
       </article>
 
+    </div>
+
+    <div class="portfolio-rail-controls" aria-label="Portfolio controls">
+      <button class="portfolio-rail-button" type="button" data-portfolio-previous aria-label="Previous project" title="Previous project">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+      <p class="portfolio-rail-status" aria-live="polite"><span data-portfolio-current>01</span><i aria-hidden="true"></i><strong data-portfolio-title>Discova</strong><span data-portfolio-total>05</span></p>
+      <button class="portfolio-rail-button" type="button" data-portfolio-next aria-label="Next project" title="Next project">
+        <svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
     </div>
 
     <!-- View all portfolios CTA -->
@@ -1483,12 +1491,14 @@
 
 <!-- ─────────────────────── FAQ ─────────────────────── -->
 <section class="section home-faq" id="faq">
-  <div class="container-narrow" data-reveal>
-    <div style="text-align: center; margin-bottom: 3.5rem;">
-      <span class="eyebrow" style="justify-content: center; display: inline-flex;">Questions every founder asks first</span>
-      <h2 class="h-1" style="margin-top: 1.25rem;">The honest answers, in order of how often I hear them.</h2>
+  <div class="container home-faq-layout" data-reveal>
+    <div class="home-faq-intro">
+      <span class="eyebrow">Questions every founder asks first</span>
+      <h2 class="h-1">Questions worth answering before the work begins.</h2>
+      <p>Scope, speed, ownership, and what happens after launch. The practical details are here.</p>
     </div>
 
+    <div class="home-faq-list">
     <details class="faq">
       <summary>Why work with Lofts Studio instead of a larger agency? <span class="plus">+</span></summary>
       <div class="faq-body">Because senior ownership stays close to the work. You deal with the people planning, designing, building, QAing, and improving the website &mdash; without account layers or junior handoffs. The trade-off is focus: we take fewer active builds and keep each one documented.</div>
@@ -1525,6 +1535,7 @@
       <summary>Why is your site so quiet about &ldquo;hire me&rdquo;? <span class="plus">+</span></summary>
       <div class="faq-body">Because I&rsquo;d rather be the person you remembered when you needed work that lasts, than the person you bought from because the CTA was loud. If the writing here resonates, you already know where the form is. If it doesn&rsquo;t, you saved both of us a call.</div>
     </details>
+    </div>
   </div>
 </section>
 
@@ -1663,6 +1674,6 @@
   }
 </style>
 
-<script src="assets/main.js?v=20260809d" defer data-analytics-id="G-1KT1MFDY8R" data-widgets-src="/assets/widgets.js?v=20260731d"></script>
+<script src="assets/main.js?v=20260809f" defer data-analytics-id="G-1KT1MFDY8R" data-widgets-src="/assets/widgets.js?v=20260731d"></script>
 </body>
 </html>

@@ -529,13 +529,10 @@
     });
   });
 
-  // ── Reveal fallback (used ONLY if GSAP fails to load) ──
-  // If GSAP loads (the usual path), it takes over via the .gsap-ready class and
-  // animates these elements smoothly. If GSAP fails — broken CDN, ad blocker,
-  // ancient browser — this IntersectionObserver is the safety net so content
-  // still appears instead of staying invisible.
-  const gsapTakeoverTimeout = setTimeout(() => {
-    if (document.documentElement.classList.contains('gsap-ready')) return;
+  // ── Native reveal system ──
+  // Keep first paint and scrolling independent from animation libraries.
+  // The observer is small, deterministic, and respects the existing CSS motion.
+  setTimeout(() => {
     if ('IntersectionObserver' in window) {
       const io = new IntersectionObserver(entries => {
         entries.forEach(en => {
@@ -549,89 +546,11 @@
     } else {
       document.querySelectorAll('[data-reveal]').forEach(el => el.classList.add('in'));
     }
-  }, 1500); // wait 1.5s for GSAP CDN; if it didn't arrive, fall back
+  }, 40);
 
   // ── Year stamp in footer ──
   document.querySelectorAll('[data-year]').forEach(el => { el.textContent = new Date().getFullYear(); });
 
-  // ── GSAP premium animations ──
-  // Loads after window load to avoid blocking first paint. No-op if CDN failed.
-  window.addEventListener('load', () => {
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) return;
-    if (typeof gsap === 'undefined' || typeof ScrollTrigger === 'undefined') return;
-
-    gsap.registerPlugin(ScrollTrigger);
-    document.documentElement.classList.add('gsap-ready');
-
-    // 1) Hero word-reveal already handled by IIFE + CSS animation (above).
-    //    GSAP doesn't need to touch [data-split="words"] elements.
-
-    // Headings reveal as intact blocks so their line breaks stay stable across
-    // font loading, breakpoints, and accessibility text scaling.
-
-    // 2) Counters — animate from 0 → target when the element scrolls into view.
-    document.querySelectorAll('[data-count]').forEach(el => {
-      const target = parseFloat(el.dataset.count);
-      if (isNaN(target)) return;
-      const decimals = parseInt(el.dataset.decimals) || 0;
-      const prefix = el.dataset.prefix || '';
-      const suffix = el.dataset.suffix || '';
-      const format = (v) => prefix + v.toFixed(decimals) + suffix;
-      const obj = { val: 0 };
-      el.textContent = format(0);
-
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 88%',
-        once: true,
-        onEnter: () => {
-          gsap.to(obj, {
-            val: target,
-            duration: 1.8,
-            ease: 'power2.out',
-            onUpdate: () => { el.textContent = format(obj.val); },
-          });
-        },
-      });
-    });
-
-    // 3) Generic section reveal — keep content readable even if animation timing stalls.
-    gsap.utils.toArray('[data-reveal]').forEach(el => {
-      ScrollTrigger.create({
-        trigger: el,
-        start: 'top 88%',
-        once: true,
-        onEnter: () => gsap.fromTo(el, {
-          y: 18,
-        }, {
-          y: 0, duration: 0.2, ease: 'power2.out',
-        }),
-      });
-    });
-
-    // 4) Magnetic CTAs — primary buttons subtly track the cursor.
-    document.querySelectorAll('[data-magnetic]').forEach(btn => {
-      const strength = 0.22;
-      const onMove = (e) => {
-        const r = btn.getBoundingClientRect();
-        const x = (e.clientX - r.left - r.width / 2) * strength;
-        const y = (e.clientY - r.top - r.height / 2) * strength;
-        gsap.to(btn, { x, y, duration: 0.2, ease: 'power2.out' });
-      };
-      const onLeave = () => {
-        gsap.to(btn, { x: 0, y: 0, duration: 0.2, ease: 'power2.out' });
-      };
-      btn.addEventListener('mousemove', onMove);
-      btn.addEventListener('mouseleave', onLeave);
-    });
-
-    // 5) Refresh on font load (Fraunces is variable + loads after first paint;
-    //    triggers ScrollTrigger to recompute positions accurately).
-    if (document.fonts && document.fonts.ready) {
-      document.fonts.ready.then(() => ScrollTrigger.refresh());
-    }
-  });
 })();
 
 /* ═══════════════════════════════════════════════════════════════
@@ -884,6 +803,126 @@
       frame.classList.remove('is-previewing');
     });
   });
+})();
+
+
+/* ── Homepage spatial portfolio rail ───────────────────────────── */
+(function () {
+  'use strict';
+
+  const rail = document.querySelector('[data-portfolio-rail]');
+  if (!rail) return;
+
+  const stage = rail.closest('.home-portfolio-stage');
+  const cards = Array.from(rail.querySelectorAll('.pf-card, .pf-card--featured')).slice(0, 5);
+  const previous = stage.querySelector('[data-portfolio-previous]');
+  const next = stage.querySelector('[data-portfolio-next]');
+  const currentLabel = stage.querySelector('[data-portfolio-current]');
+  const titleLabel = stage.querySelector('[data-portfolio-title]');
+  const totalLabel = stage.querySelector('[data-portfolio-total]');
+  const desktop = window.matchMedia('(min-width: 821px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  let active = 0;
+  let dragStart = null;
+  let scrollFrame = 0;
+
+  if (!cards.length) return;
+  if (totalLabel) totalLabel.textContent = String(cards.length).padStart(2, '0');
+
+  function projectName(card) {
+    const heading = card.querySelector('.pf-card-name');
+    return heading ? heading.textContent.trim() : 'Selected project';
+  }
+
+  function wrappedOffset(index) {
+    let offset = index - active;
+    const half = Math.floor(cards.length / 2);
+    if (offset > half) offset -= cards.length;
+    if (offset < -half) offset += cards.length;
+    return offset;
+  }
+
+  function render(announce) {
+    cards.forEach(function (card, index) {
+      const offset = wrappedOffset(index);
+      const distance = Math.abs(offset);
+      card.style.setProperty('--rail-x', (offset * 82) + '%');
+      card.style.setProperty('--rail-y', (distance * 14 - (distance === 0 ? 8 : 0)) + 'px');
+      card.style.setProperty('--rail-z', (-distance * 135) + 'px');
+      card.style.setProperty('--rail-rotate', (-offset * 8) + 'deg');
+      card.style.setProperty('--rail-tilt', (offset * 1.35) + 'deg');
+      card.style.setProperty('--rail-scale', distance === 0 ? '1.055' : String(1 - distance * .045));
+      card.style.setProperty('--rail-opacity', String(1 - distance * .17));
+      card.style.setProperty('--rail-order', String(cards.length - distance));
+      card.classList.toggle('is-rail-active', index === active);
+    });
+
+    const selected = cards[active];
+    if (currentLabel) currentLabel.textContent = String(active + 1).padStart(2, '0');
+    if (titleLabel) titleLabel.textContent = projectName(selected);
+    if (announce) rail.setAttribute('aria-label', 'Selected client work. Current project: ' + projectName(selected));
+  }
+
+  function select(index, announce) {
+    active = (index + cards.length) % cards.length;
+    render(announce);
+    if (!desktop.matches) {
+      const card = cards[active];
+      const target = card.offsetLeft - (rail.clientWidth - card.offsetWidth) / 2;
+      rail.scrollTo({ left: target, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
+    }
+  }
+
+  cards.forEach(function (card, index) {
+    card.addEventListener('focusin', function () { select(index, true); });
+  });
+
+  if (previous) previous.addEventListener('click', function () { select(active - 1, true); });
+  if (next) next.addEventListener('click', function () { select(active + 1, true); });
+
+  rail.addEventListener('keydown', function (event) {
+    if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+    event.preventDefault();
+    select(active + (event.key === 'ArrowRight' ? 1 : -1), true);
+  });
+
+  rail.addEventListener('pointerdown', function (event) {
+    dragStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+  }, { passive: true });
+
+  rail.addEventListener('pointerup', function (event) {
+    if (!dragStart || dragStart.id !== event.pointerId) return;
+    const dx = event.clientX - dragStart.x;
+    const dy = event.clientY - dragStart.y;
+    dragStart = null;
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) select(active + (dx < 0 ? 1 : -1), true);
+  }, { passive: true });
+
+  rail.addEventListener('pointercancel', function () { dragStart = null; }, { passive: true });
+
+  rail.addEventListener('scroll', function () {
+    if (desktop.matches || scrollFrame) return;
+    scrollFrame = requestAnimationFrame(function () {
+      scrollFrame = 0;
+      const centre = rail.scrollLeft + rail.clientWidth / 2;
+      let nearest = active;
+      let nearestDistance = Infinity;
+      cards.forEach(function (card, index) {
+        const distance = Math.abs(card.offsetLeft + card.offsetWidth / 2 - centre);
+        if (distance < nearestDistance) {
+          nearest = index;
+          nearestDistance = distance;
+        }
+      });
+      if (nearest !== active) {
+        active = nearest;
+        render(false);
+      }
+    });
+  }, { passive: true });
+
+  desktop.addEventListener('change', function () { render(false); });
+  render(false);
 })();
 
 
@@ -1156,7 +1195,7 @@
     footer.innerHTML =
       '<div class="container">' +
         '<div class="lofts-compact-footer__nav">' +
-          '<a class="lofts-compact-footer__brand" href="/" aria-label="Lofts Studio home"><em>Lofts</em><span>STUDIO</span></a>' +
+          '<a class="lofts-compact-footer__brand" href="/"><em>Lofts</em><span>STUDIO</span></a>' +
           '<nav aria-label="Footer navigation">' +
             '<a href="/portfolio">Work</a>' +
             '<a href="/services">Services</a>' +
@@ -1187,7 +1226,7 @@
       '</div>' +
       '<nav class="lofts-footer-socials__links" aria-label="Lofts Studio social profiles">' +
         socialProfiles.map(function (profile) {
-          return '<a class="lofts-social-link" href="' + profile.url + '" target="_blank" rel="me noopener noreferrer" aria-label="Lofts Studio on ' + profile.name + ' (opens in a new tab)">' +
+          return '<a class="lofts-social-link" href="' + profile.url + '" target="_blank" rel="me noopener noreferrer">' +
             '<span class="lofts-social-link__mark" aria-hidden="true">' + profile.mark + '</span>' +
             '<span>' + profile.name + '</span>' +
             '<b aria-hidden="true">&nearr;</b>' +
@@ -1491,17 +1530,4 @@
       loadWidgets();
     }, { once: true, passive: true });
   });
-})();
-
-/* ── Shared motion system: self-hosted, progressive, and public pages only ── */
-(function () {
-  if (window.location.pathname.indexOf('/admin/') === 0 || document.getElementById('lofts-motion-system')) return;
-  var script = document.createElement('script');
-  script.id = 'lofts-motion-system';
-  script.src = '/assets/motion-system.js?v=20260809d';
-  script.async = true;
-
-  var load = function () { document.head.appendChild(script); };
-  if ('requestIdleCallback' in window) window.requestIdleCallback(load, { timeout: 650 });
-  else window.setTimeout(load, 180);
 })();
