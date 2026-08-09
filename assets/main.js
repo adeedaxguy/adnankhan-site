@@ -1174,9 +1174,14 @@
     var pathname = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\/+$/, '') || '/';
     var segments = pathname.split('/').filter(Boolean);
     var primaryRoute = segments[0] || '';
+
+    // The portfolio archive owns a purpose-built editorial hero. Running the
+    // generic visual-hero transformer here nests two independent grid systems
+    // and collapses the archive copy into a single column.
+    if (primaryRoute === 'portfolio' && segments.length === 1) return;
+
     var isLandingPage = primaryRoute === 'services' || primaryRoute === 'locations' ||
       primaryRoute === 'websites' || primaryRoute === 'work' ||
-      (primaryRoute === 'portfolio' && segments.length === 1) ||
       (primaryRoute === 'blog' && segments.length === 1) ||
       (primaryRoute === 'tools' && segments.length === 1) ||
       (primaryRoute === 'notes' && segments.length === 1) ||
@@ -1191,11 +1196,7 @@
     var breadcrumb = null;
     var legacyProof = null;
 
-    if (primaryRoute === 'portfolio' && segments.length === 1) {
-      hero = document.querySelector('.portfolio-archive-hero');
-      grid = hero && hero.querySelector(':scope > .container');
-      copy = grid && grid.querySelector('.portfolio-hero-shell');
-    } else if (document.querySelector('main > .loc-hero, main > .region-hero')) {
+    if (document.querySelector('main > .loc-hero, main > .region-hero')) {
       hero = document.querySelector('main > .loc-hero, main > .region-hero');
       grid = hero && hero.querySelector(':scope > .container');
       copy = grid && grid.querySelector('.loc-hero-copy');

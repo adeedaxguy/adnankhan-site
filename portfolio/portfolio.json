@@ -1,6 +1,6 @@
 {
-  "version": 7,
-  "lastUpdated": "2026-07-19",
+  "version": 8,
+  "lastUpdated": "2026-08-10",
   "schema": "Source of truth for portfolio. Edit via /admin/ then export and replace this file. Public listing at /portfolio/ reads this on load.",
   "categories": [
     "Shopify",
@@ -3659,6 +3659,182 @@
       "featured": false,
       "published": true,
       "displayOrder": 148
+    },
+    {
+      "slug": "cosmiktiki",
+      "name": "Cosmik Tiki",
+      "tagline": "Ongoing website changes for an entertainment brand",
+      "summary": "WordPress website support for a family entertainment brand, covering practical page changes and the next round of site improvements without overstating the scope of the engagement.",
+      "url": "https://cosmiktiki.com",
+      "image": "/assets/work/cosmiktiki.webp",
+      "platform": "WordPress",
+      "category": "Entertainment · Hospitality",
+      "stack": [
+        "WordPress",
+        "Website updates",
+        "Responsive support",
+        "Content changes"
+      ],
+      "metric": {
+        "value": "Ongoing",
+        "label": "Website improvement support"
+      },
+      "year": "2024",
+      "role": "Developer · Website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 149
+    },
+    {
+      "slug": "aussietechinc",
+      "name": "AussieTech Inc.",
+      "tagline": "Technical website action items delivered",
+      "summary": "Targeted website support for a technology business, completing requested action items and helping the public-facing experience stay clear, stable and responsive.",
+      "url": "https://aussietechinc.com",
+      "image": "/assets/work/aussietechinc.webp",
+      "platform": "Custom Website",
+      "category": "Technology · B2B",
+      "stack": [
+        "Website support",
+        "Content updates",
+        "Responsive QA",
+        "Technical fixes"
+      ],
+      "metric": {
+        "value": "B2B",
+        "label": "Technical service website"
+      },
+      "year": "2024",
+      "role": "Developer · Action-item delivery",
+      "featured": false,
+      "published": true,
+      "displayOrder": 150
+    },
+    {
+      "slug": "durobuildings",
+      "name": "Duro Buildings",
+      "tagline": "Website issue resolution for a building systems brand",
+      "summary": "Focused website support for an established steel-building company, addressing outstanding site issues and helping move pending web work toward completion.",
+      "url": "https://durobuildings.com",
+      "image": "/assets/work/durobuildings.webp",
+      "platform": "Custom Website",
+      "category": "Construction · B2B",
+      "stack": [
+        "Website fixes",
+        "Content support",
+        "Responsive QA",
+        "Issue resolution"
+      ],
+      "metric": {
+        "value": "B2B",
+        "label": "Building systems website"
+      },
+      "year": "2024",
+      "role": "Developer · Website issue resolution",
+      "featured": false,
+      "published": true,
+      "displayOrder": 151
+    },
+    {
+      "slug": "nayelclinics",
+      "name": "Nayel Clinics",
+      "tagline": "Website updates for a medical and laboratory brand",
+      "summary": "WordPress support for a healthcare website, focused on requested laboratory-site updates, content presentation and a dependable patient-facing experience.",
+      "url": "https://nayelclinics.com",
+      "image": "/assets/work/nayelclinics.webp",
+      "platform": "WordPress",
+      "category": "Healthcare · Clinics",
+      "stack": [
+        "WordPress",
+        "Content updates",
+        "Responsive support",
+        "Healthcare website"
+      ],
+      "metric": {
+        "value": "Health",
+        "label": "Patient-facing website"
+      },
+      "year": "2024",
+      "role": "WordPress Developer · Website updates",
+      "featured": false,
+      "published": true,
+      "displayOrder": 152
+    },
+    {
+      "slug": "stampedebranding",
+      "name": "Stampede Branding",
+      "tagline": "Landing page recreation for a branding studio",
+      "summary": "Landing-page recreation work for a branding company, translating an existing direction into a responsive web experience with cleaner structure and production-ready behavior.",
+      "url": "https://stampedebranding.com",
+      "image": "/assets/work/stampedebranding.webp",
+      "platform": "Wix",
+      "category": "Branding · Agency",
+      "stack": [
+        "Landing page",
+        "Responsive recreation",
+        "Visual implementation",
+        "Website support"
+      ],
+      "metric": {
+        "value": "Landing",
+        "label": "Responsive page recreation"
+      },
+      "year": "2024",
+      "role": "Developer · Landing-page recreation",
+      "featured": false,
+      "published": true,
+      "displayOrder": 153
+    },
+    {
+      "slug": "floralonly",
+      "name": "Floral Only",
+      "tagline": "Multi-page website delivery across seven projects",
+      "summary": "Website production support spanning a seventh project and its inner pages. The original public site is no longer reliably reachable, so this archive uses a Lofts-designed project record rather than showing an error screen.",
+      "url": "",
+      "image": "",
+      "platform": "Custom Website",
+      "category": "Floral · Ecommerce",
+      "stack": [
+        "Multi-page build",
+        "Inner pages",
+        "Responsive delivery",
+        "Website support"
+      ],
+      "metric": {
+        "value": "7th",
+        "label": "Recorded project engagement"
+      },
+      "year": "2024",
+      "role": "Developer · Multi-page website support",
+      "featured": false,
+      "published": true,
+      "displayOrder": 154,
+      "hideScreenshot": true
+    },
+    {
+      "slug": "cityinnovations",
+      "name": "City Innovations",
+      "tagline": "Website closeout support for a venture studio",
+      "summary": "Closeout-focused website support for a venture and innovation business, organizing final web tasks so the public experience could move forward cleanly.",
+      "url": "https://cityinnovations.com",
+      "image": "/assets/work/cityinnovations.webp",
+      "platform": "Custom Website",
+      "category": "Venture Studio · B2B",
+      "stack": [
+        "Closeout tasks",
+        "Website support",
+        "Responsive QA",
+        "Content updates"
+      ],
+      "metric": {
+        "value": "Closeout",
+        "label": "Final website task delivery"
+      },
+      "year": "2024",
+      "role": "Developer · Website closeout",
+      "featured": false,
+      "published": true,
+      "displayOrder": 155
     }
   ]
 }

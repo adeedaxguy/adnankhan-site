@@ -8,6 +8,7 @@ Outputs:
   /portfolio/index.html   — listing page with client-side filter + pagination
 """
 
+import argparse
 import json
 import re
 from html import escape
@@ -17,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260801i"
+CACHE_VER = "20260810a"
 SITE_URL = "https://lofts.studio"
 GTM_HEAD = """<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -570,7 +571,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20260808h" data-lofts-experience />
 
 <script type="application/ld+json">
 {schema_graph}
@@ -580,6 +581,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
 <link rel="stylesheet" href="/assets/typography.css" />
+<link rel="stylesheet" href="/assets/design-system.css?v=20260809k" />
 </head>
 <body>
 {GTM_BODY}
@@ -653,7 +655,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     <div data-reveal class="case-cta-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:2rem;max-width:920px;margin:0 auto;">
       <a href="/#contact" class="card" style="text-decoration:none;display:flex;flex-direction:column;gap:0.85rem;">
         <span style="font-family:var(--font-sans);font-size:0.68rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.2em;font-weight:600;">Get in touch</span>
-        <h3 class="h-2" style="margin:0;">Want something like {name} for your store?</h3>
+        <h3 class="h-2" style="margin:0;">Want something this considered for your website?</h3>
         <p style="font-family:var(--font-serif);color:var(--ink-soft);margin:0;line-height:1.6;">Send a URL and what you&rsquo;d change. Four-hour reply with three specific suggestions, whether you hire me or not.</p>
         <span class="btn-editorial" style="align-self:flex-start;margin-top:0.5rem;">Open the form &nbsp;&rarr;</span>
       </a>
@@ -1086,6 +1088,14 @@ def render_listing(items: list, nav: str, footer: str) -> str:
 
 
 def main():
+    parser = argparse.ArgumentParser(description="Generate portfolio case-study pages.")
+    parser.add_argument(
+        "--listing",
+        action="store_true",
+        help="Also replace portfolio/index.html using the legacy listing renderer.",
+    )
+    args = parser.parse_args()
+
     with open(DATA_FILE) as f:
         data = json.load(f)
     items = data.get("items", [])
@@ -1098,10 +1108,13 @@ def main():
         out.write_text(render(item, items, nav, footer))
         print(f"  ✓ portfolio/{slug}.html")
 
-    listing_path = PORTFOLIO_DIR / "index.html"
-    listing_path.write_text(render_listing(items, nav, footer))
-    print(f"  ✓ portfolio/index.html (with {len(published)} items)")
-    print(f"\nGenerated {len(published)} inner pages + listing.")
+    if args.listing:
+        listing_path = PORTFOLIO_DIR / "index.html"
+        listing_path.write_text(render_listing(items, nav, footer))
+        print(f"  ✓ portfolio/index.html (with {len(published)} items)")
+        print(f"\nGenerated {len(published)} inner pages + listing.")
+    else:
+        print(f"\nGenerated {len(published)} inner pages. The curated archive listing was preserved.")
 
 
 if __name__ == "__main__":
