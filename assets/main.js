@@ -79,6 +79,115 @@
   window.loftsGetAdAttribution = getAdAttribution;
   window.loftsTrackEvent = trackMarketingEvent;
 
+  // Normalize legacy page headers to the same masthead used on the homepage.
+  // Hundreds of static routes share this bootstrap, so the repair belongs here.
+  function normalizeGlobalHeader() {
+    const inner = document.querySelector('.nav-bar .nav-inner');
+    if (!inner) return;
+
+    let logo = inner.querySelector('.nav-logo');
+    if (!logo) {
+      logo = document.createElement('a');
+      logo.className = 'nav-logo';
+      inner.prepend(logo);
+    }
+    logo.href = '/';
+    logo.setAttribute('aria-label', 'Lofts Studio home');
+    logo.innerHTML = 'Lofts<span class="dot">studio</span>';
+
+    let links = inner.querySelector('.nav-links');
+    if (!links) {
+      links = document.createElement('nav');
+      links.className = 'nav-links';
+      logo.insertAdjacentElement('afterend', links);
+    }
+    links.setAttribute('aria-label', 'Primary');
+    links.innerHTML = `
+      <div class="mega-wrap">
+        <button class="nav-link" type="button" data-mega-trigger aria-expanded="false" aria-haspopup="true">
+          Work
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="mega">
+          <div class="mega-col">
+            <h4>By vertical</h4>
+            <a href="/work/ecommerce" class="mega-link"><div class="mega-link-title">Ecommerce</div><div class="mega-link-desc">Shopify, WooCommerce, headless.</div></a>
+            <a href="/work/insurance-finance" class="mega-link"><div class="mega-link-title">Insurance &amp; Finance</div><div class="mega-link-desc">Brokers, carriers, reinsurance.</div></a>
+            <a href="/work/membership-community" class="mega-link"><div class="mega-link-title">Membership &amp; Community</div><div class="mega-link-desc">Stripe, Discord, Whop.</div></a>
+            <a href="/work/custom-apps" class="mega-link"><div class="mega-link-title">Custom Apps</div><div class="mega-link-desc">React, Next.js, Node.</div></a>
+          </div>
+          <div class="mega-col">
+            <h4>Storefront</h4>
+            <a href="/services/shopify-development.html" class="mega-link"><div class="mega-link-title">Shopify Development</div><div class="mega-link-desc">Custom themes. Shopify Plus.</div></a>
+            <a href="/services/woocommerce-development.html" class="mega-link"><div class="mega-link-title">WooCommerce Development</div><div class="mega-link-desc">WordPress commerce, done right.</div></a>
+            <a href="/services/shopify-plus-migration.html" class="mega-link"><div class="mega-link-title">Shopify Plus Migration</div><div class="mega-link-desc">Replatform without downtime.</div></a>
+            <a href="/services/webflow-development.html" class="mega-link"><div class="mega-link-title">Webflow Development</div><div class="mega-link-desc">SaaS, B2B, brand-led sites.</div></a>
+          </div>
+          <div class="mega-col">
+            <h4>Performance</h4>
+            <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">Improve real-world loading.</div></a>
+            <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Remove conversion friction.</div></a>
+            <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Crawl, structure, and search signals.</div></a>
+            <a href="/services/landing-page-sprint.html" class="mega-link"><div class="mega-link-title">Landing Page Sprint</div><div class="mega-link-desc">Focused launch sprint.</div></a>
+          </div>
+          <div class="mega-feature">
+            <div>
+              <span class="tag">Two founders. Two cities.</span>
+              <h3>Senior strategy, design, and engineering from brief to launch.</h3>
+            </div>
+            <a href="/about.html" class="btn-link">Meet the founders <span aria-hidden="true">→</span></a>
+          </div>
+        </div>
+      </div>
+      <a href="/websites" class="nav-link">Web Design</a>
+      <a href="/portfolio" class="nav-link">Portfolio</a>
+      <a href="/process" class="nav-link">Process</a>
+      <a href="/blog" class="nav-link">Blog</a>
+      <a href="/tools" class="nav-link">Tools</a>
+      <a href="/about.html" class="nav-link">About</a>`;
+
+    inner.querySelectorAll(':scope > .btn, :scope > .nav-actions').forEach(element => element.remove());
+    const actions = document.createElement('div');
+    actions.className = 'nav-actions';
+    actions.innerHTML = `
+      <a href="/free-audit" class="btn btn-audit">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        Free Audit
+      </a>
+      <a href="/#contact" class="btn btn-primary">
+        Get in touch
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+      </a>`;
+
+    let menuButton = inner.querySelector('#menuBtn');
+    if (!menuButton) {
+      menuButton = document.createElement('button');
+      menuButton.id = 'menuBtn';
+      menuButton.className = 'menu-btn';
+      menuButton.type = 'button';
+      menuButton.setAttribute('aria-label', 'Open menu');
+      menuButton.setAttribute('aria-expanded', 'false');
+      menuButton.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="3" x2="21" y1="6" y2="6"/><line x1="3" x2="21" y1="12" y2="12"/><line x1="3" x2="21" y1="18" y2="18"/></svg>';
+    }
+    inner.append(actions, menuButton);
+
+    const path = window.location.pathname.replace(/\/index\.html$/, '/').replace(/\/$/, '') || '/';
+    links.querySelectorAll('a.nav-link').forEach(link => {
+      const href = link.getAttribute('href');
+      const current = href === '/about.html'
+        ? path === '/about.html'
+        : path === href || path.startsWith(href + '/');
+      if (current) link.setAttribute('aria-current', 'page');
+    });
+    if (path === '/free-audit') actions.querySelector('.btn-audit').setAttribute('aria-current', 'page');
+
+    // Static pages carried several generations of the mobile overlay.
+    // Rebuild it below from the canonical template instead of preserving drift.
+    document.getElementById('mobilePanel')?.remove();
+  }
+
+  normalizeGlobalHeader();
+
   // Keep headings intact. Whole-block reveals avoid the layout flicker and
   // uneven line breaks caused by wrapping every word after first paint.
   document.querySelectorAll('[data-split="words"]').forEach(el => {
@@ -1389,7 +1498,7 @@
   if (window.location.pathname.indexOf('/admin/') === 0 || document.getElementById('lofts-motion-system')) return;
   var script = document.createElement('script');
   script.id = 'lofts-motion-system';
-  script.src = '/assets/motion-system.js?v=20260808c';
+  script.src = '/assets/motion-system.js?v=20260809d';
   script.async = true;
 
   var load = function () { document.head.appendChild(script); };
