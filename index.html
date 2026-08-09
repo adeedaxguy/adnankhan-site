@@ -295,9 +295,10 @@
 </script>
 <link rel="stylesheet" href="/assets/experience.css?v=20260808h" data-lofts-experience />
 <link rel="stylesheet" href="/assets/typography.css" />
-<link rel="stylesheet" href="/assets/design-system.css?v=20260809d" />
+<link rel="stylesheet" href="/assets/design-system.css?v=20260809f" />
 <link rel="modulepreload" href="/assets/vendor/three-r184.module.min.js" />
-<script id="lofts-motion-system" src="/assets/motion-system.js?v=20260809a" defer></script>
+<script id="lofts-motion-system" src="/assets/motion-system.js?v=20260809d" defer></script>
+<script type="module" src="/assets/home-service-world.js?v=20260809b"></script>
 </head>
 <body class="home-page">
 <a class="skip-link" href="#main-content">Skip to main content</a>
@@ -438,14 +439,17 @@
     <div class="hero-grid">
       <div class="hero-scroll-track">
         <div class="hero-scroll-scene" data-hero-gravity>
-          <div class="home-hero-canvas" data-three-hero aria-hidden="true"></div>
-
       <!-- ── Main hero column ── -->
       <div class="hero-main">
         <span class="eyebrow">
           <span class="hero-eyebrow-wide">Independent senior studio &nbsp;·&nbsp; Strategy + design + engineering &nbsp;·&nbsp; Since 2011</span>
           <span class="hero-eyebrow-compact">Senior studio &nbsp;·&nbsp; Since 2011</span>
         </span>
+        <div class="hero-system-signal" aria-hidden="true">
+          <span class="hero-system-signal__label">Live delivery map</span>
+          <span class="hero-system-signal__rail"><i></i></span>
+          <span class="hero-system-signal__meta">5 disciplines · 1 senior team</span>
+        </div>
         <h1 class="sr-only">Websites built to win the next decision. Clear in the story. Exact in the build.</h1>
         <div class="h-display hero-title" aria-hidden="true">
           <span class="hero-title-primary">
@@ -469,6 +473,27 @@
         <div class="hero-actions" aria-label="Primary homepage actions">
           <a href="/#contact" class="btn btn-primary">Start a project <span aria-hidden="true">→</span></a>
           <a href="/free-audit/" class="btn-link">Run a free audit <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+
+      <!-- ── Interactive service world ── -->
+      <div class="home-service-world" data-home-service-world>
+        <div class="home-service-world__topline" aria-hidden="true">
+          <span>One connected delivery system</span>
+          <span>Strategy → launch → growth</span>
+        </div>
+        <div class="home-hero-canvas" data-home-service-world-canvas aria-hidden="true"></div>
+        <div class="home-service-world__controls">
+          <button class="home-service-world__toggle" type="button" data-service-world-toggle aria-label="Pause 3D service animation" aria-pressed="false" title="Pause animation">
+            <span aria-hidden="true"></span><span aria-hidden="true"></span>
+          </button>
+          <ol class="home-service-world__services" aria-label="Services represented in the interactive scene">
+            <li data-service-world-label>Commerce</li>
+            <li data-service-world-label>SaaS</li>
+            <li data-service-world-label>WordPress</li>
+            <li data-service-world-label>SEO/AEO</li>
+            <li data-service-world-label>AI agents</li>
+          </ol>
         </div>
       </div>
 
