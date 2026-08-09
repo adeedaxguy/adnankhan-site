@@ -2378,8 +2378,8 @@ html[data-theme="dark"] .services-hero-canvas {
   opacity: 0;
   pointer-events: none;
   transform: none;
-  mask-image: none;
-  -webkit-mask-image: none;
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 78%, rgba(0, 0, 0, .58) 90%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 9%, #000 78%, rgba(0, 0, 0, .58) 90%, transparent 100%);
   transition: opacity var(--motion-fast) var(--motion-ease-out);
 }
 
@@ -2540,6 +2540,8 @@ html[data-theme="dark"] .home-service-world__toggle {
 
   .home-service-world .home-hero-canvas {
     inset: 2.2rem -1rem 4.6rem;
+    mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 80%, rgba(0, 0, 0, .52) 92%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 10%, #000 80%, rgba(0, 0, 0, .52) 92%, transparent 100%);
   }
 
   .home-service-world__topline {

@@ -17,6 +17,7 @@ async function startServiceWorld(canvasHost, worldShell) {
   const cameraZ = mobile ? 10.25 : (compact ? 11.5 : 10.35);
   const root = document.documentElement;
   const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0xf4f0e9, 12.25, 20);
   const camera = new THREE.PerspectiveCamera(mobile ? 39 : (compact ? 37 : 34), 1, 0.1, 50);
   camera.position.set(0, cameraY, cameraZ);
   camera.lookAt(0, 0.15, 0);
@@ -110,6 +111,11 @@ async function startServiceWorld(canvasHost, worldShell) {
 
   const paper = physical(0xf5f0e8);
   const paperInset = physical(0xe8ded1, { roughness: 0.28 });
+  const ground = physical(0xf4f0e9, {
+    roughness: 0.38,
+    transparent: true,
+    opacity: 0.82
+  });
   const ink = physical(0x211b17, { roughness: 0.3 });
   const accent = physical(0xaa482d, { roughness: 0.24, emissive: 0x2c0903, emissiveIntensity: 0.14 });
   const paleGlass = physical(0xf7f0e8, {
@@ -120,16 +126,16 @@ async function startServiceWorld(canvasHost, worldShell) {
   });
 
   const base = new THREE.Mesh(
-    keepGeometry(new THREE.CylinderGeometry(4.35, 4.7, 0.24, mobile ? 28 : 44)),
-    paperInset
+    keepGeometry(new THREE.CylinderGeometry(4.25, 4.52, 0.12, mobile ? 28 : 44)),
+    ground
   );
-  base.position.y = -1.05;
+  base.position.y = -1;
   base.receiveShadow = !mobile;
   world.add(base);
 
   const underlay = new THREE.Mesh(
     keepGeometry(new THREE.CircleGeometry(4.15, mobile ? 28 : 44)),
-    keepMaterial(new THREE.MeshBasicMaterial({ color: 0x5b3b2f, transparent: true, opacity: 0.075, depthWrite: false }))
+    keepMaterial(new THREE.MeshBasicMaterial({ color: 0xa9432d, transparent: true, opacity: 0.035, depthWrite: false }))
   );
   underlay.rotation.x = -Math.PI / 2;
   underlay.position.y = -0.91;
@@ -137,7 +143,7 @@ async function startServiceWorld(canvasHost, worldShell) {
 
   const orbit = new THREE.Mesh(
     keepGeometry(new THREE.TorusGeometry(3.55, 0.018, 4, mobile ? 48 : 80)),
-    keepMaterial(new THREE.MeshBasicMaterial({ color: 0xa9432d, transparent: true, opacity: 0.24 }))
+    keepMaterial(new THREE.MeshBasicMaterial({ color: 0xa9432d, transparent: true, opacity: 0.17 }))
   );
   orbit.rotation.x = Math.PI / 2;
   orbit.position.y = -0.88;
@@ -294,9 +300,13 @@ async function startServiceWorld(canvasHost, worldShell) {
     renderer.toneMappingExposure = dark ? 0.94 : 1.08;
     paper.color.setHex(dark ? 0x6b625b : 0xf5f0e8);
     paperInset.color.setHex(dark ? 0x3a3430 : 0xe8ded1);
+    ground.color.setHex(dark ? 0x11100e : 0xf4f0e9);
+    ground.opacity = dark ? 0.68 : 0.82;
     ink.color.setHex(dark ? 0xeee7df : 0x211b17);
     paleGlass.color.setHex(dark ? 0x827a72 : 0xf7f0e8);
-    underlay.material.color.setHex(dark ? 0x000000 : 0x5b3b2f);
+    scene.fog.color.setHex(dark ? 0x11100e : 0xf4f0e9);
+    underlay.material.color.setHex(dark ? 0xdb7358 : 0xa9432d);
+    underlay.material.opacity = dark ? 0.025 : 0.035;
     orbit.material.color.setHex(dark ? 0xca6d4d : 0xa9432d);
     themeDrawers.forEach(draw => draw(dark));
   }
