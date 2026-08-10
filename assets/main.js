@@ -814,7 +814,7 @@
   if (!rail) return;
 
   const stage = rail.closest('.home-portfolio-stage');
-  const cards = Array.from(rail.querySelectorAll('.pf-card, .pf-card--featured')).slice(0, 5);
+  const cards = Array.from(rail.querySelectorAll('.pf-card, .pf-card--featured')).slice(0, 11);
   const previous = stage.querySelector('[data-portfolio-previous]');
   const next = stage.querySelector('[data-portfolio-next]');
   const currentLabel = stage.querySelector('[data-portfolio-current]');
@@ -826,8 +826,8 @@
   const announcer = stage.querySelector('[data-portfolio-announcer]');
   const desktop = window.matchMedia('(min-width: 821px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const autoplayDelay = 4200;
-  const resumeDelay = 6200;
+  const autoplayDelay = 3000;
+  const resumeDelay = 4600;
   let active = 0;
   let dragStart = null;
   let dragMoved = false;
@@ -837,6 +837,9 @@
   let resumeTimer = 0;
   let wheelAccumulator = 0;
   let wheelResetTimer = 0;
+  let wheelLocked = false;
+  let dragFrame = 0;
+  let dragOffset = 0;
   let userPaused = false;
   let pointerInside = false;
   let focusInside = false;
@@ -934,6 +937,11 @@
     resumeAfterInteraction();
   }
 
+  function paintDragOffset() {
+    dragFrame = 0;
+    rail.style.setProperty('--portfolio-drag-x', dragOffset + 'px');
+  }
+
   cards.forEach(function (card, index) {
     card.addEventListener('focusin', function () { selectManually(index); });
   });
@@ -956,7 +964,7 @@
 
   rail.addEventListener('pointerdown', function (event) {
     if (!desktop.matches || event.button !== 0) return;
-    dragStart = { x: event.clientX, y: event.clientY, id: event.pointerId };
+    dragStart = { x: event.clientX, y: event.clientY, id: event.pointerId, active: active };
     dragMoved = false;
     rail.classList.add('is-dragging');
     rail.setPointerCapture(event.pointerId);
@@ -968,14 +976,19 @@
     const dx = event.clientX - dragStart.x;
     const dy = event.clientY - dragStart.y;
     if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) dragMoved = true;
-    rail.style.setProperty('--portfolio-drag-x', Math.max(-90, Math.min(90, dx * .34)) + 'px');
+    dragOffset = Math.max(-110, Math.min(110, dx * .42));
+    if (!dragFrame) dragFrame = requestAnimationFrame(paintDragOffset);
   }, { passive: true });
 
   rail.addEventListener('pointerup', function (event) {
     if (!dragStart || dragStart.id !== event.pointerId) return;
     const dx = event.clientX - dragStart.x;
     const dy = event.clientY - dragStart.y;
+    const startActive = dragStart.active;
     dragStart = null;
+    if (dragFrame) cancelAnimationFrame(dragFrame);
+    dragFrame = 0;
+    dragOffset = 0;
     rail.classList.remove('is-dragging');
     rail.style.removeProperty('--portfolio-drag-x');
     if (rail.hasPointerCapture(event.pointerId)) rail.releasePointerCapture(event.pointerId);
@@ -983,12 +996,15 @@
       suppressClick = true;
       window.setTimeout(function () { suppressClick = false; }, 0);
     }
-    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) selectManually(active + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) selectManually(startActive + (dx < 0 ? 1 : -1));
     else resumeAfterInteraction();
   });
 
   rail.addEventListener('pointercancel', function () {
     dragStart = null;
+    if (dragFrame) cancelAnimationFrame(dragFrame);
+    dragFrame = 0;
+    dragOffset = 0;
     rail.classList.remove('is-dragging');
     rail.style.removeProperty('--portfolio-drag-x');
     resumeAfterInteraction();
@@ -1006,14 +1022,16 @@
     if (!desktop.matches) return;
     const horizontal = event.shiftKey && Math.abs(event.deltaX) < 1 ? event.deltaY : event.deltaX;
     const isHorizontalIntent = event.shiftKey || (Math.abs(horizontal) >= 10 && Math.abs(horizontal) > Math.abs(event.deltaY));
-    if (!isHorizontalIntent) return;
+    if (!isHorizontalIntent || wheelLocked) return;
     event.preventDefault();
     wheelAccumulator += horizontal;
     window.clearTimeout(wheelResetTimer);
     wheelResetTimer = window.setTimeout(function () { wheelAccumulator = 0; }, 180);
-    if (Math.abs(wheelAccumulator) < 42) return;
+    if (Math.abs(wheelAccumulator) < 28) return;
     selectManually(active + (wheelAccumulator > 0 ? 1 : -1));
     wheelAccumulator = 0;
+    wheelLocked = true;
+    window.setTimeout(function () { wheelLocked = false; }, 360);
   }, { passive: false });
 
   rail.addEventListener('pointerenter', function () {
