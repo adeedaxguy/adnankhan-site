@@ -868,6 +868,371 @@ html.lofts-motion-ready .diagnostic-hero [data-reveal] {
   }
 }
 
+/* Homepage hero composition ------------------------------------------------
+   The service system is useful at first paint; WebGL progressively replaces
+   this lightweight diagram instead of leaving half the hero empty. */
+.home-page .hero-paper {
+  overflow: clip;
+}
+
+.home-page .hero-scroll-scene {
+  align-items: center;
+  grid-template-columns: minmax(0, .94fr) minmax(460px, 1.06fr);
+  gap: clamp(2rem, 4.5vw, 5rem);
+  min-height: min(760px, calc(100svh - 76px));
+  padding-top: clamp(3.75rem, 6.5vh, 5.75rem) !important;
+  padding-bottom: clamp(3.5rem, 6vh, 5.25rem) !important;
+}
+
+.home-page .hero-main {
+  grid-column: 1;
+  grid-row: 1;
+  align-self: center;
+  max-width: 660px;
+}
+
+.home-page .hero-main > .eyebrow {
+  width: 100%;
+  margin: 0 0 clamp(2rem, 4vh, 3rem);
+  white-space: nowrap;
+}
+
+.home-page .hero-main > .eyebrow::after {
+  content: "";
+  flex: 1;
+  min-width: 2rem;
+  height: 1px;
+  margin-left: .5rem;
+  background: var(--line);
+}
+
+.home-page .hero-system-signal {
+  display: none !important;
+}
+
+.home-page .hero-title,
+.home-service-world-ready .home-page .hero-title {
+  width: min(100%, 650px);
+  margin: 0 !important;
+  font-size: clamp(3.8rem, 5.15vw, 5.35rem) !important;
+  line-height: .94 !important;
+}
+
+.home-page .hero-title-accent {
+  display: block;
+  margin-top: .32em;
+  font-size: .43em;
+  line-height: 1.08;
+}
+
+.home-page .hero-lead,
+.home-service-world-ready .home-page .hero-lead {
+  width: min(100%, 45ch);
+  margin-top: clamp(1.75rem, 3vh, 2.35rem) !important;
+  color: var(--muted);
+  font-size: clamp(1rem, 1.18vw, 1.12rem);
+  line-height: 1.58;
+}
+
+.home-page .hero-actions,
+.home-service-world-ready .home-page .hero-actions {
+  margin-top: 1.5rem;
+}
+
+.home-page .home-service-world,
+.home-service-world-ready .home-page .home-service-world {
+  position: relative;
+  display: block;
+  grid-column: 2;
+  grid-row: 1;
+  align-self: stretch;
+  justify-self: stretch;
+  width: 100%;
+  height: auto;
+  min-height: clamp(540px, 44vw, 660px);
+  margin: 0;
+}
+
+.home-page .hero-sidecar {
+  display: none !important;
+}
+
+.home-service-world__fallback {
+  position: absolute;
+  z-index: 0;
+  inset: 4rem 1.25rem 5.1rem;
+  overflow: hidden;
+  opacity: 1;
+  pointer-events: none;
+  transform: translateZ(0);
+  transition: opacity var(--motion-fast) var(--motion-ease-out);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, #000 8%, #000 88%, transparent);
+}
+
+.home-service-world.is-ready .home-service-world__fallback {
+  opacity: .08;
+}
+
+.home-service-world__fallback::before {
+  content: "";
+  position: absolute;
+  inset: 8% 4%;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--ink) 8%, transparent) 1px, transparent 1px);
+  background-size: 54px 54px;
+  -webkit-mask-image: radial-gradient(circle, #000 26%, transparent 72%);
+  mask-image: radial-gradient(circle, #000 26%, transparent 72%);
+}
+
+.home-service-world__orbit {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border: 1px solid color-mix(in srgb, var(--accent) 34%, transparent);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) rotate(-8deg);
+}
+
+.home-service-world__orbit--one {
+  width: 78%;
+  height: 47%;
+}
+
+.home-service-world__orbit--two {
+  width: 48%;
+  height: 76%;
+  transform: translate(-50%, -50%) rotate(47deg);
+  opacity: .55;
+}
+
+.home-service-world__core,
+.home-service-world__node {
+  position: absolute;
+  border: 1px solid color-mix(in srgb, var(--ink) 18%, transparent);
+  background: color-mix(in srgb, var(--surface) 88%, transparent);
+  box-shadow: 0 24px 60px -46px color-mix(in srgb, var(--ink) 58%, transparent);
+}
+
+.home-service-world__core {
+  top: 50%;
+  left: 50%;
+  width: min(47%, 310px);
+  min-width: 238px;
+  padding: 1.55rem;
+  transform: translate(-50%, -50%) rotate(-2deg);
+}
+
+.home-service-world__core span,
+.home-service-world__node span {
+  display: block;
+  color: var(--muted);
+  font-family: var(--font-sans);
+  font-size: .58rem;
+  font-weight: 500;
+  letter-spacing: .08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.home-service-world__core strong {
+  display: block;
+  margin: 1.15rem 0 1.35rem;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-size: clamp(1.55rem, 2.25vw, 2.2rem);
+  font-weight: 400;
+  line-height: 1.02;
+}
+
+.home-service-world__core i {
+  display: block;
+  width: 74%;
+  height: 3px;
+  margin-top: .48rem;
+  background: var(--line);
+}
+
+.home-service-world__core i:nth-of-type(2) {
+  width: 52%;
+}
+
+.home-service-world__core i:nth-of-type(3) {
+  width: 86%;
+  background: var(--accent);
+}
+
+.home-service-world__node {
+  min-width: 124px;
+  padding: .75rem .85rem;
+}
+
+.home-service-world__node strong {
+  display: block;
+  margin-top: .3rem;
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: .78rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.home-service-world__node--commerce { top: 24%; left: 2%; transform: rotate(-4deg); }
+.home-service-world__node--product { top: 8%; left: 53%; transform: rotate(2deg); }
+.home-service-world__node--platform { right: 1%; bottom: 21%; transform: rotate(3deg); }
+.home-service-world__node--growth { bottom: 7%; left: 16%; transform: rotate(-2deg); }
+
+.home-service-world .home-hero-canvas {
+  z-index: 1;
+}
+
+.home-page .home-service-world__topline {
+  top: 2.35rem;
+}
+
+.home-service-world__topline,
+.home-service-world__controls {
+  z-index: 3;
+}
+
+html[data-theme="dark"] .home-service-world__core,
+html[data-theme="dark"] .home-service-world__node {
+  background: color-mix(in srgb, var(--surface) 76%, transparent);
+}
+
+@media (max-width: 1120px) {
+  .home-page .hero-scroll-scene {
+    grid-template-columns: minmax(0, .92fr) minmax(390px, 1.08fr);
+    gap: 2rem;
+  }
+
+  .home-page .hero-title,
+  .home-service-world-ready .home-page .hero-title {
+    font-size: clamp(3.55rem, 5.2vw, 4.55rem) !important;
+  }
+
+  .home-service-world__node--commerce { left: 0; }
+  .home-service-world__node--platform { right: 0; }
+}
+
+@media (max-width: 880px) {
+  .home-page .hero-scroll-scene {
+    grid-template-columns: 1fr;
+    gap: 1.4rem;
+    min-height: 0;
+    padding-top: 3rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  .home-page .hero-main,
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .home-page .hero-main {
+    max-width: 700px;
+  }
+
+  .home-page .hero-main > .eyebrow {
+    margin-bottom: 1.8rem;
+  }
+
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    min-height: clamp(430px, 70vw, 560px);
+    margin-top: .5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page .hero-scroll-scene {
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
+  .home-page .hero-main > .eyebrow {
+    margin-bottom: 1.45rem;
+    white-space: normal;
+  }
+
+  .home-page .hero-title,
+  .home-service-world-ready .home-page .hero-title {
+    font-size: clamp(2.7rem, 12.4vw, 3.45rem) !important;
+    line-height: .98 !important;
+  }
+
+  .home-page .hero-title-accent {
+    font-size: .51em;
+  }
+
+  .home-page .hero-lead,
+  .home-service-world-ready .home-page .hero-lead {
+    margin-top: 1.45rem !important;
+    font-size: .98rem;
+  }
+
+  .home-page .hero-actions {
+    align-items: stretch;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .7rem;
+  }
+
+  .home-page .hero-actions .btn,
+  .home-page .hero-actions .btn-link {
+    min-width: 0;
+    min-height: 46px;
+    justify-content: center;
+    padding-inline: .8rem;
+    font-size: .78rem;
+    text-align: center;
+  }
+
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    min-height: min(105vw, 430px);
+  }
+
+  .home-service-world__fallback {
+    inset: 3.2rem -.5rem 4.7rem;
+  }
+
+  .home-service-world__core {
+    min-width: 205px;
+    padding: 1.1rem;
+  }
+
+  .home-service-world__core strong {
+    margin-block: .8rem 1rem;
+    font-size: 1.55rem;
+  }
+
+  .home-service-world__node {
+    min-width: 98px;
+    padding: .55rem .62rem;
+  }
+
+  .home-service-world__node strong {
+    font-size: .66rem;
+  }
+
+  .home-service-world__node--product { left: auto; right: 2%; }
+  .home-service-world__node--platform { bottom: 24%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page .home-service-world {
+    display: block !important;
+  }
+
+  .home-page .home-hero-canvas {
+    display: none !important;
+  }
+}
+
 @media (max-width: 390px) {
   .page-hero-actions {
     grid-template-columns: 1fr;
@@ -3437,5 +3802,119 @@ html[data-theme="dark"] .nav-bar.scrolled {
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card--featured,
   .home-page .portfolio-rail-button {
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Keep the homepage hero composition authoritative after legacy layers. */
+.home-page .hero-scroll-scene {
+  box-sizing: border-box;
+  align-items: center !important;
+  grid-template-columns: minmax(0, .94fr) minmax(460px, 1.06fr) !important;
+  grid-template-rows: minmax(0, 1fr) !important;
+  gap: clamp(2rem, 4.5vw, 5rem) !important;
+  row-gap: 0 !important;
+  min-height: min(680px, calc(100svh - 76px)) !important;
+  padding-top: clamp(3rem, 5.5vh, 4.75rem) !important;
+  padding-bottom: clamp(3rem, 5vh, 4.25rem) !important;
+}
+
+.home-page .hero-main,
+.home-service-world-ready .home-page .hero-main {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  align-self: center !important;
+  max-width: 660px;
+}
+
+.home-page .hero-system-signal {
+  display: none !important;
+}
+
+.home-page .hero-title,
+.home-service-world-ready .home-page .hero-title {
+  width: 100%;
+  max-width: 660px;
+  margin: 0 !important;
+  font-size: clamp(3.7rem, 4.85vw, 5.05rem) !important;
+  line-height: .96 !important;
+}
+
+.home-page .hero-lead,
+.home-service-world-ready .home-page .hero-lead {
+  width: min(100%, 45ch);
+  margin-top: clamp(1.75rem, 3vh, 2.35rem) !important;
+}
+
+.home-page .home-service-world,
+.home-service-world-ready .home-page .home-service-world {
+  display: block !important;
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  align-self: stretch !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: clamp(500px, 40vw, 600px) !important;
+  margin: 0 !important;
+}
+
+.home-page .hero-sidecar {
+  display: none !important;
+}
+
+.home-service-world .home-hero-canvas {
+  z-index: 1;
+}
+
+@media (max-width: 1120px) {
+  .home-page .hero-scroll-scene {
+    grid-template-columns: minmax(0, .92fr) minmax(390px, 1.08fr) !important;
+    gap: 2rem !important;
+  }
+
+  .home-page .hero-title,
+  .home-service-world-ready .home-page .hero-title {
+    font-size: clamp(3.55rem, 5.2vw, 4.55rem) !important;
+  }
+}
+
+@media (max-width: 880px) {
+  .home-page .hero-scroll-scene {
+    grid-template-columns: 1fr !important;
+    gap: 1.4rem !important;
+    min-height: 0 !important;
+    padding-top: 3rem !important;
+    padding-bottom: 3.5rem !important;
+  }
+
+  .home-page .hero-main,
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    grid-column: 1 !important;
+    grid-row: auto !important;
+  }
+
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    min-height: clamp(430px, 70vw, 560px) !important;
+    margin-top: .5rem !important;
+  }
+}
+
+@media (max-width: 640px) {
+  .home-page .hero-scroll-scene {
+    padding-top: 2.2rem !important;
+    padding-bottom: 2.75rem !important;
+  }
+
+  .home-page .hero-title,
+  .home-service-world-ready .home-page .hero-title {
+    font-size: clamp(2.7rem, 12.4vw, 3.45rem) !important;
+    line-height: .98 !important;
+  }
+
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    min-height: min(105vw, 430px) !important;
   }
 }

@@ -27,4 +27,10 @@
   events.forEach(function (eventName) {
     window.addEventListener(eventName, start, { once: true, passive: true });
   });
+
+  if ('requestIdleCallback' in window) {
+    window.requestIdleCallback(start, { timeout: 900 });
+  } else {
+    window.setTimeout(start, 450);
+  }
 }());
