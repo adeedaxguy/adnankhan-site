@@ -658,3 +658,353 @@ body.portfolio-page #pagination {
     transition: none !important;
   }
 }
+
+/* Compact archive hero: keep real portfolio work inside the first viewport. */
+body.portfolio-page .portfolio-archive-hero,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+  min-height: 0 !important;
+  padding: clamp(1.35rem, 2.2vw, 2.4rem) 0 clamp(1rem, 1.7vw, 1.65rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell::before {
+  inset: -34% -8% -46% 56%;
+  opacity: 0.55;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  margin-bottom: clamp(0.65rem, 1.2vw, 1rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+  max-width: 13.2ch !important;
+  font-size: clamp(3rem, 4.25vw, 5.15rem) !important;
+  line-height: 0.9 !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  max-width: 34ch !important;
+  font-size: clamp(0.98rem, 1.08vw, 1.14rem) !important;
+  line-height: 1.46 !important;
+}
+
+body.portfolio-page .portfolio-hero-actions {
+  gap: 0.55rem 1.15rem !important;
+  margin-top: 1rem !important;
+}
+
+body.portfolio-page .portfolio-hero-actions a {
+  min-height: 2rem;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  margin-top: clamp(1rem, 1.7vw, 1.5rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 5.6rem !important;
+  padding: 0.85rem clamp(0.85rem, 1.4vw, 1.4rem) 0.78rem !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(1.75rem, 2.8vw, 3.2rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  margin-top: 0.42rem !important;
+}
+
+body.portfolio-page .pf-filter-shell {
+  padding-top: 0.58rem !important;
+  padding-bottom: 0.58rem !important;
+}
+
+body.portfolio-page .portfolio-work-section {
+  padding-top: clamp(2.15rem, 4vw, 3.6rem) !important;
+}
+
+body.portfolio-page .portfolio-archive-intro {
+  display: none !important;
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 1100px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: minmax(0, 5.4fr) minmax(260px, 2.4fr) minmax(280px, 2.7fr) !important;
+    gap: clamp(1.15rem, 2vw, 2rem) clamp(1.6rem, 3vw, 3rem) !important;
+    align-items: end !important;
+  }
+
+  body.portfolio-page .portfolio-hero-copy {
+    grid-column: 1 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside {
+    grid-column: 2 !important;
+    padding-bottom: 0.2rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    grid-column: 3 !important;
+    align-self: stretch;
+    grid-template-columns: 1fr !important;
+    border: 1px solid var(--line);
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    display: grid;
+    grid-template-columns: minmax(6rem, 0.6fr) minmax(0, 1fr);
+    align-items: end;
+    gap: 0.8rem;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:first-child {
+    padding-left: clamp(0.85rem, 1.4vw, 1.4rem) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+    border-bottom: 0;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+    margin-top: 0 !important;
+  }
+}
+
+@media (min-width: 760px) and (max-width: 1099px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: minmax(0, 1.1fr) minmax(260px, 0.85fr) !important;
+    gap: 1.15rem clamp(1.5rem, 4vw, 3rem) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-copy {
+    grid-column: 1 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside {
+    grid-column: 2 !important;
+    padding-bottom: 0 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    grid-column: 1 / -1 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.portfolio-page .portfolio-archive-hero,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+    padding: 1.6rem 0 1.15rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell {
+    display: block !important;
+    gap: 0.9rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-copy,
+  body.portfolio-page .portfolio-hero-aside,
+  body.portfolio-page .portfolio-hero-stats {
+    grid-column: auto !important;
+    width: 100% !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell::before {
+    display: none;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+    max-width: 10.8ch !important;
+    font-size: clamp(2.55rem, 11.8vw, 3.35rem) !important;
+    line-height: 0.92 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside {
+    margin-top: 0.9rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-lead {
+    max-width: 34ch !important;
+    font-size: 0.92rem !important;
+    line-height: 1.42 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-actions {
+    margin-top: 0.75rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    margin-top: 0.95rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    min-height: 4.35rem !important;
+    padding: 0.64rem 0.58rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .bignum {
+    font-size: clamp(1.35rem, 6.6vw, 1.85rem) !important;
+  }
+
+  body.portfolio-page .pf-filter-shell {
+    padding-top: 0.52rem !important;
+    padding-bottom: 0.52rem !important;
+  }
+
+  body.portfolio-page .portfolio-work-section {
+    padding-top: 1.25rem !important;
+  }
+}
+
+/* 2026-08 archive reset: compact, screenshot-first cards instead of billboard tiles. */
+body.portfolio-page #workGrid.work-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(1.45rem, 2.15vw, 2.35rem) clamp(1rem, 1.65vw, 1.75rem) !important;
+  align-items: start !important;
+}
+
+body.portfolio-page #workGrid > .work-card,
+body.portfolio-page #workGrid > .work-card:nth-child(n),
+body.portfolio-page #workGrid > .work-card[data-layout],
+body.portfolio-page #workGrid > .work-card[data-layout="wide"],
+body.portfolio-page #workGrid > .work-card[data-layout="tall"],
+body.portfolio-page #workGrid > .work-card[data-layout="feature"] {
+  grid-column: span 1 !important;
+  width: 100% !important;
+  overflow: visible !important;
+}
+
+body.portfolio-page .work-card-img-link {
+  padding: 0.42rem !important;
+  border-radius: 8px !important;
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 90%, var(--bg)),
+      color-mix(in srgb, var(--bg) 94%, var(--surface))
+    ) !important;
+  box-shadow: 0 18px 42px color-mix(in srgb, var(--ink) 8%, transparent) !important;
+}
+
+html[data-theme="dark"] body.portfolio-page .work-card-img-link {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--surface) 82%, #ffffff 4%),
+      color-mix(in srgb, var(--bg) 86%, var(--surface))
+    ) !important;
+  box-shadow: 0 18px 46px color-mix(in srgb, #000 44%, transparent) !important;
+}
+
+body.portfolio-page .work-card-img,
+body.portfolio-page .work-card[data-layout="tall"] .work-card-img,
+body.portfolio-page .work-card[data-layout="feature"] .work-card-img {
+  aspect-ratio: 16 / 10 !important;
+  max-height: 330px !important;
+  min-height: 0 !important;
+  border-radius: 5px !important;
+  background: color-mix(in srgb, var(--surface) 92%, var(--bg)) !important;
+}
+
+body.portfolio-page .work-card-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+}
+
+body.portfolio-page .work-card-body {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) !important;
+  gap: 0.5rem !important;
+  padding-top: 0.9rem !important;
+}
+
+body.portfolio-page .work-card-name {
+  font-size: clamp(1.52rem, 1.65vw, 2.12rem) !important;
+  line-height: 1.02 !important;
+  max-width: 11.5ch !important;
+}
+
+body.portfolio-page .work-card-tag {
+  max-width: 34ch !important;
+  font-size: clamp(0.9rem, 0.92vw, 1rem) !important;
+  line-height: 1.42 !important;
+}
+
+body.portfolio-page .work-card-actions {
+  grid-column: 1 !important;
+  grid-row: auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 0.85rem !important;
+  margin-top: 0.35rem !important;
+}
+
+body.portfolio-page .work-card-live {
+  max-width: 52% !important;
+  overflow: hidden !important;
+  text-overflow: ellipsis !important;
+  white-space: nowrap !important;
+}
+
+body.portfolio-page .work-card-designed {
+  min-height: 100% !important;
+  align-content: center !important;
+  justify-items: start !important;
+  padding: clamp(1.1rem, 2vw, 1.8rem) !important;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--surface) 88%, transparent), color-mix(in srgb, var(--accent) 14%, var(--bg))) !important;
+}
+
+body.portfolio-page .work-card-designed::before {
+  font-size: clamp(5.6rem, 9vw, 11rem) !important;
+  opacity: 0.08 !important;
+}
+
+body.portfolio-page .work-card-designed-name {
+  max-width: 12ch !important;
+  font-size: clamp(1.75rem, 2.45vw, 3rem) !important;
+  line-height: 0.94 !important;
+}
+
+body.portfolio-page .work-card-designed-place {
+  font-size: 0.86rem !important;
+}
+
+@media (max-width: 1180px) {
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: 1fr !important;
+    gap: 2.35rem !important;
+  }
+
+  body.portfolio-page .work-card-img,
+  body.portfolio-page .work-card[data-layout="tall"] .work-card-img,
+  body.portfolio-page .work-card[data-layout="feature"] .work-card-img {
+    aspect-ratio: 4 / 3 !important;
+    max-height: none !important;
+  }
+
+  body.portfolio-page .work-card-body {
+    padding-top: 0.8rem !important;
+  }
+
+  body.portfolio-page .work-card-name {
+    max-width: 13ch !important;
+  }
+
+  body.portfolio-page .work-card-actions {
+    align-items: flex-end !important;
+  }
+}

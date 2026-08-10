@@ -659,6 +659,19 @@ html[data-theme="dark"] .portfolio-page .pf-filter-bar {
   box-shadow: var(--shadow-card);
 }
 
+.wordpress-malware-tool .diagnostic-hero {
+  padding-top: clamp(3rem, 4.8vw, 4.25rem) !important;
+}
+
+.wordpress-malware-tool .diagnostic-shell {
+  align-items: start;
+}
+
+.wordpress-malware-tool .diagnostic-copy .h-display,
+.wordpress-malware-tool .diagnostic-hero h1 {
+  max-width: 12ch;
+}
+
 /* Homepage: keep the proof-led composition, remove faux bold and drift. */
 
 .home-page .hero-title {
@@ -1474,6 +1487,80 @@ body.route-tools section.paper.tools-hero:first-of-type {
 
   .route-tools .tools-hero__support .btn {
     justify-content: center;
+  }
+}
+
+/* Tools field guides ----------------------------------------------------- */
+
+.route-tools .tools-field-guides__grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: clamp(1.15rem, 2vw, 1.75rem);
+  align-items: stretch;
+}
+
+.route-tools .tools-field-guide-card {
+  min-width: 0;
+  min-height: clamp(410px, 31vw, 500px);
+  padding: clamp(1.45rem, 2vw, 1.9rem) !important;
+}
+
+.route-tools .tools-field-guide-card > div:first-child {
+  gap: .75rem;
+}
+
+.route-tools .tools-field-guide-card .h-2 {
+  max-width: 15ch;
+  font-size: clamp(2.05rem, 2.35vw, 2.75rem) !important;
+  line-height: 1.02 !important;
+  letter-spacing: -.015em !important;
+  text-wrap: balance;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: manual;
+}
+
+.route-tools .tools-field-guide-card p {
+  max-width: 34ch;
+  font-size: clamp(.98rem, 1vw, 1.05rem);
+}
+
+.route-tools .tools-field-guide-card .btn-editorial {
+  min-height: 44px;
+  align-items: center;
+}
+
+@media (max-width: 1080px) {
+  .route-tools .tools-field-guides__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .route-tools .tools-field-guide-card {
+    min-height: 380px;
+  }
+}
+
+@media (max-width: 640px) {
+  .route-tools .tools-field-guides {
+    padding-top: 0 !important;
+  }
+
+  .route-tools .tools-field-guides__head {
+    margin-bottom: 1.5rem !important;
+  }
+
+  .route-tools .tools-field-guides__grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .route-tools .tools-field-guide-card {
+    min-height: 0;
+    padding: 1.25rem !important;
+  }
+
+  .route-tools .tools-field-guide-card .h-2 {
+    max-width: 13.75ch;
+    font-size: clamp(2rem, 10vw, 2.65rem) !important;
   }
 }
 
@@ -3624,7 +3711,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
     width: clamp(220px, 18.5vw, 340px);
     min-width: 0;
     margin: 0;
-    opacity: var(--rail-opacity, 1) !important;
+    opacity: 1 !important;
     transform: translate(-50%, -50%) translate3d(var(--rail-x, 0), var(--rail-y, 0), var(--rail-z, 0)) translateX(var(--portfolio-drag-x, 0px)) rotateY(var(--rail-rotate, 0deg)) rotateZ(var(--rail-tilt, 0deg)) scale(var(--rail-scale, 1)) !important;
     transform-origin: 50% 82%;
     transition: transform 520ms cubic-bezier(.22, 1, .36, 1), opacity 360ms ease-out, filter 200ms ease-out;
@@ -3649,8 +3736,9 @@ html[data-theme="dark"] .nav-bar.scrolled {
     border-radius: 7px;
     background: var(--bg-soft);
     box-shadow: 0 34px 54px -32px rgba(23, 20, 17, .55), inset 0 1px 0 rgba(255, 255, 255, .5);
+    opacity: var(--rail-opacity, 1);
     transform: translateZ(0) !important;
-    transition: border-color 200ms ease-out, box-shadow 200ms ease-out, transform 200ms ease-out !important;
+    transition: border-color 200ms ease-out, box-shadow 200ms ease-out, opacity 200ms ease-out, transform 200ms ease-out !important;
   }
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] .pf-card-img img,
@@ -3665,6 +3753,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] .is-rail-active .pf-card-img {
     border-color: color-mix(in srgb, var(--accent) 72%, var(--line)) !important;
     box-shadow: 0 42px 70px -32px rgba(23, 20, 17, .72), 0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent);
+    opacity: 1;
   }
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] .is-rail-active .pf-card-img img,
@@ -3884,15 +3973,71 @@ html[data-theme="dark"] .nav-bar.scrolled {
   z-index: 1;
 }
 
-@media (max-width: 1120px) {
+@media (min-width: 881px) {
   .home-page .hero-scroll-scene {
-    grid-template-columns: minmax(0, .92fr) minmax(390px, 1.08fr) !important;
-    gap: 2rem !important;
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    grid-template-rows: auto auto minmax(0, auto) auto !important;
+    column-gap: clamp(1rem, 2vw, 2rem) !important;
+    row-gap: 0 !important;
+    align-items: start !important;
+  }
+
+  .home-page .hero-main,
+  .home-service-world-ready .home-page .hero-main {
+    display: block !important;
+    grid-column: 1 / span 6 !important;
+    grid-row: 1 / span 4 !important;
+    align-self: start !important;
+    max-width: 660px !important;
+    padding-top: 0 !important;
+  }
+
+  .home-page .hero-main > .eyebrow {
+    width: 100% !important;
+    align-self: auto !important;
+    margin: 0 0 clamp(1.5rem, 3vh, 2.25rem) !important;
   }
 
   .home-page .hero-title,
   .home-service-world-ready .home-page .hero-title {
-    font-size: clamp(3.55rem, 5.2vw, 4.55rem) !important;
+    grid-column: 1 / span 6 !important;
+    grid-row: 2 !important;
+  }
+
+  .home-page .hero-lead,
+  .home-service-world-ready .home-page .hero-lead {
+    grid-column: 1 / span 5 !important;
+    grid-row: 3 !important;
+  }
+
+  .home-page .hero-actions {
+    grid-column: 1 / span 5 !important;
+    grid-row: 4 !important;
+  }
+
+  .home-page .home-service-world,
+  .home-service-world-ready .home-page .home-service-world {
+    grid-column: 7 / -1 !important;
+    grid-row: 1 / span 4 !important;
+    align-self: start !important;
+    min-height: clamp(520px, 40vw, 620px) !important;
+  }
+
+  .home-page .home-service-world__topline {
+    top: 0 !important;
+  }
+}
+
+@media (max-width: 1120px) {
+  .home-page .hero-scroll-scene {
+    grid-template-columns: repeat(12, minmax(0, 1fr)) !important;
+    column-gap: clamp(1rem, 2vw, 2rem) !important;
+    row-gap: 0 !important;
+  }
+
+  .home-page .hero-title,
+  .home-service-world-ready .home-page .hero-title {
+    font-size: clamp(3.05rem, 4.7vw, 3.85rem) !important;
   }
 }
 

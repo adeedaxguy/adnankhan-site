@@ -7,25 +7,19 @@
 
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
-  const layoutSequence = ["wide", "tall", "tall", "wide", "feature", "wide", "tall", "tall", "wide", "feature", "wide", "tall"];
+  const layoutSequence = ["standard"];
   let itemMap = new Map();
   let observer;
 
+  function allCards() {
+    return Array.from(grid.querySelectorAll(".work-card"));
+  }
+
   function visibleCards() {
-    return Array.from(grid.querySelectorAll(".work-card")).filter((card) => card.style.display !== "none");
+    return allCards().filter((card) => card.style.display !== "none");
   }
 
-  function loadImage(path) {
-    return new Promise((resolve, reject) => {
-      const image = new Image();
-      image.decoding = "async";
-      image.onload = () => resolve(image);
-      image.onerror = reject;
-      image.src = path;
-    });
-  }
-
-  async function hydrateCard(card) {
+  function hydrateCard(card) {
     if (card.dataset.portfolioHydrated === "true") return;
     const caseLink = card.querySelector('.work-card-img-link[href*="/portfolio/"]');
     const designed = card.querySelector(".work-card-designed");
@@ -33,24 +27,25 @@
 
     const slug = caseLink.getAttribute("href").split("/").pop().replace(/\.html$/, "");
     const item = itemMap.get(slug);
-    if (!item || !item.image || item.hideScreenshot) return;
+    if (!item || !item.image) return;
 
-    try {
-      const loaded = await loadImage(item.image);
-      const image = document.createElement("img");
-      image.src = item.image;
-      image.alt = `${item.name} — ${item.platform || "website"} project`;
-      image.loading = "lazy";
-      image.decoding = "async";
-      if (loaded.naturalWidth && loaded.naturalHeight) {
-        image.width = loaded.naturalWidth;
-        image.height = loaded.naturalHeight;
-      }
-      designed.replaceWith(image);
-      card.dataset.portfolioHydrated = "true";
-    } catch (_error) {
+    const fallback = designed.cloneNode(true);
+    const image = document.createElement("img");
+    image.src = item.image;
+    image.alt = `${item.name} — ${item.platform || "website"} project`;
+    image.loading = "lazy";
+    image.decoding = "async";
+    image.onerror = () => {
+      image.replaceWith(fallback);
       card.dataset.portfolioHydrated = "fallback";
-    }
+    };
+    designed.replaceWith(image);
+    card.dataset.portfolioHydrated = "true";
+  }
+
+  function hydrateAllCards() {
+    if (!itemMap.size) return;
+    allCards().forEach(hydrateCard);
   }
 
   function addPointerDepth(link) {
@@ -74,6 +69,7 @@
   }
 
   function prepareCards() {
+    hydrateAllCards();
     const cards = visibleCards();
     cards.forEach((card, index) => {
       const layout = layoutSequence[index % layoutSequence.length];
@@ -83,8 +79,6 @@
         imageLink.dataset.cardNumber = String((Number(card.dataset.index) || 0) + 1).padStart(2, "0");
         addPointerDepth(imageLink);
       }
-      hydrateCard(card);
-
       if (reducedMotion.matches) {
         card.classList.add("portfolio-card-visible");
       } else if (observer) {
@@ -111,6 +105,7 @@
       if (!response.ok) return;
       const data = await response.json();
       itemMap = new Map((data.items || []).map((item) => [item.slug, item]));
+      hydrateAllCards();
       prepareCards();
     } catch (_error) {
       // The authored preview remains usable when JSON or an image is unavailable.
