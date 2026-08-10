@@ -235,3 +235,15 @@ Lofts Studio connects site audit report, free website audit report, AEO checker,
 - [Website Conversion Path Audit](https://lofts.studio/blog/website-conversion-path-audit.html) - query-to-lead path review for first screen, proof, CTA, form, analytics, and follow-up.
 - [Technical SEO Audit Service](https://lofts.studio/services/technical-seo-audit.html) - implementation-led crawl, indexation, schema, redirect, Core Web Vitals, search appearance, and AEO audit support.
 <!-- 2026-08-08-AUDIT-REPORT-CLUSTER:END -->
+
+## 2026-08-10 audit and lead-funnel SEO cluster
+- Service Website Audit Report Examples: https://lofts.studio/blog/service-website-audit-report-examples.html
+- AEO Service Page Audit for Lead-Generation Websites: https://lofts.studio/blog/aeo-service-page-audit.html
+- Website Redesign SEO Migration QA: https://lofts.studio/blog/website-redesign-seo-migration-qa.html
+- Lead Generation Website Content Gap Audit: https://lofts.studio/blog/lead-generation-website-content-gap-audit.html
+- Technical SEO Audit for WordPress Service Sites: https://lofts.studio/blog/technical-seo-audit-for-wordpress-service-sites.html
+- Webflow SEO Audit for Service Businesses: https://lofts.studio/blog/webflow-seo-audit-for-service-businesses.html
+- Shopify Conversion Audit Before Development: https://lofts.studio/blog/shopify-conversion-audit-before-development.html
+- SaaS Website Demo Funnel Audit: https://lofts.studio/blog/saas-website-demo-funnel-audit.html
+- Local Service Website Schema Audit: https://lofts.studio/blog/local-service-website-schema-audit.html
+- Website Funnel Fix Plan for SEO Traffic: https://lofts.studio/blog/website-funnel-fix-plan.html
