@@ -3222,15 +3222,17 @@ html[data-theme="dark"] .home-service-world__toggle {
     display: grid;
     grid-template-columns: minmax(0, 1fr);
     gap: .75rem;
-    padding: .75rem;
-    border: 1px solid #3b3b38;
+    padding: 0;
+    border: 0;
+    background: transparent;
   }
 
   .site-footer .footer-newsletter-form input,
   .home-page .home-footer .footer-newsletter-form input {
     width: 100%;
     min-width: 0;
-    padding: .7rem .15rem .85rem;
+    min-height: 44px;
+    padding: .65rem 0 .8rem;
     border-bottom: 1px solid #3b3b38;
   }
 
