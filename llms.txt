@@ -62,7 +62,7 @@
 
 - [E-commerce Work](https://lofts.studio/work/ecommerce)
 - [Custom Apps](https://lofts.studio/work/custom-apps)
-- [Insurance and Finance](https://lofts.studio/work/insurance-finance)
+- [Insurance Agency Website Design and SEO](https://lofts.studio/work/insurance-finance)
 - [Membership and Community](https://lofts.studio/work/membership-community)
 
 ## Local Website Hubs
@@ -73,6 +73,9 @@
 - [Law Firm Websites](https://lofts.studio/websites/law-firms)
 - [Real Estate Websites](https://lofts.studio/websites/real-estate)
 - [Medical Clinic Websites](https://lofts.studio/websites/medical-clinics)
+- [Veterinarian Website Design and Veterinary SEO](https://lofts.studio/websites/veterinary)
+- [Optometry and Ophthalmology Website Design](https://lofts.studio/websites/opticians)
+- [Landscaping and Pool Builder Website Design](https://lofts.studio/websites/landscaping)
 - [HVAC Websites](https://lofts.studio/websites/hvac)
 - [Plumber Websites](https://lofts.studio/websites/plumbers)
 - [Roofing Websites](https://lofts.studio/websites/roofers)
@@ -115,8 +118,8 @@ Lofts Studio builds search-optimised websites for local businesses across the US
 - Dentists: https://lofts.studio/websites/dentists
 - Doctors & Clinics: https://lofts.studio/websites/medical-clinics
 - Physiotherapy & Chiropractic: https://lofts.studio/websites/physiotherapy
-- Opticians & Eye Care: https://lofts.studio/websites/opticians
-- Veterinary Practices: https://lofts.studio/websites/veterinary
+- Optometry, Ophthalmology & Eye Care Website Design: https://lofts.studio/websites/opticians
+- Veterinarian Website Design & Veterinary SEO: https://lofts.studio/websites/veterinary
 - Therapists & Counsellors: https://lofts.studio/websites/therapists
 - Hair Salons: https://lofts.studio/websites/hair-salons
 - Barbershops: https://lofts.studio/websites/barbershops
@@ -131,7 +134,7 @@ Lofts Studio builds search-optimised websites for local businesses across the US
 - HVAC & Heating: https://lofts.studio/websites/hvac
 - Builders & Contractors: https://lofts.studio/websites/builders
 - Roofers: https://lofts.studio/websites/roofers
-- Landscaping & Lawn Care: https://lofts.studio/websites/landscaping
+- Landscaping & Pool Builder Website Design: https://lofts.studio/websites/landscaping
 - Painters & Decorators: https://lofts.studio/websites/painters
 - Cleaning Services: https://lofts.studio/websites/cleaning
 - Pest Control: https://lofts.studio/websites/pest-control
