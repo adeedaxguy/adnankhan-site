@@ -22,24 +22,29 @@
   function hydrateCard(card) {
     if (card.dataset.portfolioHydrated === "true") return;
     const caseLink = card.querySelector('.work-card-img-link[href*="/portfolio/"]');
-    const designed = card.querySelector(".work-card-designed");
-    if (!caseLink || !designed) return;
+    const currentMedia = card.querySelector(".work-card-img img, .work-card-designed");
+    if (!caseLink || !currentMedia) return;
 
     const slug = caseLink.getAttribute("href").split("/").pop().replace(/\.html$/, "");
     const item = itemMap.get(slug);
     if (!item || !item.image) return;
 
-    const fallback = designed.cloneNode(true);
+    const fallback = currentMedia.cloneNode(true);
     const image = document.createElement("img");
     image.src = item.image;
     image.alt = `${item.name} — ${item.platform || "website"} project`;
+    image.width = Number(item.imageWidth) || 2200;
+    image.height = Number(item.imageHeight) || 1375;
     image.loading = "lazy";
     image.decoding = "async";
+    if ((Number(card.dataset.index) || 0) < 6) {
+      image.fetchPriority = "high";
+    }
     image.onerror = () => {
       image.replaceWith(fallback);
       card.dataset.portfolioHydrated = "fallback";
     };
-    designed.replaceWith(image);
+    currentMedia.replaceWith(image);
     card.dataset.portfolioHydrated = "true";
   }
 

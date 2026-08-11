@@ -326,12 +326,14 @@ body.portfolio-page .work-card-img img {
   object-fit: cover;
   object-position: top center;
   filter: none !important;
-  transform: scale(1.001);
+  transform: scale(1);
+  backface-visibility: hidden;
+  image-rendering: auto;
   transition: transform 200ms ease-out;
 }
 
 body.portfolio-page .work-card-img-link:hover .work-card-img img {
-  transform: scale(1.018);
+  transform: scale(1.012);
 }
 
 body.portfolio-page .work-card-badge {
@@ -914,6 +916,13 @@ body.portfolio-page .work-card-img img {
   height: 100% !important;
   object-fit: cover !important;
   object-position: top center !important;
+  transform: translate3d(0, 0, 0) scale(1) !important;
+  backface-visibility: hidden !important;
+  image-rendering: auto !important;
+}
+
+body.portfolio-page .work-card-img-link:hover .work-card-img img {
+  transform: translate3d(0, 0, 0) scale(1.012) !important;
 }
 
 body.portfolio-page .work-card-body {

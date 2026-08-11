@@ -1030,14 +1030,14 @@ body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-pag
   object-fit: cover;
   object-position: top center;
   filter: none;
-  transform: translate3d(0, var(--lofts-media-y, 0px), 0) scale(var(--lofts-media-scale, 1.001));
+  transform: translate3d(0, var(--lofts-media-y, 0px), 0) scale(var(--lofts-media-scale, 1));
   transition: transform .7s cubic-bezier(.2, .7, .2, 1), filter .4s ease;
   will-change: transform;
 }
 
 .home-portfolio-stage .pf-card:hover .pf-card-img img,
 .home-portfolio-stage .pf-card--featured:hover .pf-card-img img {
-  --lofts-media-scale: 1.045;
+  --lofts-media-scale: 1.012;
   filter: saturate(1.08);
 }
 
@@ -1170,13 +1170,13 @@ body:not(.home-page):not(.portfolio-page):not(.diagnostic-page):not(.booking-pag
   height: 100%;
   object-fit: cover;
   object-position: top center;
-  transform: translate3d(0, var(--lofts-media-y, 0px), 0) scale(var(--lofts-media-scale, 1.001));
+  transform: translate3d(0, var(--lofts-media-y, 0px), 0) scale(var(--lofts-media-scale, 1));
   transition: transform .65s cubic-bezier(.2, .7, .2, 1), filter .4s ease;
   will-change: transform;
 }
 
 .portfolio-page .work-card:hover .work-card-img img {
-  --lofts-media-scale: 1.045;
+  --lofts-media-scale: 1.012;
   filter: saturate(1.08);
 }
 
