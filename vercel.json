@@ -58,6 +58,11 @@
       "permanent": true
     },
     {
+      "source": "/go/:token",
+      "destination": "https://go.lofts.studio/go/:token",
+      "permanent": false
+    },
+    {
       "source": "/(.*)",
       "has": [
         {
