@@ -277,8 +277,9 @@
       padding-top: 3.25rem;
     }
     .serp-post h1 {
-      max-width: 13ch;
-      font-size: clamp(2.25rem, 13vw, 3.9rem);
+      max-width: 100%;
+      font-size: clamp(2.1rem, 9vw, 3.15rem);
+      line-height: 1.04;
     }
     .serp-lead {
       font-size: 1.04rem;
@@ -291,6 +292,15 @@
     .serp-cta .btn {
       width: 100%;
       justify-content: center;
+    }
+    .serp-table-wrap {
+      width: min(100%, calc(100vw - 1.25rem));
+    }
+    .serp-table {
+      min-width: 620px;
+    }
+    .serp-visual-grid {
+      width: min(100%, calc(100vw - 1.25rem));
     }
   }
 </style>
