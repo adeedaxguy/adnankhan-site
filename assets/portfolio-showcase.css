@@ -1017,3 +1017,280 @@ body.portfolio-page .work-card-designed-place {
     align-items: flex-end !important;
   }
 }
+
+/* Portfolio archive hero final guard: keep the intro compact and prevent any
+   generic visual-hero transform from colliding with the archive layout. */
+body.portfolio-page .portfolio-archive-hero,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+  min-height: 0 !important;
+  padding: clamp(1.45rem, 2.2vw, 2.6rem) 0 clamp(1.15rem, 1.8vw, 1.8rem) !important;
+  overflow: hidden !important;
+}
+
+body.portfolio-page .portfolio-archive-hero.lofts-visual-hero > .container,
+body.portfolio-page .portfolio-archive-hero > .container {
+  display: block !important;
+}
+
+body.portfolio-page .portfolio-archive-hero .lofts-hero-stage,
+body.portfolio-page .portfolio-archive-hero .lofts-visual-hero__after {
+  display: none !important;
+}
+
+body.portfolio-page .portfolio-hero-shell,
+body.portfolio-page .portfolio-archive-hero.lofts-visual-hero .portfolio-hero-shell,
+body.portfolio-page .portfolio-archive-hero .portfolio-hero-shell.lofts-visual-hero__copy {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.66fr) minmax(18rem, 0.34fr) !important;
+  grid-template-areas:
+    "copy aside"
+    "stats stats" !important;
+  gap: clamp(0.85rem, 1.3vw, 1.25rem) clamp(2rem, 4.6vw, 5.25rem) !important;
+  align-items: end !important;
+  width: 100% !important;
+  max-width: none !important;
+  min-width: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-shell::before {
+  inset: -18% -7% -32% 58% !important;
+  opacity: 0.32 !important;
+  transform: rotate(-7deg) !important;
+}
+
+body.portfolio-page .portfolio-hero-copy {
+  grid-area: copy !important;
+  grid-column: auto !important;
+  min-width: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-aside {
+  grid-area: aside !important;
+  grid-column: auto !important;
+  max-width: 34rem !important;
+  min-width: 0 !important;
+  padding: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  grid-area: stats !important;
+  grid-column: auto !important;
+  align-self: auto !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 0 !important;
+  margin-top: clamp(0.4rem, 0.9vw, 0.8rem) !important;
+  border: 1px solid var(--line) !important;
+  background: color-mix(in srgb, var(--surface) 72%, transparent) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  display: grid !important;
+  grid-template-columns: max-content minmax(0, 1fr) !important;
+  align-items: end !important;
+  gap: 0.75rem !important;
+  min-height: clamp(4.55rem, 5.25vw, 5.8rem) !important;
+  padding: 0.82rem clamp(0.85rem, 1.25vw, 1.15rem) !important;
+  border-right: 1px solid var(--line) !important;
+  border-bottom: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat:first-child {
+  padding-left: clamp(0.85rem, 1.25vw, 1.15rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+  border-right: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(1.85rem, 3.1vw, 3.55rem) !important;
+  line-height: 0.9 !important;
+  white-space: nowrap !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  margin: 0 !important;
+  max-width: 11ch !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  margin-bottom: clamp(0.48rem, 0.8vw, 0.85rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+  max-width: 9ch !important;
+  font-size: clamp(3rem, 4.25vw, 5.6rem) !important;
+  line-height: 0.9 !important;
+  letter-spacing: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  max-width: 42ch !important;
+  font-size: clamp(0.98rem, 1.02vw, 1.12rem) !important;
+  line-height: 1.46 !important;
+}
+
+body.portfolio-page .portfolio-hero-actions {
+  margin-top: 0.92rem !important;
+}
+
+body.portfolio-page .pf-filter-bar {
+  top: var(--nav-h, 72px) !important;
+}
+
+@media (max-width: 1080px) {
+  body.portfolio-page .portfolio-hero-shell,
+  body.portfolio-page .portfolio-archive-hero.lofts-visual-hero .portfolio-hero-shell,
+  body.portfolio-page .portfolio-archive-hero .portfolio-hero-shell.lofts-visual-hero__copy {
+    grid-template-columns: minmax(0, 1fr) !important;
+    grid-template-areas:
+      "copy"
+      "aside"
+      "stats" !important;
+    gap: 0.85rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell::before {
+    display: none !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    align-self: auto !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    grid-template-columns: 1fr !important;
+    gap: 0.28rem !important;
+    min-height: 4.55rem !important;
+    border-bottom: 0 !important;
+    border-right: 1px solid var(--line) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+    border-right: 0 !important;
+  }
+}
+
+@media (max-width: 720px) {
+  body.portfolio-page .portfolio-archive-hero,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+    padding-top: 1.15rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type .h-display {
+    max-width: 8.6ch !important;
+    font-size: clamp(2.45rem, 10.5vw, 3.25rem) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-lead {
+    max-width: 34ch !important;
+    font-size: 0.94rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    grid-template-columns: max-content minmax(0, 1fr) !important;
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+    border-bottom: 0 !important;
+  }
+}
+
+@media (max-width: 880px) {
+  body.portfolio-page .nav-inner {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto auto !important;
+    align-items: center !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    padding-inline: clamp(0.75rem, 4vw, 1rem) !important;
+    column-gap: 0.5rem !important;
+    overflow: visible !important;
+  }
+
+  body.portfolio-page .nav-logo {
+    grid-column: 1 !important;
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+  }
+
+  body.portfolio-page .theme-toggle {
+    grid-column: 2 !important;
+    flex: 0 0 auto !important;
+    margin: 0 !important;
+  }
+
+  body.portfolio-page .menu-btn {
+    grid-column: 3 !important;
+    display: inline-flex !important;
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+  }
+}
+
+@media (max-width: 420px) {
+  body.portfolio-page .nav-logo .dot {
+    margin-left: 0.3rem !important;
+    letter-spacing: 0.28em !important;
+  }
+
+  body.portfolio-page .theme-opt {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  body.portfolio-page .menu-btn {
+    flex-basis: 42px !important;
+    width: 42px !important;
+    height: 42px !important;
+  }
+}
+
+@media (max-width: 880px) {
+  body.portfolio-page .nav-bar .nav-inner {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+    padding-inline: clamp(0.85rem, 4vw, 1rem) !important;
+    overflow: visible !important;
+  }
+
+  body.portfolio-page .nav-bar .nav-logo {
+    flex: 0 1 auto !important;
+    min-width: 0 !important;
+    margin-right: auto !important;
+  }
+
+  body.portfolio-page .nav-bar .theme-toggle {
+    display: none !important;
+  }
+
+  body.portfolio-page .nav-bar .menu-btn {
+    display: inline-flex !important;
+    position: relative !important;
+    inset: auto !important;
+    transform: none !important;
+    margin-left: auto !important;
+    flex: 0 0 44px !important;
+    width: 44px !important;
+    height: 44px !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    z-index: 5 !important;
+  }
+}
