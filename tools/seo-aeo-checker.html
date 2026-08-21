@@ -351,7 +351,7 @@ function renderAeo(data) {
         <p class="aeo-kicker">What to fix first</p>
         <h3>${failed.length ? 'Highest-impact blockers' : 'Core compatibility looks healthy'}</h3>
       </div>
-      <a href="/free-audit?url=${encodeURIComponent(data.url || input.value)}">Run full audit report →</a>
+      <a href="/free-audit">Run full audit report →</a>
     </div>
     <div class="aeo-check-grid">
       ${checks.map(item => `<article class="aeo-check ${item.pass ? 'pass' : 'fail'}">

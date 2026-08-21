@@ -79,7 +79,7 @@ POSTS = [
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-lead-audit-now">
       <h2 id="run-lead-audit-now">Want the audit report for your own site?</h2>
-      <form class="post-audit-launcher" action="/free-audit/" method="get">
+      <form class="post-audit-launcher" action="/free-audit" method="get">
         <label for="lead-audit-url">Website URL to audit</label>
         <div class="post-audit-row">
           <input id="lead-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
@@ -88,7 +88,7 @@ POSTS = [
       </form>
       <p>Lofts Studio checks crawlability, page structure, answer clarity, trust signals, and the path from search visitor to qualified inquiry.</p>
       <div class="post-intent-actions">
-        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/free-audit" class="btn btn-ghost">Open audit tool</a>
         <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Check SEO/AEO</a>
       </div>
       <div class="post-intent-note" aria-label="Audit report includes">
@@ -157,7 +157,7 @@ POSTS = [
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-conversion-audit-now">
       <h2 id="run-conversion-audit-now">Check your own conversion path</h2>
-      <form class="post-audit-launcher" action="/free-audit/" method="get">
+      <form class="post-audit-launcher" action="/free-audit" method="get">
         <label for="conversion-audit-url">Website URL to audit</label>
         <div class="post-audit-row">
           <input id="conversion-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
@@ -166,7 +166,7 @@ POSTS = [
       </form>
       <p>The audit looks for first-screen clarity, proof, internal links, form friction, mobile UX, and whether the page gives search visitors a reason to take the next step.</p>
       <div class="post-intent-actions">
-        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/free-audit" class="btn btn-ghost">Open audit tool</a>
         <a href="/#contact" class="btn btn-ghost">Discuss a rebuild</a>
       </div>
       <div class="post-intent-note" aria-label="Conversion audit includes">
@@ -236,7 +236,7 @@ POSTS = [
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-structure-audit-now">
       <h2 id="run-structure-audit-now">Need the report, not just the article?</h2>
-      <form class="post-audit-launcher" action="/free-audit/" method="get">
+      <form class="post-audit-launcher" action="/free-audit" method="get">
         <label for="structure-audit-url">Website URL to audit</label>
         <div class="post-audit-row">
           <input id="structure-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
@@ -245,7 +245,7 @@ POSTS = [
       </form>
       <p>Open the Lofts Studio audit tool from here. It checks structure, SEO/AEO, trust, broken links, design friction, and the next fixes worth discussing.</p>
       <div class="post-intent-actions">
-        <a href="/free-audit/" class="btn btn-ghost">Open audit tool</a>
+        <a href="/free-audit" class="btn btn-ghost">Open audit tool</a>
         <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Check SEO/AEO compatibility</a>
       </div>
       <div class="post-intent-note" aria-label="Audit report includes">
@@ -301,7 +301,7 @@ POSTS = [
                 "Check whether redirects lead directly to the best replacement page.",
                 "Look for important pages that exist but are not linked from the site."
             ]),
-            ("p", "This is also why the <a href='/free-audit/'>free website audit report</a> starts with reachability and technical signals before it talks about design. If the page cannot be reliably accessed, the rest of the advice sits on weak ground."),
+            ("p", "This is also why the <a href='/free-audit'>free website audit report</a> starts with reachability and technical signals before it talks about design. If the page cannot be reliably accessed, the rest of the advice sits on weak ground."),
             ("h2", "Review the page hierarchy like a buyer would"),
             ("p", "Page hierarchy is the skeleton of the site. A good hierarchy tells a visitor what the business does, who it helps, how the services relate, where proof lives, and what the next step should be. A weak hierarchy makes every page feel like a separate island."),
             ("p", "For a service business, the structure usually needs a clear homepage, service hub or service pages, proof or portfolio pages, educational guides, tools, about page, contact path, and sometimes location or industry pages. The exact shape depends on the business, but the rule is consistent: the most valuable offers should not be buried."),
@@ -375,7 +375,7 @@ POSTS = [
             ("h2", "How this should guide a redesign"),
             ("p", "A redesign should not wipe the slate clean without understanding what already works. The structure audit tells you which URLs to preserve, which pages need stronger content, which links need to stay, which templates are weak, which CTAs are hidden, and which pages already have search demand."),
             ("p", "That is how you avoid a redesign that looks better but performs worse. The design system, navigation, content plan, templates, schema, redirects, and measurement plan should all be shaped by the audit. Otherwise the redesign becomes a visual project instead of a business improvement."),
-            ("p", "If you want the fast version, use the <a href='/free-audit/'>free website audit report</a>. If the site needs deeper implementation, the next step is a <a href='/services/technical-seo-audit.html'>technical SEO audit</a> that turns findings into fixes."),
+            ("p", "If you want the fast version, use the <a href='/free-audit'>free website audit report</a>. If the site needs deeper implementation, the next step is a <a href='/services/technical-seo-audit.html'>technical SEO audit</a> that turns findings into fixes."),
             ("h2", "Frequently asked"),
             ("h3", "What is the difference between a website audit and a website structure audit?"),
             ("p", "A website audit can review many things: design, SEO, performance, trust, broken links, accessibility, and conversion. A website structure audit focuses specifically on how pages, links, hierarchy, content, schema, and conversion paths work together as a system."),
@@ -520,7 +520,7 @@ POSTS = [
     </table></div>"""),
             ("h2", "Where Lofts Studio fits"),
             ("p", "The work I care about is not simply making Shopify look custom. It is making the store easier to trust, easier to buy from, easier to edit, and easier to improve later. That might mean a tight customization. It might mean a theme refactor. It might mean a custom rebuild when the current theme has run out of road."),
-            ("p", "If you are unsure which path fits your store, start with the <a href='/free-audit/'>free audit</a>. For implementation, the relevant service is <a href='/services/shopify-development.html'>Shopify development</a>. If performance is the main blocker, pair the theme review with <a href='/services/speed-optimization.html'>speed optimization</a>. If the issue is app logic rather than theme logic, compare it with <a href='/blog/shopify-custom-app-vs-public-app.html'>custom Shopify app vs public app</a>."),
+            ("p", "If you are unsure which path fits your store, start with the <a href='/free-audit'>free audit</a>. For implementation, the relevant service is <a href='/services/shopify-development.html'>Shopify development</a>. If performance is the main blocker, pair the theme review with <a href='/services/speed-optimization.html'>speed optimization</a>. If the issue is app logic rather than theme logic, compare it with <a href='/blog/shopify-custom-app-vs-public-app.html'>custom Shopify app vs public app</a>."),
             ("h2", "Sources worth reading"),
             ("ul", [
                 "<a href='https://shopify.dev/docs/storefronts/themes/architecture' rel='nofollow noopener'>Shopify developer docs: theme architecture</a>",
@@ -819,7 +819,7 @@ POSTS = [
             ("ul", [
                 "<a href='/blog/ecommerce-conversion-audit.html'>Ecommerce conversion audit</a> for diagnosing PDP and checkout friction.",
                 "<a href='/blog/shopify-custom-app-vs-public-app.html'>Shopify custom app vs public app</a> for stores with product-data or integration limits.",
-                "<a href='/free-audit/'>Free audit</a> for a first pass at technical, SEO, performance, design, and trust issues.",
+                "<a href='/free-audit'>Free audit</a> for a first pass at technical, SEO, performance, design, and trust issues.",
             ]),
             ("h2", "Image and chart ideas for this post"),
             ("ul", [
@@ -1890,7 +1890,7 @@ def render_blog_post(p, nav, footer):
   <div class="container post-prose" data-reveal>
     <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
       <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
-      <a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
+      <a href="/blog" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span>
       <span style="color: var(--ink);">{p["title"][:60]}</span>
     </nav>
 
@@ -1938,8 +1938,8 @@ def render_blog_post(p, nav, footer):
         <p style="color: var(--muted); margin: 0.25rem 0 0.75rem; font-size: 0.92rem;">Senior Shopify &amp; WooCommerce engineer. Top Rated Plus on Upwork. high-volume delivery, 100% Job Success.</p>
         <div style="display: flex; gap: 1rem; font-size: 0.88rem;">
           <a href="/about.html" style="color: var(--accent);">About</a>
-          <a href="/portfolio/" style="color: var(--accent);">Portfolio</a>
-          <a href="/blog/" style="color: var(--accent);">More posts</a>
+          <a href="/portfolio" style="color: var(--accent);">Portfolio</a>
+          <a href="/blog" style="color: var(--accent);">More posts</a>
         </div>
       </div>
     </div>
@@ -2056,7 +2056,7 @@ def render_location_page(loc, nav, footer):
   <div class="container">
     <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);">
       <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
-      <a href="/services/" style="color: var(--muted);">Services</a> <span style="margin: 0 8px;">/</span>
+      <a href="/services" style="color: var(--muted);">Services</a> <span style="margin: 0 8px;">/</span>
       <span style="color: var(--ink);">Shopify Developer {loc['country']}</span>
     </nav>
 
@@ -2071,7 +2071,7 @@ def render_location_page(loc, nav, footer):
       </p>
       <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
         <a href="/#contact" class="btn btn-primary">Get in touch &nbsp;&rarr;</a>
-        <a href="/portfolio/" class="btn btn-ghost">See 47 case studies</a>
+        <a href="/portfolio" class="btn btn-ghost">See 47 case studies</a>
       </div>
     </div>
   </div>
@@ -2326,9 +2326,9 @@ def gen_sitemap():
             if pillar.is_dir() and (pillar / "index.html").exists():
                 add_url(f"/work/{pillar.name}/", "weekly", "0.95")
 
-    # Brand guide (noindex but included for completeness)
+    # Brand guide is publicly linked from the footer, so keep it indexable and discoverable.
     if (ROOT / "brand.html").exists():
-        pass  # Skipped — has noindex meta
+        add_url("/brand.html", "monthly", "0.55")
 
     # All portfolio
     for pf in sorted(ROOT.glob("portfolio/*.html")):
@@ -2353,7 +2353,7 @@ def gen_sitemap():
     # Catch directory index pages and newer batch assets that live outside the
     # legacy explicit lists, while skipping private, API, noindex, and redirect-only paths.
     skipped_dirs = {".git", ".vercel", "admin", "api", "assets", "scripts", "tests"}
-    skipped_files = {"404.html", "brand.html"}
+    skipped_files = {"404.html"}
     for page in sorted(ROOT.rglob("*.html")):
         rel = page.relative_to(ROOT)
         if any(part.startswith(".") or part in skipped_dirs for part in rel.parts[:-1]):

@@ -62,7 +62,7 @@ NAV = '''<header class="nav-bar">
       </div>
       <a href="/websites" class="nav-link">Web Design</a>
       <a href="/portfolio" class="nav-link">Portfolio</a>
-      <a href="/process/" class="nav-link">Process</a>
+      <a href="/process" class="nav-link">Process</a>
       <a href="/notes/" class="nav-link">Notes</a>
       <a href="/about.html" class="nav-link">About</a>
     </nav>
@@ -89,9 +89,9 @@ NAV = '''<header class="nav-bar">
       <a href="/websites" class="mnav-link" data-num="01">Web Design</a>
       <a href="/portfolio" class="mnav-link" data-num="02">Portfolio</a>
       <a href="/about.html" class="mnav-link" data-num="03">About</a>
-      <a href="/process/" class="mnav-link" data-num="04">Process</a>
-      <a href="/services/" class="mnav-link" data-num="05">Services</a>
-      <a href="/blog/" class="mnav-link" data-num="06">Blog</a>
+      <a href="/process" class="mnav-link" data-num="04">Process</a>
+      <a href="/services" class="mnav-link" data-num="05">Services</a>
+      <a href="/blog" class="mnav-link" data-num="06">Blog</a>
     </nav>
     <div class="mnav-services">
       <p class="mnav-label">Services</p>
@@ -175,8 +175,8 @@ FOOTER = '''<footer class="site-footer footer-rich">
         <ul style="list-style: none; padding: 0; margin: 0; display: grid; gap: 0.7rem; font-size: 0.92rem;">
           <li><a href="/about.html">About</a></li>
           <li><a href="/portfolio">All work (47)</a></li>
-          <li><a href="/blog/">Blog</a></li>
-          <li><a href="/process/">Process</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/process">Process</a></li>
           <li><a href="/notes/">Notes</a></li>
           <li><a href="/brand.html">Brand</a></li>
         </ul>

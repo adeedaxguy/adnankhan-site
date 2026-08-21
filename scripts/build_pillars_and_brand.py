@@ -232,7 +232,7 @@ def render_pillar(p, nav, footer, all_pillars):
   <div class="container">
     <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);" data-reveal>
       <a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span>
-      <a href="/portfolio/" style="color: var(--muted);">Work</a> <span style="margin: 0 8px;">/</span>
+      <a href="/portfolio" style="color: var(--muted);">Work</a> <span style="margin: 0 8px;">/</span>
       <span style="color: var(--ink);">{title}</span>
     </nav>
 
@@ -243,7 +243,7 @@ def render_pillar(p, nav, footer, all_pillars):
 
       <div style="display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap;">
         <a href="/#contact" class="btn btn-primary">{p["cta_label"]} &nbsp;&rarr;</a>
-        <a href="/portfolio/" class="btn btn-ghost">See all case studies</a>
+        <a href="/portfolio" class="btn btn-ghost">See all case studies</a>
       </div>
     </div>
   </div>
@@ -331,7 +331,7 @@ def render_brand_guide(nav, footer):
 <title>Brand Guide | Lofts Studio</title>
 <meta name="description" content="The Lofts Studio brand system — voice, palette, type, mark, lockup, OG, and usage rules." />
 <link rel="canonical" href="{SITE}/brand.html" />
-<meta name="robots" content="noindex,follow" />
+<meta name="robots" content="index,follow,max-image-preview:large" />
 
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#F4F0EA" />

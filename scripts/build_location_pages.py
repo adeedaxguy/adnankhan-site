@@ -453,8 +453,8 @@ def nav() -> str:
       <a href="/locations/usa" class="nav-link">Locations</a>
       <a href="/services/ai-calling-agents.html" class="nav-link">AI Calling</a>
       <a href="/portfolio" class="nav-link">Portfolio</a>
-      <a href="/process/" class="nav-link">Process</a>
-      <a href="/blog/" class="nav-link">Blog</a>
+      <a href="/process" class="nav-link">Process</a>
+      <a href="/blog" class="nav-link">Blog</a>
       <a href="/about.html" class="nav-link">About</a>
     </nav>
     <a href="/#contact" class="btn btn-primary">Get in touch
@@ -478,8 +478,8 @@ def nav() -> str:
       <a href="/locations/usa" class="mnav-link" data-num="02">Locations</a>
       <a href="/services/ai-calling-agents.html" class="mnav-link" data-num="03">AI Calling</a>
       <a href="/portfolio" class="mnav-link" data-num="04">Portfolio</a>
-      <a href="/services/" class="mnav-link" data-num="05">Services</a>
-      <a href="/blog/" class="mnav-link" data-num="06">Blog</a>
+      <a href="/services" class="mnav-link" data-num="05">Services</a>
+      <a href="/blog" class="mnav-link" data-num="06">Blog</a>
     </nav>
     <div class="mnav-services">
       <p class="mnav-label">Services</p>
@@ -546,8 +546,8 @@ def footer() -> str:
         <ul>
           <li><a href="/portfolio">Portfolio</a></li>
           <li><a href="/about.html">About</a></li>
-          <li><a href="/process/">Process</a></li>
-          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/process">Process</a></li>
+          <li><a href="/blog">Blog</a></li>
         </ul>
       </div>
     </div>

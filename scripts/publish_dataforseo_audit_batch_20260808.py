@@ -360,7 +360,7 @@ def render_post(post, nav, footer):
         <h2>Quick answer</h2>
         <p>{esc(post['angle'])} A useful {esc(post['primary'])} should tell the owner what is broken, why it matters, what to fix first, and which page should produce the next inquiry.</p>
         <div class="audit-cta-row">
-          <a class="btn btn-primary" href="/free-audit/">Start audit</a>
+          <a class="btn btn-primary" href="/free-audit">Start audit</a>
           <a class="btn btn-secondary" href="/services/technical-seo-audit.html">Technical SEO audit</a>
         </div>
       </aside>
@@ -418,7 +418,7 @@ def render_post(post, nav, footer):
       <div class="audit-card">
         <h2>Related Lofts paths</h2>
         <ul>
-          <li><a href="/free-audit/">Free website audit report</a></li>
+          <li><a href="/free-audit">Free website audit report</a></li>
           <li><a href="/services/technical-seo-audit.html">Technical SEO audit service</a></li>
           <li><a href="/services/conversion-rate-optimization.html">Conversion rate optimization</a></li>
           <li><a href="/blog/service-website-serp-appearance-checklist.html">SERP appearance checklist</a></li>
@@ -437,7 +437,7 @@ def render_post(post, nav, footer):
     <section class="audit-final">
       <h2>Want this applied to your website?</h2>
       <p>Lofts Studio can turn the audit into a practical implementation sprint: technical fixes, service-page updates, search appearance cleanup, and conversion paths designed to create qualified inquiries.</p>
-      <a class="btn btn-primary" href="/free-audit/">Start with a free audit</a>
+      <a class="btn btn-primary" href="/free-audit">Start with a free audit</a>
     </section>
   </article>
 </main>

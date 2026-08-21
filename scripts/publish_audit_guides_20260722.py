@@ -257,7 +257,7 @@ def intent_card(topic):
     form_id = topic["slug"][:32]
     return f"""<aside class="post-intent-card" aria-labelledby="{form_id}-audit">
       <h2 id="{form_id}-audit">Want the {topic['artifact']} applied to your site?</h2>
-      <form class="post-audit-launcher" action="/free-audit/" method="get">
+      <form class="post-audit-launcher" action="/free-audit" method="get">
         <label for="{form_id}-url">Website URL to audit</label>
         <div class="post-audit-row">
           <input id="{form_id}-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
@@ -266,7 +266,7 @@ def intent_card(topic):
       </form>
       <p>Run the free Lofts Studio audit, then use this guide to decide which findings need a real implementation sprint.</p>
       <div class="post-intent-actions">
-        <a href="/free-audit/" class="btn btn-primary">Open free audit</a>
+        <a href="/free-audit" class="btn btn-primary">Open free audit</a>
         <a href="/services/technical-seo-audit.html" class="btn btn-ghost">Technical SEO service</a>
       </div>
       <div class="post-intent-note" aria-label="Audit report includes">
@@ -298,7 +298,7 @@ def body_for(topic):
         ("p", f"The SERP pattern for <strong>{primary}</strong> is crowded with automated scanners, generic checklist posts, PDF samples, and large SEO platforms. Those can be useful, but they often stop at surface warnings. A better audit connects technical health, page structure, content intent, AI-search readability, and the path from visitor to lead."),
         ("h2", "GSC and PDF-result gap to close"),
         ("p", f"Today's Search Console refresh shows Lofts Studio is already being tested for audit-report intent: website structure audit report, site audit report, website audit report, SEO compatibility, website audit PDF, and free report variants. The job of this page is to give a useful answer before the reader has to open a generic PDF, a Scribd upload, or a one-click grader."),
-        ("p", f"For <strong>{primary}</strong>, the conversion path should be clear: understand the report structure, compare it to your own site, run the <a href='/free-audit/'>free Lofts Studio audit</a>, and decide which crawl, structure, content, UX, or conversion issues deserve implementation work."),
+        ("p", f"For <strong>{primary}</strong>, the conversion path should be clear: understand the report structure, compare it to your own site, run the <a href='/free-audit'>free Lofts Studio audit</a>, and decide which crawl, structure, content, UX, or conversion issues deserve implementation work."),
         ("ul", [
             "Related search expansions covered: website audit report pdf free download, free website audit report pdf, website audit report pdf download, website audit report example, website design audit pdf, SEO monthly report PDF, and website audit report for free.",
             "SERP competitors reviewed included Scribd/PDF uploads, White Label IQ, WebCEO, Roast My Web, ColoredCow, HubSpot, Brady Mills Agency, Slideshare, automated graders, and SEO checker tools.",
@@ -340,7 +340,7 @@ def body_for(topic):
         ]),
         ("h2", "How Lofts Studio uses this workflow"),
         ("p", "For Lofts Studio, this cluster supports the free audit tool, the SEO/AEO checker, and technical SEO audit services. The intent is practical: help a visitor understand what a useful report looks like, then give them a low-friction path to test their own site."),
-        ("p", "The next step is simple. Run the <a href='/free-audit/'>free website audit report</a> for a real URL. Then compare the output against this guide. If the issue list is mostly warnings, keep the fixes small. If the same pages show crawl, structure, content, and conversion problems together, that is a stronger signal for a focused technical SEO or redesign sprint."),
+        ("p", "The next step is simple. Run the <a href='/free-audit'>free website audit report</a> for a real URL. Then compare the output against this guide. If the issue list is mostly warnings, keep the fixes small. If the same pages show crawl, structure, content, and conversion problems together, that is a stronger signal for a focused technical SEO or redesign sprint."),
     ]
 
 

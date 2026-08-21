@@ -597,7 +597,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <div class="container">
     <nav aria-label="Breadcrumb" data-reveal style="margin-bottom:1.5rem;font-family:var(--font-sans);font-size:0.78rem;color:var(--muted);letter-spacing:0.01em;">
       <a href="/" style="color:var(--muted);">Home</a> &nbsp;/&nbsp;
-      <a href="/portfolio/" style="color:var(--muted);">Portfolio</a> &nbsp;/&nbsp;
+      <a href="/portfolio" style="color:var(--muted);">Portfolio</a> &nbsp;/&nbsp;
       <span style="color:var(--ink);">{name}</span>
     </nav>
     <div data-reveal style="max-width:920px;">
@@ -610,8 +610,8 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
       </div>
       <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
         {f'<a href="{url}" target="_blank" rel="noopener" class="btn btn-primary">Visit live site &nbsp;&rarr;</a>' if url else ''}
-        <a href="/free-audit/" class="btn btn-ghost">Audit a similar site</a>
-        <a href="/portfolio/" class="btn btn-ghost">&larr; All case studies</a>
+        <a href="/free-audit" class="btn btn-ghost">Audit a similar site</a>
+        <a href="/portfolio" class="btn btn-ghost">&larr; All case studies</a>
       </div>
     </div>
   </div>

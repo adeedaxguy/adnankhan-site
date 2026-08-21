@@ -214,7 +214,7 @@ def article_page(slug: str, title: str, description: str, keyword: str, intro: s
     prose = f"""
 <section class="seo-hero">
   <div class="container">
-    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);"><a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span><a href="/blog/" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span><span>{title}</span></nav>
+    <nav aria-label="Breadcrumb" style="margin-bottom: 1.5rem; font-size: 0.82rem; color: var(--muted);"><a href="/" style="color: var(--muted);">Home</a> <span style="margin: 0 8px;">/</span><a href="/blog" style="color: var(--muted);">Blog</a> <span style="margin: 0 8px;">/</span><span>{title}</span></nav>
     <span class="seo-kicker">{keyword}</span>
     <h1 class="seo-title">{title}</h1>
     <p class="seo-lead">{intro}</p>
