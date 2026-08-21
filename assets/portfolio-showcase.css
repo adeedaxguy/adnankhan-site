@@ -1294,3 +1294,943 @@ body.portfolio-page .pf-filter-bar {
     z-index: 5 !important;
   }
 }
+
+/* 2026-08 QA hardening: compact archive hero and clean sticky filters */
+body.portfolio-page .portfolio-archive-hero,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+  min-height: 0 !important;
+  padding: clamp(1.6rem, 3.2vw, 2.75rem) 0 clamp(0.8rem, 1.6vw, 1.2rem) !important;
+  overflow: clip !important;
+  border-bottom: 1px solid var(--line);
+}
+
+body.portfolio-page .portfolio-archive-hero .lofts-hero-stage,
+body.portfolio-page .portfolio-archive-hero .lofts-visual-hero__after {
+  display: none !important;
+}
+
+body.portfolio-page .portfolio-hero-shell {
+  display: grid !important;
+  grid-template-columns: minmax(24rem, 0.43fr) minmax(16rem, 0.27fr) minmax(17rem, 0.3fr) !important;
+  grid-template-areas: "copy aside stats" !important;
+  align-items: center !important;
+  gap: clamp(1.25rem, 3vw, 3.2rem) !important;
+  min-height: 0 !important;
+  position: relative !important;
+}
+
+body.portfolio-page .portfolio-hero-shell::before {
+  display: none !important;
+}
+
+body.portfolio-page .portfolio-hero-copy {
+  grid-area: copy !important;
+  min-width: 0;
+}
+
+body.portfolio-page .portfolio-hero-aside {
+  grid-area: aside !important;
+  align-self: center !important;
+  max-width: 34ch !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  grid-area: stats !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  width: 100% !important;
+  max-width: 22rem !important;
+  margin: 0 !important;
+  border: 1px solid var(--line) !important;
+  background: color-mix(in srgb, var(--paper) 90%, transparent) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 0 !important;
+  padding: clamp(0.8rem, 1.25vw, 1.15rem) !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+  border-bottom: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  position: relative !important;
+  transform: none !important;
+  margin: 0 0 0.8rem !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display {
+  max-width: 12ch !important;
+  margin: 0 !important;
+  font-size: clamp(3rem, 4.8vw, 5.4rem) !important;
+  line-height: 0.94 !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  max-width: 34ch !important;
+  margin: 0 0 1.15rem !important;
+  font-size: clamp(0.96rem, 1.08vw, 1.16rem) !important;
+  line-height: 1.55 !important;
+}
+
+body.portfolio-page .portfolio-filter,
+body.portfolio-page .pf-filter-bar {
+  z-index: 20;
+}
+
+body.portfolio-page .filter-row,
+body.portfolio-page .pf-filter-row {
+  min-height: auto;
+  gap: 0.55rem;
+  align-items: center;
+  padding-block: 0.65rem;
+}
+
+body.portfolio-page .filter-btn,
+body.portfolio-page .pf-filter-btn {
+  min-height: 38px;
+  padding: 0 1rem;
+}
+
+@media (max-width: 1180px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 0.36fr) !important;
+    grid-template-areas: "copy stats" "aside stats" !important;
+    align-items: end !important;
+  }
+}
+
+@media (max-width: 880px) {
+  body.portfolio-page .nav-bar .nav-links,
+  body.portfolio-page .nav-bar .nav-actions {
+    display: none !important;
+  }
+
+  body.portfolio-page .nav-bar .theme-toggle {
+    display: flex !important;
+  }
+
+  body.portfolio-page .nav-bar .menu-btn {
+    display: inline-flex !important;
+  }
+}
+
+@media (max-width: 780px) {
+  body.portfolio-page .portfolio-archive-hero,
+  body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+    padding-top: 1rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "copy" "aside" "stats" !important;
+    gap: 1rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display {
+    max-width: 10ch !important;
+    font-size: clamp(2.55rem, 12vw, 3.65rem) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    max-width: none !important;
+  }
+}
+
+/* 2026-08 final QA pass: keep the archive premium, compact, and non-overlapping */
+body.portfolio-page .portfolio-archive-hero,
+body.portfolio-page section.paper.portfolio-archive-hero:first-of-type {
+  min-height: auto !important;
+  padding: clamp(2rem, 3.8vw, 3.25rem) 0 clamp(1rem, 2vw, 1.6rem) !important;
+  overflow: hidden !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+body.portfolio-page .portfolio-archive-hero .lofts-visual-hero,
+body.portfolio-page .portfolio-archive-hero .lofts-hero-stage,
+body.portfolio-page .portfolio-archive-hero .lofts-visual-hero__after,
+body.portfolio-page .portfolio-archive-hero .hero-device-stack,
+body.portfolio-page .portfolio-archive-hero .work-pile {
+  display: none !important;
+}
+
+body.portfolio-page .portfolio-hero-shell {
+  display: grid !important;
+  grid-template-columns: minmax(0, 0.94fr) minmax(17rem, 0.42fr) !important;
+  grid-template-areas:
+    "copy aside"
+    "stats stats" !important;
+  gap: clamp(1rem, 2.5vw, 2.6rem) clamp(1.5rem, 5vw, 5rem) !important;
+  align-items: end !important;
+  min-height: auto !important;
+  max-width: min(100% - clamp(2rem, 5vw, 6rem), 1500px) !important;
+  margin-inline: auto !important;
+  padding: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-copy {
+  grid-area: copy !important;
+  max-width: 64rem !important;
+  min-width: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
+}
+
+body.portfolio-page .portfolio-hero-aside {
+  grid-area: aside !important;
+  max-width: 30rem !important;
+  min-width: 0 !important;
+  position: relative !important;
+  z-index: 2 !important;
+  align-self: end !important;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  grid-area: stats !important;
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  max-width: 60rem !important;
+  width: 100% !important;
+  margin: 0 !important;
+  border: 1px solid var(--line) !important;
+  background: color-mix(in srgb, var(--paper) 93%, transparent) !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 0 !important;
+  padding: clamp(0.85rem, 1.3vw, 1.15rem) !important;
+  border-right: 1px solid var(--line) !important;
+  border-bottom: 0 !important;
+  display: grid !important;
+  grid-template-columns: max-content minmax(0, 1fr) !important;
+  gap: 0.75rem !important;
+  align-items: end !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+  border-right: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(2rem, 3vw, 3.1rem) !important;
+  line-height: 0.9 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  font-size: 0.66rem !important;
+  line-height: 1.2 !important;
+  letter-spacing: 0.16em !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  position: relative !important;
+  z-index: 3 !important;
+  margin: 0 0 0.8rem !important;
+  transform: none !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display {
+  max-width: 12.5ch !important;
+  margin: 0 !important;
+  font-size: clamp(3.4rem, 5.5vw, 6.4rem) !important;
+  line-height: 0.92 !important;
+  letter-spacing: -0.018em !important;
+  text-wrap: balance !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  max-width: 30rem !important;
+  margin: 0 0 1rem !important;
+  font-size: clamp(1rem, 1.15vw, 1.18rem) !important;
+  line-height: 1.55 !important;
+}
+
+body.portfolio-page .portfolio-hero-actions {
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 0.6rem 1rem !important;
+}
+
+body.portfolio-page .pf-filter-bar {
+  position: sticky !important;
+  top: var(--nav-height, 72px) !important;
+  z-index: 30 !important;
+  background: color-mix(in srgb, var(--paper) 96%, transparent) !important;
+  backdrop-filter: blur(12px) !important;
+  border-top: 1px solid var(--line) !important;
+  border-bottom: 1px solid var(--line) !important;
+}
+
+body.portfolio-page .pf-filter-shell {
+  padding-block: 0.55rem !important;
+}
+
+body.portfolio-page .pf-filter-row {
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  overflow-x: auto !important;
+  gap: 0.5rem !important;
+  align-items: center !important;
+  padding: 0 !important;
+  scrollbar-width: none !important;
+}
+
+body.portfolio-page .pf-filter-row::-webkit-scrollbar {
+  display: none !important;
+}
+
+body.portfolio-page .pf-filter-btn,
+body.portfolio-page .filter-btn {
+  min-height: 36px !important;
+  padding: 0 0.95rem !important;
+  font-size: 0.7rem !important;
+  white-space: nowrap !important;
+}
+
+body.portfolio-page #workGrid.work-grid {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(1rem, 2.3vw, 1.7rem) !important;
+  align-items: start !important;
+}
+
+body.portfolio-page #workGrid > .work-card,
+body.portfolio-page #workGrid > .work-card:nth-child(n),
+body.portfolio-page #workGrid > .work-card[data-layout="wide"],
+body.portfolio-page #workGrid > .work-card[data-layout="tall"],
+body.portfolio-page #workGrid > .work-card[data-layout="feature"] {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  width: 100% !important;
+  max-width: none !important;
+  transform: none !important;
+}
+
+body.portfolio-page .work-card-img {
+  aspect-ratio: 16 / 10 !important;
+  height: auto !important;
+  min-height: 0 !important;
+  max-height: none !important;
+  overflow: hidden !important;
+}
+
+body.portfolio-page .work-card-img img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+  filter: none !important;
+  transform: none !important;
+}
+
+body.portfolio-page .work-card-img-link:hover .work-card-img img {
+  transform: scale(1.015) !important;
+}
+
+body.portfolio-page .work-card-body {
+  padding: clamp(0.95rem, 1.4vw, 1.35rem) !important;
+}
+
+body.portfolio-page .work-card-meta {
+  font-size: 0.68rem !important;
+  letter-spacing: 0.11em !important;
+  white-space: normal !important;
+}
+
+body.portfolio-page .work-card-name {
+  font-size: clamp(1.55rem, 2.25vw, 2.45rem) !important;
+  line-height: 1.03 !important;
+  max-width: 12ch !important;
+  margin: 0.45rem 0 !important;
+  text-wrap: balance !important;
+}
+
+body.portfolio-page .work-card-tag {
+  font-size: 0.95rem !important;
+  line-height: 1.45 !important;
+  max-width: 34ch !important;
+}
+
+body.portfolio-page .work-card-actions {
+  gap: 0.75rem !important;
+}
+
+body.portfolio-page .work-card-designed {
+  aspect-ratio: 16 / 10 !important;
+  min-height: 0 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-end !important;
+  padding: clamp(1.1rem, 2vw, 1.8rem) !important;
+  background:
+    linear-gradient(135deg, rgba(255, 255, 255, 0.74), rgba(210, 176, 126, 0.28)),
+    repeating-linear-gradient(0deg, rgba(25, 20, 16, 0.055) 0 1px, transparent 1px 28px),
+    repeating-linear-gradient(90deg, rgba(25, 20, 16, 0.05) 0 1px, transparent 1px 28px) !important;
+}
+
+body.portfolio-page .work-card-designed-name {
+  font-size: clamp(1.9rem, 3vw, 3.15rem) !important;
+  line-height: 0.96 !important;
+  max-width: 10ch !important;
+}
+
+body.portfolio-page .work-card-designed-kicker,
+body.portfolio-page .work-card-designed-meta {
+  font-size: 0.66rem !important;
+  letter-spacing: 0.12em !important;
+}
+
+@media (max-width: 1180px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: 1fr !important;
+    grid-template-areas:
+      "copy"
+      "aside"
+      "stats" !important;
+  }
+
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.portfolio-page .portfolio-archive-hero {
+    padding-top: 1.25rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell {
+    max-width: calc(100% - 2rem) !important;
+    gap: 1rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display {
+    font-size: clamp(2.6rem, 12vw, 4rem) !important;
+    max-width: 9.5ch !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside {
+    max-width: none !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+    border-bottom: 0 !important;
+  }
+
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.portfolio-page .pf-filter-bar {
+    top: var(--nav-height, 70px) !important;
+  }
+}
+
+/* 2026-08-22 portfolio archive rescue: compact, readable, no collisions. */
+body.portfolio-page main#main-content {
+  overflow: clip;
+}
+
+body.portfolio-page section.paper.portfolio-archive-hero,
+body.portfolio-page .portfolio-archive-hero {
+  min-height: 0 !important;
+  padding: clamp(2.35rem, 3.8vw, 4rem) 0 clamp(1.15rem, 2.2vw, 2rem) !important;
+  overflow: hidden !important;
+}
+
+body.portfolio-page .portfolio-archive-hero > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: clamp(1rem, 3vw, 2.4rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell {
+  width: min(1520px, 100%) !important;
+  max-width: none !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: grid !important;
+  grid-template-columns: minmax(25rem, 0.72fr) minmax(18rem, 0.36fr) minmax(14rem, 0.28fr) !important;
+  grid-template-areas: "copy aside stats" !important;
+  align-items: center !important;
+  gap: clamp(1.25rem, 3vw, 3rem) !important;
+  min-height: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-copy,
+body.portfolio-page .portfolio-hero-aside,
+body.portfolio-page .portfolio-hero-stats {
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  float: none !important;
+  min-width: 0 !important;
+  z-index: 2 !important;
+}
+
+body.portfolio-page .portfolio-hero-copy { grid-area: copy !important; }
+
+body.portfolio-page .portfolio-hero-aside {
+  grid-area: aside !important;
+  max-width: 25rem !important;
+  align-self: center !important;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  grid-area: stats !important;
+  width: 100% !important;
+  max-width: 16.5rem !important;
+  margin: 0 !important;
+  display: grid !important;
+  grid-template-columns: 1fr !important;
+  border: 1px solid var(--line) !important;
+  background: color-mix(in srgb, var(--paper) 92%, white 8%) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin: 0 0 0.8rem !important;
+  position: relative !important;
+  inset: auto !important;
+  transform: none !important;
+  white-space: normal !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display {
+  max-width: 8.9ch !important;
+  margin: 0 !important;
+  font-size: clamp(3.2rem, 5.05vw, 5.85rem) !important;
+  line-height: 0.94 !important;
+  letter-spacing: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  max-width: 24rem !important;
+  margin: 0 0 1rem !important;
+  font-size: clamp(0.98rem, 1vw, 1.08rem) !important;
+  line-height: 1.48 !important;
+}
+
+body.portfolio-page .portfolio-hero-actions {
+  display: grid !important;
+  gap: 0.55rem !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 6.3rem !important;
+  padding: 1rem !important;
+  grid-template-columns: 1fr !important;
+  border-right: 0 !important;
+  border-bottom: 1px solid var(--line) !important;
+  align-content: center !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+  border-bottom: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(2.35rem, 3vw, 3.1rem) !important;
+  line-height: 0.88 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.13em !important;
+  line-height: 1.25 !important;
+}
+
+body.portfolio-page .pf-filter-bar {
+  top: var(--nav-height, var(--nav-h, 76px)) !important;
+  z-index: 50 !important;
+  margin-top: 0 !important;
+  box-shadow: 0 12px 28px rgba(28, 22, 16, 0.06) !important;
+}
+
+body.portfolio-page .pf-filter-shell {
+  padding-block: 0.55rem !important;
+}
+
+body.portfolio-page .portfolio-work-section {
+  padding-top: clamp(1.4rem, 2.6vw, 2.3rem) !important;
+}
+
+body.portfolio-page #workGrid.work-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: clamp(1rem, 1.7vw, 1.45rem) !important;
+}
+
+body.portfolio-page #workGrid > .work-card {
+  overflow: hidden !important;
+  border-radius: 8px !important;
+  min-width: 0 !important;
+  box-shadow: 0 18px 38px rgba(33, 27, 20, 0.07) !important;
+}
+
+body.portfolio-page .work-card-img,
+body.portfolio-page .work-card-designed {
+  aspect-ratio: 16 / 9 !important;
+  max-height: 330px !important;
+  min-height: 0 !important;
+}
+
+body.portfolio-page .work-card-img img {
+  image-rendering: auto !important;
+  object-fit: cover !important;
+  object-position: top center !important;
+}
+
+body.portfolio-page .work-card-body {
+  padding: clamp(0.95rem, 1.25vw, 1.2rem) !important;
+}
+
+body.portfolio-page .work-card-name {
+  font-size: clamp(1.35rem, 1.6vw, 1.9rem) !important;
+  max-width: 18ch !important;
+  line-height: 1.04 !important;
+}
+
+body.portfolio-page .work-card-tag {
+  font-size: 0.92rem !important;
+  max-width: 36ch !important;
+}
+
+body.portfolio-page .work-card-designed {
+  color: var(--ink) !important;
+  background:
+    radial-gradient(circle at 14% 14%, rgba(180, 65, 42, 0.16), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.78), rgba(221, 192, 150, 0.36)),
+    repeating-linear-gradient(0deg, rgba(35, 27, 19, 0.052) 0 1px, transparent 1px 26px),
+    repeating-linear-gradient(90deg, rgba(35, 27, 19, 0.048) 0 1px, transparent 1px 26px) !important;
+}
+
+body.portfolio-page .work-card-designed-name {
+  font-size: clamp(1.9rem, 2.7vw, 3rem) !important;
+  max-width: 12ch !important;
+}
+
+body.portfolio-page .work-card-designed-kicker,
+body.portfolio-page .work-card-designed-meta {
+  color: rgba(35, 29, 22, 0.72) !important;
+}
+
+@media (max-width: 1180px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 0.36fr) !important;
+    grid-template-areas: "copy stats" "aside aside" !important;
+    align-items: end !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    max-width: 18rem !important;
+  }
+
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.portfolio-page .portfolio-archive-hero {
+    padding-top: 1.3rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "copy" "aside" "stats" !important;
+    gap: 1rem !important;
+    max-width: 100% !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display {
+    max-width: 8.4ch !important;
+    font-size: clamp(2.55rem, 11vw, 3.55rem) !important;
+    line-height: 0.96 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside,
+  body.portfolio-page .portfolio-hero-lead {
+    max-width: none !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    max-width: none !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    min-height: 5rem !important;
+    border-bottom: 0 !important;
+    border-right: 1px solid var(--line) !important;
+    padding: 0.75rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat:last-child {
+    border-right: 0 !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .bignum {
+    font-size: clamp(1.8rem, 8vw, 2.35rem) !important;
+  }
+
+  body.portfolio-page #workGrid.work-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.portfolio-page .pf-filter-bar {
+    top: var(--nav-height, var(--nav-h, 70px)) !important;
+  }
+}
+
+@media (max-width: 420px) {
+  body.portfolio-page .portfolio-hero-stats {
+    grid-template-columns: 1fr !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    border-right: 0 !important;
+    border-bottom: 1px solid var(--line) !important;
+    min-height: 4.6rem !important;
+  }
+}
+
+/* 2026-08-22 final portfolio archive QA lock. */
+body.portfolio-page .portfolio-archive-hero {
+  min-height: 0 !important;
+  padding: clamp(1.35rem, 2.4vw, 2.7rem) 0 clamp(0.8rem, 1.4vw, 1.25rem) !important;
+  overflow: hidden !important;
+}
+
+body.portfolio-page .portfolio-archive-hero > .container {
+  width: 100% !important;
+  max-width: none !important;
+  padding-inline: clamp(1rem, 3vw, 2.2rem) !important;
+}
+
+body.portfolio-page .portfolio-hero-shell {
+  display: grid !important;
+  width: min(1500px, 100%) !important;
+  margin: 0 auto !important;
+  grid-template-columns: minmax(0, 0.42fr) minmax(17rem, 0.34fr) minmax(12.5rem, 0.24fr) !important;
+  grid-template-areas: "copy aside stats" !important;
+  gap: clamp(1rem, 2vw, 2.1rem) !important;
+  align-items: end !important;
+  min-height: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-copy {
+  grid-area: copy !important;
+  min-width: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-aside {
+  grid-area: aside !important;
+  min-width: 0 !important;
+  align-self: end !important;
+  max-width: 24rem !important;
+}
+
+body.portfolio-page .portfolio-hero-stats {
+  grid-area: stats !important;
+  align-self: stretch !important;
+  max-width: 14.5rem !important;
+  min-width: 0 !important;
+}
+
+body.portfolio-page .portfolio-hero-shell .h-display {
+  font-size: clamp(2.55rem, 3.55vw, 4.25rem) !important;
+  line-height: 1 !important;
+  max-width: 9.2ch !important;
+  letter-spacing: -0.01em !important;
+  margin: 0 !important;
+  text-wrap: balance;
+}
+
+body.portfolio-page .portfolio-hero-shell .eyebrow {
+  position: relative !important;
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin: 0 0 0.7rem !important;
+  inset: auto !important;
+  transform: none !important;
+  white-space: normal !important;
+}
+
+body.portfolio-page .portfolio-hero-lead {
+  font-size: clamp(0.96rem, 0.95vw, 1.08rem) !important;
+  line-height: 1.48 !important;
+  max-width: 24rem !important;
+  margin: 0 0 1.1rem !important;
+}
+
+body.portfolio-page .portfolio-hero-actions {
+  display: grid !important;
+  gap: 0.55rem !important;
+}
+
+body.portfolio-page .portfolio-hero-actions a {
+  min-height: 2.4rem !important;
+  display: inline-flex !important;
+  align-items: center !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat {
+  min-height: 4.85rem !important;
+  padding: 0.72rem 0.85rem !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .bignum {
+  font-size: clamp(1.75rem, 2.15vw, 2.55rem) !important;
+  line-height: 1 !important;
+}
+
+body.portfolio-page .portfolio-hero-stats .hero-stat-lbl {
+  font-size: 0.66rem !important;
+  line-height: 1.15 !important;
+  letter-spacing: 0.11em !important;
+}
+
+body.portfolio-page .pf-filter-bar {
+  top: var(--nav-height, var(--nav-h, 76px)) !important;
+  z-index: 90 !important;
+  margin-top: 0 !important;
+  background: color-mix(in srgb, var(--paper, #f4f0e9) 96%, white 4%) !important;
+  border-top: 1px solid var(--line, #d7cec2) !important;
+  border-bottom: 1px solid var(--line, #d7cec2) !important;
+  box-shadow: 0 12px 28px rgba(28, 22, 16, 0.06) !important;
+  backdrop-filter: blur(16px) !important;
+}
+
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/americangulf.html"]) { order: -240; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/americanreinsurance.html"]) { order: -230; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/coap-online.html"]) { order: -220; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/coach-carolin.html"]) { order: -210; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/discova.html"]) { order: -200; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/saludcap.html"]) { order: -190; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/joshifresco.html"]) { order: -180; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/jamaicancoffeeclub.html"]) { order: -170; }
+body.portfolio-page #workGrid > .work-card:has(a[href="/portfolio/mercanto.html"]) { order: -160; }
+
+body.portfolio-page #workGrid {
+  align-items: start !important;
+}
+
+body.portfolio-page #workGrid > .work-card {
+  display: grid !important;
+  grid-template-rows: auto 1fr !important;
+}
+
+body.portfolio-page .work-card-img,
+body.portfolio-page .work-card-designed {
+  aspect-ratio: 16 / 10 !important;
+  max-height: 285px !important;
+}
+
+body.portfolio-page .work-card-body {
+  min-height: 10.25rem !important;
+  padding: clamp(1rem, 1.4vw, 1.35rem) !important;
+}
+
+body.portfolio-page .work-card-name {
+  font-size: clamp(1.55rem, 1.8vw, 2.1rem) !important;
+  line-height: 1.04 !important;
+}
+
+body.portfolio-page .work-card-tag {
+  font-size: clamp(0.93rem, 0.9vw, 1rem) !important;
+  line-height: 1.45 !important;
+}
+
+body.portfolio-page .work-card-designed {
+  min-height: 230px !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+body.portfolio-page .work-card-designed-name {
+  font-size: clamp(1.8rem, 2.5vw, 3rem) !important;
+  max-width: 11ch !important;
+  line-height: 0.98 !important;
+}
+
+body.portfolio-page .work-card-live--archived {
+  opacity: 0.66 !important;
+  pointer-events: none !important;
+  text-decoration: none !important;
+}
+
+@media (max-width: 1120px) {
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: minmax(0, 1fr) minmax(13rem, 0.34fr) !important;
+    grid-template-areas: "copy stats" "aside aside" !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    max-width: 18rem !important;
+  }
+}
+
+@media (max-width: 760px) {
+  body.portfolio-page .portfolio-archive-hero {
+    padding-top: 1.1rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell {
+    grid-template-columns: 1fr !important;
+    grid-template-areas: "copy" "aside" "stats" !important;
+    gap: 1rem !important;
+  }
+
+  body.portfolio-page .portfolio-hero-shell .h-display {
+    font-size: clamp(2.25rem, 10vw, 3.05rem) !important;
+    line-height: 1.02 !important;
+    max-width: 10ch !important;
+  }
+
+  body.portfolio-page .portfolio-hero-aside,
+  body.portfolio-page .portfolio-hero-lead {
+    max-width: none !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats {
+    max-width: none !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  }
+
+  body.portfolio-page .portfolio-hero-stats .hero-stat {
+    min-height: 4.4rem !important;
+    padding: 0.65rem !important;
+  }
+
+  body.portfolio-page .pf-filter-bar {
+    top: var(--nav-height, var(--nav-h, 72px)) !important;
+    overflow-x: auto !important;
+    padding: 0.55rem var(--gutter, 1rem) !important;
+  }
+
+  body.portfolio-page .filter-row {
+    flex-wrap: nowrap !important;
+    min-width: max-content !important;
+  }
+}
+
+@media (max-width: 420px) {
+  body.portfolio-page .portfolio-hero-stats {
+    grid-template-columns: 1fr !important;
+  }
+}

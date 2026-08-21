@@ -9958,3 +9958,656 @@ html[data-theme="dark"] .diagnostic-related-links a {
   .booking-fields { grid-template-columns: 1fr; }
   .booking-footer { flex-wrap: wrap; }
 }
+
+/* 2026-08 QA hardening: shared header, type rhythm, and dense utility cards */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
+.nav-bar {
+  min-height: var(--nav-h, 76px);
+  isolation: isolate;
+}
+
+.nav-bar .nav-inner {
+  width: 100%;
+  max-width: 1400px;
+  margin-inline: auto;
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  gap: clamp(0.55rem, 1vw, 0.9rem);
+  min-height: var(--nav-h, 76px);
+  padding-inline: clamp(1rem, 3vw, 2.25rem);
+}
+
+.nav-logo {
+  flex: 0 0 auto;
+  min-width: max-content;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+.nav-logo .dot {
+  white-space: nowrap;
+}
+
+.nav-links {
+  min-width: 0;
+}
+
+.nav-actions {
+  flex: 0 0 auto;
+}
+
+.nav-link,
+.nav-actions .btn,
+.menu-btn,
+.theme-toggle {
+  transition: background-color 200ms ease-out, color 200ms ease-out, border-color 200ms ease-out, transform 200ms ease-out, opacity 200ms ease-out;
+}
+
+.eyebrow {
+  position: relative;
+  z-index: 2;
+  max-width: 100%;
+  margin-bottom: clamp(0.75rem, 1.3vw, 1.15rem);
+  line-height: 1.22;
+  transform: none;
+  flex-wrap: wrap;
+}
+
+.hero-grid,
+.page-hero,
+.section-head,
+.article-hero {
+  min-width: 0;
+}
+
+.h-display,
+.hero-title,
+.page-hero h1,
+.article-hero h1 {
+  overflow-wrap: normal;
+  text-wrap: balance;
+}
+
+.post-card,
+.resource-card,
+.tool-card,
+.guide-card,
+.blog-card {
+  min-width: 0;
+}
+
+.post-card h2,
+.post-card h3,
+.resource-card h2,
+.resource-card h3,
+.tool-card h2,
+.tool-card h3,
+.guide-card h2,
+.guide-card h3,
+.blog-card h2,
+.blog-card h3 {
+  max-width: 100%;
+  font-size: clamp(1.55rem, 2.25vw, 2.65rem) !important;
+  line-height: 1.08 !important;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  hyphens: auto;
+}
+
+.post-card p,
+.resource-card p,
+.tool-card p,
+.guide-card p,
+.blog-card p {
+  font-size: clamp(0.95rem, 1vw, 1.08rem) !important;
+  line-height: 1.58 !important;
+}
+
+.newsletter-form,
+.subscribe-form,
+.newsletter-signup,
+.footer-newsletter form {
+  display: flex;
+  align-items: stretch;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.newsletter-form input,
+.subscribe-form input,
+.newsletter-signup input,
+.footer-newsletter input {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.newsletter-form button,
+.subscribe-form button,
+.newsletter-signup button,
+.footer-newsletter button {
+  flex: 0 0 auto;
+}
+
+@media (max-width: 980px) {
+  .nav-bar .nav-links,
+  .nav-bar .nav-actions {
+    display: none !important;
+  }
+
+  .nav-bar .menu-btn {
+    display: inline-flex !important;
+  }
+
+  .nav-bar .theme-toggle {
+    display: flex !important;
+  }
+
+  .nav-bar .nav-inner {
+    min-height: 72px;
+    padding-inline: clamp(0.85rem, 4vw, 1rem);
+    justify-content: space-between;
+  }
+
+  .nav-logo {
+    min-width: 0;
+  }
+
+  .nav-logo .dot {
+    letter-spacing: 0.24em;
+  }
+}
+
+@media (max-width: 620px) {
+  .eyebrow {
+    font-size: 0.68rem;
+    gap: 0.45rem;
+  }
+
+  .post-card h2,
+  .post-card h3,
+  .resource-card h2,
+  .resource-card h3,
+  .tool-card h2,
+  .tool-card h3,
+  .guide-card h2,
+  .guide-card h3,
+  .blog-card h2,
+  .blog-card h3 {
+    font-size: clamp(1.35rem, 8vw, 2.2rem) !important;
+  }
+
+  .newsletter-form,
+  .subscribe-form,
+  .newsletter-signup,
+  .footer-newsletter form {
+    flex-direction: column;
+  }
+
+  .newsletter-form button,
+  .subscribe-form button,
+  .newsletter-signup button,
+  .footer-newsletter button {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+/* 2026-08-22 sitewide QA rescue: readable mobile nav, dark forms, compact cards. */
+.mnav {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  overflow-y: auto;
+  background: #15110d;
+  color: #f6efe5;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transform: translateY(-6px);
+  transition: opacity 200ms ease-out, transform 200ms ease-out, visibility 200ms ease-out;
+}
+
+.mnav.open,
+#mobilePanel.open {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: none;
+}
+
+.menu-lock {
+  overflow: hidden !important;
+}
+
+.mnav-inner {
+  min-height: 100%;
+  padding: 1rem clamp(1rem, 5vw, 1.5rem) 5rem;
+  display: grid;
+  gap: 1.5rem;
+  align-content: start;
+}
+
+.mnav-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mnav-logo {
+  color: inherit;
+  font-family: var(--font-wordmark, "Iowan Old Style", Georgia, serif);
+  font-size: 1.45rem;
+  text-decoration: none;
+}
+
+.mnav-logo span {
+  margin-left: 0.35rem;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+
+.mnav-close {
+  display: inline-grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  color: inherit;
+}
+
+.mnav-primary {
+  display: grid;
+}
+
+.mnav-link {
+  display: grid;
+  grid-template-columns: 2.2rem 1fr auto;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: inherit;
+  text-decoration: none;
+  font-family: var(--font-serif, Georgia, serif);
+  font-size: clamp(1.8rem, 8vw, 2.6rem);
+  line-height: 1;
+}
+
+.mnav-link::before {
+  content: attr(data-num);
+  font-size: 0.62rem;
+  opacity: 0.55;
+}
+
+.mnav-link::after {
+  content: "→";
+  font-size: 1.1rem;
+  opacity: 0.7;
+}
+
+.mnav-label {
+  margin: 0 0 0.6rem;
+  font-size: 0.66rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.58;
+}
+
+.mnav-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mnav-grid a {
+  color: inherit;
+  text-decoration: none;
+  padding: 0.85rem;
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  opacity: 0.82;
+}
+
+.mnav-grid a:nth-child(2n) {
+  border-right: 0;
+}
+
+.mnav-audit-link,
+.mnav-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.mnav-cta {
+  background: #f6efe5;
+  color: #15110d;
+}
+
+.mnav-meta {
+  margin: 0.75rem 0 0;
+  color: rgba(246, 239, 229, 0.6);
+  font-size: 0.8rem;
+}
+
+html[data-theme="dark"] .newsletter-form input,
+html[data-theme="dark"] .subscribe-form input,
+html[data-theme="dark"] .newsletter-signup input,
+html[data-theme="dark"] .footer-newsletter input,
+html[data-theme="dark"] .footer-newsletter-form input {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: rgba(255, 255, 255, 0.14) !important;
+  color: #f6efe5 !important;
+}
+
+html[data-theme="dark"] .newsletter-form input::placeholder,
+html[data-theme="dark"] .subscribe-form input::placeholder,
+html[data-theme="dark"] .newsletter-signup input::placeholder,
+html[data-theme="dark"] .footer-newsletter input::placeholder,
+html[data-theme="dark"] .footer-newsletter-form input::placeholder {
+  color: rgba(246, 239, 229, 0.58) !important;
+}
+
+.newsletter-form,
+.subscribe-form,
+.newsletter-signup,
+.footer-newsletter form,
+.footer-newsletter-form {
+  max-width: min(100%, 46rem);
+}
+
+.newsletter-form button,
+.subscribe-form button,
+.newsletter-signup button,
+.footer-newsletter button,
+.footer-newsletter-form button {
+  white-space: nowrap;
+}
+
+.route-tools .resource-grid,
+.route-tools .post-grid,
+.route-blog .post-grid,
+.blog-grid {
+  align-items: stretch;
+}
+
+.route-tools .post-card,
+.route-tools .resource-card,
+.route-tools .guide-card,
+.route-tools .tool-card,
+.route-blog .post-card {
+  min-height: 0 !important;
+  padding: clamp(1.25rem, 2vw, 1.7rem) !important;
+}
+
+.route-tools .post-card h2,
+.route-tools .resource-card h2,
+.route-tools .guide-card h2,
+.route-tools .tool-card h2,
+.route-blog .post-card h2,
+.route-blog .post-card h3 {
+  font-size: clamp(1.45rem, 1.75vw, 2.15rem) !important;
+  line-height: 1.08 !important;
+  text-wrap: balance;
+  overflow-wrap: anywhere;
+}
+
+.route-tools .post-card p,
+.route-tools .resource-card p,
+.route-tools .guide-card p,
+.route-tools .tool-card p,
+.route-blog .post-card p {
+  font-size: 0.98rem !important;
+  line-height: 1.5 !important;
+}
+
+@media (max-width: 760px) {
+  .page-hero,
+  .article-hero {
+    padding-top: clamp(1.5rem, 7vw, 2.5rem) !important;
+  }
+
+  .page-hero .h-display,
+  .page-hero h1,
+  .article-hero h1 {
+    font-size: clamp(2.45rem, 11vw, 3.8rem) !important;
+    line-height: 0.98 !important;
+    max-width: 10ch !important;
+  }
+
+  .route-tools .post-card h2,
+  .route-tools .resource-card h2,
+  .route-tools .guide-card h2,
+  .route-tools .tool-card h2,
+  .route-blog .post-card h2,
+  .route-blog .post-card h3 {
+    font-size: clamp(1.35rem, 7vw, 2rem) !important;
+  }
+
+  .newsletter-form,
+  .subscribe-form,
+  .newsletter-signup,
+  .footer-newsletter form,
+  .footer-newsletter-form {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+  }
+
+  .newsletter-form button,
+  .subscribe-form button,
+  .newsletter-signup button,
+  .footer-newsletter button,
+  .footer-newsletter-form button {
+    width: 100%;
+  }
+}
+
+/* 2026-08-22 final sitewide QA lock. */
+:root {
+  --nav-height: 76px;
+  --nav-h: 76px;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+.nav-bar {
+  min-height: var(--nav-height) !important;
+}
+
+.nav-bar .nav-inner {
+  min-height: var(--nav-height) !important;
+  max-width: min(100% - clamp(1.5rem, 4vw, 4rem), 1740px) !important;
+  margin-inline: auto !important;
+}
+
+.nav-logo {
+  font-family: "Iowan Old Style", Baskerville, "Palatino Linotype", Georgia, serif !important;
+  font-size: clamp(1.35rem, 1.5vw, 1.6rem) !important;
+  line-height: 1 !important;
+  letter-spacing: 0 !important;
+}
+
+.nav-logo small,
+.nav-logo .studio {
+  font-size: 0.62rem !important;
+  letter-spacing: 0.12em !important;
+}
+
+.nav-links,
+.nav-actions {
+  font-family: "Libertinus Math", Georgia, "Times New Roman", serif !important;
+  font-size: clamp(0.82rem, 0.82vw, 0.94rem) !important;
+}
+
+.page-hero .eyebrow,
+.article-hero .eyebrow,
+.section-eyebrow,
+.diagnostic-hero .eyebrow,
+.hero-eyebrow {
+  position: relative !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 0.55rem !important;
+  margin: 0 0 0.75rem !important;
+  inset: auto !important;
+  transform: none !important;
+  white-space: normal !important;
+  line-height: 1.2 !important;
+}
+
+.page-hero h1,
+.page-hero .h-display,
+.article-hero h1,
+.diagnostic-hero h1 {
+  margin-top: 0 !important;
+  text-wrap: balance;
+}
+
+.newsletter-form,
+.subscribe-form,
+.newsletter-signup,
+.footer-newsletter form,
+.footer-newsletter-form {
+  display: grid !important;
+  grid-template-columns: minmax(0, 1fr) auto !important;
+  align-items: center !important;
+  gap: 0.75rem !important;
+}
+
+.newsletter-form input,
+.subscribe-form input,
+.newsletter-signup input,
+.footer-newsletter input,
+.footer-newsletter-form input {
+  min-width: 0 !important;
+  color: inherit;
+  opacity: 1;
+}
+
+.route-tools .resource-grid,
+.route-tools .post-grid,
+body.tools-page .resource-grid,
+.tools-grid,
+.guide-grid,
+.blog-grid {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)) !important;
+  gap: clamp(0.9rem, 2vw, 1.3rem) !important;
+}
+
+.route-tools .post-card h2,
+.route-tools .resource-card h2,
+.route-tools .guide-card h2,
+.route-tools .tool-card h2,
+body.tools-page .resource-card h2,
+body.tools-page .guide-card h2,
+body.tools-page .tool-card h2 {
+  font-size: clamp(1.28rem, 1.55vw, 1.85rem) !important;
+  line-height: 1.08 !important;
+  overflow-wrap: anywhere;
+}
+
+.route-tools .post-card,
+.route-tools .resource-card,
+.route-tools .guide-card,
+.route-tools .tool-card,
+body.tools-page .post-card,
+body.tools-page .resource-card,
+body.tools-page .guide-card,
+body.tools-page .tool-card {
+  min-height: 0 !important;
+}
+
+@media (min-width: 761px) {
+  .wa-launcher {
+    right: max(1rem, env(safe-area-inset-right)) !important;
+    bottom: 5.15rem !important;
+    z-index: 130 !important;
+  }
+
+  .chat-launcher {
+    right: max(1rem, env(safe-area-inset-right)) !important;
+    bottom: 1rem !important;
+    z-index: 130 !important;
+  }
+
+  .a11y-launcher {
+    right: calc(max(1rem, env(safe-area-inset-right)) + 4.25rem) !important;
+    bottom: 1rem !important;
+    z-index: 130 !important;
+  }
+}
+
+@media (max-width: 760px) {
+  :root {
+    --nav-height: 72px;
+    --nav-h: 72px;
+  }
+
+  .nav-links,
+  .nav-actions {
+    display: none !important;
+  }
+
+  .menu-btn {
+    display: inline-flex !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+  }
+
+  .nav-logo {
+    font-size: 1.35rem !important;
+  }
+
+  .page-hero,
+  .article-hero,
+  .diagnostic-hero {
+    padding-top: clamp(1.15rem, 5vw, 2rem) !important;
+  }
+
+  .page-hero .h-display,
+  .page-hero h1,
+  .article-hero h1,
+  .diagnostic-hero h1,
+  .section-title {
+    font-size: clamp(2.2rem, 10vw, 3.35rem) !important;
+    line-height: 1.03 !important;
+    letter-spacing: -0.018em !important;
+    max-width: 100% !important;
+  }
+
+  .newsletter-form,
+  .subscribe-form,
+  .newsletter-signup,
+  .footer-newsletter form,
+  .footer-newsletter-form {
+    grid-template-columns: 1fr !important;
+  }
+
+  .newsletter-form button,
+  .subscribe-form button,
+  .newsletter-signup button,
+  .footer-newsletter button,
+  .footer-newsletter-form button {
+    width: 100% !important;
+  }
+}

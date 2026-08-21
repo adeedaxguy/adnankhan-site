@@ -82,8 +82,16 @@
   // Normalize legacy page headers to the same masthead used on the homepage.
   // Hundreds of static routes share this bootstrap, so the repair belongs here.
   function normalizeGlobalHeader() {
-    const inner = document.querySelector('.nav-bar .nav-inner');
-    if (!inner) return;
+    const nav = document.querySelector('.nav-bar');
+    if (!nav) return;
+
+    let inner = nav.querySelector('.nav-inner');
+    if (!inner) {
+      inner = document.createElement('div');
+      inner.className = 'nav-inner';
+      while (nav.firstChild) inner.appendChild(nav.firstChild);
+      nav.appendChild(inner);
+    }
 
     let logo = inner.querySelector('.nav-logo');
     if (!logo) {
@@ -814,7 +822,7 @@
   if (!rail) return;
 
   const stage = rail.closest('.home-portfolio-stage');
-  const cards = Array.from(rail.querySelectorAll('.pf-card, .pf-card--featured')).slice(0, 11);
+  const cards = Array.from(rail.querySelectorAll('.pf-card, .pf-card--featured')).slice(0, 23);
   const previous = stage.querySelector('[data-portfolio-previous]');
   const next = stage.querySelector('[data-portfolio-next]');
   const currentLabel = stage.querySelector('[data-portfolio-current]');
@@ -826,8 +834,8 @@
   const announcer = stage.querySelector('[data-portfolio-announcer]');
   const desktop = window.matchMedia('(min-width: 821px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const autoplayDelay = 3000;
-  const resumeDelay = 4600;
+  const autoplayDelay = 1800;
+  const resumeDelay = 2600;
   let active = 0;
   let dragStart = null;
   let dragMoved = false;
@@ -865,13 +873,13 @@
     cards.forEach(function (card, index) {
       const offset = wrappedOffset(index);
       const distance = Math.abs(offset);
-      card.style.setProperty('--rail-x', (offset * 82) + '%');
-      card.style.setProperty('--rail-y', (distance * 14 - (distance === 0 ? 8 : 0)) + 'px');
-      card.style.setProperty('--rail-z', (-distance * 135) + 'px');
-      card.style.setProperty('--rail-rotate', (-offset * 8) + 'deg');
-      card.style.setProperty('--rail-tilt', (offset * 1.35) + 'deg');
-      card.style.setProperty('--rail-scale', distance === 0 ? '1.055' : String(1 - distance * .045));
-      card.style.setProperty('--rail-opacity', String(1 - distance * .17));
+      card.style.setProperty('--rail-x', (offset * 76) + '%');
+      card.style.setProperty('--rail-y', (distance * 12 - (distance === 0 ? 8 : 0)) + 'px');
+      card.style.setProperty('--rail-z', (-distance * 118) + 'px');
+      card.style.setProperty('--rail-rotate', (-offset * 7) + 'deg');
+      card.style.setProperty('--rail-tilt', (offset * 1.15) + 'deg');
+      card.style.setProperty('--rail-scale', distance === 0 ? '1.055' : String(1 - distance * .04));
+      card.style.setProperty('--rail-opacity', String(1 - distance * .14));
       card.style.setProperty('--rail-order', String(cards.length - distance));
       card.classList.toggle('is-rail-active', index === active);
     });
@@ -929,7 +937,7 @@
     stopAutoplay();
     window.clearTimeout(resumeTimer);
     if (userPaused || reducedMotion.matches) return;
-    resumeTimer = window.setTimeout(function () { queueAutoplay(500); }, resumeDelay);
+    resumeTimer = window.setTimeout(function () { queueAutoplay(350); }, resumeDelay);
   }
 
   function selectManually(index) {
@@ -1021,17 +1029,17 @@
   rail.addEventListener('wheel', function (event) {
     if (!desktop.matches) return;
     const horizontal = event.shiftKey && Math.abs(event.deltaX) < 1 ? event.deltaY : event.deltaX;
-    const isHorizontalIntent = event.shiftKey || (Math.abs(horizontal) >= 10 && Math.abs(horizontal) > Math.abs(event.deltaY));
+    const isHorizontalIntent = event.shiftKey || (Math.abs(horizontal) >= 6 && Math.abs(horizontal) > Math.abs(event.deltaY));
     if (!isHorizontalIntent || wheelLocked) return;
     event.preventDefault();
     wheelAccumulator += horizontal;
     window.clearTimeout(wheelResetTimer);
     wheelResetTimer = window.setTimeout(function () { wheelAccumulator = 0; }, 180);
-    if (Math.abs(wheelAccumulator) < 28) return;
+    if (Math.abs(wheelAccumulator) < 12) return;
     selectManually(active + (wheelAccumulator > 0 ? 1 : -1));
     wheelAccumulator = 0;
     wheelLocked = true;
-    window.setTimeout(function () { wheelLocked = false; }, 360);
+    window.setTimeout(function () { wheelLocked = false; }, 180);
   }, { passive: false });
 
   rail.addEventListener('pointerenter', function () {
