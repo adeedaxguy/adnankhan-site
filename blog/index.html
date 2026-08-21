@@ -3461,16 +3461,18 @@
       if (!grid) return;
       posts.forEach(function(p){
         var slug = p.slug || '';
+        if (!slug) return;
         var cat = p.category || p.keyword || '';
         var dateIso = p.createdAt ? p.createdAt.slice(0,10) : '';
         var date = p.createdAt ? new Date(p.createdAt).toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}) : '';
         var coverUrl = '/api/og?title='+encodeURIComponent(p.title||'')+'&cat='+encodeURIComponent(cat);
+        var href = '/blog/post?slug=' + encodeURIComponent(slug);
         var el = document.createElement('article');
         el.className = 'post-card';
         el.setAttribute('data-reveal','');
         el.setAttribute('data-blog-card','');
         el.setAttribute('data-blog-category', String(cat || '').toLowerCase().replace(/[^a-z0-9]+/g, '-'));
-        el.innerHTML = '<a href="/blog/post?slug='+encodeURIComponent(slug)+'" class="post-card-link">'
+        el.innerHTML = '<a class="post-card-link">'
           +'<img class="post-card-img" src="'+coverUrl+'" alt="" width="1200" height="675" loading="lazy" />'
           +'<div class="post-card-body">'
           +'<div class="post-card-meta"><span class="tag-pill">'+esc(cat)+'</span>'
@@ -3480,6 +3482,8 @@
           +'<p class="post-card-excerpt">'+esc(p.excerpt||'')+'</p>'
           +'<span class="post-card-cta">Read post &rarr;</span>'
           +'</div></a>';
+        var link = el.querySelector('.post-card-link');
+        if (link) link.setAttribute('href', href);
         grid.appendChild(el);
       });
       applyBlogFilter();
