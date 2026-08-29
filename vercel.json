@@ -33,6 +33,11 @@
       "permanent": true
     },
     {
+      "source": "/work.html",
+      "destination": "/portfolio/",
+      "permanent": true
+    },
+    {
       "source": "/services/shopify-developer-ae.html",
       "destination": "/services/shopify-developer-uae.html",
       "permanent": true

@@ -63,10 +63,418 @@ def load_nav_and_footer():
 #  BLOG POSTS — structured specs. Add a new dict here and rerun.
 # ─────────────────────────────────────────────────────────────────────────────
 
+def make_service_business_post(
+    *,
+    slug,
+    title,
+    excerpt,
+    meta,
+    category,
+    primary,
+    secondary,
+    funnel_to,
+    funnel_label,
+    market_signal,
+    searcher_problem,
+    page_angle,
+    checks,
+    related_links,
+):
+    check_rows = "\n".join(
+        f"        <tr><td><strong>{area}</strong></td><td>{need}</td><td>{reason}</td></tr>"
+        for area, need, reason in checks
+    )
+    link_items = "\n".join(
+        f'        <li><a href="{href}">{label}</a> - {why}</li>'
+        for label, href, why in related_links
+    )
+
+    return {
+        "slug": slug,
+        "title": title,
+        "excerpt": excerpt,
+        "meta": meta,
+        "category": category,
+        "date": "2026-08-30",
+        "readingTime": "9 min",
+        "primaryKeyword": primary,
+        "secondaryKeyword": secondary,
+        "funnelTo": funnel_to,
+        "funnelLabel": funnel_label,
+        "featured": False,
+        "intentCardHtml": f"""<aside class="post-intent-card" aria-labelledby="{slug}-audit">
+      <h2 id="{slug}-audit">Want this mapped for your own website?</h2>
+      <form class="post-audit-launcher" action="/free-audit/" method="get">
+        <label for="{slug}-audit-url">Website URL to audit</label>
+        <div class="post-audit-row">
+          <input id="{slug}-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
+          <button class="btn btn-primary" type="submit">Start report <span aria-hidden="true">&rarr;</span></button>
+        </div>
+      </form>
+      <p>Lofts Studio turns the search intent, page structure, trust proof, speed, schema, and lead path into a practical website improvement plan.</p>
+      <div class="post-intent-actions">
+        <a href="{funnel_to}" class="btn btn-ghost">{funnel_label}</a>
+        <a href="/tools/seo-aeo-checker.html" class="btn btn-ghost">Run SEO/AEO check</a>
+      </div>
+      <div class="post-intent-note" aria-label="Sprint includes">
+        <span>Search intent</span>
+        <span>Technical SEO</span>
+        <span>Lead path</span>
+      </div>
+    </aside>""",
+        "hook": f"{primary} is not only a keyword. It is a buying situation. The page has to explain the problem, show what a better website needs, prove the work can be trusted, and move the visitor toward a clear audit or consultation step.",
+        "faqs": [
+            {
+                "question": f"What should a page targeting {primary} include?",
+                "answer": "It should include a direct answer, service fit, examples of what the buyer should check, visible trust proof, useful internal links, FAQ coverage, and a next step that matches the visitor's intent."
+            },
+            {
+                "question": "Should this be a blog post or a service page?",
+                "answer": "If the visitor is ready to hire, the main target should be a service or industry page. A blog post should support that page by answering the questions people ask before they contact a provider."
+            },
+            {
+                "question": "How should Lofts Studio measure this SEO work?",
+                "answer": "Measure non-brand impressions, clicks, CTR, average position, internal-link coverage, audit starts, contact clicks, and whether the page earns new related queries in Search Console."
+            }
+        ],
+        "body": [
+            ("p", market_signal),
+            ("callout", "The ranking play is to satisfy the exact buyer intent, then connect that answer to a useful audit, service page, case study, or consultation path."),
+            ("h2", "The search intent to satisfy"),
+            ("p", searcher_problem),
+            ("h2", "The Lofts Studio page angle"),
+            ("p", page_angle),
+            ("h2", "Page structure that can rank and convert"),
+            ("html", f"""<div class="post-table-wrap"><table>
+      <thead><tr><th>Page area</th><th>What to include</th><th>Why it matters</th></tr></thead>
+      <tbody>
+{check_rows}
+      </tbody>
+    </table></div>"""),
+            ("h2", "Internal links to build around it"),
+            ("html", f"""<ul>
+{link_items}
+    </ul>"""),
+            ("h2", "What to avoid"),
+            ("ul", [
+                "Do not make a generic design-inspiration page when the query has service intent.",
+                "Do not promise rankings, traffic, bookings, or lead volume that the current site cannot prove.",
+                "Do not copy competitor wording. Use the SERP to understand missing buyer questions, then answer them in Lofts Studio's own voice.",
+                "Do not create several near-identical URLs for the same intent. One canonical page should carry the main query family."
+            ]),
+            ("h2", "Daily measurement plan"),
+            ("ol", [
+                "Check Search Console for the target query family and the target URL.",
+                "Watch whether impressions expand before judging clicks.",
+                "Add internal links from the website hub, niche page, audit tool, and relevant articles.",
+                "Refresh the title, opening answer, FAQ, and CTA if CTR or engagement is weak.",
+                "Keep the page source-safe: clean canonicals, indexable robots, fast mobile layout, and no unsupported claims."
+            ]),
+        ],
+    }
+
+
 POSTS = [
+    make_service_business_post(
+        slug="seo-friendly-website-design-services",
+        title="SEO-Friendly Website Design Services for Service Businesses",
+        excerpt="How to structure SEO-friendly website design services around crawlability, answer clarity, internal links, speed, and qualified leads.",
+        meta="SEO-friendly website design services for service businesses: page structure, technical SEO, AEO, internal links, speed, and lead paths.",
+        category="SEO",
+        primary="SEO-friendly website design services",
+        secondary="SEO friendly website design",
+        funnel_to="/websites",
+        funnel_label="Website Design Hub",
+        market_signal="DataForSEO showed a smaller but highly relevant SEO-friendly website design cluster, while live SERPs show competitors often split design, SEO, and conversion into separate ideas. That is the opening for Lofts Studio: one page architecture that covers crawlability, answer clarity, proof, speed, and enquiry flow together.",
+        searcher_problem="A service-business owner searching this phrase is usually not looking for decoration. They want a website that can be crawled, understood, trusted, and turned into enquiries. The page should explain what makes a design SEO-friendly before the buyer asks for a redesign.",
+        page_angle="Lofts Studio should position this as senior website engineering: sitemap, URL structure, schema, Core Web Vitals, internal links, service-page hierarchy, proof sections, and a conversion path planned before visual polish.",
+        checks=[
+            ("Opening answer", "Define SEO-friendly design in plain language.", "It helps Google and answer engines extract the core promise quickly."),
+            ("Technical base", "Show crawlability, canonicals, sitemap, robots, speed, and schema.", "These are the common reasons a pretty site still fails in search."),
+            ("Service hierarchy", "Explain parent, child, and support pages.", "This prevents thin pages and builds topical authority."),
+            ("Trust proof", "Add process, portfolio, founder context, and measured QA.", "Service buyers need confidence before they contact a developer."),
+            ("Lead path", "Link to free audit, website hub, and contact.", "Traffic only matters when the next step is obvious."),
+        ],
+        related_links=[
+            ("Website design by industry", "/websites", "parent commercial page for service-business website work"),
+            ("Free website audit", "/free-audit/", "low-friction entry point for owners unsure what to fix"),
+            ("Technical SEO audit", "/services/technical-seo-audit.html", "implementation-led technical support"),
+            ("SEO/AEO checker", "/tools/seo-aeo-checker.html", "quick self-check for answer clarity and indexability"),
+        ],
+    ),
+    make_service_business_post(
+        slug="website-development-for-service-businesses",
+        title="Website Development for Service Businesses: Build for Search and Leads",
+        excerpt="A practical website development plan for service businesses that need better search visibility, trust, speed, and enquiries.",
+        meta="Website development for service businesses focused on search intent, technical SEO, mobile trust, service pages, and qualified lead flow.",
+        category="Design",
+        primary="website development for service businesses",
+        secondary="business website development",
+        funnel_to="/websites",
+        funnel_label="Website Design Hub",
+        market_signal="DataForSEO showed very large demand around website development and development website, but the live SERP is dominated by broad educational and builder results. Lofts should not chase that broad head term alone. It should use service-business modifiers and conversion-led examples to narrow the intent.",
+        searcher_problem="A business owner may know the website is outdated, but not know whether they need a redesign, new service pages, technical SEO, better booking, or a stronger lead funnel. The content should help them diagnose the actual need.",
+        page_angle="Lofts Studio should frame development as a business system: structure, copy, UI, technical SEO, analytics, integrations, and QA working together so the site can be found and chosen.",
+        checks=[
+            ("Discovery", "Map services, locations, buyer questions, and current traffic.", "Good development starts with the customer path, not a blank template."),
+            ("Information architecture", "Create clear hubs for services, industries, proof, blog, tools, and contact.", "Search engines and buyers need predictable routes."),
+            ("Mobile first", "Make phone, audit, booking, and contact actions easy to tap.", "Most service searches begin on mobile."),
+            ("Analytics", "Track forms, audit starts, clicks, calls, and useful events.", "Without measurement, SEO work becomes guesswork."),
+            ("Maintenance", "Plan redirects, sitemap updates, and content refreshes.", "Service websites need ongoing improvement after launch."),
+        ],
+        related_links=[
+            ("Website design by industry", "/websites", "the commercial hub for service-business pages"),
+            ("Process", "/process", "how Lofts plans and ships builds"),
+            ("Portfolio", "/portfolio", "proof for the development range"),
+            ("Website conversion path audit", "/blog/website-conversion-path-audit.html", "supporting guide for traffic-to-lead flow"),
+        ],
+    ),
+    make_service_business_post(
+        slug="veterinary-clinic-website-design-checklist",
+        title="Veterinary Clinic Website Design Checklist for Booking and Local SEO",
+        excerpt="A veterinary clinic website design checklist for emergency clarity, online booking, new-client registration, local SEO, and trust.",
+        meta="Veterinary clinic website design checklist covering emergency info, appointment booking, new-client registration, local SEO, schema, and mobile trust.",
+        category="Design",
+        primary="website design for veterinary clinics",
+        secondary="veterinary clinic website design",
+        funnel_to="/websites/veterinary",
+        funnel_label="Veterinary Website Design",
+        market_signal="DataForSEO found a smaller but clean veterinary website design opportunity, and live SERPs show specialist competitors leading with mobile, SEO, booking, and client acquisition. Lofts can compete by making the page more operational: emergency routes, registration, service pages, local proof, speed, and measurement.",
+        searcher_problem="A veterinary practice owner wants more booked appointments and more confident pet owners, not just a nicer homepage. The page has to address urgent searches, routine bookings, client registration, trust, and local visibility.",
+        page_angle="Lofts Studio should make the veterinary offer specific: emergency info above the fold, appointment paths, service pages, pet-owner reassurance, Google Business Profile alignment, and local SEO that supports real booking intent.",
+        checks=[
+            ("Emergency path", "Emergency and out-of-hours details must be instantly visible.", "These are high-intent, high-stress searches."),
+            ("Booking path", "Online booking, phone, and new-client registration should be clear.", "The site should reduce friction before the receptionist is involved."),
+            ("Service pages", "Separate vaccinations, dentistry, surgery, diagnostics, wellness, and urgent care.", "Specific pages match specific pet-owner queries."),
+            ("Trust", "Use team bios, clinic photos, reviews, and care process.", "Pet owners choose on reassurance as much as convenience."),
+            ("Local SEO", "Use location, hours, schema, nearby service areas, and GBP consistency.", "Local relevance is the core channel for clinics."),
+        ],
+        related_links=[
+            ("Veterinary website design", "/websites/veterinary", "main commercial page for the niche"),
+            ("Medical clinic websites", "/websites/medical-clinics", "adjacent clinic architecture"),
+            ("Free website audit", "/free-audit/", "starting point for clinic owners"),
+            ("Mobile lead flow audit", "/blog/mobile-lead-flow-audit.html", "supporting mobile conversion guide"),
+        ],
+    ),
+    make_service_business_post(
+        slug="veterinary-emergency-page-website-seo",
+        title="Veterinary Emergency Page SEO: What Pet Owners Need First",
+        excerpt="How a veterinary emergency page should answer urgent searches, show out-of-hours details, and route pet owners without confusion.",
+        meta="Veterinary emergency page SEO guide for urgent pet-owner searches, out-of-hours information, mobile calls, schema, and local trust.",
+        category="SEO",
+        primary="veterinary emergency page SEO",
+        secondary="emergency vet website page",
+        funnel_to="/websites/veterinary",
+        funnel_label="Veterinary Website Design",
+        market_signal="The veterinary SERP pattern rewards useful, fast, local pages that answer immediate questions. Emergency intent is sharper than generic clinic design intent, so Lofts should support the main veterinary page with this urgent-search guide.",
+        searcher_problem="Someone searching emergency vet terms wants to know whether the clinic can help now, whether it is open, where to go, and what to do next. If the page hides that information, the visitor leaves.",
+        page_angle="Lofts Studio should show clinic owners how to build an emergency page that is human-first and search-ready: phone action, location, hours, triage notes, out-of-hours partner, and schema that reflects visible content.",
+        checks=[
+            ("Immediate action", "Put phone, address, hours, and emergency instructions first.", "Urgent visitors do not read a long brand story first."),
+            ("Mobile tap targets", "Make call and map actions large and persistent enough.", "Emergency searches are often on mobile."),
+            ("Scope", "Explain what the clinic can and cannot handle after hours.", "Clear scope prevents dangerous confusion."),
+            ("Local proof", "Connect location, nearby areas, and service context naturally.", "Emergency vet searches are strongly local."),
+            ("Schema", "Use accurate LocalBusiness or VeterinaryCare markup where applicable.", "Structured data should match visible facts, not invent claims."),
+        ],
+        related_links=[
+            ("Veterinary website design", "/websites/veterinary", "parent niche page"),
+            ("Technical SEO audit", "/services/technical-seo-audit.html", "schema and crawl support"),
+            ("Core Web Vitals checklist", "/blog/core-web-vitals-redesign-checklist.html", "speed support for urgent searches"),
+            ("Contact Lofts Studio", "/#contact", "consultation path for clinic rebuilds"),
+        ],
+    ),
+    make_service_business_post(
+        slug="insurance-agency-local-seo-website-plan",
+        title="Insurance Agency Local SEO Website Plan for Quote Requests",
+        excerpt="A local SEO website plan for insurance agencies that need quote intent, product pages, trust proof, and cleaner follow-up paths.",
+        meta="Insurance agency local SEO website plan for quote requests, product pages, location pages, trust proof, schema, and lead tracking.",
+        category="SEO",
+        primary="insurance agency local SEO website",
+        secondary="insurance agency website design",
+        funnel_to="/work/insurance-finance",
+        funnel_label="Insurance and Finance Work",
+        market_signal="Lofts already has finance and insurance proof, and the niche research ranked insurance agencies as a strong target because the searches have business value while many pages still look generic. The page should connect quote flow, product depth, local trust, and compliance-aware copy.",
+        searcher_problem="An insurance agency wants more quote requests, but prospects often need product clarity, carrier context, local trust, and a fast way to ask for help. A generic brochure website does not cover that decision path.",
+        page_angle="Lofts Studio should position insurance websites as quote systems: product pages, local pages, lead forms, call tracking, proof, disclaimers, speed, analytics, and a clean path from search to advisor conversation.",
+        checks=[
+            ("Product pages", "Separate auto, home, commercial, life, and specialty insurance where relevant.", "Different policies create different query families."),
+            ("Quote flow", "Make quote requests short and route details to the right team.", "Conversion friction directly reduces leads."),
+            ("Trust", "Show licensing context, carriers, reviews, team, and local proof where true.", "Financial-services buyers need credibility."),
+            ("Location relevance", "Use city/service-area pages only when the agency truly serves them.", "Fake location scale creates trust and indexing risk."),
+            ("Measurement", "Track form starts, submissions, calls, and source pages.", "Lead quality matters more than traffic volume."),
+        ],
+        related_links=[
+            ("Insurance and finance work", "/work/insurance-finance", "proof-led commercial page"),
+            ("Conversion path audit", "/blog/website-conversion-path-audit.html", "how quote traffic becomes leads"),
+            ("Technical SEO audit", "/services/technical-seo-audit.html", "crawl and schema support"),
+            ("Free website audit", "/free-audit/", "first step for an underperforming agency site"),
+        ],
+    ),
+    make_service_business_post(
+        slug="optometrist-website-seo-service-page",
+        title="Optometrist Website SEO: Appointments, Insurance, Local Trust",
+        excerpt="How an optometrist website service page should cover exams, frames, insurance, doctor trust, local search, and booking flow.",
+        meta="Optometrist website SEO service page guide for eye exams, appointment booking, insurance clarity, local SEO, doctor trust, and conversion flow.",
+        category="SEO",
+        primary="optometrist website SEO",
+        secondary="optometrist website design",
+        funnel_to="/websites/opticians",
+        funnel_label="Opticians Website Design",
+        market_signal="The Lofts niche plan treats optometry and ophthalmology as a strong healthcare target because appointment intent, insurance questions, and local trust are clear. Competitors often talk about design but under-explain the page architecture needed for exams, locations, doctors, and insurance.",
+        searcher_problem="An eye-care practice needs patients to understand available exams, accepted insurance, frame or lens options, doctors, and how to book. If the website blends everything into one page, it loses both search relevance and confidence.",
+        page_angle="Lofts Studio should expand opticians into an eye-care SEO system: exam pages, doctor/location pages, insurance information, appointment CTAs, FAQ coverage, and local schema aligned with real practice details.",
+        checks=[
+            ("Appointment path", "Put online booking and phone options near every service section.", "Eye-care searches often turn into appointment actions."),
+            ("Insurance clarity", "Explain accepted insurance or how to verify benefits where true.", "Insurance uncertainty blocks bookings."),
+            ("Doctor trust", "Show doctors, credentials, specialties, and care style.", "Medical buyers need human reassurance."),
+            ("Service depth", "Separate eye exams, contacts, glasses, pediatric care, and urgent eye care if offered.", "Each service has its own query family."),
+            ("Local consistency", "Match website, GBP, hours, phone, address, and schema.", "Local mismatches weaken confidence and search clarity."),
+        ],
+        related_links=[
+            ("Opticians and eye care websites", "/websites/opticians", "main niche page"),
+            ("Medical clinic websites", "/websites/medical-clinics", "adjacent healthcare structure"),
+            ("SEO/AEO checker", "/tools/seo-aeo-checker.html", "quick page clarity check"),
+            ("Free website audit", "/free-audit/", "entry point for practice owners"),
+        ],
+    ),
+    make_service_business_post(
+        slug="orthodontist-website-consultation-funnel",
+        title="Orthodontist Website Consultation Funnel for Local SEO",
+        excerpt="A practical orthodontist website funnel for treatment pages, parent and adult patient trust, local SEO, and consultation booking.",
+        meta="Orthodontist website consultation funnel covering braces, Invisalign-style intent, local SEO, parent trust, adult patients, and booking flow.",
+        category="CRO",
+        primary="orthodontist website consultation funnel",
+        secondary="orthodontist website design",
+        funnel_to="/websites/dentists",
+        funnel_label="Dental Website Design",
+        market_signal="Orthodontist terms are a strong second-wave healthcare opportunity for Lofts because consultation value is high and the service-page path is specific. The current dental page can support the cluster while a dedicated orthodontist service page is validated.",
+        searcher_problem="Orthodontic visitors compare treatment options, financing questions, before-and-after proof, parent concerns, adult confidence, and consultation availability. A generic dental page cannot carry that full journey.",
+        page_angle="Lofts Studio should build orthodontic website content around consultation conversion: treatment pages, trust sections, review proof, doctor profile, local answers, FAQs, and analytics that identify which pages create appointments.",
+        checks=[
+            ("Treatment pages", "Give braces, clear aligners, retainers, child, teen, and adult pages where relevant.", "Specific treatment intent needs specific content."),
+            ("Consultation CTA", "Make the consultation action visible but not aggressive.", "The buyer is comparing trust before committing."),
+            ("Proof", "Use real case photos, reviews, and doctor context where allowed.", "Visual and human proof matter in orthodontics."),
+            ("Parent/adult paths", "Answer both parent and adult patient concerns.", "The decision maker changes by treatment type."),
+            ("Local SEO", "Tie pages to true locations, hours, and service areas.", "Orthodontic competition is local and reputation-led."),
+        ],
+        related_links=[
+            ("Dentist website design", "/websites/dentists", "current parent healthcare page"),
+            ("Medical clinic websites", "/websites/medical-clinics", "clinic architecture reference"),
+            ("Website conversion path audit", "/blog/website-conversion-path-audit.html", "consultation flow support"),
+            ("Free website audit", "/free-audit/", "first diagnostic step"),
+        ],
+    ),
+    make_service_business_post(
+        slug="pool-builder-website-project-gallery-template",
+        title="Pool Builder Website Project Gallery Template for Better Leads",
+        excerpt="How pool builders can turn project photos into SEO pages, trust proof, estimate intent, and stronger local enquiries.",
+        meta="Pool builder website project gallery template for SEO, project proof, estimate requests, service-area relevance, and lead quality.",
+        category="Design",
+        primary="pool builder website project gallery",
+        secondary="pool builder website design",
+        funnel_to="/websites/landscaping",
+        funnel_label="Landscaping Website Design",
+        market_signal="Pool builder and landscaping searches share visual proof, project geography, estimate intent, and local-service competition. The opportunity is not another gallery page; it is turning completed work into crawlable proof and quote paths.",
+        searcher_problem="A homeowner wants to see whether a builder can deliver a project like theirs, in a similar location, with a clear path to ask for an estimate. A gallery without context wastes the strongest proof on the site.",
+        page_angle="Lofts Studio should show pool builders how to structure project galleries as SEO assets: project type, location, materials, constraints, outcome, photos, FAQs, and estimate CTA.",
+        checks=[
+            ("Project taxonomy", "Tag projects by pool type, material, yard shape, feature, and location.", "This turns visual proof into searchable structure."),
+            ("Gallery copy", "Add concise context to every project, not just images.", "Google and buyers need details."),
+            ("Estimate CTA", "Place estimate requests after proof and near relevant gallery filters.", "Lead intent rises after the visitor sees similar work."),
+            ("Image SEO", "Use compressed images, descriptive alt text, and dimensions.", "Visual pages must stay fast."),
+            ("Local proof", "Connect real service areas and project examples.", "Pool builder searches are location-sensitive."),
+        ],
+        related_links=[
+            ("Landscaping website design", "/websites/landscaping", "adjacent local-service page"),
+            ("Portfolio", "/portfolio", "Lofts proof architecture"),
+            ("Core Web Vitals checklist", "/blog/core-web-vitals-redesign-checklist.html", "image-speed support"),
+            ("Free website audit", "/free-audit/", "lead path for visual-service businesses"),
+        ],
+    ),
+    make_service_business_post(
+        slug="landscaping-company-website-lead-plan",
+        title="Landscaping Company Website Lead Plan for Local Search",
+        excerpt="A landscaping company website plan for service pages, seasonal demand, estimate requests, reviews, project photos, and local SEO.",
+        meta="Landscaping company website lead plan for local SEO, estimate requests, service pages, project photos, seasonal content, and trust proof.",
+        category="SEO",
+        primary="landscaping company website leads",
+        secondary="landscaper website design",
+        funnel_to="/websites/landscaping",
+        funnel_label="Landscaping Website Design",
+        market_signal="Landscaping remains a strong local-service niche because the buyer intent is visual, seasonal, and location-based. A Lofts page should focus on estimate flow and service-area structure instead of generic web design copy.",
+        searcher_problem="A landscaping company needs visitors to understand services, see proof, trust the crew, and request an estimate. If the site hides services behind one gallery or one contact form, the owner loses high-intent searchers.",
+        page_angle="Lofts Studio should connect landscaping pages to seasonal content, service pages, project proof, reviews, local schema, and a simple estimate request path.",
+        checks=[
+            ("Service pages", "Separate lawn care, hardscaping, maintenance, design, and seasonal services where offered.", "Each service earns different searches."),
+            ("Estimate path", "Ask only for details needed to qualify the request.", "Long forms reduce lead volume."),
+            ("Project proof", "Add before-and-after images with context.", "Visual trust is the sales engine."),
+            ("Seasonal pages", "Plan spring cleanup, summer maintenance, fall prep, and winter content.", "Seasonality creates recurring SEO windows."),
+            ("Local SEO", "Use true service areas, reviews, and GBP alignment.", "Local relevance decides many landscaping searches."),
+        ],
+        related_links=[
+            ("Landscaping website design", "/websites/landscaping", "main niche page"),
+            ("Websites by industry", "/websites", "parent industry hub"),
+            ("Website lead funnel audit", "/blog/website-lead-funnel-audit.html", "conversion support"),
+            ("Free website audit", "/free-audit/", "first step for local service owners"),
+        ],
+    ),
+    make_service_business_post(
+        slug="business-website-development-audit-checklist",
+        title="Business Website Development Audit Checklist Before You Rebuild",
+        excerpt="A business website development audit checklist for indexability, page structure, lead paths, speed, trust, schema, and analytics.",
+        meta="Business website development audit checklist for service companies planning a rebuild, redesign, technical SEO fix, or lead-generation upgrade.",
+        category="SEO",
+        primary="business website development audit",
+        secondary="company website development checklist",
+        funnel_to="/free-audit/",
+        funnel_label="Free Website Audit Report",
+        market_signal="Broad website development demand is huge but vague. The practical opportunity for Lofts is to intercept owners before a rebuild with an audit checklist that turns broad demand into a qualified website-improvement conversation.",
+        searcher_problem="The owner knows the website is not working, but may not know whether the problem is indexation, content, trust, speed, design, tracking, or offer clarity. The checklist should help identify the first constraint.",
+        page_angle="Lofts Studio should use this as a diagnostic bridge from broad searches to the free audit, technical SEO audit, website hub, and contact path.",
+        checks=[
+            ("Indexing", "Check robots, canonical, sitemap, redirects, and noindex.", "A rebuilt page has no value if Google cannot serve it."),
+            ("Structure", "Map services, support posts, proof, tools, and contact routes.", "Good structure helps both search and navigation."),
+            ("Content depth", "Answer buyer questions and objections on the page.", "Thin service pages rarely satisfy serious buyers."),
+            ("Speed", "Keep images, scripts, fonts, and layout stable.", "Slow sites leak trust and leads."),
+            ("Tracking", "Measure audit starts, contact clicks, form submits, and phone clicks.", "SEO should be judged by business actions."),
+        ],
+        related_links=[
+            ("Free website audit", "/free-audit/", "diagnostic entry point"),
+            ("Technical SEO audit", "/services/technical-seo-audit.html", "crawl/indexing implementation"),
+            ("Website design by industry", "/websites", "commercial service hub"),
+            ("Website structure audit report", "/blog/website-structure-audit-report.html", "supporting structure guide"),
+        ],
+    ),
+    make_service_business_post(
+        slug="market-my-website-local-lead-system",
+        title="Market My Website: Local Lead System for Service Businesses",
+        excerpt="A practical answer for owners searching market my website: fix search intent, service pages, proof, local SEO, and conversion paths.",
+        meta="Market my website guide for service businesses that need local SEO, better service pages, proof, technical fixes, and a clearer lead path.",
+        category="SEO",
+        primary="market my website",
+        secondary="market my website local leads",
+        funnel_to="/free-audit/",
+        funnel_label="Free Website Audit Report",
+        market_signal="Market my website is broad and buyer-led. The useful Lofts angle is to help owners understand that marketing a weak website starts with fixing the destination: page intent, trust, speed, internal links, and conversion measurement.",
+        searcher_problem="A business owner searching this phrase wants more visibility, but paid traffic, SEO, social posts, and outreach all fail if the website does not answer the visitor's need. The page should explain the order of operations.",
+        page_angle="Lofts Studio should own the practical answer: audit the current site, fix the highest-leverage pages, strengthen local/niche search coverage, then use content and promotion only after the lead path works.",
+        checks=[
+            ("Current traffic", "Check GSC queries and GA4 landing pages first.", "Existing impressions reveal where Google is already testing the site."),
+            ("Offer clarity", "Make the service, audience, proof, and next step obvious.", "Marketing cannot fix a confusing offer."),
+            ("Local/niche pages", "Build pages around real services, industries, and locations.", "Specific pages can satisfy specific searchers."),
+            ("Content support", "Publish articles that support commercial pages, not random topics.", "Topical architecture compounds."),
+            ("Conversion path", "Route visitors to audit, quote, booking, or contact.", "Traffic without action is only a vanity metric."),
+        ],
+        related_links=[
+            ("Free website audit", "/free-audit/", "starting point for owners asking how to market the site"),
+            ("Website design by industry", "/websites", "commercial service hub"),
+            ("SEO Insights to Leads Workflow", "/blog/seo-insights-to-leads-workflow.html", "GSC-to-action workflow"),
+            ("Contact Lofts Studio", "/#contact", "direct consultation path"),
+        ],
+    ),
     {
         "slug": "seo-audit-report-template-for-leads",
-        "title": "SEO Audit Report Template for Leads: What a Service Website Should Show",
+        "title": "SEO Audit Report Template for Better Service Website Leads",
         "excerpt": "Use an SEO audit report template to turn technical findings, content gaps, and conversion friction into a lead-focused fix plan.",
         "meta": "A practical SEO audit report template for service websites that need more qualified leads from Google, AI search, and better landing pages.",
         "category": "SEO",
@@ -1332,7 +1740,7 @@ POSTS = [
     },
     {
         "slug": "shopify-plus-vs-advanced-when-to-upgrade",
-        "title": "Shopify Plus vs Shopify Advanced: When the Plus Jump Actually Makes Sense",
+        "title": "Shopify Plus vs Advanced: When the Upgrade Makes Sense",
         "excerpt": "The honest math on when Shopify Plus earns its heavier platform commitment — and the four signs you should stay on Advanced and save the cash for engineering instead.",
         "meta": "Shopify Plus vs Advanced: when the Plus upgrade proves its value, and when it's a tax on founders who got over-sold by sales reps. Real math from 14 migrations.",
         "category": "Migration",
@@ -1536,7 +1944,7 @@ POSTS = [
     },
     {
         "slug": "shopify-custom-app-vs-public-app",
-        "title": "Custom Shopify App vs Private App vs Public App: Which One You Actually Need",
+        "title": "Custom Shopify App vs Private App vs Public App",
         "excerpt": "Shopify has three app types and the terminology is genuinely confusing. Here's the decision tree I use with clients — what each one adds overhead, what each one limits, and which one wins for your situation.",
         "meta": "Custom Shopify app vs private app vs public app — what each one adds overhead, what each one limits, and which one is right for your situation, with examples.",
         "category": "Custom Apps",
@@ -1598,7 +2006,7 @@ POSTS = [
     },
     {
         "slug": "speed-up-woocommerce-checklist",
-        "title": "Why Your WooCommerce Store Is Slow — and the 5 Plugins Causing 80% of It",
+        "title": "Why Your WooCommerce Store Is Slow: 5 Plugin Issues",
         "excerpt": "WooCommerce stores are slow for the same reasons over and over. The five plugins, the two server-side mistakes, and the fix that always works — from an engineer who's optimized 80+ WooCommerce stores.",
         "meta": "Why your WooCommerce store is slow — the 5 plugins causing most of it, the 2 server mistakes, and the fix that always works. Field-tested optimization from 80+ stores.",
         "category": "WooCommerce",
@@ -1723,7 +2131,6 @@ SITEMAP_EXCLUDED_PATHS = {
     "/blog/small-business-website-cost-2026.html",
     "/blog/post",
     "/unsubscribe",
-    "/book",
 }
 
 # Service templates per location — currently we generate one master page per location
@@ -1791,7 +2198,7 @@ def render_blog_post(p, nav, footer):
 <link rel="canonical" href="{SITE}/blog/{p["slug"]}.html" />
 <meta name="robots" content="index,follow,max-image-preview:large" />
 <meta name="author" content="Adnan K." />
-<meta name="keywords" content="{p["primaryKeyword"]}, {p["secondaryKeyword"]}, shopify developer, woocommerce developer, hire shopify developer" />
+<meta name="keywords" content="{p["primaryKeyword"]}, {p["secondaryKeyword"]}, website design, website development, technical SEO, AEO, conversion audit" />
 
 <meta property="og:type" content="article" />
 <meta property="og:url" content="{SITE}/blog/{p["slug"]}.html" />
