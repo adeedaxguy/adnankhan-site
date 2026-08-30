@@ -101,7 +101,7 @@
 
     grid.replaceChildren();
     if (!current.length) {
-      fragment.appendChild(element("p", "reviews-empty", "No feedback matches this search. Try a broader phrase or choose both profiles."));
+      fragment.appendChild(element("p", "reviews-empty", "No feedback matches this search. Try a broader phrase."));
     } else {
       current.forEach(function (review) {
         fragment.appendChild(createCard(review));
@@ -131,7 +131,7 @@
   function loadInitialState() {
     var params = new URLSearchParams(window.location.search);
     var requestedProfile = params.get("profile");
-    if (requestedProfile === "irfankhan" || requestedProfile === "wordpressandshopifydeveloper") {
+    if (requestedProfile === "wordpressandshopifydeveloper") {
       activeProfile = requestedProfile;
     }
     query = normalize(params.get("q"));
@@ -172,7 +172,7 @@
     })
     .catch(function () {
       grid.setAttribute("aria-busy", "false");
-      grid.replaceChildren(element("p", "reviews-error", "The review archive is temporarily unavailable. The two verified Upwork profiles remain linked above."));
+      grid.replaceChildren(element("p", "reviews-error", "The review archive is temporarily unavailable. Adnan's verified Upwork profile remains linked above."));
       count.textContent = "Archive unavailable";
       shown.textContent = "";
       loadMore.hidden = true;

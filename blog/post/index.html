@@ -4,7 +4,7 @@
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script data-lofts-theme-init>(function(){var m="light";try{m=localStorage.getItem("lofts-theme")==="dark"?"dark":"light"}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m}())</script>
-  <title id="metaTitle">Loading… — Lofts Studio Blog</title>
+  <title id="metaTitle">Loading… — Adnan Khan Blog</title>
   <meta name="description" id="metaDesc" content="" />
   <link rel="canonical" id="canonical" href="https://lofts.studio/blog/post" />
   <meta property="og:type" content="article" />
@@ -55,10 +55,11 @@
   </style>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 <link rel="stylesheet" href="/assets/typography.css" />
+<link rel="stylesheet" href="/assets/rebuild.css?v=20" />
 </head>
 <body>
 <nav class="nav">
-  <a href="/" class="nav-logo">Lofts<span>STUDIO</span></a>
+  <a href="/" class="nav-logo">Adnan<span>STUDIO</span></a>
   <a href="/blog" class="nav-back">
     <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
     All articles
@@ -81,10 +82,10 @@ if (!slug) {
       if (post.error) throw new Error(post.error);
 
       // Update meta
-      document.getElementById('metaTitle').textContent = post.metaTitle || post.title + ' — Lofts Studio';
+      document.getElementById('metaTitle').textContent = post.metaTitle || post.title + ' — Adnan Khan';
       document.getElementById('metaDesc').setAttribute('content', post.metaDescription || post.excerpt || '');
       document.getElementById('canonical').setAttribute('href', `https://lofts.studio/blog/post?slug=${slug}`);
-      document.title = post.metaTitle || post.title + ' — Lofts Studio';
+      document.title = post.metaTitle || post.title + ' — Adnan Khan';
 
       // Featured cover (dynamic, matches the rest of the blog)
       const coverUrl = `https://lofts.studio/api/og?title=${encodeURIComponent(post.title)}&cat=${encodeURIComponent(post.category || post.keyword || '')}`;
@@ -104,13 +105,13 @@ if (!slug) {
         <div class="art-meta">
           <span>${formatDate(post.createdAt)}</span>
           <span>${post.readingMinutes || 8} min read</span>
-          <span>By Lofts Studio</span>
+          <span>By Adnan Khan</span>
         </div>
         <img class="art-hero" src="${coverUrl}" alt="${esc(post.title)}" width="1200" height="675" />
         <div class="art-body" id="artBody"></div>
         <div class="art-cta">
           <h3>Want this applied to your site?</h3>
-          <p>Lofts Studio has done this for many businesses in the US and UK. Tell us about your project and we'll reply with three specific ideas.</p>
+          <p>Adnan Khan has done this for many businesses in the US and UK. Tell us about your project and we'll reply with three specific ideas.</p>
           <a href="/#contact">Talk to the team →</a>
         </div>`;
 
@@ -151,5 +152,6 @@ function formatDate(iso) {
   return new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
 }
 </script>
+<script src="/assets/rebuild.js?v=20" defer></script>
 </body>
 </html>
