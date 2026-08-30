@@ -2,8 +2,9 @@
    Adnan K. — Floating widgets
    1) Cookie consent (must run before chatbot)
    2) Accessibility preferences (visitor-controlled only)
-   3) Accessibility preferences
-   Direct-contact widgets remain disabled so Upwork-originating work stays on Upwork.
+   3) WhatsApp click-to-chat
+   4) AI chatbot (Groq-backed via /api/chat)
+   5) Lead capture inside chatbot → /api/chat falls through to email
    ───────────────────────────────────────────────────────────── */
 
 (function () {
@@ -49,9 +50,9 @@
   // ─────────── CHATBOT ───────────
   const CHAT_KEY = 'adnank-chat-history-v1';
   const A11Y_KEY = 'lofts-accessibility-prefs-v1';
-  const calendlyURL = 'https://www.upwork.com/freelancers/wordpressandshopifydeveloper';
-  const formAnchor = 'https://www.upwork.com/freelancers/wordpressandshopifydeveloper';
-  const whatsappURL = 'https://www.upwork.com/freelancers/wordpressandshopifydeveloper';
+  const calendlyURL = 'https://calendly.com/adnan-technodigg';
+  const formAnchor = '/#contact';
+  const whatsappURL = 'https://wa.me/12027736947?text=Hi%20Lofts%20Studio%2C%20I%27d%20like%20to%20talk%20about%20a%20website%2C%20automation%2C%20or%20SEO%20project.';
 
   function getHistory() {
     try { return JSON.parse(localStorage.getItem(CHAT_KEY) || '[]'); } catch { return []; }
@@ -334,7 +335,7 @@
         pushAssistant(data.reply || "I didn't catch that — could you rephrase?");
       } catch (e) {
         popTyping();
-        pushAssistant("Connection blip. Continue in <a href='https://www.upwork.com/freelancers/wordpressandshopifydeveloper' class='chat-link'>Upwork Messages</a> so the project record stays in one place.", { html: true });
+        pushAssistant("Connection blip. Email <a href='mailto:hi@lofts.studio' class='chat-link'>hi@lofts.studio</a> or use <a href='/#contact' class='chat-link'>the contact form</a> &mdash; the team replies within 4 hours.", { html: true });
       } finally {
         isThinking = false;
         maybeShowEmailCapture();
@@ -453,9 +454,9 @@
               <svg width="15" height="15" viewBox="0 0 32 32" fill="none" aria-hidden="true"><path fill="currentColor" d="M16.03 4.2A11.72 11.72 0 0 0 5.9 21.78L4.25 27.8l6.17-1.62A11.7 11.7 0 1 0 16.03 4.2Zm5.3 14.15c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.73.94-.9 1.13-.16.2-.33.22-.61.08-.29-.15-1.22-.45-2.32-1.43-.86-.76-1.44-1.7-1.6-1.99-.17-.29-.02-.44.13-.59.13-.13.29-.33.43-.5.15-.16.2-.28.3-.48.1-.2.05-.37-.02-.52-.08-.15-.64-1.55-.88-2.12-.23-.56-.47-.48-.64-.49h-.55c-.2 0-.52.08-.79.37-.26.29-1.03 1-1.03 2.44 0 1.43 1.06 2.82 1.2 3.02.15.2 2.07 3.16 5.02 4.43.7.3 1.25.48 1.68.62.7.22 1.34.19 1.85.11.56-.08 1.7-.7 1.95-1.37.24-.67.24-1.25.17-1.37-.07-.12-.26-.2-.55-.35Z"/></svg>
               WhatsApp
             </a>
-            <a href="https://www.upwork.com/freelancers/wordpressandshopifydeveloper" class="conv-popup-btn-ghost">
+            <a href="mailto:hi@lofts.studio" class="conv-popup-btn-ghost">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-              Upwork Messages
+              hi@lofts.studio
             </a>
           </div>
           <p class="conv-popup-note">Mon&ndash;Sat &middot; US &amp; UK hours covered</p>
@@ -473,7 +474,7 @@
             <label class="sr-only" for="convName">Your name</label>
             <input type="text"  name="name"    id="convName"    class="conv-field" placeholder="Your name"            required autocomplete="name" aria-describedby="convFormError" />
             <label class="sr-only" for="convEmail">Email address</label>
-            <input type="email" name="email"   id="convEmail"   class="conv-field" placeholder="Email handled in Upwork" required autocomplete="email" aria-describedby="convFormError" />
+            <input type="email" name="email"   id="convEmail"   class="conv-field" placeholder="your@email.com"       required autocomplete="email" aria-describedby="convFormError" />
             <label class="sr-only" for="convPhone">Phone or WhatsApp number</label>
             <input type="tel"   name="phone"   id="convPhone"   class="conv-field" placeholder="Phone / WhatsApp"      required autocomplete="tel" inputmode="tel" aria-describedby="convFormError" />
             <label class="sr-only" for="convMessage">Project details</label>
@@ -595,7 +596,7 @@
       } catch {
         if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
         if (errEl) {
-          errEl.textContent = 'Continue in Upwork Messages so the project record stays in one place.';
+          errEl.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
           errEl.style.display = '';
         }
         return;
@@ -609,6 +610,10 @@
     mountCookieBanner();
     if (document.body.classList.contains('landing-page-paid')) return;
     mountAccessibilityTools();
+    mountWhatsAppChat();
+    // Mount chatbot regardless of consent — but it won't persist history if declined.
+    mountChatbot();
+    mountMobileBar();
   }
 })();
 
