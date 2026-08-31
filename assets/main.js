@@ -163,7 +163,7 @@
         Free Audit
       </a>
       <a href="/#contact" class="btn btn-primary">
-        Get in touch
+        Start a project
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
       </a>`;
 
@@ -306,7 +306,7 @@
         </div>
         <a href="/free-audit" class="mnav-audit-link">Free 15-min Audit</a>
         <div class="mnav-foot">
-          <a href="/#contact" class="mnav-cta">Get in touch <span aria-hidden="true">→</span></a>
+          <a href="/#contact" class="mnav-cta">Start a project <span aria-hidden="true">→</span></a>
           <p class="mnav-meta">Multan &nbsp;·&nbsp; Dubai &nbsp;·&nbsp; US &amp; UK hours</p>
         </div>
       </div>`;
@@ -528,7 +528,8 @@
     if (href.startsWith('tel:')) eventName = 'phone_click';
     if (href.includes('wa.me/') || href.toLowerCase().includes('whatsapp')) eventName = 'whatsapp_click';
     if (href === '/#contact' || href === '#contact') eventName = 'contact_cta_click';
-    if (href.includes('/free-audit/')) eventName = 'audit_cta_click';
+    if (href.includes('/free-audit')) eventName = 'audit_cta_click';
+    if (href.includes('/book')) eventName = 'booking_cta_click';
     if (!eventName) return;
     trackMarketingEvent(eventName, {
       event_category: 'lead',
@@ -1207,12 +1208,7 @@
     if (primaryRoute === 'portfolio' && segments.length === 1) return;
 
     var isLandingPage = primaryRoute === 'services' || primaryRoute === 'locations' ||
-      primaryRoute === 'websites' || primaryRoute === 'work' ||
-      (primaryRoute === 'blog' && segments.length === 1) ||
-      (primaryRoute === 'tools' && segments.length === 1) ||
-      (primaryRoute === 'notes' && segments.length === 1) ||
-      primaryRoute === 'process' || primaryRoute === 'now' ||
-      pathname === '/about.html' || pathname === '/brand.html';
+      primaryRoute === 'websites' || primaryRoute === 'work';
 
     if (!isLandingPage || document.querySelector('[data-lofts-hero-stage]')) return;
 
@@ -1434,7 +1430,7 @@
   if (footerContainer && !publicFooter.classList.contains('lofts-compact-footer') && !footerContainer.querySelector('.lofts-footer-call')) {
     var footerCall = document.createElement('div');
     footerCall.className = 'lofts-footer-call';
-    footerCall.innerHTML = '<a class="lofts-footer-call__link" href="/#contact">Let&#39;s build what&#39;s next.</a><p class="lofts-footer-call__note">Tell us what needs to move: the whole site, one funnel, or the system behind it.</p>';
+    footerCall.innerHTML = '<div><span class="lofts-footer-call__eyebrow">A useful next step</span><a class="lofts-footer-call__link" href="/#contact">Bring us the page, funnel, or system that needs to move.</a><p class="lofts-footer-call__note">We will respond with the clearest first move, not a generic proposal.</p></div><div class="lofts-footer-call__actions"><a class="btn btn-primary" href="/#contact">Start a project <span aria-hidden="true">&rarr;</span></a><a class="btn btn-ghost" href="/free-audit">Run a free audit</a></div>';
     footerContainer.insertBefore(footerCall, footerContainer.firstChild);
   }
 

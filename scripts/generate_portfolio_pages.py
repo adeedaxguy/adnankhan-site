@@ -18,7 +18,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PORTFOLIO_DIR = ROOT / "portfolio"
 DATA_FILE = PORTFOLIO_DIR / "portfolio.json"
 INDEX_FILE = ROOT / "index.html"
-CACHE_VER = "20260810a"
+CACHE_VER = "20260901d"
 SITE_URL = "https://lofts.studio"
 GTM_HEAD = """<!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -155,14 +155,22 @@ def title_for(item: dict) -> str:
 
 
 def meta_desc_for(item: dict) -> str:
-    """SEO meta description — unique per project, under 155 chars."""
+    """Return a complete, human-readable meta description under 170 chars."""
     name = item["name"]
     tagline = item.get("tagline", "")
     platform = item.get("platform", "")
-    category = item.get("category", "")
     _, svc = service_for(platform)
-    base = f"See {name}, a Lofts Studio {svc} case study for {category}: {tagline}. Built for clarity, trust, performance, and conversion."
-    return base[:155].rstrip(" ,.;:-") + ("." if len(base) > 155 else "")
+    candidates = [
+        f"{name} {svc} case study: {tagline}. See the brief, platform, build priorities, and conversion approach.",
+        f"{name} case study: {tagline}. See the platform, project brief, and web development priorities.",
+        f"{name} web development case study. See the platform, project brief, SEO context, build priorities, and conversion approach.",
+    ]
+    for candidate in candidates:
+        clean = re.sub(r"\s+", " ", candidate).strip()
+        if 80 <= len(clean) <= 170:
+            return clean
+    clean = re.sub(r"\s+", " ", candidates[-1]).strip()
+    return clean[:166].rsplit(" ", 1)[0].rstrip(" ,.;:-") + "."
 
 
 def abs_url(path: str) -> str:
@@ -405,6 +413,7 @@ def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: 
     priority_items = "\n".join(
         f'<li style="margin-bottom:0.75rem;">{point}</li>' for point in ctx["priorities"]
     )
+    buyer_context = ctx["buyer"][:1].upper() + ctx["buyer"][1:]
     return f'''<section class="section-sm" style="padding:5rem 0;border-top:1px solid var(--line);">
   <div class="container">
     <div data-reveal class="case-depth-grid">
@@ -414,7 +423,7 @@ def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: 
       </div>
       <div>
         <p style="font-family:var(--font-serif);font-size:1.12rem;line-height:1.75;color:var(--ink);margin:0 0 1.5rem;">
-          {name} sits in a {ctx["market"]}. The page experience had to help {ctx["buyer"]}. That meant treating the build as more than a visual refresh: the structure, copy hierarchy, technical setup, and handoff all had to support the same commercial job.
+          {name} sits in a {ctx["market"]}. {buyer_context}. That meant treating the build as more than a visual refresh: the structure, copy hierarchy, technical setup, and handoff all had to support the same commercial job.
         </p>
         <div class="case-depth-cards">
           <div class="card" style="padding:1.25rem;">
@@ -424,7 +433,7 @@ def render_case_depth(item: dict, service_url: str, service_label: str, kw_str: 
           <div class="card" style="padding:1.25rem;">
             <p style="font-family:var(--font-sans);font-size:0.68rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.8rem;">SEO &amp; conversion notes</p>
             <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:0;">{ctx["seo"]}</p>
-            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:1rem 0 0;">Relevant search context includes {kw_str}. The goal is not keyword stuffing; it is making the project, platform, audience, and outcome legible.</p>
+            <p style="font-family:var(--font-serif);color:var(--ink-soft);line-height:1.7;margin:1rem 0 0;">Search intent around {service_label.lower()}, {category}, and {name} needs clear project context rather than repeated phrases. The page should make the platform, audience, work, and outcome legible.</p>
           </div>
         </div>
         <p style="font-family:var(--font-serif);font-size:1.04rem;line-height:1.75;color:var(--ink-soft);margin:0;">
@@ -472,6 +481,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     tagline  = item.get("tagline", "")
     summary  = item.get("summary", "")
     url      = item.get("url", "")
+    has_live_url = bool(url and not url.startswith(SITE_URL))
     image    = item.get("image", "")
     image_width = item.get("imageWidth")
     image_height = item.get("imageHeight")
@@ -490,7 +500,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     kw_str     = ", ".join(kws)
 
     # ── Screenshot / wordmark block ───────────────────────────────────────────
-    if image and not item.get("hideScreenshot"):
+    if image and not item.get("hideScreenshot") and has_live_url:
         url_display = url.replace("https://", "").replace("http://", "")
         image_dimensions = f' width="{image_width}" height="{image_height}"' if image_width and image_height else ""
         image_html = f'''<section class="section-sm" style="padding:1rem 0 5rem;">
@@ -508,7 +518,7 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
     else:
         url_display = url.replace("https://", "").replace("http://", "")
         cat = item.get("category", "").split("·")[0].strip()
-        visit_link = f'<a href="{url}" target="_blank" rel="noopener" style="display:inline-flex;margin-top:2.5rem;font-family:var(--font-sans);font-size:0.86rem;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px;align-items:center;gap:8px;">Visit {url_display} &nbsp;&rarr;</a>' if url else ""
+        visit_link = f'<a href="{url}" target="_blank" rel="noopener" style="display:inline-flex;margin-top:2.5rem;font-family:var(--font-sans);font-size:0.86rem;color:var(--ink);border-bottom:1px solid var(--ink);padding-bottom:2px;align-items:center;gap:8px;">Visit {url_display} &nbsp;&rarr;</a>' if has_live_url else ""
         image_html = f'''<section class="section-sm" style="padding:1rem 0 5rem;">
   <div class="container-narrow" data-reveal>
     <div style="position:relative;border-radius:var(--r-lg);padding:6rem 3rem 5rem;text-align:center;background:linear-gradient(155deg,var(--bg) 0%,var(--bg-soft) 60%,var(--surface) 100%);border:1px solid var(--line);">
@@ -583,8 +593,9 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){{dataLayer.push(arguments);}}gtag('js',new Date());gtag('config','G-1KT1MFDY8R');</script>
   <script>(function(){{try{{var m=localStorage.getItem('lofts-theme')||'device';var d=m==='dark'||(m==='device'&&window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches);document.documentElement.setAttribute('data-theme',d?'dark':'light');}}catch(e){{}}}})();</script>
+<link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/typography.css" />
-<link rel="stylesheet" href="/assets/design-system.css?v=20260809k" />
+<link rel="stylesheet" href="/assets/design-system.css?v={CACHE_VER}" />
 </head>
 <body>
 {GTM_BODY}
@@ -606,10 +617,10 @@ def render(item: dict, items: list, nav: str, footer: str) -> str:
       <p class="lead" style="margin-top:1.5rem;">{tagline}.</p>
       <div style="margin-top:1.4rem;border:1px solid var(--line);border-radius:var(--r-md);padding:1rem 1.15rem;max-width:720px;background:var(--surface);">
         <p style="font-family:var(--font-sans);font-size:0.72rem;text-transform:uppercase;letter-spacing:0.18em;color:var(--muted);margin:0 0 0.45rem;">Quick answer</p>
-        <p style="font-family:var(--font-serif);font-size:1.02rem;line-height:1.6;color:var(--ink-soft);margin:0;">Lofts Studio used {platform} web development for {name} to support a {category} experience with clearer structure, maintainable templates, and a direct path from visitor attention to enquiry or purchase.</p>
+        <p style="font-family:var(--font-serif);font-size:1.02rem;line-height:1.6;color:var(--ink-soft);margin:0;">Lofts Studio delivered the {platform} website work for {name}, with clearer structure, maintainable templates, and a direct path from visitor attention to enquiry or purchase.</p>
       </div>
       <div style="margin-top:2rem;display:flex;gap:0.75rem;flex-wrap:wrap;">
-        {f'<a href="{url}" target="_blank" rel="noopener" class="btn btn-primary">Visit live site &nbsp;&rarr;</a>' if url else ''}
+        {f'<a href="{url}" target="_blank" rel="noopener" class="btn btn-primary">Visit live site &nbsp;&rarr;</a>' if has_live_url else ''}
         <a href="/free-audit" class="btn btn-ghost">Audit a similar site</a>
         <a href="/portfolio" class="btn btn-ghost">&larr; All case studies</a>
       </div>
@@ -869,6 +880,7 @@ def render_listing(items: list, nav: str, footer: str) -> str:
   }}
 }}
 </script>
+<link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/typography.css" />
 </head>
 <body class="portfolio-page">

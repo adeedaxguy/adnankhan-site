@@ -8,7 +8,6 @@
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const finePointer = window.matchMedia("(hover: hover) and (pointer: fine)");
   const layoutSequence = ["standard"];
-  let itemMap = new Map();
   let observer;
 
   function allCards() {
@@ -16,41 +15,7 @@
   }
 
   function visibleCards() {
-    return allCards().filter((card) => card.style.display !== "none");
-  }
-
-  function hydrateCard(card) {
-    if (card.dataset.portfolioHydrated === "true") return;
-    const caseLink = card.querySelector('.work-card-img-link[href*="/portfolio/"]');
-    const currentMedia = card.querySelector(".work-card-img img, .work-card-designed");
-    if (!caseLink || !currentMedia) return;
-
-    const slug = caseLink.getAttribute("href").split("/").pop().replace(/\.html$/, "");
-    const item = itemMap.get(slug);
-    if (!item || !item.image) return;
-
-    const fallback = currentMedia.cloneNode(true);
-    const image = document.createElement("img");
-    image.src = item.image;
-    image.alt = `${item.name} — ${item.platform || "website"} project`;
-    image.width = Number(item.imageWidth) || 2200;
-    image.height = Number(item.imageHeight) || 1375;
-    image.loading = "lazy";
-    image.decoding = "async";
-    if ((Number(card.dataset.index) || 0) < 6) {
-      image.fetchPriority = "high";
-    }
-    image.onerror = () => {
-      image.replaceWith(fallback);
-      card.dataset.portfolioHydrated = "fallback";
-    };
-    currentMedia.replaceWith(image);
-    card.dataset.portfolioHydrated = "true";
-  }
-
-  function hydrateAllCards() {
-    if (!itemMap.size) return;
-    allCards().forEach(hydrateCard);
+    return allCards().filter((card) => !card.classList.contains("is-page-hidden"));
   }
 
   function addPointerDepth(link) {
@@ -74,7 +39,6 @@
   }
 
   function prepareCards() {
-    hydrateAllCards();
     const cards = visibleCards();
     cards.forEach((card, index) => {
       const layout = layoutSequence[index % layoutSequence.length];
@@ -104,22 +68,8 @@
     }, { rootMargin: "0px 0px -7% 0px", threshold: 0.08 });
   }
 
-  async function loadPortfolioData() {
-    try {
-      const response = await fetch("/portfolio/portfolio.json", { credentials: "same-origin" });
-      if (!response.ok) return;
-      const data = await response.json();
-      itemMap = new Map((data.items || []).map((item) => [item.slug, item]));
-      hydrateAllCards();
-      prepareCards();
-    } catch (_error) {
-      // The authored preview remains usable when JSON or an image is unavailable.
-    }
-  }
-
   setupObserver();
   root.classList.add("portfolio-motion-ready");
   document.addEventListener("portfolio:render", prepareCards);
   prepareCards();
-  loadPortfolioData();
 })();
