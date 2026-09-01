@@ -3888,10 +3888,6 @@ html[data-theme="dark"] .nav-bar.scrolled {
     will-change: transform !important;
   }
 
-  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card:nth-child(n + 12) {
-    display: none !important;
-  }
-
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail].is-dragging > .pf-card,
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail].is-dragging > .pf-card--featured {
     transition: none !important;
@@ -4007,13 +4003,9 @@ html[data-theme="dark"] .nav-bar.scrolled {
     -webkit-overflow-scrolling: touch;
   }
 
-  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card:nth-child(-n + 11),
-  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card--featured:nth-child(-n + 11) {
+  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card:nth-child(n),
+  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card--featured:nth-child(n) {
     display: block !important;
-  }
-
-  .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card:nth-child(n + 12) {
-    display: none !important;
   }
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .pf-card,
