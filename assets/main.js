@@ -835,8 +835,10 @@
   const announcer = stage.querySelector('[data-portfolio-announcer]');
   const desktop = window.matchMedia('(min-width: 821px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const autoplayDelay = 1800;
-  const resumeDelay = 2600;
+  const autoplayDelay = 1450;
+  const resumeDelay = 1000;
+  const wheelThreshold = 10;
+  const wheelCooldown = 140;
   let active = 0;
   let dragStart = null;
   let dragMoved = false;
@@ -985,7 +987,7 @@
     const dx = event.clientX - dragStart.x;
     const dy = event.clientY - dragStart.y;
     if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) dragMoved = true;
-    dragOffset = Math.max(-110, Math.min(110, dx * .42));
+    dragOffset = Math.max(-120, Math.min(120, dx * .52));
     if (!dragFrame) dragFrame = requestAnimationFrame(paintDragOffset);
   }, { passive: true });
 
@@ -1005,7 +1007,7 @@
       suppressClick = true;
       window.setTimeout(function () { suppressClick = false; }, 0);
     }
-    if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy)) selectManually(startActive + (dx < 0 ? 1 : -1));
+    if (Math.abs(dx) > 36 && Math.abs(dx) > Math.abs(dy)) selectManually(startActive + (dx < 0 ? 1 : -1));
     else resumeAfterInteraction();
   });
 
@@ -1035,12 +1037,12 @@
     event.preventDefault();
     wheelAccumulator += horizontal;
     window.clearTimeout(wheelResetTimer);
-    wheelResetTimer = window.setTimeout(function () { wheelAccumulator = 0; }, 180);
-    if (Math.abs(wheelAccumulator) < 12) return;
+    wheelResetTimer = window.setTimeout(function () { wheelAccumulator = 0; }, wheelCooldown);
+    if (Math.abs(wheelAccumulator) < wheelThreshold) return;
     selectManually(active + (wheelAccumulator > 0 ? 1 : -1));
     wheelAccumulator = 0;
     wheelLocked = true;
-    window.setTimeout(function () { wheelLocked = false; }, 180);
+    window.setTimeout(function () { wheelLocked = false; }, wheelCooldown);
   }, { passive: false });
 
   rail.addEventListener('pointerenter', function () {

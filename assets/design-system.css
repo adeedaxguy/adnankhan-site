@@ -3884,7 +3884,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
     opacity: 1 !important;
     transform: translate(-50%, -50%) translate3d(var(--rail-x, 0), var(--rail-y, 0), var(--rail-z, 0)) translateX(var(--portfolio-drag-x, 0px)) rotateY(var(--rail-rotate, 0deg)) rotateZ(var(--rail-tilt, 0deg)) scale(var(--rail-scale, 1)) !important;
     transform-origin: 50% 82%;
-    transition: transform 520ms cubic-bezier(.22, 1, .36, 1), opacity 360ms ease-out, filter 200ms ease-out;
+    transition: transform 420ms cubic-bezier(.2, .82, .24, 1), opacity 280ms ease-out, filter 180ms ease-out !important;
     will-change: transform !important;
   }
 
@@ -4022,7 +4022,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
     opacity: .72;
     transform: perspective(900px) rotateY(-5deg) scale(.96) !important;
     transform-origin: 50% 70%;
-    transition: transform 420ms cubic-bezier(.22, 1, .36, 1), opacity 280ms ease-out;
+    transition: transform 340ms cubic-bezier(.2, .82, .24, 1), opacity 220ms ease-out !important;
   }
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] > .is-rail-active {
