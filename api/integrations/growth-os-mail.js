@@ -33,6 +33,12 @@ function cleanText(value, limit) {
   return String(value || '').trim().slice(0, limit);
 }
 
+export function zohoMessage(toAddress, subject, content, mailFormat) {
+  return mailFormat === 'html'
+    ? { toAddress, subject, htmlContent: content }
+    : { toAddress, subject, content };
+}
+
 function messageTime(message) {
   const raw = Number(message.receivedTime || message.sentDateInGMT || message.receivedTimeInGMT || 0);
   return raw > 0 && raw < 1000000000000 ? raw * 1000 : raw;
@@ -89,7 +95,8 @@ async function sendMessage(req, body) {
   const idempotencyKey = cleanText(req.headers.get('idempotency-key'), 160);
   const toAddress = cleanEmail(body.toAddress);
   const subject = cleanText(body.subject, 180);
-  const content = cleanText(body.content, 10000);
+  const mailFormat = body.mailFormat === 'html' ? 'html' : 'plaintext';
+  const content = cleanText(body.content, mailFormat === 'html' ? 30000 : 10000);
   const kind = ['new', 'reply', 'transactional'].includes(body.kind) ? body.kind : 'new';
   if (idempotencyKey.length < 16 || !EMAIL_PATTERN.test(toAddress) || !subject || !content) {
     return json(400, { error: 'A valid recipient, message, and idempotency key are required.' });
@@ -120,7 +127,7 @@ async function sendMessage(req, body) {
     }
 
     try {
-      const sent = await sendZohoEmail(PROJECT_ID, { toAddress, subject, content });
+      const sent = await sendZohoEmail(PROJECT_ID, zohoMessage(toAddress, subject, content, mailFormat));
       const result = { id: sent.messageId, acceptedAt: new Date(sent.sentAt).toISOString(), sender: sent.fromEmail };
       await Promise.all([kvCmd('SET', resultKey, JSON.stringify(result), 'EX', '604800'), kvCmd('DEL', lockKey)]);
       return json(200, result);
