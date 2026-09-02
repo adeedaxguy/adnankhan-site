@@ -4,7 +4,7 @@ import { kvCmd } from '../_lib/automation.js';
 export const config = { runtime: 'edge' };
 
 const PROJECT_ID = 'lofts-studio';
-const DAILY_NEW_LIMIT = 50;
+export const DAILY_NEW_LIMIT = 100;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function json(status, payload) {
@@ -33,10 +33,12 @@ function cleanText(value, limit) {
   return String(value || '').trim().slice(0, limit);
 }
 
-export function zohoMessage(toAddress, subject, content, mailFormat) {
-  return mailFormat === 'html'
+export function zohoMessage(toAddress, subject, content, mailFormat, replyToMessageId) {
+  const message = mailFormat === 'html'
     ? { toAddress, subject, htmlContent: content }
     : { toAddress, subject, content };
+  if (replyToMessageId) message.replyToMessageId = cleanText(replyToMessageId, 200);
+  return message;
 }
 
 function messageTime(message) {
@@ -127,7 +129,7 @@ async function sendMessage(req, body) {
     }
 
     try {
-      const sent = await sendZohoEmail(PROJECT_ID, zohoMessage(toAddress, subject, content, mailFormat));
+      const sent = await sendZohoEmail(PROJECT_ID, zohoMessage(toAddress, subject, content, mailFormat, kind === 'reply' ? body.replyToMessageId : ''));
       const result = { id: sent.messageId, acceptedAt: new Date(sent.sentAt).toISOString(), sender: sent.fromEmail };
       await Promise.all([kvCmd('SET', resultKey, JSON.stringify(result), 'EX', '604800'), kvCmd('DEL', lockKey)]);
       return json(200, result);

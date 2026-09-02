@@ -253,16 +253,12 @@ function utcScheduleFields(value) {
   };
 }
 
-async function postMessage(connection, message) {
+export function zohoPostRequest(connection, message) {
   const dc = DATA_CENTERS[dataCenter(connection.dataCenter)];
-  return fetch(`${dc.mail}/api/accounts/${encodeURIComponent(connection.accountId)}/messages`, {
-    method: 'POST',
-    headers: {
-      Accept: 'application/json',
-      Authorization: `Zoho-oauthtoken ${connection.accessToken}`,
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
+  const replyToMessageId = String(message.replyToMessageId || '').trim().slice(0, 200);
+  return {
+    url: `${dc.mail}/api/accounts/${encodeURIComponent(connection.accountId)}/messages${replyToMessageId ? `/${encodeURIComponent(replyToMessageId)}` : ''}`,
+    body: {
       fromAddress: connection.fromEmail,
       toAddress: message.toAddress,
       subject: message.subject,
@@ -270,8 +266,21 @@ async function postMessage(connection, message) {
       mailFormat: message.mailFormat,
       encoding: 'UTF-8',
       askReceipt: 'no',
-      ...utcScheduleFields(message.scheduleAt),
-    }),
+      ...(replyToMessageId ? { action: 'reply' } : utcScheduleFields(message.scheduleAt)),
+    },
+  };
+}
+
+async function postMessage(connection, message) {
+  const request = zohoPostRequest(connection, message);
+  return fetch(request.url, {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      Authorization: `Zoho-oauthtoken ${connection.accessToken}`,
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(request.body),
   });
 }
 
@@ -292,7 +301,7 @@ export async function sendZohoEmail(projectId, message) {
     throw serviceError('invalid_message', 'Recipient, subject, and message are required.');
   }
   connection = await validAccessToken(id, connection, client);
-  const outgoing = { toAddress, subject, content, mailFormat, scheduleAt: message.scheduleAt };
+  const outgoing = { toAddress, subject, content, mailFormat, scheduleAt: message.scheduleAt, replyToMessageId: message.replyToMessageId };
   let response = await postMessage(connection, outgoing);
   if (response.status === 401) {
     connection = await validAccessToken(id, connection, client, true);
