@@ -4,15 +4,15 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script data-lofts-theme-init>(function(){var m="light";try{m=localStorage.getItem("lofts-theme")==="dark"?"dark":"light"}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m}())</script>
-<title>Free AEO Checker: SEO &amp; AI Search Readiness | Lofts</title>
-<meta name="description" content="Run a free AEO checker for one page: indexability, schema, answer clarity, entity proof, internal links, mobile UX, and conversion path." />
+<title>Free AEO Checker: SEO &amp; Answer Readiness | Lofts</title>
+<meta name="description" content="Check one public page for observable SEO and answer readiness: search access, answer structure, proof, and conversion path." />
 <link rel="canonical" href="https://lofts.studio/tools/seo-aeo-checker.html" />
 <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
 <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <link rel="stylesheet" href="/assets/styles.css?v=20260822a" />
-<meta property="og:title" content="Free AEO Checker for SEO &amp; AI Search Readiness" />
-<meta property="og:description" content="Check one page for indexability, schema, answer clarity, entity proof, internal links, mobile UX, and a useful next action." />
+<meta property="og:title" content="Free AEO Checker for SEO &amp; Answer Readiness" />
+<meta property="og:description" content="Check one page for observable search access, answer structure, proof, and conversion-path signals." />
 <meta property="og:url" content="https://lofts.studio/tools/seo-aeo-checker.html" />
 <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
 <script type="application/ld+json">
@@ -145,6 +145,12 @@
             </div>
             <p>This uses the same safe audit backend as the website audit report, then translates the findings into a focused SEO/AEO readiness view.</p>
           </form>
+          <div class="diagnostic-explain-list" aria-labelledby="aeo-limitations" style="margin-top: 1rem;">
+            <article>
+              <strong id="aeo-limitations">What this can and cannot tell you</strong>
+              <p>It checks observable structure on one public page. It cannot guarantee rankings, AI citations, crawl timing, or commercial results. AEO adds answer and proof checks to SEO; it does not replace the underlying search work.</p>
+            </article>
+          </div>
           <div class="diagnostic-badges" data-dataforseo-audit-refresh="2026-08-08" aria-label="AEO checker routes" style="margin-top: 1rem;">
             <a href="/blog/seo-compatibility-checker.html">SEO checker guide</a>
             <a href="/blog/website-audit-report-for-ai-search.html">AI-search audit</a>
@@ -276,6 +282,11 @@ const input = document.getElementById('aeoUrl');
 const btn = document.getElementById('aeoBtn');
 const resultsWrap = document.getElementById('resultsWrap');
 const resultsEl = document.getElementById('aeoResults');
+let aeoCheckId = null;
+
+function trackAeoEvent(eventName, params = {}) {
+  if (typeof window.loftsTrackEvent === 'function') window.loftsTrackEvent(eventName, params);
+}
 
 const params = new URLSearchParams(location.search);
 if (params.get('url')) {
@@ -287,6 +298,8 @@ form.addEventListener('submit', async (event) => {
   event.preventDefault();
   const url = input.value.trim();
   if (!url) return;
+  aeoCheckId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+  trackAeoEvent('aeo_check_started', { aeo_check_id: aeoCheckId, source: 'aeo-checker' });
   btn.disabled = true;
   btn.textContent = 'Checking...';
   resultsWrap.hidden = false;
@@ -301,6 +314,7 @@ form.addEventListener('submit', async (event) => {
     if (data.error) throw new Error(data.error);
     renderAeo(data);
   } catch (error) {
+    trackAeoEvent('aeo_check_failed', { aeo_check_id: aeoCheckId, source: 'aeo-checker' });
     resultsEl.innerHTML = `<div class="aeo-error"><strong>Could not check that page.</strong><p>${esc(error.message || 'Try the full website audit or check the URL.')}</p></div>`;
   } finally {
     btn.disabled = false;
@@ -329,8 +343,7 @@ function renderAeo(data) {
   const score = Math.round((earned / totalWeight) * 100);
   const grade = score >= 90 ? 'A' : score >= 78 ? 'B' : score >= 64 ? 'C' : score >= 48 ? 'D' : 'F';
   const failed = checks.filter(item => !item.pass).sort((a, b) => impactWeight(b.impact) - impactWeight(a.impact));
-  const categories = ['Search foundation', 'Answer clarity', 'Structured data', 'Trust and proof', 'Conversion path', 'Technical experience']
-    .map(label => categoryScore(label, checks));
+  const categories = buildAeoCategories(checks);
   const host = (data.url || '').replace(/^https?:\/\//, '').replace(/\/$/, '');
 
   resultsEl.innerHTML = `
@@ -354,6 +367,13 @@ function renderAeo(data) {
       </div>
       <a href="/free-audit">Run full audit report →</a>
     </div>
+    <section class="diagnostic-explain" aria-labelledby="aeo-findings-title">
+      <span class="eyebrow">Observed next steps</span>
+      <h3 id="aeo-findings-title">Four explainable result categories.</h3>
+      <div class="diagnostic-explain-list">
+        ${categories.map(category => categoryRecommendationHtml(category)).join('')}
+      </div>
+    </section>
     <div class="aeo-check-grid">
       ${checks.map(item => `<article class="aeo-check ${item.pass ? 'pass' : 'fail'}">
         <span>${item.pass ? '✓' : '!'}</span>
@@ -365,6 +385,37 @@ function renderAeo(data) {
       </article>`).join('')}
     </div>`;
   resultsWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  trackAeoEvent('aeo_check_completed', {
+    aeo_check_id: aeoCheckId,
+    source: 'aeo-checker',
+    failed_categories: categories.filter(category => category.failed.length).map(category => category.key).join(',') || 'none'
+  });
+}
+
+function buildAeoCategories(checks) {
+  const definitions = [
+    { key: 'search_access', label: 'Search access', groups: ['Search foundation', 'Technical experience'], why: 'Search and answer systems need a reachable, indexable, mobile-ready page before other improvements can matter.', action: 'Resolve the technical blockers in a developer-led review.', href: '/services/technical-seo-audit.html?source=aeo-search-access' },
+    { key: 'answer_structure', label: 'Answer structure', groups: ['Answer clarity', 'Structured data'], why: 'A page is easier to understand when its main answer, sections, and visible-to-schema structure agree.', action: 'Use the full audit to prioritize the page and site context.', href: '/free-audit?source=aeo-answer-structure' },
+    { key: 'proof_entity_clarity', label: 'Proof and entity clarity', groups: ['Trust and proof'], why: 'Claims need visible evidence and a clear business context before a visitor can verify or choose them.', action: 'Review the wider site for proof, trust, and page-flow gaps.', href: '/free-audit?source=aeo-proof-entity' },
+    { key: 'conversion_path', label: 'Conversion path', groups: ['Conversion path'], why: 'A useful answer still needs a clear, low-friction next action for a serious visitor.', action: 'Review the page for focused message, proof, and CTA improvements.', href: '/services/landing-page-sprint.html?source=aeo-conversion' }
+  ];
+  return definitions.map(definition => {
+    const items = checks.filter(item => definition.groups.includes(item.category));
+    const base = categoryScoreFromItems(items);
+    return { ...definition, ...base, failed: items.filter(item => !item.pass) };
+  });
+}
+
+function categoryRecommendationHtml(category) {
+  const first = category.failed[0];
+  const observed = first ? `${first.label}: ${first.value}` : 'No failed observable check in this category.';
+  const next = first ? first.fix : 'Keep the current implementation under review as the page changes.';
+  return `<article>
+    <strong>${esc(category.label)} ${category.failed.length ? 'needs attention' : 'looks healthy'}</strong>
+    <p><strong>Observed:</strong> ${esc(observed)}</p>
+    <p><strong>Why it matters:</strong> ${esc(category.why)}</p>
+    <p><strong>Next action:</strong> ${esc(next)} <a href="${esc(category.href)}">${esc(category.action)}</a></p>
+  </article>`;
 }
 
 function buildAeoChecks(data) {
@@ -415,10 +466,13 @@ function impactWeight(impact) {
 }
 
 function categoryScore(label, checks) {
-  const items = checks.filter(item => item.category === label);
+  return { label, ...categoryScoreFromItems(checks.filter(item => item.category === label)) };
+}
+
+function categoryScoreFromItems(items) {
   const total = items.reduce((sum, item) => sum + impactWeight(item.impact), 0) || 1;
   const earned = items.reduce((sum, item) => sum + (item.pass ? impactWeight(item.impact) : 0), 0);
-  return { label, score: Math.round((earned / total) * 100), passed: items.filter(item => item.pass).length, total: items.length };
+  return { score: Math.round((earned / total) * 100), passed: items.filter(item => item.pass).length, total: items.length };
 }
 
 function summaryText(score, failed, data) {
@@ -431,7 +485,7 @@ function esc(value) {
   return String(value == null ? '' : value).replace(/[&<>'"]/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[ch]));
 }
 </script>
-<script src="/assets/main.js?v=20260901d" defer></script>
+<script src="/assets/main.js?v=20260904a" defer></script>
 <script src="/assets/widgets.js?v=20260731d" defer></script>
 </body>
 </html>

@@ -424,6 +424,17 @@
   document.querySelectorAll('form[data-lead]').forEach(form => {
     const formStartedAt = Date.now();
     const submissionId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
+    const auditFunnel = form.getAttribute('data-audit-funnel');
+    const auditParams = new URLSearchParams(window.location.search);
+    const auditSourceCandidate = auditParams.get('source') || 'direct';
+    const auditSource = /^[a-z0-9_-]{1,64}$/i.test(auditSourceCandidate) ? auditSourceCandidate : 'direct';
+    if (auditFunnel) {
+      ['audit_id', 'result_category'].forEach(name => {
+        const value = auditParams.get(name);
+        const field = form.querySelector(`[name="${name}"]`);
+        if (field && value && /^[a-z0-9_-]{1,96}$/i.test(value)) field.value = value;
+      });
+    }
     const honeypot = document.createElement('input');
     honeypot.type = 'text';
     honeypot.name = '_gotcha';
@@ -441,6 +452,14 @@
         event_label: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form',
         form_location: window.location.pathname
       });
+      if (auditFunnel) {
+        trackMarketingEvent('audit_service_inquiry_started', {
+          source: auditSource,
+          audit_id: form.querySelector('[name="audit_id"]')?.value || 'none',
+          result_category: form.querySelector('[name="result_category"]')?.value || 'direct',
+          service_route: auditFunnel
+        });
+      }
     });
 
     form.addEventListener('submit', async e => {
@@ -491,6 +510,22 @@
             event_label: leadSource,
             form_location: window.location.pathname,
             ...attribution
+          });
+        }
+        if (auditFunnel === 'technical') {
+          trackMarketingEvent('audit_service_inquiry_submitted', {
+            source: auditSource,
+            audit_id: form.querySelector('[name="audit_id"]')?.value || 'none',
+            result_category: form.querySelector('[name="result_category"]')?.value || 'direct',
+            service_route: auditFunnel
+          });
+        }
+        if (auditFunnel === 'landing-sprint') {
+          trackMarketingEvent('landing_sprint_inquiry_submitted', {
+            source: auditSource,
+            audit_id: form.querySelector('[name="audit_id"]')?.value || 'none',
+            result_category: form.querySelector('[name="result_category"]')?.value || 'direct',
+            service_route: auditFunnel
           });
         }
         // Reset button state in case the form is reopened later

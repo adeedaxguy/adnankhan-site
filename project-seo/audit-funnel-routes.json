@@ -1,0 +1,44 @@
+{
+  "routes": [
+    {
+      "path": "/free-audit",
+      "file": "free-audit/index.html",
+      "canonical": "https://lofts.studio/free-audit",
+      "schema": ["WebApplication", "FAQPage"],
+      "links": ["/tools/seo-aeo-checker.html", "/services/technical-seo-audit.html", "/services/landing-page-sprint.html"],
+      "events": ["audit_started", "audit_completed", "audit_failed", "audit_pdf_downloaded", "audit_result_route_selected", "audit_service_inquiry_started", "audit_service_inquiry_submitted"]
+    },
+    {
+      "path": "/tools/seo-aeo-checker.html",
+      "file": "tools/seo-aeo-checker.html",
+      "canonical": "https://lofts.studio/tools/seo-aeo-checker.html",
+      "schema": ["WebApplication", "FAQPage"],
+      "links": ["/free-audit", "/services/technical-seo-audit.html"],
+      "events": ["aeo_check_started", "aeo_check_completed"]
+    },
+    {
+      "path": "/services/technical-seo-audit.html",
+      "file": "services/technical-seo-audit.html",
+      "canonical": "https://lofts.studio/services/technical-seo-audit.html",
+      "schema": ["Service"],
+      "links": ["/free-audit", "/tools/seo-aeo-checker.html"],
+      "events": ["audit_service_inquiry_started", "audit_service_inquiry_submitted"]
+    },
+    {
+      "path": "/services/landing-page-sprint.html",
+      "file": "services/landing-page-sprint.html",
+      "canonical": "https://lofts.studio/services/landing-page-sprint.html",
+      "schema": ["Service", "FAQPage"],
+      "links": ["/free-audit", "/services/technical-seo-audit.html"],
+      "events": ["landing_sprint_inquiry_submitted"]
+    },
+    {
+      "path": "/blog/website-structure-audit-report.html",
+      "file": "blog/website-structure-audit-report.html",
+      "canonical": "https://lofts.studio/blog/website-structure-audit-report.html",
+      "schema": ["Article", "FAQPage"],
+      "links": ["/free-audit", "/tools/seo-aeo-checker.html", "/services/technical-seo-audit.html", "/services/landing-page-sprint.html"],
+      "events": []
+    }
+  ]
+}

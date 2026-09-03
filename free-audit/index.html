@@ -4,14 +4,14 @@
 <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <script data-lofts-theme-init>(function(){var m="light";try{m=localStorage.getItem("lofts-theme")==="dark"?"dark":"light"}catch(e){}document.documentElement.dataset.theme=m;document.documentElement.style.colorScheme=m}())</script>
-  <title>Free Site Audit Report + PDF Generator | Lofts Studio</title>
-  <meta name="description" content="Enter a URL to run a free site audit report with PDF output, SEO/AEO checks, design review, broken links, trust gaps, and prioritized fixes." />
+  <title>Free Site Audit Report with PDF | Lofts Studio</title>
+  <meta name="description" content="Run a free site audit report with a downloadable PDF, prioritized crawl, answer-readiness, trust, broken-link, and conversion findings." />
   <link rel="canonical" href="https://lofts.studio/free-audit" />
   <meta name="robots" content="index,follow,max-image-preview:large,max-snippet:-1" />
   <link rel="icon" href="/favicon.ico" sizes="any" /><link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" /><link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
-  <meta property="og:title" content="Free Site Audit Report + PDF Generator" />
-  <meta property="og:description" content="Enter a URL for a site audit report covering design, SEO/AEO, performance, trust, broken links, and prioritized fixes." />
+  <meta property="og:title" content="Free Site Audit Report with PDF" />
+  <meta property="og:description" content="Get a prioritized report and downloadable PDF for crawl, answer-readiness, trust, broken links, and conversion friction." />
   <meta property="og:url" content="https://lofts.studio/free-audit" />
   <meta property="og:site_name" content="Lofts Studio" />
   <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
@@ -386,8 +386,8 @@
     <div class="container diagnostic-shell">
       <div class="diagnostic-copy" data-reveal>
         <span class="eyebrow">Free tool · Website audit · Site audit PDF</span>
-        <h1 class="h-display">Free website audit. Prioritized fix plan.</h1>
-        <p class="lead"><strong>Enter any public website URL.</strong> The audit checks design, SEO/AEO compatibility, performance, trust signals, and broken links, then turns the findings into a plain-English report with prioritized next actions and PDF output.</p>
+        <h1 class="h-display">Free site audit report with a prioritized fix plan.</h1>
+        <p class="lead"><strong>Enter any public website URL.</strong> This site audit report checks crawl and search access, answer-readiness, trust, broken links, and conversion friction, then returns a website audit report with a downloadable website audit PDF. It reports observable page signals; it does not promise rankings, AI citations, or leads.</p>
         <div class="diagnostic-badges" aria-label="Audit checks included">
           <span>Design friction</span>
           <span>Site audit report</span>
@@ -419,6 +419,9 @@
           </div>
           <p>Use it on your own site, a competitor, or a prospect. The report is written for non-technical clients first, then shows the technical checks underneath.</p>
         </form>
+        <div class="diagnostic-explain-list" aria-label="Report outline" style="margin-top: 1rem;">
+          <article><strong>Report outline</strong><p>Executive summary, highest-priority fixes, design and trust review, technical snapshot, broken-link findings, and the next route when a specialist review is appropriate.</p></article>
+        </div>
       </div>
     </div>
   </section>
@@ -551,6 +554,7 @@ const whatWeFix  = document.getElementById('whatWeFix');
 const loadingUrl = document.getElementById('auditLoadingUrl');
 const heroSection = document.querySelector('.diagnostic-hero');
 let currentAuditData = null;
+let currentAuditContext = null;
 
 function placeAuditOutputAfterForm() {
   if (!heroSection || !loading || !errorEl || !resultsEl || !whatWeFix) return;
@@ -607,16 +611,14 @@ function getAuditAttribution() {
   };
 }
 
+function auditSource() {
+  const source = new URLSearchParams(window.location.search).get('source') || 'direct';
+  return /^[a-z0-9_-]{1,64}$/i.test(source) ? source : 'direct';
+}
+
 function trackAuditEvent(eventName, params = {}) {
-  const payload = {
-    ...params,
-    page_path: window.location.pathname,
-    page_title: document.title,
-    ...getAuditAttribution()
-  };
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({ event: eventName, ...payload });
-  if (typeof gtag !== 'undefined') gtag('event', eventName, payload);
+  const payload = { ...params, source: auditSource() };
+  if (typeof window.loftsTrackEvent === 'function') window.loftsTrackEvent(eventName, payload);
 }
 
 persistAuditAttribution();
@@ -638,7 +640,11 @@ form.addEventListener('submit', async (e) => {
   btn.disabled = true;
   requestAnimationFrame(() => scrollToAuditOutput(loading));
 
-  trackAuditEvent('audit_run', { event_category: 'engagement', event_label: url, audited_url: url });
+  currentAuditContext = {
+    id: window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`,
+    resultCategory: 'pending'
+  };
+  trackAuditEvent('audit_started', { audit_id: currentAuditContext.id, result_category: 'pending' });
 
   try {
     const res  = await fetch('/api/audit', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ url }) });
@@ -646,12 +652,14 @@ form.addEventListener('submit', async (e) => {
     loading.classList.remove('show');
     btn.disabled = false;
     if (data.error) {
+      trackAuditEvent('audit_failed', { audit_id: currentAuditContext.id, result_category: 'failed' });
       errorEl.classList.add('show');
       scrollToAuditOutput(errorEl);
       return;
     }
     renderResults(data);
   } catch (error) {
+    trackAuditEvent('audit_failed', { audit_id: currentAuditContext?.id || 'audit', result_category: 'failed' });
     loading.classList.remove('show');
     btn.disabled = false;
     setAuditError(error.message || 'The audit service could not check that page right now.');
@@ -662,9 +670,26 @@ form.addEventListener('submit', async (e) => {
 
 resultsEl.addEventListener('click', (event) => {
   const button = event.target.closest('[data-download-report]');
-  if (!button) return;
-  event.preventDefault();
-  downloadAuditReport();
+  if (button) {
+    event.preventDefault();
+    downloadAuditReport();
+    return;
+  }
+  const route = event.target.closest('[data-audit-route]');
+  if (!route) return;
+  trackAuditEvent('audit_result_route_selected', {
+    audit_id: currentAuditContext?.id || 'audit',
+    result_category: route.dataset.auditRoute || currentAuditContext?.resultCategory || 'review'
+  });
+});
+
+resultsEl.addEventListener('focusin', (event) => {
+  if (!currentAuditContext || !event.target.closest('.audit-cta-form') || currentAuditContext.inquiryStarted) return;
+  currentAuditContext.inquiryStarted = true;
+  trackAuditEvent('audit_service_inquiry_started', {
+    audit_id: currentAuditContext.id,
+    result_category: currentAuditContext.resultCategory || 'review'
+  });
 });
 
 async function parseAuditResponse(res) {
@@ -774,10 +799,23 @@ function renderResults(data) {
     sectionsHtml += `</div>`;
   }
 
+  const route = deriveAuditRoute(checks);
+  currentAuditContext = { ...(currentAuditContext || {}), resultCategory: route.category, inquiryStarted: false };
   const issueCopy = (critical + high) > 0
     ? `We found ${critical + high} high-impact item${critical + high === 1 ? '' : 's'} worth reviewing first.`
     : 'The obvious checks look healthy; the next gains usually come from offer clarity, proof, and page flow.';
   const ctaHtml = `
+    <div class="audit-cta-card" data-audit-route-card>
+      <div>
+        <h3>${esc(route.heading)}</h3>
+        <p>${esc(route.reason)}</p>
+        <p><strong>Next deliverable:</strong> ${esc(route.deliverable)}</p>
+      </div>
+      <div>
+        <a class="report-btn" href="${route.href}" data-audit-route="${route.category}">${esc(route.cta)}</a>
+        <p style="font-size:0.82rem;color:var(--muted);margin:0.85rem 0 0;line-height:1.5">You can also <button type="button" class="report-btn" data-download-report>download the report</button> and work through the listed fixes independently.</p>
+      </div>
+    </div>
     <div class="audit-cta-card">
       <div>
         <h3>Want the fix plan for ${esc(auditUrl.replace(/^https?:\/\//, ''))}?</h3>
@@ -828,7 +866,43 @@ function renderResults(data) {
   whatWeFix.style.display = 'block';
   scrollToAuditOutput(resultsEl);
 
-  trackAuditEvent('audit_complete', { event_category: 'engagement', value: score, score });
+  trackAuditEvent('audit_completed', {
+    audit_id: currentAuditContext.id,
+    result_category: route.category,
+    score
+  });
+}
+
+function deriveAuditRoute(checks) {
+  const failed = Object.values(checks || {}).filter(check => !check.pass);
+  const labels = failed.map(check => `${check.label || ''} ${check.value || ''}`).join(' ');
+  const technical = /noindex|canonical|schema|status|https|crawl|redirect|robots|sitemap|index/i.test(labels);
+  const conversion = /hero|cta|trust|proof|form|conversion|design|message|offer|first screen|mobile/i.test(labels);
+  const params = new URLSearchParams({ source: 'audit-conversion', audit_id: currentAuditContext?.id || 'audit', result_category: technical && !conversion ? 'technical' : conversion && !technical ? 'conversion' : 'review' });
+  if (technical && !conversion) return {
+    category: 'technical',
+    heading: 'Start with the search and technical blockers.',
+    reason: 'This report found an observable access, indexability, canonical, schema, or crawl signal that should be resolved before a page rebuild.',
+    deliverable: 'A developer-led technical SEO audit with prioritized implementation steps.',
+    cta: 'Request implementation review',
+    href: `/services/technical-seo-audit.html?${params}`
+  };
+  if (conversion && !technical) return {
+    category: 'conversion',
+    heading: 'The page needs a focused conversion rebuild.',
+    reason: 'This report found observable friction in the offer, proof, first screen, CTA, or enquiry path rather than a crawl or indexing blocker.',
+    deliverable: 'A landing-page sprint focused on message match, proof, mobile-first clarity, and one measured action.',
+    cta: 'Request page review',
+    href: `/services/landing-page-sprint.html?${params}`
+  };
+  return {
+    category: 'review',
+    heading: 'Use the report to choose the next review.',
+    reason: 'The findings span more than one area or need human context before assigning implementation work.',
+    deliverable: 'A human review that prioritizes the report without forcing a service route.',
+    cta: 'Send report for review',
+    href: '#auditLeadName'
+  };
 }
 
 function buildReportPreview(report, linkAudit, technicalData) {
@@ -960,9 +1034,9 @@ function downloadAuditReport() {
   a.click();
   a.remove();
   setTimeout(() => URL.revokeObjectURL(url), 1000);
-  trackAuditEvent('audit_report_download', {
-    event_category: 'engagement',
-    audited_url: currentAuditData.url || '',
+  trackAuditEvent('audit_pdf_downloaded', {
+    audit_id: currentAuditContext?.id || 'audit',
+    result_category: currentAuditContext?.resultCategory || 'review',
     score: currentAuditData.score || 0
   });
   setDownloadButtonState('complete');
@@ -1009,12 +1083,6 @@ async function submitAuditFixPlan(event) {
       page_title: document.title,
       ...getAuditAttribution()
     };
-    trackAuditEvent('form_submit_attempt', {
-      event_category: 'lead',
-      event_label: 'free-audit-report',
-      form_location: '/free-audit',
-      audited_url: currentAuditData.url || ''
-    });
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -1023,25 +1091,9 @@ async function submitAuditFixPlan(event) {
     const data = await res.json().catch(() => ({}));
     if (!res.ok || data.success !== true) throw new Error(data.message || 'Submission failed');
 
-    trackAuditEvent('form_submit', {
-      event_category: 'lead',
-      event_label: 'free-audit-report',
-      form_location: '/free-audit'
-    });
-    trackAuditEvent('generate_lead', {
-      event_category: 'lead',
-      event_label: 'free-audit-report',
-      form_location: '/free-audit',
-      page_title: document.title,
-      value: currentAuditData.score || 0,
-      score: currentAuditData.score || 0,
-      audited_url: currentAuditData.url || ''
-    });
-    trackAuditEvent('audit_fix_plan_request', {
-      event_category: 'lead',
-      value: currentAuditData.score || 0,
-      score: currentAuditData.score || 0,
-      audited_url: currentAuditData.url || ''
+    trackAuditEvent('audit_service_inquiry_submitted', {
+      audit_id: currentAuditContext?.id || 'audit',
+      result_category: currentAuditContext?.resultCategory || 'review'
     });
     if (status) {
       status.textContent = 'Sent. We will review the report and reply with the first fixes to discuss.';
@@ -1049,12 +1101,9 @@ async function submitAuditFixPlan(event) {
     }
     if (btn) btn.textContent = 'Report sent';
   } catch (err) {
-    trackAuditEvent('form_submit_error', {
-      event_category: 'lead',
-      event_label: 'free-audit-report',
-      form_location: '/free-audit',
-      audited_url: currentAuditData.url || '',
-      error_message: err && err.message ? String(err.message).slice(0, 120) : 'Submission failed'
+    trackAuditEvent('audit_service_inquiry_failed', {
+      audit_id: currentAuditContext?.id || 'audit',
+      result_category: currentAuditContext?.resultCategory || 'review'
     });
     if (status) {
       status.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
@@ -1527,6 +1576,6 @@ function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
-<script src="/assets/main.js?v=20260901d" defer></script>
+<script src="/assets/main.js?v=20260904a" defer></script>
 </body>
 </html>
