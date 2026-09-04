@@ -287,7 +287,7 @@ def update_posts_json() -> None:
                 "readingTime": "6 min",
                 "primaryKeyword": primary,
                 "secondaryKeyword": "industry website design",
-                "funnelTo": "/free-audit/",
+                "funnelTo": "/free-audit",
                 "featured": False,
                 "published": True,
             })

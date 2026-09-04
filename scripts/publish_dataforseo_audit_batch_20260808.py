@@ -462,7 +462,7 @@ def update_posts_json():
             "readingTime": "7 min",
             "primaryKeyword": post["primary"],
             "secondaryKeyword": post["secondary"],
-            "funnelTo": "/free-audit/",
+            "funnelTo": "/free-audit",
             "featured": False,
             "published": True,
         }

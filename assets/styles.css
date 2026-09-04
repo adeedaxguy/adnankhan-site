@@ -9888,6 +9888,12 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-facts dt { display: flex; align-items: center; gap: 0.45rem; color: #68756f; font-size: 0.74rem; }
 .booking-facts dt svg { width: 15px; height: 15px; }
 .booking-facts dd { margin: 0; font-size: 0.78rem; font-weight: 700; text-align: right; }
+.booking-prep { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #d9dfdc; }
+.booking-prep h2 { margin: 0; font-family: var(--font-serif); font-size: 1.45rem; letter-spacing: 0; }
+.booking-prep p,
+.booking-prep li { color: #5a6761; font-size: 0.85rem; line-height: 1.65; }
+.booking-prep p { margin: 0.8rem 0 0; }
+.booking-prep ul { display: grid; gap: 0.45rem; margin: 0.9rem 0 0; padding-left: 1.1rem; }
 .booking-tool { min-width: 0; border: 1px solid #d4dbd7; border-radius: 8px; background: #fff; box-shadow: 0 18px 50px rgba(24, 39, 31, 0.07); }
 .booking-tool-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.35rem; border-bottom: 1px solid #e1e6e3; }
 .booking-tool-head h2,

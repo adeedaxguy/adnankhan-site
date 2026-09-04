@@ -104,7 +104,7 @@ def make_service_business_post(
         "featured": False,
         "intentCardHtml": f"""<aside class="post-intent-card" aria-labelledby="{slug}-audit">
       <h2 id="{slug}-audit">Want this mapped for your own website?</h2>
-      <form class="post-audit-launcher" action="/free-audit/" method="get">
+      <form class="post-audit-launcher" action="/free-audit" method="get">
         <label for="{slug}-audit-url">Website URL to audit</label>
         <div class="post-audit-row">
           <input id="{slug}-audit-url" name="url" type="url" inputmode="url" placeholder="https://example.com" autocomplete="url" required />
@@ -197,7 +197,7 @@ POSTS = [
         ],
         related_links=[
             ("Website design by industry", "/websites", "parent commercial page for service-business website work"),
-            ("Free website audit", "/free-audit/", "low-friction entry point for owners unsure what to fix"),
+            ("Free website audit", "/free-audit", "low-friction entry point for owners unsure what to fix"),
             ("Technical SEO audit", "/services/technical-seo-audit.html", "implementation-led technical support"),
             ("SEO/AEO checker", "/tools/seo-aeo-checker.html", "quick self-check for answer clarity and indexability"),
         ],
@@ -252,7 +252,7 @@ POSTS = [
         related_links=[
             ("Veterinary website design", "/websites/veterinary", "main commercial page for the niche"),
             ("Medical clinic websites", "/websites/medical-clinics", "adjacent clinic architecture"),
-            ("Free website audit", "/free-audit/", "starting point for clinic owners"),
+            ("Free website audit", "/free-audit", "starting point for clinic owners"),
             ("Mobile lead flow audit", "/blog/mobile-lead-flow-audit.html", "supporting mobile conversion guide"),
         ],
     ),
@@ -307,7 +307,7 @@ POSTS = [
             ("Insurance and finance work", "/work/insurance-finance", "proof-led commercial page"),
             ("Conversion path audit", "/blog/website-conversion-path-audit.html", "how quote traffic becomes leads"),
             ("Technical SEO audit", "/services/technical-seo-audit.html", "crawl and schema support"),
-            ("Free website audit", "/free-audit/", "first step for an underperforming agency site"),
+            ("Free website audit", "/free-audit", "first step for an underperforming agency site"),
         ],
     ),
     make_service_business_post(
@@ -334,7 +334,7 @@ POSTS = [
             ("Opticians and eye care websites", "/websites/opticians", "main niche page"),
             ("Medical clinic websites", "/websites/medical-clinics", "adjacent healthcare structure"),
             ("SEO/AEO checker", "/tools/seo-aeo-checker.html", "quick page clarity check"),
-            ("Free website audit", "/free-audit/", "entry point for practice owners"),
+            ("Free website audit", "/free-audit", "entry point for practice owners"),
         ],
     ),
     make_service_business_post(
@@ -361,7 +361,7 @@ POSTS = [
             ("Dentist website design", "/websites/dentists", "current parent healthcare page"),
             ("Medical clinic websites", "/websites/medical-clinics", "clinic architecture reference"),
             ("Website conversion path audit", "/blog/website-conversion-path-audit.html", "consultation flow support"),
-            ("Free website audit", "/free-audit/", "first diagnostic step"),
+            ("Free website audit", "/free-audit", "first diagnostic step"),
         ],
     ),
     make_service_business_post(
@@ -388,7 +388,7 @@ POSTS = [
             ("Landscaping website design", "/websites/landscaping", "adjacent local-service page"),
             ("Portfolio", "/portfolio", "Lofts proof architecture"),
             ("Core Web Vitals checklist", "/blog/core-web-vitals-redesign-checklist.html", "image-speed support"),
-            ("Free website audit", "/free-audit/", "lead path for visual-service businesses"),
+            ("Free website audit", "/free-audit", "lead path for visual-service businesses"),
         ],
     ),
     make_service_business_post(
@@ -415,7 +415,7 @@ POSTS = [
             ("Landscaping website design", "/websites/landscaping", "main niche page"),
             ("Websites by industry", "/websites", "parent industry hub"),
             ("Website lead funnel audit", "/blog/website-lead-funnel-audit.html", "conversion support"),
-            ("Free website audit", "/free-audit/", "first step for local service owners"),
+            ("Free website audit", "/free-audit", "first step for local service owners"),
         ],
     ),
     make_service_business_post(
@@ -426,7 +426,7 @@ POSTS = [
         category="SEO",
         primary="business website development audit",
         secondary="company website development checklist",
-        funnel_to="/free-audit/",
+        funnel_to="/free-audit",
         funnel_label="Free Website Audit Report",
         market_signal="Broad website development demand is huge but vague. The practical opportunity for Lofts is to intercept owners before a rebuild with an audit checklist that turns broad demand into a qualified website-improvement conversation.",
         searcher_problem="The owner knows the website is not working, but may not know whether the problem is indexation, content, trust, speed, design, tracking, or offer clarity. The checklist should help identify the first constraint.",
@@ -439,7 +439,7 @@ POSTS = [
             ("Tracking", "Measure audit starts, contact clicks, form submits, and phone clicks.", "SEO should be judged by business actions."),
         ],
         related_links=[
-            ("Free website audit", "/free-audit/", "diagnostic entry point"),
+            ("Free website audit", "/free-audit", "diagnostic entry point"),
             ("Technical SEO audit", "/services/technical-seo-audit.html", "crawl/indexing implementation"),
             ("Website design by industry", "/websites", "commercial service hub"),
             ("Website structure audit report", "/blog/website-structure-audit-report.html", "supporting structure guide"),
@@ -453,7 +453,7 @@ POSTS = [
         category="SEO",
         primary="market my website",
         secondary="market my website local leads",
-        funnel_to="/free-audit/",
+        funnel_to="/free-audit",
         funnel_label="Free Website Audit Report",
         market_signal="Market my website is broad and buyer-led. The useful Lofts angle is to help owners understand that marketing a weak website starts with fixing the destination: page intent, trust, speed, internal links, and conversion measurement.",
         searcher_problem="A business owner searching this phrase wants more visibility, but paid traffic, SEO, social posts, and outreach all fail if the website does not answer the visitor's need. The page should explain the order of operations.",
@@ -466,7 +466,7 @@ POSTS = [
             ("Conversion path", "Route visitors to audit, quote, booking, or contact.", "Traffic without action is only a vanity metric."),
         ],
         related_links=[
-            ("Free website audit", "/free-audit/", "starting point for owners asking how to market the site"),
+            ("Free website audit", "/free-audit", "starting point for owners asking how to market the site"),
             ("Website design by industry", "/websites", "commercial service hub"),
             ("SEO Insights to Leads Workflow", "/blog/seo-insights-to-leads-workflow.html", "GSC-to-action workflow"),
             ("Contact Lofts Studio", "/#contact", "direct consultation path"),
@@ -482,7 +482,7 @@ POSTS = [
         "readingTime": "8 min",
         "primaryKeyword": "SEO audit report template for leads",
         "secondaryKeyword": "service website SEO audit report",
-        "funnelTo": "/free-audit/",
+        "funnelTo": "/free-audit",
         "funnelLabel": "Free Website Audit Report",
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-lead-audit-now">
@@ -560,7 +560,7 @@ POSTS = [
         "readingTime": "8 min",
         "primaryKeyword": "website conversion path audit",
         "secondaryKeyword": "turn SEO traffic into leads",
-        "funnelTo": "/free-audit/",
+        "funnelTo": "/free-audit",
         "funnelLabel": "Free Website Audit Report",
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-conversion-audit-now">
@@ -639,7 +639,7 @@ POSTS = [
         "readingTime": "12 min",
         "primaryKeyword": "website structure audit report",
         "secondaryKeyword": "website audit report for free",
-        "funnelTo": "/free-audit/",
+        "funnelTo": "/free-audit",
         "funnelLabel": "Free Website Audit Report",
         "featured": False,
         "intentCardHtml": """<aside class="post-intent-card" aria-labelledby="run-structure-audit-now">
@@ -1070,7 +1070,7 @@ POSTS = [
             ("h2", "Where this fits inside a full Shopify speed audit"),
             ("p", "LCP is one important metric, not the whole performance story. Interaction to Next Paint, Cumulative Layout Shift, JavaScript execution, app governance, collection filtering, product media, checkout-adjacent scripts, and theme maintainability all matter. But LCP is often the most visible failure because it controls when the page first feels useful."),
             ("p", "If your store has strong products but the first screen feels slow, start here. Find the LCP element, prioritize it, reduce the noise around it, and then move through the rest of the performance stack with discipline."),
-            ("p", "For a broader review, use the <a href=\"/free-audit/\">free audit</a>, compare the related <a href=\"/blog/passing-core-web-vitals-on-shopify.html\">Core Web Vitals guide for Shopify</a>, or review the <a href=\"/blog/shopify-technical-seo-audit-checklist.html\">Shopify technical SEO audit checklist</a>. If the store needs implementation, the relevant service page is <a href=\"/services/speed-optimization.html\">Shopify speed optimization</a>."),
+            ("p", "For a broader review, use the <a href=\"/free-audit\">free audit</a>, compare the related <a href=\"/blog/passing-core-web-vitals-on-shopify.html\">Core Web Vitals guide for Shopify</a>, or review the <a href=\"/blog/shopify-technical-seo-audit-checklist.html\">Shopify technical SEO audit checklist</a>. If the store needs implementation, the relevant service page is <a href=\"/services/speed-optimization.html\">Shopify speed optimization</a>."),
             ("h2", "Sources worth reading"),
             ("ul", [
                 "<a href=\"https://web.dev/articles/lcp\" rel=\"nofollow noopener\">web.dev: Largest Contentful Paint</a>",
@@ -2715,7 +2715,7 @@ def gen_sitemap():
         "/process/": ("0.7", "monthly"),
         "/tools/": ("0.7", "monthly"),
         "/now/": ("0.6", "weekly"),
-        "/privacy.html": ("0.3", "yearly"),
+        "/privacy": ("0.3", "yearly"),
         "/terms.html": ("0.3", "yearly"),
         "/cookie-policy.html": ("0.3", "yearly"),
     }

@@ -22,7 +22,7 @@ const pages = [
     keyword: "website audit report PDF sample",
     job: "show what a useful sample report should include before a business trusts a one-click score",
     primary: "/free-audit",
-    secondary: "/blog/site-audit-report-pdf.html",
+    secondary: "/free-audit",
   },
   {
     file: "blog/free-seo-audit-report-pdf.html",
@@ -82,7 +82,7 @@ const pages = [
     keyword: "technical SEO audit report template",
     job: "turn technical findings into developer-ready fixes and validation criteria",
     primary: "/services/technical-seo-audit.html",
-    secondary: "/blog/site-audit-report-pdf.html",
+    secondary: "/free-audit",
   },
   {
     file: "blog/service-website-audit-report-checklist.html",
@@ -122,7 +122,7 @@ const pages = [
     keyword: "site audit report sample",
     job: "show sample evidence and explain which fixes matter first",
     primary: "/free-audit",
-    secondary: "/blog/site-audit-report-pdf.html",
+    secondary: "/free-audit",
   },
   {
     file: "blog/website-audit-report-generator-free.html",
@@ -254,7 +254,7 @@ for (const p of pages) {
           <a href="/blog/website-structure-audit-report.html">Structure audit guide</a>
           <a href="/tools/seo-aeo-checker.html">SEO/AEO checker</a>`,
       `<a href="/blog/website-audit-report-pdf-sample.html">What the PDF should include</a>
-          <a href="/blog/site-audit-report-pdf.html">Site audit PDF format</a>
+          <a href="/free-audit">Site audit PDF format</a>
           <a href="/blog/website-audit-report-generator-free.html">Generator output guide</a>
           <a href="/blog/website-structure-audit-report.html">Structure audit guide</a>
           <a href="/tools/seo-aeo-checker.html">SEO/AEO checker</a>`
@@ -326,7 +326,7 @@ for (const p of pages) {
       <div style="display:flex;flex-wrap:wrap;gap:.75rem;">
         <a class="btn btn-primary" href="/free-audit">Run the free audit</a>
         <a class="btn btn-ghost" href="/blog/technical-seo-audit-report-template.html">Technical report template</a>
-        <a class="btn btn-ghost" href="/blog/site-audit-report-pdf.html">Site audit PDF format</a>
+        <a class="btn btn-ghost" href="/free-audit">Site audit PDF format</a>
       </div>
     </div>
   </div>
@@ -353,7 +353,7 @@ for (const p of pages) {
     </div>
     <div class="work-grid" data-reveal>
       <article class="card"><span class="tag-pill">Run</span><h3>Free site audit report</h3><p>Use the live report when you need a current crawl, trust, broken-link, AEO, and conversion snapshot.</p><a class="btn-editorial" href="/free-audit">Open audit tool <span aria-hidden="true">&rarr;</span></a></article>
-      <article class="card"><span class="tag-pill">Read</span><h3>Site audit PDF format</h3><p>Use the PDF guide when you need evidence fields, issue ownership, and a fix order.</p><a class="btn-editorial" href="/blog/site-audit-report-pdf.html">Read format guide <span aria-hidden="true">&rarr;</span></a></article>
+      <article class="card"><span class="tag-pill">Read</span><h3>Site audit PDF format</h3><p>Use the PDF guide when you need evidence fields, issue ownership, and a fix order.</p><a class="btn-editorial" href="/free-audit">Read format guide <span aria-hidden="true">&rarr;</span></a></article>
       <article class="card"><span class="tag-pill">Check</span><h3>AEO readiness</h3><p>Use the focused checker when one page needs answer clarity, schema, entity proof, and internal links.</p><a class="btn-editorial" href="/tools/seo-aeo-checker.html">Run AEO checker <span aria-hidden="true">&rarr;</span></a></article>
     </div>
   </div>
@@ -374,7 +374,7 @@ for (const p of pages) {
   for (const post of data.posts || []) {
     if (updates.has(post.slug)) {
       post.excerpt = updates.get(post.slug);
-      post.funnelTo = post.funnelTo || "/free-audit/";
+      post.funnelTo = post.funnelTo || "/free-audit";
     }
   }
   write(file, `${JSON.stringify(data, null, 2)}\n`);
@@ -392,7 +392,7 @@ Lofts Studio connects site audit report, free website audit report, AEO checker,
 - [Free Website Audit Report](https://lofts.studio/free-audit) - live site audit report with PDF output, SEO/AEO checks, trust gaps, broken links, and prioritized fixes.
 - [SEO and AEO Compatibility Checker](https://lofts.studio/tools/seo-aeo-checker.html) - one-page checker for indexability, answer clarity, schema, entity proof, internal links, mobile UX, and conversion path.
 - [Website Structure Audit Report](https://lofts.studio/blog/website-structure-audit-report.html) - structure, crawl path, internal link, AI-search, and lead-path audit guide.
-- [Site Audit Report PDF](https://lofts.studio/blog/site-audit-report-pdf.html) - PDF format, evidence fields, owners, fix priority, and validation criteria.
+- [Site Audit Report PDF](https://lofts.studio/free-audit) - PDF format, evidence fields, owners, fix priority, and validation criteria.
 - [Website Conversion Path Audit](https://lofts.studio/blog/website-conversion-path-audit.html) - query-to-lead path review for first screen, proof, CTA, form, analytics, and follow-up.
 - [Technical SEO Audit Service](https://lofts.studio/services/technical-seo-audit.html) - implementation-led crawl, indexation, schema, redirect, Core Web Vitals, search appearance, and AEO audit support.
 <!-- 2026-08-08-AUDIT-REPORT-CLUSTER:END -->

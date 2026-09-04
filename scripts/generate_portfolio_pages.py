@@ -137,7 +137,7 @@ def service_for(platform: str):
     for key, val in SERVICE_MAP.items():
         if key in p:
             return val
-    return ("/websites/", "Website Design & Development")
+    return ("/websites", "Website Design & Development")
 
 
 def title_for(item: dict) -> str:
@@ -321,7 +321,7 @@ def schema_graph_for(item: dict, page_desc: str, og_image: str, kw_list: list) -
                 "significantLink": [
                     f"{SITE_URL}/portfolio/",
                     f"{SITE_URL}{service_for(item.get('platform', ''))[0]}",
-                    f"{SITE_URL}/free-audit/",
+                    f"{SITE_URL}/free-audit",
                     f"{SITE_URL}/#contact",
                 ],
                 "inLanguage": "en",

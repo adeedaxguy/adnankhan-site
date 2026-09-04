@@ -379,7 +379,7 @@ def make_post(topic):
         "readingTime": "9 min",
         "primaryKeyword": topic["primary"],
         "secondaryKeyword": topic["secondary"],
-        "funnelTo": "/free-audit/",
+        "funnelTo": "/free-audit",
         "funnelLabel": "Free Website Audit Report",
         "featured": False,
         "intentCardHtml": intent_card(topic),
