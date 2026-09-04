@@ -2715,7 +2715,7 @@ def gen_sitemap():
         "/process/": ("0.7", "monthly"),
         "/tools/": ("0.7", "monthly"),
         "/now/": ("0.6", "weekly"),
-        "/privacy": ("0.3", "yearly"),
+        "/privacy.html": ("0.3", "yearly"),
         "/terms.html": ("0.3", "yearly"),
         "/cookie-policy.html": ("0.3", "yearly"),
     }
