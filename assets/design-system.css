@@ -7714,7 +7714,15 @@ html[data-theme="dark"] .home-service-world-ready .home-page .home-service-world
     opacity: .56 !important;
     filter: saturate(.92) contrast(1.04) !important;
     transform-origin: 50% 52%;
-    animation: lofts-service-fallback-breathe 6s ease-in-out infinite alternate;
+    animation: none !important;
+  }
+
+  .home-page .hero-title-line > span,
+  .home-page .hero-title-accent > span,
+  .home-page .hero-scroll-scene::after {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
 
