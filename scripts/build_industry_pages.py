@@ -249,7 +249,9 @@ def esc(s):
 
 
 def head(title, desc, canonical, jsonld_blocks, og_title=None):
-    og_title = og_title or title
+    title = html.unescape(title)
+    desc = html.unescape(desc)
+    og_title = html.unescape(og_title or title)
     blocks = "\n".join(
         '<script type="application/ld+json">\n' + b + '\n</script>' for b in jsonld_blocks
     )
