@@ -6464,6 +6464,10 @@ html.lofts-motion-ready [data-lofts-reveal].lofts-in-view {
   animation: none !important;
 }
 
+.home-page .home-footer .footer-label {
+  color: #ff9b83;
+}
+
 /* Concise SEO research notes use the same studio system as the main journal. */
 body.lofts-brief-page {
   min-height: 100vh;

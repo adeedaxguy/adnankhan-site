@@ -41,9 +41,7 @@
     window.addEventListener(eventName, start, { once: true, passive: true });
   });
 
-  if ('requestIdleCallback' in window) {
-    window.requestIdleCallback(start, { timeout: 900 });
-  } else {
-    window.setTimeout(start, 450);
-  }
+  // Keep the useful first paint free of the 3D runtime. Desktop visitors start
+  // the scene as soon as they interact; compact and reduced-motion clients keep
+  // the fully rendered static service map.
 }());
