@@ -1740,7 +1740,7 @@
   if (!fullCss && !analyticsId && !widgetsSrc && !gtmId) return;
   if (fullCss && window.location.hash) loadFullCss();
   if (fullCss) afterFirstPaint(loadFullCss, 180);
-  if (widgetsSrc) afterFirstPaint(loadWidgets, 900);
+  if (widgetsSrc) afterFirstPaint(loadWidgets, 8000);
   document.addEventListener('cookie:consent', function (event) {
     if (event.detail === 'accepted') loadAnalytics();
   });

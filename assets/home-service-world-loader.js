@@ -8,6 +8,11 @@
   var compact = window.matchMedia('(max-width: 980px), (pointer: coarse)').matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
   var lowMemory = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
+  if (reducedMotion || compact || saveData || lowMemory) {
+    document.documentElement.classList.add('home-service-world-unavailable');
+    return;
+  }
+
   var canvas = document.createElement('canvas');
   var gl = null;
   try {
@@ -16,7 +21,7 @@
   } catch (error) {
     gl = null;
   }
-  if (reducedMotion || compact || saveData || lowMemory || !gl) {
+  if (!gl) {
     document.documentElement.classList.add('home-service-world-unavailable');
     return;
   }
