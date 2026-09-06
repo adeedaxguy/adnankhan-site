@@ -8,7 +8,20 @@
   var compact = window.matchMedia('(max-width: 980px), (pointer: coarse)').matches;
   var saveData = !!(navigator.connection && navigator.connection.saveData);
   var lowMemory = !!(navigator.deviceMemory && navigator.deviceMemory <= 4);
-  if (reducedMotion || compact || saveData || lowMemory) return;
+  var canvas = document.createElement('canvas');
+  var gl = null;
+  try {
+    gl = canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true }) ||
+      canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true });
+  } catch (error) {
+    gl = null;
+  }
+  if (reducedMotion || compact || saveData || lowMemory || !gl) {
+    document.documentElement.classList.add('home-service-world-unavailable');
+    return;
+  }
+  var loseContext = gl.getExtension('WEBGL_lose_context');
+  if (loseContext) loseContext.loseContext();
 
   var started = false;
   var events = ['pointermove', 'pointerdown', 'keydown', 'scroll'];
