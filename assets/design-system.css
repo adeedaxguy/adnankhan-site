@@ -3728,6 +3728,124 @@ html[data-theme="dark"] .nav-bar.scrolled {
   }
 }
 
+@media (max-width: 640px) {
+  html {
+    scroll-padding-top: 76px;
+  }
+
+  body {
+    padding-top: 60px;
+  }
+
+  .nav-bar,
+  .nav-bar.scrolled,
+  .home-page .nav-bar,
+  .home-page .nav-bar.scrolled {
+    height: 60px !important;
+    min-height: 60px !important;
+    background: color-mix(in srgb, var(--rhythm-canvas, var(--bg)) 96%, transparent) !important;
+  }
+
+  .nav-inner,
+  .home-page .nav-inner {
+    width: min(100% - 1.5rem, 1480px) !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    padding: 8px 0 !important;
+    gap: .45rem !important;
+  }
+
+  .nav-links,
+  .nav-actions,
+  .home-page .nav-links,
+  .home-page .nav-actions {
+    display: none !important;
+  }
+
+  .nav-logo,
+  .home-page .nav-logo,
+  .home-page .nav-bar .nav-logo {
+    min-width: 0;
+    padding: 0 0 2px !important;
+    font-size: 1.14rem !important;
+    line-height: 1 !important;
+  }
+
+  .nav-logo .dot,
+  .home-page .nav-logo .dot,
+  .home-page .nav-bar .nav-logo .dot {
+    margin-left: .32rem !important;
+    font-size: .38rem !important;
+    letter-spacing: .32em !important;
+  }
+
+  .theme-toggle {
+    margin-left: auto !important;
+    padding: 2px !important;
+    border-radius: 5px !important;
+  }
+
+  .theme-opt {
+    width: 34px !important;
+    height: 34px !important;
+    border-radius: 4px !important;
+  }
+
+  .menu-btn,
+  .home-page .menu-btn {
+    display: inline-flex !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 5px !important;
+    flex: 0 0 auto;
+  }
+
+  .diagnostic-page {
+    padding-top: 60px;
+  }
+
+  .home-page .hero-scroll-scene,
+  .home-service-world-ready .home-page .hero-scroll-scene {
+    padding-top: max(5.25rem, calc(60px + 1.35rem)) !important;
+  }
+
+  .home-page .hero-main > .eyebrow {
+    margin-bottom: 1rem !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .nav-inner,
+  .home-page .nav-inner {
+    width: min(100% - 1rem, 1480px) !important;
+    gap: .32rem !important;
+  }
+
+  .nav-logo,
+  .home-page .nav-logo,
+  .home-page .nav-bar .nav-logo {
+    font-size: 1.04rem !important;
+  }
+
+  .nav-logo .dot,
+  .home-page .nav-logo .dot,
+  .home-page .nav-bar .nav-logo .dot {
+    font-size: .34rem !important;
+    letter-spacing: .24em !important;
+  }
+
+  .theme-opt {
+    width: 32px !important;
+    height: 32px !important;
+  }
+
+  .menu-btn,
+  .home-page .menu-btn {
+    width: 38px !important;
+    height: 38px !important;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .lofts-char,
   .hero-title-line > span,
