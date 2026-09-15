@@ -8056,3 +8056,22 @@ body:not(.home-page) section.paper.services-hero:first-of-type .services-hero__c
     justify-content: center;
   }
 }
+
+@media (max-width: 640px) {
+  .home-page .hero-scroll-scene,
+  .home-service-world-ready .home-page .hero-scroll-scene {
+    padding-top: max(7.25rem, calc(60px + env(safe-area-inset-top, 0px) + 3rem)) !important;
+  }
+
+  .home-page .hero-main,
+  .home-service-world-ready .home-page .hero-main {
+    padding-top: 0 !important;
+  }
+}
+
+@media (max-width: 340px) {
+  .home-page .hero-scroll-scene,
+  .home-service-world-ready .home-page .hero-scroll-scene {
+    padding-top: max(7rem, calc(60px + env(safe-area-inset-top, 0px) + 2.75rem)) !important;
+  }
+}
