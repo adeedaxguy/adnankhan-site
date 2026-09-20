@@ -1800,32 +1800,6 @@
       "imageHeight": 1375
     },
     {
-      "slug": "borisgarreau",
-      "name": "Boris Garreau",
-      "tagline": "Art magazine with shop and members area",
-      "summary": "Minimalist art magazine on WordPress with a WooCommerce shop, blog carousel, multilingual translation, newsletter and member / pay-per-view content.",
-      "url": "https://borisgarreau.com",
-      "image": "/assets/work/portfolio-hd/borisgarreau.webp",
-      "platform": "WordPress",
-      "category": "Art · Editorial",
-      "stack": [
-        "WordPress",
-        "WooCommerce",
-        "Multilingual"
-      ],
-      "metric": {
-        "value": "Editorial",
-        "label": "Magazine + shop"
-      },
-      "year": "2023",
-      "role": "Developer · WordPress build",
-      "featured": false,
-      "published": true,
-      "displayOrder": 68,
-      "imageWidth": 2200,
-      "imageHeight": 1375
-    },
-    {
       "slug": "downtowncondoguys",
       "name": "Downtown Condo Guys",
       "tagline": "Real-estate site for downtown condos",
@@ -1847,7 +1821,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 69,
+      "displayOrder": 68,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -1873,7 +1847,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 70,
+      "displayOrder": 69,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -1899,7 +1873,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 71,
+      "displayOrder": 70,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -1925,7 +1899,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 72,
+      "displayOrder": 71,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -1951,7 +1925,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 73,
+      "displayOrder": 72,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -1977,7 +1951,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 74,
+      "displayOrder": 73,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2003,7 +1977,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 75,
+      "displayOrder": 74,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2029,7 +2003,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 76,
+      "displayOrder": 75,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2055,7 +2029,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 77,
+      "displayOrder": 76,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2081,7 +2055,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 78,
+      "displayOrder": 77,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2107,7 +2081,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 79,
+      "displayOrder": 78,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2133,7 +2107,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 80,
+      "displayOrder": 79,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2159,7 +2133,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 81,
+      "displayOrder": 80,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2185,7 +2159,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 82,
+      "displayOrder": 81,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2211,7 +2185,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 83,
+      "displayOrder": 82,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2237,7 +2211,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 84,
+      "displayOrder": 83,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2263,7 +2237,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 85,
+      "displayOrder": 84,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2289,7 +2263,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 86,
+      "displayOrder": 85,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2315,7 +2289,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 87,
+      "displayOrder": 86,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2341,7 +2315,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 88,
+      "displayOrder": 87,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2367,7 +2341,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 89,
+      "displayOrder": 88,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2393,7 +2367,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 90,
+      "displayOrder": 89,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2419,7 +2393,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 91,
+      "displayOrder": 90,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2445,7 +2419,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 92,
+      "displayOrder": 91,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2471,7 +2445,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 93,
+      "displayOrder": 92,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2497,7 +2471,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 94,
+      "displayOrder": 93,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2523,7 +2497,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 95,
+      "displayOrder": 94,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2549,7 +2523,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 96,
+      "displayOrder": 95,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2575,7 +2549,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 97,
+      "displayOrder": 96,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2601,7 +2575,7 @@
       "role": "Developer · BigCommerce build",
       "featured": false,
       "published": true,
-      "displayOrder": 98,
+      "displayOrder": 97,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2627,7 +2601,7 @@
       "role": "Developer · Custom build",
       "featured": false,
       "published": true,
-      "displayOrder": 99,
+      "displayOrder": 98,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2653,7 +2627,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 100,
+      "displayOrder": 99,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2679,7 +2653,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 101,
+      "displayOrder": 100,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2705,7 +2679,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 102,
+      "displayOrder": 101,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2731,7 +2705,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 103,
+      "displayOrder": 102,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2757,7 +2731,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 104,
+      "displayOrder": 103,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2783,7 +2757,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 105,
+      "displayOrder": 104,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2809,7 +2783,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 106,
+      "displayOrder": 105,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2835,7 +2809,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 107,
+      "displayOrder": 106,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2861,7 +2835,7 @@
       "role": "Developer · Squarespace build",
       "featured": false,
       "published": true,
-      "displayOrder": 108,
+      "displayOrder": 107,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2887,7 +2861,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 109,
+      "displayOrder": 108,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2913,7 +2887,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 110,
+      "displayOrder": 109,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2939,7 +2913,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 111,
+      "displayOrder": 110,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2965,7 +2939,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 112,
+      "displayOrder": 111,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -2991,7 +2965,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 113,
+      "displayOrder": 112,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3017,7 +2991,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 114,
+      "displayOrder": 113,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3043,7 +3017,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 115,
+      "displayOrder": 114,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3069,7 +3043,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 116,
+      "displayOrder": 115,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3095,7 +3069,7 @@
       "role": "Shopify Developer · Theme & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 117,
+      "displayOrder": 116,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3121,7 +3095,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 118,
+      "displayOrder": 117,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3147,7 +3121,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 119,
+      "displayOrder": 118,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3173,7 +3147,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 120,
+      "displayOrder": 119,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3199,7 +3173,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 121,
+      "displayOrder": 120,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3225,7 +3199,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 122,
+      "displayOrder": 121,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3251,7 +3225,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 123,
+      "displayOrder": 122,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3277,7 +3251,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 124,
+      "displayOrder": 123,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3303,7 +3277,7 @@
       "role": "WooCommerce Developer · Build & setup",
       "featured": false,
       "published": true,
-      "displayOrder": 125,
+      "displayOrder": 124,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3329,7 +3303,7 @@
       "role": "Developer · WordPress build",
       "featured": false,
       "published": true,
-      "displayOrder": 126,
+      "displayOrder": 125,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3356,7 +3330,7 @@
       "role": "Shopify Developer · Catalogue support · Theme updates",
       "featured": false,
       "published": true,
-      "displayOrder": 127,
+      "displayOrder": 126,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3383,7 +3357,7 @@
       "role": "Developer · Website support · Content structure",
       "featured": false,
       "published": true,
-      "displayOrder": 128,
+      "displayOrder": 127,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3410,7 +3384,7 @@
       "role": "Developer · WordPress support",
       "featured": false,
       "published": true,
-      "displayOrder": 129,
+      "displayOrder": 128,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3437,7 +3411,7 @@
       "role": "Developer · WooCommerce setup · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 130,
+      "displayOrder": 129,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3464,7 +3438,7 @@
       "role": "Developer · Blog templates · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 131,
+      "displayOrder": 130,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3491,7 +3465,7 @@
       "role": "Shopify Developer · Theme updates",
       "featured": false,
       "published": true,
-      "displayOrder": 132,
+      "displayOrder": 131,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3518,7 +3492,7 @@
       "role": "Shopify Developer · Storefront support",
       "featured": false,
       "published": true,
-      "displayOrder": 133,
+      "displayOrder": 132,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3545,7 +3519,7 @@
       "role": "Developer · Website redesign support",
       "featured": false,
       "published": true,
-      "displayOrder": 134,
+      "displayOrder": 133,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3572,7 +3546,7 @@
       "role": "WordPress Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 135,
+      "displayOrder": 134,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3599,7 +3573,7 @@
       "role": "Shopify Developer · Migration support",
       "featured": false,
       "published": true,
-      "displayOrder": 136,
+      "displayOrder": 135,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3626,7 +3600,7 @@
       "role": "Shopify Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 137,
+      "displayOrder": 136,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3653,7 +3627,7 @@
       "role": "Developer · Ecommerce support",
       "featured": false,
       "published": true,
-      "displayOrder": 138,
+      "displayOrder": 137,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3680,7 +3654,7 @@
       "role": "WordPress Developer · Divi support",
       "featured": false,
       "published": true,
-      "displayOrder": 139,
+      "displayOrder": 138,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3707,7 +3681,7 @@
       "role": "Shopify Developer · Storefront support",
       "featured": false,
       "published": true,
-      "displayOrder": 140,
+      "displayOrder": 139,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3734,7 +3708,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 141,
+      "displayOrder": 140,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3761,7 +3735,7 @@
       "role": "WordPress Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 142,
+      "displayOrder": 141,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3788,7 +3762,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 143,
+      "displayOrder": 142,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3815,7 +3789,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 144,
+      "displayOrder": 143,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3842,7 +3816,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 145,
+      "displayOrder": 144,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3869,7 +3843,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 146,
+      "displayOrder": 145,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3896,7 +3870,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 147,
+      "displayOrder": 146,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3923,7 +3897,7 @@
       "role": "WordPress Developer · Editorial support",
       "featured": false,
       "published": true,
-      "displayOrder": 148,
+      "displayOrder": 147,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -3952,7 +3926,7 @@
       "role": "Developer · Website support",
       "featured": false,
       "published": true,
-      "displayOrder": 149
+      "displayOrder": 148
     },
     {
       "slug": "aussietechinc",
@@ -3979,7 +3953,7 @@
       "role": "Developer · Action-item delivery",
       "featured": false,
       "published": true,
-      "displayOrder": 150
+      "displayOrder": 149
     },
     {
       "slug": "durobuildings",
@@ -4006,7 +3980,7 @@
       "role": "Developer · Website issue resolution",
       "featured": false,
       "published": true,
-      "displayOrder": 151
+      "displayOrder": 150
     },
     {
       "slug": "nayelclinics",
@@ -4033,7 +4007,7 @@
       "role": "WordPress Developer · Website updates",
       "featured": false,
       "published": true,
-      "displayOrder": 152
+      "displayOrder": 151
     },
     {
       "slug": "stampedebranding",
@@ -4060,7 +4034,7 @@
       "role": "Developer · Landing-page recreation",
       "featured": false,
       "published": true,
-      "displayOrder": 153
+      "displayOrder": 152
     },
     {
       "slug": "floralonly",
@@ -4085,7 +4059,7 @@
       "role": "Developer · Multi-page website support",
       "featured": false,
       "published": true,
-      "displayOrder": 154,
+      "displayOrder": 153,
       "imageWidth": 2200,
       "imageHeight": 1375
     },
@@ -4114,7 +4088,7 @@
       "role": "Developer · Website closeout",
       "featured": false,
       "published": true,
-      "displayOrder": 155
+      "displayOrder": 154
     },
     {
       "slug": "coap-online",
@@ -4141,7 +4115,7 @@
       "role": "Website development · Course platform · Membership experience",
       "featured": true,
       "published": true,
-      "displayOrder": 156
+      "displayOrder": 155
     }
   ]
 }
