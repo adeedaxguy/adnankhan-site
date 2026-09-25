@@ -27,6 +27,7 @@ let googleTokenScope = '';
 let googleCalendarResponseKey = 'primary';
 let failZohoEvent = false;
 let failGoogleDelete = false;
+let failScheduledZohoEmail = false;
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -81,7 +82,11 @@ globalThis.fetch = async (input, init = {}) => {
     });
   }
   if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/messages') {
-    zohoEmails.push(JSON.parse(init.body));
+    const email = JSON.parse(init.body);
+    if (failScheduledZohoEmail && email.isSchedule) {
+      return Response.json({ status: { description: 'Invalid schedule' }, data: { errorCode: 'PATTERN_NOT_MATCHED' } }, { status: 400 });
+    }
+    zohoEmails.push(email);
     return Response.json({ data: { messageId: `message-${zohoEmails.length}` } });
   }
   if (url === 'https://accounts.zoho.com/oauth/v2/token') {
@@ -89,6 +94,12 @@ globalThis.fetch = async (input, init = {}) => {
   }
   if (url === 'https://mail.zoho.com/api/accounts') {
     return Response.json({ data: [{ accountId: 'zoho-account-test', primaryEmailAddress: 'hi@lofts.studio' }] });
+  }
+  if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/folders') {
+    return Response.json({ data: [{ folderId: 'inbox-test', folderType: 'Inbox' }] });
+  }
+  if (url.startsWith('https://mail.zoho.com/api/accounts/zoho-account-test/messages/view')) {
+    return Response.json({ data: [] });
   }
   if (url.startsWith('https://calendar.zoho.com/api/v1/calendars/freebusy')) {
     const stamp = value => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
@@ -280,6 +291,33 @@ test('connected Zoho and Google calendars filter busy times and create both even
   assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && email.fromAddress === 'hi@lofts.studio'));
   assert.ok(zohoEmails.some(email => email.toAddress === 'team@lofts.studio' && /Call booked/.test(email.subject)));
   assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Call booked/.test(email.subject)));
+});
+
+test('a failed scheduled first reply records the provider error and can be previewed without starting follow-ups', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-preview', _projectId: 'lofts-studio', _ts: Date.now(),
+    name: 'Preview Lead', email: 'preview@prospect.co', phone: '+1 202 555 0163',
+    focus: 'Build or improve a Shopify / WooCommerce store',
+    message: 'Our WooCommerce checkout is difficult to use on phones.',
+  }, 'https://lofts.studio', { forceReview: true });
+  failScheduledZohoEmail = true;
+  try {
+    assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'delayed' });
+  } finally {
+    failScheduledZohoEmail = false;
+  }
+  const failed = await automation.getSequence('lofts-studio', 'lead-preview');
+  assert.equal(failed.status, 'needs-review');
+  assert.match(failed.lastError, /Invalid schedule PATTERN_NOT_MATCHED/);
+  assert.equal(failed.steps[0].status, 'pending');
+
+  const sentBefore = zohoEmails.length;
+  const preview = await automation.controlSequence('lofts-studio', 'lead-preview', 'send-next');
+  assert.equal(zohoEmails.length, sentBefore + 1);
+  assert.equal(zohoEmails.at(-1).isSchedule, undefined);
+  assert.equal(preview.steps[0].status, 'sent');
+  assert.equal(preview.status, 'review');
+  assert.equal(preview.lastError, null);
 });
 
 test('Google authorization allows time to review consent but still expires', async () => {

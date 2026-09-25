@@ -316,7 +316,10 @@ export async function sendZohoEmail(projectId, message) {
   }
   const payload = await response.json().catch(() => ({}));
   const responseCode = Number(payload?.status?.code || response.status);
-  if (!response.ok || responseCode >= 400) throw serviceError('send_failed', payload?.status?.description || 'Zoho could not send the email.');
+  if (!response.ok || responseCode >= 400) {
+    const detail = [payload?.status?.description, payload?.data?.errorCode].filter(Boolean).join(' ');
+    throw serviceError('send_failed', detail || 'Zoho could not send the email.');
+  }
   connection.lastSentAt = Date.now();
   await saveZohoConnection(id, connection);
   return {

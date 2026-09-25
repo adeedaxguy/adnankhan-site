@@ -508,9 +508,13 @@ function nextPendingIndex(sequence, from = 0) {
 async function sendStep(sequence, stepIndex, options = {}) {
   const config = await getAutomationConfig(sequence.projectId);
   const readiness = await automationReadiness(sequence.projectId, config);
-  if (!options.force && config.mode !== 'active') throw serviceError('automation_paused', 'Automation is not active.');
-  if (!readiness.ready) throw serviceError('not_ready', readiness.blockers.join(' '));
   const step = sequence.steps?.[stepIndex];
+  const firstResponsePreview = options.force && step?.key === 'first-response';
+  if (!options.force && config.mode !== 'active') throw serviceError('automation_paused', 'Automation is not active.');
+  const blockers = firstResponsePreview
+    ? readiness.blockers.filter(blocker => blocker !== 'Add a valid physical postal address for compliant follow-ups.')
+    : readiness.blockers;
+  if (blockers.length) throw serviceError('not_ready', blockers.join(' '));
   if (!step || step.status !== 'pending') return sequence;
   if (step.consentRequired && sequence.lead?.nurtureConsent !== 'yes') {
     step.status = 'skipped';
@@ -541,7 +545,8 @@ async function sendStep(sequence, stepIndex, options = {}) {
     step.sentAt = sent.sentAt;
     step.scheduledFor = sent.scheduledFor;
     step.messageId = sent.messageId;
-    sequence.status = 'active';
+    sequence.status = firstResponsePreview && sequence.status !== 'active' ? 'review' : 'active';
+    sequence.lastError = null;
     sequence.lastSentAt = scheduleAt || sent.sentAt;
     sequence.nextStepIndex = nextPendingIndex(sequence, stepIndex + 1);
     if (sequence.nextStepIndex >= sequence.steps.length) sequence.status = 'completed';
@@ -673,10 +678,12 @@ export async function sendInboundReply(sequence) {
       messageId: sent.messageId, at: Date.now(), scheduledFor, eventId: `email:${sequence.leadId}:first-response`,
     }, { stage: 'contacted' });
     return { status: 'scheduled' };
-  } catch {
+  } catch (error) {
     step.status = accepted ? 'needs-review' : 'pending';
     sequence.status = 'needs-review';
-    sequence.lastError = accepted ? 'Delivery was accepted but the CRM update needs review.' : 'The automatic first reply could not be sent.';
+    sequence.lastError = accepted
+      ? 'Delivery was accepted but the CRM update needs review.'
+      : cleanText(error?.message, 300) || 'The automatic first reply could not be sent.';
     try { await saveSequence(sequence); } catch { /* Keep the original delivery state for review. */ }
     return { status: 'delayed' };
   }
