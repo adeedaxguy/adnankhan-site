@@ -155,7 +155,10 @@ export async function completeGoogleCalendarAuthorization(code, state) {
   });
   if (tokens.scope) {
     const granted = new Set(String(tokens.scope).split(/\s+/));
-    if (!SCOPES.every(scope => granted.has(scope))) throw serviceError('calendar_access_failed', 'Grant both Google Calendar permissions to continue.');
+    const hasEmail = granted.has('email') || granted.has('https://www.googleapis.com/auth/userinfo.email');
+    if (!hasEmail || !SCOPES.filter(scope => scope !== 'email').every(scope => granted.has(scope))) {
+      throw serviceError('calendar_access_failed', 'Grant both Google Calendar permissions to continue.');
+    }
   }
   const profileResponse = await fetch('https://openidconnect.googleapis.com/v1/userinfo', {
     headers: { Authorization: `Bearer ${tokens.access_token}` },
@@ -172,7 +175,8 @@ export async function completeGoogleCalendarAuthorization(code, state) {
     body: JSON.stringify({ timeMin: checkedAt.toISOString(), timeMax: new Date(checkedAt.getTime() + 3600000).toISOString(), items: [{ id: 'primary' }] }),
   });
   const availability = await availabilityResponse.json().catch(() => ({}));
-  if (!availabilityResponse.ok || availability.calendars?.primary?.errors?.length || !Array.isArray(availability.calendars?.primary?.busy)) {
+  const calendar = availability.calendars?.primary || availability.calendars?.[email];
+  if (!availabilityResponse.ok || calendar?.errors?.length || !Array.isArray(calendar?.busy)) {
     throw serviceError('calendar_access_failed', 'Enable Google Calendar API and grant calendar access before connecting.');
   }
   const previous = await getConnection(savedState.projectId);

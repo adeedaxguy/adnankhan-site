@@ -24,6 +24,8 @@ const googleCalendarEvents = [];
 const deletedGoogleEvents = [];
 let calendarBusyStart = '';
 let googleBusyStart = '';
+let googleTokenScope = '';
+let googleCalendarResponseKey = 'primary';
 let failZohoEvent = false;
 let failGoogleDelete = false;
 
@@ -102,13 +104,13 @@ globalThis.fetch = async (input, init = {}) => {
     return Response.json({ events: [{ uid: `event-${calendarEvents.length}` }] });
   }
   if (url === 'https://oauth2.googleapis.com/token') {
-    return Response.json({ access_token: 'google-access-test', refresh_token: 'google-refresh-test', expires_in: 3600 });
+    return Response.json({ access_token: 'google-access-test', refresh_token: 'google-refresh-test', expires_in: 3600, ...(googleTokenScope ? { scope: googleTokenScope } : {}) });
   }
   if (url === 'https://openidconnect.googleapis.com/v1/userinfo') {
     return Response.json({ email: 'owner@lofts.studio', email_verified: true });
   }
   if (url === 'https://www.googleapis.com/calendar/v3/freeBusy') {
-    return Response.json({ calendars: { primary: { busy: googleBusyStart ? [{ start: googleBusyStart, end: new Date(new Date(googleBusyStart).getTime() + 1800000).toISOString() }] : [] } } });
+    return Response.json({ calendars: { [googleCalendarResponseKey]: { busy: googleBusyStart ? [{ start: googleBusyStart, end: new Date(new Date(googleBusyStart).getTime() + 1800000).toISOString() }] : [] } } });
   }
   if (url === 'https://www.googleapis.com/calendar/v3/calendars/primary/events' && init.method === 'POST') {
     const event = JSON.parse(init.body);
@@ -287,6 +289,35 @@ test('Google authorization allows time to review consent but still expires', asy
     await assert.rejects(google.completeGoogleCalendarAuthorization('test-code', state), /expired/i);
   } finally {
     Date.now = originalNow;
+  }
+});
+
+test('Google authorization accepts equivalent email scope and resolved calendar ID', async () => {
+  const google = await import('../api/_lib/google-calendar.js');
+  const previousBusyStart = googleBusyStart;
+  googleBusyStart = '';
+  googleTokenScope = [
+    'openid', 'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/calendar.freebusy',
+    'https://www.googleapis.com/auth/calendar.events',
+  ].join(' ');
+  googleCalendarResponseKey = 'owner@lofts.studio';
+  try {
+    const authUrl = await google.createGoogleCalendarAuthorization('lofts-studio', 'https://lofts.studio');
+    await google.completeGoogleCalendarAuthorization('test-code', new URL(authUrl).searchParams.get('state'));
+    assert.equal((await google.getGoogleCalendarStatus('lofts-studio')).connected, true);
+    assert.deepEqual(await google.googleBusyIntervals('lofts-studio', Date.now(), Date.now() + 3600000), []);
+
+    googleTokenScope = 'openid https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/calendar.freebusy';
+    const incompleteAuthUrl = await google.createGoogleCalendarAuthorization('lofts-studio', 'https://lofts.studio');
+    await assert.rejects(
+      google.completeGoogleCalendarAuthorization('test-code', new URL(incompleteAuthUrl).searchParams.get('state')),
+      /Grant both Google Calendar permissions/i,
+    );
+  } finally {
+    googleTokenScope = '';
+    googleCalendarResponseKey = 'primary';
+    googleBusyStart = previousBusyStart;
   }
 });
 
