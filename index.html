@@ -1571,8 +1571,8 @@
             <input id="lf-email" name="email" type="email" required autocomplete="email" inputmode="email" placeholder="jane@yourbrand.com" />
           </div>
           <div class="form-field">
-            <label for="lf-phone">Phone / WhatsApp <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
-            <input id="lf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="+1 202 773 6947" />
+            <label for="lf-phone">Phone / WhatsApp</label>
+            <input id="lf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required minlength="7" maxlength="32" placeholder="+1 202 773 6947" />
           </div>
           <div class="form-field">
             <label for="lf-site">Website or domain you&rsquo;re running <span style="color: var(--muted); font-weight: 400;">(optional &mdash; leave blank if it&rsquo;s a fresh build)</span></label>
@@ -1592,6 +1592,10 @@
               <option>Add AI calling agents, chatbots, or automation</option>
               <option>Something else &mdash; I&rsquo;ll explain</option>
             </select>
+          </div>
+          <div class="form-field">
+            <label for="lf-message">A little more about the project <span style="color: var(--muted); font-weight: 400;">(optional)</span></label>
+            <textarea id="lf-message" name="message" rows="3" maxlength="2000" placeholder="What are you trying to build or improve?"></textarea>
           </div>
           <label class="form-consent"><input name="nurtureConsent" type="checkbox" value="yes" /><span>Send me occasional practical website and conversion advice for up to 90 days. Optional, and I can stop it anytime.</span></label>
           <button type="submit" class="btn btn-primary">
@@ -1799,6 +1803,6 @@
   }
 </style>
 
-<script src="assets/main.js?v=20260907f" defer data-analytics-id="G-1KT1MFDY8R" data-widgets-src="/assets/widgets.js?v=20260731d"></script>
+<script src="assets/main.js?v=20260925a" defer data-analytics-id="G-1KT1MFDY8R" data-widgets-src="/assets/widgets.js?v=20260731d"></script>
 </body>
 </html>

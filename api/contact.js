@@ -1,5 +1,5 @@
 // Vercel Edge Function: validate and persist enquiries before notifications.
-import { enrollLeadAutomation } from './_lib/automation.js';
+import { enrollLeadAutomation, sendInboundReply } from './_lib/automation.js';
 
 export const config = { runtime: 'edge' };
 
@@ -96,7 +96,7 @@ async function notifyTeam(lead, subject) {
 async function forwardToGrowthOs(lead) {
   const endpoint = process.env.GROWTH_OS_INQUIRY_URL;
   if (!endpoint) return { ok: false, status: 'not-configured' };
-  const detail = cleanField(lead.message || lead.project || lead.details || Object.entries(lead).filter(([key]) => !key.startsWith('_') && !['name', 'email', 'source'].includes(key)).map(([key, value]) => `${key}: ${value}`).join('\n'), 3000);
+  const detail = cleanField([lead.focus || lead.bottleneck, lead.message || lead.project || lead.details].filter(Boolean).join('\n') || Object.entries(lead).filter(([key]) => !key.startsWith('_') && !['name', 'email', 'source'].includes(key)).map(([key, value]) => `${key}: ${value}`).join('\n'), 3000);
   if (detail.length < 20) return { ok: false, status: 'insufficient-context' };
   try {
     const response = await fetch(endpoint, {
@@ -105,6 +105,7 @@ async function forwardToGrowthOs(lead) {
       body: JSON.stringify({
         name: lead.name,
         email: lead.email,
+        phone: lead.phone,
         company: cleanField(lead.company || lead.business || lead.website || 'Inbound project inquiry', 180),
         website: /^https?:\/\//i.test(String(lead.website || '')) ? lead.website : '',
         message: detail,
@@ -140,8 +141,12 @@ export default async function handler(req) {
   const isNewsletter = source === 'footer-newsletter';
   const email = cleanField(payload.email, 254).toLowerCase();
   const name = cleanField(payload.name, 120);
+  const phone = cleanField(payload.phone, 32);
   if (!EMAIL_PATTERN.test(email)) return json({ success: false, message: 'Enter a valid email address.' }, 400);
   if (!isNewsletter && name.length < 2) return json({ success: false, message: 'Enter your name.' }, 400);
+  if (!isNewsletter && (phone.replace(/\D/g, '').length < 7 || phone.replace(/\D/g, '').length > 15 || !/^[+\d\s().-]+$/.test(phone))) {
+    return json({ success: false, message: 'Enter a valid phone or WhatsApp number, including your country code.' }, 400);
+  }
 
   try {
     if (!await checkRateLimit(req)) return json({ success: false, message: 'Too many requests. Please try again in ten minutes.' }, 429);
@@ -164,6 +169,7 @@ export default async function handler(req) {
   }
   clean.email = email;
   clean.name = name;
+  if (!isNewsletter) clean.phone = phone;
   clean.source = source;
   clean.nurtureConsent = String(payload.nurtureConsent || '').toLowerCase() === 'yes' ? 'yes' : 'no';
 
@@ -191,9 +197,13 @@ export default async function handler(req) {
 
   const notification = await notifyTeam(lead, subject);
   let automation = null;
+  let reply = { status: 'not-applicable' };
   let growthOs = { status: 'not-applicable' };
   if (!isNewsletter) {
-    try { automation = await enrollLeadAutomation(lead, new URL(req.url).origin); } catch { automation = null; }
+    try {
+      automation = await enrollLeadAutomation(lead, new URL(req.url).origin, { deferFirstReply: true });
+      reply = await sendInboundReply(automation);
+    } catch { automation = null; reply = { status: 'delayed' }; }
     growthOs = await forwardToGrowthOs(lead);
   }
 
@@ -203,6 +213,7 @@ export default async function handler(req) {
     submissionId,
     notification: notification.ok ? 'sent' : 'delayed',
     automation: automation?.status || 'not-enrolled',
+    reply: reply.status,
     growthOs: growthOs.status,
   });
 }

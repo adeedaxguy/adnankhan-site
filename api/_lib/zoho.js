@@ -4,21 +4,24 @@ const KV_TOKEN = process.env.KV_REST_API_TOKEN;
 
 const CLIENT_KEY = 'agency:zoho-clients';
 const CONNECTION_KEY = 'agency:zoho-mail';
-const SCOPE_VERSION = 2;
+const SCOPE_VERSION = 3;
 const OAUTH_SCOPES = [
   'ZohoMail.messages.CREATE',
   'ZohoMail.messages.READ',
   'ZohoMail.folders.READ',
   'ZohoMail.accounts.READ',
+  'ZohoCalendar.freebusy.READ',
+  'ZohoCalendar.calendar.READ',
+  'ZohoCalendar.event.CREATE',
 ];
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const DATA_CENTERS = {
-  us: { accounts: 'https://accounts.zoho.com', mail: 'https://mail.zoho.com' },
-  eu: { accounts: 'https://accounts.zoho.eu', mail: 'https://mail.zoho.eu' },
-  in: { accounts: 'https://accounts.zoho.in', mail: 'https://mail.zoho.in' },
-  au: { accounts: 'https://accounts.zoho.com.au', mail: 'https://mail.zoho.com.au' },
-  jp: { accounts: 'https://accounts.zoho.jp', mail: 'https://mail.zoho.jp' },
-  ca: { accounts: 'https://accounts.zohocloud.ca', mail: 'https://mail.zohocloud.ca' },
+  us: { accounts: 'https://accounts.zoho.com', mail: 'https://mail.zoho.com', calendar: 'https://calendar.zoho.com' },
+  eu: { accounts: 'https://accounts.zoho.eu', mail: 'https://mail.zoho.eu', calendar: 'https://calendar.zoho.eu' },
+  in: { accounts: 'https://accounts.zoho.in', mail: 'https://mail.zoho.in', calendar: 'https://calendar.zoho.in' },
+  au: { accounts: 'https://accounts.zoho.com.au', mail: 'https://mail.zoho.com.au', calendar: 'https://calendar.zoho.com.au' },
+  jp: { accounts: 'https://accounts.zoho.jp', mail: 'https://mail.zoho.jp', calendar: 'https://calendar.zoho.jp' },
+  ca: { accounts: 'https://accounts.zohocloud.ca', mail: 'https://mail.zohocloud.ca', calendar: 'https://calendar.zohocloud.ca' },
 };
 
 function serviceError(code, message) {
@@ -139,7 +142,8 @@ export async function getZohoStatus(projectId) {
     connectedAt: connection?.connectedAt || null,
     lastSentAt: connection?.lastSentAt || null,
     dataCenter: connection?.dataCenter || client?.dataCenter || 'us',
-    permission: Number(connection?.scopeVersion || 0) >= SCOPE_VERSION ? 'Send + reply detection' : 'Send only',
+    permission: Number(connection?.scopeVersion || 0) >= SCOPE_VERSION ? 'Mail + calendar' : Number(connection?.scopeVersion || 0) >= 2 ? 'Mail only' : 'Send only',
+    calendarConnected: Boolean(connection?.refreshToken && Number(connection?.scopeVersion || 0) >= SCOPE_VERSION),
     needsReauthorization: Boolean(connection?.refreshToken && Number(connection?.scopeVersion || 0) < SCOPE_VERSION),
   };
 }
@@ -327,7 +331,7 @@ async function zohoGet(projectId, path, query = {}) {
   if (!client || !connection?.refreshToken || !connection?.accountId) {
     throw serviceError('not_connected', 'Connect Zoho Mail before syncing replies.');
   }
-  if (Number(connection.scopeVersion || 0) < SCOPE_VERSION) {
+  if (Number(connection.scopeVersion || 0) < 2) {
     throw serviceError('reauthorization_required', 'Reauthorise Zoho Mail to enable reply detection.');
   }
   connection = await validAccessToken(id, connection, client);
@@ -353,7 +357,7 @@ async function zohoGet(projectId, path, query = {}) {
 export async function listZohoInboxMessages(projectId, limit = 200) {
   const id = cleanProjectId(projectId);
   const connection = await getZohoConnection(id);
-  if (Number(connection?.scopeVersion || 0) < SCOPE_VERSION) {
+  if (Number(connection?.scopeVersion || 0) < 2) {
     throw serviceError('reauthorization_required', 'Reauthorise Zoho Mail to enable reply detection.');
   }
   let inboxId = String(connection.inboxId || '');
@@ -378,4 +382,30 @@ export async function listZohoInboxMessages(projectId, limit = 200) {
 
 export async function disconnectZoho(projectId) {
   await kvCmd('HDEL', CONNECTION_KEY, cleanProjectId(projectId));
+}
+
+export async function zohoCalendarRequest(projectId, path, query = {}, method = 'GET') {
+  const id = cleanProjectId(projectId);
+  const client = await getZohoClient(id);
+  let connection = await getZohoConnection(id);
+  if (!client || !connection?.refreshToken || Number(connection.scopeVersion || 0) < SCOPE_VERSION) {
+    throw serviceError('calendar_not_connected', 'Connect Zoho Calendar in CRM Setup before booking a call.');
+  }
+  connection = await validAccessToken(id, connection, client);
+  const url = new URL(`${DATA_CENTERS[dataCenter(connection.dataCenter)].calendar}/api/v1${path}`);
+  for (const [key, value] of Object.entries(query)) url.searchParams.set(key, String(value));
+  const request = token => fetch(url, {
+    method,
+    headers: { Accept: 'application/json', Authorization: `Zoho-oauthtoken ${token}` },
+  });
+  let response = await request(connection.accessToken);
+  if (response.status === 401) {
+    connection = await validAccessToken(id, connection, client, true);
+    response = await request(connection.accessToken);
+  }
+  const payload = await response.json().catch(() => ({}));
+  if (!response.ok || Number(payload?.status?.code || response.status) >= 400) {
+    throw serviceError('calendar_failed', payload?.status?.description || 'Zoho Calendar is temporarily unavailable.');
+  }
+  return payload;
 }

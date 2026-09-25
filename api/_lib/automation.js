@@ -1,4 +1,6 @@
 import { getZohoStatus, listZohoInboxMessages, sendZohoEmail } from './zoho.js';
+import { draftLeadReply } from './lead-reply.js';
+import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, createCalendarEvent, notifyBooking } from './calendar.js';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 const KV_URL = process.env.KV_REST_API_URL;
@@ -11,6 +13,7 @@ const SUPPRESSION_KEY = 'agency:email-suppression';
 const BOOKING_KEY = 'agency:bookings';
 const SYNC_KEY = 'agency:automation-sync';
 const DAY = 86400000;
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 const DEFAULT_CONFIG = {
   mode: 'review',
@@ -20,6 +23,7 @@ const DEFAULT_CONFIG = {
   phone: '+1 202 773 6947',
   whatsapp: '12027736947',
   complianceAddress: '',
+  bookingNotificationEmails: '',
   trackOpens: false,
   trackClicks: false,
   booking: {
@@ -197,9 +201,10 @@ export async function automationReadiness(projectId, configInput) {
   const zoho = await getZohoStatus(projectId);
   const blockers = [];
   if (!zoho.connected) blockers.push('Connect Zoho Mail.');
-  if (zoho.needsReauthorization) blockers.push('Reauthorise Zoho for reply detection.');
+  if (zoho.needsReauthorization) blockers.push('Reauthorise Zoho for calendar access.');
   if (!cleanText(config.complianceAddress, 300)) blockers.push('Add a valid physical postal address for compliant follow-ups.');
   if (!config.booking.enabled) blockers.push('Enable booking before automated call invitations.');
+  if (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY) blockers.push('Set booking alert emails and connect the notification service.');
   return { ready: blockers.length === 0, blockers, zoho };
 }
 
@@ -218,6 +223,8 @@ export async function saveAutomationConfig(projectId, input) {
     phone: cleanText(input.phone ?? previous.phone, 40),
     whatsapp: String(input.whatsapp ?? previous.whatsapp).replace(/\D/g, '').slice(0, 20),
     complianceAddress: cleanText(input.complianceAddress ?? previous.complianceAddress, 300),
+    bookingNotificationEmails: String(input.bookingNotificationEmails ?? previous.bookingNotificationEmails)
+      .split(/[;,]/).map(value => value.trim().toLowerCase()).filter(value => EMAIL_PATTERN.test(value)).slice(0, 5).join(', '),
     trackOpens: input.trackOpens === true,
     trackClicks: input.trackClicks === true,
     booking: {
@@ -305,15 +312,6 @@ export async function analyzeLeadWebsite(lead) {
   }
 }
 
-function recommendationFor(lead) {
-  const useCase = cleanText(lead.bottleneck || lead.scope || lead.message, 300).toLowerCase();
-  if (/paid|google|meta|ad /.test(useCase)) return 'a dedicated message-matched page with one conversion action, proof before the form, and no competing navigation';
-  if (/saas|waitlist|software/.test(useCase)) return 'a problem-to-outcome narrative, a compact product demonstration, and a low-friction signup path';
-  if (/ecommerce|product|dtc|shop/.test(useCase)) return 'a product-specific page that leads with the buying reason, resolves objections, and keeps the purchase action persistent on mobile';
-  if (/high.ticket|lead.gen|service/.test(useCase)) return 'a focused qualification page that makes the outcome, proof, process, and next step clear before the form';
-  return 'a focused page that makes the offer, proof, objections, and next action clear in one continuous path';
-}
-
 function firstName(sequence) {
   return cleanText(sequence.lead?.name, 80).split(/\s+/)[0] || 'there';
 }
@@ -321,42 +319,38 @@ function firstName(sequence) {
 function stepCopy(sequence, step) {
   const name = firstName(sequence);
   const lead = sequence.lead || {};
-  const observation = sequence.analysis?.observations?.[0] || 'The strongest opportunity is to tighten the path from the offer to one clear next action.';
-  const secondObservation = sequence.analysis?.observations?.[1] || 'Proof and the enquiry action should appear before a visitor has to work for them.';
-  const recommendation = recommendationFor(lead);
-  const useCase = cleanText(lead.bottleneck || lead.scope, 140) || 'your project enquiry';
+  const useCase = cleanText(lead.focus || lead.bottleneck || lead.scope, 140) || 'your project';
+  const reviewed = sequence.analysis?.status === 'reviewed';
+  const observation = reviewed ? sequence.analysis.observations?.[0] : '';
   const copies = {
-    'first-response': {
-      subject: 'Your 3-point paid-traffic review',
-      body: `Hi ${name},\n\nThanks for sharing ${useCase.toLowerCase()} with Lofts Studio. I took the first pass I promised.\n\n1. ${observation}\n2. ${secondObservation}\n3. The clearest next step is ${recommendation}.\n\nThose are the first three decisions I would settle before buying more traffic. What time would suit you for a short call tomorrow? You can reply with a time, or choose an available slot below.`,
-    },
+    'first-response': null,
     'priority-fix': {
-      subject: 'The first conversion fix I would make',
-      body: `Hi ${name},\n\nOne useful follow-up from my first pass: ${secondObservation}\n\nI would solve that before adding more traffic. It gives every paid click a clearer reason to continue and a simpler next step.\n\nIf you want, choose a short call slot and I will map the first screen with you.`,
+      subject: 'A useful first step for your project',
+      body: `Hi ${name},\n\nI wanted to follow up on the priority you selected: ${useCase}. The first decision is usually what success should look like for the person using the site or product. That helps us choose the right scope and avoid work that will not move the result.\n\nIf you reply with the outcome that matters most, I can suggest a practical starting point. You can also choose a call time below.`,
     },
     'message-match': {
-      subject: 'A practical paid-traffic page framework',
-      body: `Hi ${name},\n\nA reliable paid-traffic page usually does four things in order: mirrors the search intent, shows the outcome, proves the claim, and asks for one action.\n\nFor your case, I would use ${recommendation}. That structure is often more useful than sending ad traffic into a general website with several competing paths.\n\nThere is a booking link below if you would like to talk it through.`,
+      subject: 'One question before we scope this',
+      body: `Hi ${name},\n\nA useful question for the work you described (${useCase}): who needs to act differently once it is done? The answer tells us where to focus the design, development, or optimisation effort.\n\nIf you share the audience and the action you want them to take, I can make the next recommendation more specific.`,
     },
     'mini-audit': {
-      subject: 'Three checks for your enquiry flow',
-      body: `Hi ${name},\n\nHere is the short audit I promised:\n\n1. ${observation}\n2. ${secondObservation}\n3. Keep one primary action consistent from the ad through the page and confirmation state.\n\nThose are the first three things I would settle before increasing ad spend. Reply if you want me to expand any one of them.`,
+      subject: 'A short check for your project',
+      body: `Hi ${name},\n\nI kept a note of your enquiry: ${useCase}.${observation ? ` One observation from the page you shared: ${observation}` : ' I would start by agreeing on the current obstacle, the desired result, and the first change worth testing.'}\n\nIf this is still a priority, reply with the part you would like me to look at first.`,
     },
     'scope-choice': {
-      subject: 'Improve the current page or build a focused one?',
-      body: `Hi ${name},\n\nThe main scope decision is whether the current page can be tightened or whether paid traffic deserves a dedicated page.\n\nI would keep the existing page when its offer and action already match the campaign. I would build a focused page when navigation, mixed audiences, or broad copy create friction. Based on the first review, ${recommendation} is the more controlled route.\n\nA short call is enough to choose between the two.`,
+      subject: 'Choosing the right scope',
+      body: `Hi ${name},\n\nThe right scope for your enquiry (${useCase}) depends on what is already working and what has to change. A short call would let us separate a focused improvement from a larger rebuild and put the next step in writing.\n\nThe booking link is below if that would help.`,
     },
     'close-loop': {
       subject: 'Should I close the loop on this?',
       body: `Hi ${name},\n\nI have kept the notes from your Lofts Studio enquiry, but I do not want to keep following up if the timing is not right.\n\nShould I close this for now, or would a short call still be useful? Either answer is completely fine.`,
     },
     'value-60': {
-      subject: 'A simple landing-page QA checklist',
-      body: `Hi ${name},\n\nOne practical checklist for any page receiving paid traffic: verify message match, mobile speed, proof near the first decision, one primary action, and a tracked confirmation state.\n\nIf your project is active again, the booking link below is the easiest way to restart the conversation.`,
+      subject: 'A practical project checklist',
+      body: `Hi ${name},\n\nA useful check for the work you described (${useCase}): can you name the intended user, the outcome they need, the current obstacle, and how you will know the change worked? Those four answers usually make the next decision much clearer.\n\nIf the project is active again, reply here or choose a time below.`,
     },
     'value-90': {
-      subject: 'One last useful note for the page',
-      body: `Hi ${name},\n\nMy final note for this enquiry: judge the page by qualified enquiries, not by clicks alone. The ad, page, form, and sales follow-up need one shared definition of a good lead.\n\nI will stop the sequence here. You can reply at any point if the timing changes.`,
+      subject: 'Closing the loop on your enquiry',
+      body: `Hi ${name},\n\nI am closing my notes on your enquiry (${useCase}) for now so I do not keep filling your inbox. If the timing changes, reply to this email and we can pick up from there.`,
     },
   };
   return copies[step.key];
@@ -502,7 +496,8 @@ async function sendStep(sequence, stepIndex, options = {}) {
   await saveSequence(sequence);
   let mailAccepted = false;
   try {
-    const rendered = await renderSequenceEmail(sequence, step, config);
+    const customCopy = step.key === 'first-response' ? await draftLeadReply(sequence.lead, sequence.analysis) : null;
+    const rendered = await renderSequenceEmail(sequence, step, config, customCopy);
     const scheduleAt = options.scheduleAt || null;
     const sent = await sendZohoEmail(sequence.projectId, {
       toAddress: sequence.lead.email,
@@ -546,6 +541,11 @@ async function sendStep(sequence, stepIndex, options = {}) {
   }
 }
 
+function isTestLead(lead) {
+  return /(\btest(?:ing|er)?\b|\bqa\b|codex|example\.com|\.test\b)/i.test([lead.name, lead.email].filter(Boolean).join(' '))
+    || /\b(do not contact|debug submission)\b/i.test(String(lead.message || ''));
+}
+
 export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio', options = {}) {
   const projectId = cleanProjectId(lead._projectId || lead.projectId || 'lofts-studio');
   const leadId = String(lead._id || lead.id || '').slice(0, 96);
@@ -555,9 +555,7 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
   if (existing) return existing;
   const suppressed = await kvCmd('HGET', SUPPRESSION_KEY, email);
   const config = await getAutomationConfig(projectId);
-  const testLead = /(\btest(?:ing|er)?\b|\bqa\b|codex|do not contact|debug|example\.com)/i.test([
-    lead.name, lead.email, lead.message, lead._subject,
-  ].filter(Boolean).join(' '));
+  const testLead = isTestLead(lead);
   const createdAt = Number(lead._ts) || Date.now();
   const analysis = await analyzeLeadWebsite(lead);
   const sequence = {
@@ -576,7 +574,10 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
       phone: cleanText(lead.phone, 60),
       website: analysis.website || safePublicUrl(lead.website || lead.url),
       bottleneck: cleanText(lead.bottleneck || lead.scope, 300),
+      focus: cleanText(lead.focus, 300),
       message: cleanText(lead.message, 1000),
+      pageTitle: cleanText(lead.page_title, 180),
+      sourcePath: cleanText(lead.source_path, 200),
       country: cleanText(lead.country, 80),
       source: cleanText(lead.source, 100),
       nurtureConsent: String(lead.nurtureConsent || '').toLowerCase() === 'yes' ? 'yes' : 'no',
@@ -599,7 +600,7 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
     at: Date.now(),
     eventId: `automation:enrolled:${leadId}`,
   });
-  if (sequence.status === 'active') {
+  if (sequence.status === 'active' && !options.deferFirstReply) {
     try {
       return await sendStep(sequence, 0, { scheduleAt: sequence.steps[0].dueAt });
     } catch {
@@ -607,6 +608,57 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
     }
   }
   return sequence;
+}
+
+export async function sendInboundReply(sequence) {
+  if (!sequence || ['suppressed', 'unsubscribed'].includes(sequence.status)) return { status: 'skipped' };
+  const step = sequence.steps?.[0];
+  if (!step || step.status !== 'pending') return { status: 'already-handled' };
+  if (isTestLead(sequence.lead)) return { status: 'review' };
+  if (!process.env.RESEND_API_KEY) return { status: 'not-configured' };
+  step.status = 'sending';
+  step.sendingAt = Date.now();
+  await saveSequence(sequence);
+  let accepted = false;
+  try {
+    const config = await getAutomationConfig(sequence.projectId);
+    const copy = await draftLeadReply(sequence.lead, sequence.analysis);
+    const rendered = await renderSequenceEmail(sequence, step, config, copy);
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        from: 'Adnan at Lofts Studio <noreply@lofts.studio>',
+        to: [sequence.lead.email],
+        reply_to: 'hi@lofts.studio',
+        subject: rendered.subject,
+        html: rendered.html,
+        text: rendered.text,
+      }),
+    });
+    const payload = await response.json().catch(() => ({}));
+    if (!response.ok || !payload.id) throw new Error('The email provider did not accept the reply.');
+    accepted = true;
+    step.status = 'sent';
+    step.subject = rendered.subject;
+    step.sentAt = Date.now();
+    step.messageId = payload.id;
+    sequence.nextStepIndex = nextPendingIndex(sequence, 1);
+    sequence.lastSentAt = step.sentAt;
+    await saveSequence(sequence);
+    await appendLeadActivity(sequence.projectId, sequence.leadId, {
+      type: 'email', direction: 'outbound', provider: 'resend', status: 'sent',
+      to: sequence.lead.email, subject: rendered.subject, body: rendered.text.slice(0, 4000),
+      messageId: payload.id, at: step.sentAt, eventId: `email:${sequence.leadId}:first-response`,
+    }, { stage: 'contacted' });
+    return { status: 'sent' };
+  } catch {
+    step.status = accepted ? 'needs-review' : 'pending';
+    sequence.status = 'needs-review';
+    sequence.lastError = accepted ? 'Delivery was accepted but the CRM update needs review.' : 'The automatic first reply could not be sent.';
+    try { await saveSequence(sequence); } catch { /* Keep the original delivery state for review. */ }
+    return { status: 'delayed' };
+  }
 }
 
 function extractAddress(value) {
@@ -840,6 +892,10 @@ export async function getBookingContext(token) {
 
 export async function getAvailableSlots(token) {
   const { payload, sequence, config } = await getBookingContext(token);
+  if (sequence.bookingId) {
+    const existing = parseJson(await kvCmd('HGET', BOOKING_KEY, sequence.bookingId));
+    if (existing) return { booking: existing };
+  }
   if (!config.booking.enabled) throw serviceError('booking_disabled', 'Online booking is not currently available.');
   const booking = config.booking;
   const startMinutes = minutesFromTime(booking.start);
@@ -856,21 +912,39 @@ export async function getAvailableSlots(token) {
   }
   const lockKeys = candidates.map(start => `agency:booking-lock:${start}`);
   const locks = lockKeys.length ? await kvCmd('MGET', ...lockKeys) : [];
-  const slots = candidates.filter((start, index) => !Array.isArray(locks) || !locks[index]).slice(0, 160);
+  const busy = candidates.length ? await busyCalendarIntervals(payload.p, candidates[0], new Date(new Date(candidates[candidates.length - 1]).getTime() + booking.durationMinutes * 60000)) : [];
+  if (busy === null && (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY)) {
+    throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
+  }
+  const slots = candidates.filter((start, index) => {
+    if (Array.isArray(locks) && locks[index]) return false;
+    const at = new Date(start).getTime();
+    return !busy || !busy.some(interval => at < interval.end && at + booking.durationMinutes * 60000 > interval.start);
+  }).slice(0, 160);
   return {
     projectId: payload.p,
-    lead: { name: sequence.lead.name, email: sequence.lead.email },
+    lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone },
     timezone: booking.timezone,
     durationMinutes: booking.durationMinutes,
+    calendarConnected: busy !== null,
     slots,
   };
 }
 
 export async function createBooking(token, input) {
   const context = await getBookingContext(token);
+  if (context.sequence.bookingId) {
+    const existing = parseJson(await kvCmd('HGET', BOOKING_KEY, context.sequence.bookingId));
+    if (existing) return { booking: existing, warning: '' };
+  }
   const availability = await getAvailableSlots(token);
+  if (availability.booking) return { booking: availability.booking, warning: '' };
   const start = String(input.start || '');
   if (!availability.slots.includes(start)) throw serviceError('slot_unavailable', 'That time is no longer available. Choose another slot.');
+  const phone = cleanText(input.phone || context.sequence.lead.phone, 60);
+  if (phone.replace(/\D/g, '').length < 7 || phone.replace(/\D/g, '').length > 15 || !/^[+\d\s().-]+$/.test(phone)) {
+    throw serviceError('invalid_phone', 'Enter a valid phone or WhatsApp number, including your country code.');
+  }
   const lockKey = `agency:booking-lock:${start}`;
   const bookingId = crypto.randomUUID();
   const locked = await kvCmd('SET', lockKey, bookingId, 'NX', 'EX', String(120 * 86400));
@@ -882,7 +956,8 @@ export async function createBooking(token, input) {
     leadId: context.payload.l,
     leadName: cleanText(input.name || context.sequence.lead.name, 120),
     leadEmail: context.sequence.lead.email,
-    phone: cleanText(input.phone || context.sequence.lead.phone, 60),
+    focus: cleanText(context.sequence.lead.focus || context.sequence.lead.bottleneck || context.sequence.lead.message, 240),
+    phone,
     note: cleanText(input.note, 1000),
     startAt,
     endAt: startAt + availability.durationMinutes * 60000,
@@ -890,8 +965,22 @@ export async function createBooking(token, input) {
     hostTimezone: availability.timezone,
     durationMinutes: availability.durationMinutes,
     createdAt: Date.now(),
-    status: 'confirmed',
+    status: availability.calendarConnected ? 'confirmed' : 'requested',
   };
+  if (availability.calendarConnected) {
+    try {
+      const calendarEvent = await createCalendarEvent(booking, context.config);
+      if (calendarEvent.status !== 'created') throw new Error('Calendar event could not be created.');
+      booking.calendarStatus = calendarEvent.status;
+      booking.calendarEventUid = calendarEvent.uid;
+      booking.calendarUid = calendarEvent.calendarUid;
+    } catch (error) {
+      await kvCmd('DEL', lockKey);
+      throw error;
+    }
+  } else {
+    booking.calendarStatus = 'not-connected';
+  }
   await kvCmd('HSET', BOOKING_KEY, bookingId, JSON.stringify(booking));
   context.sequence.status = 'booked';
   context.sequence.bookedAt = booking.createdAt;
@@ -900,25 +989,23 @@ export async function createBooking(token, input) {
   await appendLeadActivity(context.payload.p, context.payload.l, {
     type: 'booking',
     bookingId,
+    status: booking.status,
     startAt,
     durationMinutes: booking.durationMinutes,
     at: booking.createdAt,
     eventId: `booking:${bookingId}`,
-  }, { stage: 'qualified', nextAction: `Call booked for ${new Date(startAt).toISOString()}` });
+  }, {
+    stage: booking.status === 'confirmed' ? 'qualified' : 'contacted',
+    nextAction: `${booking.status === 'confirmed' ? 'Call booked' : 'Confirm requested call'} for ${new Date(startAt).toISOString()}`,
+  });
   let warning = '';
   try {
-    const config = context.config;
-    const localDate = new Intl.DateTimeFormat('en-US', {
-      timeZone: availability.timezone, dateStyle: 'full', timeStyle: 'short',
-    }).format(new Date(startAt));
-    const body = `Hi ${firstName(context.sequence)},\n\nYour call with Lofts Studio is confirmed for ${localDate} (${availability.timezone}).\n\nWe will use the time to review the enquiry, the current page, and the clearest next step. Reply to this email if anything changes.\n\n${config.senderName}\n${config.senderRole}`;
-    const html = `<div style="font-family:Arial,sans-serif;color:#18201c;font-size:15px;max-width:600px;margin:0 auto;padding:18px"><p>Hi ${escapeHtml(firstName(context.sequence))},</p><p>Your call with Lofts Studio is confirmed for <strong>${escapeHtml(localDate)} (${escapeHtml(availability.timezone)})</strong>.</p><p>We will use the time to review the enquiry, the current page, and the clearest next step. Reply to this email if anything changes.</p><p>${escapeHtml(config.senderName)}<br>${escapeHtml(config.senderRole)}</p></div>`;
-    await sendZohoEmail(context.payload.p, {
-      toAddress: context.sequence.lead.email,
-      subject: 'Your Lofts Studio call is confirmed',
-      content: body,
-      htmlContent: html,
-    });
+    if (!await notifyBooking(booking, context.config)) warning = 'The booking was saved, but the team notification needs review.';
+  } catch {
+    warning = 'The booking was saved, but the team notification needs review.';
+  }
+  try {
+    if (!await confirmBookingToLead(booking, context.config)) warning = 'The booking was saved, but the confirmation email needs review.';
   } catch (error) {
     warning = `The booking is saved, but the confirmation email could not be sent: ${cleanText(error.message, 180)}`;
   }

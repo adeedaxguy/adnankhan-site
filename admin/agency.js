@@ -199,7 +199,7 @@ function renderAlert() {
   if (project.tracking?.googleAdsApi === 'not_connected') messages.push('Google Ads reporting is not connected; performance uses recorded snapshots.');
   if (!project.campaigns.length) messages.push('No campaign has been added to this project.');
   if (project.automation?.config?.mode === 'active' && !project.automation?.readiness?.ready) messages.push('Lead lifecycle is not ready; open Setup to resolve the sending blockers.');
-  if (project.zohoMail?.needsReauthorization) messages.push('Zoho needs reauthorisation before reply detection and automated follow-ups can run.');
+  if (project.zohoMail?.needsReauthorization) messages.push('Zoho needs reauthorisation before calendar invitations and automated follow-ups can run.');
   strip.hidden = !messages.length;
   strip.innerHTML = messages.length ? `<strong>Attention:</strong> ${escapeHtml(messages.join(' '))}` : '';
 }
@@ -403,7 +403,7 @@ function renderLeadActivity(lead) {
       return `<article class="agency-timeline-item email"><span><i data-lucide="send"></i></span><div><strong>${escapeHtml(item.subject || 'Email sent')}</strong><small>To ${escapeHtml(item.to || lead.email || 'lead')} · ${escapeHtml(timing)}</small>${item.body ? `<p>${escapeHtml(item.body)}</p>` : ''}</div></article>`;
     }
     if (item.type === 'reply') return `<article class="agency-timeline-item reply"><span><i data-lucide="reply"></i></span><div><strong>${escapeHtml(item.subject || 'Lead replied')}</strong><small>Reply detected · ${escapeHtml(fullDate(item.at))}</small>${item.summary ? `<p>${escapeHtml(item.summary)}</p>` : ''}</div></article>`;
-    if (item.type === 'booking') return `<article class="agency-timeline-item booking"><span><i data-lucide="calendar-check"></i></span><div><strong>Call booked</strong><small>${escapeHtml(fullDate(item.startAt))} · ${escapeHtml(String(item.durationMinutes || 30))} minutes</small></div></article>`;
+    if (item.type === 'booking') return `<article class="agency-timeline-item booking"><span><i data-lucide="calendar-check"></i></span><div><strong>${item.status === 'requested' ? 'Call time requested' : 'Call booked'}</strong><small>${escapeHtml(fullDate(item.startAt))} · ${escapeHtml(String(item.durationMinutes || 30))} minutes</small></div></article>`;
     if (item.type === 'open') return `<article class="agency-timeline-item"><span><i data-lucide="eye"></i></span><div><strong>Likely opened</strong><small>Estimated from an image load · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
     if (item.type === 'click') return `<article class="agency-timeline-item"><span><i data-lucide="mouse-pointer-click"></i></span><div><strong>Booking link requested</strong><small>May include a security scanner · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
     if (item.type === 'unsubscribe') return `<article class="agency-timeline-item"><span><i data-lucide="mail-x"></i></span><div><strong>Follow-ups stopped</strong><small>Unsubscribed · ${escapeHtml(fullDate(item.at))}</small></div></article>`;
@@ -611,7 +611,7 @@ function renderSettings() {
       ['Replies detected', automation.summary?.replied || 0],
       ['Calls booked', automation.summary?.booked || 0],
     ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div>
-    ${blockers.length ? `<div class="agency-readiness-list">${blockers.map(item => `<span><i data-lucide="circle-alert"></i>${escapeHtml(item)}</span>`).join('')}</div>` : '<div class="agency-readiness-list ready"><span><i data-lucide="circle-check"></i>Reply detection, sender identity, booking, and postal-address checks are ready.</span></div>'}
+    ${blockers.length ? `<div class="agency-readiness-list">${blockers.map(item => `<span><i data-lucide="circle-alert"></i>${escapeHtml(item)}</span>`).join('')}</div>` : '<div class="agency-readiness-list ready"><span><i data-lucide="circle-check"></i>Mail, calendar, booking, and postal-address checks are ready.</span></div>'}
     <div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-automation" type="button"><i data-lucide="sliders-horizontal"></i>Lifecycle settings</button><span><button class="agency-secondary-btn" id="sync-automation-replies" type="button" ${zoho.needsReauthorization || !zoho.connected ? 'disabled' : ''}><i data-lucide="refresh-cw"></i>Sync replies</button><button class="agency-primary-btn" id="run-automation-now" type="button" ${automationConfig.mode === 'active' && automationReady ? '' : 'disabled'}><i data-lucide="play"></i>Run due now</button></span></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
@@ -733,6 +733,7 @@ function openAutomationConfig() {
   form.elements.phone.value = config.phone || '';
   form.elements.whatsapp.value = config.whatsapp || '';
   form.elements.complianceAddress.value = config.complianceAddress || '';
+  form.elements.bookingNotificationEmails.value = config.bookingNotificationEmails || '';
   form.elements.trackClicks.checked = Boolean(config.trackClicks);
   form.elements.trackOpens.checked = Boolean(config.trackOpens);
   form.elements.bookingEnabled.checked = booking.enabled !== false;

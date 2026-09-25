@@ -548,7 +548,10 @@
           inlineErr.style.cssText = 'margin-top:0.75rem;font-size:0.85rem;color:#B91C1C;text-align:center;';
           form.appendChild(inlineErr);
         }
-        inlineErr.textContent = "Couldn't send right now — please email hi@lofts.studio or try again in a minute.";
+        const message = err && err.message ? String(err.message) : '';
+        inlineErr.textContent = /^(Enter a valid|Enter your|Too many requests|Please wait)/.test(message)
+          ? message
+          : "Couldn't send right now — please email hi@lofts.studio or try again in a minute.";
       }
     });
   });

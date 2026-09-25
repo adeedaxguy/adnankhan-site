@@ -251,7 +251,7 @@
           <input type="hidden" name="result_category" value="" />
           <div class="form-field"><label for="lf-name">Full Name <span class="field-required">Required</span></label><input id="lf-name" name="name" type="text" autocomplete="name" required placeholder="Jane Founder" /></div>
           <div class="form-field"><label for="lf-email">Work Email <span class="field-required">Required</span></label><input id="lf-email" name="email" type="email" autocomplete="email" required placeholder="jane@yourbrand.com" /></div>
-          <div class="form-field"><label for="lf-phone">Phone / WhatsApp <span class="field-required">Required</span></label><input id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required placeholder="+1 202 555 0147" /></div>
+          <div class="form-field"><label for="lf-phone">Phone / WhatsApp <span class="field-required">Required</span></label><input id="lf-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="7" maxlength="32" placeholder="+1 202 555 0147" /></div>
           <div class="form-field"><label for="lf-site">Company / Current Page <span class="field-optional">Optional</span></label><input id="lf-site" name="website" type="url" autocomplete="url" placeholder="https://yourbrand.com" /><small class="field-help">Add a URL to receive page-specific observations.</small></div>
           <div class="form-field"><label for="lf-bottleneck">What's the page for? <span class="field-required">Required</span></label>
             <select name="bottleneck" id="lf-bottleneck" required>
@@ -567,7 +567,7 @@
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr !important; } }
 </style>
 
-<script src="../assets/main.js?v=20260907f" defer></script>
+<script src="../assets/main.js?v=20260925a" defer></script>
 <!-- ─── Sticky callback pill ─── -->
 <a href="#book" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>

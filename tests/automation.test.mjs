@@ -4,11 +4,14 @@ import assert from 'node:assert/strict';
 process.env.ADMIN_SECRET = 'test-admin-secret';
 process.env.KV_REST_API_URL = 'https://kv.test';
 process.env.KV_REST_API_TOKEN = 'test-token';
+process.env.RESEND_API_KEY = 'resend-test-key';
+process.env.CONTACT_EMAIL = 'team@lofts.studio';
 
 const strings = new Map();
 const hashes = new Map();
 const sets = new Map();
 const lists = new Map();
+const sentEmails = [];
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -61,6 +64,10 @@ globalThis.fetch = async (input, init = {}) => {
       headers: { 'content-type': 'text/html' },
     });
   }
+  if (url === 'https://api.resend.com/emails') {
+    sentEmails.push(JSON.parse(init.body));
+    return Response.json({ id: `message-${sentEmails.length}` });
+  }
   throw new Error(`Unexpected network request: ${url}`);
 };
 
@@ -80,6 +87,7 @@ test('lead enrolment stores evidence-based analysis and remains in review mode',
     _ts: Date.now(),
     name: 'Jane Founder',
     email: 'jane@example-business.test',
+    phone: '+1 202 555 0147',
     website: 'https://example-business.test',
     bottleneck: 'Paid ad landing page (Meta/Google)',
     source: 'landing-page-sprint-callback',
@@ -96,14 +104,30 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   const availability = await automation.getAvailableSlots(token);
   assert.ok(availability.slots.length > 0);
   assert.equal(availability.timezone, 'Asia/Karachi');
+  await assert.rejects(automation.createBooking(token, { start: availability.slots[0], phone: 'abc' }), /valid phone/i);
   const first = await automation.createBooking(token, { start: availability.slots[0], timezone: 'Europe/London' });
-  assert.equal(first.booking.status, 'confirmed');
+  assert.equal(first.booking.status, 'requested');
+  assert.equal(first.booking.calendarStatus, 'not-connected');
+  assert.equal((await automation.getAvailableSlots(token)).booking.id, first.booking.id);
+  assert.equal(sentEmails.length, 2);
+  assert.ok(sentEmails.some(email => email.to.includes('team@lofts.studio')));
+  assert.ok(sentEmails.some(email => email.to.includes('jane@example-business.test')));
+  const repeat = await automation.createBooking(token, { start: availability.slots[1], timezone: 'Europe/London' });
+  assert.equal(repeat.booking.id, first.booking.id);
+  await automation.enrollLeadAutomation({ _id: 'lead-2', _projectId: 'lofts-studio', name: 'Second Lead', email: 'second@example.com', phone: '+1 202 555 0148' });
+  const secondToken = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: 'lead-2', exp: Date.now() + 30 * 86400000 });
   await assert.rejects(
-    automation.createBooking(token, { start: availability.slots[0], timezone: 'Europe/London' }),
+    automation.createBooking(secondToken, { start: availability.slots[0], timezone: 'Europe/London' }),
     /no longer available|just booked/i,
   );
   const sequence = await automation.getSequence('lofts-studio', 'lead-1');
   assert.equal(sequence.status, 'booked');
+});
+
+test('fallback first reply acknowledges a free-text enquiry without a model', async () => {
+  const { fallbackLeadReply } = await import('../api/_lib/lead-reply.js');
+  const reply = fallbackLeadReply({ name: 'Mina Patel', message: 'Our Shopify checkout is losing mobile customers.' });
+  assert.match(reply.body, /Shopify checkout is losing mobile customers/);
 });
 
 test('unsubscribe creates a durable suppression and stops the sequence', async () => {

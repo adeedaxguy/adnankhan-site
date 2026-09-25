@@ -86,6 +86,26 @@ function downloadCalendar() {
   URL.revokeObjectURL(link.href);
 }
 
+function showBookingConfirmation(booking, warning = '') {
+  bookingState.confirmed = booking;
+  document.getElementById('booking-status').hidden = true;
+  document.getElementById('booking-days').hidden = true;
+  document.getElementById('booking-form').hidden = true;
+  const confirmed = document.getElementById('booking-confirmed');
+  confirmed.hidden = false;
+  const requested = booking.status === 'requested';
+  document.getElementById('booking-confirmed-kicker').textContent = requested ? 'Request received' : 'Confirmed';
+  document.getElementById('booking-confirmed-title').textContent = requested ? 'Your time request is in.' : 'Your call is booked.';
+  document.getElementById('booking-confirmed-note').textContent = warning || (requested
+    ? 'We will confirm the time by email shortly. Reply there if anything changes.'
+    : 'A confirmation has been sent to your email. Reply there if anything changes.');
+  document.getElementById('booking-calendar').hidden = requested;
+  document.getElementById('booking-confirmed-time').textContent = formatSlot(booking.startAt, {
+    weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+  });
+  refreshBookingIcons();
+}
+
 async function submitBooking(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -101,15 +121,7 @@ async function submitBooking(event) {
     });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || 'The call could not be booked.');
-    bookingState.confirmed = result.booking;
-    document.getElementById('booking-days').hidden = true;
-    form.hidden = true;
-    const confirmed = document.getElementById('booking-confirmed');
-    confirmed.hidden = false;
-    document.getElementById('booking-confirmed-time').textContent = formatSlot(result.booking.startAt, {
-      weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
-    });
-    refreshBookingIcons();
+    showBookingConfirmation(result.booking, result.warning);
   } catch (error) {
     document.getElementById('booking-error').textContent = error.message;
     if (/no longer available|just booked/i.test(error.message)) await loadBooking();
@@ -127,10 +139,15 @@ async function loadBooking() {
     const response = await fetch(`/api/booking?t=${encodeURIComponent(bookingToken)}`, { headers: { Accept: 'application/json' } });
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || 'Booking is unavailable.');
+    if (data.booking) {
+      showBookingConfirmation(data.booking);
+      return;
+    }
     bookingState.data = data;
     document.getElementById('booking-duration').textContent = `${data.durationMinutes} minutes`;
     document.getElementById('booking-name').value = data.lead.name || '';
     document.getElementById('booking-email').value = data.lead.email || '';
+    document.getElementById('booking-phone').value = data.lead.phone || '';
     const select = document.getElementById('booking-timezone');
     select.innerHTML = timezoneOptions(data.timezone).map(zone => `<option value="${zone}" ${zone === bookingState.timezone ? 'selected' : ''}>${zone.replace(/_/g, ' ')}</option>`).join('');
     renderBookingSlots();

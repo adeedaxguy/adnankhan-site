@@ -336,9 +336,10 @@
           <input type="hidden" name="_template" value="table" />
           <div class="form-field"><label for="lf-name">Full Name</label><input id="lf-name" name="name" type="text" required placeholder="Jane Founder" /></div>
           <div class="form-field"><label for="lf-email">Corporate Email</label><input id="lf-email" name="email" type="email" required placeholder="jane@yourbrand.com" /></div>
+          <div class="form-field"><label for="lf-phone">Phone / WhatsApp</label><input id="lf-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required placeholder="+1 202 555 0147" /></div>
           <div class="form-field"><label for="lf-site">Store URL to Audit</label><input id="lf-site" name="website" type="url" required placeholder="https://yourbrand.com" /></div>
           <div class="form-field"><label for="lf-bottleneck">What's hurting most right now?</label>
-            <select id="lf-bottleneck" required>
+            <select id="lf-bottleneck" name="bottleneck" required>
               <option value="">Select your #1 bottleneck…</option>
               <option>Lighthouse score under 50 on mobile</option>
               <option>"Failing" Core Web Vitals in Search Console</option>
@@ -508,7 +509,7 @@
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr !important; } }
 </style>
 <!-- GSAP — async, non-render-blocking. main.js detects and gracefully degrades. -->
-<script src="../assets/main.js?v=20260907f" defer></script>
+<script src="../assets/main.js?v=20260925a" defer></script>
 <!-- ─── Sticky "Book a free audit" pill ─── -->
 <a href="/#contact" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>

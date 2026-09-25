@@ -830,6 +830,7 @@ function renderResults(data) {
       <form class="audit-cta-form" onsubmit="submitAuditFixPlan(event)">
         <input id="auditLeadName" name="name" type="text" autocomplete="name" placeholder="Your name" required>
         <input id="auditLeadEmail" name="email" type="email" autocomplete="email" placeholder="Email for the fix plan" required>
+        <input id="auditLeadPhone" name="phone" type="tel" autocomplete="tel" inputmode="tel" placeholder="Phone / WhatsApp (with country code)" aria-label="Phone or WhatsApp number" required>
         <textarea id="auditLeadNote" name="message" placeholder="What should we focus on first?"></textarea>
         <button id="auditLeadBtn" type="submit">Send report for review →</button>
         <p id="auditLeadStatus" class="audit-cta-status" role="status"></p>
@@ -1066,6 +1067,7 @@ async function submitAuditFixPlan(event) {
   const status = document.getElementById('auditLeadStatus');
   const name = document.getElementById('auditLeadName')?.value.trim();
   const email = document.getElementById('auditLeadEmail')?.value.trim();
+  const phone = document.getElementById('auditLeadPhone')?.value.trim();
   const note = document.getElementById('auditLeadNote')?.value.trim();
   if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
   if (status) { status.classList.remove('show'); status.textContent = ''; }
@@ -1076,6 +1078,7 @@ async function submitAuditFixPlan(event) {
       source: 'free-audit-report',
       name,
       email,
+      phone,
       website: currentAuditData.url || '',
       score: String(currentAuditData.score ?? ''),
       grade: currentAuditData.grade || '',

@@ -9879,7 +9879,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-brand { color: #17201b; font-family:var(--font-serif); font-size: 1.25rem; font-weight: 600; text-decoration: none; }
 .booking-help { color: #53625b; font-size: 0.78rem; text-decoration: none; }
 .booking-main { display: grid; grid-template-columns: minmax(260px, 0.72fr) minmax(520px, 1.28fr); gap: clamp(2rem, 6vw, 7rem); width: min(1180px, calc(100% - 3rem)); margin: 0 auto; padding: clamp(3rem, 7vw, 6.5rem) 0 4rem; }
-.booking-intro { align-self: start; padding-top: 1rem; }
+.booking-intro { grid-column: 1; grid-row: 1; align-self: start; padding-top: 1rem; }
 .booking-kicker { margin: 0 0 0.75rem; color: #12634f; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; }
 .booking-intro h1 { max-width: 10ch; margin: 0; font-family:var(--font-serif); font-size: clamp(2.3rem, 4.5vw, 4.1rem); line-height: 1.02; letter-spacing: 0; }
 .booking-intro > p:not(.booking-kicker) { max-width: 46ch; margin: 1.5rem 0 0; color: #5a6761; font-size: 1rem; line-height: 1.7; }
@@ -9888,13 +9888,13 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-facts dt { display: flex; align-items: center; gap: 0.45rem; color: #68756f; font-size: 0.74rem; }
 .booking-facts dt svg { width: 15px; height: 15px; }
 .booking-facts dd { margin: 0; font-size: 0.78rem; font-weight: 700; text-align: right; }
-.booking-prep { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #d9dfdc; }
+.booking-prep { grid-column: 1; grid-row: 2; margin-top: 0; padding-top: 1.5rem; border-top: 1px solid #d9dfdc; }
 .booking-prep h2 { margin: 0; font-family: var(--font-serif); font-size: 1.45rem; letter-spacing: 0; }
 .booking-prep p,
 .booking-prep li { color: #5a6761; font-size: 0.85rem; line-height: 1.65; }
 .booking-prep p { margin: 0.8rem 0 0; }
 .booking-prep ul { display: grid; gap: 0.45rem; margin: 0.9rem 0 0; padding-left: 1.1rem; }
-.booking-tool { min-width: 0; border: 1px solid #d4dbd7; border-radius: 8px; background: #fff; box-shadow: 0 18px 50px rgba(24, 39, 31, 0.07); }
+.booking-tool { grid-column: 2; grid-row: 1 / span 2; min-width: 0; border: 1px solid #d4dbd7; border-radius: 8px; background: #fff; box-shadow: 0 18px 50px rgba(24, 39, 31, 0.07); }
 .booking-tool-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; padding: 1.35rem; border-bottom: 1px solid #e1e6e3; }
 .booking-tool-head h2,
 .booking-confirmed h2 { margin: 0; font-size: 1.2rem; letter-spacing: 0; }
@@ -9950,6 +9950,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 
 @media (max-width: 860px) {
   .booking-main { grid-template-columns: 1fr; width: min(680px, calc(100% - 2rem)); padding-top: 2rem; }
+  .booking-intro, .booking-tool, .booking-prep { grid-column: 1; grid-row: auto; }
   .booking-intro h1 { max-width: 14ch; }
 }
 @media (max-width: 560px) {

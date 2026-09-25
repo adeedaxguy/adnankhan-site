@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260822a" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260925a" />
 <link rel="stylesheet" href="/assets/experience.css?v=20260810b" data-lofts-experience />
 <link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/typography.css" />
@@ -41,19 +41,9 @@
       <p>A focused 30-minute call to review the enquiry, the current page, and the clearest next step.</p>
       <dl class="booking-facts">
         <div><dt><i data-lucide="clock-3"></i> Duration</dt><dd id="booking-duration">30 minutes</dd></div>
-        <div><dt><i data-lucide="video"></i> Format</dt><dd>Google Meet or phone</dd></div>
-        <div><dt><i data-lucide="calendar-check"></i> Confirmation</dt><dd>Immediate by email</dd></div>
+        <div><dt><i data-lucide="video"></i> Format</dt><dd>Video or phone</dd></div>
+        <div><dt><i data-lucide="calendar-check"></i> Confirmation</dt><dd>By email</dd></div>
       </dl>
-      <div class="booking-prep">
-        <h2>What we will decide</h2>
-        <p>Bring the page, product, or growth problem that matters most. The call is used to identify the highest-impact next step, not to force a package.</p>
-        <ul>
-          <li>Review the current website, funnel, or search issue.</li>
-          <li>Separate urgent technical fixes from longer-term improvements.</li>
-          <li>Leave with a clear recommendation, scope, and next action.</li>
-        </ul>
-        <p>For an SEO or redesign discussion, sharing Search Console access, a problem URL, or two competitor examples before the call makes the review more useful.</p>
-      </div>
     </section>
 
     <section class="booking-tool" aria-labelledby="booking-title">
@@ -62,7 +52,7 @@
         <label class="booking-timezone"><i data-lucide="globe-2"></i><select id="booking-timezone" aria-label="Display timezone"></select></label>
       </div>
 
-      <div class="booking-status" id="booking-status"><span class="booking-spinner"></span>Checking live availability</div>
+      <div class="booking-status" id="booking-status"><span class="booking-spinner"></span>Checking availability</div>
       <div class="booking-days" id="booking-days" hidden></div>
 
       <form class="booking-details" id="booking-form" hidden>
@@ -70,7 +60,7 @@
         <div class="booking-fields">
           <label>Your name<input id="booking-name" name="name" autocomplete="name" required /></label>
           <label>Email<input id="booking-email" name="email" type="email" readonly /></label>
-          <label>Phone / WhatsApp <span>Optional</span><input name="phone" type="tel" autocomplete="tel" /></label>
+          <label>Phone / WhatsApp<input id="booking-phone" name="phone" type="tel" autocomplete="tel" inputmode="tel" required /></label>
           <label>Anything to prepare? <span>Optional</span><textarea name="note" rows="3" placeholder="A question, page, or priority for the call"></textarea></label>
         </div>
         <p class="booking-form-error" id="booking-error" role="alert"></p>
@@ -79,18 +69,28 @@
 
       <div class="booking-confirmed" id="booking-confirmed" hidden>
         <span class="booking-confirmed-icon"><i data-lucide="check"></i></span>
-        <p class="booking-kicker">Confirmed</p>
-        <h2>Your call is booked.</h2>
+        <p class="booking-kicker" id="booking-confirmed-kicker">Confirmed</p>
+        <h2 id="booking-confirmed-title">Your call is booked.</h2>
         <p id="booking-confirmed-time"></p>
         <button class="booking-calendar-button" id="booking-calendar" type="button"><i data-lucide="calendar-plus"></i>Add to calendar</button>
-        <small>A confirmation has been sent to your email. Reply there if anything changes.</small>
+        <small id="booking-confirmed-note">A confirmation has been sent to your email. Reply there if anything changes.</small>
       </div>
+    </section>
+    <section class="booking-prep" aria-labelledby="booking-prep-title">
+      <h2 id="booking-prep-title">What we will decide</h2>
+      <p>Bring the page, product, or growth problem that matters most. The call is used to identify the highest-impact next step, not to force a package.</p>
+      <ul>
+        <li>Review the current website, funnel, or search issue.</li>
+        <li>Separate urgent technical fixes from longer-term improvements.</li>
+        <li>Leave with a clear recommendation, scope, and next action.</li>
+      </ul>
+      <p>For an SEO or redesign discussion, sharing Search Console access, a problem URL, or two competitor examples before the call makes the review more useful.</p>
     </section>
   </main>
 
   <footer class="booking-footer"><span>Lofts Studio</span><span>Multan, Pakistan &middot; Dubai, UAE</span><a href="/privacy.html">Privacy</a></footer>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/assets/booking.js?v=20260723f"></script>
+  <script src="/assets/booking.js?v=20260925b"></script>
 <script src="/assets/main.js?v=20260907f" defer></script>
 </body>
 </html>
