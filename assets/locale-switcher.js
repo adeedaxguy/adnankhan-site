@@ -8,7 +8,7 @@
   var route = base;
 
   if (/^\/services\/website-development-company\.html\/?$/.test(base)) route = '/services/website-development-company.html';
-  else if (/^\/free-audit\/?$/.test(base)) route = '/free-audit/';
+  else if (/^\/free-audit\/?$/.test(base)) route = '/free-audit';
   else if (base !== '/') return;
 
   if (!document.querySelector('link[href*="locale-pilot.css"]')) {
@@ -18,7 +18,10 @@
     document.head.appendChild(css);
   }
 
-  function hrefFor(locale) { return locale === 'en' ? route : '/' + locale + route; }
+  function hrefFor(locale) {
+    if (locale === 'en') return route;
+    return route === '/' ? '/' + locale : '/' + locale + route;
+  }
   function save(locale) {
     try { localStorage.setItem('lofts-locale', locale); } catch (error) {}
   }

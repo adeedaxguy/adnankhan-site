@@ -150,18 +150,21 @@ const englishPaths = {
 };
 
 function alternates(key) {
+  const englishPath = englishPaths[key];
+  const localizedPath = englishPath === '/' ? '' : englishPath.replace(/\/$/, '');
   return [
-    ['en', `https://lofts.studio${englishPaths[key]}`],
-    ...Object.keys(locales).map((locale) => [locale, `https://lofts.studio/${locale}${englishPaths[key]}`]),
-    ['x-default', `https://lofts.studio${englishPaths[key]}`]
+    ['en', `https://lofts.studio${englishPath === '/' ? '/' : localizedPath}`],
+    ...Object.keys(locales).map((locale) => [locale, `https://lofts.studio/${locale}${localizedPath}`]),
+    ['x-default', `https://lofts.studio${englishPath === '/' ? '/' : localizedPath}`]
   ].map(([lang, href]) => `<link rel="alternate" hreflang="${lang}" href="${href}" />`).join('\n');
 }
 
 function page(locale, common, key, data) {
-  const canonical = `https://lofts.studio/${locale}${data.path}`;
-  const home = `/${locale}/`;
+  const route = data.path === '/' ? '' : data.path.replace(/\/$/, '');
+  const canonical = `https://lofts.studio/${locale}${route}`;
+  const home = `/${locale}`;
   const service = `/${locale}/services/website-development-company.html`;
-  const audit = `/${locale}/free-audit/`;
+  const audit = `/${locale}/free-audit`;
   const schema = {
     '@context': 'https://schema.org',
     '@type': key === 'audit' ? 'WebPage' : key === 'service' ? 'Service' : 'WebSite',
