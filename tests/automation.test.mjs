@@ -287,6 +287,7 @@ test('a failed Zoho event rolls back the Google event', async () => {
   assert.equal(result.booking.status, 'requested');
   assert.equal(result.booking.calendarStatus, 'zoho-review');
   assert.equal(deletedGoogleEvents.at(-1), googleCalendarEvents.at(-1).id);
+  assert.ok(sentEmails.some(email => email.to.includes('owner@lofts.studio') && email.subject === 'Call requested: Rollback Lead'));
   assert.equal((await automation.getAvailableSlots(token)).booking.id, result.booking.id);
 });
 

@@ -61,8 +61,9 @@ export async function notifyBooking(booking, config = {}) {
   const apiKey = process.env.RESEND_API_KEY;
   if (!recipients.length || !apiKey) return false;
   const date = new Intl.DateTimeFormat('en-US', { timeZone: booking.hostTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
+  const subject = `${booking.status === 'confirmed' ? 'Call booked' : 'Call requested'}: ${booking.leadName}`;
   const lines = [
-    `Call booked: ${booking.leadName}`,
+    subject,
     `When: ${date} (${booking.hostTimezone})`,
     `Email: ${booking.leadEmail}`,
     `Phone: ${booking.phone || 'Not supplied'}`,
@@ -72,7 +73,7 @@ export async function notifyBooking(booking, config = {}) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: 'Lofts Studio <noreply@lofts.studio>', to: recipients, subject: `Call booked: ${booking.leadName}`, text: lines.join('\n'), reply_to: booking.leadEmail }),
+    body: JSON.stringify({ from: 'Lofts Studio <noreply@lofts.studio>', to: recipients, subject, text: lines.join('\n'), reply_to: booking.leadEmail }),
   });
   return response.ok;
 }
