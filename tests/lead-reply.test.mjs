@@ -1,19 +1,39 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { draftLeadReply, fallbackLeadReply } from '../api/_lib/lead-reply.js';
+import { classifyLeadEnquiry, draftLeadReply, fallbackLeadReply } from '../api/_lib/lead-reply.js';
 
 const originalFetch = globalThis.fetch;
 const originalKey = process.env.OPENROUTER_API_KEY;
 const originalModel = process.env.LEAD_REPLY_MODEL;
 
-test('fallback reply quotes long enquiries without splitting the last word', () => {
+test('fallback reply addresses the specific checkout problem without quoting the whole enquiry', () => {
   const reply = fallbackLeadReply({
     name: 'Adnan Khan',
     message: 'A WooCommerce store has mobile checkout friction and needs a clearer purchase flow. Please assess the checkout journey and suggest a practical next step for our team.',
   });
-  assert.match(reply.body, /You mentioned: "[^"]+\.\.\."/);
-  assert.doesNotMatch(reply.body, /clearer p"/);
+  assert.match(reply.body, /mobile checkout of your WooCommerce store/i);
+  assert.match(reply.body, /cart, checkout, or payment/i);
+  assert.doesNotMatch(reply.body, /You mentioned: "/);
+});
+
+test('message details override a conflicting platform page while selected goals stay authoritative', () => {
+  assert.equal(classifyLeadEnquiry({
+    sourcePath: '/services/shopify-development.html',
+    message: 'I need a WordPress redesign for our publishing site.',
+  }), 'wordpress');
+  assert.equal(classifyLeadEnquiry({
+    sourcePath: '/services/technical-seo-audit.html',
+    bottleneck: 'Shopify Plus',
+    message: 'Our Shopify pages are not indexed.',
+  }), 'seo');
+  assert.equal(classifyLeadEnquiry({
+    focus: 'Build or improve a Shopify / WooCommerce store',
+    message: 'Our Shopify storefront has a mobile checkout issue.',
+  }), 'shopify');
+  const general = fallbackLeadReply({ name: 'Sam', message: 'Please contact me.' });
+  assert.equal(general.subject, 'Your project enquiry | Lofts Studio');
+  assert.doesNotMatch(general.body, /You mentioned:/);
 });
 
 test('free AI draft uses enquiry context and rejects off-topic output', async () => {
@@ -42,7 +62,13 @@ test('free AI draft uses enquiry context and rejects off-topic output', async ()
     }) } }] });
     const fallback = await draftLeadReply(lead);
     assert.equal(fallback.subject, 'Your Shopify project | Lofts Studio');
-    assert.match(fallback.body, /Shopify checkout loses mobile shoppers/);
+    assert.match(fallback.body, /checkout of your Shopify store/i);
+
+    globalThis.fetch = async () => Response.json({ choices: [{ message: { content: JSON.stringify({
+      body: 'Hi Sam,\n\nWe can help with your Shopify storefront and its design. We would review the current site and suggest a practical scope for improvements.\n\nWhat outcome matters most to you? Reply here or choose a time to discuss it.',
+    }) } }] });
+    const vagueDraft = await draftLeadReply(lead);
+    assert.match(vagueDraft.body, /checkout of your Shopify store/i);
 
     globalThis.fetch = async () => Response.json({ choices: [{ message: { content: JSON.stringify({
       subject: 'Your Shopify checkout enquiry',

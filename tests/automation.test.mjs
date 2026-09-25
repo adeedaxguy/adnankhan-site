@@ -223,7 +223,8 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
 test('fallback first reply acknowledges a free-text enquiry without a model', async () => {
   const { classifyLeadEnquiry, fallbackLeadReply, leadExpertise } = await import('../api/_lib/lead-reply.js');
   const reply = fallbackLeadReply({ name: 'Mina Patel', message: 'Our Shopify checkout is losing mobile customers.' });
-  assert.match(reply.body, /Shopify checkout is losing mobile customers/);
+  assert.match(reply.body, /mobile checkout of your Shopify store/i);
+  assert.match(reply.body, /cart, checkout, or payment/i);
   assert.equal(classifyLeadEnquiry({ focus: 'Build or redesign a business website', message: 'The WordPress site needs a redesign.' }), 'wordpress');
   assert.equal(classifyLeadEnquiry({ bottleneck: 'Checkout flow', pageTitle: 'Shopify Development' }), 'shopify');
   assert.equal(classifyLeadEnquiry({ bottleneck: 'WordPress', sourcePath: '/services/technical-seo-audit.html' }), 'seo');
@@ -496,7 +497,7 @@ test('first lead reply uses a restrained service-specific email and Zoho sender'
   assert.equal(email.toAddress, 'sam@prospect.co');
   assert.equal(email.fromAddress, 'hi@lofts.studio');
   assert.equal(email.mailFormat, 'html');
-  assert.match(email.content, /WooCommerce checkout is difficult to use on phones/);
+  assert.match(email.content, /checkout of your WooCommerce store/);
   assert.match(email.content, /WooCommerce architecture and custom product logic/);
   assert.match(email.content, /Where we can help/);
   assert.match(email.content, /Choose a time to talk/);

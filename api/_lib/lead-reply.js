@@ -105,25 +105,28 @@ export function leadExpertise(lead) {
 export function classifyLeadEnquiry(lead) {
   const detail = clean(lead.message, 1000).toLowerCase();
   const page = clean(lead.sourcePath || lead.pageTitle, 300).toLowerCase();
-  if (/woocommerce-development/.test(page)) return 'woocommerce';
-  if (/shopify-development|shopify-plus-migration/.test(page)) return 'shopify';
-  if (/webflow-development/.test(page)) return 'webflow';
+  const focus = clean(lead.focus, 300).toLowerCase();
+  if (/\b(?:seo|aeo|rankings)\b/.test(focus)) return 'seo';
+  if (/\b(?:conversion|landing page|funnel|leads)\b/.test(focus)) return 'conversion';
+  if (/\b(?:automation|chatbot|calling agent)\b/.test(focus)) return 'automation';
+  if (/\b(?:seo|aeo|rankings|indexing|search visibility)\b/.test(detail)) return 'seo';
+  if (/\b(?:automation|chatbot|calling agent|ai agent)\b/.test(detail)) return 'automation';
   if (/technical-seo-audit/.test(page)) return 'seo';
   if (/custom-app-development/.test(page)) return 'app';
   if (/conversion-rate-optimization|landing-page-sprint/.test(page)) return 'conversion';
   if (/ai-chatbot-automation/.test(page)) return 'automation';
   if (/speed-optimization/.test(page)) return 'performance';
   if (/design-and-branding/.test(page)) return 'branding';
-  const focus = clean(lead.focus, 300).toLowerCase();
-  if (/\b(?:seo|aeo|rankings)\b/.test(focus)) return 'seo';
-  if (/\b(?:conversion|landing page|funnel|leads)\b/.test(focus)) return 'conversion';
-  if (/\b(?:automation|chatbot|calling agent)\b/.test(focus)) return 'automation';
   const selected = [lead.focus, lead.bottleneck, lead.scope, lead.pageTitle, lead.sourcePath]
     .map(value => clean(value, 300)).filter(Boolean).join(' ').toLowerCase();
+  if (/\bshopify\b/.test(detail) && /\bwoocommerce\b/.test(detail)) return 'ecommerce';
   if (/\bshopify\b/.test(detail)) return 'shopify';
   if (/\bwoocommerce\b/.test(detail)) return 'woocommerce';
   if (/\b(?:wordpress|word\s*press)\b/.test(detail)) return 'wordpress';
   if (/\bwebflow\b/.test(detail)) return 'webflow';
+  if (/woocommerce-development/.test(page)) return 'woocommerce';
+  if (/shopify-development|shopify-plus-migration/.test(page)) return 'shopify';
+  if (/webflow-development/.test(page)) return 'webflow';
   if (/shopify\s*\/\s*woocommerce/.test(focus)) return 'ecommerce';
   if (/wordpress,?\s*webflow,?\s*or a custom cms/.test(focus)) return 'cms';
   const value = `${selected} ${detail}`;
@@ -140,18 +143,63 @@ export function classifyLeadEnquiry(lead) {
   return 'general';
 }
 
+function specificEnquiryCopy(lead, service) {
+  const detail = clean(lead.message, 1000).toLowerCase();
+  if (['ecommerce', 'shopify', 'woocommerce'].includes(service) && /\b(?:checkout|cart|payment|purchase flow)\b/.test(detail)) {
+    const platform = service === 'ecommerce' ? 'online' : service === 'shopify' ? 'Shopify' : 'WooCommerce';
+    const device = /\b(?:mobile|phone)\b/.test(detail) ? 'mobile ' : '';
+    return {
+      opening: `You mentioned friction in the ${device}checkout of your ${platform} store. We can trace the cart-to-payment journey, identify where shoppers lose momentum, and prioritise the changes most likely to help them complete an order.`,
+      question: 'Where does the problem show up first: cart, checkout, or payment?',
+      topic: /checkout|cart|payment|purchase flow|buying journey/i,
+    };
+  }
+  if (service === 'seo' && /\b(?:indexing|indexed|rankings|traffic|search console)\b/.test(detail)) {
+    return {
+      opening: 'You mentioned a search visibility issue. We can examine the affected pages, indexing signals, and search intent before deciding whether the first fix is technical or content-led.',
+      question: 'Which pages or search terms matter most to the business right now?',
+      topic: /search|index|rank|traffic|visibility/i,
+    };
+  }
+  if (service === 'conversion' && /\b(?:form|lead|landing page|drop.?off)\b/.test(detail)) {
+    return {
+      opening: 'You mentioned friction in the path from visitor to enquiry. We can review the page message, the form, and what happens immediately after submission before recommending a change.',
+      question: 'Where do you see the biggest drop-off: the page, the form, or follow-up?',
+      topic: /lead|form|landing page|conversion|drop.?off|enquiry/i,
+    };
+  }
+  if (service === 'automation' && /\b(?:lead|reply|email|crm|booking|calendar)\b/.test(detail)) {
+    return {
+      opening: 'You mentioned a lead-handling workflow that could be automated. We can map the enquiry, response, handoff, and booking steps, then decide which decisions need a person in the loop.',
+      question: 'What should happen automatically after a new enquiry arrives?',
+      topic: /lead|reply|email|crm|booking|calendar|enquiry/i,
+    };
+  }
+  if (service === 'performance' && /\b(?:slow|speed|loading|performance)\b/.test(detail)) {
+    return {
+      opening: 'You mentioned slow page performance. We can look at the real loading path on the affected device and separate the biggest bottleneck from lower-impact tweaks.',
+      question: 'Which page feels slowest, and is the issue most noticeable on mobile or desktop?',
+      topic: /speed|slow|load|performance/i,
+    };
+  }
+  return null;
+}
+
 export function fallbackLeadReply(lead) {
   const name = clean(lead.name, 80).split(' ')[0] || 'there';
-  const template = REPLY_TEMPLATES[classifyLeadEnquiry(lead)];
+  const service = classifyLeadEnquiry(lead);
+  const template = REPLY_TEMPLATES[service];
+  const specific = specificEnquiryCopy(lead, service);
   const fullDetail = clean(lead.message || (lead.sourcePath ? lead.bottleneck : ''), 1000);
   const detail = fullDetail.length > 120
     ? `${fullDetail.slice(0, 120).replace(/\s+\S*$/, '').replace(/[.,;:!?]+$/, '')}...`
     : fullDetail;
-  const context = detail && !/\b(?:ignore|instruction|prompt|system message)\b/i.test(detail)
+  const context = !specific && service !== 'general' && detail.length >= 30
+    && !/\b(?:ignore|instruction|prompt|system message)\b/i.test(detail)
     ? ` You mentioned: "${detail}"${/[.!?]$/.test(detail) ? '' : '.'}` : '';
   return {
     subject: template.subject,
-    body: `Hi ${name},\n\n${template.opening}${context}\n\n${template.question} You can reply to this email, or choose a time below and we can talk it through together.`,
+    body: `Hi ${name},\n\n${specific?.opening || template.opening}${context}\n\n${specific?.question || template.question} You can reply to this email, or choose a time below and we can talk it through together.`,
   };
 }
 
@@ -187,6 +235,7 @@ export async function draftLeadReply(lead, analysis) {
     const copy = JSON.parse(payload.choices?.[0]?.message?.content || '{}');
     const body = String(copy.body || '').trim().slice(0, 1600);
     const service = classifyLeadEnquiry(lead);
+    const specific = specificEnquiryCopy(lead, service);
     const firstName = clean(lead.name, 80).split(' ')[0] || 'there';
     const greeting = body.split('\n', 1)[0].trim().toLowerCase();
     const addressesLead = ['hi', 'hello', 'dear'].some(word => greeting.startsWith(`${word} ${firstName.toLowerCase()}`));
@@ -200,6 +249,7 @@ export async function draftLeadReply(lead, analysis) {
     };
     if (body.length < 100 || !body.includes('\n') || !addressesLead
       || (serviceTerms[service] && !serviceTerms[service].test(body))
+      || (specific?.topic && !specific.topic.test(body))
       || /<\s*\/?\s*think(?:ing)?\s*>|\b(?:chain[- ]of[- ]thought|system prompt|developer instruction|the user is asking|the visitor is asking|here is (?:the|a) (?:reply|email|draft))\b/i.test(body)
       || /https?:\/\/|\[[^\]]+\]\(|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(body)) return fallback;
     return { subject: fallback.subject, body };
