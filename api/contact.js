@@ -155,8 +155,9 @@ export default async function handler(req) {
   }
 
   const submissionId = cleanField(payload._submissionId, 96).replace(/[^a-zA-Z0-9-]/g, '') || crypto.randomUUID();
+  const submissionKey = `lofts:contact:submission:${submissionId}`;
   try {
-    const first = await kvCmd('SET', `lofts:contact:submission:${submissionId}`, '1', 'NX', 'EX', '86400');
+    const first = await kvCmd('SET', submissionKey, '1', 'NX', 'EX', '86400');
     if (!first) return json({ success: true, message: 'Already received' });
   } catch {
     return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
@@ -192,6 +193,7 @@ export default async function handler(req) {
   try {
     await kvCmd('LPUSH', 'lofts:submissions', JSON.stringify(lead));
   } catch {
+    try { await kvCmd('DEL', submissionKey); } catch { /* The original storage failure is still reported. */ }
     return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
   }
 

@@ -11,6 +11,7 @@ const strings = new Map();
 const hashes = new Map();
 const lists = new Map();
 const delivered = [];
+let failSubmissionWrite = false;
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -34,7 +35,9 @@ function command(args) {
     return value;
   }
   if (name === 'EXPIRE') return 1;
+  if (name === 'DEL') return strings.delete(key) ? 1 : 0;
   if (name === 'LPUSH') {
+    if (key === 'lofts:submissions' && failSubmissionWrite) throw new Error('Temporary storage outage');
     if (!lists.has(key)) lists.set(key, []);
     lists.get(key).unshift(rest[0]);
     return lists.get(key).length;
@@ -110,6 +113,29 @@ test('contact lead persists before a failed notification and duplicate is idempo
   assert.equal(duplicate.status, 200);
   assert.equal((await duplicate.json()).message, 'Already received');
   assert.equal(lists.get('lofts:submissions').length, 1);
+});
+
+test('a failed lead write can be retried with the same submission ID', async () => {
+  const payload = {
+    name: 'Mira Founder',
+    email: 'mira@example.org',
+    phone: '+1 202 555 0199',
+    source: 'contact-form',
+    _submissionId: 'retry-submission-1',
+  };
+  failSubmissionWrite = true;
+  try {
+    const failed = await contactHandler(request(payload, '198.51.100.44'));
+    assert.equal(failed.status, 503);
+    assert.equal(strings.has('lofts:contact:submission:retry-submission-1'), false);
+  } finally {
+    failSubmissionWrite = false;
+  }
+
+  const retried = await contactHandler(request(payload, '198.51.100.44'));
+  assert.equal(retried.status, 200);
+  assert.equal((await retried.json()).message, 'Received');
+  assert.equal(lists.get('lofts:submissions').length, 2);
 });
 
 test('a real project enquiry gets one tailored reply and a booking link', async () => {
