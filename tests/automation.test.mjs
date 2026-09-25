@@ -274,6 +274,22 @@ test('connected Zoho and Google calendars filter busy times and create both even
   assert.ok(sentEmails.some(email => email.to.includes('calendar@prospect.co') && email.from === 'Lofts Studio <hi@lofts.studio>'));
 });
 
+test('Google authorization allows time to review consent but still expires', async () => {
+  const google = await import('../api/_lib/google-calendar.js');
+  const issuedAt = Date.now();
+  const authUrl = await google.createGoogleCalendarAuthorization('lofts-studio', 'https://lofts.studio');
+  const state = new URL(authUrl).searchParams.get('state');
+  const originalNow = Date.now;
+  try {
+    Date.now = () => issuedAt + 20 * 60 * 1000;
+    await google.completeGoogleCalendarAuthorization('test-code', state);
+    Date.now = () => issuedAt + 31 * 60 * 1000;
+    await assert.rejects(google.completeGoogleCalendarAuthorization('test-code', state), /expired/i);
+  } finally {
+    Date.now = originalNow;
+  }
+});
+
 test('a failed Zoho event rolls back the Google event', async () => {
   await automation.enrollLeadAutomation({
     _id: 'lead-rollback', _projectId: 'lofts-studio', name: 'Rollback Lead',

@@ -118,7 +118,7 @@ export async function createGoogleCalendarAuthorization(projectId, origin) {
   const client = await getClient(id);
   if (!client) throw serviceError('client_missing', 'Save the Google Calendar OAuth client first.');
   const redirectUri = new URL('/api/google-calendar/callback', origin).toString();
-  const state = await seal({ projectId: id, redirectUri, expiresAt: Date.now() + 10 * 60 * 1000, nonce: crypto.randomUUID() });
+  const state = await seal({ projectId: id, redirectUri, expiresAt: Date.now() + 30 * 60 * 1000, nonce: crypto.randomUUID() });
   const query = new URLSearchParams({
     client_id: client.clientId,
     redirect_uri: redirectUri,
