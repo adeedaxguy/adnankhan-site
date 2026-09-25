@@ -954,10 +954,14 @@ export async function getAvailableSlots(token) {
   const locks = lockKeys.length ? await kvCmd('MGET', ...lockKeys) : [];
   const rangeStart = candidates[0] || new Date().toISOString();
   const rangeEnd = new Date(new Date(candidates[candidates.length - 1] || rangeStart).getTime() + booking.durationMinutes * 60000);
-  const [zohoBusy, googleBusy] = await Promise.all([
+  const [zohoResult, googleResult] = await Promise.allSettled([
     busyCalendarIntervals(payload.p, rangeStart, rangeEnd),
     googleBusyIntervals(payload.p, rangeStart, rangeEnd),
   ]);
+  if (zohoResult.status === 'rejected') console.warn('Zoho booking availability unavailable:', zohoResult.reason?.message);
+  if (googleResult.status === 'rejected') console.warn('Google booking availability unavailable:', googleResult.reason?.message);
+  const zohoBusy = zohoResult.status === 'fulfilled' ? zohoResult.value : null;
+  const googleBusy = googleResult.status === 'fulfilled' ? googleResult.value : null;
   const busy = [...(zohoBusy || []), ...(googleBusy || [])];
   const slots = candidates.filter((start, index) => {
     if (Array.isArray(locks) && locks[index]) return false;
@@ -971,6 +975,7 @@ export async function getAvailableSlots(token) {
     durationMinutes: booking.durationMinutes,
     calendarConnected: zohoBusy !== null && googleBusy !== null
       && (payload.p !== 'lofts-studio' || zohoStatus.fromEmail === 'hi@lofts.studio'),
+    googleCalendarConnected: googleBusy !== null,
     slots,
   };
 }
@@ -1037,6 +1042,14 @@ export async function createBooking(token, input) {
         await kvCmd('DEL', lockKey);
         throw error;
       }
+    }
+  } else if (availability.googleCalendarConnected) {
+    try {
+      const googleEvent = await createGoogleCalendarEvent(booking);
+      booking.googleEventId = googleEvent.id;
+      booking.calendarStatus = 'partial-google';
+    } catch {
+      booking.calendarStatus = 'not-connected';
     }
   } else {
     booking.calendarStatus = 'not-connected';

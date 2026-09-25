@@ -248,12 +248,14 @@ async function validAccessToken(projectId, connection, client, force = false) {
 function utcScheduleFields(value) {
   const date = new Date(value);
   if (!Number.isFinite(date.getTime()) || date.getTime() <= Date.now()) return {};
+  // Zoho expects a named GMT zone; use its documented zone and convert the requested UTC instant.
+  const scheduledLocal = new Date(date.getTime() + 330 * 60000);
   const two = number => String(number).padStart(2, '0');
   return {
     isSchedule: true,
     scheduleType: 6,
-    timeZone: 'GMT 0:00 (UTC)',
-    scheduleTime: `${two(date.getUTCMonth() + 1)}/${two(date.getUTCDate())}/${date.getUTCFullYear()} ${two(date.getUTCHours())}:${two(date.getUTCMinutes())}:${two(date.getUTCSeconds())}`,
+    timeZone: 'GMT 5:30 (India Standard Time - Asia/Calcutta)',
+    scheduleTime: `${two(scheduledLocal.getUTCMonth() + 1)}/${two(scheduledLocal.getUTCDate())}/${scheduledLocal.getUTCFullYear()} ${two(scheduledLocal.getUTCHours())}:${two(scheduledLocal.getUTCMinutes())}:${two(scheduledLocal.getUTCSeconds())}`,
   };
 }
 

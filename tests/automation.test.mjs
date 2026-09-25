@@ -28,6 +28,7 @@ let googleCalendarResponseKey = 'primary';
 let failZohoEvent = false;
 let failGoogleDelete = false;
 let failScheduledZohoEmail = false;
+let failZohoFreebusy = false;
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -102,6 +103,7 @@ globalThis.fetch = async (input, init = {}) => {
     return Response.json({ data: [] });
   }
   if (url.startsWith('https://calendar.zoho.com/api/v1/calendars/freebusy')) {
+    if (failZohoFreebusy) return Response.json({});
     const stamp = value => new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
     return Response.json({ freebusy: calendarBusyStart ? [{ startTime: stamp(calendarBusyStart), endTime: stamp(new Date(new Date(calendarBusyStart).getTime() + 1800000)), fbtype: 'busy' }] : [] });
   }
@@ -293,6 +295,33 @@ test('connected Zoho and Google calendars filter busy times and create both even
   assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Call booked/.test(email.subject)));
 });
 
+test('booking offers requested slots and creates a Google event when Zoho availability fails', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-zoho-fallback', _projectId: 'lofts-studio', name: 'Fallback Lead',
+    email: 'fallback@prospect.co', phone: '+1 202 555 0199',
+  });
+  const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: sequence.leadId, exp: Date.now() + 30 * 86400000 });
+  const previousGoogleCount = googleCalendarEvents.length;
+  const previousZohoCount = calendarEvents.length;
+  const originalWarn = console.warn;
+  failZohoFreebusy = true;
+  console.warn = () => {};
+  try {
+    const availability = await automation.getAvailableSlots(token);
+    assert.ok(availability.slots.length > 0);
+    assert.equal(availability.calendarConnected, false);
+    assert.equal(availability.googleCalendarConnected, true);
+    const result = await automation.createBooking(token, { start: availability.slots[0] });
+    assert.equal(result.booking.status, 'requested');
+    assert.equal(result.booking.calendarStatus, 'partial-google');
+    assert.equal(googleCalendarEvents.length, previousGoogleCount + 1);
+    assert.equal(calendarEvents.length, previousZohoCount);
+  } finally {
+    failZohoFreebusy = false;
+    console.warn = originalWarn;
+  }
+});
+
 test('a failed scheduled first reply records the provider error and can be previewed without starting follow-ups', async () => {
   const sequence = await automation.enrollLeadAutomation({
     _id: 'lead-preview', _projectId: 'lofts-studio', _ts: Date.now(),
@@ -473,5 +502,6 @@ test('first lead reply uses a restrained service-specific email and Zoho sender'
   assert.doesNotMatch(email.content, /adnan\.webexpert@|adnan\.toprated@|<img\b/i);
   assert.doesNotMatch(email.content, /Test Street/);
   assert.ok(email.isSchedule);
+  assert.equal(email.timeZone, 'GMT 5:30 (India Standard Time - Asia/Calcutta)');
   assert.equal((await automation.getSequence('lofts-studio', 'lead-email-design')).steps[0].status, 'scheduled');
 });
