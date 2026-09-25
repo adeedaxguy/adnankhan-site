@@ -1,0 +1,75 @@
+:root {
+  --locale-paper: #f4f0ea;
+  --locale-surface: #fdfaf6;
+  --locale-ink: #1a1612;
+  --locale-muted: #746b63;
+  --locale-line: #d8d0c6;
+  --locale-accent: #8b3a1f;
+}
+
+* { box-sizing: border-box; }
+
+.locale-page {
+  margin: 0;
+  background: var(--locale-paper);
+  color: var(--locale-ink);
+  font-family: var(--font-sans, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  line-height: 1.65;
+}
+
+.locale-shell { width: min(1120px, calc(100% - 40px)); margin: 0 auto; }
+.locale-nav { position: sticky; top: 0; z-index: 20; border-bottom: 1px solid var(--locale-line); background: rgba(244, 240, 234, .94); backdrop-filter: blur(14px); }
+.locale-nav__inner { min-height: 68px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+.locale-brand { color: var(--locale-ink); text-decoration: none; font-family: Georgia, "Times New Roman", serif; font-size: 1.35rem; font-style: italic; }
+.locale-brand small { margin-left: 7px; color: var(--locale-muted); font-family: inherit; font-size: .58rem; font-style: normal; letter-spacing: .16em; }
+.locale-nav__links { display: flex; align-items: center; gap: 22px; }
+.locale-nav__links a { color: var(--locale-ink); font-size: .86rem; text-decoration: none; }
+.locale-nav__links a:hover { color: var(--locale-accent); }
+
+.locale-hero { padding: clamp(76px, 10vw, 128px) 0 72px; border-bottom: 1px solid var(--locale-line); }
+.locale-eyebrow { margin: 0 0 18px; color: var(--locale-accent); font-size: .72rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+.locale-title { max-width: 940px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2.55rem, 6.4vw, 5.8rem); font-weight: 400; letter-spacing: 0; line-height: .98; }
+.locale-lead { max-width: 760px; margin: 28px 0 0; color: var(--locale-muted); font-size: clamp(1.05rem, 2vw, 1.3rem); }
+.locale-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+.locale-button { display: inline-flex; min-height: 48px; align-items: center; justify-content: center; padding: 0 20px; border: 1px solid var(--locale-ink); color: var(--locale-paper); background: var(--locale-ink); text-decoration: none; font-size: .9rem; font-weight: 700; }
+.locale-button--secondary { color: var(--locale-ink); background: transparent; }
+.locale-button:hover { color: white; background: var(--locale-accent); border-color: var(--locale-accent); }
+
+.locale-section { padding: 72px 0; border-bottom: 1px solid var(--locale-line); }
+.locale-section h2 { max-width: 780px; margin: 0; font-family: Georgia, "Times New Roman", serif; font-size: clamp(2rem, 4vw, 3.6rem); font-weight: 400; line-height: 1.08; }
+.locale-grid { display: grid; grid-template-columns: repeat(3, 1fr); margin-top: 38px; border: 1px solid var(--locale-line); }
+.locale-card { min-width: 0; padding: 28px; background: var(--locale-surface); }
+.locale-card + .locale-card { border-left: 1px solid var(--locale-line); }
+.locale-card h3 { margin: 0 0 12px; font-family: Georgia, "Times New Roman", serif; font-size: 1.45rem; font-weight: 400; }
+.locale-card p { margin: 0; color: var(--locale-muted); }
+.locale-answer { max-width: 820px; margin-top: 34px; padding: 24px; border: 1px solid var(--locale-line); background: var(--locale-surface); }
+.locale-answer p { margin: 0; }
+.locale-footer { padding: 38px 0 48px; }
+.locale-footer__inner { display: flex; justify-content: space-between; gap: 28px; color: var(--locale-muted); font-size: .82rem; }
+.locale-footer a { color: var(--locale-ink); }
+
+.lofts-language { position: fixed; right: 18px; bottom: 18px; z-index: 80; font-family: var(--font-sans, ui-sans-serif, system-ui, sans-serif); }
+.lofts-language__toggle { min-width: 48px; height: 42px; padding: 0 13px; border: 1px solid rgba(26,22,18,.25); border-radius: 4px; background: #1a1612; color: var(--locale-surface); box-shadow: 0 10px 28px rgba(26,22,18,.2); font: inherit; font-size: .78rem; font-weight: 800; cursor: pointer; }
+.lofts-language__menu { position: absolute; right: 0; bottom: 50px; display: none; min-width: 188px; padding: 8px; border: 1px solid var(--locale-line); background: var(--locale-surface); box-shadow: 0 18px 44px rgba(26,22,18,.16); }
+.lofts-language[data-open="true"] .lofts-language__menu { display: grid; }
+.lofts-language__menu a { display: flex; justify-content: space-between; padding: 10px 11px; color: var(--locale-ink); text-decoration: none; font-size: .82rem; }
+.lofts-language__menu a:hover, .lofts-language__menu a[aria-current="page"] { background: #ece5dc; }
+.lofts-language__hint { position: absolute; right: 0; bottom: 52px; width: min(300px, calc(100vw - 36px)); padding: 14px 42px 14px 15px; border: 1px solid var(--locale-line); background: var(--locale-surface); box-shadow: 0 18px 44px rgba(26,22,18,.16); color: var(--locale-ink); font-size: .8rem; }
+.lofts-language__hint a { color: var(--locale-accent); font-weight: 800; }
+.lofts-language__close { position: absolute; top: 7px; right: 7px; width: 28px; height: 28px; border: 0; background: transparent; color: var(--locale-muted); cursor: pointer; font-size: 1rem; }
+
+@media (max-width: 760px) {
+  .locale-shell { width: min(100% - 28px, 1120px); }
+  .locale-nav__inner { min-height: 60px; }
+  .locale-nav__links a:not(:last-child) { display: none; }
+  .locale-hero { padding: 64px 0 54px; }
+  .locale-title { font-size: clamp(2.4rem, 14vw, 4.2rem); }
+  .locale-grid { grid-template-columns: 1fr; }
+  .locale-card + .locale-card { border-top: 1px solid var(--locale-line); border-left: 0; }
+  .locale-footer__inner { flex-direction: column; }
+  .lofts-language { right: 12px; bottom: 12px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}

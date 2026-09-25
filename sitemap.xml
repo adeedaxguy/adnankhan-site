@@ -2,7 +2,12 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://lofts.studio/</loc>
-    <lastmod>2026-08-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/" />
+    <lastmod>2026-09-25</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -206,7 +211,12 @@
   </url>
   <url>
     <loc>https://lofts.studio/services/website-development-company.html</loc>
-    <lastmod>2026-08-30</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/services/website-development-company.html" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/services/website-development-company.html" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/services/website-development-company.html" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/services/website-development-company.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/services/website-development-company.html" />
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.85</priority>
   </url>
@@ -2564,7 +2574,12 @@
   </url>
   <url>
     <loc>https://lofts.studio/free-audit</loc>
-    <lastmod>2026-09-04</lastmod>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/free-audit/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/free-audit/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/free-audit/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/free-audit/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/free-audit/" />
+    <lastmod>2026-09-25</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
@@ -3114,4 +3129,29 @@
     <changefreq>monthly</changefreq>
     <priority>0.65</priority>
   </url>
+  <url>
+    <loc>https://lofts.studio/es/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/" />
+    <xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/" />
+    <xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/" />
+    <xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/" />
+    <lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://lofts.studio/fr/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/" /><xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/" /><xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/" /><xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/" />
+    <lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://lofts.studio/it/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lofts.studio/" /><xhtml:link rel="alternate" hreflang="es" href="https://lofts.studio/es/" /><xhtml:link rel="alternate" hreflang="fr" href="https://lofts.studio/fr/" /><xhtml:link rel="alternate" hreflang="it" href="https://lofts.studio/it/" /><xhtml:link rel="alternate" hreflang="x-default" href="https://lofts.studio/" />
+    <lastmod>2026-09-25</lastmod><changefreq>weekly</changefreq><priority>0.85</priority>
+  </url>
+  <url><loc>https://lofts.studio/es/services/website-development-company.html</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lofts.studio/fr/services/website-development-company.html</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lofts.studio/it/services/website-development-company.html</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lofts.studio/es/free-audit/</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lofts.studio/fr/free-audit/</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://lofts.studio/it/free-audit/</loc><lastmod>2026-09-25</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
 </urlset>
