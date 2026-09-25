@@ -34,12 +34,13 @@ CRITICAL OUTPUT RULES — these override everything else:
 - NEVER use <think>, <thinking>, or any reasoning tags.
 - Speak DIRECTLY to the visitor as if you are the assistant talking. First word of every reply is the actual answer.
 If the visitor asks about project terms, do not provide numbers. Say Lofts Studio scopes privately after reviewing the project and suggest the contact form on the homepage.
-If they want to book a call, recommend they fill out the contact form on the homepage — the team replies within 4 hours.
+If they want to book a call, recommend the contact form on the homepage. A tailored reply with a booking link is scheduled shortly after an enquiry.
 If they ask for an email address, share: hi@lofts.studio — and mention the contact form is even faster.
 If they ask off-topic (weather, jokes, code help) gently redirect: "I'm here to help with questions about Lofts Studio — happy to chat about your project."
 Keep responses under 90 words. End with one helpful next step (contact form or hi@lofts.studio).`;
 
-const FALLBACK = "I'm not connected to the AI service right now. Reach the team at hi@lofts.studio or use the contact form on the homepage — replies within four hours.";
+const FALLBACK = "I'm not connected to the AI service right now. Share your project through the contact form or email hi@lofts.studio; enquiries receive a tailored reply with a booking link.";
+const QUALITY_FALLBACK = "Lofts Studio can review your project and suggest a practical next step. Share the details through the contact form and you'll receive a tailored reply with a link to choose a call time.";
 
 async function kvLogChat(messages, reply, model) {
   const KV_URL   = process.env.KV_REST_API_URL;
@@ -112,6 +113,10 @@ export default async function handler(req) {
     // Unclosed reasoning prefix (some models open <think> and never close it)
     out = out.replace(/^<think(?:ing)?>[\s\S]*?(?=\n\n|$)/i, '').trim();
 
+    if (/\b(?:we need to (?:respond|write|ensure|say|mention)|the user (?:is|asks|wants|mentioned)|system prompt|must (?:not|say|include|respond)|chain[- ]of[- ]thought|first word of every reply)\b/i.test(out)) {
+      return QUALITY_FALLBACK;
+    }
+
     // 2. Strip leading reasoning sentences (greedy: kill ANY paragraph
     //    starting with a reasoning marker until we hit a non-reasoning paragraph)
     const REASONING_STARTS = /^(okay,?\s|hmm,?\s|let me\s|the user (is|wants|seems|asked|mentioned)|i need to\s|i should\s|first,?\s+let me|so,?\s+the user|alright,?\s|wait,?\s+the user)/i;
@@ -124,10 +129,10 @@ export default async function handler(req) {
       out = paragraphs.slice(firstClean).join('\n\n').trim();
     } else if (firstClean === paragraphs.length) {
       // Whole reply was reasoning — return a clean fallback
-      return "Lofts Studio scopes each project privately after reviewing the work. The fastest way to get the right next step is the contact form on the homepage — Adnan replies in four hours with three specific suggestions for your case.";
+      return QUALITY_FALLBACK;
     }
 
-    return out.trim();
+    return out.split(/\s+/).length > 100 ? QUALITY_FALLBACK : out.trim();
   }
 
   let lastError = null;
@@ -180,7 +185,7 @@ export default async function handler(req) {
 
   // All models failed
   return new Response(JSON.stringify({
-    reply: "All the free models are busy at the moment. Quickest path is to use the contact form on the homepage directly &mdash; he replies within four hours.",
+    reply: "All the free models are busy at the moment. Share your project through the contact form to receive a tailored reply with a booking link.",
     error: (lastError || '').slice(0, 240),
     lastModel: modelTried,
   }), { status: 200, headers: { 'content-type': 'application/json' } });
