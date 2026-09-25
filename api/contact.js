@@ -1,5 +1,6 @@
 // Vercel Edge Function: validate and persist enquiries before notifications.
 import { enrollLeadAutomation, sendInboundReply } from './_lib/automation.js';
+import { sendZohoEmail } from './_lib/zoho.js';
 
 export const config = { runtime: 'edge' };
 
@@ -62,10 +63,7 @@ async function parsePayload(req) {
 }
 
 async function notifyTeam(lead, subject) {
-  const toEmail = process.env.CONTACT_EMAIL;
-  const bccEmail = process.env.CONTACT_EMAIL_BCC;
-  const resendKey = process.env.RESEND_API_KEY;
-  if (!toEmail || !resendKey) return { ok: false, message: 'Notification service is not configured.' };
+  const recipients = ['hi@lofts.studio', 'adnan.webexpert@gmail.com'];
   const visible = Object.entries(lead).filter(([key]) => !key.startsWith('_') && key !== 'consentNotice');
   const text = visible.map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`).join('\n');
   const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#1a1612">
@@ -73,24 +71,15 @@ async function notifyTeam(lead, subject) {
     <table style="width:100%;border-collapse:collapse">${visible.map(([key, value]) => `<tr><td style="padding:8px 12px;background:#f4f0ea;font-weight:600;width:30%;vertical-align:top;border:1px solid #e0d8ce">${escapeHtml(key.charAt(0).toUpperCase() + key.slice(1))}</td><td style="padding:8px 12px;border:1px solid #e0d8ce;vertical-align:top">${escapeHtml(value)}</td></tr>`).join('')}</table>
     <p style="margin:20px 0 0;font-size:12px;color:#777">Stored in Ads Command before this notification was sent.</p>
   </div>`;
-  try {
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: { Authorization: `Bearer ${resendKey}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        from: 'Lofts Studio <noreply@lofts.studio>',
-        to: bccEmail ? [toEmail, bccEmail] : [toEmail],
-        subject,
-        html,
-        text,
-        reply_to: lead.email || undefined,
-      }),
-    });
-    const payload = await response.json().catch(() => ({}));
-    return { ok: response.ok, message: payload.message || '' };
-  } catch {
-    return { ok: false, message: 'Notification request failed.' };
+  let delivered = true;
+  for (const toAddress of recipients) {
+    try {
+      await sendZohoEmail(lead._projectId, { toAddress, subject, htmlContent: html, content: text });
+    } catch {
+      delivered = false;
+    }
   }
+  return { ok: delivered, message: delivered ? '' : 'Notification request failed.' };
 }
 
 async function forwardToGrowthOs(lead) {

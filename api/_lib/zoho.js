@@ -295,6 +295,9 @@ export async function sendZohoEmail(projectId, message) {
   if (!client || !connection?.refreshToken || !connection?.accountId) {
     throw serviceError('not_connected', 'Connect Zoho Mail before sending email.');
   }
+  if (id === 'lofts-studio' && connection.fromEmail !== 'hi@lofts.studio') {
+    throw serviceError('wrong_sender', 'Connect hi@lofts.studio before sending Lofts Studio email.');
+  }
   const toAddress = cleanEmail(message.toAddress);
   const subject = String(message.subject || '').trim().slice(0, 180);
   const htmlContent = String(message.htmlContent || '').trim().slice(0, 30000);

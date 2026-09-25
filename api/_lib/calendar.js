@@ -1,4 +1,4 @@
-import { getZohoStatus, zohoCalendarRequest } from './zoho.js';
+import { getZohoStatus, sendZohoEmail, zohoCalendarRequest } from './zoho.js';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -58,8 +58,7 @@ export async function createCalendarEvent(booking) {
 
 export async function notifyBooking(booking, config = {}) {
   const recipients = bookingNotifyEmails(config);
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!recipients.length || !apiKey) return false;
+  if (!recipients.length) return false;
   const date = new Intl.DateTimeFormat('en-US', { timeZone: booking.hostTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const subject = `${booking.status === 'confirmed' ? 'Call booked' : 'Call requested'}: ${booking.leadName}`;
   const lines = [
@@ -70,17 +69,18 @@ export async function notifyBooking(booking, config = {}) {
     `Enquiry: ${booking.focus || booking.note || 'See the CRM inbox'}`,
     `Calendar: ${booking.calendarStatus === 'created' ? 'Zoho and Google events created' : booking.calendarStatus === 'partial-google' ? 'Google event created; Zoho needs review' : booking.calendarStatus === 'zoho-review' ? 'Zoho outcome needs review; Google event rolled back' : 'Calendar connections needed'}`,
   ];
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: 'Lofts Studio <noreply@lofts.studio>', to: recipients, subject, text: lines.join('\n'), reply_to: booking.leadEmail }),
-  });
-  return response.ok;
+  let delivered = true;
+  for (const toAddress of recipients) {
+    try {
+      await sendZohoEmail(booking.projectId, { toAddress, subject, content: lines.join('\n') });
+    } catch {
+      delivered = false;
+    }
+  }
+  return delivered;
 }
 
 export async function confirmBookingToLead(booking, config = {}) {
-  const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) return false;
   const date = new Intl.DateTimeFormat('en-US', { timeZone: booking.hostTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const confirmed = booking.status === 'confirmed';
   const subject = confirmed ? 'Your Lofts Studio call is confirmed' : 'Your Lofts Studio call request';
@@ -94,10 +94,6 @@ export async function confirmBookingToLead(booking, config = {}) {
     config.senderName || 'Adnan Khan',
     config.senderRole || 'Founder, Lofts Studio',
   ].join('\n');
-  const response = await fetch('https://api.resend.com/emails', {
-    method: 'POST',
-    headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: 'Lofts Studio <hi@lofts.studio>', to: [booking.leadEmail], subject, text, reply_to: 'hi@lofts.studio' }),
-  });
-  return response.ok;
+  await sendZohoEmail(booking.projectId, { toAddress: booking.leadEmail, subject, content: text });
+  return true;
 }

@@ -4,7 +4,6 @@ import assert from 'node:assert/strict';
 process.env.ADMIN_SECRET = 'test-admin-secret';
 process.env.KV_REST_API_URL = 'https://kv.test';
 process.env.KV_REST_API_TOKEN = 'test-token';
-process.env.RESEND_API_KEY = 'resend-test-key';
 process.env.CONTACT_EMAIL = 'team@lofts.studio';
 process.env.CONTACT_EMAIL_BCC = 'owner@lofts.studio';
 process.env.ZOHO_CLIENT_ID = 'zoho-test-client';
@@ -18,7 +17,7 @@ const strings = new Map();
 const hashes = new Map();
 const sets = new Map();
 const lists = new Map();
-const sentEmails = [];
+const zohoEmails = [];
 const calendarEvents = [];
 const googleCalendarEvents = [];
 const deletedGoogleEvents = [];
@@ -81,9 +80,9 @@ globalThis.fetch = async (input, init = {}) => {
       headers: { 'content-type': 'text/html' },
     });
   }
-  if (url === 'https://api.resend.com/emails') {
-    sentEmails.push(JSON.parse(init.body));
-    return Response.json({ id: `message-${sentEmails.length}` });
+  if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/messages') {
+    zohoEmails.push(JSON.parse(init.body));
+    return Response.json({ data: { messageId: `message-${zohoEmails.length}` } });
   }
   if (url === 'https://accounts.zoho.com/oauth/v2/token') {
     return Response.json({ access_token: 'zoho-access-test', refresh_token: 'zoho-refresh-test', expires_in: 3600 });
@@ -154,6 +153,9 @@ test('lead enrolment stores evidence-based analysis and remains in review mode',
 });
 
 test('booking slots are timezone-backed and one slot cannot be reserved twice', async () => {
+  const zoho = await import('../api/_lib/zoho.js');
+  const authUrl = await zoho.createZohoAuthorization('lofts-studio', 'https://lofts.studio');
+  await zoho.completeZohoAuthorization('test-code', new URL(authUrl).searchParams.get('state'));
   const config = await automation.getAutomationConfig('lofts-studio');
   assert.deepEqual(config.booking.days, [0, 1, 2, 3, 4, 5, 6]);
   assert.equal(config.booking.start, '00:00');
@@ -176,10 +178,10 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   assert.equal(first.booking.status, 'requested');
   assert.equal(first.booking.calendarStatus, 'not-connected');
   assert.equal((await automation.getAvailableSlots(token)).booking.id, first.booking.id);
-  assert.equal(sentEmails.length, 2);
-  assert.ok(sentEmails.some(email => email.to.includes('team@lofts.studio')));
-  assert.ok(sentEmails.some(email => email.to.includes('owner@lofts.studio')));
-  assert.ok(sentEmails.some(email => email.to.includes('jane@example-business.test')));
+  assert.equal(zohoEmails.length, 3);
+  assert.ok(zohoEmails.some(email => email.toAddress === 'team@lofts.studio'));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio'));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'jane@example-business.test'));
   const repeat = await automation.createBooking(token, { start: availability.slots[1], timezone: 'Europe/London' });
   assert.equal(repeat.booking.id, first.booking.id);
   await automation.enrollLeadAutomation({ _id: 'lead-2', _projectId: 'lofts-studio', name: 'Second Lead', email: 'second@example.com', phone: '+1 202 555 0148' });
@@ -272,8 +274,10 @@ test('connected Zoho and Google calendars filter busy times and create both even
   assert.equal(googleCalendarEvents.length, 1);
   assert.equal(calendarEvents[0].notify_attendee, 1);
   assert.deepEqual(calendarEvents[0].attendees.map(item => item.email), ['calendar@prospect.co']);
-  assert.ok(sentEmails.some(email => email.to.includes('calendar@prospect.co') && /confirmed/i.test(email.subject)));
-  assert.ok(sentEmails.some(email => email.to.includes('calendar@prospect.co') && email.from === 'Lofts Studio <hi@lofts.studio>'));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && /confirmed/i.test(email.subject)));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && email.fromAddress === 'hi@lofts.studio'));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'team@lofts.studio' && /Call booked/.test(email.subject)));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Call booked/.test(email.subject)));
 });
 
 test('Google authorization allows time to review consent but still expires', async () => {
@@ -334,7 +338,7 @@ test('a failed Zoho event rolls back the Google event', async () => {
   assert.equal(result.booking.status, 'requested');
   assert.equal(result.booking.calendarStatus, 'zoho-review');
   assert.equal(deletedGoogleEvents.at(-1), googleCalendarEvents.at(-1).id);
-  assert.ok(sentEmails.some(email => email.to.includes('owner@lofts.studio') && email.subject === 'Call requested: Rollback Lead'));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && email.subject === 'Call requested: Rollback Lead'));
   assert.equal((await automation.getAvailableSlots(token)).booking.id, result.booking.id);
 });
 
@@ -353,7 +357,7 @@ test('failed rollback stays a request and preserves the occupied time', async ()
   assert.equal(result.booking.status, 'requested');
   assert.equal(result.booking.calendarStatus, 'partial-google');
   assert.equal((await automation.getAvailableSlots(token)).booking.id, result.booking.id);
-  assert.ok(sentEmails.some(email => email.to.includes('owner@lofts.studio') && /Zoho needs review/.test(email.text)));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Zoho needs review/.test(email.content)));
 });
 
 test('changing the Google account invalidates the old calendar connection', async () => {
@@ -375,9 +379,9 @@ test('paused automation does not send an immediate lead reply', async () => {
     _id: 'lead-paused', _projectId: 'lofts-studio', name: 'Paused Lead',
     email: 'paused@prospect.co', phone: '+1 202 555 0149',
   });
-  const sentBefore = sentEmails.length;
+  const sentBefore = zohoEmails.length;
   assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'skipped' });
-  assert.equal(sentEmails.length, sentBefore);
+  assert.equal(zohoEmails.length, sentBefore);
   hash('agency:automation-config').delete('lofts-studio');
 });
 

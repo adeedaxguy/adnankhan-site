@@ -221,7 +221,7 @@ export async function automationReadiness(projectId, configInput) {
   if (!cleanText(config.complianceAddress, 300)) blockers.push('Add a valid physical postal address for compliant follow-ups.');
   if (!config.booking.enabled) blockers.push('Enable booking before automated call invitations.');
   const bookingAlertRecipients = bookingNotifyEmails(config);
-  if (bookingAlertRecipients.length < 2 || !process.env.RESEND_API_KEY) blockers.push('Set both booking alert emails and connect the notification service.');
+  if (bookingAlertRecipients.length < 2) blockers.push('Set both booking alert emails.');
   return { ready: blockers.length === 0, blockers, zoho, googleCalendar, bookingAlertRecipients };
 }
 
@@ -638,7 +638,6 @@ export async function sendInboundReply(sequence) {
   const step = sequence.steps?.[0];
   if (!step || step.status !== 'pending') return { status: 'already-handled' };
   if (isTestLead(sequence.lead)) return { status: 'review' };
-  if (!process.env.RESEND_API_KEY) return { status: 'not-configured' };
   step.status = 'sending';
   step.sendingAt = Date.now();
   await saveSequence(sequence);
@@ -648,36 +647,24 @@ export async function sendInboundReply(sequence) {
     const copy = await draftLeadReply(sequence.lead, sequence.analysis);
     const rendered = await renderSequenceEmail(sequence, step, config, copy);
     const scheduledFor = Math.max(Date.now() + 60000, Number(step.dueAt) || 0);
-    const response = await fetch('https://api.resend.com/emails', {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        from: 'Lofts Studio <hi@lofts.studio>',
-        to: [sequence.lead.email],
-        reply_to: 'hi@lofts.studio',
-        subject: rendered.subject,
-        html: rendered.html,
-        text: rendered.text,
-        scheduled_at: new Date(scheduledFor).toISOString(),
-      }),
+    const sent = await sendZohoEmail(sequence.projectId, {
+      toAddress: sequence.lead.email,
+      subject: rendered.subject,
+      htmlContent: rendered.html,
+      scheduleAt: scheduledFor,
     });
-    const payload = await response.json().catch(() => ({}));
-    if (!response.ok || !payload.id) throw new Error('The email provider did not accept the reply.');
     accepted = true;
     step.status = 'scheduled';
     step.subject = rendered.subject;
     step.scheduledFor = scheduledFor;
-    step.messageId = payload.id;
+    step.messageId = sent.messageId;
     sequence.nextStepIndex = nextPendingIndex(sequence, 1);
     sequence.lastSentAt = scheduledFor;
     await saveSequence(sequence);
     await appendLeadActivity(sequence.projectId, sequence.leadId, {
-      type: 'email', direction: 'outbound', provider: 'resend', status: 'scheduled',
+      type: 'email', direction: 'outbound', provider: 'zoho', status: 'scheduled',
       to: sequence.lead.email, subject: rendered.subject, body: rendered.text.slice(0, 4000),
-      messageId: payload.id, at: Date.now(), scheduledFor, eventId: `email:${sequence.leadId}:first-response`,
+      messageId: sent.messageId, at: Date.now(), scheduledFor, eventId: `email:${sequence.leadId}:first-response`,
     }, { stage: 'contacted' });
     return { status: 'scheduled' };
   } catch {
@@ -925,7 +912,8 @@ export async function getAvailableSlots(token) {
     if (existing) return { booking: existing };
   }
   if (!config.booking.enabled) throw serviceError('booking_disabled', 'Online booking is not currently available.');
-  if (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY) {
+  const zohoStatus = await getZohoStatus(payload.p);
+  if (!bookingNotifyEmails(config).length || !zohoStatus.connected || (payload.p === 'lofts-studio' && zohoStatus.fromEmail !== 'hi@lofts.studio')) {
     throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
   }
   const booking = config.booking;
@@ -953,10 +941,9 @@ export async function getAvailableSlots(token) {
   const locks = lockKeys.length ? await kvCmd('MGET', ...lockKeys) : [];
   const rangeStart = candidates[0] || new Date().toISOString();
   const rangeEnd = new Date(new Date(candidates[candidates.length - 1] || rangeStart).getTime() + booking.durationMinutes * 60000);
-  const [zohoBusy, googleBusy, zohoStatus] = await Promise.all([
+  const [zohoBusy, googleBusy] = await Promise.all([
     busyCalendarIntervals(payload.p, rangeStart, rangeEnd),
     googleBusyIntervals(payload.p, rangeStart, rangeEnd),
-    getZohoStatus(payload.p),
   ]);
   const busy = [...(zohoBusy || []), ...(googleBusy || [])];
   const slots = candidates.filter((start, index) => {

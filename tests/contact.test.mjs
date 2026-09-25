@@ -5,12 +5,15 @@ process.env.ADMIN_SECRET = 'contact-test-secret';
 process.env.KV_REST_API_URL = 'https://kv.contact.test';
 process.env.KV_REST_API_TOKEN = 'test-token';
 process.env.CONTACT_EMAIL = 'team@lofts.studio';
-process.env.RESEND_API_KEY = 'resend-test-key';
+process.env.ZOHO_CLIENT_ID = 'zoho-test-client';
+process.env.ZOHO_CLIENT_SECRET = 'zoho-test-secret';
+process.env.ZOHO_FROM_EMAIL = 'hi@lofts.studio';
 
 const strings = new Map();
 const hashes = new Map();
 const lists = new Map();
 const delivered = [];
+const notifications = [];
 let failSubmissionWrite = false;
 
 function hash(key) {
@@ -50,13 +53,20 @@ globalThis.fetch = async (input, init = {}) => {
   if (url === 'https://kv.contact.test') {
     return Response.json({ result: command(JSON.parse(init.body)) });
   }
-  if (url === 'https://api.resend.com/emails') {
+  if (url === 'https://accounts.zoho.com/oauth/v2/token') {
+    return Response.json({ access_token: 'zoho-access-test', refresh_token: 'zoho-refresh-test', expires_in: 3600 });
+  }
+  if (url === 'https://mail.zoho.com/api/accounts') {
+    return Response.json({ data: [{ accountId: 'zoho-account-test', primaryEmailAddress: 'hi@lofts.studio' }] });
+  }
+  if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/messages') {
     const message = JSON.parse(init.body);
-    if (message.to?.includes('lead@acme.co')) {
+    if (message.toAddress === 'lead@acme.co') {
       delivered.push(message);
-      return Response.json({ id: 'resend-lead-1' });
+    } else {
+      notifications.push(message);
     }
-    return Response.json({ message: 'Temporary provider outage' }, { status: 503 });
+    return Response.json({ data: { messageId: `zoho-${delivered.length}` } });
   }
   throw new Error(`Unexpected network request: ${url}`);
 };
@@ -134,11 +144,16 @@ test('a failed lead write can be retried with the same submission ID', async () 
 
   const retried = await contactHandler(request(payload, '198.51.100.44'));
   assert.equal(retried.status, 200);
-  assert.equal((await retried.json()).message, 'Received');
+  const retriedBody = await retried.json();
+  assert.equal(retriedBody.message, 'Received');
+  assert.equal(retriedBody.reply, 'delayed');
   assert.equal(lists.get('lofts:submissions').length, 2);
 });
 
 test('a real project enquiry gets one tailored reply and a booking link', async () => {
+  const zoho = await import('../api/_lib/zoho.js');
+  const authUrl = await zoho.createZohoAuthorization('lofts-studio', 'https://lofts.studio');
+  await zoho.completeZohoAuthorization('test-code', new URL(authUrl).searchParams.get('state'));
   const payload = {
     name: 'Sam Rivera',
     email: 'lead@acme.co',
@@ -151,14 +166,19 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
   const response = await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(response.status, 200);
   assert.equal((await response.json()).reply, 'scheduled');
+  assert.deepEqual(notifications.map(message => message.toAddress), ['hi@lofts.studio', 'adnan.webexpert@gmail.com']);
   assert.equal(delivered.length, 1);
-  assert.match(delivered[0].text, /seo|rankings/i);
-  assert.match(delivered[0].text, /\/book\/\?t=/);
-  assert.equal(delivered[0].from, 'Lofts Studio <hi@lofts.studio>');
-  assert.equal(delivered[0].reply_to, 'hi@lofts.studio');
-  assert.ok(new Date(delivered[0].scheduled_at).getTime() - Date.now() >= 59000);
-  assert.ok(new Date(delivered[0].scheduled_at).getTime() - Date.now() <= 10 * 60000);
-  assert.doesNotMatch(delivered[0].html, /gmail\.com|noreply@lofts\.studio/i);
+  assert.match(delivered[0].content, /seo|rankings/i);
+  assert.match(delivered[0].content, /\/book\/\?t=/);
+  assert.equal(delivered[0].fromAddress, 'hi@lofts.studio');
+  assert.equal(delivered[0].toAddress, 'lead@acme.co');
+  assert.equal(delivered[0].isSchedule, true);
+  assert.equal(delivered[0].scheduleType, 6);
+  assert.equal(delivered[0].timeZone, 'GMT 0:00 (UTC)');
+  const [month, day, year, hour, minute, second] = delivered[0].scheduleTime.match(/\d+/g).map(Number);
+  const delay = Date.UTC(year, month - 1, day, hour, minute, second) - Date.now();
+  assert.ok(delay >= 59000 && delay <= 10 * 60000);
+  assert.doesNotMatch(delivered[0].content, /gmail\.com|noreply@lofts\.studio/i);
   await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(delivered.length, 1);
 });
