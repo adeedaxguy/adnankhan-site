@@ -658,26 +658,41 @@ export async function sendInboundReply(sequence) {
     const copy = await draftLeadReply(sequence.lead, sequence.analysis);
     const rendered = await renderSequenceEmail(sequence, step, config, copy);
     const scheduledFor = Math.max(Date.now() + 60000, Number(step.dueAt) || 0);
-    const sent = await sendZohoEmail(sequence.projectId, {
-      toAddress: sequence.lead.email,
-      subject: rendered.subject,
-      htmlContent: rendered.html,
-      scheduleAt: scheduledFor,
-    });
+    let sent;
+    let deliveryStatus = 'scheduled';
+    try {
+      sent = await sendZohoEmail(sequence.projectId, {
+        toAddress: sequence.lead.email,
+        subject: rendered.subject,
+        htmlContent: rendered.html,
+        scheduleAt: scheduledFor,
+      });
+    } catch (error) {
+      if (error?.code !== 'send_failed' || !/PATTERN_NOT_MATCHED/.test(error.message || '')) throw error;
+      sent = await sendZohoEmail(sequence.projectId, {
+        toAddress: sequence.lead.email,
+        subject: rendered.subject,
+        htmlContent: rendered.html,
+      });
+      deliveryStatus = 'sent';
+    }
     accepted = true;
-    step.status = 'scheduled';
+    step.status = deliveryStatus;
     step.subject = rendered.subject;
-    step.scheduledFor = scheduledFor;
+    step.sentAt = sent.sentAt;
+    step.scheduledFor = deliveryStatus === 'scheduled' ? scheduledFor : null;
     step.messageId = sent.messageId;
     sequence.nextStepIndex = nextPendingIndex(sequence, 1);
-    sequence.lastSentAt = scheduledFor;
+    sequence.lastSentAt = step.scheduledFor || sent.sentAt;
+    sequence.lastError = null;
     await saveSequence(sequence);
     await appendLeadActivity(sequence.projectId, sequence.leadId, {
-      type: 'email', direction: 'outbound', provider: 'zoho', status: 'scheduled',
+      type: 'email', direction: 'outbound', provider: 'zoho', status: deliveryStatus,
       to: sequence.lead.email, subject: rendered.subject, body: rendered.text.slice(0, 4000),
-      messageId: sent.messageId, at: Date.now(), scheduledFor, eventId: `email:${sequence.leadId}:first-response`,
+      messageId: sent.messageId, at: sent.sentAt, scheduledFor: step.scheduledFor,
+      eventId: `email:${sequence.leadId}:first-response`,
     }, { stage: 'contacted' });
-    return { status: 'scheduled' };
+    return { status: deliveryStatus };
   } catch (error) {
     step.status = accepted ? 'needs-review' : 'pending';
     sequence.status = 'needs-review';

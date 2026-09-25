@@ -322,7 +322,7 @@ test('booking offers requested slots and creates a Google event when Zoho availa
   }
 });
 
-test('a failed scheduled first reply records the provider error and can be previewed without starting follow-ups', async () => {
+test('a rejected Zoho schedule sends the first reply immediately without starting follow-ups', async () => {
   const sequence = await automation.enrollLeadAutomation({
     _id: 'lead-preview', _projectId: 'lofts-studio', _ts: Date.now(),
     name: 'Preview Lead', email: 'preview@prospect.co', phone: '+1 202 555 0163',
@@ -331,22 +331,17 @@ test('a failed scheduled first reply records the provider error and can be previ
   }, 'https://lofts.studio', { forceReview: true });
   failScheduledZohoEmail = true;
   try {
-    assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'delayed' });
+    assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'sent' });
   } finally {
     failScheduledZohoEmail = false;
   }
-  const failed = await automation.getSequence('lofts-studio', 'lead-preview');
-  assert.equal(failed.status, 'needs-review');
-  assert.match(failed.lastError, /Invalid schedule PATTERN_NOT_MATCHED/);
-  assert.equal(failed.steps[0].status, 'pending');
-
-  const sentBefore = zohoEmails.length;
-  const preview = await automation.controlSequence('lofts-studio', 'lead-preview', 'send-next');
-  assert.equal(zohoEmails.length, sentBefore + 1);
-  assert.equal(zohoEmails.at(-1).isSchedule, undefined);
-  assert.equal(preview.steps[0].status, 'sent');
+  const preview = await automation.getSequence('lofts-studio', 'lead-preview');
   assert.equal(preview.status, 'review');
   assert.equal(preview.lastError, null);
+  assert.equal(preview.steps[0].scheduledFor, null);
+  assert.equal(zohoEmails.at(-1).isSchedule, undefined);
+  assert.equal(preview.steps[0].status, 'sent');
+  assert.ok(preview.steps.slice(1).every(step => step.status === 'pending'));
 });
 
 test('Google authorization allows time to review consent but still expires', async () => {
