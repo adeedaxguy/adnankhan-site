@@ -1,11 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 
-import { draftLeadReply } from '../api/_lib/lead-reply.js';
+import { draftLeadReply, fallbackLeadReply } from '../api/_lib/lead-reply.js';
 
 const originalFetch = globalThis.fetch;
 const originalKey = process.env.OPENROUTER_API_KEY;
 const originalModel = process.env.LEAD_REPLY_MODEL;
+
+test('fallback reply quotes long enquiries without splitting the last word', () => {
+  const reply = fallbackLeadReply({
+    name: 'Adnan Khan',
+    message: 'A WooCommerce store has mobile checkout friction and needs a clearer purchase flow. Please assess the checkout journey and suggest a practical next step for our team.',
+  });
+  assert.match(reply.body, /You mentioned: "[^"]+\.\.\."/);
+  assert.doesNotMatch(reply.body, /clearer p"/);
+});
 
 test('free AI draft uses enquiry context and rejects off-topic output', async () => {
   process.env.OPENROUTER_API_KEY = 'test-key';

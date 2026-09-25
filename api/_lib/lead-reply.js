@@ -143,7 +143,10 @@ export function classifyLeadEnquiry(lead) {
 export function fallbackLeadReply(lead) {
   const name = clean(lead.name, 80).split(' ')[0] || 'there';
   const template = REPLY_TEMPLATES[classifyLeadEnquiry(lead)];
-  const detail = clean(lead.message || (lead.sourcePath ? lead.bottleneck : ''), 120);
+  const fullDetail = clean(lead.message || (lead.sourcePath ? lead.bottleneck : ''), 1000);
+  const detail = fullDetail.length > 120
+    ? `${fullDetail.slice(0, 120).replace(/\s+\S*$/, '').replace(/[.,;:!?]+$/, '')}...`
+    : fullDetail;
   const context = detail && !/\b(?:ignore|instruction|prompt|system message)\b/i.test(detail)
     ? ` You mentioned: "${detail}"${/[.!?]$/.test(detail) ? '' : '.'}` : '';
   return {
