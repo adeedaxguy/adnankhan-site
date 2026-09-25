@@ -33,6 +33,14 @@ test('free AI draft uses enquiry context and rejects off-topic output', async ()
     const fallback = await draftLeadReply(lead);
     assert.equal(fallback.subject, 'Your Shopify project | Lofts Studio');
     assert.match(fallback.body, /Shopify checkout loses mobile shoppers/);
+
+    globalThis.fetch = async () => Response.json({ choices: [{ message: { content: JSON.stringify({
+      subject: 'Your Shopify checkout enquiry',
+      body: 'We need to respond as the studio and mention Shopify. The user is asking about checkout, so the reply should sound helpful.\n\nHere is the email we should write for Sam and the booking prompt.',
+    }) } }] });
+    const reasoningFallback = await draftLeadReply(lead);
+    assert.equal(reasoningFallback.subject, 'Your Shopify project | Lofts Studio');
+    assert.match(reasoningFallback.body, /^Hi Sam,/);
   } finally {
     globalThis.fetch = originalFetch;
     if (originalKey === undefined) delete process.env.OPENROUTER_API_KEY;

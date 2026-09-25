@@ -143,6 +143,9 @@ export async function draftLeadReply(lead, analysis) {
     const subject = clean(copy.subject, 120);
     const body = String(copy.body || '').trim().slice(0, 1600);
     const service = classifyLeadEnquiry(lead);
+    const firstName = clean(lead.name, 80).split(' ')[0] || 'there';
+    const greeting = body.split('\n', 1)[0].trim().toLowerCase();
+    const addressesLead = ['hi', 'hello', 'dear'].some(word => greeting.startsWith(`${word} ${firstName.toLowerCase()}`));
     const serviceTerms = {
       shopify: /shopify/i, woocommerce: /woocommerce/i, wordpress: /wordpress/i,
       audit: /audit|website/i, website: /website|site|redesign/i,
@@ -150,8 +153,9 @@ export async function draftLeadReply(lead, analysis) {
       conversion: /conversion|landing page|leads/i, automation: /automation|chatbot|agent/i,
       performance: /speed|performance|loading/i, branding: /brand|design|identity/i,
     };
-    if (subject.length < 8 || body.length < 100 || !body.includes('\n')
+    if (subject.length < 8 || body.length < 100 || !body.includes('\n') || !addressesLead
       || (serviceTerms[service] && !serviceTerms[service].test(`${subject} ${body}`))
+      || /<\s*\/?\s*think(?:ing)?\s*>|\b(?:chain[- ]of[- ]thought|system prompt|developer instruction|the user is asking|the visitor is asking|here is (?:the|a) (?:reply|email|draft))\b/i.test(body)
       || /https?:\/\/|\[[^\]]+\]\(|[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}/i.test(body)) return fallback;
     return { subject, body };
   } catch {
