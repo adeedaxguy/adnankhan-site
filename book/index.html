@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260925b" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260925c" />
 <link rel="stylesheet" href="/assets/experience.css?v=20260810b" data-lofts-experience />
 <link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/typography.css" />
@@ -53,6 +53,10 @@
       </div>
 
       <div class="booking-status" id="booking-status"><span class="booking-spinner"></span>Checking availability</div>
+      <div class="booking-date-nav" id="booking-date-nav" hidden>
+        <div class="booking-date-nav-head"><strong id="booking-week-label"></strong><div class="booking-date-controls"><button type="button" id="booking-prev-week" aria-label="Previous week" title="Previous week"><i data-lucide="chevron-left"></i></button><button type="button" id="booking-next-week" aria-label="Next week" title="Next week"><i data-lucide="chevron-right"></i></button></div></div>
+        <div class="booking-date-strip" id="booking-date-strip" role="group" aria-label="Choose a day"></div>
+      </div>
       <div class="booking-days" id="booking-days" hidden></div>
 
       <form class="booking-details" id="booking-form" hidden>
@@ -91,7 +95,7 @@
 
   <footer class="booking-footer"><span>Lofts Studio</span><span>Multan, Pakistan &middot; Dubai, UAE</span><a href="/privacy.html">Privacy</a></footer>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/assets/booking.js?v=20260925c"></script>
+  <script src="/assets/booking.js?v=20260925d"></script>
 <script src="/assets/main.js?v=20260907f" defer></script>
 </body>
 </html>

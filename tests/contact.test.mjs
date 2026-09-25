@@ -124,10 +124,15 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
   };
   const response = await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(response.status, 200);
-  assert.equal((await response.json()).reply, 'sent');
+  assert.equal((await response.json()).reply, 'scheduled');
   assert.equal(delivered.length, 1);
   assert.match(delivered[0].text, /seo|rankings/i);
   assert.match(delivered[0].text, /\/book\/\?t=/);
+  assert.equal(delivered[0].from, 'Lofts Studio <hi@lofts.studio>');
+  assert.equal(delivered[0].reply_to, 'hi@lofts.studio');
+  assert.ok(new Date(delivered[0].scheduled_at).getTime() - Date.now() >= 59000);
+  assert.ok(new Date(delivered[0].scheduled_at).getTime() - Date.now() <= 10 * 60000);
+  assert.doesNotMatch(delivered[0].html, /gmail\.com|noreply@lofts\.studio/i);
   await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(delivered.length, 1);
 });

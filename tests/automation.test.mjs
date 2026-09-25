@@ -152,10 +152,23 @@ test('lead enrolment stores evidence-based analysis and remains in review mode',
 });
 
 test('booking slots are timezone-backed and one slot cannot be reserved twice', async () => {
+  const config = await automation.getAutomationConfig('lofts-studio');
+  assert.deepEqual(config.booking.days, [0, 1, 2, 3, 4, 5, 6]);
+  assert.equal(config.booking.start, '00:00');
+  assert.equal(config.booking.end, '24:00');
+  assert.equal(config.booking.minimumNoticeHours, 0);
   const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: 'lead-1', exp: Date.now() + 30 * 86400000 });
   const availability = await automation.getAvailableSlots(token);
-  assert.ok(availability.slots.length > 0);
+  assert.ok(availability.slots.length > 160);
   assert.equal(availability.timezone, 'Asia/Karachi');
+  const localTimes = new Set(availability.slots.map(slot => new Intl.DateTimeFormat('en-GB', {
+    timeZone: availability.timezone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
+  }).format(new Date(slot))));
+  assert.ok(localTimes.has('00:00'));
+  assert.ok(localTimes.has('23:30'));
+  assert.equal(new Set(availability.slots.map(slot => new Intl.DateTimeFormat('en-US', {
+    timeZone: availability.timezone, weekday: 'short',
+  }).format(new Date(slot)))).size, 7);
   await assert.rejects(automation.createBooking(token, { start: availability.slots[0], phone: 'abc' }), /valid phone/i);
   const first = await automation.createBooking(token, { start: availability.slots[0], timezone: 'Europe/London' });
   assert.equal(first.booking.status, 'requested');
@@ -174,16 +187,58 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
     /no longer available|just booked/i,
   );
   delete process.env.CONTACT_EMAIL_BCC;
+  assert.ok((await automation.getAvailableSlots(secondToken)).slots.length > 0);
+  delete process.env.CONTACT_EMAIL;
   await assert.rejects(automation.getAvailableSlots(secondToken), /booking is unavailable/i);
+  process.env.CONTACT_EMAIL = 'team@lofts.studio';
   process.env.CONTACT_EMAIL_BCC = 'owner@lofts.studio';
   const sequence = await automation.getSequence('lofts-studio', 'lead-1');
   assert.equal(sequence.status, 'booked');
 });
 
 test('fallback first reply acknowledges a free-text enquiry without a model', async () => {
-  const { fallbackLeadReply } = await import('../api/_lib/lead-reply.js');
+  const { classifyLeadEnquiry, fallbackLeadReply } = await import('../api/_lib/lead-reply.js');
   const reply = fallbackLeadReply({ name: 'Mina Patel', message: 'Our Shopify checkout is losing mobile customers.' });
   assert.match(reply.body, /Shopify checkout is losing mobile customers/);
+  assert.equal(classifyLeadEnquiry({ focus: 'Build or redesign a business website', message: 'The WordPress site needs a redesign.' }), 'wordpress');
+  assert.equal(classifyLeadEnquiry({ bottleneck: 'Checkout flow', pageTitle: 'Shopify Development' }), 'shopify');
+  assert.equal(classifyLeadEnquiry({ bottleneck: 'WordPress', sourcePath: '/services/technical-seo-audit.html' }), 'seo');
+  assert.equal(classifyLeadEnquiry({ bottleneck: 'Migrating from Shopify', sourcePath: '/services/woocommerce-development.html' }), 'woocommerce');
+  assert.match(fallbackLeadReply({ name: 'Ari', focus: 'Improve SEO, AEO, structure, or rankings' }).body, /search visibility/i);
+  assert.match(fallbackLeadReply({ name: 'Ari', focus: 'Add AI calling agents, chatbots, or automation' }).body, /automation/i);
+});
+
+test('every homepage enquiry choice routes to a relevant reply template', async () => {
+  const { classifyLeadEnquiry, fallbackLeadReply } = await import('../api/_lib/lead-reply.js');
+  const choices = [
+    ['Audit my current website and tell me what to fix', 'audit'],
+    ['Build or redesign a business website', 'website'],
+    ['Build a SaaS, app, or custom web platform', 'app'],
+    ['Improve SEO, AEO, structure, or rankings', 'seo'],
+    ['Improve conversions, leads, or landing pages', 'conversion'],
+    ['Build or improve a Shopify / WooCommerce store', 'shopify'],
+    ['Build WordPress, Webflow, or a custom CMS', 'wordpress'],
+    ['Add AI calling agents, chatbots, or automation', 'automation'],
+    ['Something else - I will explain', 'general'],
+  ];
+  for (const [focus, expected] of choices) {
+    assert.equal(classifyLeadEnquiry({ focus }), expected);
+    assert.match(fallbackLeadReply({ name: 'Sam', focus }).body, /choose a time below/i);
+  }
+});
+
+test('existing Lofts booking settings migrate to all-day availability', async () => {
+  hash('agency:automation-config').set('lofts-studio', JSON.stringify({ booking: {
+    enabled: false, days: [1, 2, 3, 4, 5, 6], start: '17:00', end: '22:00', minimumNoticeHours: 12,
+    horizonDays: 7,
+  } }));
+  const config = await automation.getAutomationConfig('lofts-studio');
+  assert.equal(config.booking.enabled, true);
+  assert.deepEqual(config.booking.days, [0, 1, 2, 3, 4, 5, 6]);
+  assert.equal(config.booking.end, '24:00');
+  assert.equal(config.booking.minimumNoticeHours, 0);
+  assert.equal(config.booking.horizonDays, 21);
+  hash('agency:automation-config').delete('lofts-studio');
 });
 
 test('connected Zoho and Google calendars filter busy times and create both events', async () => {
@@ -214,8 +269,9 @@ test('connected Zoho and Google calendars filter busy times and create both even
   assert.equal(calendarEvents.length, 1);
   assert.equal(googleCalendarEvents.length, 1);
   assert.equal(calendarEvents[0].notify_attendee, 1);
-  assert.deepEqual(calendarEvents[0].attendees.map(item => item.email).sort(), ['calendar@prospect.co', 'team@lofts.studio']);
+  assert.deepEqual(calendarEvents[0].attendees.map(item => item.email), ['calendar@prospect.co']);
   assert.ok(sentEmails.some(email => email.to.includes('calendar@prospect.co') && /confirmed/i.test(email.subject)));
+  assert.ok(sentEmails.some(email => email.to.includes('calendar@prospect.co') && email.from === 'Lofts Studio <hi@lofts.studio>'));
 });
 
 test('a failed Zoho event rolls back the Google event', async () => {
@@ -299,6 +355,7 @@ test('manual CRM email creates a review-only sequence when global automation is 
   }, 'A direct reply', 'Thanks for your enquiry.', 'https://lofts.studio');
   const sequence = await automation.getSequence('lofts-studio', 'lead-manual');
   assert.equal(sequence.status, 'review');
-  assert.match(rendered.html, /Book a call|Choose a call time/);
+  assert.match(rendered.html, /Choose a time to talk/);
+  assert.match(rendered.html, /mailto:hi@lofts.studio/);
   assert.match(rendered.text, /Stop follow-ups/);
 });

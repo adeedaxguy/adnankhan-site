@@ -611,7 +611,7 @@ function renderSettings() {
   const blockers = automation.readiness?.blockers || [];
   document.getElementById('agency-automation-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Lead lifecycle</p><h2>Response, follow-up and booking</h2></div><span class="agency-chip ${automationConfig.mode === 'active' ? (automationReady ? 'green' : 'red') : automationConfig.mode === 'review' ? 'amber' : 'gray'}">${escapeHtml(automationConfig.mode === 'active' && !automationReady ? 'Blocked' : titleCase(automationConfig.mode || 'Review'))}</span></div>
     <div class="agency-sync-meta">${[
-      ['Site first reply', automationConfig.mode === 'paused' ? 'Paused' : 'Immediate'],
+      ['Site first reply', automationConfig.mode === 'paused' ? 'Paused' : `Scheduled after ${automationConfig.initialDelayMinutes || 5} minutes`],
       ['Booking alerts', (automation.readiness?.bookingAlertRecipients || []).join(', ') || 'Not set'],
       ['Sequences', automation.summary?.total || 0],
       ['Awaiting review', automation.summary?.review || 0],
@@ -791,6 +791,12 @@ async function testZohoMail() {
   }
 }
 
+function syncBookingAllDay(form) {
+  const allDay = form.elements.bookingAllDay.checked;
+  form.elements.bookingStart.disabled = allDay;
+  form.elements.bookingEnd.disabled = allDay;
+}
+
 function openAutomationConfig() {
   const config = agencyState.data.project.automation?.config || {};
   const booking = config.booking || {};
@@ -806,13 +812,15 @@ function openAutomationConfig() {
   form.elements.trackClicks.checked = Boolean(config.trackClicks);
   form.elements.trackOpens.checked = Boolean(config.trackOpens);
   form.elements.bookingEnabled.checked = booking.enabled !== false;
+  form.elements.bookingAllDay.checked = booking.start === '00:00' && booking.end === '24:00';
   form.elements.bookingTimezone.value = booking.timezone || 'Asia/Karachi';
   form.elements.bookingDuration.value = String(booking.durationMinutes || 30);
-  form.elements.bookingStart.value = booking.start || '17:00';
-  form.elements.bookingEnd.value = booking.end || '22:00';
-  form.elements.minimumNoticeHours.value = booking.minimumNoticeHours || 12;
+  form.elements.bookingStart.value = booking.start || '00:00';
+  form.elements.bookingEnd.value = booking.end === '24:00' ? '23:59' : (booking.end || '23:59');
+  form.elements.minimumNoticeHours.value = booking.minimumNoticeHours ?? 0;
   form.elements.horizonDays.value = booking.horizonDays || 21;
   document.querySelectorAll('#automation-days input').forEach(input => { input.checked = (booking.days || []).includes(Number(input.value)); });
+  syncBookingAllDay(form);
   setText('automation-config-error', '');
   openDialog('automation-config-modal');
 }
@@ -828,6 +836,7 @@ async function saveAutomationConfig(event) {
     fields.trackClicks = form.elements.trackClicks.checked;
     fields.trackOpens = form.elements.trackOpens.checked;
     fields.bookingEnabled = form.elements.bookingEnabled.checked;
+    fields.bookingAllDay = form.elements.bookingAllDay.checked;
     fields.bookingDays = [...document.querySelectorAll('#automation-days input:checked')].map(input => input.value).join(',');
     await requestAgency('automation-config', {
       method: 'POST',
@@ -1065,6 +1074,7 @@ function bindAgencyEvents() {
   document.getElementById('zoho-config-form').addEventListener('submit', configureZohoClient);
   document.getElementById('google-calendar-config-form').addEventListener('submit', configureGoogleCalendarClient);
   document.getElementById('automation-config-form').addEventListener('submit', saveAutomationConfig);
+  document.querySelector('#automation-config-form [name="bookingAllDay"]').addEventListener('change', event => syncBookingAllDay(event.currentTarget.form));
   document.getElementById('email-lead-form').addEventListener('submit', sendLeadEmail);
   document.getElementById('print-report').addEventListener('click', () => window.print());
   document.querySelectorAll('[data-close-modal]').forEach(button => button.addEventListener('click', () => closeDialog(button.dataset.closeModal)));

@@ -4,6 +4,8 @@ const bookingState = {
   selected: '',
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
   confirmed: null,
+  dayKey: '',
+  dayKeys: [],
 };
 
 function refreshBookingIcons() {
@@ -32,25 +34,61 @@ function showBookingError(message) {
   status.className = 'booking-status error';
   status.textContent = message;
   status.hidden = false;
+  document.getElementById('booking-date-nav').hidden = true;
   document.getElementById('booking-days').hidden = true;
+}
+
+function dayKey(value) {
+  return new Intl.DateTimeFormat('en-CA', { timeZone: bookingState.timezone, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date(value));
 }
 
 function renderBookingSlots() {
   const container = document.getElementById('booking-days');
   const groups = new Map();
   for (const slot of bookingState.data.slots) {
-    const key = formatSlot(slot, { year: 'numeric', month: '2-digit', day: '2-digit' });
+    const key = dayKey(slot);
     const list = groups.get(key) || [];
     list.push(slot);
     groups.set(key, list);
   }
-  container.innerHTML = groups.size ? [...groups.values()].map(slots => {
-    const first = slots[0];
-    return `<section class="booking-day"><div class="booking-day-label"><strong>${formatSlot(first, { weekday: 'long' })}</strong><span>${formatSlot(first, { month: 'short', day: 'numeric' })}</span></div><div class="booking-slot-grid">${slots.map(slot => `<button type="button" data-slot="${slot}" class="booking-slot ${slot === bookingState.selected ? 'selected' : ''}">${formatSlot(slot, { hour: 'numeric', minute: '2-digit' })}</button>`).join('')}</div></section>`;
-  }).join('') : '<div class="booking-status error">No open times are available in the next few weeks. Email hi@lofts.studio and the team will arrange one manually.</div>';
+  bookingState.dayKeys = [...groups.keys()];
+  if (groups.size && !groups.has(bookingState.dayKey)) bookingState.dayKey = bookingState.dayKeys[0];
+  const dayIndex = bookingState.dayKeys.indexOf(bookingState.dayKey);
+  const weekStart = Math.floor(Math.max(0, dayIndex) / 7) * 7;
+  const weekDays = bookingState.dayKeys.slice(weekStart, weekStart + 7);
+  const nav = document.getElementById('booking-date-nav');
+  nav.hidden = !groups.size;
+  if (groups.size) {
+    document.getElementById('booking-week-label').textContent = `${formatSlot(groups.get(weekDays[0])[0], { month: 'short', day: 'numeric' })} - ${formatSlot(groups.get(weekDays.at(-1))[0], { month: 'short', day: 'numeric' })}`;
+    document.getElementById('booking-prev-week').disabled = weekStart === 0;
+    document.getElementById('booking-next-week').disabled = weekStart + 7 >= bookingState.dayKeys.length;
+    const strip = document.getElementById('booking-date-strip');
+    strip.innerHTML = weekDays.map(key => {
+      const slot = groups.get(key)[0];
+      return `<button type="button" data-day="${key}" class="${key === bookingState.dayKey ? 'selected' : ''}" aria-label="${formatSlot(slot, { weekday: 'long', month: 'long', day: 'numeric' })}" aria-pressed="${key === bookingState.dayKey}"><span>${formatSlot(slot, { weekday: 'short' })}</span><strong>${formatSlot(slot, { day: 'numeric' })}</strong></button>`;
+    }).join('');
+    strip.querySelectorAll('[data-day]').forEach(button => button.addEventListener('click', () => selectBookingDay(button.dataset.day)));
+  }
+  const slots = groups.get(bookingState.dayKey) || [];
+  container.innerHTML = slots.length ? `<section class="booking-day"><div class="booking-day-label"><strong>${formatSlot(slots[0], { weekday: 'long' })}</strong><span>${formatSlot(slots[0], { month: 'long', day: 'numeric' })}</span></div><div class="booking-slot-grid">${slots.map(slot => `<button type="button" data-slot="${slot}" class="booking-slot ${slot === bookingState.selected ? 'selected' : ''}">${formatSlot(slot, { hour: 'numeric', minute: '2-digit' })}</button>`).join('')}</div></section>` : '<div class="booking-status error">No open times are available in the next few weeks. Email hi@lofts.studio and the team will arrange one manually.</div>';
   container.hidden = false;
   document.getElementById('booking-status').hidden = true;
   container.querySelectorAll('[data-slot]').forEach(button => button.addEventListener('click', () => selectBookingSlot(button.dataset.slot)));
+  refreshBookingIcons();
+}
+
+function selectBookingDay(key) {
+  bookingState.dayKey = key;
+  bookingState.selected = '';
+  document.getElementById('booking-form').hidden = true;
+  renderBookingSlots();
+}
+
+function moveBookingWeek(direction) {
+  const current = bookingState.dayKeys.indexOf(bookingState.dayKey);
+  const next = Math.floor(Math.max(0, current) / 7) * 7 + direction * 7;
+  if (next < 0 || next >= bookingState.dayKeys.length) return;
+  selectBookingDay(bookingState.dayKeys[next]);
 }
 
 function selectBookingSlot(slot) {
@@ -93,6 +131,7 @@ function showBookingConfirmation(booking, warning = '') {
   document.getElementById('booking-form').hidden = true;
   const confirmed = document.getElementById('booking-confirmed');
   confirmed.hidden = false;
+  document.getElementById('booking-date-nav').hidden = true;
   const requested = booking.status === 'requested';
   document.getElementById('booking-confirmed-kicker').textContent = requested ? 'Request received' : 'Confirmed';
   document.getElementById('booking-confirmed-title').textContent = requested ? 'Your time request is in.' : 'Your call is booked.';
@@ -162,9 +201,12 @@ async function loadBooking() {
 document.getElementById('booking-timezone').addEventListener('change', event => {
   bookingState.timezone = event.target.value;
   bookingState.selected = '';
+  bookingState.dayKey = '';
   document.getElementById('booking-form').hidden = true;
   renderBookingSlots();
 });
+document.getElementById('booking-prev-week').addEventListener('click', () => moveBookingWeek(-1));
+document.getElementById('booking-next-week').addEventListener('click', () => moveBookingWeek(1));
 document.getElementById('booking-form').addEventListener('submit', submitBooking);
 document.getElementById('booking-calendar').addEventListener('click', downloadCalendar);
 refreshBookingIcons();

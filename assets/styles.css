@@ -9905,7 +9905,23 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-status.error { color: #8a2f2f; }
 .booking-spinner { width: 18px; height: 18px; border: 2px solid #d7dedb; border-top-color: #12634f; border-radius: 50%; animation: booking-spin 0.8s linear infinite; }
 @keyframes booking-spin { to { transform: rotate(360deg); } }
-.booking-days { max-height: 480px; padding: 0 1.35rem; overflow-y: auto; }
+.booking-date-nav { padding: 1rem 1.35rem 0.8rem; border-bottom: 1px solid #e6eae8; }
+.booking-date-nav-head { display: flex; align-items: center; justify-content: space-between; gap: 0.7rem; margin-bottom: 0.7rem; }
+.booking-date-nav-head strong { font-size: 0.78rem; }
+.booking-date-controls { display: flex; gap: 0.35rem; }
+.booking-date-controls button { display: grid; place-items: center; width: 32px; height: 32px; border: 1px solid #cad4cf; border-radius: 5px; background: #fff; color: #1f2b25; cursor: pointer; }
+.booking-date-controls button:disabled { opacity: 0.35; cursor: default; }
+.booking-date-controls button:focus-visible,
+.booking-date-strip button:focus-visible,
+.booking-slot:focus-visible { outline: 2px solid #12634f; outline-offset: 2px; }
+.booking-date-controls svg { width: 15px; height: 15px; }
+.booking-date-strip { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 0.4rem; }
+.booking-date-strip button { display: grid; justify-items: center; gap: 0.15rem; min-width: 0; min-height: 54px; border: 1px solid #d4dbd7; border-radius: 5px; background: #fff; color: #26332d; font: inherit; cursor: pointer; }
+.booking-date-strip button span { font-size: 0.64rem; color: #61746a; }
+.booking-date-strip button strong { font-size: 0.84rem; }
+.booking-date-strip button:hover,
+.booking-date-strip button.selected { border-color: #12634f; background: #e8f4ef; color: #0e5845; }
+.booking-days { max-height: 400px; padding: 0 1.35rem; overflow-y: auto; }
 .booking-day { display: grid; grid-template-columns: 112px minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-bottom: 1px solid #e6eae8; }
 .booking-day:last-child { border-bottom: 0; }
 .booking-day-label strong,
@@ -9961,6 +9977,9 @@ html[data-theme="dark"] .diagnostic-related-links a {
   .booking-tool-head { display: grid; }
   .booking-timezone { width: 100%; box-sizing: border-box; }
   .booking-timezone select { width: 100%; max-width: none; }
+  .booking-date-nav { padding-inline: 0.7rem; }
+  .booking-date-strip { gap: 0.2rem; }
+  .booking-date-strip button { min-height: 50px; }
   .booking-day { grid-template-columns: 1fr; gap: 0.65rem; }
   .booking-slot-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .booking-fields { grid-template-columns: 1fr; }

@@ -32,14 +32,14 @@ export async function busyCalendarIntervals(projectId, from, to) {
   })).filter(item => Number.isFinite(item.start) && Number.isFinite(item.end));
 }
 
-export async function createCalendarEvent(booking, config = {}, excludedAttendee = '') {
+export async function createCalendarEvent(booking) {
   const status = await getZohoStatus(booking.projectId);
   if (!status.calendarConnected) return { status: 'not-connected' };
   const primary = await zohoCalendarRequest(booking.projectId, '/calendars/primary');
   const calendarUid = primary.calendars?.[0]?.uid;
   if (!calendarUid) throw new Error('The primary Zoho calendar could not be found.');
-  const attendees = [...new Set([booking.leadEmail, ...bookingNotifyEmails(config)])]
-    .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail && email !== excludedAttendee)
+  const attendees = [booking.leadEmail]
+    .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail)
     .map(email => ({ email, status: 'NEEDS-ACTION' }));
   const eventData = {
     title: `Lofts Studio project call with ${booking.leadName}`,
@@ -96,7 +96,7 @@ export async function confirmBookingToLead(booking, config = {}) {
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ from: 'Adnan at Lofts Studio <noreply@lofts.studio>', to: [booking.leadEmail], subject, text, reply_to: 'hi@lofts.studio' }),
+    body: JSON.stringify({ from: 'Lofts Studio <hi@lofts.studio>', to: [booking.leadEmail], subject, text, reply_to: 'hi@lofts.studio' }),
   });
   return response.ok;
 }

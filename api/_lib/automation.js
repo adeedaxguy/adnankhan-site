@@ -185,12 +185,25 @@ function mergeConfig(value) {
   booking.days = Array.isArray(booking.days)
     ? booking.days.map(Number).filter(day => day >= 0 && day <= 6)
     : [...DEFAULT_CONFIG.booking.days];
-  return { ...DEFAULT_CONFIG, ...(value || {}), booking };
+  return {
+    ...DEFAULT_CONFIG, ...(value || {}),
+    initialDelayMinutes: Math.min(10, Math.max(1, Number(value?.initialDelayMinutes) || DEFAULT_CONFIG.initialDelayMinutes)),
+    booking,
+  };
 }
 
 export async function getAutomationConfig(projectId) {
-  const stored = parseJson(await kvCmd('HGET', CONFIG_KEY, cleanProjectId(projectId)), null);
-  return mergeConfig(stored);
+  const id = cleanProjectId(projectId);
+  const stored = parseJson(await kvCmd('HGET', CONFIG_KEY, id), null);
+  const config = mergeConfig(stored);
+  if (id === 'lofts-studio' && Number(stored?.booking?.availabilityVersion || 0) < 2) {
+    config.booking = {
+      ...config.booking, enabled: true, days: [0, 1, 2, 3, 4, 5, 6],
+      start: '00:00', end: '24:00', minimumNoticeHours: 0, horizonDays: 21,
+      availabilityVersion: 2,
+    };
+  }
+  return config;
 }
 
 function sanitizeTime(value, fallback) {
@@ -202,6 +215,7 @@ export async function automationReadiness(projectId, configInput) {
   const [zoho, googleCalendar] = await Promise.all([getZohoStatus(projectId), getGoogleCalendarStatus(projectId)]);
   const blockers = [];
   if (!zoho.connected) blockers.push('Connect Zoho Mail.');
+  if (cleanProjectId(projectId) === 'lofts-studio' && zoho.connected && zoho.fromEmail !== 'hi@lofts.studio') blockers.push('Use hi@lofts.studio for customer-facing Zoho email and invitations.');
   if (zoho.needsReauthorization) blockers.push('Reauthorise Zoho for calendar access.');
   if (!googleCalendar.connected) blockers.push('Connect Google Calendar.');
   if (!cleanText(config.complianceAddress, 300)) blockers.push('Add a valid physical postal address for compliant follow-ups.');
@@ -220,7 +234,7 @@ export async function saveAutomationConfig(projectId, input) {
   const next = mergeConfig({
     ...previous,
     mode,
-    initialDelayMinutes: Math.min(60, Math.max(5, Number(input.initialDelayMinutes) || previous.initialDelayMinutes)),
+    initialDelayMinutes: Math.min(10, Math.max(1, Number(input.initialDelayMinutes) || previous.initialDelayMinutes)),
     senderName: cleanText(input.senderName ?? previous.senderName, 80),
     senderRole: cleanText(input.senderRole ?? previous.senderRole, 100),
     phone: cleanText(input.phone ?? previous.phone, 40),
@@ -235,10 +249,10 @@ export async function saveAutomationConfig(projectId, input) {
       enabled: input.bookingEnabled !== false,
       timezone: cleanText(input.bookingTimezone ?? previous.booking.timezone, 64) || 'Asia/Karachi',
       days: days.length ? [...new Set(days)] : previous.booking.days,
-      start: sanitizeTime(input.bookingStart, previous.booking.start),
-      end: sanitizeTime(input.bookingEnd, previous.booking.end),
+      start: input.bookingAllDay === true ? '00:00' : sanitizeTime(input.bookingStart, previous.booking.start),
+      end: input.bookingAllDay === true ? '24:00' : sanitizeTime(input.bookingEnd, previous.booking.end),
       durationMinutes: [15, 30, 45, 60].includes(Number(input.bookingDuration)) ? Number(input.bookingDuration) : previous.booking.durationMinutes,
-      minimumNoticeHours: Math.min(168, Math.max(1, Number(input.minimumNoticeHours) || previous.booking.minimumNoticeHours)),
+      minimumNoticeHours: Math.min(168, Math.max(0, Number.isFinite(Number(input.minimumNoticeHours)) ? Number(input.minimumNoticeHours) : previous.booking.minimumNoticeHours)),
       horizonDays: Math.min(60, Math.max(7, Number(input.horizonDays) || previous.booking.horizonDays)),
     },
     updatedAt: Date.now(),
@@ -378,15 +392,13 @@ async function emailLinks(sequence, step, config) {
 }
 
 function signatureHtml(config, links, includeUnsubscribe) {
-  const whatsapp = config.whatsapp ? `https://wa.me/${encodeURIComponent(config.whatsapp)}` : '';
-  return `<table role="presentation" cellpadding="0" cellspacing="0" style="margin-top:28px;border-top:1px solid #dfe3e1;width:100%;max-width:560px;font-family:Arial,sans-serif;color:#18201c">
-    <tr><td style="padding-top:18px">
-      <strong style="font-size:15px">${escapeHtml(config.senderName)}</strong><br>
-      <span style="font-size:13px;color:#5d6862">${escapeHtml(config.senderRole)}</span><br>
-      <span style="display:inline-block;margin-top:8px;font-size:13px"><a href="${escapeHtml(links.booking)}" style="color:#12634f;font-weight:700">Book a call</a>${config.phone ? ` &nbsp;|&nbsp; <a href="tel:${escapeHtml(config.phone.replace(/[^+\d]/g, ''))}" style="color:#12634f">${escapeHtml(config.phone)}</a>` : ''}${whatsapp ? ` &nbsp;|&nbsp; <a href="${escapeHtml(whatsapp)}" style="color:#12634f">WhatsApp</a>` : ''}</span><br>
-      <a href="https://lofts.studio" style="display:inline-block;margin-top:7px;color:#5d6862;font-size:12px">lofts.studio</a>
-      ${config.complianceAddress ? `<div style="margin-top:8px;color:#7b847f;font-size:11px;line-height:1.45">${escapeHtml(config.complianceAddress)}</div>` : ''}
-      ${includeUnsubscribe ? `<div style="margin-top:8px;font-size:11px"><a href="${escapeHtml(links.unsubscribe)}" style="color:#7b847f">Stop follow-ups about this enquiry</a></div>` : ''}
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid #dce5df;font-family:Arial,sans-serif;color:#18352b">
+    <tr><td style="padding-top:20px;line-height:1.5">
+      <strong style="font-size:14px">${escapeHtml(config.senderName)}</strong><br>
+      <span style="font-size:12px;color:#61746a">${escapeHtml(config.senderRole)}</span><br>
+      <a href="mailto:hi@lofts.studio" style="display:inline-block;margin-top:8px;color:#12634f;font-size:12px;text-decoration:none">hi@lofts.studio</a>
+      ${config.complianceAddress ? `<div style="margin-top:12px;color:#66766e;font-size:11px;line-height:1.5">${escapeHtml(config.complianceAddress)}</div>` : ''}
+      ${includeUnsubscribe ? `<div style="margin-top:8px;font-size:11px"><a href="${escapeHtml(links.unsubscribe)}" style="color:#66766e">Stop follow-ups about this enquiry</a></div>` : ''}
     </td></tr>
   </table>`;
 }
@@ -396,7 +408,7 @@ function plainSignature(config, links, includeUnsubscribe) {
     config.senderName,
     config.senderRole,
     `Book: ${links.directBooking}`,
-    config.phone || '',
+    'hi@lofts.studio',
     'https://lofts.studio',
     config.complianceAddress || '',
     includeUnsubscribe ? `Stop follow-ups: ${links.unsubscribe}` : '',
@@ -408,14 +420,22 @@ async function renderSequenceEmail(sequence, step, config, customCopy) {
   const links = await emailLinks(sequence, step, config);
   const paragraphs = copy.body.split(/\n\n/).map(paragraph => {
     const lines = paragraph.split('\n').map(line => escapeHtml(line)).join('<br>');
-    return `<p style="margin:0 0 16px;line-height:1.65">${lines}</p>`;
+    return `<p style="margin:0 0 20px;color:#253a30;font-family:Arial,sans-serif;font-size:15px;line-height:1.75">${lines}</p>`;
   }).join('');
   const trackingAllowed = config.trackOpens && sequence.lead?.trackingConsent === 'yes';
-  const html = `<div style="font-family:Arial,sans-serif;color:#18201c;font-size:15px;max-width:600px;margin:0 auto;padding:18px">${paragraphs}
-    <p style="margin:22px 0"><a href="${escapeHtml(links.booking)}" style="display:inline-block;background:#12634f;color:#fff;text-decoration:none;padding:11px 16px;border-radius:5px;font-weight:700">Choose a call time</a></p>
-    ${signatureHtml(config, links, true)}
-    ${trackingAllowed ? `<img src="${escapeHtml(links.open)}" width="1" height="1" alt="" style="display:block;border:0;width:1px;height:1px">` : ''}
-  </div>`;
+  const html = `<!doctype html><html lang="en"><body style="margin:0;padding:0;background:#edf2ee">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#edf2ee"><tr><td align="center" style="padding:24px 12px">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#ffffff;border:1px solid #dce5df">
+        <tr><td style="padding:23px 30px;background:#123d32;color:#ffffff;font-family:Georgia,serif;font-size:25px;line-height:1.2">Lofts Studio<span style="color:#d6b77d">.</span></td></tr>
+        <tr><td style="padding:30px 30px 26px">
+          ${paragraphs}
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0 28px"><tr><td bgcolor="#12634f" style="border-radius:4px;background:#12634f"><a href="${escapeHtml(links.booking)}" style="display:inline-block;padding:14px 20px;color:#ffffff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;text-decoration:none">Choose a time to talk</a></td></tr></table>
+          ${signatureHtml(config, links, true)}
+        </td></tr>
+        <tr><td style="padding:16px 30px;background:#f6f8f6;color:#61746a;font-family:Arial,sans-serif;font-size:11px;line-height:1.5">Lofts Studio &nbsp; | &nbsp; <a href="https://lofts.studio" style="color:#12634f;text-decoration:none">lofts.studio</a> &nbsp; | &nbsp; Reply to this email to continue the conversation.</td></tr>
+      </table>
+      ${trackingAllowed ? `<img src="${escapeHtml(links.open)}" width="1" height="1" alt="" style="display:block;border:0;width:1px;height:1px">` : ''}
+    </td></tr></table></body></html>`;
   return {
     subject: copy.subject,
     text: `${copy.body}\n\n${plainSignature(config, links, true)}`,
@@ -627,34 +647,39 @@ export async function sendInboundReply(sequence) {
     const config = await getAutomationConfig(sequence.projectId);
     const copy = await draftLeadReply(sequence.lead, sequence.analysis);
     const rendered = await renderSequenceEmail(sequence, step, config, copy);
+    const scheduledFor = Math.max(Date.now() + 60000, Number(step.dueAt) || 0);
     const response = await fetch('https://api.resend.com/emails', {
       method: 'POST',
-      headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+      headers: {
+        Authorization: `Bearer ${process.env.RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify({
-        from: 'Adnan at Lofts Studio <noreply@lofts.studio>',
+        from: 'Lofts Studio <hi@lofts.studio>',
         to: [sequence.lead.email],
         reply_to: 'hi@lofts.studio',
         subject: rendered.subject,
         html: rendered.html,
         text: rendered.text,
+        scheduled_at: new Date(scheduledFor).toISOString(),
       }),
     });
     const payload = await response.json().catch(() => ({}));
     if (!response.ok || !payload.id) throw new Error('The email provider did not accept the reply.');
     accepted = true;
-    step.status = 'sent';
+    step.status = 'scheduled';
     step.subject = rendered.subject;
-    step.sentAt = Date.now();
+    step.scheduledFor = scheduledFor;
     step.messageId = payload.id;
     sequence.nextStepIndex = nextPendingIndex(sequence, 1);
-    sequence.lastSentAt = step.sentAt;
+    sequence.lastSentAt = scheduledFor;
     await saveSequence(sequence);
     await appendLeadActivity(sequence.projectId, sequence.leadId, {
-      type: 'email', direction: 'outbound', provider: 'resend', status: 'sent',
+      type: 'email', direction: 'outbound', provider: 'resend', status: 'scheduled',
       to: sequence.lead.email, subject: rendered.subject, body: rendered.text.slice(0, 4000),
-      messageId: payload.id, at: step.sentAt, eventId: `email:${sequence.leadId}:first-response`,
+      messageId: payload.id, at: Date.now(), scheduledFor, eventId: `email:${sequence.leadId}:first-response`,
     }, { stage: 'contacted' });
-    return { status: 'sent' };
+    return { status: 'scheduled' };
   } catch {
     step.status = accepted ? 'needs-review' : 'pending';
     sequence.status = 'needs-review';
@@ -868,7 +893,7 @@ function zonedDateToUtc(year, month, day, hour, minute, timeZone) {
 function localDateSequence(timeZone, horizonDays) {
   const today = zonedParts(new Date(), timeZone);
   const dates = [];
-  for (let offset = 0; offset <= horizonDays; offset += 1) {
+  for (let offset = 0; offset < horizonDays; offset += 1) {
     const date = new Date(Date.UTC(today.year, today.month - 1, today.day + offset, 12));
     dates.push({
       year: date.getUTCFullYear(),
@@ -900,7 +925,7 @@ export async function getAvailableSlots(token) {
     if (existing) return { booking: existing };
   }
   if (!config.booking.enabled) throw serviceError('booking_disabled', 'Online booking is not currently available.');
-  if (bookingNotifyEmails(config).length < 2 || !process.env.RESEND_API_KEY) {
+  if (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY) {
     throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
   }
   const booking = config.booking;
@@ -908,34 +933,44 @@ export async function getAvailableSlots(token) {
   const endMinutes = minutesFromTime(booking.end);
   const earliest = Date.now() + booking.minimumNoticeHours * 3600000;
   const candidates = [];
+  const seenStarts = new Set();
   for (const date of localDateSequence(booking.timezone, booking.horizonDays)) {
     if (!booking.days.includes(date.weekday)) continue;
     for (let minute = startMinutes; minute + booking.durationMinutes <= endMinutes; minute += booking.durationMinutes) {
       const start = zonedDateToUtc(date.year, date.month, date.day, Math.floor(minute / 60), minute % 60, booking.timezone);
       if (start.getTime() < earliest) continue;
-      candidates.push(start.toISOString());
+      const local = zonedParts(start, booking.timezone);
+      if (local.year !== date.year || local.month !== date.month || local.day !== date.day
+        || local.hour !== Math.floor(minute / 60) || local.minute !== minute % 60) continue;
+      const iso = start.toISOString();
+      if (!seenStarts.has(iso)) {
+        seenStarts.add(iso);
+        candidates.push(iso);
+      }
     }
   }
   const lockKeys = candidates.map(start => `agency:booking-lock:${start}`);
   const locks = lockKeys.length ? await kvCmd('MGET', ...lockKeys) : [];
   const rangeStart = candidates[0] || new Date().toISOString();
   const rangeEnd = new Date(new Date(candidates[candidates.length - 1] || rangeStart).getTime() + booking.durationMinutes * 60000);
-  const [zohoBusy, googleBusy] = await Promise.all([
+  const [zohoBusy, googleBusy, zohoStatus] = await Promise.all([
     busyCalendarIntervals(payload.p, rangeStart, rangeEnd),
     googleBusyIntervals(payload.p, rangeStart, rangeEnd),
+    getZohoStatus(payload.p),
   ]);
   const busy = [...(zohoBusy || []), ...(googleBusy || [])];
   const slots = candidates.filter((start, index) => {
     if (Array.isArray(locks) && locks[index]) return false;
     const at = new Date(start).getTime();
     return !busy.some(interval => at < interval.end && at + booking.durationMinutes * 60000 > interval.start);
-  }).slice(0, 160);
+  });
   return {
     projectId: payload.p,
     lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone },
     timezone: booking.timezone,
     durationMinutes: booking.durationMinutes,
-    calendarConnected: zohoBusy !== null && googleBusy !== null,
+    calendarConnected: zohoBusy !== null && googleBusy !== null
+      && (payload.p !== 'lofts-studio' || zohoStatus.fromEmail === 'hi@lofts.studio'),
     slots,
   };
 }
@@ -979,9 +1014,8 @@ export async function createBooking(token, input) {
   if (availability.calendarConnected) {
     let googleEvent = null;
     try {
-      const googleStatus = await getGoogleCalendarStatus(context.payload.p);
       googleEvent = await createGoogleCalendarEvent(booking);
-      const calendarEvent = await createCalendarEvent(booking, context.config, googleStatus.email);
+      const calendarEvent = await createCalendarEvent(booking);
       if (calendarEvent.status !== 'created') throw new Error('Calendar event could not be created.');
       booking.calendarStatus = calendarEvent.status;
       booking.calendarEventUid = calendarEvent.uid;
