@@ -24,6 +24,7 @@ test('free AI draft uses enquiry context and rejects off-topic output', async ()
     const lead = { name: 'Sam Rivera', message: 'Our Shopify checkout loses mobile shoppers before payment.' };
     const drafted = await draftLeadReply(lead);
     assert.equal(requestedModel, 'openrouter/free');
+    assert.equal(drafted.subject, 'Your Shopify project | Lofts Studio');
     assert.match(drafted.body, /Shopify checkout/);
 
     globalThis.fetch = async () => Response.json({ choices: [{ message: { content: JSON.stringify({

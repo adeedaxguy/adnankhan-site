@@ -1,5 +1,5 @@
 import { getZohoStatus, listZohoInboxMessages, sendZohoEmail } from './zoho.js';
-import { draftLeadReply } from './lead-reply.js';
+import { draftLeadReply, leadExpertise } from './lead-reply.js';
 import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, createCalendarEvent, notifyBooking } from './calendar.js';
 import { createGoogleCalendarEvent, deleteGoogleCalendarEvent, getGoogleCalendarStatus, googleBusyIntervals } from './google-calendar.js';
 
@@ -392,13 +392,13 @@ async function emailLinks(sequence, step, config) {
 }
 
 function signatureHtml(config, links, includeUnsubscribe) {
-  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid #dce5df;font-family:Arial,sans-serif;color:#18352b">
-    <tr><td style="padding-top:20px;line-height:1.5">
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid #d7cec2;font-family:Arial,sans-serif;color:#171411">
+    <tr><td style="padding-top:22px;line-height:1.55">
       <strong style="font-size:14px">${escapeHtml(config.senderName)}</strong><br>
-      <span style="font-size:12px;color:#61746a">${escapeHtml(config.senderRole)}</span><br>
-      <a href="mailto:hi@lofts.studio" style="display:inline-block;margin-top:8px;color:#12634f;font-size:12px;text-decoration:none">hi@lofts.studio</a>
-      ${config.complianceAddress ? `<div style="margin-top:12px;color:#66766e;font-size:11px;line-height:1.5">${escapeHtml(config.complianceAddress)}</div>` : ''}
-      ${includeUnsubscribe ? `<div style="margin-top:8px;font-size:11px"><a href="${escapeHtml(links.unsubscribe)}" style="color:#66766e">Stop follow-ups about this enquiry</a></div>` : ''}
+      <span style="font-size:12px;color:#4f4942">${escapeHtml(config.senderRole)}</span><br>
+      <a href="mailto:hi@lofts.studio" style="display:inline-block;margin-top:7px;color:#843322;font-size:12px;text-decoration:underline">hi@lofts.studio</a>
+      ${config.complianceAddress ? `<div style="margin-top:12px;color:#4f4942;font-size:12px;line-height:1.5">${escapeHtml(config.complianceAddress)}</div>` : ''}
+      ${includeUnsubscribe ? `<div style="margin-top:9px;font-size:12px"><a href="${escapeHtml(links.unsubscribe)}" style="color:#4f4942;text-decoration:underline">Stop follow-ups about this enquiry</a></div>` : ''}
     </td></tr>
   </table>`;
 }
@@ -418,27 +418,33 @@ function plainSignature(config, links, includeUnsubscribe) {
 async function renderSequenceEmail(sequence, step, config, customCopy) {
   const copy = customCopy || stepCopy(sequence, step);
   const links = await emailLinks(sequence, step, config);
+  const expertise = step.key === 'first-response' ? leadExpertise(sequence.lead) : null;
   const paragraphs = copy.body.split(/\n\n/).map(paragraph => {
     const lines = paragraph.split('\n').map(line => escapeHtml(line)).join('<br>');
-    return `<p style="margin:0 0 20px;color:#253a30;font-family:Arial,sans-serif;font-size:15px;line-height:1.75">${lines}</p>`;
+    return `<p style="margin:0 0 19px;color:#171411;font-family:Arial,sans-serif;font-size:16px;line-height:1.65">${lines}</p>`;
   }).join('');
+  const expertiseHtml = expertise ? `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-top:1px solid #d7cec2;margin-top:9px">
+    <tr><td style="padding:23px 0 7px;color:#171411;font-family:Georgia,serif;font-size:20px;line-height:1.3">Where we can help</td></tr>
+    ${expertise.map(item => `<tr><td style="padding:5px 0;color:#4f4942;font-family:Arial,sans-serif;font-size:15px;line-height:1.55">${escapeHtml(item)}</td></tr>`).join('')}
+  </table>` : '';
   const trackingAllowed = config.trackOpens && sequence.lead?.trackingConsent === 'yes';
-  const html = `<!doctype html><html lang="en"><body style="margin:0;padding:0;background:#edf2ee">
-    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#edf2ee"><tr><td align="center" style="padding:24px 12px">
-      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#ffffff;border:1px solid #dce5df">
-        <tr><td style="padding:23px 30px;background:#123d32;color:#ffffff;font-family:Georgia,serif;font-size:25px;line-height:1.2">Lofts Studio<span style="color:#d6b77d">.</span></td></tr>
-        <tr><td style="padding:30px 30px 26px">
+  const html = `<!doctype html><html lang="en"><body style="margin:0;padding:0;background:#f4f0e9">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f4f0e9"><tr><td align="center" style="padding:24px 10px">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#fbfaf7;border-top:3px solid #a9432d">
+        <tr><td style="padding:29px 30px 17px;color:#171411;font-family:'Iowan Old Style',Baskerville,'Palatino Linotype',Georgia,serif;font-size:27px;line-height:1.2">Lofts Studio<span style="color:#a9432d">.</span></td></tr>
+        <tr><td style="padding:10px 30px 27px">
           ${paragraphs}
-          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0 28px"><tr><td bgcolor="#12634f" style="border-radius:4px;background:#12634f"><a href="${escapeHtml(links.booking)}" style="display:inline-block;padding:14px 20px;color:#ffffff;font-family:Arial,sans-serif;font-size:14px;font-weight:700;text-decoration:none">Choose a time to talk</a></td></tr></table>
+          ${expertiseHtml}
+          <table role="presentation" cellpadding="0" cellspacing="0" style="margin:26px 0 27px"><tr><td bgcolor="#171411" style="background:#171411"><a href="${escapeHtml(links.booking)}" style="display:inline-block;padding:14px 21px;color:#fbfaf7;font-family:Arial,sans-serif;font-size:14px;font-weight:700;line-height:1.3;text-decoration:none">Choose a time to talk</a></td></tr></table>
           ${signatureHtml(config, links, true)}
         </td></tr>
-        <tr><td style="padding:16px 30px;background:#f6f8f6;color:#61746a;font-family:Arial,sans-serif;font-size:11px;line-height:1.5">Lofts Studio &nbsp; | &nbsp; <a href="https://lofts.studio" style="color:#12634f;text-decoration:none">lofts.studio</a> &nbsp; | &nbsp; Reply to this email to continue the conversation.</td></tr>
+        <tr><td style="padding:17px 30px;background:#ebe5db;color:#4f4942;font-family:Arial,sans-serif;font-size:12px;line-height:1.6">Lofts Studio &nbsp; | &nbsp; <a href="https://lofts.studio" style="color:#843322;text-decoration:underline">lofts.studio</a> &nbsp; | &nbsp; Reply to this email to continue the conversation.</td></tr>
       </table>
       ${trackingAllowed ? `<img src="${escapeHtml(links.open)}" width="1" height="1" alt="" style="display:block;border:0;width:1px;height:1px">` : ''}
     </td></tr></table></body></html>`;
   return {
     subject: copy.subject,
-    text: `${copy.body}\n\n${plainSignature(config, links, true)}`,
+    text: [copy.body, expertise ? `Where we can help\n${expertise.join('\n')}` : '', plainSignature(config, links, true)].filter(Boolean).join('\n\n'),
     html,
     links,
   };

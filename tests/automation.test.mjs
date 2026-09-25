@@ -201,13 +201,15 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
 });
 
 test('fallback first reply acknowledges a free-text enquiry without a model', async () => {
-  const { classifyLeadEnquiry, fallbackLeadReply } = await import('../api/_lib/lead-reply.js');
+  const { classifyLeadEnquiry, fallbackLeadReply, leadExpertise } = await import('../api/_lib/lead-reply.js');
   const reply = fallbackLeadReply({ name: 'Mina Patel', message: 'Our Shopify checkout is losing mobile customers.' });
   assert.match(reply.body, /Shopify checkout is losing mobile customers/);
   assert.equal(classifyLeadEnquiry({ focus: 'Build or redesign a business website', message: 'The WordPress site needs a redesign.' }), 'wordpress');
   assert.equal(classifyLeadEnquiry({ bottleneck: 'Checkout flow', pageTitle: 'Shopify Development' }), 'shopify');
   assert.equal(classifyLeadEnquiry({ bottleneck: 'WordPress', sourcePath: '/services/technical-seo-audit.html' }), 'seo');
   assert.equal(classifyLeadEnquiry({ bottleneck: 'Migrating from Shopify', sourcePath: '/services/woocommerce-development.html' }), 'woocommerce');
+  assert.equal(classifyLeadEnquiry({ focus: 'Build WordPress, Webflow, or a custom CMS', message: 'Our Webflow CMS needs a redesign.' }), 'webflow');
+  assert.match(leadExpertise({ message: 'Our Shopify checkout is losing mobile customers.' }).join(' '), /Shopify storefronts/);
   assert.match(fallbackLeadReply({ name: 'Ari', focus: 'Improve SEO, AEO, structure, or rankings' }).body, /search visibility/i);
   assert.match(fallbackLeadReply({ name: 'Ari', focus: 'Add AI calling agents, chatbots, or automation' }).body, /automation/i);
 });
@@ -220,8 +222,8 @@ test('every homepage enquiry choice routes to a relevant reply template', async 
     ['Build a SaaS, app, or custom web platform', 'app'],
     ['Improve SEO, AEO, structure, or rankings', 'seo'],
     ['Improve conversions, leads, or landing pages', 'conversion'],
-    ['Build or improve a Shopify / WooCommerce store', 'shopify'],
-    ['Build WordPress, Webflow, or a custom CMS', 'wordpress'],
+    ['Build or improve a Shopify / WooCommerce store', 'ecommerce'],
+    ['Build WordPress, Webflow, or a custom CMS', 'cms'],
     ['Add AI calling agents, chatbots, or automation', 'automation'],
     ['Something else - I will explain', 'general'],
   ];
@@ -410,4 +412,28 @@ test('manual CRM email creates a review-only sequence when global automation is 
   assert.match(rendered.html, /Choose a time to talk/);
   assert.match(rendered.html, /mailto:hi@lofts.studio/);
   assert.match(rendered.text, /Stop follow-ups/);
+  hash('agency:automation-config').delete('lofts-studio');
+});
+
+test('first lead reply uses a restrained service-specific email and Zoho sender', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-email-design', _projectId: 'lofts-studio', _ts: Date.now(),
+    name: 'Sam Founder', email: 'sam@prospect.co', phone: '+1 202 555 0163',
+    focus: 'Build or improve a Shopify / WooCommerce store',
+    message: 'Our WooCommerce checkout is difficult to use on phones.',
+  }, 'https://lofts.studio', { forceReview: true });
+  assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'scheduled' });
+  const email = zohoEmails.at(-1);
+  assert.equal(email.toAddress, 'sam@prospect.co');
+  assert.equal(email.fromAddress, 'hi@lofts.studio');
+  assert.equal(email.mailFormat, 'html');
+  assert.match(email.content, /WooCommerce checkout is difficult to use on phones/);
+  assert.match(email.content, /WooCommerce architecture and custom product logic/);
+  assert.match(email.content, /Where we can help/);
+  assert.match(email.content, /Choose a time to talk/);
+  assert.match(email.content, /#a9432d/);
+  assert.doesNotMatch(email.content, /adnan\.webexpert@|adnan\.toprated@|<img\b/i);
+  assert.doesNotMatch(email.content, /Test Street/);
+  assert.ok(email.isSchedule);
+  assert.equal((await automation.getSequence('lofts-studio', 'lead-email-design')).steps[0].status, 'scheduled');
 });
