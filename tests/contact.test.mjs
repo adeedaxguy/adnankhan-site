@@ -105,6 +105,7 @@ test('contact lead persists before a failed notification and duplicate is idempo
     phone: '+1 202 555 0147',
     website: '',
     bottleneck: 'Paid ad landing page (Meta/Google)',
+    timezone: 'America/Los_Angeles',
     source: 'landing-page-sprint-callback',
     _startedAt: Date.now() - 5000,
     _submissionId: 'submission-1',
@@ -118,6 +119,7 @@ test('contact lead persists before a failed notification and duplicate is idempo
   assert.equal(lists.get('lofts:submissions').length, 1);
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).email, 'jane@example.com');
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).phone, '+1 202 555 0147');
+  assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).timezone, 'America/Los_Angeles');
 
   const duplicate = await contactHandler(request(payload));
   assert.equal(duplicate.status, 200);
@@ -130,6 +132,7 @@ test('a failed lead write can be retried with the same submission ID', async () 
     name: 'Mira Founder',
     email: 'mira@example.org',
     phone: '+1 202 555 0199',
+    timezone: 'Invalid/Zone',
     source: 'contact-form',
     _submissionId: 'retry-submission-1',
   };
@@ -148,6 +151,7 @@ test('a failed lead write can be retried with the same submission ID', async () 
   assert.equal(retriedBody.message, 'Received');
   assert.equal(retriedBody.reply, 'delayed');
   assert.equal(lists.get('lofts:submissions').length, 2);
+  assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).timezone, undefined);
 });
 
 test('a real project enquiry gets one tailored reply and a booking link', async () => {
@@ -174,9 +178,9 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
   assert.equal(delivered[0].toAddress, 'lead@acme.co');
   assert.equal(delivered[0].isSchedule, true);
   assert.equal(delivered[0].scheduleType, 6);
-  assert.equal(delivered[0].timeZone, 'GMT 0:00 (UTC)');
+  assert.equal(delivered[0].timeZone, 'GMT 5:30 (India Standard Time - Asia/Calcutta)');
   const [month, day, year, hour, minute, second] = delivered[0].scheduleTime.match(/\d+/g).map(Number);
-  const delay = Date.UTC(year, month - 1, day, hour, minute, second) - Date.now();
+  const delay = Date.UTC(year, month - 1, day, hour, minute, second) - 5.5 * 3600000 - Date.now();
   assert.ok(delay >= 59000 && delay <= 10 * 60000);
   assert.doesNotMatch(delivered[0].content, /gmail\.com|noreply@lofts\.studio/i);
   await contactHandler(request(payload, '198.51.100.43'));

@@ -92,6 +92,16 @@ function cleanText(value, length = 500) {
   return String(value || '').replace(/\s+/g, ' ').trim().slice(0, length);
 }
 
+export function normalizeTimeZone(value, fallback = '') {
+  const timezone = cleanText(value, 64);
+  if (!timezone) return fallback;
+  try {
+    return new Intl.DateTimeFormat('en-US', { timeZone: timezone }).resolvedOptions().timeZone;
+  } catch {
+    return fallback;
+  }
+}
+
 function escapeHtml(value) {
   return String(value ?? '').replace(/[&<>"']/g, character => ({
     '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
@@ -613,6 +623,7 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
       pageTitle: cleanText(lead.page_title, 180),
       sourcePath: cleanText(lead.source_path, 200),
       country: cleanText(lead.country, 80),
+      timezone: normalizeTimeZone(lead.timezone),
       source: cleanText(lead.source, 100),
       nurtureConsent: String(lead.nurtureConsent || '').toLowerCase() === 'yes' ? 'yes' : 'no',
       trackingConsent: String(lead.trackingConsent || '').toLowerCase() === 'yes' ? 'yes' : 'no',
@@ -985,7 +996,7 @@ export async function getAvailableSlots(token) {
   });
   return {
     projectId: payload.p,
-    lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone },
+    lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone, timezone: sequence.lead.timezone || '' },
     timezone: booking.timezone,
     durationMinutes: booking.durationMinutes,
     calendarConnected: zohoBusy !== null && googleBusy !== null
@@ -1025,7 +1036,7 @@ export async function createBooking(token, input) {
     note: cleanText(input.note, 1000),
     startAt,
     endAt: startAt + availability.durationMinutes * 60000,
-    bookingTimezone: cleanText(input.timezone, 64),
+    bookingTimezone: normalizeTimeZone(input.timezone, context.sequence.lead.timezone || availability.timezone),
     hostTimezone: availability.timezone,
     durationMinutes: availability.durationMinutes,
     createdAt: Date.now(),

@@ -1,8 +1,17 @@
 const bookingToken = new URLSearchParams(window.location.search).get('t') || '';
+function normalizeBookingTimeZone(value, fallback = 'UTC') {
+  try {
+    return new Intl.DateTimeFormat('en-US', { timeZone: value }).resolvedOptions().timeZone;
+  } catch {
+    return fallback;
+  }
+}
+
 const bookingState = {
   data: null,
   selected: '',
-  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC',
+  timezone: normalizeBookingTimeZone(Intl.DateTimeFormat().resolvedOptions().timeZone),
+  timezoneChanged: false,
   confirmed: null,
   dayKey: '',
   dayKeys: [],
@@ -126,6 +135,7 @@ function downloadCalendar() {
 
 function showBookingConfirmation(booking, warning = '') {
   bookingState.confirmed = booking;
+  document.querySelector('.booking-tool-head').hidden = true;
   document.getElementById('booking-status').hidden = true;
   document.getElementById('booking-days').hidden = true;
   document.getElementById('booking-form').hidden = true;
@@ -179,10 +189,14 @@ async function loadBooking() {
     const data = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(data.error || 'Booking is unavailable.');
     if (data.booking) {
+      bookingState.timezone = normalizeBookingTimeZone(data.booking.bookingTimezone, bookingState.timezone);
       showBookingConfirmation(data.booking);
       return;
     }
     bookingState.data = data;
+    if (!bookingState.timezoneChanged) {
+      bookingState.timezone = normalizeBookingTimeZone(data.lead.timezone, bookingState.timezone);
+    }
     document.getElementById('booking-request-note').hidden = data.calendarConnected;
     document.getElementById('booking-submit-label').textContent = data.calendarConnected ? 'Confirm call' : 'Request this time';
     document.getElementById('booking-duration').textContent = `${data.durationMinutes} minutes`;
@@ -200,6 +214,7 @@ async function loadBooking() {
 
 document.getElementById('booking-timezone').addEventListener('change', event => {
   bookingState.timezone = event.target.value;
+  bookingState.timezoneChanged = true;
   bookingState.selected = '';
   bookingState.dayKey = '';
   document.getElementById('booking-form').hidden = true;

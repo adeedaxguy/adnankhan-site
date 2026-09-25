@@ -1,5 +1,5 @@
 // Vercel Edge Function: validate and persist enquiries before notifications.
-import { enrollLeadAutomation, sendInboundReply } from './_lib/automation.js';
+import { enrollLeadAutomation, normalizeTimeZone, sendInboundReply } from './_lib/automation.js';
 import { sendZohoEmail } from './_lib/zoho.js';
 
 export const config = { runtime: 'edge' };
@@ -160,6 +160,9 @@ export default async function handler(req) {
   clean.email = email;
   clean.name = name;
   if (!isNewsletter) clean.phone = phone;
+  const timezone = !isNewsletter && normalizeTimeZone(payload.timezone);
+  if (timezone) clean.timezone = timezone;
+  else delete clean.timezone;
   clean.source = source;
   clean.nurtureConsent = String(payload.nurtureConsent || '').toLowerCase() === 'yes' ? 'yes' : 'no';
 

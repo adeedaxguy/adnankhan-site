@@ -477,6 +477,10 @@
         if (!formData.has('page_url')) formData.append('page_url', window.location.href);
         if (!formData.has('page_title')) formData.append('page_title', document.title);
         if (!formData.has('source_path')) formData.append('source_path', window.location.pathname);
+        if (!formData.has('timezone')) {
+          const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+          if (timezone) formData.set('timezone', timezone);
+        }
         const attribution = appendAdAttribution(formData);
         const leadSource = formData.get('source') || form.getAttribute('data-lead-source') || 'contact-form';
 

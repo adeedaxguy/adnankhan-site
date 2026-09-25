@@ -154,12 +154,14 @@ test('lead enrolment stores evidence-based analysis and remains in review mode',
     name: 'Jane Founder',
     email: 'jane@example-business.test',
     phone: '+1 202 555 0147',
+    timezone: 'America/New_York',
     website: 'https://example-business.test',
     bottleneck: 'Paid ad landing page (Meta/Google)',
     source: 'landing-page-sprint-callback',
     nurtureConsent: 'no',
   });
   assert.equal(sequence.status, 'review');
+  assert.equal(sequence.lead.timezone, 'America/New_York');
   assert.equal(sequence.steps.length, 8);
   assert.equal(sequence.analysis.status, 'reviewed');
   assert.match(sequence.analysis.observations.join(' '), /heading|lead form|proof/i);
@@ -178,6 +180,7 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   const availability = await automation.getAvailableSlots(token);
   assert.ok(availability.slots.length > 160);
   assert.equal(availability.timezone, 'Asia/Karachi');
+  assert.equal(availability.lead.timezone, 'America/New_York');
   const localTimes = new Set(availability.slots.map(slot => new Intl.DateTimeFormat('en-GB', {
     timeZone: availability.timezone, hour: '2-digit', minute: '2-digit', hourCycle: 'h23',
   }).format(new Date(slot))));
@@ -189,6 +192,7 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   await assert.rejects(automation.createBooking(token, { start: availability.slots[0], phone: 'abc' }), /valid phone/i);
   const first = await automation.createBooking(token, { start: availability.slots[0], timezone: 'Europe/London' });
   assert.equal(first.booking.status, 'requested');
+  assert.equal(first.booking.bookingTimezone, 'Europe/London');
   assert.equal(first.booking.calendarStatus, 'not-connected');
   assert.equal((await automation.getAvailableSlots(token)).booking.id, first.booking.id);
   assert.equal(zohoEmails.length, 3);
