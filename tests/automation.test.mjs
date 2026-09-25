@@ -199,6 +199,9 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   assert.ok(zohoEmails.some(email => email.toAddress === 'team@lofts.studio'));
   assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio'));
   assert.ok(zohoEmails.some(email => email.toAddress === 'jane@example-business.test'));
+  assert.match(zohoEmails.find(email => email.toAddress === 'jane@example-business.test').content, /Europe\/London/);
+  assert.doesNotMatch(zohoEmails.find(email => email.toAddress === 'jane@example-business.test').content, /Asia\/Karachi/);
+  assert.match(zohoEmails.find(email => email.toAddress === 'team@lofts.studio').content, /Lead time: .*Europe\/London/);
   const repeat = await automation.createBooking(token, { start: availability.slots[1], timezone: 'Europe/London' });
   assert.equal(repeat.booking.id, first.booking.id);
   await automation.enrollLeadAutomation({ _id: 'lead-2', _projectId: 'lofts-studio', name: 'Second Lead', email: 'second@example.com', phone: '+1 202 555 0148' });

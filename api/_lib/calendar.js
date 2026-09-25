@@ -60,10 +60,13 @@ export async function notifyBooking(booking, config = {}) {
   const recipients = bookingNotifyEmails(config);
   if (!recipients.length) return false;
   const date = new Intl.DateTimeFormat('en-US', { timeZone: booking.hostTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
+  const leadTimezone = booking.bookingTimezone || booking.hostTimezone;
+  const leadDate = new Intl.DateTimeFormat('en-US', { timeZone: leadTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const subject = `${booking.status === 'confirmed' ? 'Call booked' : 'Call requested'}: ${booking.leadName}`;
   const lines = [
     subject,
     `When: ${date} (${booking.hostTimezone})`,
+    `Lead time: ${leadDate} (${leadTimezone})`,
     `Email: ${booking.leadEmail}`,
     `Phone: ${booking.phone || 'Not supplied'}`,
     `Enquiry: ${booking.focus || booking.note || 'See the CRM inbox'}`,
@@ -81,13 +84,14 @@ export async function notifyBooking(booking, config = {}) {
 }
 
 export async function confirmBookingToLead(booking, config = {}) {
-  const date = new Intl.DateTimeFormat('en-US', { timeZone: booking.hostTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
+  const timezone = booking.bookingTimezone || booking.hostTimezone;
+  const date = new Intl.DateTimeFormat('en-US', { timeZone: timezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const confirmed = booking.status === 'confirmed';
   const subject = confirmed ? 'Your Lofts Studio call is confirmed' : 'Your Lofts Studio call request';
   const text = [
     `Hi ${booking.leadName.split(/\s+/)[0] || 'there'},`,
     '',
-    confirmed ? `Your call with Lofts Studio is confirmed for ${date} (${booking.hostTimezone}).` : `We received your request for ${date} (${booking.hostTimezone}) and will confirm it shortly.`,
+    confirmed ? `Your call with Lofts Studio is confirmed for ${date} (${timezone}).` : `We received your request for ${date} (${timezone}) and will confirm it shortly.`,
     '',
     'We will use the time to discuss your enquiry and the clearest next step. Reply here if anything changes.',
     '',
