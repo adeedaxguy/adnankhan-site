@@ -32,14 +32,14 @@ export async function busyCalendarIntervals(projectId, from, to) {
   })).filter(item => Number.isFinite(item.start) && Number.isFinite(item.end));
 }
 
-export async function createCalendarEvent(booking, config = {}) {
+export async function createCalendarEvent(booking, config = {}, excludedAttendee = '') {
   const status = await getZohoStatus(booking.projectId);
   if (!status.calendarConnected) return { status: 'not-connected' };
   const primary = await zohoCalendarRequest(booking.projectId, '/calendars/primary');
   const calendarUid = primary.calendars?.[0]?.uid;
   if (!calendarUid) throw new Error('The primary Zoho calendar could not be found.');
   const attendees = [...new Set([booking.leadEmail, ...bookingNotifyEmails(config)])]
-    .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail)
+    .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail && email !== excludedAttendee)
     .map(email => ({ email, status: 'NEEDS-ACTION' }));
   const eventData = {
     title: `Lofts Studio project call with ${booking.leadName}`,
@@ -67,7 +67,7 @@ export async function notifyBooking(booking, config = {}) {
     `Email: ${booking.leadEmail}`,
     `Phone: ${booking.phone || 'Not supplied'}`,
     `Enquiry: ${booking.focus || booking.note || 'See the CRM inbox'}`,
-    `Calendar: ${booking.calendarStatus === 'created' ? 'Event created and invitations sent' : 'Calendar connection needed'}`,
+    `Calendar: ${booking.calendarStatus === 'created' ? 'Zoho and Google events created' : booking.calendarStatus === 'partial-google' ? 'Google event created; Zoho needs review' : booking.calendarStatus === 'zoho-review' ? 'Zoho outcome needs review; Google event rolled back' : 'Calendar connections needed'}`,
   ];
   const response = await fetch('https://api.resend.com/emails', {
     method: 'POST',

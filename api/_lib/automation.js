@@ -1,6 +1,7 @@
 import { getZohoStatus, listZohoInboxMessages, sendZohoEmail } from './zoho.js';
 import { draftLeadReply } from './lead-reply.js';
 import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, createCalendarEvent, notifyBooking } from './calendar.js';
+import { createGoogleCalendarEvent, deleteGoogleCalendarEvent, getGoogleCalendarStatus, googleBusyIntervals } from './google-calendar.js';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 const KV_URL = process.env.KV_REST_API_URL;
@@ -198,14 +199,16 @@ function sanitizeTime(value, fallback) {
 
 export async function automationReadiness(projectId, configInput) {
   const config = mergeConfig(configInput || await getAutomationConfig(projectId));
-  const zoho = await getZohoStatus(projectId);
+  const [zoho, googleCalendar] = await Promise.all([getZohoStatus(projectId), getGoogleCalendarStatus(projectId)]);
   const blockers = [];
   if (!zoho.connected) blockers.push('Connect Zoho Mail.');
   if (zoho.needsReauthorization) blockers.push('Reauthorise Zoho for calendar access.');
+  if (!googleCalendar.connected) blockers.push('Connect Google Calendar.');
   if (!cleanText(config.complianceAddress, 300)) blockers.push('Add a valid physical postal address for compliant follow-ups.');
   if (!config.booking.enabled) blockers.push('Enable booking before automated call invitations.');
-  if (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY) blockers.push('Set booking alert emails and connect the notification service.');
-  return { ready: blockers.length === 0, blockers, zoho };
+  const bookingAlertRecipients = bookingNotifyEmails(config);
+  if (bookingAlertRecipients.length < 2 || !process.env.RESEND_API_KEY) blockers.push('Set both booking alert emails and connect the notification service.');
+  return { ready: blockers.length === 0, blockers, zoho, googleCalendar, bookingAlertRecipients };
 }
 
 export async function saveAutomationConfig(projectId, input) {
@@ -611,7 +614,7 @@ export async function enrollLeadAutomation(lead, origin = 'https://lofts.studio'
 }
 
 export async function sendInboundReply(sequence) {
-  if (!sequence || ['suppressed', 'unsubscribed'].includes(sequence.status)) return { status: 'skipped' };
+  if (!sequence || ['suppressed', 'unsubscribed', 'paused'].includes(sequence.status)) return { status: 'skipped' };
   const step = sequence.steps?.[0];
   if (!step || step.status !== 'pending') return { status: 'already-handled' };
   if (isTestLead(sequence.lead)) return { status: 'review' };
@@ -897,6 +900,9 @@ export async function getAvailableSlots(token) {
     if (existing) return { booking: existing };
   }
   if (!config.booking.enabled) throw serviceError('booking_disabled', 'Online booking is not currently available.');
+  if (bookingNotifyEmails(config).length < 2 || !process.env.RESEND_API_KEY) {
+    throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
+  }
   const booking = config.booking;
   const startMinutes = minutesFromTime(booking.start);
   const endMinutes = minutesFromTime(booking.end);
@@ -912,21 +918,24 @@ export async function getAvailableSlots(token) {
   }
   const lockKeys = candidates.map(start => `agency:booking-lock:${start}`);
   const locks = lockKeys.length ? await kvCmd('MGET', ...lockKeys) : [];
-  const busy = candidates.length ? await busyCalendarIntervals(payload.p, candidates[0], new Date(new Date(candidates[candidates.length - 1]).getTime() + booking.durationMinutes * 60000)) : [];
-  if (busy === null && (!bookingNotifyEmails(config).length || !process.env.RESEND_API_KEY)) {
-    throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
-  }
+  const rangeStart = candidates[0] || new Date().toISOString();
+  const rangeEnd = new Date(new Date(candidates[candidates.length - 1] || rangeStart).getTime() + booking.durationMinutes * 60000);
+  const [zohoBusy, googleBusy] = await Promise.all([
+    busyCalendarIntervals(payload.p, rangeStart, rangeEnd),
+    googleBusyIntervals(payload.p, rangeStart, rangeEnd),
+  ]);
+  const busy = [...(zohoBusy || []), ...(googleBusy || [])];
   const slots = candidates.filter((start, index) => {
     if (Array.isArray(locks) && locks[index]) return false;
     const at = new Date(start).getTime();
-    return !busy || !busy.some(interval => at < interval.end && at + booking.durationMinutes * 60000 > interval.start);
+    return !busy.some(interval => at < interval.end && at + booking.durationMinutes * 60000 > interval.start);
   }).slice(0, 160);
   return {
     projectId: payload.p,
     lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone },
     timezone: booking.timezone,
     durationMinutes: booking.durationMinutes,
-    calendarConnected: busy !== null,
+    calendarConnected: zohoBusy !== null && googleBusy !== null,
     slots,
   };
 }
@@ -968,15 +977,32 @@ export async function createBooking(token, input) {
     status: availability.calendarConnected ? 'confirmed' : 'requested',
   };
   if (availability.calendarConnected) {
+    let googleEvent = null;
     try {
-      const calendarEvent = await createCalendarEvent(booking, context.config);
+      const googleStatus = await getGoogleCalendarStatus(context.payload.p);
+      googleEvent = await createGoogleCalendarEvent(booking);
+      const calendarEvent = await createCalendarEvent(booking, context.config, googleStatus.email);
       if (calendarEvent.status !== 'created') throw new Error('Calendar event could not be created.');
       booking.calendarStatus = calendarEvent.status;
       booking.calendarEventUid = calendarEvent.uid;
       booking.calendarUid = calendarEvent.calendarUid;
+      booking.googleEventId = googleEvent.id;
     } catch (error) {
-      await kvCmd('DEL', lockKey);
-      throw error;
+      if (googleEvent) {
+        let rolledBack = false;
+        try {
+          await deleteGoogleCalendarEvent(context.payload.p, googleEvent.id);
+          rolledBack = true;
+        } catch {
+          booking.googleEventId = googleEvent.id;
+        }
+        booking.status = 'requested';
+        booking.calendarStatus = rolledBack ? 'zoho-review' : 'partial-google';
+      }
+      if (!googleEvent) {
+        await kvCmd('DEL', lockKey);
+        throw error;
+      }
     }
   } else {
     booking.calendarStatus = 'not-connected';

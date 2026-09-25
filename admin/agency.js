@@ -574,6 +574,7 @@ function renderSettings() {
   const adsReady = project.tracking?.googleAdsApi === 'verified';
   const adsStale = project.tracking?.googleAdsApi === 'stale';
   const zoho = project.zohoMail || {};
+  const googleCalendar = project.googleCalendar || {};
   const automation = project.automation || {};
   const automationConfig = automation.config || {};
   const automationReady = Boolean(automation.readiness?.ready);
@@ -583,6 +584,7 @@ function renderSettings() {
     ['Lead forms', project.tracking?.formConversion === 'verified', 'Primary conversion', 'notebook-tabs'],
     ['Lead notifications', project.tracking?.emailDelivery === 'verified', 'Inbound delivery', 'mail-check'],
     ['Zoho Mail', zoho.connected, zoho.connected ? zoho.fromEmail : 'CRM outbound email', 'send', zoho.connected ? 'Connected' : zoho.clientConfigured ? 'Authorise' : 'Pending'],
+    ['Google Calendar', googleCalendar.connected, googleCalendar.connected ? googleCalendar.email : 'Second booking calendar', 'calendar-days', googleCalendar.connected ? 'Connected' : googleCalendar.clientConfigured ? 'Authorise' : 'Pending'],
     ['Lead lifecycle', automationReady && automationConfig.mode === 'active', automationConfig.mode === 'active' ? 'Automated follow-up and booking' : 'Review mode', 'workflow', automationConfig.mode === 'active' ? (automationReady ? 'Active' : 'Blocked') : titleCase(automationConfig.mode || 'Review')],
     ['Agency CRM', true, 'KV lead pipeline', 'contact-round'],
     ['Meta Ads', project.tracking?.metaAdsApi === 'verified', 'Future channel', 'megaphone'],
@@ -602,16 +604,21 @@ function renderSettings() {
     ['Last sent', zoho.lastSentAt ? fullDate(zoho.lastSentAt) : 'No emails sent'],
     ['Data center', String(zoho.dataCenter || 'us').toUpperCase()],
   ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-zoho" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${zoho.connected ? `<button class="agency-secondary-btn" id="test-zoho" type="button"><i data-lucide="send"></i>Send test to mailbox</button>` : ''}${zoho.clientConfigured ? `<button class="agency-primary-btn" id="authorise-zoho" type="button"><i data-lucide="shield-check"></i>${zoho.connected ? 'Reauthorise' : 'Authorise mailbox'}</button>` : ''}${zoho.connected ? `<button class="agency-secondary-btn danger" id="disconnect-zoho" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
+  document.getElementById('agency-google-calendar-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Booking calendar</p><h2>Google Calendar</h2></div><span class="agency-chip ${googleCalendar.connected ? 'green' : googleCalendar.clientConfigured ? 'amber' : 'gray'}">${googleCalendar.connected ? 'Connected' : googleCalendar.clientConfigured ? 'Ready to authorise' : 'Not connected'}</span></div><div class="agency-sync-meta">${[
+    ['Account', googleCalendar.email || googleCalendar.expectedEmail || 'Not configured'],
+    ['Connected', googleCalendar.connectedAt ? fullDate(googleCalendar.connectedAt) : 'Never'],
+  ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div><div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-google-calendar" type="button"><i data-lucide="key-round"></i>OAuth settings</button><span>${googleCalendar.clientConfigured ? `<button class="agency-primary-btn" id="authorise-google-calendar" type="button"><i data-lucide="shield-check"></i>${googleCalendar.connected ? 'Reauthorise' : 'Authorise calendar'}</button>` : ''}${googleCalendar.connected ? `<button class="agency-secondary-btn danger" id="disconnect-google-calendar" type="button"><i data-lucide="unlink"></i>Disconnect</button>` : ''}</span></div>`;
   const blockers = automation.readiness?.blockers || [];
   document.getElementById('agency-automation-setup').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Lead lifecycle</p><h2>Response, follow-up and booking</h2></div><span class="agency-chip ${automationConfig.mode === 'active' ? (automationReady ? 'green' : 'red') : automationConfig.mode === 'review' ? 'amber' : 'gray'}">${escapeHtml(automationConfig.mode === 'active' && !automationReady ? 'Blocked' : titleCase(automationConfig.mode || 'Review'))}</span></div>
     <div class="agency-sync-meta">${[
-      ['First response', `${automationConfig.initialDelayMinutes || 5} minutes`],
+      ['Site first reply', automationConfig.mode === 'paused' ? 'Paused' : 'Immediate'],
+      ['Booking alerts', (automation.readiness?.bookingAlertRecipients || []).join(', ') || 'Not set'],
       ['Sequences', automation.summary?.total || 0],
       ['Awaiting review', automation.summary?.review || 0],
       ['Replies detected', automation.summary?.replied || 0],
       ['Calls booked', automation.summary?.booked || 0],
     ].map(([label, value]) => `<div><span>${escapeHtml(label)}</span><strong>${escapeHtml(value)}</strong></div>`).join('')}</div>
-    ${blockers.length ? `<div class="agency-readiness-list">${blockers.map(item => `<span><i data-lucide="circle-alert"></i>${escapeHtml(item)}</span>`).join('')}</div>` : '<div class="agency-readiness-list ready"><span><i data-lucide="circle-check"></i>Mail, calendar, booking, and postal-address checks are ready.</span></div>'}
+    ${blockers.length ? `<div class="agency-readiness-list">${blockers.map(item => `<span><i data-lucide="circle-alert"></i>${escapeHtml(item)}</span>`).join('')}</div>` : '<div class="agency-readiness-list ready"><span><i data-lucide="circle-check"></i>Mail, both calendars, booking, and postal-address checks are ready.</span></div>'}
     <div class="agency-sync-actions agency-sync-actions-split"><button class="agency-secondary-btn" id="configure-automation" type="button"><i data-lucide="sliders-horizontal"></i>Lifecycle settings</button><span><button class="agency-secondary-btn" id="sync-automation-replies" type="button" ${zoho.needsReauthorization || !zoho.connected ? 'disabled' : ''}><i data-lucide="refresh-cw"></i>Sync replies</button><button class="agency-primary-btn" id="run-automation-now" type="button" ${automationConfig.mode === 'active' && automationReady ? '' : 'disabled'}><i data-lucide="play"></i>Run due now</button></span></div>`;
   document.getElementById('agency-project-profile').innerHTML = `<div class="agency-section-head"><div><p class="agency-eyebrow">Project profile</p><h2>${escapeHtml(project.name)}</h2></div></div><div class="agency-project-profile-grid">${[
     ['Website', project.website], ['Owner', project.owner], ['Monthly budget', money(project.monthlyBudget, 0)], ['Currency', project.currency], ['Timezone', project.timezone], ['Goal', project.goal], ['Primary conversion', project.primaryConversion], ['Landing page', project.landingPage],
@@ -621,6 +628,9 @@ function renderSettings() {
   document.getElementById('test-zoho')?.addEventListener('click', testZohoMail);
   document.getElementById('authorise-zoho')?.addEventListener('click', startZohoAuthorization);
   document.getElementById('disconnect-zoho')?.addEventListener('click', disconnectZohoMail);
+  document.getElementById('configure-google-calendar')?.addEventListener('click', openGoogleCalendarConfig);
+  document.getElementById('authorise-google-calendar')?.addEventListener('click', startGoogleCalendarAuthorization);
+  document.getElementById('disconnect-google-calendar')?.addEventListener('click', disconnectGoogleCalendarConnection);
   document.getElementById('configure-automation')?.addEventListener('click', openAutomationConfig);
   document.getElementById('sync-automation-replies')?.addEventListener('click', syncAutomationReplies);
   document.getElementById('run-automation-now')?.addEventListener('click', runAutomationNow);
@@ -696,6 +706,65 @@ async function disconnectZohoMail() {
     await loadAgency(agencyState.data.project.id, { silent: true });
     switchView('settings');
     showToast('Zoho Mail disconnected');
+  } catch (error) {
+    showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
+function openGoogleCalendarConfig() {
+  const calendar = agencyState.data.project.googleCalendar || {};
+  const form = document.getElementById('google-calendar-config-form');
+  form.elements.expectedEmail.value = calendar.expectedEmail || calendar.email || '';
+  form.elements.clientId.value = '';
+  form.elements.clientSecret.value = '';
+  setText('google-calendar-config-error', '');
+  openDialog('google-calendar-config-modal');
+}
+
+async function configureGoogleCalendarClient(event) {
+  event.preventDefault();
+  const form = event.currentTarget;
+  const button = form.querySelector('button[type="submit"]');
+  button.disabled = true;
+  setText('google-calendar-config-error', '');
+  try {
+    const payload = Object.fromEntries(new FormData(form).entries());
+    await requestAgency('google-calendar-client', {
+      method: 'POST', body: { ...payload, projectId: agencyState.data.project.id },
+    });
+    closeDialog('google-calendar-config-modal');
+    await startGoogleCalendarAuthorization();
+  } catch (error) {
+    setText('google-calendar-config-error', error.message);
+  } finally {
+    button.disabled = false;
+  }
+}
+
+async function startGoogleCalendarAuthorization() {
+  const button = document.getElementById('authorise-google-calendar');
+  if (button) button.disabled = true;
+  try {
+    const result = await requestAgency('google-calendar-authorize');
+    window.location.assign(result.authorizeUrl);
+  } catch (error) {
+    showToast(error.message);
+    if (button) button.disabled = false;
+  }
+}
+
+async function disconnectGoogleCalendarConnection() {
+  if (!window.confirm('Disconnect Google Calendar from this project?')) return;
+  const button = document.getElementById('disconnect-google-calendar');
+  if (button) button.disabled = true;
+  try {
+    await requestAgency('google-calendar-disconnect', {
+      method: 'POST', body: { projectId: agencyState.data.project.id },
+    });
+    await loadAgency(agencyState.data.project.id, { silent: true });
+    switchView('settings');
+    showToast('Google Calendar disconnected');
   } catch (error) {
     showToast(error.message);
     if (button) button.disabled = false;
@@ -901,6 +970,24 @@ function handleZohoReturn() {
   window.history.replaceState({}, '', '/admin/agency.html');
 }
 
+function handleGoogleCalendarReturn() {
+  const params = new URLSearchParams(window.location.search);
+  const status = params.get('googleCalendar');
+  if (!status) return;
+  const messages = {
+    access_denied: 'Google Calendar access was not granted.',
+    account_mismatch: 'Sign in with the Google account entered in OAuth settings.',
+    token_exchange: 'Google could not complete the secure token exchange.',
+    refresh_token_missing: 'Google did not grant offline access. Authorise the calendar again.',
+    calendar_access_failed: 'Enable Google Calendar API and grant both calendar permissions.',
+    invalid_state: 'The Google connection request expired. Start it again.',
+    client_missing: 'The Google OAuth client is not configured.',
+  };
+  switchView('settings');
+  showToast(status === 'connected' ? 'Google Calendar connected' : (messages[params.get('reason')] || 'Google Calendar connection failed.'));
+  window.history.replaceState({}, '', '/admin/agency.html');
+}
+
 async function createProject(event) {
   event.preventDefault();
   const form = event.currentTarget;
@@ -951,6 +1038,7 @@ function bindAgencyEvents() {
       showAgencyApp();
       renderAgency();
       handleZohoReturn();
+      handleGoogleCalendarReturn();
     } catch (error) {
       setText('agency-auth-error', error.status === 401 ? 'That passphrase did not work.' : error.message);
     }
@@ -975,6 +1063,7 @@ function bindAgencyEvents() {
   document.getElementById('project-form').addEventListener('submit', createProject);
   document.getElementById('snapshot-form').addEventListener('submit', saveSnapshot);
   document.getElementById('zoho-config-form').addEventListener('submit', configureZohoClient);
+  document.getElementById('google-calendar-config-form').addEventListener('submit', configureGoogleCalendarClient);
   document.getElementById('automation-config-form').addEventListener('submit', saveAutomationConfig);
   document.getElementById('email-lead-form').addEventListener('submit', sendLeadEmail);
   document.getElementById('print-report').addEventListener('click', () => window.print());
@@ -998,6 +1087,7 @@ async function startAgency() {
   try {
     await loadAgency('', { silent: true });
     handleZohoReturn();
+    handleGoogleCalendarReturn();
   } catch (error) {
     if (error.status === 401) {
       sessionStorage.removeItem(AGENCY_TOKEN_KEY);

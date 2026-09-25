@@ -9928,6 +9928,7 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-fields input:focus,
 .booking-fields textarea:focus { border-color: #12634f; outline: 0; box-shadow: 0 0 0 3px rgba(18, 99, 79, 0.1); }
 .booking-form-error { min-height: 1.1rem; margin: 0.65rem 0 0; color: #9b3131; font-size: 0.72rem; }
+.booking-request-note { margin: 0 0 0.4rem; color: #53625b; font-size: 0.74rem; line-height: 1.5; }
 .booking-confirm,
 .booking-calendar-button,
 .unsubscribe-panel button { display: inline-flex; align-items: center; justify-content: center; gap: 0.45rem; min-height: 42px; margin-top: 0.5rem; border: 0; border-radius: 5px; padding: 0.7rem 1rem; background: #12634f; color: #fff; font: inherit; font-size: 0.78rem; font-weight: 700; cursor: pointer; }

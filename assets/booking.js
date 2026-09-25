@@ -144,6 +144,8 @@ async function loadBooking() {
       return;
     }
     bookingState.data = data;
+    document.getElementById('booking-request-note').hidden = data.calendarConnected;
+    document.getElementById('booking-submit-label').textContent = data.calendarConnected ? 'Confirm call' : 'Request this time';
     document.getElementById('booking-duration').textContent = `${data.durationMinutes} minutes`;
     document.getElementById('booking-name').value = data.lead.name || '';
     document.getElementById('booking-email').value = data.lead.email || '';

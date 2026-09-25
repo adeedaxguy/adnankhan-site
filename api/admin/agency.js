@@ -6,6 +6,12 @@ import {
   sendZohoEmail,
 } from '../_lib/zoho.js';
 import {
+  createGoogleCalendarAuthorization,
+  disconnectGoogleCalendar,
+  getGoogleCalendarStatus,
+  saveGoogleCalendarClient,
+} from '../_lib/google-calendar.js';
+import {
   buildCrmEmail,
   controlSequence,
   getAutomationSnapshot,
@@ -357,11 +363,12 @@ export default async function handler(req) {
       return { projectId: project.id, leads, summary: leadSummary(leads) };
     }));
     const selectedSet = projectLeadSets.find(item => item.projectId === selected.id);
-    const [{ campaigns, snapshots }, adsConnection, keywordMetrics, zohoMail, automation] = await Promise.all([
+    const [{ campaigns, snapshots }, adsConnection, keywordMetrics, zohoMail, googleCalendar, automation] = await Promise.all([
       campaignData(selected),
       googleAdsConnection(selected.id),
       googleAdsKeywordMetrics(selected.id),
       getZohoStatus(selected.id),
+      getGoogleCalendarStatus(selected.id),
       getAutomationSnapshot(selected.id),
     ]);
     const sequenceByLead = new Map(automation.sequences.map(sequence => [sequence.leadId, sequence]));
@@ -373,6 +380,7 @@ export default async function handler(req) {
       tracking: { ...selected.tracking, googleAdsApi: adsStatus },
       googleAdsConnection: adsConnection ? { ...adsConnection, status: adsStatus, ageHours: adsAge / 3600000 } : null,
       zohoMail,
+      googleCalendar,
       automation: { ...automation, sequences: undefined },
       campaigns,
     };
@@ -441,6 +449,42 @@ export default async function handler(req) {
       return jsonResponse({ ok: true });
     } catch (error) {
       return jsonResponse({ error: error.message || 'Could not disconnect Zoho Mail.' }, 503);
+    }
+  }
+
+  if (action === 'google-calendar-client' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      return jsonResponse({ ok: true, client: await saveGoogleCalendarClient(projectId, body) });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not save the Google Calendar client.' }, error.code === 'storage_unavailable' ? 503 : 400);
+    }
+  }
+
+  if (action === 'google-calendar-authorize') {
+    const projects = await getProjects();
+    const projectId = url.searchParams.get('project') || projects[0]?.id;
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      return jsonResponse({ authorizeUrl: await createGoogleCalendarAuthorization(projectId, url.origin) });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not start Google Calendar authorization.' }, error.code === 'storage_unavailable' ? 503 : 400);
+    }
+  }
+
+  if (action === 'google-calendar-disconnect' && req.method === 'POST') {
+    const body = await req.json().catch(() => ({}));
+    const projectId = String(body.projectId || '').slice(0, 64);
+    const projects = await getProjects();
+    if (!projects.some(project => project.id === projectId)) return jsonResponse({ error: 'Project not found.' }, 404);
+    try {
+      await disconnectGoogleCalendar(projectId);
+      return jsonResponse({ ok: true });
+    } catch (error) {
+      return jsonResponse({ error: error.message || 'Could not disconnect Google Calendar.' }, 503);
     }
   }
 
