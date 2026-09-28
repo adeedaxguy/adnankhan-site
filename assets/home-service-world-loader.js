@@ -13,21 +13,6 @@
     return;
   }
 
-  var canvas = document.createElement('canvas');
-  var gl = null;
-  try {
-    gl = canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true }) ||
-      canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true });
-  } catch (error) {
-    gl = null;
-  }
-  if (!gl) {
-    document.documentElement.classList.add('home-service-world-unavailable');
-    return;
-  }
-  var loseContext = gl.getExtension('WEBGL_lose_context');
-  if (loseContext) loseContext.loseContext();
-
   var started = false;
   var events = ['pointermove', 'pointerdown', 'keydown', 'scroll'];
 
@@ -37,6 +22,22 @@
     events.forEach(function (eventName) {
       window.removeEventListener(eventName, start);
     });
+
+    var canvas = document.createElement('canvas');
+    var gl = null;
+    try {
+      gl = canvas.getContext('webgl2', { failIfMajorPerformanceCaveat: true }) ||
+        canvas.getContext('webgl', { failIfMajorPerformanceCaveat: true });
+    } catch (error) {
+      gl = null;
+    }
+    if (!gl) {
+      document.documentElement.classList.add('home-service-world-unavailable');
+      return;
+    }
+    var loseContext = gl.getExtension('WEBGL_lose_context');
+    if (loseContext) loseContext.loseContext();
+
     import('/assets/home-service-world.js?v=20260809d').catch(function () {
       document.documentElement.classList.add('home-service-world-unavailable');
     });
