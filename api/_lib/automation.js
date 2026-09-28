@@ -1,6 +1,6 @@
 import { getZohoStatus, listZohoInboxMessages, sendZohoEmail } from './zoho.js';
 import { draftLeadReply, leadExpertise } from './lead-reply.js';
-import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, createCalendarEvent, notifyBooking } from './calendar.js';
+import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, notifyBooking } from './calendar.js';
 import { createGoogleCalendarEvent, getGoogleCalendarStatus, googleBusyIntervals } from './google-calendar.js';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
@@ -1055,17 +1055,7 @@ export async function createBooking(token, input) {
   booking.googleEventId = googleEvent.id;
   booking.googleCalendarUrl = googleEvent.htmlLink;
   booking.meetUrl = googleEvent.meetUrl;
-  booking.calendarStatus = 'google-only';
-  try {
-    const calendarEvent = await createCalendarEvent(booking);
-    if (calendarEvent.status === 'created') {
-      booking.calendarStatus = 'created';
-      booking.calendarEventUid = calendarEvent.uid;
-      booking.calendarUid = calendarEvent.calendarUid;
-    }
-  } catch (error) {
-    console.warn('Zoho calendar mirror unavailable:', error?.message);
-  }
+  booking.calendarStatus = 'invited';
   await kvCmd('HSET', BOOKING_KEY, bookingId, JSON.stringify(booking));
   context.sequence.status = 'booked';
   context.sequence.bookedAt = booking.createdAt;

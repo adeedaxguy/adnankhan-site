@@ -55,30 +55,6 @@ export async function busyCalendarIntervals(projectId, from, to) {
   })).filter(item => Number.isFinite(item.start) && Number.isFinite(item.end));
 }
 
-export async function createCalendarEvent(booking) {
-  const status = await getZohoStatus(booking.projectId);
-  if (!status.calendarConnected) return { status: 'not-connected' };
-  const primary = await zohoCalendarRequest(booking.projectId, '/calendars/primary');
-  const calendarUid = primary.calendars?.[0]?.uid;
-  if (!calendarUid) throw new Error('The primary Zoho calendar could not be found.');
-  const attendees = (booking.googleEventId ? [] : [booking.leadEmail])
-    .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail)
-    .map(email => ({ email, status: 'NEEDS-ACTION' }));
-  const eventData = {
-    title: `Lofts Studio project call with ${booking.leadName}`,
-    dateandtime: { start: basicUtc(booking.startAt), end: basicUtc(booking.endAt), timezone: booking.hostTimezone },
-    description: `Enquiry with ${booking.leadName} (${booking.leadEmail}). Phone: ${booking.phone || 'Not supplied'}.\n\n${booking.note || booking.focus || 'Discuss the enquiry and next step.'}${booking.meetUrl ? `\n\nGoogle Meet: ${booking.meetUrl}` : ''}`,
-    attendees,
-    notify_attendee: attendees.length ? 1 : 0,
-    reminders: [{ action: 'popup', minutes: -15 }],
-    transparency: 0,
-  };
-  const created = await zohoCalendarRequest(booking.projectId, `/calendars/${encodeURIComponent(calendarUid)}/events`, { eventdata: JSON.stringify(eventData) }, 'POST');
-  const event = created.events?.[0];
-  if (!event?.uid) throw new Error('Zoho Calendar did not confirm the event.');
-  return { status: 'created', uid: event.uid, calendarUid };
-}
-
 export async function notifyBooking(booking, config = {}) {
   const recipients = bookingNotifyEmails(config);
   if (!recipients.length) return false;
@@ -86,9 +62,9 @@ export async function notifyBooking(booking, config = {}) {
   const leadTimezone = booking.bookingTimezone || booking.hostTimezone;
   const leadDate = new Intl.DateTimeFormat('en-US', { timeZone: leadTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const subject = `${booking.status === 'confirmed' ? 'Call booked' : 'Call requested'}: ${booking.leadName}`;
-  const calendarSummary = booking.calendarStatus === 'created'
-    ? 'Google invitation sent; Zoho calendar mirrored'
-    : booking.calendarStatus === 'google-only' ? 'Google invitation sent; Zoho calendar needs review' : 'Calendar needs review';
+  const calendarSummary = booking.calendarStatus === 'invited'
+    ? 'Google invitations sent to the client and hi@lofts.studio'
+    : 'Calendar needs review';
   const lines = [
     subject,
     `When: ${date} (${booking.hostTimezone})`,

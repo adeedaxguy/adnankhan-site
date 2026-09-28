@@ -210,7 +210,7 @@ test('booking slots are timezone-backed and one slot cannot be reserved twice', 
   const first = await automation.createBooking(token, { start: availability.slots[0], timezone: 'Europe/London' });
   assert.equal(first.booking.status, 'confirmed');
   assert.equal(first.booking.bookingTimezone, 'Europe/London');
-  assert.equal(first.booking.calendarStatus, 'created');
+  assert.equal(first.booking.calendarStatus, 'invited');
   assert.equal(first.booking.meetUrl, 'https://meet.google.com/abc-defg-hij');
   assert.equal((await automation.getAvailableSlots(token)).booking.id, first.booking.id);
   assert.equal(zohoEmails.length, 3);
@@ -289,7 +289,7 @@ test('existing Lofts booking settings migrate to all-day availability', async ()
   hash('agency:automation-config').delete('lofts-studio');
 });
 
-test('connected Zoho and Google calendars filter busy times and create both events', async () => {
+test('connected Zoho and Google calendars filter busy times without duplicating invited events', async () => {
   const zoho = await import('../api/_lib/zoho.js');
   const authUrl = await zoho.createZohoAuthorization('lofts-studio', 'https://lofts.studio');
   await zoho.completeZohoAuthorization('test-code', new URL(authUrl).searchParams.get('state'));
@@ -313,10 +313,9 @@ test('connected Zoho and Google calendars filter busy times and create both even
   const result = await automation.createBooking(token, { start: availability.slots[0], timezone: 'America/New_York' });
   assert.equal(result.booking.status, 'confirmed');
   assert.equal(result.booking.meetUrl, 'https://meet.google.com/abc-defg-hij');
-  assert.equal(result.booking.calendarEventUid, `event-${calendarEvents.length}`);
+  assert.equal(result.booking.calendarStatus, 'invited');
+  assert.equal(calendarEvents.length, 0);
   assert.equal(result.booking.googleEventId, googleCalendarEvents.at(-1).id);
-  assert.equal(calendarEvents.at(-1).notify_attendee, 0);
-  assert.deepEqual(calendarEvents.at(-1).attendees, []);
   assert.deepEqual(googleCalendarInvites.at(-1).attendees.map(item => item.email), ['calendar@prospect.co', 'hi@lofts.studio']);
   assert.equal(googleCalendarEvents.at(-1).conferenceData.createRequest.conferenceSolutionKey.type, 'hangoutsMeet');
   assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && /confirmed/i.test(email.subject)));
@@ -344,9 +343,9 @@ test('booking confirms through Google when Zoho availability fails', async () =>
     assert.equal(availability.zohoCalendarConnected, false);
     const result = await automation.createBooking(token, { start: availability.slots[0] });
     assert.equal(result.booking.status, 'confirmed');
-    assert.equal(result.booking.calendarStatus, 'created');
+    assert.equal(result.booking.calendarStatus, 'invited');
     assert.equal(googleCalendarEvents.length, previousGoogleCount + 1);
-    assert.equal(calendarEvents.length, previousZohoCount + 1);
+    assert.equal(calendarEvents.length, previousZohoCount);
   } finally {
     failZohoFreebusy = false;
     console.warn = originalWarn;
@@ -420,7 +419,7 @@ test('Google authorization accepts equivalent email scope and resolved calendar 
   }
 });
 
-test('a failed Zoho mirror leaves the Google invitation confirmed and alerts the team', async () => {
+test('Google booking needs no Zoho event creation and still alerts the team', async () => {
   await automation.enrollLeadAutomation({
     _id: 'lead-rollback', _projectId: 'lofts-studio', name: 'Rollback Lead',
     email: 'rollback@prospect.co', phone: '+1 202 555 0151',
@@ -428,14 +427,16 @@ test('a failed Zoho mirror leaves the Google invitation confirmed and alerts the
   const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: 'lead-rollback', exp: Date.now() + 30 * 86400000 });
   const availability = await automation.getAvailableSlots(token);
   const beforeDeletes = deletedGoogleEvents.length;
+  const beforeZohoEvents = calendarEvents.length;
   failZohoEvent = true;
   const result = await automation.createBooking(token, { start: availability.slots[0] });
   failZohoEvent = false;
   assert.equal(result.booking.status, 'confirmed');
-  assert.equal(result.booking.calendarStatus, 'google-only');
+  assert.equal(result.booking.calendarStatus, 'invited');
   assert.equal(deletedGoogleEvents.length, beforeDeletes);
+  assert.equal(calendarEvents.length, beforeZohoEvents);
   assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && email.subject === 'Call booked: Rollback Lead'));
-  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Zoho calendar needs review/.test(email.content)));
+  assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Google invitations sent/.test(email.content)));
   assert.equal((await automation.getAvailableSlots(token)).booking.id, result.booking.id);
 });
 
