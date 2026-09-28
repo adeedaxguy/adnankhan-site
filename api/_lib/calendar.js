@@ -2,6 +2,29 @@ import { getZohoStatus, sendZohoEmail, zohoCalendarRequest } from './zoho.js';
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function escapeHtml(value) {
+  return String(value ?? '').replace(/[&<>"']/g, character => ({
+    '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;',
+  })[character]);
+}
+
+function emailFrame(content) {
+  return `<!doctype html><html lang="en"><body style="margin:0;padding:0;background:#f4f0e9">
+    <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="background:#f4f0e9"><tr><td align="center" style="padding:24px 10px">
+      <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="max-width:600px;background:#fbfaf7;border-top:3px solid #a9432d">
+        <tr><td style="padding:27px 30px 17px;color:#171411;font-family:Georgia,serif;font-size:26px;line-height:1.2">Lofts Studio<span style="color:#a9432d">.</span></td></tr>
+        <tr><td style="padding:10px 30px 30px;color:#171411;font-family:Arial,sans-serif;font-size:15px;line-height:1.65">${content}</td></tr>
+        <tr><td style="padding:17px 30px;background:#ebe5db;color:#4f4942;font-family:Arial,sans-serif;font-size:12px;line-height:1.6">Lofts Studio &nbsp; | &nbsp; <a href="https://lofts.studio" style="color:#843322">lofts.studio</a> &nbsp; | &nbsp; <a href="mailto:hi@lofts.studio" style="color:#843322">hi@lofts.studio</a></td></tr>
+      </table>
+    </td></tr></table></body></html>`;
+}
+
+function detailRows(rows) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="margin:20px 0 23px;border-top:1px solid #d7cec2">${rows.map(([label, value]) => `
+    <tr><td style="padding:12px 12px 12px 0;border-bottom:1px solid #e6ded4;color:#766f67;font-family:Arial,sans-serif;font-size:12px;vertical-align:top;width:120px">${escapeHtml(label)}</td>
+    <td style="padding:12px 0;border-bottom:1px solid #e6ded4;color:#171411;font-family:Arial,sans-serif;font-size:15px;line-height:1.5;overflow-wrap:anywhere">${escapeHtml(value)}</td></tr>`).join('')}</table>`;
+}
+
 function basicUtc(value) {
   return new Date(value).toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
 }
@@ -38,15 +61,15 @@ export async function createCalendarEvent(booking) {
   const primary = await zohoCalendarRequest(booking.projectId, '/calendars/primary');
   const calendarUid = primary.calendars?.[0]?.uid;
   if (!calendarUid) throw new Error('The primary Zoho calendar could not be found.');
-  const attendees = [booking.leadEmail]
+  const attendees = (booking.googleEventId ? [] : [booking.leadEmail])
     .filter(email => EMAIL_PATTERN.test(email) && email !== status.fromEmail)
     .map(email => ({ email, status: 'NEEDS-ACTION' }));
   const eventData = {
     title: `Lofts Studio project call with ${booking.leadName}`,
     dateandtime: { start: basicUtc(booking.startAt), end: basicUtc(booking.endAt), timezone: booking.hostTimezone },
-    description: `Enquiry with ${booking.leadName} (${booking.leadEmail}). Phone: ${booking.phone || 'Not supplied'}.\n\n${booking.note || 'Discuss the enquiry and next step.'}`,
+    description: `Enquiry with ${booking.leadName} (${booking.leadEmail}). Phone: ${booking.phone || 'Not supplied'}.\n\n${booking.note || booking.focus || 'Discuss the enquiry and next step.'}${booking.meetUrl ? `\n\nGoogle Meet: ${booking.meetUrl}` : ''}`,
     attendees,
-    notify_attendee: 1,
+    notify_attendee: attendees.length ? 1 : 0,
     reminders: [{ action: 'popup', minutes: -15 }],
     transparency: 0,
   };
@@ -63,6 +86,9 @@ export async function notifyBooking(booking, config = {}) {
   const leadTimezone = booking.bookingTimezone || booking.hostTimezone;
   const leadDate = new Intl.DateTimeFormat('en-US', { timeZone: leadTimezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const subject = `${booking.status === 'confirmed' ? 'Call booked' : 'Call requested'}: ${booking.leadName}`;
+  const calendarSummary = booking.calendarStatus === 'created'
+    ? 'Google invitation sent; Zoho calendar mirrored'
+    : booking.calendarStatus === 'google-only' ? 'Google invitation sent; Zoho calendar needs review' : 'Calendar needs review';
   const lines = [
     subject,
     `When: ${date} (${booking.hostTimezone})`,
@@ -70,12 +96,19 @@ export async function notifyBooking(booking, config = {}) {
     `Email: ${booking.leadEmail}`,
     `Phone: ${booking.phone || 'Not supplied'}`,
     `Enquiry: ${booking.focus || booking.note || 'See the CRM inbox'}`,
-    `Calendar: ${booking.calendarStatus === 'created' ? 'Zoho and Google events created' : booking.calendarStatus === 'partial-google' ? 'Google event created; Zoho needs review' : booking.calendarStatus === 'zoho-review' ? 'Zoho outcome needs review; Google event rolled back' : 'Calendar connections needed'}`,
+    `Calendar: ${calendarSummary}`,
+    booking.meetUrl ? `Google Meet: ${booking.meetUrl}` : '',
+    booking.googleCalendarUrl ? `Google Calendar: ${booking.googleCalendarUrl}` : '',
   ];
+  const html = emailFrame(`<h1 style="margin:0 0 15px;font-family:Georgia,serif;font-size:27px;font-weight:400;line-height:1.25">${booking.status === 'confirmed' ? 'A call is booked.' : 'A call was requested.'}</h1>
+    <p style="margin:0 0 20px;color:#4f4942">${escapeHtml(booking.leadName)} selected a time for a Lofts Studio project conversation.</p>
+    ${detailRows([['Your time', `${date} (${booking.hostTimezone})`], ['Client time', `${leadDate} (${leadTimezone})`], ['Email', booking.leadEmail], ['Phone', booking.phone || 'Not supplied'], ['Enquiry', booking.focus || booking.note || 'See the CRM inbox'], ['Calendar', calendarSummary]])}
+    ${booking.meetUrl ? `<p style="margin:0 0 15px"><a href="${escapeHtml(booking.meetUrl)}" style="color:#843322;font-weight:700">Open Google Meet</a></p>` : ''}
+    ${booking.googleCalendarUrl ? `<p style="margin:0"><a href="${escapeHtml(booking.googleCalendarUrl)}" style="color:#843322">Open calendar event</a></p>` : ''}`);
   let delivered = true;
   for (const toAddress of recipients) {
     try {
-      await sendZohoEmail(booking.projectId, { toAddress, subject, content: lines.join('\n') });
+      await sendZohoEmail(booking.projectId, { toAddress, subject, content: lines.filter(Boolean).join('\n'), htmlContent: html });
     } catch {
       delivered = false;
     }
@@ -88,16 +121,27 @@ export async function confirmBookingToLead(booking, config = {}) {
   const date = new Intl.DateTimeFormat('en-US', { timeZone: timezone, dateStyle: 'full', timeStyle: 'short' }).format(new Date(booking.startAt));
   const confirmed = booking.status === 'confirmed';
   const subject = confirmed ? 'Your Lofts Studio call is confirmed' : 'Your Lofts Studio call request';
+  const firstName = booking.leadName.split(/\s+/)[0] || 'there';
   const text = [
-    `Hi ${booking.leadName.split(/\s+/)[0] || 'there'},`,
+    `Hi ${firstName},`,
     '',
     confirmed ? `Your call with Lofts Studio is confirmed for ${date} (${timezone}).` : `We received your request for ${date} (${timezone}) and will confirm it shortly.`,
+    `${booking.durationMinutes} minutes${booking.meetUrl ? ' on Google Meet' : ''}.`,
+    booking.meetUrl ? `Join the call: ${booking.meetUrl}` : '',
     '',
-    'We will use the time to discuss your enquiry and the clearest next step. Reply here if anything changes.',
+    confirmed ? 'A Google Calendar invitation is also on its way. We will use the time to discuss your enquiry and the clearest next step. Reply here if anything changes.' : 'Reply here if you need to change your requested time.',
     '',
     config.senderName || 'Adnan Khan',
     config.senderRole || 'Founder, Lofts Studio',
-  ].join('\n');
-  await sendZohoEmail(booking.projectId, { toAddress: booking.leadEmail, subject, content: text });
+  ].filter(line => line !== null).join('\n');
+  const html = emailFrame(`<h1 style="margin:0 0 17px;font-family:Georgia,serif;font-size:27px;font-weight:400;line-height:1.25">${confirmed ? 'Your call is confirmed.' : 'Your time request is in.'}</h1>
+    <p style="margin:0 0 14px">Hi ${escapeHtml(firstName)},</p>
+    <p style="margin:0 0 14px">${confirmed ? 'We have set aside time to discuss your enquiry and the clearest next step.' : 'We received your preferred time and will confirm it shortly.'}</p>
+    ${detailRows([['Date and time', `${date} (${timezone})`], ['Duration', `${booking.durationMinutes} minutes`], ['Format', booking.meetUrl ? 'Google Meet' : 'Video or phone']])}
+    ${booking.meetUrl ? `<table role="presentation" cellpadding="0" cellspacing="0" style="margin:4px 0 22px"><tr><td bgcolor="#171411" style="background:#171411"><a href="${escapeHtml(booking.meetUrl)}" style="display:inline-block;padding:14px 21px;color:#fbfaf7;font-family:Arial,sans-serif;font-size:14px;font-weight:700;text-decoration:none">Join Google Meet</a></td></tr></table>
+      <p style="margin:0 0 21px;color:#4f4942;font-size:13px">Meeting link: <a href="${escapeHtml(booking.meetUrl)}" style="color:#843322;overflow-wrap:anywhere">${escapeHtml(booking.meetUrl)}</a></p>` : ''}
+    <p style="margin:0 0 20px;color:#4f4942">${confirmed ? 'A Google Calendar invitation is on its way as well. To change anything, simply reply to this email.' : 'To change your preferred time, simply reply to this email.'}</p>
+    <p style="margin:0;padding-top:18px;border-top:1px solid #d7cec2"><strong>${escapeHtml(config.senderName || 'Adnan Khan')}</strong><br><span style="color:#4f4942;font-size:13px">${escapeHtml(config.senderRole || 'Founder, Lofts Studio')}</span></p>`);
+  await sendZohoEmail(booking.projectId, { toAddress: booking.leadEmail, subject, content: text, htmlContent: html });
   return true;
 }

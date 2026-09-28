@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://lofts.studio/assets/og.jpg?v=2" />
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" href="/favicon.ico" sizes="any" />
-<link rel="stylesheet" href="/assets/styles.css?v=20260926a" />
+<link rel="stylesheet" href="/assets/styles.css?v=20260928a" />
 <link rel="stylesheet" href="/assets/experience.css?v=20260810b" data-lofts-experience />
 <link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
 <link rel="stylesheet" href="/assets/typography.css" />
@@ -41,8 +41,8 @@
       <p>A focused call to review the enquiry, the current page, and the clearest next step.</p>
       <dl class="booking-facts">
         <div><dt><i data-lucide="clock-3"></i> Duration</dt><dd id="booking-duration">30 minutes</dd></div>
-        <div><dt><i data-lucide="video"></i> Format</dt><dd>Video or phone</dd></div>
-        <div><dt><i data-lucide="calendar-check"></i> Confirmation</dt><dd>By email</dd></div>
+        <div><dt><i data-lucide="video"></i> Format</dt><dd>Google Meet</dd></div>
+        <div><dt><i data-lucide="calendar-check"></i> Confirmation</dt><dd>Email + calendar invite</dd></div>
       </dl>
     </section>
 
@@ -77,8 +77,8 @@
         <p class="booking-kicker" id="booking-confirmed-kicker">Confirmed</p>
         <h2 id="booking-confirmed-title">Your call is booked.</h2>
         <p id="booking-confirmed-time"></p>
-        <button class="booking-calendar-button" id="booking-calendar" type="button"><i data-lucide="calendar-plus"></i>Add to calendar</button>
-        <small id="booking-confirmed-note">A confirmation has been sent to your email. Reply there if anything changes.</small>
+        <div class="booking-confirmed-actions"><a class="booking-calendar-button" id="booking-meet" href="#" target="_blank" rel="noopener" hidden><i data-lucide="video"></i>Join Google Meet</a><button class="booking-calendar-button" id="booking-calendar" type="button"><i data-lucide="calendar-plus"></i>Add to calendar</button></div>
+        <small id="booking-confirmed-note">Your confirmation and Google Calendar invitation are on their way. Reply to the email if anything changes.</small>
       </div>
     </section>
     <section class="booking-prep" aria-labelledby="booking-prep-title">
@@ -95,6 +95,6 @@
 
   <footer class="booking-footer"><span>Lofts Studio</span><span>Multan, Pakistan &middot; Dubai, UAE</span><a href="/privacy.html">Privacy</a></footer>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="/assets/booking.js?v=20260926a"></script>
+  <script src="/assets/booking.js?v=20260928a"></script>
 </body>
 </html>

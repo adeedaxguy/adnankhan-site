@@ -9976,6 +9976,9 @@ html[data-theme="dark"] .diagnostic-related-links a {
 .booking-confirmed-icon { display: grid; place-items: center; width: 46px; height: 46px; margin: 0 auto 1.2rem; border-radius: 50%; background: var(--accent-soft); color: var(--accent); }
 .booking-confirmed-icon svg { width: 21px; height: 21px; }
 .booking-confirmed > p:not(.booking-kicker) { margin: 0.8rem 0 1rem; color: var(--ink-soft); }
+.booking-confirmed-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.6rem; }
+.booking-confirmed-actions > [hidden] { display: none; }
+.booking-confirmed-actions a { text-decoration: none; }
 .booking-confirmed small { display: block; max-width: 42ch; margin: 1rem auto 0; color: var(--muted); line-height: 1.5; }
 .booking-footer { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 1.25rem max(1.5rem, calc((100vw - 1180px) / 2)); border-top: 1px solid var(--line); background: var(--surface); color: var(--muted); font-size: 0.78rem; }
 .booking-footer a { color: inherit; }

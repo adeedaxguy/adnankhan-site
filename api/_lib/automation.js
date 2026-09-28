@@ -1,7 +1,7 @@
 import { getZohoStatus, listZohoInboxMessages, sendZohoEmail } from './zoho.js';
 import { draftLeadReply, leadExpertise } from './lead-reply.js';
 import { bookingNotifyEmails, busyCalendarIntervals, confirmBookingToLead, createCalendarEvent, notifyBooking } from './calendar.js';
-import { createGoogleCalendarEvent, deleteGoogleCalendarEvent, getGoogleCalendarStatus, googleBusyIntervals } from './google-calendar.js';
+import { createGoogleCalendarEvent, getGoogleCalendarStatus, googleBusyIntervals } from './google-calendar.js';
 
 const ADMIN_SECRET = process.env.ADMIN_SECRET;
 const KV_URL = process.env.KV_REST_API_URL;
@@ -988,6 +988,9 @@ export async function getAvailableSlots(token) {
   if (googleResult.status === 'rejected') console.warn('Google booking availability unavailable:', googleResult.reason?.message);
   const zohoBusy = zohoResult.status === 'fulfilled' ? zohoResult.value : null;
   const googleBusy = googleResult.status === 'fulfilled' ? googleResult.value : null;
+  if (googleBusy === null) {
+    throw serviceError('booking_unavailable', 'Online booking is temporarily unavailable. Please email hi@lofts.studio.');
+  }
   const busy = [...(zohoBusy || []), ...(googleBusy || [])];
   const slots = candidates.filter((start, index) => {
     if (Array.isArray(locks) && locks[index]) return false;
@@ -999,9 +1002,9 @@ export async function getAvailableSlots(token) {
     lead: { name: sequence.lead.name, email: sequence.lead.email, phone: sequence.lead.phone, timezone: sequence.lead.timezone || '' },
     timezone: booking.timezone,
     durationMinutes: booking.durationMinutes,
-    calendarConnected: zohoBusy !== null && googleBusy !== null
-      && (payload.p !== 'lofts-studio' || zohoStatus.fromEmail === 'hi@lofts.studio'),
-    googleCalendarConnected: googleBusy !== null,
+    calendarConnected: true,
+    googleCalendarConnected: true,
+    zohoCalendarConnected: zohoBusy !== null,
     slots,
   };
 }
@@ -1040,45 +1043,28 @@ export async function createBooking(token, input) {
     hostTimezone: availability.timezone,
     durationMinutes: availability.durationMinutes,
     createdAt: Date.now(),
-    status: availability.calendarConnected ? 'confirmed' : 'requested',
+    status: 'confirmed',
   };
-  if (availability.calendarConnected) {
-    let googleEvent = null;
-    try {
-      googleEvent = await createGoogleCalendarEvent(booking);
-      const calendarEvent = await createCalendarEvent(booking);
-      if (calendarEvent.status !== 'created') throw new Error('Calendar event could not be created.');
-      booking.calendarStatus = calendarEvent.status;
+  let googleEvent;
+  try {
+    googleEvent = await createGoogleCalendarEvent(booking);
+  } catch (error) {
+    if (!error.calendarCleanupFailed) await kvCmd('DEL', lockKey);
+    throw error;
+  }
+  booking.googleEventId = googleEvent.id;
+  booking.googleCalendarUrl = googleEvent.htmlLink;
+  booking.meetUrl = googleEvent.meetUrl;
+  booking.calendarStatus = 'google-only';
+  try {
+    const calendarEvent = await createCalendarEvent(booking);
+    if (calendarEvent.status === 'created') {
+      booking.calendarStatus = 'created';
       booking.calendarEventUid = calendarEvent.uid;
       booking.calendarUid = calendarEvent.calendarUid;
-      booking.googleEventId = googleEvent.id;
-    } catch (error) {
-      if (googleEvent) {
-        let rolledBack = false;
-        try {
-          await deleteGoogleCalendarEvent(context.payload.p, googleEvent.id);
-          rolledBack = true;
-        } catch {
-          booking.googleEventId = googleEvent.id;
-        }
-        booking.status = 'requested';
-        booking.calendarStatus = rolledBack ? 'zoho-review' : 'partial-google';
-      }
-      if (!googleEvent) {
-        await kvCmd('DEL', lockKey);
-        throw error;
-      }
     }
-  } else if (availability.googleCalendarConnected) {
-    try {
-      const googleEvent = await createGoogleCalendarEvent(booking);
-      booking.googleEventId = googleEvent.id;
-      booking.calendarStatus = 'partial-google';
-    } catch {
-      booking.calendarStatus = 'not-connected';
-    }
-  } else {
-    booking.calendarStatus = 'not-connected';
+  } catch (error) {
+    console.warn('Zoho calendar mirror unavailable:', error?.message);
   }
   await kvCmd('HSET', BOOKING_KEY, bookingId, JSON.stringify(booking));
   context.sequence.status = 'booked';

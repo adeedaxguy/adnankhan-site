@@ -123,7 +123,8 @@ function downloadCalendar() {
     'BEGIN:VEVENT', `UID:${booking.id}@lofts.studio`, `DTSTAMP:${stamp(Date.now())}`,
     `DTSTART:${stamp(booking.startAt)}`, `DTEND:${stamp(booking.endAt)}`,
     'SUMMARY:Project call with Lofts Studio',
-    `DESCRIPTION:${escapeIcs('Review the enquiry, current page, and clearest next step. Reply to hi@lofts.studio if anything changes.')}`,
+    `DESCRIPTION:${escapeIcs(`Review the enquiry and next step. ${booking.meetUrl ? `Google Meet: ${booking.meetUrl}. ` : ''}Reply to hi@lofts.studio if anything changes.`)}`,
+    ...(booking.meetUrl ? [`LOCATION:${escapeIcs(booking.meetUrl)}`] : []),
     'END:VEVENT', 'END:VCALENDAR',
   ].join('\r\n');
   const link = document.createElement('a');
@@ -147,8 +148,11 @@ function showBookingConfirmation(booking, warning = '') {
   document.getElementById('booking-confirmed-title').textContent = requested ? 'Your time request is in.' : 'Your call is booked.';
   document.getElementById('booking-confirmed-note').textContent = warning || (requested
     ? 'We will confirm the time by email shortly. Reply there if anything changes.'
-    : 'A confirmation has been sent to your email. Reply there if anything changes.');
+    : 'Your confirmation and Google Calendar invitation are on their way. Reply to the email if anything changes.');
   document.getElementById('booking-calendar').hidden = requested;
+  const meetLink = document.getElementById('booking-meet');
+  meetLink.hidden = requested || !/^https:\/\/meet\.google\.com\//i.test(booking.meetUrl || '');
+  if (!meetLink.hidden) meetLink.href = booking.meetUrl;
   document.getElementById('booking-confirmed-time').textContent = formatSlot(booking.startAt, {
     weekday: 'long', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
   });

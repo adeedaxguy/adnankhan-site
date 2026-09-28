@@ -236,24 +236,55 @@ export async function googleBusyIntervals(projectId, from, to) {
 
 export async function createGoogleCalendarEvent(booking) {
   const id = booking.id.replace(/-/g, '').toLowerCase();
-  const payload = await calendarRequest(booking.projectId, '/calendars/primary/events', {
+  const eventPath = `/calendars/primary/events/${encodeURIComponent(id)}`;
+  const payload = await calendarRequest(booking.projectId, '/calendars/primary/events?conferenceDataVersion=1', {
     method: 'POST',
     body: JSON.stringify({
       id,
       summary: `Lofts Studio project call with ${booking.leadName}`,
-      description: `Enquiry with ${booking.leadName} (${booking.leadEmail}). Phone: ${booking.phone}.\n\n${booking.note || booking.focus || 'Discuss the enquiry and next step.'}`,
+      description: `Discuss the enquiry with ${booking.leadName} and agree on the clearest next step.`,
       start: { dateTime: new Date(booking.startAt).toISOString(), timeZone: booking.hostTimezone },
       end: { dateTime: new Date(booking.endAt).toISOString(), timeZone: booking.hostTimezone },
+      conferenceData: { createRequest: { requestId: id, conferenceSolutionKey: { type: 'hangoutsMeet' } } },
       reminders: { useDefault: false, overrides: [{ method: 'popup', minutes: 15 }] },
       extendedProperties: { private: { loftsBookingId: booking.id } },
     }),
   });
   if (payload.id !== id) throw serviceError('google_calendar_failed', 'Google Calendar did not confirm the event.');
-  return { id, htmlLink: payload.htmlLink || '' };
+  try {
+    let event = payload;
+    let meetUrl = event.hangoutLink || event.conferenceData?.entryPoints?.find(point => point.entryPointType === 'video')?.uri;
+    for (let attempt = 0; !meetUrl && attempt < 8; attempt += 1) {
+      if (event.conferenceData?.createRequest?.status?.statusCode === 'failure') break;
+      await new Promise(resolve => setTimeout(resolve, 400));
+      event = await calendarRequest(booking.projectId, eventPath);
+      meetUrl = event.hangoutLink || event.conferenceData?.entryPoints?.find(point => point.entryPointType === 'video')?.uri;
+    }
+    if (!/^https:\/\/meet\.google\.com\//i.test(meetUrl || '')) {
+      throw serviceError('meet_unavailable', 'Google Meet could not create a video link. Please choose the time again.');
+    }
+    const attendees = [...new Set([booking.leadEmail, 'hi@lofts.studio'].map(emailAddress))]
+      .filter(email => EMAIL_PATTERN.test(email))
+      .map(email => ({ email }));
+    if (attendees.length < 2) throw serviceError('invalid_attendee', 'A client email is required for the calendar invitation.');
+    const invited = await calendarRequest(booking.projectId, `${eventPath}?sendUpdates=all`, {
+      method: 'PATCH',
+      body: JSON.stringify({ attendees, guestsCanInviteOthers: false, guestsCanModify: false, guestsCanSeeOtherGuests: false }),
+    });
+    if (invited.id !== id) throw serviceError('google_calendar_failed', 'Google Calendar did not confirm the invitations.');
+    return { id, htmlLink: invited.htmlLink || event.htmlLink || '', meetUrl, invited: true };
+  } catch (error) {
+    try { await deleteGoogleCalendarEvent(booking.projectId, id); }
+    catch (cleanupError) {
+      error.calendarCleanupFailed = true;
+      console.error('Could not remove incomplete Google booking:', cleanupError);
+    }
+    throw error;
+  }
 }
 
 export async function deleteGoogleCalendarEvent(projectId, eventId) {
-  await calendarRequest(projectId, `/calendars/primary/events/${encodeURIComponent(eventId)}`, { method: 'DELETE' });
+  await calendarRequest(projectId, `/calendars/primary/events/${encodeURIComponent(eventId)}?sendUpdates=all`, { method: 'DELETE' });
 }
 
 export async function disconnectGoogleCalendar(projectId) {
