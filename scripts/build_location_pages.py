@@ -8,7 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE = "https://lofts.studio"
-CACHE_VER = "20260801i"
+CACHE_VER = "20261008a"
 TODAY = "2026-07-16"
 
 
@@ -429,7 +429,7 @@ def header(title: str, description: str, canonical: str, schema: list[dict]) -> 
 <link rel="apple-touch-icon" href="/favicon.svg" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 {schema_tags}
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
   <script>

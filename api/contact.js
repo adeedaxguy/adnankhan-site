@@ -6,6 +6,34 @@ export const config = { runtime: 'edge' };
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_REQUEST_BYTES = 24000;
+const TURNSTILE_ACTION = 'lofts_lead';
+
+async function verifyTurnstile(req, payload) {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret) return { status: 503, message: 'Verification is temporarily unavailable. Please email hi@lofts.studio.' };
+  const token = cleanField(payload['cf-turnstile-response'], 2048);
+  if (!token) return { status: 400, message: 'Please complete the human verification and try again.' };
+
+  try {
+    const body = new URLSearchParams({ secret, response: token });
+    const remoteIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
+    if (remoteIp) body.set('remoteip', remoteIp);
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body,
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!response.ok) throw new Error('Turnstile is unavailable.');
+    const result = await response.json();
+    if (!result.success || result.action !== TURNSTILE_ACTION || !['lofts.studio', 'www.lofts.studio'].includes(result.hostname)) {
+      return { status: 400, message: 'Human verification failed or expired. Please try again.' };
+    }
+    return null;
+  } catch {
+    return { status: 503, message: 'Verification is temporarily unavailable. Please try again in a minute.' };
+  }
+}
 
 async function kvCmd(...args) {
   const url = process.env.KV_REST_API_URL;
@@ -155,6 +183,15 @@ export default async function handler(req) {
   const submissionId = cleanField(payload._submissionId, 96).replace(/[^a-zA-Z0-9-]/g, '') || crypto.randomUUID();
   const submissionKey = `lofts:contact:submission:${submissionId}`;
   try {
+    if (await kvCmd('GET', submissionKey)) return json({ success: true, message: 'Already received' });
+  } catch {
+    return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
+  }
+
+  const verificationError = await verifyTurnstile(req, payload);
+  if (verificationError) return json({ success: false, message: verificationError.message }, verificationError.status);
+
+  try {
     const first = await kvCmd('SET', submissionKey, '1', 'NX', 'EX', '86400');
     if (!first) return json({ success: true, message: 'Already received' });
   } catch {
@@ -163,7 +200,7 @@ export default async function handler(req) {
 
   const clean = {};
   for (const [key, value] of Object.entries(payload)) {
-    if (key.startsWith('_') || ['consentNotice', 'trackingConsent'].includes(key)) continue;
+    if (key.startsWith('_') || ['consentNotice', 'trackingConsent', 'cf-turnstile-response'].includes(key)) continue;
     clean[key] = cleanField(value);
   }
   clean.email = email;

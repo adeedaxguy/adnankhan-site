@@ -16,7 +16,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
 TODAY = "2026-08-11"
-ASSET_VERSION = "20260811a"
+ASSET_VERSION = "20261008a"
 
 
 def read(path: str) -> str:
@@ -94,7 +94,7 @@ def page_shell(title: str, description: str, canonical: str, body: str, schema: 
 <link rel="icon" type="image/png" href="/apple-touch-icon.png" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v=20260808k" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260810b" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 <link rel="stylesheet" href="/assets/typography.css" />
 <link rel="stylesheet" href="/assets/design-system.css?v=20260810b" />
 {''.join(jsonld(s) for s in schema)}

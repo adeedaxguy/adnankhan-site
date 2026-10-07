@@ -9,7 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SITE = "https://lofts.studio"
-CACHE_VER = "20260801i"
+CACHE_VER = "20261008a"
 
 INDEX = ROOT / "index.html"
 
@@ -195,7 +195,7 @@ def render_pillar(p, nav, footer, all_pillars):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 
 <script type="application/ld+json">
 {{
@@ -336,7 +336,7 @@ def render_brand_guide(nav, footer):
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <meta name="theme-color" content="#F4F0EA" />
 <link rel="stylesheet" href="/assets/styles.css?v={CACHE_VER}" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 
 <style>
   .swatch {{ aspect-ratio: 1; border-radius: var(--r-md); display: flex; flex-direction: column; justify-content: flex-end; padding: 1rem; font-family: var(--font-mono); font-size: 0.74rem; color: var(--bg); }}

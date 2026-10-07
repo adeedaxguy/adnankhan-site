@@ -6019,6 +6019,17 @@ html[data-theme="dark"] .diagnostic-hero {
   background: transparent;
 }
 
+.lofts-turnstile {
+  grid-column: 1 / -1;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.form-editorial .lofts-turnstile {
+  margin-block: -0.7rem;
+}
+
 .site-footer .footer-newsletter-form input,
 .home-page .home-footer .footer-newsletter-form input {
   width: 100%;

@@ -346,7 +346,7 @@
 }
 </script>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
-<link rel="stylesheet" href="/assets/experience.css?v=20260810b" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 
 <meta property="og:type" content="website" />
 <meta name="twitter:card" content="summary_large_image" />
@@ -870,6 +870,8 @@ function renderResults(data) {
     ${sectionsHtml}
   `;
 
+  window.loftsTurnstile?.mount(resultsEl.querySelector('.audit-cta-form')).catch(() => {});
+
   resultsEl.classList.add('show');
   whatWeFix.style.display = 'block';
   scrollToAuditOutput(resultsEl);
@@ -1077,8 +1079,11 @@ async function submitAuditFixPlan(event) {
   const note = document.getElementById('auditLeadNote')?.value.trim();
   if (btn) { btn.disabled = true; btn.textContent = 'Sending...'; }
   if (status) { status.classList.remove('show'); status.textContent = ''; }
+  let submitted = false;
 
   try {
+    if (!window.loftsTurnstile) throw new Error('Human verification could not load. Please try again.');
+    const verificationToken = await window.loftsTurnstile.token(event.target);
     const payload = {
       _subject: 'Audit fix plan request — lofts.studio',
       source: 'free-audit-report',
@@ -1091,8 +1096,10 @@ async function submitAuditFixPlan(event) {
       message: note || 'Please review this audit and send the first three fixes.',
       page_url: window.location.href,
       page_title: document.title,
+      'cf-turnstile-response': verificationToken,
       ...getAuditAttribution()
     };
+    submitted = true;
     const res = await fetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
@@ -1111,12 +1118,15 @@ async function submitAuditFixPlan(event) {
     }
     if (btn) btn.textContent = 'Report sent';
   } catch (err) {
+    if (submitted) window.loftsTurnstile?.reset(event.target);
     trackAuditEvent('audit_service_inquiry_failed', {
       audit_id: currentAuditContext?.id || 'audit',
       result_category: currentAuditContext?.resultCategory || 'review'
     });
     if (status) {
-      status.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
+      status.textContent = /verification/i.test(err?.message || '')
+        ? err.message
+        : 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
       status.classList.add('show');
     }
     if (btn) { btn.disabled = false; btn.textContent = 'Send report for review →'; }
@@ -1586,7 +1596,7 @@ function esc(s) {
   return String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 </script>
-<script src="/assets/main.js?v=20260926a" defer></script>
+<script src="/assets/main.js?v=20261008a" defer></script>
 <script src="/assets/locale-switcher.js?v=20260925a" defer></script>
 </body>
 </html>

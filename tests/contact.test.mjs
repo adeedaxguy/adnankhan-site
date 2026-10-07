@@ -8,12 +8,14 @@ process.env.CONTACT_EMAIL = 'team@lofts.studio';
 process.env.ZOHO_CLIENT_ID = 'zoho-test-client';
 process.env.ZOHO_CLIENT_SECRET = 'zoho-test-secret';
 process.env.ZOHO_FROM_EMAIL = 'hi@lofts.studio';
+process.env.TURNSTILE_SECRET_KEY = 'turnstile-test-secret';
 
 const strings = new Map();
 const hashes = new Map();
 const lists = new Map();
 const delivered = [];
 const notifications = [];
+const verificationRequests = [];
 let failSubmissionWrite = false;
 
 function hash(key) {
@@ -23,6 +25,7 @@ function hash(key) {
 
 function command(args) {
   const [name, key, ...rest] = args;
+  if (name === 'GET') return strings.get(key) ?? null;
   if (name === 'HGET') return hash(key).get(rest[0]) ?? null;
   if (name === 'HSET') { hash(key).set(rest[0], rest[1]); return 1; }
   if (name === 'HGETALL') return [...hash(key)].flat();
@@ -50,6 +53,16 @@ function command(args) {
 
 globalThis.fetch = async (input, init = {}) => {
   const url = String(input);
+  if (url === 'https://challenges.cloudflare.com/turnstile/v0/siteverify') {
+    const params = new URLSearchParams(init.body);
+    verificationRequests.push(params);
+    if (params.get('response') === 'unavailable-token') return Response.json({}, { status: 503 });
+    return Response.json({
+      success: params.get('response') !== 'invalid-token',
+      hostname: params.get('response') === 'wrong-host-token' ? 'another.site' : 'lofts.studio',
+      action: params.get('response') === 'wrong-action-token' ? 'other_action' : 'lofts_lead',
+    });
+  }
   if (url === 'https://kv.contact.test') {
     return Response.json({ result: command(JSON.parse(init.body)) });
   }
@@ -81,7 +94,7 @@ function request(payload, ip = '198.51.100.42') {
       'x-forwarded-for': ip,
       'x-vercel-ip-country': 'US',
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify({ 'cf-turnstile-response': 'valid-token', ...payload }),
   });
 }
 
@@ -100,6 +113,33 @@ test('contact validation and honeypot reject bad traffic before storage', async 
   const bot = await contactHandler(request({ name: 'Bot', email: 'bot@example.com', _gotcha: 'filled' }));
   assert.equal(bot.status, 200);
   assert.equal(lists.get('lofts:submissions'), undefined);
+});
+
+test('contact rejects missing, failed, or mismatched verification without enrolling a lead', async () => {
+  const base = { name: 'Alex Founder', email: 'alex@example.com', phone: '+44 20 7946 0958' };
+  const before = lists.get('lofts:submissions')?.length || 0;
+  for (const [index, token] of ['', 'invalid-token', 'wrong-host-token', 'wrong-action-token', 'unavailable-token'].entries()) {
+    const response = await contactHandler(request({ ...base, 'cf-turnstile-response': token, _submissionId: `rejected-${index}` }, `198.51.100.${50 + index}`));
+    assert.equal(response.status, token === 'unavailable-token' ? 503 : 400);
+    assert.equal(strings.has(`lofts:contact:submission:rejected-${index}`), false);
+  }
+  assert.equal(lists.get('lofts:submissions')?.length || 0, before);
+  assert.equal(verificationRequests.length, 4);
+  assert.ok(verificationRequests.every(params => params.get('secret') === 'turnstile-test-secret' && params.get('remoteip')));
+});
+
+test('contact fails closed when its private verification key is unavailable', async () => {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  delete process.env.TURNSTILE_SECRET_KEY;
+  try {
+    const response = await contactHandler(request({
+      name: 'Alex Founder', email: 'alex@example.com', phone: '+44 20 7946 0958', _submissionId: 'missing-turnstile-secret',
+    }, '198.51.100.66'));
+    assert.equal(response.status, 503);
+    assert.equal(strings.has('lofts:contact:submission:missing-turnstile-secret'), false);
+  } finally {
+    process.env.TURNSTILE_SECRET_KEY = secret;
+  }
 });
 
 test('contact lead persists before a failed notification and duplicate is idempotent', async () => {
@@ -124,11 +164,14 @@ test('contact lead persists before a failed notification and duplicate is idempo
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).email, 'jane@example.com');
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).phone, '+1 202 555 0200');
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).timezone, 'America/Los_Angeles');
+  assert.equal(JSON.parse(lists.get('lofts:submissions')[0])['cf-turnstile-response'], undefined);
 
+  const checksBeforeDuplicate = verificationRequests.length;
   const duplicate = await contactHandler(request(payload));
   assert.equal(duplicate.status, 200);
   assert.equal((await duplicate.json()).message, 'Already received');
   assert.equal(lists.get('lofts:submissions').length, 1);
+  assert.equal(verificationRequests.length, checksBeforeDuplicate);
 });
 
 test('a failed lead write can be retried with the same submission ID', async () => {
@@ -149,7 +192,7 @@ test('a failed lead write can be retried with the same submission ID', async () 
     failSubmissionWrite = false;
   }
 
-  const retried = await contactHandler(request(payload, '198.51.100.44'));
+  const retried = await contactHandler(request({ ...payload, 'cf-turnstile-response': 'fresh-retry-token' }, '198.51.100.44'));
   assert.equal(retried.status, 200);
   const retriedBody = await retried.json();
   assert.equal(retriedBody.message, 'Received');
@@ -189,4 +232,22 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
   assert.doesNotMatch(delivered[0].content, /gmail\.com|noreply@lofts\.studio/i);
   await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(delivered.length, 1);
+});
+
+test('newsletter form data also requires verification before storage', async () => {
+  const form = new FormData();
+  form.set('email', 'subscriber@example.com');
+  form.set('source', 'footer-newsletter');
+  form.set('_submissionId', 'newsletter-verified-1');
+  form.set('cf-turnstile-response', 'newsletter-token');
+  const response = await contactHandler(new Request('https://lofts.studio/api/contact', {
+    method: 'POST',
+    headers: { 'x-forwarded-for': '198.51.100.70' },
+    body: form,
+  }));
+  assert.equal(response.status, 200);
+  const saved = JSON.parse(lists.get('lofts:submissions')[0]);
+  assert.equal(saved.email, 'subscriber@example.com');
+  assert.equal(saved.source, 'footer-newsletter');
+  assert.equal(saved['cf-turnstile-response'], undefined);
 });

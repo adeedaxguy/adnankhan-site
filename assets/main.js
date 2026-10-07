@@ -420,8 +420,108 @@
     });
   });
 
+  // ── Human verification shared by static lead forms and the audit report ──
+  const turnstileSiteKey = '0x4AAAAAAFQxM7O-x9nBoTHx';
+  const turnstileForms = new WeakMap();
+  let turnstileScript;
+
+  function loadTurnstile() {
+    if (window.turnstile) return Promise.resolve(window.turnstile);
+    if (!turnstileScript) {
+      turnstileScript = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';
+        script.async = true;
+        script.onload = () => window.turnstile ? resolve(window.turnstile) : reject(new Error('Human verification could not load. Please try again.'));
+        script.onerror = () => reject(new Error('Human verification could not load. Please try again.'));
+        document.head.appendChild(script);
+      }).catch(error => {
+        turnstileScript = null;
+        throw error;
+      });
+    }
+    return turnstileScript;
+  }
+
+  function mountTurnstile(form) {
+    if (turnstileForms.has(form)) return turnstileForms.get(form).ready;
+    const container = document.createElement('div');
+    container.className = 'lofts-turnstile';
+    container.setAttribute('aria-label', 'Human verification');
+    const submit = form.querySelector('button[type="submit"]');
+    let anchor = submit;
+    while (anchor && anchor.parentElement !== form) anchor = anchor.parentElement;
+    form.insertBefore(container, anchor || null);
+
+    const state = { container, token: '', widgetId: null, waiters: [] };
+    turnstileForms.set(form, state);
+    state.ready = loadTurnstile().then(api => {
+      state.widgetId = api.render(container, {
+        sitekey: turnstileSiteKey,
+        action: 'lofts_lead',
+        appearance: 'interaction-only',
+        size: 'flexible',
+        theme: form.closest('.site-footer, .home-footer, .audit-cta-card') ? 'dark' : 'light',
+        callback: token => {
+          state.token = token;
+          state.waiters.splice(0).forEach(waiter => waiter.resolve(token));
+        },
+        'expired-callback': () => {
+          state.token = '';
+          api.reset(state.widgetId);
+        },
+        'error-callback': () => {
+          state.token = '';
+          state.waiters.splice(0).forEach(waiter => waiter.reject(new Error('Human verification failed. Please try again.')));
+        }
+      });
+    }).catch(error => {
+      turnstileForms.delete(form);
+      container.remove();
+      throw error;
+    });
+    return state.ready;
+  }
+
+  async function getTurnstileToken(form) {
+    await mountTurnstile(form);
+    const state = turnstileForms.get(form);
+    if (state.token) return state.token;
+    return new Promise((resolve, reject) => {
+      const waiter = {
+        resolve: token => { clearTimeout(timer); resolve(token); },
+        reject: error => { clearTimeout(timer); reject(error); }
+      };
+      const timer = setTimeout(() => {
+        state.waiters = state.waiters.filter(item => item !== waiter);
+        reject(new Error('Please complete the human verification and try again.'));
+      }, 15000);
+      state.waiters.push(waiter);
+    });
+  }
+
+  function resetTurnstile(form) {
+    const state = turnstileForms.get(form);
+    if (!state || state.widgetId === null) return;
+    state.token = '';
+    window.turnstile?.reset(state.widgetId);
+  }
+
+  window.loftsTurnstile = { mount: mountTurnstile, token: getTurnstileToken, reset: resetTurnstile };
+
   // ── Lead forms — AJAX contact endpoint ──
   document.querySelectorAll('form[data-lead]').forEach(form => {
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver(entries => {
+        if (entries.some(entry => entry.isIntersecting)) {
+          observer.disconnect();
+          mountTurnstile(form).catch(() => {});
+        }
+      }, { rootMargin: '300px' });
+      observer.observe(form);
+    } else {
+      mountTurnstile(form).catch(() => {});
+    }
     const formStartedAt = Date.now();
     const submissionId = window.crypto?.randomUUID?.() || `${Date.now()}-${Math.random().toString(36).slice(2)}`;
     const auditFunnel = form.getAttribute('data-audit-funnel');
@@ -468,7 +568,8 @@
       const success = wrap?.querySelector('[data-lead-success]');
       const btn = form.querySelector('button[type="submit"]');
       const originalHTML = btn ? btn.innerHTML : '';
-      if (btn) { btn.disabled = true; btn.innerHTML = 'Sending…'; }
+      if (btn) { btn.disabled = true; btn.innerHTML = 'Verifying…'; }
+      let submitted = false;
 
       try {
         const formData = new FormData(form);
@@ -491,6 +592,9 @@
           ...attribution
         });
 
+        formData.set('cf-turnstile-response', await getTurnstileToken(form));
+        if (btn) btn.innerHTML = 'Sending…';
+        submitted = true;
         const res = await fetch(form.action, {
           method: 'POST',
           headers: { 'Accept': 'application/json' },
@@ -535,6 +639,7 @@
         // Reset button state in case the form is reopened later
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
       } catch (err) {
+        if (submitted) resetTurnstile(form);
         if (btn) { btn.disabled = false; btn.innerHTML = originalHTML; }
         trackMarketingEvent('form_submit_error', {
           event_category: 'lead',
@@ -553,7 +658,7 @@
           form.appendChild(inlineErr);
         }
         const message = err && err.message ? String(err.message) : '';
-        inlineErr.textContent = /^(Enter a valid|Enter your|Too many requests|Please wait)/.test(message)
+        inlineErr.textContent = /^(Enter a valid|Enter your|Too many requests|Please wait|Please complete the human verification|Human verification|Verification is temporarily)/.test(message)
           ? message
           : "Couldn't send right now — please email hi@lofts.studio or try again in a minute.";
       }

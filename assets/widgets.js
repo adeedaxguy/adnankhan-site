@@ -531,6 +531,7 @@
 
     document.getElementById('convShowForm')?.addEventListener('click', () => {
       showView('convViewForm');
+      window.loftsTurnstile?.mount(document.getElementById('convInlineForm')).catch(() => {});
       setTimeout(() => document.getElementById('convName')?.focus(), 200);
     });
 
@@ -553,9 +554,14 @@
       const btn     = document.getElementById('convSubmitBtn');
       if (!name || !email || !phone || !message) { if (errEl) errEl.style.display = ''; return; }
       if (errEl) errEl.style.display = 'none';
-      if (btn) { btn.disabled = true; btn.textContent = 'Sending…'; }
+      if (btn) { btn.disabled = true; btn.textContent = 'Verifying…'; }
+      let submitted = false;
       try {
+        if (!window.loftsTurnstile) throw new Error('Human verification could not load. Please try again.');
+        const verificationToken = await window.loftsTurnstile.token(e.currentTarget);
+        if (btn) btn.textContent = 'Sending…';
         const attribution = typeof window.loftsGetAdAttribution === 'function' ? window.loftsGetAdAttribution() : {};
+        submitted = true;
         const res = await fetch('/api/contact', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -568,6 +574,7 @@
             page_url: window.location.href,
             page_title: document.title,
             source_path: window.location.pathname,
+            'cf-turnstile-response': verificationToken,
             ...attribution
           }),
         });
@@ -593,10 +600,13 @@
           page_title: document.title,
           ...attribution
         });
-      } catch {
-        if (btn) { btn.disabled = false; btn.textContent = 'Send'; }
+      } catch (error) {
+        if (submitted) window.loftsTurnstile?.reset(e.currentTarget);
+        if (btn) { btn.disabled = false; btn.textContent = 'Request callback'; }
         if (errEl) {
-          errEl.textContent = 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
+          errEl.textContent = /verification/i.test(error?.message || '')
+            ? error.message
+            : 'Could not send right now. Please email hi@lofts.studio or try again in a minute.';
           errEl.style.display = '';
         }
         return;

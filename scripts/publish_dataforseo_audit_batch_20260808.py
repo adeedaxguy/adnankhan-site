@@ -301,7 +301,7 @@ def render_post(post, nav, footer):
 <link rel="icon" href="/favicon.ico" sizes="any" />
 <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 <link rel="stylesheet" href="/assets/styles.css?v=20260801j" />
-<link rel="stylesheet" href="/assets/experience.css?v=20260801g" data-lofts-experience />
+<link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 <link rel="stylesheet" href="/assets/typography.css" />
 <script type="application/ld+json">{json.dumps(article_schema, separators=(",", ":"))}</script>
 <script type="application/ld+json">{json.dumps(breadcrumb_schema, separators=(",", ":"))}</script>
@@ -442,8 +442,8 @@ def render_post(post, nav, footer):
   </article>
 </main>
 {footer}
-<script src="/assets/main.js?v=20260801j" defer></script>
-<script src="/assets/widgets.js?v=20260801j" defer></script>
+<script src="/assets/main.js?v=20261008a" defer></script>
+<script src="/assets/widgets.js?v=20261008a" defer></script>
 </body>
 </html>
 '''

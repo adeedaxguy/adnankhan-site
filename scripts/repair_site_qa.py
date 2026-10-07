@@ -11,7 +11,7 @@ from urllib.parse import unquote, urlsplit
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RELEASE = "20260731d"
+RELEASE = "20261008a"
 
 LEGACY_POSTS_WITHOUT_H1 = {
     "blog/checkout-friction-audit.html",
