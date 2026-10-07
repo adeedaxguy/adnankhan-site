@@ -17,6 +17,8 @@ const delivered = [];
 const notifications = [];
 const verificationRequests = [];
 let failSubmissionWrite = false;
+let failOutboxWrite = false;
+let holdMail = null;
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -27,7 +29,11 @@ function command(args) {
   const [name, key, ...rest] = args;
   if (name === 'GET') return strings.get(key) ?? null;
   if (name === 'HGET') return hash(key).get(rest[0]) ?? null;
-  if (name === 'HSET') { hash(key).set(rest[0], rest[1]); return 1; }
+  if (name === 'HSET') {
+    if (key === 'lofts:contact:outbox' && failOutboxWrite) throw new Error('Temporary queue outage');
+    hash(key).set(rest[0], rest[1]); return 1;
+  }
+  if (name === 'HDEL') return hash(key).delete(rest[0]) ? 1 : 0;
   if (name === 'HGETALL') return [...hash(key)].flat();
   if (name === 'HKEYS') return [...hash(key).keys()];
   if (name === 'SET') {
@@ -73,6 +79,7 @@ globalThis.fetch = async (input, init = {}) => {
     return Response.json({ data: [{ accountId: 'zoho-account-test', primaryEmailAddress: 'hi@lofts.studio' }] });
   }
   if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/messages') {
+    if (holdMail) await holdMail;
     const message = JSON.parse(init.body);
     if (message.toAddress === 'lead@acme.co') {
       delivered.push(message);
@@ -96,6 +103,11 @@ function request(payload, ip = '198.51.100.42') {
     },
     body: JSON.stringify({ 'cf-turnstile-response': 'valid-token', ...payload }),
   });
+}
+
+function backgroundContext() {
+  const jobs = [];
+  return { waitUntil: job => jobs.push(job), drain: () => Promise.all(jobs) };
 }
 
 test('contact validation and honeypot reject bad traffic before storage', async () => {
@@ -158,8 +170,8 @@ test('contact lead persists before a failed notification and duplicate is idempo
   const first = await contactHandler(request(payload));
   const firstBody = await first.json();
   assert.equal(first.status, 200);
-  assert.equal(firstBody.notification, 'delayed');
-  assert.equal(firstBody.automation, 'review');
+  assert.equal(firstBody.followUp, 'queued');
+  assert.equal(hash('lofts:contact:delivery:submission-1').get('reply'), 'review');
   assert.equal(lists.get('lofts:submissions').length, 1);
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).email, 'jane@example.com');
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).phone, '+1 202 555 0200');
@@ -196,7 +208,7 @@ test('a failed lead write can be retried with the same submission ID', async () 
   assert.equal(retried.status, 200);
   const retriedBody = await retried.json();
   assert.equal(retriedBody.message, 'Received');
-  assert.equal(retriedBody.reply, 'delayed');
+  assert.equal(retriedBody.followUp, 'queued');
   assert.equal(lists.get('lofts:submissions').length, 2);
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).timezone, undefined);
 });
@@ -214,10 +226,20 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
     source: 'contact-form',
     _submissionId: 'submission-2',
   };
-  const response = await contactHandler(request(payload, '198.51.100.43'));
+  const context = backgroundContext();
+  let releaseMail;
+  holdMail = new Promise(resolve => { releaseMail = resolve; });
+  const response = await contactHandler(request(payload, '198.51.100.43'), context);
   assert.equal(response.status, 200);
-  assert.equal((await response.json()).reply, 'scheduled');
-  assert.deepEqual(notifications.map(message => message.toAddress), ['hi@lofts.studio', 'adnan.webexpert@gmail.com']);
+  assert.equal((await response.json()).followUp, 'queued');
+  assert.equal(lists.get('lofts:submissions').length, 3);
+  assert.equal(delivered.length, 0);
+  assert.equal(hash('lofts:contact:outbox').has('submission-2'), true);
+  releaseMail();
+  await context.drain();
+  holdMail = null;
+  assert.equal(hash('lofts:contact:outbox').has('submission-2'), false);
+  assert.deepEqual(notifications.map(message => message.toAddress).sort(), ['adnan.toprated@gmail.com', 'adnan.webexpert@gmail.com', 'hi@lofts.studio']);
   assert.equal(delivered.length, 1);
   assert.match(delivered[0].content, /seo|rankings/i);
   assert.match(delivered[0].content, /\/book\/\?t=/);
@@ -232,6 +254,53 @@ test('a real project enquiry gets one tailored reply and a booking link', async 
   assert.doesNotMatch(delivered[0].content, /gmail\.com|noreply@lofts\.studio/i);
   await contactHandler(request(payload, '198.51.100.43'));
   assert.equal(delivered.length, 1);
+});
+
+test('queued work is recovered without repeating a delivered notification', async () => {
+  const saved = lists.get('lofts:submissions').map(item => JSON.parse(item)).find(item => item._id === 'submission-2');
+  hash('lofts:contact:outbox').set(saved._id, JSON.stringify({
+    lead: saved, subject: saved._subject, origin: 'https://lofts.studio',
+  }));
+  const before = notifications.length;
+  const { processPendingContacts } = await import('../api/contact.js');
+  const result = await processPendingContacts();
+  assert.equal(result.errors, 0);
+  assert.equal(hash('lofts:contact:outbox').has(saved._id), false);
+  assert.equal(notifications.length, before);
+});
+
+test('the recovery job processes a stored enquiry after background work is lost', async () => {
+  const lead = {
+    _id: 'recovery-newsletter', _projectId: 'lofts-studio',
+    name: '', email: 'subscriber@acme.co', source: 'footer-newsletter',
+  };
+  hash('lofts:contact:outbox').set(lead._id, JSON.stringify({
+    lead, subject: 'New subscriber - subscriber@acme.co', origin: 'https://lofts.studio',
+  }));
+  const before = notifications.length;
+  const { processPendingContacts } = await import('../api/contact.js');
+  const result = await processPendingContacts();
+  assert.equal(result.checked, 1);
+  assert.equal(result.errors, 0);
+  assert.equal(notifications.length, before + 3);
+  assert.equal(hash('lofts:contact:outbox').has(lead._id), false);
+});
+
+test('an unavailable queue falls back to attempting delivery after saving the lead', async () => {
+  const before = notifications.length;
+  failOutboxWrite = true;
+  try {
+    const response = await contactHandler(request({
+      name: 'Pat Founder', email: 'pat@example.com', phone: '+44 20 7946 0958',
+      source: 'contact-form', _submissionId: 'outbox-unavailable-1',
+    }, '198.51.100.75'));
+    assert.equal(response.status, 200);
+    assert.equal((await response.json()).followUp, 'attempted');
+    assert.equal(notifications.length, before + 3);
+    assert.equal(hash('lofts:contact:outbox').has('outbox-unavailable-1'), false);
+  } finally {
+    failOutboxWrite = false;
+  }
 });
 
 test('newsletter form data also requires verification before storage', async () => {

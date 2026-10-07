@@ -1,4 +1,5 @@
 import { processDueAutomations } from '../_lib/automation.js';
+import { processPendingContacts } from '../contact.js';
 
 export const config = { runtime: 'edge' };
 
@@ -12,8 +13,9 @@ export default async function handler(req) {
     });
   }
   try {
+    const contacts = await processPendingContacts();
     const result = await processDueAutomations();
-    return new Response(JSON.stringify({ ok: true, ...result }), {
+    return new Response(JSON.stringify({ ok: true, contacts, ...result }), {
       headers: { 'content-type': 'application/json', 'Cache-Control': 'no-store' },
     });
   } catch (error) {

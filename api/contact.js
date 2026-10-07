@@ -7,6 +7,8 @@ export const config = { runtime: 'edge' };
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_REQUEST_BYTES = 24000;
 const TURNSTILE_ACTION = 'lofts_lead';
+const OUTBOX_KEY = 'lofts:contact:outbox';
+const NOTIFICATION_RECIPIENTS = ['hi@lofts.studio', 'adnan.webexpert@gmail.com', 'adnan.toprated@gmail.com'];
 
 async function verifyTurnstile(req, payload) {
   const secret = process.env.TURNSTILE_SECRET_KEY;
@@ -96,8 +98,7 @@ async function parsePayload(req) {
   return Object.fromEntries([...form.entries()].map(([key, value]) => [key, typeof value === 'string' ? value : String(value)]));
 }
 
-async function notifyTeam(lead, subject) {
-  const recipients = ['hi@lofts.studio', 'adnan.webexpert@gmail.com'];
+async function notifyTeam(lead, subject, trackDelivery = true) {
   const visible = Object.entries(lead).filter(([key]) => !key.startsWith('_') && key !== 'consentNotice');
   const text = visible.map(([key, value]) => `${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`).join('\n');
   const html = `<div style="font-family:Arial,sans-serif;max-width:640px;margin:0 auto;padding:24px;color:#1a1612">
@@ -105,15 +106,24 @@ async function notifyTeam(lead, subject) {
     <table style="width:100%;border-collapse:collapse">${visible.map(([key, value]) => `<tr><td style="padding:8px 12px;background:#f4f0ea;font-weight:600;width:30%;vertical-align:top;border:1px solid #e0d8ce">${escapeHtml(key.charAt(0).toUpperCase() + key.slice(1))}</td><td style="padding:8px 12px;border:1px solid #e0d8ce;vertical-align:top">${escapeHtml(value)}</td></tr>`).join('')}</table>
     <p style="margin:20px 0 0;font-size:12px;color:#777">Stored in Ads Command before this notification was sent.</p>
   </div>`;
-  let delivered = true;
-  for (const toAddress of recipients) {
+  await Promise.all(NOTIFICATION_RECIPIENTS.map(async toAddress => {
+    if (!trackDelivery) {
+      try { await sendZohoEmail(lead._projectId, { toAddress, subject, htmlContent: html, content: text }); } catch { /* The lead remains saved in the CRM. */ }
+      return;
+    }
+    const statusKey = `lofts:contact:delivery:${lead._id}`;
+    const field = `notification:${toAddress}`;
+    const status = await kvCmd('HGET', statusKey, field);
+    if (['sent', 'sending', 'needs-review'].includes(status)) return;
+    await kvCmd('HSET', statusKey, field, 'sending');
     try {
       await sendZohoEmail(lead._projectId, { toAddress, subject, htmlContent: html, content: text });
+      await kvCmd('HSET', statusKey, field, 'sent');
     } catch {
-      delivered = false;
+      // An ambiguous provider failure must not produce a duplicate owner email.
+      await kvCmd('HSET', statusKey, field, 'needs-review');
     }
-  }
-  return { ok: delivered, message: delivered ? '' : 'Notification request failed.' };
+  }));
 }
 
 async function forwardToGrowthOs(lead) {
@@ -125,6 +135,7 @@ async function forwardToGrowthOs(lead) {
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: { Origin: 'https://lofts.studio', 'Content-Type': 'application/json', 'Idempotency-Key': `lofts-${lead._id}` },
+      signal: AbortSignal.timeout(8000),
       body: JSON.stringify({
         name: lead.name,
         email: lead.email,
@@ -150,7 +161,46 @@ async function forwardToGrowthOs(lead) {
   }
 }
 
-export default async function handler(req) {
+async function processContactWork(submissionId) {
+  const lockKey = `lofts:contact:work-lock:${submissionId}`;
+  if (!await kvCmd('SET', lockKey, '1', 'NX', 'EX', '300')) return;
+  try {
+    const raw = await kvCmd('HGET', OUTBOX_KEY, submissionId);
+    if (!raw) return;
+    const { lead, subject, origin } = JSON.parse(raw);
+    const tasks = [notifyTeam(lead, subject)];
+    if (lead.source !== 'footer-newsletter') {
+      tasks.push((async () => {
+        const sequence = await enrollLeadAutomation(lead, origin, { deferFirstReply: true });
+        const reply = await sendInboundReply(sequence);
+        await kvCmd('HSET', `lofts:contact:delivery:${submissionId}`, 'reply', reply.status);
+      })());
+      tasks.push((async () => {
+        const result = await forwardToGrowthOs(lead);
+        await kvCmd('HSET', `lofts:contact:delivery:${submissionId}`, 'growthOs', result.status);
+      })());
+    }
+    const results = await Promise.allSettled(tasks);
+    if (results.every(result => result.status === 'fulfilled')) {
+      await kvCmd('HDEL', OUTBOX_KEY, submissionId);
+    } else {
+      console.warn('Contact follow-up remains queued for retry:', submissionId);
+    }
+  } finally {
+    await kvCmd('DEL', lockKey);
+  }
+}
+
+export async function processPendingContacts(limit = 20) {
+  const entries = await kvCmd('HGETALL', OUTBOX_KEY) || [];
+  const ids = Array.isArray(entries)
+    ? entries.filter((_, index) => index % 2 === 0).slice(0, limit)
+    : Object.keys(entries).slice(0, limit);
+  const results = await Promise.allSettled(ids.map(processContactWork));
+  return { checked: ids.length, errors: results.filter(result => result.status === 'rejected').length };
+}
+
+export default async function handler(req, context) {
   if (req.method !== 'POST') return json({ error: 'POST only' }, 405);
 
   let payload;
@@ -174,16 +224,12 @@ export default async function handler(req) {
     return json({ success: false, message: 'Enter a valid phone or WhatsApp number, including your country code.' }, 400);
   }
 
-  try {
-    if (!await checkRateLimit(req)) return json({ success: false, message: 'Too many requests. Please try again in ten minutes.' }, 429);
-  } catch {
-    return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
-  }
-
   const submissionId = cleanField(payload._submissionId, 96).replace(/[^a-zA-Z0-9-]/g, '') || crypto.randomUUID();
   const submissionKey = `lofts:contact:submission:${submissionId}`;
   try {
-    if (await kvCmd('GET', submissionKey)) return json({ success: true, message: 'Already received' });
+    const [allowed, existing] = await Promise.all([checkRateLimit(req), kvCmd('GET', submissionKey)]);
+    if (!allowed) return json({ success: false, message: 'Too many requests. Please try again in ten minutes.' }, 429);
+    if (existing) return json({ success: true, message: 'Already received' });
   } catch {
     return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
   }
@@ -235,25 +281,31 @@ export default async function handler(req) {
     return json({ success: false, message: 'The enquiry could not be stored right now. Please email hi@lofts.studio.' }, 503);
   }
 
-  const notification = await notifyTeam(lead, subject);
-  let automation = null;
-  let reply = { status: 'not-applicable' };
-  let growthOs = { status: 'not-applicable' };
-  if (!isNewsletter) {
-    try {
-      automation = await enrollLeadAutomation(lead, new URL(req.url).origin, { deferFirstReply: true });
-      reply = await sendInboundReply(automation);
-    } catch { automation = null; reply = { status: 'delayed' }; }
-    growthOs = await forwardToGrowthOs(lead);
+  try {
+    await kvCmd('HSET', OUTBOX_KEY, submissionId, JSON.stringify({ lead, subject, origin: new URL(req.url).origin }));
+  } catch {
+    // The lead is saved already; do not acknowledge it until the follow-up was attempted.
+    await notifyTeam(lead, subject, false);
+    if (!isNewsletter) {
+      try {
+        const sequence = await enrollLeadAutomation(lead, new URL(req.url).origin, { deferFirstReply: true });
+        await sendInboundReply(sequence);
+      } catch { /* The stored lead remains available in the CRM. */ }
+      await forwardToGrowthOs(lead);
+    }
+    return json({ success: true, message: 'Received', submissionId, followUp: 'attempted' });
   }
+
+  const work = processContactWork(submissionId).catch(error => {
+    console.error('Contact follow-up remains queued:', submissionId, error);
+  });
+  if (typeof context?.waitUntil === 'function') context.waitUntil(work);
+  else await work;
 
   return json({
     success: true,
     message: 'Received',
     submissionId,
-    notification: notification.ok ? 'sent' : 'delayed',
-    automation: automation?.status || 'not-enrolled',
-    reply: reply.status,
-    growthOs: growthOs.status,
+    followUp: 'queued',
   });
 }
