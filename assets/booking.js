@@ -194,7 +194,7 @@ async function loadBooking() {
     if (!response.ok) throw new Error(data.error || 'Booking is unavailable.');
     if (data.booking) {
       bookingState.timezone = normalizeBookingTimeZone(data.booking.bookingTimezone, bookingState.timezone);
-      showBookingConfirmation(data.booking);
+      showBookingConfirmation(data.booking, data.booking.warning || '');
       return;
     }
     bookingState.data = data;

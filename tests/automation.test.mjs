@@ -18,6 +18,7 @@ const hashes = new Map();
 const sets = new Map();
 const lists = new Map();
 const zohoEmails = [];
+const resendEmails = [];
 const calendarEvents = [];
 const googleCalendarEvents = [];
 const googleCalendarInvites = [];
@@ -32,6 +33,9 @@ let failGoogleInvite = false;
 let delayGoogleMeet = false;
 let failScheduledZohoEmail = false;
 let failZohoFreebusy = false;
+let failZohoBookingAlert = false;
+let failZohoConfirmation = false;
+let failZohoLastSentSave = false;
 
 function hash(key) {
   if (!hashes.has(key)) hashes.set(key, new Map());
@@ -41,7 +45,11 @@ function hash(key) {
 function command(args) {
   const [name, key, ...rest] = args;
   if (name === 'HGET') return hash(key).get(rest[0]) ?? null;
-  if (name === 'HSET') { hash(key).set(rest[0], rest[1]); return 1; }
+  if (name === 'HSET') {
+    if (failZohoLastSentSave && key === 'agency:zoho-mail') throw new Error('KV write failed');
+    hash(key).set(rest[0], rest[1]);
+    return 1;
+  }
   if (name === 'HGETALL') return [...hash(key)].flat();
   if (name === 'HKEYS') return [...hash(key).keys()];
   if (name === 'HDEL') return hash(key).delete(rest[0]) ? 1 : 0;
@@ -87,11 +95,19 @@ globalThis.fetch = async (input, init = {}) => {
   }
   if (url === 'https://mail.zoho.com/api/accounts/zoho-account-test/messages') {
     const email = JSON.parse(init.body);
+    if ((failZohoBookingAlert && /^Call booked:/.test(email.subject))
+      || (failZohoConfirmation && email.subject === 'Your Lofts Studio call is confirmed')) {
+      return Response.json({ status: { description: 'Mail temporarily unavailable' } }, { status: 503 });
+    }
     if (failScheduledZohoEmail && email.isSchedule) {
       return Response.json({ status: { description: 'Invalid schedule' }, data: { errorCode: 'PATTERN_NOT_MATCHED' } }, { status: 400 });
     }
     zohoEmails.push(email);
     return Response.json({ data: { messageId: `message-${zohoEmails.length}` } });
+  }
+  if (url === 'https://api.resend.com/emails') {
+    resendEmails.push(JSON.parse(init.body));
+    return Response.json({ id: `backup-${resendEmails.length}` });
   }
   if (url === 'https://accounts.zoho.com/oauth/v2/token') {
     return Response.json({ access_token: 'zoho-access-test', refresh_token: 'zoho-refresh-test', expires_in: 3600 });
@@ -317,11 +333,102 @@ test('connected Zoho and Google calendars filter busy times without duplicating 
   assert.equal(calendarEvents.length, 0);
   assert.equal(result.booking.googleEventId, googleCalendarEvents.at(-1).id);
   assert.deepEqual(googleCalendarInvites.at(-1).attendees.map(item => item.email), ['calendar@prospect.co', 'hi@lofts.studio']);
+  assert.equal(JSON.stringify(result.booking).includes('owner@lofts.studio'), false);
   assert.equal(googleCalendarEvents.at(-1).conferenceData.createRequest.conferenceSolutionKey.type, 'hangoutsMeet');
   assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && /confirmed/i.test(email.subject)));
   assert.ok(zohoEmails.some(email => email.toAddress === 'calendar@prospect.co' && email.fromAddress === 'hi@lofts.studio'));
   assert.ok(zohoEmails.some(email => email.toAddress === 'team@lofts.studio' && /Call booked/.test(email.subject)));
   assert.ok(zohoEmails.some(email => email.toAddress === 'owner@lofts.studio' && /Call booked/.test(email.subject)));
+});
+
+test('booking alerts fall back to Resend for owners while customer mail stays with Zoho', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-alert-fallback', _projectId: 'lofts-studio', name: 'Alert Lead',
+    email: 'alert@prospect.co', phone: '+1 202 555 0192',
+  });
+  const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: sequence.leadId, exp: Date.now() + 30 * 86400000 });
+  const slots = (await automation.getAvailableSlots(token)).slots;
+  const before = resendEmails.length;
+  process.env.RESEND_API_KEY = 'resend-test-key';
+  failZohoBookingAlert = true;
+  try {
+    const result = await automation.createBooking(token, { start: slots[0] });
+    assert.equal(result.booking.status, 'confirmed');
+    assert.equal(result.booking.teamNotificationStatus, 'sent');
+    assert.equal(result.booking.clientConfirmationStatus, 'sent');
+    assert.equal(result.warning, '');
+    assert.deepEqual(resendEmails.slice(before).map(email => email.to[0]), ['team@lofts.studio', 'owner@lofts.studio']);
+    assert.ok(zohoEmails.some(email => email.toAddress === 'alert@prospect.co' && /confirmed/i.test(email.subject)));
+  } finally {
+    failZohoBookingAlert = false;
+    delete process.env.RESEND_API_KEY;
+  }
+});
+
+test('Google booking remains available when Zoho Mail disconnects', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-google-only', _projectId: 'lofts-studio', name: 'Google Only Lead',
+    email: 'google-only@prospect.co', phone: '+1 202 555 0194',
+  });
+  const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: sequence.leadId, exp: Date.now() + 30 * 86400000 });
+  const savedConnection = hash('agency:zoho-mail').get('lofts-studio');
+  hash('agency:zoho-mail').delete('lofts-studio');
+  process.env.RESEND_API_KEY = 'resend-test-key';
+  try {
+    const availability = await automation.getAvailableSlots(token);
+    assert.ok(availability.slots.length);
+    assert.equal(availability.zohoCalendarConnected, false);
+    const result = await automation.createBooking(token, { start: availability.slots[0] });
+    assert.equal(result.booking.status, 'confirmed');
+    assert.equal(result.booking.teamNotificationStatus, 'sent');
+    assert.equal(result.booking.clientConfirmationStatus, 'needs-review');
+    assert.match(result.warning, /separate confirmation email could not be sent/i);
+    assert.deepEqual(googleCalendarInvites.at(-1).attendees.map(item => item.email), ['google-only@prospect.co', 'hi@lofts.studio']);
+  } finally {
+    hash('agency:zoho-mail').set('lofts-studio', savedConnection);
+    delete process.env.RESEND_API_KEY;
+  }
+});
+
+test('a failed customer confirmation remains visible on repeat booking checks', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'lead-confirmation-failure', _projectId: 'lofts-studio', name: 'Confirmation Lead',
+    email: 'confirmation@prospect.co', phone: '+1 202 555 0193',
+  });
+  const token = await automation.signAutomationToken({ a: 'book', p: 'lofts-studio', l: sequence.leadId, exp: Date.now() + 30 * 86400000 });
+  const slots = (await automation.getAvailableSlots(token)).slots;
+  failZohoConfirmation = true;
+  try {
+    const first = await automation.createBooking(token, { start: slots[0] });
+    assert.equal(first.booking.status, 'confirmed');
+    assert.equal(first.booking.clientConfirmationStatus, 'needs-review');
+    assert.match(first.warning, /separate confirmation email could not be sent/i);
+    const repeated = await automation.createBooking(token, { start: slots[1] });
+    assert.equal(repeated.booking.id, first.booking.id);
+    assert.equal(repeated.warning, first.warning);
+    const reopened = await automation.getAvailableSlots(token);
+    assert.equal(reopened.booking.warning, first.warning);
+  } finally {
+    failZohoConfirmation = false;
+  }
+});
+
+test('accepted Zoho mail is not retried when last-sent bookkeeping fails', async () => {
+  const zoho = await import('../api/_lib/zoho.js');
+  const before = zohoEmails.length;
+  failZohoLastSentSave = true;
+  const originalWarn = console.warn;
+  console.warn = () => {};
+  try {
+    const result = await zoho.sendZohoEmail('lofts-studio', {
+      toAddress: 'bookkeeping@prospect.co', subject: 'Bookkeeping check', content: 'Accepted message.',
+    });
+    assert.ok(result.messageId);
+    assert.equal(zohoEmails.length, before + 1);
+  } finally {
+    failZohoLastSentSave = false;
+    console.warn = originalWarn;
+  }
 });
 
 test('booking confirms through Google when Zoho availability fails', async () => {

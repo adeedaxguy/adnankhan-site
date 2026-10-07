@@ -86,7 +86,27 @@ export async function notifyBooking(booking, config = {}) {
     try {
       await sendZohoEmail(booking.projectId, { toAddress, subject, content: lines.filter(Boolean).join('\n'), htmlContent: html });
     } catch {
-      delivered = false;
+      if (!process.env.RESEND_API_KEY || booking.projectId !== 'lofts-studio') {
+        delivered = false;
+        continue;
+      }
+      try {
+        const backup = await fetch('https://api.resend.com/emails', {
+          method: 'POST',
+          headers: { Authorization: `Bearer ${process.env.RESEND_API_KEY}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            from: 'Lofts Studio <noreply@lofts.studio>',
+            to: [toAddress],
+            subject,
+            text: lines.filter(Boolean).join('\n'),
+            html,
+            reply_to: 'hi@lofts.studio',
+          }),
+        });
+        if (!backup.ok) delivered = false;
+      } catch {
+        delivered = false;
+      }
     }
   }
   return delivered;

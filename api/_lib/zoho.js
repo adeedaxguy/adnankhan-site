@@ -323,7 +323,11 @@ export async function sendZohoEmail(projectId, message) {
     throw serviceError('send_failed', detail || 'Zoho could not send the email.');
   }
   connection.lastSentAt = Date.now();
-  await saveZohoConnection(id, connection);
+  try {
+    await saveZohoConnection(id, connection);
+  } catch {
+    console.warn('Zoho accepted an email, but its last-sent timestamp could not be saved.');
+  }
   return {
     sentAt: connection.lastSentAt,
     fromEmail: connection.fromEmail,

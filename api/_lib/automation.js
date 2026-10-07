@@ -951,8 +951,7 @@ export async function getAvailableSlots(token) {
     if (existing) return { booking: existing };
   }
   if (!config.booking.enabled) throw serviceError('booking_disabled', 'Online booking is not currently available.');
-  const zohoStatus = await getZohoStatus(payload.p);
-  if (!bookingNotifyEmails(config).length || !zohoStatus.connected || (payload.p === 'lofts-studio' && zohoStatus.fromEmail !== 'hi@lofts.studio')) {
+  if (!bookingNotifyEmails(config).length) {
     throw serviceError('booking_unavailable', 'Online booking is unavailable right now. Please email hi@lofts.studio.');
   }
   const booking = config.booking;
@@ -1013,10 +1012,10 @@ export async function createBooking(token, input) {
   const context = await getBookingContext(token);
   if (context.sequence.bookingId) {
     const existing = parseJson(await kvCmd('HGET', BOOKING_KEY, context.sequence.bookingId));
-    if (existing) return { booking: existing, warning: '' };
+    if (existing) return { booking: existing, warning: existing.warning || '' };
   }
   const availability = await getAvailableSlots(token);
-  if (availability.booking) return { booking: availability.booking, warning: '' };
+  if (availability.booking) return { booking: availability.booking, warning: availability.booking.warning || '' };
   const start = String(input.start || '');
   if (!availability.slots.includes(start)) throw serviceError('slot_unavailable', 'That time is no longer available. Choose another slot.');
   const phone = cleanText(input.phone || context.sequence.lead.phone, 60);
@@ -1073,18 +1072,26 @@ export async function createBooking(token, input) {
     stage: booking.status === 'confirmed' ? 'qualified' : 'contacted',
     nextAction: `${booking.status === 'confirmed' ? 'Call booked' : 'Confirm requested call'} for ${new Date(startAt).toISOString()}`,
   });
-  let warning = '';
   try {
-    if (!await notifyBooking(booking, context.config)) warning = 'The booking was saved, but the team notification needs review.';
+    booking.teamNotificationStatus = await notifyBooking(booking, context.config) ? 'sent' : 'needs-review';
   } catch {
-    warning = 'The booking was saved, but the team notification needs review.';
+    booking.teamNotificationStatus = 'needs-review';
   }
+  if (booking.teamNotificationStatus !== 'sent') console.error('Booking owner alert needs review:', bookingId);
   try {
-    if (!await confirmBookingToLead(booking, context.config)) warning = 'The booking was saved, but the confirmation email needs review.';
-  } catch (error) {
-    warning = `The booking is saved, but the confirmation email could not be sent: ${cleanText(error.message, 180)}`;
+    booking.clientConfirmationStatus = await confirmBookingToLead(booking, context.config) ? 'sent' : 'needs-review';
+  } catch {
+    booking.clientConfirmationStatus = 'needs-review';
   }
-  return { booking, warning };
+  booking.warning = booking.clientConfirmationStatus === 'sent'
+    ? ''
+    : 'Your call and Google Calendar invitation are confirmed, but the separate confirmation email could not be sent. Please save the meeting details shown here.';
+  try {
+    await kvCmd('HSET', BOOKING_KEY, bookingId, JSON.stringify(booking));
+  } catch {
+    console.error('Booking delivery status could not be saved:', bookingId);
+  }
+  return { booking, warning: booking.warning };
 }
 
 export async function getAutomationSnapshot(projectId) {
