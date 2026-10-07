@@ -92,6 +92,10 @@ test('contact validation and honeypot reject bad traffic before storage', async 
   assert.equal(missingPhone.status, 400);
   const malformedPhone = await contactHandler(request({ name: 'Jane', email: 'jane@example.com', phone: '123' }));
   assert.equal(malformedPhone.status, 400);
+  const fictionalPhone = await contactHandler(request({ name: 'Jane', email: 'jane@example.com', phone: '+1 202 555 0147' }));
+  assert.equal(fictionalPhone.status, 400);
+  const linkedName = await contactHandler(request({ name: 'Promotion https://spam.example', email: 'promoter@example.com', phone: '+1 202 555 0202' }));
+  assert.equal(linkedName.status, 400);
 
   const bot = await contactHandler(request({ name: 'Bot', email: 'bot@example.com', _gotcha: 'filled' }));
   assert.equal(bot.status, 200);
@@ -102,7 +106,7 @@ test('contact lead persists before a failed notification and duplicate is idempo
   const payload = {
     name: 'Jane Founder',
     email: 'Jane@Example.com',
-    phone: '+1 202 555 0147',
+    phone: '+1 202 555 0200',
     website: '',
     bottleneck: 'Paid ad landing page (Meta/Google)',
     timezone: 'America/Los_Angeles',
@@ -118,7 +122,7 @@ test('contact lead persists before a failed notification and duplicate is idempo
   assert.equal(firstBody.automation, 'review');
   assert.equal(lists.get('lofts:submissions').length, 1);
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).email, 'jane@example.com');
-  assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).phone, '+1 202 555 0147');
+  assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).phone, '+1 202 555 0200');
   assert.equal(JSON.parse(lists.get('lofts:submissions')[0]).timezone, 'America/Los_Angeles');
 
   const duplicate = await contactHandler(request(payload));
@@ -131,7 +135,7 @@ test('a failed lead write can be retried with the same submission ID', async () 
   const payload = {
     name: 'Mira Founder',
     email: 'mira@example.org',
-    phone: '+1 202 555 0199',
+    phone: '+1 202 555 0201',
     timezone: 'Invalid/Zone',
     source: 'contact-form',
     _submissionId: 'retry-submission-1',

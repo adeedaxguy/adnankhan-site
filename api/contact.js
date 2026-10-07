@@ -38,6 +38,12 @@ function cleanField(value, length = 4000) {
   return String(value || '').replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F]/g, '').trim().slice(0, length);
 }
 
+function isFictionalNorthAmericanPhone(value) {
+  const digits = String(value || '').replace(/\D/g, '');
+  const local = digits.length === 11 && digits.startsWith('1') ? digits.slice(1) : digits;
+  return /^[2-9]\d{2}55501\d{2}$/.test(local);
+}
+
 async function requestFingerprint(req) {
   const address = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
     || req.headers.get('x-real-ip')
@@ -133,7 +139,10 @@ export default async function handler(req) {
   const phone = cleanField(payload.phone, 32);
   if (!EMAIL_PATTERN.test(email)) return json({ success: false, message: 'Enter a valid email address.' }, 400);
   if (!isNewsletter && name.length < 2) return json({ success: false, message: 'Enter your name.' }, 400);
-  if (!isNewsletter && (phone.replace(/\D/g, '').length < 7 || phone.replace(/\D/g, '').length > 15 || !/^[+\d\s().-]+$/.test(phone))) {
+  if (!isNewsletter && /(?:https?:\/\/|www\.|\b[a-z0-9-]+\.(?:com|net|org|io|co|info|biz)(?:\/|\b))/i.test(name)) {
+    return json({ success: false, message: 'Enter your name, without a website link.' }, 400);
+  }
+  if (!isNewsletter && (phone.replace(/\D/g, '').length < 7 || phone.replace(/\D/g, '').length > 15 || !/^[+\d\s().-]+$/.test(phone) || isFictionalNorthAmericanPhone(phone))) {
     return json({ success: false, message: 'Enter a valid phone or WhatsApp number, including your country code.' }, 400);
   }
 

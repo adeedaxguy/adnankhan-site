@@ -196,6 +196,20 @@ test('lead enrolment stores evidence-based analysis and remains in review mode',
   assert.match(sequence.analysis.observations.join(' '), /heading|lead form|proof/i);
 });
 
+test('a promotional link in the name cannot trigger an automatic customer reply', async () => {
+  const sequence = await automation.enrollLeadAutomation({
+    _id: 'link-name-lead',
+    _projectId: 'lofts-studio',
+    name: 'Guaranteed coin https://spam.example',
+    email: 'coin@prospect.co',
+    phone: '+1 202 555 0202',
+    source: 'contact-form',
+  });
+  assert.equal(sequence.status, 'review');
+  assert.deepEqual(await automation.sendInboundReply(sequence), { status: 'review' });
+  assert.equal(sequence.steps[0].status, 'pending');
+});
+
 test('booking slots are timezone-backed and one slot cannot be reserved twice', async () => {
   const zoho = await import('../api/_lib/zoho.js');
   const authUrl = await zoho.createZohoAuthorization('lofts-studio', 'https://lofts.studio');

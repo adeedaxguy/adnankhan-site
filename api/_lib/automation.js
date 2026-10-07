@@ -587,6 +587,7 @@ async function sendStep(sequence, stepIndex, options = {}) {
 
 function isTestLead(lead) {
   return /(\btest(?:ing|er)?\b|\bqa\b|codex|example\.com|\.test\b)/i.test([lead.name, lead.email].filter(Boolean).join(' '))
+    || /(?:https?:\/\/|www\.|\b[a-z0-9-]+\.(?:com|net|org|io|co|info|biz)(?:\/|\b))/i.test(String(lead.name || ''))
     || /\b(do not contact|debug submission)\b/i.test(String(lead.message || ''));
 }
 
