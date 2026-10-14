@@ -174,6 +174,12 @@ async function submitBooking(event) {
     });
     const result = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(result.error || 'The call could not be booked.');
+    if (typeof window.loftsTrackEvent === 'function') {
+      window.loftsTrackEvent('booking_complete', {
+        booking_status: result.booking?.status || 'confirmed',
+        booking_timezone: bookingState.timezone,
+      });
+    }
     showBookingConfirmation(result.booking, result.warning);
   } catch (error) {
     document.getElementById('booking-error').textContent = error.message;
