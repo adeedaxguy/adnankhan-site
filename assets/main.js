@@ -9,6 +9,22 @@
   const adAttributionStore = 'lofts_ad_attribution';
   const marketingConsentStore = 'adnank-cookie-consent-v1';
 
+  const safeMarketingUrl = value => {
+    try {
+      const url = new URL(value, window.location.origin);
+      return `${url.origin}${url.pathname}`;
+    } catch {
+      return '';
+    }
+  };
+
+  const getDeviceCategory = () => {
+    const width = Math.max(document.documentElement.clientWidth || 0, window.innerWidth || 0);
+    if (width < 768) return 'mobile';
+    if (width < 1024) return 'tablet';
+    return 'desktop';
+  };
+
   const hasMarketingConsent = () => {
     try {
       return window.localStorage.getItem(marketingConsentStore) === 'accepted';
@@ -34,8 +50,8 @@
         if (value) next[key] = value;
       });
       if (!Object.keys(next).length) return;
-      next.landing_page = window.location.href;
-      next.referrer = document.referrer || '';
+      next.landing_page = safeMarketingUrl(window.location.href);
+      next.referrer = safeMarketingUrl(document.referrer);
       next.captured_at = new Date().toISOString();
       window.sessionStorage.setItem(adAttributionStore, JSON.stringify(next));
     } catch {
@@ -47,8 +63,8 @@
     const stored = readStoredAttribution();
     return {
       ...stored,
-      landing_page: stored.landing_page || window.location.href,
-      referrer: stored.referrer || document.referrer || ''
+      landing_page: stored.landing_page || safeMarketingUrl(window.location.href),
+      referrer: stored.referrer || safeMarketingUrl(document.referrer)
     };
   };
 
@@ -65,7 +81,8 @@
     const payload = {
       ...params,
       page_path: window.location.pathname,
-      page_title: document.title
+      page_title: document.title,
+      device_category: getDeviceCategory()
     };
     window.dataLayer = window.dataLayer || [];
     window.dataLayer.push({ event: eventName, ...payload });
@@ -133,6 +150,7 @@
           </div>
           <div class="mega-col">
             <h4>Performance</h4>
+            <a href="/services/website-redesign.html" class="mega-link"><div class="mega-link-title">Website Redesign</div><div class="mega-link-desc">Protect visibility and improve the buyer path.</div></a>
             <a href="/services/speed-optimization.html" class="mega-link"><div class="mega-link-title">Speed Optimization</div><div class="mega-link-desc">Improve real-world loading.</div></a>
             <a href="/services/conversion-rate-optimization.html" class="mega-link"><div class="mega-link-title">Conversion Rate Optimization</div><div class="mega-link-desc">Remove conversion friction.</div></a>
             <a href="/services/technical-seo-audit.html" class="mega-link"><div class="mega-link-title">Technical SEO Audit</div><div class="mega-link-desc">Crawl, structure, and search signals.</div></a>
@@ -544,13 +562,19 @@
     honeypot.style.cssText = 'position:absolute!important;left:-10000px!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none!important;';
     form.appendChild(honeypot);
     let leadFormStarted = false;
+    const leadContext = () => ({
+      offer: form.dataset.offer || form.querySelector('[name="offer"]')?.value || 'general-enquiry',
+      service: form.dataset.service || form.querySelector('[name="service"]')?.value || 'general',
+      lead_source: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form'
+    });
     form.addEventListener('focusin', () => {
       if (leadFormStarted) return;
       leadFormStarted = true;
       trackMarketingEvent('form_start', {
         event_category: 'lead',
         event_label: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form',
-        form_location: window.location.pathname
+        form_location: window.location.pathname,
+        ...leadContext()
       });
       if (auditFunnel) {
         trackMarketingEvent('audit_service_inquiry_started', {
@@ -589,6 +613,7 @@
           event_category: 'lead',
           event_label: leadSource,
           form_location: window.location.pathname,
+          ...leadContext(),
           ...attribution
         });
 
@@ -610,6 +635,7 @@
           event_category: 'lead',
           event_label: leadSource,
           form_location: window.location.pathname,
+          ...leadContext(),
           ...attribution
         });
         if (leadSource !== 'footer-newsletter') {
@@ -617,6 +643,14 @@
             event_category: 'lead',
             event_label: leadSource,
             form_location: window.location.pathname,
+            ...leadContext(),
+            ...attribution
+          });
+          trackMarketingEvent('service_inquiry_submitted', {
+            event_category: 'lead',
+            event_label: leadSource,
+            form_location: window.location.pathname,
+            ...leadContext(),
             ...attribution
           });
         }
@@ -645,6 +679,7 @@
           event_category: 'lead',
           event_label: form.getAttribute('data-lead-source') || form.querySelector('[name="source"]')?.value || 'contact-form',
           form_location: window.location.pathname,
+          ...leadContext(),
           error_message: err && err.message ? String(err.message).slice(0, 120) : 'Submission failed'
         });
         // Inline error message — no native alert popup
@@ -1446,8 +1481,8 @@
     var stageLabel = group === 'editorial' ? 'Selected field notes' : 'Selected shipped work';
     var archiveLabel = group === 'editorial' ? 'Read the journal' : 'Explore the archive';
     var archiveHref = group === 'editorial' ? '/blog' : '/portfolio';
-    var proofValue = primaryRoute === 'portfolio' ? '15 years' : '3,400+';
-    var proofLabel = primaryRoute === 'portfolio' ? 'of senior-led delivery' : 'projects handled across almost 15 years';
+    var proofValue = primaryRoute === 'portfolio' ? 'Selected work' : 'Senior-led';
+    var proofLabel = primaryRoute === 'portfolio' ? 'available to inspect in the project archive' : 'strategy, design, and engineering from brief to launch';
 
     var stage = document.createElement('aside');
     stage.className = 'lofts-hero-stage';

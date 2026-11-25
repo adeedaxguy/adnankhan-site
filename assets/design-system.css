@@ -3130,7 +3130,7 @@ html[data-theme="dark"] .services-hero-canvas {
     height: 5px;
     border-radius: 50%;
     background: var(--accent);
-    box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 12%, transparent);
+    box-shadow: none;
     animation: loftsHeroSignal 4.8s cubic-bezier(.22, .75, .2, 1) infinite;
   }
 
@@ -3605,10 +3605,10 @@ html[data-theme="dark"] .nav-bar.scrolled {
 .home-page .nav-logo .dot {
   margin-left: .42rem;
   font-family: var(--font-sans);
-  font-size: .5rem;
+  font-size: .68rem;
   font-style: normal;
   font-weight: 500;
-  letter-spacing: .42em;
+  letter-spacing: .18em;
   text-transform: uppercase;
 }
 
@@ -4036,7 +4036,7 @@ html[data-theme="dark"] .nav-bar.scrolled {
 
   .home-page .home-portfolio-stage .pf-grid[data-portfolio-rail] .is-rail-active .pf-card-img {
     border-color: color-mix(in srgb, var(--accent) 72%, var(--line)) !important;
-    box-shadow: 0 42px 70px -32px rgba(23, 20, 17, .72), 0 0 0 1px color-mix(in srgb, var(--accent) 42%, transparent);
+    box-shadow: 0 42px 70px -32px rgba(23, 20, 17, .72);
     opacity: 1;
   }
 
@@ -8074,4 +8074,44 @@ body:not(.home-page) section.paper.services-hero:first-of-type .services-hero__c
   .home-service-world-ready .home-page .hero-scroll-scene {
     padding-top: max(7rem, calc(60px + env(safe-area-inset-top, 0px) + 2.75rem)) !important;
   }
+}
+
+/* Final contrast guard for the always-dark rich footer. */
+.site-footer .footer-newsletter-note,
+.site-footer .footer-newsletter-eyebrow,
+.site-footer .footer-label,
+.site-footer .footer-now-label,
+.site-footer .footer-now-tag,
+.site-footer .meta,
+.site-footer .footer-tag,
+.site-footer a,
+.site-footer .footer-newsletter-form input::placeholder {
+  color: #bdb7ae !important;
+  opacity: 1;
+}
+
+.site-footer a:hover,
+.site-footer a:focus-visible,
+.site-footer .lofts-footer-call__link:hover,
+.site-footer .lofts-footer-call__link:focus-visible {
+  color: #f08a69 !important;
+}
+
+.site-footer a.btn-primary,
+.site-footer a.btn-primary:hover,
+.site-footer a.btn-primary:focus-visible,
+.site-footer .footer-newsletter-form button,
+.site-footer .footer-newsletter-form button:hover,
+.site-footer .footer-newsletter-form button:focus-visible {
+  background: #f08a69 !important;
+  color: #171411 !important;
+}
+
+.btn-ghost:hover,
+.btn-ghost:focus-visible {
+  color: var(--ink) !important;
+}
+
+.scroll-progress__fill {
+  box-shadow: none !important;
 }

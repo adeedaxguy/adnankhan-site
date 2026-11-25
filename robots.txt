@@ -1,5 +1,5 @@
-# robots.txt — Adnan K. Studio
-# Generated 2026-06-11 — managed via scripts/seo_engine.py
+# robots.txt — Lofts Studio
+# Updated 2026-11-26 — search and answer-engine discovery without training access
 
 User-agent: *
 Allow: /
@@ -8,17 +8,20 @@ Disallow: /api/
 Disallow: /*?ref=
 Disallow: /*?utm_
 
-# AI/LLM crawlers — explicitly allow so we get cited in AI answers
-User-agent: GPTBot
+# AI answer and retrieval crawlers. Training crawlers are controlled at the CDN.
+User-agent: OAI-SearchBot
 Allow: /
 
-User-agent: ClaudeBot
+User-agent: ChatGPT-User
 Allow: /
 
 User-agent: PerplexityBot
 Allow: /
 
-User-agent: Google-Extended
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
 Allow: /
 
 User-agent: Bingbot

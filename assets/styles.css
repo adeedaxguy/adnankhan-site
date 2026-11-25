@@ -377,8 +377,8 @@ body { padding-top: 76px; }
   font-family: var(--font-sans);
   font-style: normal;
   font-weight: 500;
-  font-size: 0.5rem;
-  letter-spacing: 0.42em;
+  font-size: 0.68rem;
+  letter-spacing: 0.18em;
   color: var(--muted);
   text-transform: uppercase;
   margin-left: 0.42rem;
@@ -3303,7 +3303,7 @@ select:focus-visible {
 .chat-launcher:focus-visible {
   outline: 2px solid var(--bg);
   outline-offset: 3px;
-  box-shadow: 0 0 0 5px var(--accent);
+  box-shadow: 0 0 0 5px rgba(255, 255, 255, .72);
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -3621,7 +3621,7 @@ body::before {
   border-radius: 50%;
   background: var(--accent);
   flex-shrink: 0;
-  box-shadow: 0 0 0 3px rgba(139, 58, 31, 0.18);
+  box-shadow: none;
 }
 .audit-cta-svg {
   margin-left: 2px;
@@ -5388,7 +5388,7 @@ html { transition: background-color .3s ease, color .3s ease; }
   width: 0;
   transform-origin: left center;
   background: linear-gradient(90deg, var(--accent-deep), var(--accent));
-  box-shadow: 0 0 6px 0 var(--accent), 0 0 12px 0 color-mix(in srgb, var(--accent) 55%, transparent);
+  box-shadow: none;
   border-radius: 0 2px 2px 0;
   will-change: width;
 }
@@ -5641,7 +5641,7 @@ html[data-theme="dark"] .comment-avatar { background: hsl(var(--h, 20) 30% 20%);
   background: var(--bg); border: 1px solid var(--line); border-radius: var(--r-md);
   padding: 0.8rem 0.95rem; transition: border-color .2s, box-shadow .2s; -webkit-appearance: none; }
 .cf-input::placeholder { color: var(--muted-2); }
-.cf-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
+.cf-input:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(26,22,18,0.14); }
 .cf-text { resize: vertical; min-height: 110px; line-height: 1.6; }
 .cf-hp { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; }
 .cf-foot { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: 1rem; flex-wrap: wrap; }
@@ -7948,7 +7948,7 @@ html[data-theme="dark"] .home-portfolio-stage .pf-card-num {
   height: 0.46rem;
   border-radius: 50%;
   background: var(--accent);
-  box-shadow: 0 0 0 6px rgba(139,58,31,0.08);
+  box-shadow: none;
 }
 .studio-tool-card h3,
 .home-tool-card h3 {
@@ -8178,7 +8178,7 @@ html[data-theme="dark"] .home-portfolio-stage .pf-card-num {
 }
 .diagnostic-input-row input:focus {
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(139,58,31,0.10);
+  box-shadow: 0 0 0 3px rgba(26,22,18,0.14);
 }
 .diagnostic-input-row button {
   min-height: 54px;

@@ -288,10 +288,10 @@ html[data-theme="dark"] .nav-bar.scrolled {
   margin-left: .42rem;
   color: var(--muted);
   font-family: var(--font-sans);
-  font-size: .5rem;
+  font-size: .68rem;
   font-style: normal;
   font-weight: 500;
-  letter-spacing: .42em;
+  letter-spacing: .18em;
   line-height: 1;
   text-transform: uppercase;
   transform: translateY(-1px);

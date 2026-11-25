@@ -24,6 +24,7 @@
 - [Design and Branding](https://lofts.studio/services/design-and-branding.html)
 - [Landing Page Sprint](https://lofts.studio/services/landing-page-sprint.html)
 - [Shopify Development](https://lofts.studio/services/shopify-development.html)
+- [Website Redesign](https://lofts.studio/services/website-redesign.html) - evidence-led redesign with URL preservation, technical SEO, answer-ready structure, conversion paths, and live verification.
 - [Shopify Plus Migration](https://lofts.studio/services/shopify-plus-migration.html)
 - [Speed Optimization](https://lofts.studio/services/speed-optimization.html)
 - [Technical SEO Audit](https://lofts.studio/services/technical-seo-audit.html)

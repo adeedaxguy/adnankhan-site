@@ -33,14 +33,18 @@
 <script type="application/ld+json">
 { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ {"@type":"ListItem","position":1,"name":"Home","item":"https://lofts.studio/"}, {"@type":"ListItem","position":2,"name":"Services","item":"https://lofts.studio/#services"}, {"@type":"ListItem","position":3,"name":"Technical SEO Audit","item":"https://lofts.studio/services/technical-seo-audit.html"} ] }
 </script>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1KT1MFDY8R"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-1KT1MFDY8R');
-  </script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {"@type":"Question","name":"How is a developer-led technical SEO audit different from an automated audit?","acceptedAnswer":{"@type":"Answer","text":"Automated tools detect patterns. A developer-led audit connects observed evidence to business risk, platform behaviour, implementation ownership, dependencies, and verification on the intended public URL."}},
+    {"@type":"Question","name":"Do you fix the technical SEO issues you find?","acceptedAnswer":{"@type":"Answer","text":"Implementation can be included as a separately agreed scope. The audit remains usable by another developer because each priority includes evidence, the affected route or template, an owner, and a verification step."}},
+    {"@type":"Question","name":"Does a technical SEO audit guarantee ranking gains?","acceptedAnswer":{"@type":"Answer","text":"No. An audit identifies and prioritizes technical and answer-readiness barriers, but search performance also depends on demand, competition, content, authority, implementation quality, and measurement."}},
+    {"@type":"Question","name":"Can the audit include AEO and AI-search readiness?","acceptedAnswer":{"@type":"Answer","text":"Yes. The review can include answer clarity, entity consistency, proof, crawlable text, internal links, schema alignment, and conversion paths alongside technical SEO evidence."}}
+  ]
+}
+</script>
   <script>(function(){try{var m=localStorage.getItem('lofts-theme');document.documentElement.setAttribute('data-theme',m==='dark'?'dark':'light');}catch(e){}})();</script>
 <link rel="stylesheet" href="/assets/experience.css?v=20261008a" data-lofts-experience />
 <link rel="preload" href="/assets/fonts/libertinus-math-regular.woff2" as="font" type="font/woff2" crossorigin />
@@ -276,6 +280,23 @@
   </div>
 </section>
 
+<section class="section" aria-labelledby="audit-sample" style="border-top:1px solid var(--line);">
+  <div class="container">
+    <div data-reveal style="max-width:760px;margin-bottom:2rem;">
+      <span class="eyebrow">Example finding</span>
+      <h2 class="h-1" id="audit-sample" style="margin-top:1rem;">Every priority connects evidence to a fix and a verification step.</h2>
+      <p class="lead" style="margin-top:1.5rem;">A useful audit entry should be specific enough for a developer to implement and for an owner to verify without guessing.</p>
+    </div>
+    <div data-reveal class="card-static audit-evidence-grid" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem;">
+      <div><strong>Observed evidence</strong><p style="color:var(--muted);margin:.5rem 0 0;">A service URL returns 200 but declares a canonical to a different page.</p></div>
+      <div><strong>Business risk</strong><p style="color:var(--muted);margin:.5rem 0 0;">Search engines may consolidate signals away from the intended commercial route.</p></div>
+      <div><strong>Implementation</strong><p style="color:var(--muted);margin:.5rem 0 0;">Correct the template canonical, confirm internal links, then regenerate discovery files if required.</p></div>
+      <div><strong>Verification</strong><p style="color:var(--muted);margin:.5rem 0 0;">Re-fetch the production URL, inspect rendered markup, sitemap inclusion, and the preferred URL in Search Console.</p></div>
+    </div>
+    <p style="margin:1.25rem 0 0;color:var(--muted);">The final plan separates confirmed evidence from hypotheses and never treats a tool score as a guaranteed ranking outcome.</p>
+  </div>
+</section>
+
 <section class="section" id="book">
   <div class="container">
     <div data-reveal style="display: grid; grid-template-columns: 1fr 1.2fr; gap: 4rem; align-items: start;" class="two-col" data-lead-wrap>
@@ -286,16 +307,18 @@
         <ul style="list-style: none; padding: 1.5rem 0 0; margin: 1.5rem 0 0; border-top: 1px solid var(--line); display: grid; gap: 0.75rem;">
           <li style="display: flex; gap: 8px;"><span style="color: var(--accent); font-weight: 600;">✓</span> 32-point technical audit for the current platform</li>
           <li style="display: flex; gap: 8px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Prioritized fix list with implementation steps</li>
-          <li style="display: flex; gap: 8px;"><span style="color: var(--accent); font-weight: 600;">✓</span> 25-min Loom walkthrough by a senior dev</li>
+          <li style="display: flex; gap: 8px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Documented walkthrough when included in scope</li>
           <li style="display: flex; gap: 8px;"><span style="color: var(--accent); font-weight: 600;">✓</span> Optional: hands-on implementation, scope-led</li>
         </ul>
       </div>
       <div class="card-static" style="padding: 2.5rem;">
-        <form data-lead data-audit-funnel="technical" class="form-editorial" action="/api/contact" method="POST">
+        <form data-lead data-audit-funnel="technical" data-service="technical-seo-audit" data-offer="technical-audit-review" class="form-editorial" action="/api/contact" method="POST">
           <input type="hidden" name="_subject" value="Technical SEO audit review request" />
           <input type="hidden" name="_captcha" value="false" />
           <input type="hidden" name="_template" value="table" />
           <input type="hidden" name="source" value="technical-seo-audit-review" />
+          <input type="hidden" name="service" value="technical-seo-audit" />
+          <input type="hidden" name="offer" value="technical-audit-review" />
           <input type="hidden" name="audit_id" value="" />
           <input type="hidden" name="result_category" value="" />
           <div class="form-field"><label for="lf-name">Full Name</label><input id="lf-name" name="name" type="text" required placeholder="Jane Founder" /></div>
@@ -485,27 +508,20 @@
   .footer-grid { grid-template-columns: 1fr 1fr !important; gap: 2rem !important; }
   .two-col { grid-template-columns: 1fr !important; gap: 2rem !important; }
   .three-col { grid-template-columns: 1fr !important; gap: 0.75rem !important; }
+  .audit-evidence-grid { grid-template-columns: 1fr !important; }
 }
 @media (max-width: 560px) { .footer-grid { grid-template-columns: 1fr !important; } }
 </style>
 
-<script src="../assets/main.js?v=20261008a" defer></script>
+<script src="../assets/main.js?v=20261126a" defer data-analytics-id="G-1KT1MFDY8R"></script>
 <!-- ─── Sticky "Book a free audit" pill ─── -->
-<a href="/#contact" class="audit-cta">
+<a href="#book" class="audit-cta">
   <span class="audit-cta-mark" aria-hidden="true"></span>
-  Book a free 15-min audit
+  Request an audit review
   <svg class="audit-cta-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
 </a>
 
 
 <script src="/assets/widgets.js?v=20261008a" defer></script>
-
-<section class="post-callout" data-strict-research-intent="services/technical-seo-audit.html">
-  <h2>Search intent to satisfy</h2>
-  <p><strong>Searcher job:</strong> Find a service that can diagnose crawl, indexation, schema, speed, internal-link, and AI-search readiness problems.</p>
-  <p><strong>Competitor gap:</strong> Generic audit services often list tools; this page should show how fixes protect leads, pages, and search visibility.</p>
-  <p><strong>Next action:</strong> Send the site through the audit path, then prioritize fixes by crawl risk, buyer path, and conversion impact.</p>
-  <p><a href="/free-audit">Run the free website audit</a> or use the <a href="/tools/seo-aeo-checker.html">SEO/AEO checker</a> to turn this into a prioritized fix list.</p>
-</section>
 </body>
 </html>
