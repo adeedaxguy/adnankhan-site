@@ -254,4 +254,3 @@ export default {
     context.waitUntil(this.fetch(new Request(`https://lofts.studio${path}`, { headers }), env, context));
   },
 };
-
