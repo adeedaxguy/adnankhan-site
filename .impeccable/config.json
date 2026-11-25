@@ -1,0 +1,26 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "services/website-redesign.html"
+        ],
+        "createdAt": "2026-11-25T22:29:14.832Z",
+        "reason": "Static source contains no chromatic glow; detector only sees shared neutral elevation styles"
+      },
+      {
+        "rule": "dark-glow",
+        "value": "*",
+        "files": [
+          "free-audit/index.html"
+        ],
+        "createdAt": "2026-11-25T22:29:14.852Z",
+        "reason": "Only neutral black elevation shadows remain; no colored glow is present"
+      }
+    ]
+  }
+}
